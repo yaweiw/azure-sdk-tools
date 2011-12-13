@@ -60,6 +60,34 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
         }
 
         [TestMethod]
+        public void SetAzureInstancesProcessTestsRoleNameDoesNotExistServiceContainsWebRoleFail()
+        {
+            string roleName = "WebRole1";
+            string invalidRoleName = "foo";
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole(roleName, 1);
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+            }
+        }
+
+        [TestMethod]
+        public void SetAzureInstancesProcessTestsRoleNameDoesNotExistServiceContainsWorkerRoleFail()
+        {
+            string roleName = "WorkerRole1";
+            string invalidRoleName = "foo";
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWorkerRole(roleName, 1);
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+            }
+        }
+
+        [TestMethod]
         public void SetAzureInstancesProcessTestsEmptyRoleNameFail()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
