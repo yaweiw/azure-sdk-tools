@@ -13,20 +13,13 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using System.Runtime.InteropServices;
 using System.Security;
-using System.Security.Cryptography.Pkcs;
-using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
-using System.Text;
-using AzureDeploymentCmdlets.AzureTools;
 using AzureDeploymentCmdlets.Model;
 using AzureDeploymentCmdlets.ServiceConfigurationSchema;
 using AzureDeploymentCmdlets.ServiceDefinitionSchema;
-using AzureDeploymentCmdlets.Utilities;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
 
 namespace AzureDeploymentCmdlets.Cmdlet
@@ -71,7 +64,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
         private static string GetForwarderName(WebRole[] webRoles, WorkerRole[] workerRoles)
         {
             string forwarderName = null;
-            WorkerRole workerForwarder = workerRoles.FirstOrDefault(r => r.Imports != null && r.Imports.Any(i => i.moduleName == "RemoteForwarder"));
+            WorkerRole workerForwarder = workerRoles.FirstOrDefault(r => r.Imports != null && 
+                r.Imports.Any(i => i.moduleName == "RemoteForwarder"));
             if (workerForwarder != null)
             {
                 // a worker role has the forwarder
@@ -79,7 +73,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
             }
             else
             {
-                WebRole webForwarder = webRoles.FirstOrDefault(r => r.Imports != null && r.Imports.Any(i => i.moduleName == "RemoteForwarder"));
+                WebRole webForwarder = webRoles.FirstOrDefault(r => r.Imports != null && 
+                    r.Imports.Any(i => i.moduleName == "RemoteForwarder"));
                 if (webForwarder != null)
                 {
                     // a web role has the forwarder
@@ -98,7 +93,9 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 {
                     if (role.ConfigurationSettings != null)
                     {
-                        ServiceConfigurationSchema.ConfigurationSetting setting = role.ConfigurationSettings.FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals("Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled"));
+                        ServiceConfigurationSchema.ConfigurationSetting setting = role.ConfigurationSettings.
+                            FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals(
+                                "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled"));
                         if (setting != null)
                         {
                             setting.value = "false";
@@ -106,7 +103,9 @@ namespace AzureDeploymentCmdlets.Cmdlet
 
                         if (role.name == forwarderName)
                         {
-                            ServiceConfigurationSchema.ConfigurationSetting forwarderSetting = role.ConfigurationSettings.FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals("Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled"));
+                            ServiceConfigurationSchema.ConfigurationSetting forwarderSetting = role.ConfigurationSettings.
+                                FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals(
+                                    "Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled"));
                             if (forwarderSetting != null)
                             {
                                 forwarderSetting.value = "false";

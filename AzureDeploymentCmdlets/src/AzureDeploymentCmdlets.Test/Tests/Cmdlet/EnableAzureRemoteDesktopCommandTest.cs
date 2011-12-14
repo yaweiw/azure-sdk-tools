@@ -34,7 +34,7 @@ namespace AzureDeploymentCmdlets.Test
         /// </summary>
         /// <param name="username">Username.</param>
         /// <param name="password">Password.</param>
-        private static void EnableRemoteDesktop(string username, string password)
+        public static void EnableRemoteDesktop(string username, string password)
         {
             SecureString securePassword = null;
             if (password != null)
@@ -53,19 +53,19 @@ namespace AzureDeploymentCmdlets.Test
             command.EnableRemoteDesktop();
         }
 
-        private static void VerifyWebRole(ServiceDefinitionSchema.WebRole role, bool isForwarder)
+        public static void VerifyWebRole(ServiceDefinitionSchema.WebRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
         }
 
-        private static void VerifyWorkerRole(ServiceDefinitionSchema.WorkerRole role, bool isForwarder)
+        public static void VerifyWorkerRole(ServiceDefinitionSchema.WorkerRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
         }
 
-        private static void VerifyRoleSettings(AzureService service)
+        public static void VerifyRoleSettings(AzureService service)
         {
             IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
                 Enumerable.Concat(
