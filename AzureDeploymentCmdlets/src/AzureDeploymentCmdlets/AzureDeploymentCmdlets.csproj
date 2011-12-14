@@ -140,6 +140,7 @@
     <Compile Include="AzureTools\AzureTool.cs" />
     <Compile Include="AzureTools\CsEncrypt.cs" />
     <Compile Include="AzureTools\CsPack.cs" />
+    <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\GetAzurePublishSettings.cs" />
     <Compile Include="Cmdlet\GetAzureStorageAccounts.cs" />

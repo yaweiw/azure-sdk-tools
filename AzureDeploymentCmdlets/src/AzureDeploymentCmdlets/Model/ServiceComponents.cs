@@ -150,7 +150,7 @@ namespace AzureDeploymentCmdlets.Model
             else
             {
                 return
-                    (Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName)) || Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName))) &&
+                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName))) || (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName)))) &&
                     CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName)) &&
                     LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName));
             }
