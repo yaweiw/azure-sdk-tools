@@ -493,10 +493,10 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 StartDeployment = true,
             };
 
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
                 {
-
-                    AddCertificates();
 
                     RetryCall(subscription =>
                         Channel.CreateOrUpdateDeployment(
@@ -531,6 +531,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 Mode = UpgradeType.Auto
             };
 
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
                 SafeWriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
@@ -542,9 +544,25 @@ namespace AzureDeploymentCmdlets.Cmdlet
                         deploymentInput));
                 WaitForDeploymentToStart();
             });
+        }
 
-                    AddCertificates();
+        /// <summary>
+        /// Wait until a certificate has been added to a hosted service.
+        /// </summary>
+        private void WaitForCertificateToBeAdded(ServiceConfigurationSchema.Certificate certificate)
+        {
+            Debug.Assert(
+                !string.IsNullOrEmpty(_hostedServiceName),
+                "_hostedServiceName cannot be null or empty.");
 
+            CertificateList certificates = null;
+            do
+            {
+                certificates = RetryCall<CertificateList>(subscription =>
+                    Channel.ListCertificates(subscription, _hostedServiceName));
+            }
+            while (certificates== null || certificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                certificate.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1);
         }
 
         /// <summary>
@@ -689,24 +707,29 @@ namespace AzureDeploymentCmdlets.Cmdlet
             }
         }
         
-        private void AddCertificates()
+        private void AddCertificates(CertificateList uploadedCertificates)
         {
             if (_azureService.Components.CloudConfig.Role != null)
             {
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.SelectMany(r => r.Certificates).Distinct())
                 {
-                    X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
-                    CertificateFile certFile = new CertificateFile
+                    if (uploadedCertificates == null || (uploadedCertificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                        certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
-                        Data = Convert.ToBase64String(cert.Export(X509ContentType.Pfx, string.Empty)),
-                        Password = string.Empty,
-                        CertificateFormat = "pfx"
-                    };
-                    RetryCall(subscription => Channel.AddCertificates(subscription, _hostedServiceName, certFile));
+                        X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
+                        CertificateFile certFile = new CertificateFile
+                        {
+                            Data = Convert.ToBase64String(cert.Export(X509ContentType.Pfx, string.Empty)),
+                            Password = string.Empty,
+                            CertificateFormat = "pfx"
+                        };
+                        RetryCall(subscription => Channel.AddCertificates(subscription, _hostedServiceName, certFile));
+                        WaitForCertificateToBeAdded(certElement);
+                    }
                 }
             }
         }
-        
+
         /// <summary>
         /// Launch a browser pointed at the service after deploying.
         /// </summary>

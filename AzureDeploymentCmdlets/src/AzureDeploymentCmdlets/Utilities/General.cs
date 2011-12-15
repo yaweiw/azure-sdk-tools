@@ -200,18 +200,15 @@ namespace AzureDeploymentCmdlets.Utilities
         public static X509Certificate2 GetCertificateFromStore(string thumbprint)
         {
             Validate.ValidateStringIsNullOrEmpty(thumbprint, "certificate thumbprint");
-
-            X509Store store = new X509Store(StoreName.My, System.Security.Cryptography.X509Certificates.StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            X509Certificate2Collection certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
-
-            if (certificates.Count == 0)
+            X509Certificate2Collection certificates;
+            if (TryFindCertificatesInStore(thumbprint, StoreLocation.CurrentUser, out certificates) || 
+                TryFindCertificatesInStore(thumbprint, StoreLocation.LocalMachine, out certificates))
             {
-                throw new ArgumentException(string.Format(Resources.CertificateNotFoundInStore, thumbprint));
+                return certificates[0];
             }
             else
             {
-                return certificates[0];
+                throw new ArgumentException(string.Format(Resources.CertificateNotFoundInStore, thumbprint));
             }
         }
 
@@ -254,6 +251,15 @@ namespace AzureDeploymentCmdlets.Utilities
             {
                 return Enumerable.Concat(left, new T[] { right }).ToArray();
             }
+        }
+
+        private static bool TryFindCertificatesInStore(string thumbprint, 
+            System.Security.Cryptography.X509Certificates.StoreLocation location, out X509Certificate2Collection certificates)
+        {
+            X509Store store = new X509Store(StoreName.My, location);
+            store.Open(OpenFlags.ReadOnly);
+            certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
+            return certificates != null && certificates.Count > 0;
         }
     }
 }

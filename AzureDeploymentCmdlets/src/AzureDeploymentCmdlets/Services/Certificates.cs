@@ -79,6 +79,20 @@ namespace AzureDeploymentCmdlets.WAPPSCmdlet
         IAsyncResult BeginAddCertificates(string subscriptionId, string serviceName, CertificateFile input, AsyncCallback callback, object state);
         
         void EndAddCertificates(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Gets certificates from the given hosted service
+        /// </summary>
+        /// <param name="subscriptionId"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="callback"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = @"{subscriptionId}/services/hostedservices/{serviceName}/certificates")]
+        IAsyncResult BeginListCertificates(string subscriptionId, string serviceName, AsyncCallback callback, object state);
+
+        CertificateList EndListCertificates(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceManagementExtensionMethods
@@ -86,6 +100,11 @@ namespace AzureDeploymentCmdlets.WAPPSCmdlet
         public static void AddCertificates(this IServiceManagement proxy, string subscriptionId, string serviceName, CertificateFile input)
         {
             proxy.EndAddCertificates(proxy.BeginAddCertificates(subscriptionId, serviceName, input, null, null));
+        }
+
+        public static CertificateList ListCertificates(this IServiceManagement proxy, string subscriptionId, string serviceName)
+        {
+            return proxy.EndListCertificates(proxy.BeginListCertificates(subscriptionId, serviceName, null, null));
         }
     }
 }
