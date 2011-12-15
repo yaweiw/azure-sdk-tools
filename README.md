@@ -48,6 +48,8 @@ Node.js Developer Center</a>.</p>
     <li><strong>Get-AzureStorageAccounts</strong> - Retrieves and displays storage account
     details for the specified Azure subscription.  If no subscription is
     specified, uses the first subscription in your Azure publish profile</li>
+    <li><strong>Enable-AzureRemoteDesktop</strong> - Enables remote desktop access to a hosted service</li>
+    <li><strong>Disable-AzureRemoteDesktop</strong> - Disables remote desktop access to a hosted service</li>
 </ul>
 
 <h1>Getting Started</h1>
