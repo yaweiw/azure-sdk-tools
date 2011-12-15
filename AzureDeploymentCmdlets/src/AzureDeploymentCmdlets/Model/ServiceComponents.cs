@@ -92,24 +92,8 @@ namespace AzureDeploymentCmdlets.Model
                 int maxWeb = 0;
                 int maxWorker = 0;
 
-                if (Definition.WebRole != null)
-                {
-                    var webRoles = Definition.WebRole.Where(wr => wr.Endpoints.InputEndpoint != null);
-                    if (webRoles.Count() != 0)
-                    {
-                        maxWeb = webRoles.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                    }
-                }
-
-                if (Definition.WorkerRole != null)
-                {
-                    var workerRoles = Definition.WorkerRole.Where(wr => wr.Endpoints.InputEndpoint != null);
-                    if (workerRoles.Count() != 0)
-                    {
-                        maxWorker = workerRoles.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                    }
-                }
-
+                maxWeb = Definition.WebRole.MaxOrDefault<WebRole, int>(wr => (wr.Endpoints?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
+                maxWorker = Definition.WorkerRole.MaxOrDefault<WorkerRole, int>(wr => (wr.Endpoints ?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
                 int maxPort = Math.Max(maxWeb, maxWorker);
 
                 if (maxPort == 0)
