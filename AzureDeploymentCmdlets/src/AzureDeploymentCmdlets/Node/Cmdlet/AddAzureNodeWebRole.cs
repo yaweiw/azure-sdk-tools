@@ -37,6 +37,7 @@ namespace AzureDeploymentCmdlets.Node.Cmdlet
             catch (UnauthorizedAccessException)
             {
                 SafeWriteObject(Resources.AddRoleMessageInsufficientPermissions);
+                SafeWriteObject(Environment.NewLine);
             }
 
             result = string.Format(Resources.AddRoleMessageCreate, rootPath, webRole.Name);
