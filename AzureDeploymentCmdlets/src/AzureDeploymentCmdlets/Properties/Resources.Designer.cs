@@ -224,6 +224,15 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your account does not have access to the private key for certificate {0}.
+        /// </summary>
+        internal static string CertificatePrivateKeyAccessError {
+            get {
+                return ResourceManager.GetString("CertificatePrivateKeyAccessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} {1} deployment for {2} service.
         /// </summary>
         internal static string ChangeDeploymentStateWaitMessage {

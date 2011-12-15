@@ -611,4 +611,7 @@
   <data name="EnableRemoteDesktop_FriendlyCertificateName" xml:space="preserve">
     <value>Windows Azure Node Certificate</value>
   </data>
+  <data name="CertificatePrivateKeyAccessError" xml:space="preserve">
+    <value>Your account does not have access to the private key for certificate {0}</value>
+  </data>
 </root>
