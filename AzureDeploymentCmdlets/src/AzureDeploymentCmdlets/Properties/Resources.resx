@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddRoleMessageCreate" xml:space="preserve">
-    <value>Role has been created at {0}\{1}. For easy access to Windows Azure Services from your application code, install Windows Azure client library for Node.js by running ‘npm install azure’.</value>
+    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’.</value>
   </data>
   <data name="AddRoleMessageRoleExists" xml:space="preserve">
     <value>A role name '{0}' already exists</value>
@@ -562,7 +562,7 @@
     <value>Initializing...</value>
   </data>
   <data name="AddRoleMessageInsufficientPermissions" xml:space="preserve">
-    <value>Unable to set role permissions for user 'Network Service', please set role permissions appropriately, or run PowerShell as an Administrator</value>
+    <value>Unable to set role permissions. Please give the 'Network Service' user 'Read &amp; execute' and 'Modify' permissions to the role folder, or run PowerShell as an Administrator</value>
   </data>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>

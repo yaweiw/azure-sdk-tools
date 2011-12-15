@@ -61,7 +61,7 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure Services from your application code, install Windows Azure client library for Node.js by running ‘npm install azure’..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
         /// </summary>
         internal static string AddRoleMessageCreate {
             get {
@@ -70,7 +70,7 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to set role permissions for user &apos;Network Service&apos;, please set role permissions appropriately, or run PowerShell as an Administrator.
+        ///   Looks up a localized string similar to Unable to set role permissions. Please give the &apos;Network Service&apos; user &apos;Read &amp; execute&apos; and &apos;Modify&apos; permissions to the role folder, or run PowerShell as an Administrator.
         /// </summary>
         internal static string AddRoleMessageInsufficientPermissions {
             get {
