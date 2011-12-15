@@ -261,5 +261,10 @@ namespace AzureDeploymentCmdlets.Utilities
             certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
             return certificates != null && certificates.Count > 0;
         }
+
+        public static TResult MaxOrDefault<T, TResult>(this IEnumerable<T> sequence, Func<T, TResult> selector, TResult defaultValue)
+        {
+            return (sequence != null) ? sequence.Max(selector) : defaultValue;
+        }
     }
 }
