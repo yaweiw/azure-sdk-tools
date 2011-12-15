@@ -225,5 +225,20 @@ namespace AzureDeploymentCmdlets.Test.Tests.Model
                 Assert.AreEqual<int>(expectedPort, nextPort);
             }
         }
+
+        [TestMethod]
+        public void GetNextPortAddingThirdEndpoint()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort) + 1;
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service.AddWebRole();
+                service = new AzureServiceWrapper(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
     }
 }
