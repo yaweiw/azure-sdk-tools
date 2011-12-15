@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.ServiceModel;
@@ -160,7 +161,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 CreateHostedService();
                 CreateNewDeployment();
             }
-            
+
             // Verify the deployment succeeded by checking that each of the
             // roles are running
             VerifyDeployment();
@@ -493,10 +494,10 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 StartDeployment = true,
             };
 
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
                 {
-
-                    AddCertificates();
 
                     RetryCall(subscription =>
                         Channel.CreateOrUpdateDeployment(
@@ -531,6 +532,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 Mode = UpgradeType.Auto
             };
 
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
                 SafeWriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
@@ -542,9 +545,26 @@ namespace AzureDeploymentCmdlets.Cmdlet
                         deploymentInput));
                 WaitForDeploymentToStart();
             });
+        }
 
-                    AddCertificates();
+        /// <summary>
+        /// Wait until a certificate has been added to a hosted service.
+        /// </summary>
+        private void WaitForCertificateToBeAdded(ServiceConfigurationSchema.Certificate certificate)
+        {
+            Debug.Assert(
+                !string.IsNullOrEmpty(_hostedServiceName),
+                "_hostedServiceName cannot be null or empty.");
 
+            CertificateList certificates = null;
+            do
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(500));
+                certificates = RetryCall<CertificateList>(subscription =>
+                    Channel.ListCertificates(subscription, _hostedServiceName));
+            }
+            while (certificates == null || certificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                certificate.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1);
         }
 
         /// <summary>
@@ -688,25 +708,39 @@ namespace AzureDeploymentCmdlets.Cmdlet
                         _deploymentSettings.ServiceSettings.Slot));
             }
         }
-        
-        private void AddCertificates()
+
+        private void AddCertificates(CertificateList uploadedCertificates)
         {
             if (_azureService.Components.CloudConfig.Role != null)
             {
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.SelectMany(r => r.Certificates).Distinct())
                 {
-                    X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
-                    CertificateFile certFile = new CertificateFile
+                    if (uploadedCertificates == null || (uploadedCertificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                        certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
-                        Data = Convert.ToBase64String(cert.Export(X509ContentType.Pfx, string.Empty)),
-                        Password = string.Empty,
-                        CertificateFormat = "pfx"
-                    };
-                    RetryCall(subscription => Channel.AddCertificates(subscription, _hostedServiceName, certFile));
+                        X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
+                        CertificateFile certFile = null;
+                        try
+                        {
+                            certFile = new CertificateFile
+                            {
+                                Data = Convert.ToBase64String(cert.Export(X509ContentType.Pfx, string.Empty)),
+                                Password = string.Empty,
+                                CertificateFormat = "pfx"
+                            };
+                        }
+                        catch (CryptographicException exception)
+                        {
+                            throw new ArgumentException(string.Format(Resources.CertificatePrivateKeyAccessError, certElement.name), exception);
+                        }
+
+                        RetryCall(subscription => Channel.AddCertificates(subscription, _hostedServiceName, certFile));
+                        WaitForCertificateToBeAdded(certElement);
+                    }
                 }
             }
         }
-        
+
         /// <summary>
         /// Launch a browser pointed at the service after deploying.
         /// </summary>

@@ -186,6 +186,7 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                                 InstanceStatus = RoleInstanceStatus.Ready 
                             } })
                 };
+                channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
@@ -280,6 +281,7 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                     () => { deployment.Status = DeploymentStatus.Starting; return deployment; });
                     };
                 channel.GetDeploymentBySlotThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
@@ -339,6 +341,7 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                                 InstanceName = "Role_IN_0",
                                 InstanceStatus = RoleInstanceStatus.Ready 
                             } }) };
+                channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
@@ -391,7 +394,7 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                                 InstanceStatus = RoleInstanceStatus.Ready 
                             } })
                 };
-
+                channel.ListCertificatesThunk = ar => new CertificateList();
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
                 NewAzureServiceCommand newService = new NewAzureServiceCommand();
@@ -450,6 +453,7 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                         throw new EndpointNotFoundException();
                     }
                 };
+                channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
