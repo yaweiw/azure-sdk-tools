@@ -14,9 +14,11 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using AzureDeploymentCmdlets.Cmdlet;
 using AzureDeploymentCmdlets.Model;
 using AzureDeploymentCmdlets.Properties;
+using AzureDeploymentCmdlets.Test.TestData;
 using AzureDeploymentCmdlets.Test.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -133,6 +135,109 @@ namespace AzureDeploymentCmdlets.Test.Tests.Model
             {
                 Assert.IsTrue(ex is FileNotFoundException);
                 Assert.AreEqual<string>(string.Format(Resources.PathDoesNotExistForElement, Resources.ServiceDefinition, paths.Definition), ex.Message);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortAllNull()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultWebPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortWorkerRoleNull()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service = new AzureService(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortWebRoleNull()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWorkerRole();
+                service = new AzureService(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortNullWebEndpointAndNullWorkerRole()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultWebPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service = new AzureService(service.Paths.RootPath, null);
+                service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortNullWebEndpointAndWorkerRole()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
+                service.AddWorkerRole();
+                service = new AzureService(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortWithEmptyPortIndpoints()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort);
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service.Components.Definition.WebRole[0].Endpoints.InputEndpoint = null;
+                service.Components.Save(service.Paths);
+                service.AddWebRole();
+                service = new AzureServiceWrapper(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
+            }
+        }
+
+        [TestMethod]
+        public void GetNextPortAddingThirdEndpoint()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                int expectedPort = int.Parse(Resources.DefaultPort) + 1;
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole();
+                service.AddWebRole();
+                service = new AzureServiceWrapper(service.Paths.RootPath, null);
+                int nextPort = service.Components.GetNextPort();
+                Assert.AreEqual<int>(expectedPort, nextPort);
             }
         }
     }

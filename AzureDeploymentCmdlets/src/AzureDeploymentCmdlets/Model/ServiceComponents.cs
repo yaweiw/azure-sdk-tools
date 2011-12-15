@@ -92,28 +92,23 @@ namespace AzureDeploymentCmdlets.Model
                 int maxWeb = 0;
                 int maxWorker = 0;
 
-                if (Definition.WebRole != null)
-                {
-                    maxWeb = Definition.WebRole.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                }
-
-                if (Definition.WorkerRole != null)
-                {
-                    maxWorker = Definition.WorkerRole.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                }
-
+                maxWeb = Definition.WebRole.MaxOrDefault<WebRole, int>(wr => (wr.Endpoints?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
+                maxWorker = Definition.WorkerRole.MaxOrDefault<WorkerRole, int>(wr => (wr.Endpoints ?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
                 int maxPort = Math.Max(maxWeb, maxWorker);
 
-                if (maxPort == int.Parse(Resources.DefaultWebPort))
+                if (maxPort == 0)
+                {
+                    // If this is first external endpoint, use default web role port
+                    return int.Parse(Resources.DefaultWebPort);
+                }
+                else if (maxPort == int.Parse(Resources.DefaultWebPort))
                 {
                     // This is second role to be added
-                    //
                     return int.Parse(Resources.DefaultPort);
                 }
                 else
                 {
                     // Increase max port and return it
-                    //
                     return (maxPort + 1);
                 }
             }

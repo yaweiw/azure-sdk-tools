@@ -255,5 +255,10 @@ namespace AzureDeploymentCmdlets.Utilities
                 return Enumerable.Concat(left, new T[] { right }).ToArray();
             }
         }
+
+        public static TResult MaxOrDefault<T, TResult>(this IEnumerable<T> sequence, Func<T, TResult> selector, TResult defaultValue)
+        {
+            return (sequence != null) ? sequence.Max(selector) : defaultValue;
+        }
     }
 }
