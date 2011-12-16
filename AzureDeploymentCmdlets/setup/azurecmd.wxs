@@ -4,12 +4,12 @@
   <?define productName="Windows Azure PowerShell for Node.js - November 2011" ?>
   <?define sourcedir="$(var.SolutionDir)..\src\AzureDeploymentCmdlets\bin\$(var.Configuration)\" ?>
 
-  <?define version="0.5" ?>
+  <?define version="0.5.1" ?> 
   <?define azureSdkVersion="1.6" ?>
   <?define versionedFolder="Nov2011" ?>
   <?define versionedStartMenuFolder="Windows Azure SDK for Node.js - November 2011" ?>  
 
-  <Product Id="86e95da8-558b-44ac-8ef2-d9fa2ad4b130" 
+  <Product Id="*" 
            Name="$(var.productName)" 
            Language="1033" 
            Version="$(var.version)" 
@@ -20,6 +20,9 @@
     
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
+    <MajorUpgrade AllowSameVersionUpgrades="yes"
+                  DowngradeErrorMessage="A later version of Windows Azure PowerShell for Node.js is already installed. Setup will now exit." />
+    
     <Icon Id="icon.ico" SourceFile="media\WAIcon.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
 
@@ -100,6 +103,8 @@
 
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\media\License.rtf" />
     <UIRef Id="WixUI_Minimal" />
+    <WixVariable Id="WixUIBannerBmp" Value="media\bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="media\dlgbmp.bmp" />
    
   </Product>
 
