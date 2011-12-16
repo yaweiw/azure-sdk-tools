@@ -115,8 +115,11 @@ namespace AzureDeploymentCmdlets.AzureTools
             // error message.
             if (!string.IsNullOrEmpty(standardError))
             {
-                throw new InvalidOperationException(
-                    string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+                if (!standardError.Contains("Storage Emulator"))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+                }
             }
         }
         
