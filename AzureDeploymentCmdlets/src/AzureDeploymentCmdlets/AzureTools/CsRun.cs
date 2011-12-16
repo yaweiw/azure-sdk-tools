@@ -113,17 +113,19 @@ namespace AzureDeploymentCmdlets.AzureTools
 
             // If there's an error from the CsRun tool, we want to display that
             // error message.
-            if (IsStorageEmulatorError(standardError))
+            if (!string.IsNullOrEmpty(standardError))
             {
-                throw new InvalidOperationException(
-                    string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+                if (!IsStorageEmulatorError(standardError))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+                }
             }
         }
 
         private bool IsStorageEmulatorError(string error)
         {
-            return !string.IsNullOrEmpty(error) &&
-                (error.IndexOf("storage emulator", StringComparison.OrdinalIgnoreCase) != -1);
+            return error.IndexOf("storage emulator", StringComparison.OrdinalIgnoreCase) != -1;
         }
 
         private int GetDeploymentCount(string text)
