@@ -57,15 +57,15 @@ namespace AzureDeploymentCmdlets.AzureTools
 
             // Remove all previous deployments in the emulator.
             RemoveAllDeployments(out standardOutput, out standardError);
-            
+
             // Deploys the package on local machine.
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
             StartCsRunProcess(arguments, out standardOutput, out standardError);
-            
+
             // Get deployment id for future use.
             DeploymentId = GetDeploymentCount(standardOutput);
             standardOutput = GetRoleInfoMessage(standardOutput);
-            
+
             return DeploymentId;
         }
 
@@ -110,19 +110,22 @@ namespace AzureDeploymentCmdlets.AzureTools
         {
             ProcessStartInfo pi = new ProcessStartInfo(csrunPath, arguments);
             ProcessHelper.StartAndWaitForProcess(pi, out standardOutput, out standardError);
-            
+
             // If there's an error from the CsRun tool, we want to display that
             // error message.
-            if (!string.IsNullOrEmpty(standardError))
+            if (IsStorageEmulatorError(standardError))
             {
-                if (!standardError.Contains("Storage Emulator"))
-                {
-                    throw new InvalidOperationException(
-                        string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
-                }
+                throw new InvalidOperationException(
+                    string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
             }
         }
-        
+
+        private bool IsStorageEmulatorError(string error)
+        {
+            return !string.IsNullOrEmpty(error) &&
+                (error.IndexOf("storage emulator", StringComparison.OrdinalIgnoreCase) != -1);
+        }
+
         private int GetDeploymentCount(string text)
         {
             Regex deploymentRegex = new Regex("deployment16\\((\\d+)\\)", RegexOptions.Multiline);
