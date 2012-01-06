@@ -1,4 +1,18 @@
-﻿using System;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright 2011 Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Permissions;
@@ -43,15 +57,15 @@ namespace AzureDeploymentCmdlets.AzureTools
 
             // Remove all previous deployments in the emulator.
             RemoveAllDeployments(out standardOutput, out standardError);
-            
+
             // Deploys the package on local machine.
             string arguments = string.Format(Resources.RunInEmulatorArguments, packagePath, configPath, (launch) ? Resources.CsRunLanuchBrowserArg : string.Empty);
             StartCsRunProcess(arguments, out standardOutput, out standardError);
-            
+
             // Get deployment id for future use.
             DeploymentId = GetDeploymentCount(standardOutput);
             standardOutput = GetRoleInfoMessage(standardOutput);
-            
+
             return DeploymentId;
         }
 
@@ -96,6 +110,22 @@ namespace AzureDeploymentCmdlets.AzureTools
         {
             ProcessStartInfo pi = new ProcessStartInfo(csrunPath, arguments);
             ProcessHelper.StartAndWaitForProcess(pi, out standardOutput, out standardError);
+
+            // If there's an error from the CsRun tool, we want to display that
+            // error message.
+            if (!string.IsNullOrEmpty(standardError))
+            {
+                if (!IsStorageEmulatorError(standardError))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Resources.CsRun_StartCsRunProcess_UnexpectedFailure, standardError));
+                }
+            }
+        }
+
+        private bool IsStorageEmulatorError(string error)
+        {
+            return error.IndexOf("storage emulator", StringComparison.OrdinalIgnoreCase) != -1;
         }
 
         private int GetDeploymentCount(string text)

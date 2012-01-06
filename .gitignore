@@ -8,3 +8,4 @@ TestResults
 *.suo
 /AzureDeploymentCmdlets/src/util
 *.orig
+/Publish

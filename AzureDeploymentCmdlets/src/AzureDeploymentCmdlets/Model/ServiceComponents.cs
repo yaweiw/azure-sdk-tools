@@ -1,4 +1,18 @@
-﻿using System;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright 2011 Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,28 +92,23 @@ namespace AzureDeploymentCmdlets.Model
                 int maxWeb = 0;
                 int maxWorker = 0;
 
-                if (Definition.WebRole != null)
-                {
-                    maxWeb = Definition.WebRole.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                }
-
-                if (Definition.WorkerRole != null)
-                {
-                    maxWorker = Definition.WorkerRole.Max(wr => wr.Endpoints.InputEndpoint.Max(ie => ie.port));
-                }
-
+                maxWeb = Definition.WebRole.MaxOrDefault<WebRole, int>(wr => (wr.Endpoints?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
+                maxWorker = Definition.WorkerRole.MaxOrDefault<WorkerRole, int>(wr => (wr.Endpoints ?? new Endpoints()).InputEndpoint.MaxOrDefault<InputEndpoint, int>(ie => ie.port, 0), 0);
                 int maxPort = Math.Max(maxWeb, maxWorker);
 
-                if (maxPort == int.Parse(Resources.DefaultWebPort))
+                if (maxPort == 0)
+                {
+                    // If this is first external endpoint, use default web role port
+                    return int.Parse(Resources.DefaultWebPort);
+                }
+                else if (maxPort == int.Parse(Resources.DefaultWebPort))
                 {
                     // This is second role to be added
-                    //
                     return int.Parse(Resources.DefaultPort);
                 }
                 else
                 {
                     // Increase max port and return it
-                    //
                     return (maxPort + 1);
                 }
             }
@@ -136,7 +145,7 @@ namespace AzureDeploymentCmdlets.Model
             else
             {
                 return
-                    (Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName)) || Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName))) &&
+                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName))) || (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName)))) &&
                     CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName)) &&
                     LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName));
             }
