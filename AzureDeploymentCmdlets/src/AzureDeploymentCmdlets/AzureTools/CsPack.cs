@@ -172,7 +172,7 @@ namespace AzureDeploymentCmdlets.AzureTools
         /// <returns>Paths to any log directories.</returns>
         private static string[] GetLogDirectories(string path)
         {
-            return Directory.GetDirectories(path, "*.logs", SearchOption.TopDirectoryOnly);
+            return Directory.GetDirectories(path, "*.logs", SearchOption.AllDirectories);
         }
     }
 }

@@ -504,12 +504,28 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                 string webRoleName = "NODE_WEB_ROLE";
                 newWebRole.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
                 string webRolePath = Path.Combine(servicePath, webRoleName);
+
+                // Add a worker role
+                AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string workerRoleName = "NODE_WORKER_ROLE";
+                newWorkerRole.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
+                string workerRolePath = Path.Combine(servicePath, workerRoleName);
+
+                // Add second web and worker roles that we won't add log
+                // entries to
+                new AddAzureNodeWebRoleCommand()
+                    .AddAzureNodeWebRoleProcess("SECOND_WEB_ROLE", 2, servicePath);
+                new AddAzureNodeWorkerRoleCommand()
+                    .AddAzureNodeWorkerRoleProcess("SECOND_WORKER_ROLE", 2, servicePath);
                 
-                // Add a fake log directory for server.js
+                // Add fake logs directories for server.js
                 string logName = "server.js.logs";
                 string logPath = Path.Combine(webRolePath, logName);
                 Directory.CreateDirectory(logPath);
-                File.WriteAllText(Path.Combine(logPath, "0.txt"), "secret debug details were logged here");
+                File.WriteAllText(Path.Combine(logPath, "0.txt"), "secret web role debug details were logged here");
+                logPath = Path.Combine(Path.Combine(workerRolePath, "NestedDirectory"), logName);
+                Directory.CreateDirectory(logPath);
+                File.WriteAllText(Path.Combine(logPath, "0.txt"), "secret worker role debug details were logged here");
 
                 // Get the publishing process started by creating the package
                 PublishAzureServiceCommand publishService = new PublishAzureServiceCommand(channel);
@@ -519,16 +535,22 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                 string packagePath = Path.Combine(servicePath, "cloud_package.cspkg");
                 using (Package package = Package.Open(packagePath))
                 {
-                    PackagePart rolePart = package.GetParts().Where(p => p.Uri.ToString().Contains(webRoleName)).First();
-                    using (Package webPackage = Package.Open(rolePart.GetStream()))
-                    {
-                        // Make sure the web role package doesn't have any files
-                        // with server.js.logs in the name
-                        Assert.IsFalse(
-                            webPackage.GetParts().Any(p => p.Uri.ToString().Contains(logName)),
-                            "Found {0} part in web role package!",
-                            logName);
-                    }
+                    // Make sure the web role and worker role packages don't
+                    // have any files with server.js.logs in the name
+                    Action<string> validateRole = roleName =>
+                        {
+                            PackagePart rolePart = package.GetParts().Where(p => p.Uri.ToString().Contains(roleName)).First();
+                            using (Package rolePackage = Package.Open(rolePart.GetStream()))
+                            {
+                                Assert.IsFalse(
+                                    rolePackage.GetParts().Any(p => p.Uri.ToString().Contains(logName)),
+                                    "Found {0} part in {1} package!",
+                                    logName,
+                                    roleName);
+                            }
+                        };
+                    validateRole(webRoleName);
+                    validateRole(workerRoleName);
                 }
             }
         }
