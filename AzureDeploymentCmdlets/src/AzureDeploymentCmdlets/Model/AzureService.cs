@@ -19,6 +19,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.AccessControl;
 using System.Security.Permissions;
+using System.Security.Principal;
 using AzureDeploymentCmdlets.AzureTools;
 using AzureDeploymentCmdlets.Properties;
 using AzureDeploymentCmdlets.Scaffolding;
@@ -197,7 +198,7 @@ namespace AzureDeploymentCmdlets.Model
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule(new System.Security.Principal.SecurityIdentifier(System.Security.Principal.WellKnownSidType.NetworkServiceSid, null), 
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null), 
                 FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
