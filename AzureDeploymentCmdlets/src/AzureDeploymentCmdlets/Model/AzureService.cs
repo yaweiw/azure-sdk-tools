@@ -40,7 +40,8 @@ namespace AzureDeploymentCmdlets.Model
 
         public string ServiceName { get { return this.Components.Definition.name; } }
 
-        public AzureService(string serviceParentDirectory, string name, string scaffoldingPath) : this()
+        public AzureService(string serviceParentDirectory, string name, string scaffoldingPath)
+            : this()
         {
             Validate.ValidateDirectoryFull(serviceParentDirectory, Resources.ServiceParentDirectory);
             Validate.ValidateStringIsNullOrEmpty(name, "Name");
@@ -87,7 +88,7 @@ namespace AzureDeploymentCmdlets.Model
                 Validate.ValidateDirectoryExists(scaffoldingFolderDirectory);
 
                 scaffoldingFolderPath = scaffoldingFolderDirectory;
-            }           
+            }
         }
 
         private void ConfigureNewService(ServiceComponents components, ServicePathInfo paths, string serviceName)
@@ -106,7 +107,7 @@ namespace AzureDeploymentCmdlets.Model
             parameters[ScaffoldParams.Location] = string.Empty;
             parameters[ScaffoldParams.StorageAccountName] = string.Empty;
             parameters[ScaffoldParams.ServiceName] = serviceName;
-            
+
             Scaffold.GenerateScaffolding(Path.Combine(scaffoldingFolderPath, Resources.GeneralScaffolding), serviceRootPath, parameters);
         }
 
@@ -127,12 +128,12 @@ namespace AzureDeploymentCmdlets.Model
                     //
                     throw new ArgumentException(string.Format(Resources.AddRoleMessageRoleExists, name));
                 }
-                
+
                 if (!ServiceComponents.ValidRoleName(name))
                 {
                     // The provided name is invalid role name
                     //
-                    throw new ArgumentException(string.Format(Resources.InvalidRoleNameMessage, name));                    
+                    throw new ArgumentException(string.Format(Resources.InvalidRoleNameMessage, name));
                 }
             }
 
@@ -160,7 +161,7 @@ namespace AzureDeploymentCmdlets.Model
         /// <param name="role"></param>
         private void AddRoleCore(RoleInfo role, RoleType type)
         {
-           Dictionary<string, object> parameters = new Dictionary<string, object>();
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters[ScaffoldParams.Role] = role;
             parameters[ScaffoldParams.Components] = Components;
             parameters[ScaffoldParams.RoleName] = role.Name;
@@ -196,7 +197,8 @@ namespace AzureDeploymentCmdlets.Model
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule(new System.Security.Principal.SecurityIdentifier(System.Security.Principal.WellKnownSidType.NetworkServiceSid, null), FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new System.Security.Principal.SecurityIdentifier(System.Security.Principal.WellKnownSidType.NetworkServiceSid, null), 
+                FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
 
