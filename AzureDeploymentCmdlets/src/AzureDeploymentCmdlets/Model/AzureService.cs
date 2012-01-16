@@ -196,7 +196,7 @@ namespace AzureDeploymentCmdlets.Model
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule("Network Service", FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new System.Security.Principal.SecurityIdentifier(System.Security.Principal.WellKnownSidType.NetworkServiceSid, null), FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
 
