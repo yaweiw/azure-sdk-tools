@@ -1332,6 +1332,15 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The storage account name &apos;{0}&apos; is invalid.  Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only..
+        /// </summary>
+        internal static string ServiceSettings_ValidateStorageAccountName_InvalidName {
+            get {
+                return ResourceManager.GetString("ServiceSettings_ValidateStorageAccountName_InvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service {0} doesn&apos;t exist or it doesn&apos;t have {1} slot.
         /// </summary>
         internal static string ServiceSlotDoesNotExist {
