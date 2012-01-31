@@ -403,7 +403,7 @@
     <value>Role type {0} doesn't exist</value>
   </data>
   <data name="RunInEmulatorArguments" xml:space="preserve">
-    <value>{0} {1} {2}</value>
+    <value>"{0}" "{1}" {2}</value>
   </data>
   <data name="ScaffoldXml" xml:space="preserve">
     <value>scaffold.xml</value>

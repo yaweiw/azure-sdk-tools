@@ -1197,7 +1197,7 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} {1} {2}.
+        ///   Looks up a localized string similar to &quot;{0}&quot; &quot;{1}&quot; {2}.
         /// </summary>
         internal static string RunInEmulatorArguments {
             get {
