@@ -37,21 +37,6 @@ namespace AzureDeploymentCmdlets.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole();
-                service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
-
-                AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
-            }
-        }
-
-        [TestMethod]
-        public void CreateLocalPackageWithOneWebRoleAndLogsDirectoryTest()
-        {
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                string standardOutput;
-                string standardError;
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
                 RoleInfo webRoleInfo = service.AddWebRole();
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
@@ -59,13 +44,11 @@ namespace AzureDeploymentCmdlets.Test.Tests.AzureTools
                 files.CreateDirectory(logsDir);
                 files.CreateEmptyFile(logFile);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
-                Console.WriteLine("Checking for existence: '{0} => '{1}'", logFile, targetLogsFile);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
                 Assert.IsTrue(File.Exists(targetLogsFile));
             }
         }
-
 
         [TestMethod]
         public void CreateLocalPackageWithWorkerRoleTest()
