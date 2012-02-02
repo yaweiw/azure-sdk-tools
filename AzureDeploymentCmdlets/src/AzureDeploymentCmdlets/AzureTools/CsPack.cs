@@ -66,7 +66,7 @@ namespace AzureDeploymentCmdlets.AzureTools
                     // Get the name and safe path for each role (i.e., if the
                     // role has files that shouldn't be packaged, it'll be
                     // copied to a temp location without those files)
-                    .Select(name => GetOrCreateCleanPath(rootPath, name, tempDirectories))
+                    .Select(name => GetOrCreateCleanPath(rootPath, name, tempDirectories, type))
                     // Format the role name and path as a role argument
                     .Select(nameAndPath => string.Format(Resources.RoleArgTemplate, nameAndPath.Key, nameAndPath.Value))
                     // Join all the role arguments together into one
@@ -137,13 +137,13 @@ namespace AzureDeploymentCmdlets.AzureTools
         /// <returns>
         /// A pair containing the path to the role and the name of the role.
         /// </returns>
-        private static KeyValuePair<string, string> GetOrCreateCleanPath(string root, string name, Dictionary<string, string> tempDirectories)
+        private static KeyValuePair<string, string> GetOrCreateCleanPath(string root, string name, Dictionary<string, string> tempDirectories, DevEnv type)
         {
             string path = Path.Combine(root, name);
 
             // Check if the role has any "*.logs" directories that iisnode may
             // have left during emulation
-            if (GetLogDirectories(path).Length == 0)
+            if (type == DevEnv.Local || GetLogDirectories(path).Length == 0)
             {
                 return new KeyValuePair<string, string>(name, root);
             }
