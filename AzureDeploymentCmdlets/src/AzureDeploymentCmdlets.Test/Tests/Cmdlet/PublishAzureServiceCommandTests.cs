@@ -23,7 +23,6 @@ using AzureDeploymentCmdlets.Model;
 using AzureDeploymentCmdlets.Node.Cmdlet;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.RegularExpressions;
 
 namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
 {
@@ -194,17 +193,14 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                 NewAzureServiceCommand newService = new NewAzureServiceCommand();
                 newService.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
-                AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
-                testService.AddWebRole();
-                string cloudConfigFile = File.ReadAllText(testService.Paths.CloudConfiguration);
-                File.WriteAllText(testService.Paths.CloudConfiguration, new Regex("<Certificates\\s*/>").Replace(cloudConfigFile, ""));
+
                 // Get the publishing process started by creating the package
                 PublishAzureServiceCommand publishService = new PublishAzureServiceCommand(channel);
                 publishService.ShareChannel = true;
                 publishService.SkipUpload = true;
                 publishService.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
-                
+
                 // Verify the publish service attempted to create and update
                 // the service through the mock.
                 Assert.IsTrue(createdHostedService);

@@ -713,8 +713,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
         {
             if (_azureService.Components.CloudConfig.Role != null)
             {
-                foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
-                    SelectMany(r => (null == r.Certificates) ? new ServiceConfigurationSchema.Certificate[0] : r.Certificates).Distinct())
+                foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.SelectMany(r => r.Certificates).Distinct())
                 {
                     if (uploadedCertificates == null || (uploadedCertificates.Count<Certificate>(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
