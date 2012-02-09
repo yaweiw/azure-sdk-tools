@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom">
 <entry>
   <productId>AzureNodePowershell</productId>
-  <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - January 2012</title>
-  <version>0.5.2</version>
+  <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - February 2012</title>
+  <version>0.5.3</version>
   <published>2012-01-20T12:00:00Z</published>
-  <updated>2012-01-20T12:00:00Z</updated>
+  <updated>2012-02-10T12:00:00Z</updated>
   <summary resourceName="Entry_AzureNodePowershell_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
   <longSummary resourceName="Entry_AzureNodePowershell_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
   <link href="http://www.microsoft.com/web/webpi/azurepowershell" />
@@ -24,13 +24,13 @@
       <discoveryHint>
         <file>
           <filePath>%programfiles%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-          <minimumVersion>1.0.2</minimumVersion>
+          <minimumVersion>1.0.3</minimumVersion>
         </file>
       </discoveryHint>
       <discoveryHint>
         <file>
           <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-          <minimumVersion>1.0.2</minimumVersion>
+          <minimumVersion>1.0.3</minimumVersion>
         </file>
       </discoveryHint>
     </or>
@@ -77,13 +77,13 @@
 <entry>
   <productId>NodeJS</productId>
   <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
-  <version>0.6.7</version>
+  <version>0.6.10</version>
   <summary resourceName="Entry_NodeJS_Summary">Node.JS is a server-side environment for JavaScript.</summary>
   <longSummary resourceName="Entry_NodeJS_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript. 
     Node.JS installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.</longSummary>
   <link href="http://nodejs.org/" />
   <published>2011-12-15T12:00:00Z</published>
-  <updated>2012-01-18T12:00:00Z</updated>
+  <updated>2012-02-10T12:00:00Z</updated>
   <author>
     <name>Joyent, Inc</name>
     <uri>http://www.joyent.com/</uri>
@@ -97,13 +97,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.7</minimumVersion>
+            <minimumVersion>0.6.10</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.7</minimumVersion>
+            <minimumVersion>0.6.10</minimumVersion>
           </file>
         </discoveryHint>
       </or>
