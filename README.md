@@ -73,6 +73,7 @@ Node.js Developer Center</a>.</p>
     <pre>Import-Module<br/>PATH_TO_AZURE-SDK-TOOLS_CLONE\AzureDeploymentCmdlets\src\AzureDeploymentCmdlets\bin\Debug\AzureDeploymentCmdlets.dll</pre></li>
     <li>After you build the commandlets project, you can then open a PowerShell window and you should be able to use the commandlets. Please note that if you want to rebuild the project, you have close the PowerShell window, and then reopen it.</li>
 </ol>
+
 <h1>Usage</h1>
 <ol>
     <li>First, create an Azure hosted service called HelloWorld by typing<br/>
@@ -99,7 +100,7 @@ Developer Forums on Stack Overflow</a> if you have trouble with the provided cod
 
 <h1>Feedback</h1>
 <p>For feedback related specificically to this SDK, please use the Issues
-section of the repository. If you would like to fix an issue, please read our Contribution Guidelines available <a href="http://windowsazure.github.com">here,</a> before submitting a Pull Request.</p>
+section of the repository.</p>
 <p>For general suggestions about Windows Azure please use our
 <a href="http://www.mygreatwindowsazureidea.com/forums/34192-windows-azure-feature-voting">UserVoice forum</a>.</p>
 
