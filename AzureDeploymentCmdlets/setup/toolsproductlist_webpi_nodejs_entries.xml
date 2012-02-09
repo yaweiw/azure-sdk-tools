@@ -3,7 +3,7 @@
   <productId>AzureNodePowershell</productId>
   <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - February 2012</title>
   <version>0.5.3</version>
-  <published>2012-12-20T12:00:00Z</published>
+  <published>2012-01-20T12:00:00Z</published>
   <updated>2012-02-10T12:00:00Z</updated>
   <summary resourceName="Entry_AzureNodePowershell_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
   <longSummary resourceName="Entry_AzureNodePowershell_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
@@ -24,13 +24,13 @@
       <discoveryHint>
         <file>
           <filePath>%programfiles%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-          <minimumVersion>0.5.3</minimumVersion>
+          <minimumVersion>1.0.3</minimumVersion>
         </file>
       </discoveryHint>
       <discoveryHint>
         <file>
           <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-          <minimumVersion>0.5.3</minimumVersion>
+          <minimumVersion>1.0.3</minimumVersion>
         </file>
       </discoveryHint>
     </or>
@@ -129,14 +129,14 @@
 
 <entry>
   <productId>iisnode</productId>
-  <title resourceName="Entry_iis_node_Title">Host node.js applications side by side with other application types in IIS 7.x.</title>
-  <version>0.1.13</version>
+  <title resourceName="Entry_iis_node_Title">IIS7.x module for hosting Node.JS applications</title>
+  <version>0.1.15</version>
   <summary resourceName="Entry_iisnode_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
   <longSummary resourceName="Entry_iisnode_LongSummary">Host node.js applications side by side with other application types in IIS 7.x. This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
   <id>http://go.microsoft.com/fwlink/?LinkID=9790232</id>
   <link href="http://www.microsoft.com/web/webpi/iisnode" />
   <published>2011-12-20T12:00:00Z</published>
-  <updated>2011-12-20T12:00:00Z</updated>
+  <updated>2012-01-18T12:00:00Z</updated>
   <author>
     <name>Microsoft Corporation</name>
     <uri>http://www.microsoft.com/</uri>
@@ -148,7 +148,7 @@
   <discoveryHint>
    <file>
      <filePath>%programfiles%\iisnode\iisnode.dll</filePath>
-     <minimumVersion>0.1.13</minimumVersion>
+     <minimumVersion>0.1.15</minimumVersion>
    </file>
   </discoveryHint>
   <dependency>
