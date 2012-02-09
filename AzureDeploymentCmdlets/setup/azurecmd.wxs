@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   
-  <?define productName="Windows Azure PowerShell for Node.js - November 2011" ?>
+  <?define productName="Windows Azure PowerShell for Node.js - November 2012" ?>
   <?define sourcedir="$(var.SolutionDir)..\src\AzureDeploymentCmdlets\bin\$(var.Configuration)\" ?>
 
-  <?define version="0.5.2" ?> 
+  <?define version="0.5.3" ?> 
   <?define azureSdkVersion="1.6" ?>
   <?define versionedFolder="Nov2011" ?>
   <?define versionedStartMenuFolder="Windows Azure SDK for Node.js - November 2011" ?>  
