@@ -24,7 +24,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveAzureServiceCommand : ServiceManagementCmdletBase
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of subscription which has this service")]
