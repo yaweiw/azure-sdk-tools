@@ -617,4 +617,10 @@
   <data name="ServiceSettings_ValidateStorageAccountName_InvalidName" xml:space="preserve">
     <value>The storage account name '{0}' is invalid.  Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</value>
   </data>
+  <data name="RemoveServiceWarning" xml:space="preserve">
+    <value>Are you sure you want to remove service \"{0}\"?</value>
+  </data>
+  <data name="ShouldProcessCaption" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
 </root>
