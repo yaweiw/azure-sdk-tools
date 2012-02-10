@@ -46,7 +46,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             string serviceName;
             ServiceSettings settings = base.GetDefaultSettings(rootName, null, null, null, null, inSubscription, out serviceName);
             subscriptionId = new GlobalComponents(GlobalPathInfo.GlobalSettingsDirectory).GetSubscriptionId(settings.Subscription);
-            if (!ShouldProcess(serviceName))
+            if (!ShouldProcess("", string.Format(Resources.RemoveServiceWarning, serviceName), Resources.ShouldProcessCaption))
             {
                 return false;
             }
