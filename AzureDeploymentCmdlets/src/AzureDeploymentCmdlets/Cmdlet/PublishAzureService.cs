@@ -27,6 +27,7 @@ using AzureDeploymentCmdlets.Model;
 using AzureDeploymentCmdlets.Properties;
 using AzureDeploymentCmdlets.Utilities;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
+using System.Xml;
 
 namespace AzureDeploymentCmdlets.Cmdlet
 {
@@ -194,7 +195,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
         /// </summary>
         /// <param name="rootPath">Root path of the Azure service.</param>
         internal void InitializeSettingsAndCreatePackage(string rootPath)
-        {
+        { 
+           
             Debug.Assert(!string.IsNullOrEmpty(rootPath), "rootPath cannot be null or empty.");
             Debug.Assert(Directory.Exists(rootPath), "rootPath does not exist.");
 
@@ -223,6 +225,8 @@ namespace AzureDeploymentCmdlets.Cmdlet
 
             SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                 _hostedServiceName, subscriptionId));
+            
+            UpdateLocation(_azureService.Paths.Definition, defaultSettings.Location.ToUpper());
 
             CreatePackage();
 
@@ -233,6 +237,23 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 _hostedServiceName,
                 string.Format(Resources.ServiceDeploymentName, defaultSettings.Slot));
 
+            
+            
+        }
+
+        internal void UpdateLocation(string definitionPath, string location)
+        {
+            var definition = new XmlDocument();
+            definition.Load(definitionPath);
+            var resolver = new XmlNamespaceManager(new NameTable());
+            resolver.AddNamespace("sd", "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition");
+            var datacenters = definition.SelectNodes("//sd:Variable[@name='DATACENTER']", resolver);
+            foreach(var node in datacenters)
+            {
+                var datacenter = (XmlElement) node;
+                datacenter.Attributes["value"].Value = location;
+            }
+            definition.Save(definitionPath);
         }
 
         /// <summary>

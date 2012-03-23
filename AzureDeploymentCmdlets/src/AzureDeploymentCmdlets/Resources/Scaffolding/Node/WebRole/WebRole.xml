@@ -14,11 +14,15 @@
     <Imports>
     </Imports>
     <Startup>
-      <Task executionContext="elevated" commandLine="setup_web.cmd">
+      <Task executionContext="elevated" commandLine="setup_web.cmd > log.txt">
         <Environment>
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
           </Variable>
+          <Variable name="VERSION" value="0.5.3"/>
+          <Variable name="DATACENTER" value=""/>
+          <Variable name="RUNTIMEURL" value=""/>
+          <Variable name="MANIFESTURL" value="http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml"/>
         </Environment>
       </Task>
     </Startup>

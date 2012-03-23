@@ -1,5 +1,4 @@
 @echo off
-
 cd /d "%~dp0"
 
 echo Granting permissions for Network Service to the web root directory...
@@ -8,6 +7,15 @@ if %ERRORLEVEL% neq 0 goto error
 echo OK
 
 if "%EMULATED%"=="true" exit /b 0
+
+echo Configuring powershell permissions
+powershell -c "set-executionpolicy unrestricted"
+
+echo Downloading runtime components
+powershell .\download.ps1 '%DATACENTER%' '%VERSION%' '%RUNTIMEURL%'
+
+echo Extracting components
+runtime.exe
 
 echo Ensuring the "%programfiles(x86)%\nodejs" directory exists...
 md "%programfiles(x86)%\nodejs"
@@ -29,7 +37,7 @@ echo OK
 
 echo Installing iisnode...
 msiexec.exe /quiet /i iisnode.msi
-if %ERRORLEVEL neq 0 goto error
+if %ERRORLEVEL% neq 0 goto error
 echo OK
 
 echo SUCCESS
