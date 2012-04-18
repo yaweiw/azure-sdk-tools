@@ -126,7 +126,7 @@ namespace AzureDeploymentCmdlets.Test
         /// </summary>
         public void Dispose()
         {
-            if (RootPath != null)
+          /*  if (RootPath != null)
             {
                 // Cleanup any certificates added during the test
                 if (!string.IsNullOrEmpty(AzureSdkPath))
@@ -153,6 +153,7 @@ namespace AzureDeploymentCmdlets.Test
                 // paths which will fail if there is no RootPath
                 RootPath = null;
             }
+           */
         }
         
         /// <summary>

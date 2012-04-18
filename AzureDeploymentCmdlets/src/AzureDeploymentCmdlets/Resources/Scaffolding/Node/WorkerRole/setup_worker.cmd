@@ -11,7 +11,7 @@ echo Configuring powershell permissions
 powershell -c "set-executionpolicy unrestricted"
 
 echo Downloading runtime components
-powershell .\download.ps1 '%DATACENTER%' '%VERSION%' '%RUNTIMEURL%'
+powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
 
 echo Extracting components
 runtime.exe

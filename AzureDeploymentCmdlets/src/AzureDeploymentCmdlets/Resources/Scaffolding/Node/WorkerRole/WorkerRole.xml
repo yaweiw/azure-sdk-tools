@@ -10,10 +10,16 @@
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
           </Variable>
-          <Variable name="VERSION" value="0.5.3"/>
-          <Variable name="DATACENTER" value=""/>
+          <!-- 
+                Use this value to provide your own url for a role runtime self-extracting package 
+                <Variable name="RUNTIMEURLOVERRIDE" value=""/> 
+                
+                Use this value to specify a particular node version to install on the role
+                Not all node versions are available in the cloud
+                <Variable name="RUNTIMEVERSIONPRIMARYKEY" value="" />
+          -->
+          <Variable name="RUNTIMEID" value="NODE" />
           <Variable name="RUNTIMEURL" value=""/>
-          <Variable name="MANIFESTURL" value="http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml"/>
         </Environment>
       </Task>
     </Startup>

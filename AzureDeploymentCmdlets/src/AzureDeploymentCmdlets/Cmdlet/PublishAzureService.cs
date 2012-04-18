@@ -22,12 +22,13 @@ using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.ServiceModel;
+using System.Text;
 using System.Threading;
+using System.Xml;
 using AzureDeploymentCmdlets.Model;
 using AzureDeploymentCmdlets.Properties;
 using AzureDeploymentCmdlets.Utilities;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
-using System.Xml;
 
 namespace AzureDeploymentCmdlets.Cmdlet
 {
@@ -38,6 +39,9 @@ namespace AzureDeploymentCmdlets.Cmdlet
     [Cmdlet(VerbsData.Publish, "AzureService")]
     public class PublishAzureServiceCommand : ServiceManagementCmdletBase
     {
+        public const string RuntimeDeploymentLocationError = "Unable to resolve location '{0}'";
+        public const string ErrorRetrievingRuntimesForLocation = "Unable to download available runtimes for location '{0}'";
+
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
@@ -141,36 +145,42 @@ namespace AzureDeploymentCmdlets.Cmdlet
             SafeWriteObject(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
-            InitializeSettingsAndCreatePackage(serviceRootPath);
-
-            if (ServiceExists())
+            if (InitializeSettingsAndCreatePackage(serviceRootPath))
             {
-                bool deploymentExists = new GetDeploymentStatus(this.Channel).DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
 
-                if (deploymentExists)
+                if (ServiceExists())
                 {
+                    bool deploymentExists = new GetDeploymentStatus(this.Channel).DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
 
-                    UpgradeDeployment();
+                    if (deploymentExists)
+                    {
+
+                        UpgradeDeployment();
+                    }
+                    else
+                    {
+                        CreateNewDeployment();
+                    }
                 }
                 else
                 {
+                    CreateHostedService();
                     CreateNewDeployment();
+                }
+
+                // Verify the deployment succeeded by checking that each of the
+                // roles are running
+                VerifyDeployment();
+
+                // After we've finished deploying, optionally launch a browser pointed at the service
+                if (Launch && CanGenerateUrlForDeploymentSlot())
+                {
+                    LaunchService();
                 }
             }
             else
             {
-                CreateHostedService();
-                CreateNewDeployment();
-            }
-
-            // Verify the deployment succeeded by checking that each of the
-            // roles are running
-            VerifyDeployment();
-
-            // After we've finished deploying, optionally launch a browser pointed at the service
-            if (Launch && CanGenerateUrlForDeploymentSlot())
-            {
-                LaunchService();
+                SafeWriteObject("Service not published at user request");
             }
         }
 
@@ -190,11 +200,80 @@ namespace AzureDeploymentCmdlets.Cmdlet
         }
 
         /// <summary>
+        /// Set up runtime deployment info for each role in the service - after this method is called, each role will 
+        /// have its startup configured with the URI of a runtime package to install at role start
+        /// </summary>
+        /// <param name="service">The service to prepare</param>
+        /// <param name="settings">The runtime settings to use to determine location</param>
+        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings, string manifest = null)
+        {
+            CloudRuntimeCollection availableRuntimePackages;
+            Model.Location deploymentLocation = GetSettingsLocation(settings);
+            if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation, out availableRuntimePackages, manifestFile: manifest))
+            {
+                throw new ArgumentException(string.Format(ErrorRetrievingRuntimesForLocation, deploymentLocation));
+            }
+
+            ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
+            StringBuilder warningText = new StringBuilder();
+            bool shouldWarn = false;
+            foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
+            {
+                CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
+                CloudRuntimePackage package;
+                if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                {
+                    string warning;
+                    if (!runtime.ValidateMatch(package, out warning))
+                    {
+                        shouldWarn = true;
+                        warningText.AppendFormat("{0}\r\n", warning);
+                    }
+                }
+                runtime.ApplyRuntime(package, role);
+            }
+
+            foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
+            {
+                CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
+                CloudRuntimePackage package;
+                if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                {
+                    string warning;
+                    if (!runtime.ValidateMatch(package, out warning))
+                    {
+                        shouldWarn = true;
+                        warningText.AppendFormat("{0}\r\n", warning);
+                    }
+                }
+                runtime.ApplyRuntime(package, role);
+            }
+
+            if (!shouldWarn || ShouldProcess(string.Format("Publish service {0} with role runtime version that does not match your local runtime", _azureService.ServiceName), warningText.ToString(), string.Format("Publish service {0}", _azureService.ServiceName)))
+            {
+                service.Components.Save(service.Paths);
+                return true;
+            }
+
+            return false;
+        }
+
+        private Model.Location GetSettingsLocation(ServiceSettings settings)
+        {
+            if (ArgumentConstants.ReverseLocations.ContainsKey(settings.Location.ToLower()))
+            {
+                return ArgumentConstants.ReverseLocations[settings.Location.ToLower()];
+            }
+
+            throw new ArgumentException(string.Format(RuntimeDeploymentLocationError, settings.Location));
+        }
+
+        /// <summary>
         /// Initialize our model of the AzureService located at the given
         /// path along with its DeploymentSettings and SubscriptionId.
         /// </summary>
         /// <param name="rootPath">Root path of the Azure service.</param>
-        internal void InitializeSettingsAndCreatePackage(string rootPath)
+        internal bool InitializeSettingsAndCreatePackage(string rootPath, string manifest = null)
         { 
            
             Debug.Assert(!string.IsNullOrEmpty(rootPath), "rootPath cannot be null or empty.");
@@ -208,7 +287,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             {
                 _azureService.ChangeServiceName(Name, _azureService.Paths);
             }
-
+            System.Diagnostics.Debugger.Break();
             ServiceSettings defaultSettings = ServiceSettings.LoadDefault(
                 _azureService.Paths.Settings,
                 Slot,
@@ -223,22 +302,27 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 new GlobalComponents(GlobalPathInfo.GlobalSettingsDirectory)
                 .GetSubscriptionId(defaultSettings.Subscription);
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
-                _hostedServiceName, subscriptionId));
-            
-            UpdateLocation(_azureService.Paths.Definition, defaultSettings.Location.ToUpper());
+            SafeWriteObjectWithTimestamp(String.Format("Adding runtime deployment information for roles in service {0}",
+                _hostedServiceName));
 
-            CreatePackage();
+            if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
+            {
+                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
+                    _hostedServiceName, subscriptionId));
+                CreatePackage();
 
-            _deploymentSettings = new DeploymentSettings(
-                defaultSettings,
-                _azureService.Paths.CloudPackage,
-                _azureService.Paths.CloudConfiguration,
-                _hostedServiceName,
-                string.Format(Resources.ServiceDeploymentName, defaultSettings.Slot));
+                _deploymentSettings = new DeploymentSettings(
+                    defaultSettings,
+                    _azureService.Paths.CloudPackage,
+                    _azureService.Paths.CloudConfiguration,
+                    _hostedServiceName,
+                    string.Format(Resources.ServiceDeploymentName, defaultSettings.Slot));
 
-            
-            
+                return true;
+
+            }
+
+            return false;
         }
 
         internal void UpdateLocation(string definitionPath, string location)
