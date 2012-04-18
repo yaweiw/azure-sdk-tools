@@ -36,11 +36,14 @@ namespace AzureDeploymentCmdlets.Cmdlet
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsData.Publish, "AzureService")]
+    [Cmdlet(VerbsData.Publish, "AzureService", SupportsShouldProcess=true)]
     public class PublishAzureServiceCommand : ServiceManagementCmdletBase
     {
         public const string RuntimeDeploymentLocationError = "Unable to resolve location '{0}'";
         public const string ErrorRetrievingRuntimesForLocation = "Unable to download available runtimes for location '{0}'";
+        public const string PublishAbortedAtUserRequest = "Service not published at user request.";
+        public const string RuntimeDeploymentStart = "Preparing runtime deployment for service '{0}'";
+        public const string RuntimeMismatchWarning = "WARNING Runtime Mismatch: Are you sure that you want to publish service '{0}' using an Azure runtime version that does not match your local runtime version?";
 
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
@@ -69,6 +72,14 @@ namespace AzureDeploymentCmdlets.Cmdlet
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
+
+        [Parameter(Mandatory=false)]
+        public SwitchParameter Force
+        {
+            get { return force; }
+            set { force = value; }
+        }
+        private bool force;
 
         /// <summary>
         /// Gets or sets a flag indicating whether CreateChannel should share
@@ -180,7 +191,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             }
             else
             {
-                SafeWriteObject("Service not published at user request");
+                SafeWriteObject(PublishAbortedAtUserRequest);
             }
         }
 
@@ -217,42 +228,51 @@ namespace AzureDeploymentCmdlets.Cmdlet
             ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
             StringBuilder warningText = new StringBuilder();
             bool shouldWarn = false;
-            foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
+            if (definition.WebRole != null)
             {
-                CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
-                CloudRuntimePackage package;
-                if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
                 {
-                    string warning;
-                    if (!runtime.ValidateMatch(package, out warning))
+                    CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
+                    CloudRuntimePackage package;
+                    if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                     {
-                        shouldWarn = true;
-                        warningText.AppendFormat("{0}\r\n", warning);
+                        string warning;
+                        if (!runtime.ValidateMatch(package, out warning))
+                        {
+                            shouldWarn = true;
+                            warningText.AppendFormat("{0}\r\n", warning);
+                        }
                     }
+                    runtime.ApplyRuntime(package, role);
                 }
-                runtime.ApplyRuntime(package, role);
             }
 
-            foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
+            if (definition.WorkerRole != null)
             {
-                CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
-                CloudRuntimePackage package;
-                if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
                 {
-                    string warning;
-                    if (!runtime.ValidateMatch(package, out warning))
+                    CloudRuntime runtime = CloudRuntime.CreateRuntime(role);
+                    CloudRuntimePackage package;
+                    if (!availableRuntimePackages.TryFindMatch(runtime, out package))
                     {
-                        shouldWarn = true;
-                        warningText.AppendFormat("{0}\r\n", warning);
+                        string warning;
+                        if (!runtime.ValidateMatch(package, out warning))
+                        {
+                            shouldWarn = true;
+                            warningText.AppendFormat("{0}\r\n", warning);
+                        }
                     }
+                    runtime.ApplyRuntime(package, role);
                 }
-                runtime.ApplyRuntime(package, role);
             }
 
-            if (!shouldWarn || ShouldProcess(string.Format("Publish service {0} with role runtime version that does not match your local runtime", _azureService.ServiceName), warningText.ToString(), string.Format("Publish service {0}", _azureService.ServiceName)))
+            if (!shouldWarn || ShouldProcess(string.Format(RuntimeMismatchWarning, _azureService.ServiceName)))
             {
-                service.Components.Save(service.Paths);
-                return true;
+                if (!shouldWarn || Force || ShouldContinue(warningText.ToString(), string.Format(RuntimeMismatchWarning, _azureService.ServiceName))) 
+                {
+                    service.Components.Save(service.Paths);
+                    return true;
+                }
             }
 
             return false;
@@ -287,7 +307,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             {
                 _azureService.ChangeServiceName(Name, _azureService.Paths);
             }
-            System.Diagnostics.Debugger.Break();
+
             ServiceSettings defaultSettings = ServiceSettings.LoadDefault(
                 _azureService.Paths.Settings,
                 Slot,
@@ -302,8 +322,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 new GlobalComponents(GlobalPathInfo.GlobalSettingsDirectory)
                 .GetSubscriptionId(defaultSettings.Subscription);
 
-            SafeWriteObjectWithTimestamp(String.Format("Adding runtime deployment information for roles in service {0}",
-                _hostedServiceName));
+            SafeWriteObjectWithTimestamp(String.Format(RuntimeDeploymentStart, _hostedServiceName));
 
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {
