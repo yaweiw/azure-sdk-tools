@@ -21,6 +21,7 @@ namespace AzureDeploymentCmdlets.Model
     using System.Net;
     using System.Xml;
     using System.Diagnostics;
+    using AzureDeploymentCmdlets.Properties;
 
     public class CloudRuntimePackage
     {
@@ -94,7 +95,7 @@ namespace AzureDeploymentCmdlets.Model
                 }
             }
 
-            throw new ArgumentException(string.Format(CloudRuntimeCollection.InvalidRuntimeError, typeValue));
+            throw new ArgumentException(string.Format(Resources.InvalidRuntimeError, typeValue));
         }
     }
 }
