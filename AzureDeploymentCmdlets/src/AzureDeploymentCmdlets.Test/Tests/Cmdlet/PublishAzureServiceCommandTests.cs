@@ -24,6 +24,7 @@ using AzureDeploymentCmdlets.Node.Cmdlet;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
+using AzureDeploymentCmdlets.Properties;
 
 namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
 {
@@ -188,35 +189,8 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                 PublishAzureServiceCommand publishService = new PublishAzureServiceCommand(channel);
                 publishService.InitializeSettingsAndCreatePackage(servicePath, @"c:\aztest\runtimemanifest.xml");
 
-                Log("Test complete, files at: {0}", files.RootPath);
-
-                /*// Verify the generated files
-                Action<string> verifyContainsNames =
-                    p =>
-                    {
-                        string contents = File.ReadAllText(p);
-                        Assert.IsTrue(contents.Contains(webRoleName));
-                        Assert.IsTrue(contents.Contains(workerRoleName));
-                    };
-                files.AssertFiles(new Dictionary<string, Action<string>>()
-                {
-                    { serviceName + @"\deploymentSettings.json", null },
-                    { serviceName + '\\' + webRoleName + @"\server.js", null },
-                    { serviceName + '\\' + workerRoleName + @"\server.js", null },
-                    { serviceName + @"\ServiceDefinition.csdef", verifyContainsNames },
-                    { serviceName + @"\ServiceConfiguration.Cloud.cscfg", verifyContainsNames },
-                    { serviceName + @"\ServiceConfiguration.Local.cscfg", verifyContainsNames },
-                    {
-                        serviceName + @"\cloud_package.cspkg",
-                        p =>
-                        {
-                            using (Package package = Package.Open(p))
-                            {
-                                Assert.AreEqual(7, package.GetParts().Count());
-                            }
-                        }
-                    }
-                });*/
+                VerifyWebRoleRuntime(files.RootPath, webRoleName, "");
+                VerifyWorkerRoleRuntime(files.RootPath, workerRoleName, "");
             }
         }
 
