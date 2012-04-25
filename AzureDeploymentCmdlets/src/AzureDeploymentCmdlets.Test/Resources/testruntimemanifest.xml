@@ -1,0 +1,17 @@
+<runtimemanifest>
+  <blobcontainers>
+    <blobcontainer datacenter="WEST US" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="EAST US" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="NORTH CENTRAL US" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="SOUTH CENTRAL US" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="NORTH EUROPE" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="WEST EUROPE" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="SOUTHEAST ASIA" uri="http://DATACENTER/"/>
+    <blobcontainer datacenter="EAST ASIA" uri="http://DATACENTER/"/>
+  </blobcontainers>
+  <runtimes>
+    <runtime type="node" primaryversionkey="FOO" secondaryversionkey="BAR" filepath="/node/foo.bar.exe" />
+    <runtime type="node" primaryversionkey="KEY1" secondaryversionkey="KEY2" filepath="/node/default.exe" default="true" />
+    <runtime type="php" primaryversionkey="5.3" filepath="/php/5.3.exe" default="true" />
+  </runtimes>
+</runtimemanifest>
