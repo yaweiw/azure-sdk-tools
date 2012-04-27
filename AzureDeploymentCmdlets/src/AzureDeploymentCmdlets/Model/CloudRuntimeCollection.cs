@@ -24,7 +24,6 @@ namespace AzureDeploymentCmdlets.Model
     {
         Dictionary<Runtime, List<CloudRuntimePackage>> packages = new Dictionary<Runtime, List<CloudRuntimePackage>>();
         Dictionary<Runtime, CloudRuntimePackage> defaults = new Dictionary<Runtime, CloudRuntimePackage>();
-        private FileStream stream;
         private XmlReader documentReader;
         private bool disposed;
 
@@ -102,7 +101,7 @@ namespace AzureDeploymentCmdlets.Model
             baseUri = null;
             string query = string.Format(Resources.DatacenterBlobQuery, ArgumentConstants.Locations[location].ToUpperInvariant());
             XmlNode node = manifest.SelectSingleNode(query);
-            if (null != node)
+            if (node != null)
             {
                 found = true;
                 XmlAttribute blobUriAttribute = node.Attributes[Resources.ManifestBlobUriKey];
@@ -121,8 +120,9 @@ namespace AzureDeploymentCmdlets.Model
         {
             if (filePath != null)
             {
-                this.stream = new FileStream(filePath, FileMode.Open);
-                this.documentReader = XmlReader.Create(stream);
+                byte[] buffer = File.ReadAllBytes(filePath);
+                MemoryStream myStream = new MemoryStream(buffer);
+                this.documentReader = XmlReader.Create(myStream);
             }
             else
             {
@@ -177,10 +177,6 @@ namespace AzureDeploymentCmdlets.Model
                 if (this.documentReader != null)
                 {
                     this.documentReader.Close();
-                }
-                else if (this.stream != null)
-                {
-                    this.stream.Close();
                 }
             }
         }
