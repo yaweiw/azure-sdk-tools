@@ -24,6 +24,8 @@ using AzureDeploymentCmdlets.Node.Cmdlet;
 using AzureDeploymentCmdlets.WAPPSCmdlet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
+using AzureDeploymentCmdlets.Properties;
+using AzureDeploymentCmdlets.Test.Utilities;
 
 namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
 {
@@ -152,6 +154,73 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                         }
                     }
                 });
+            }
+        }
+
+        /// <summary>
+        /// Test a publish scenario with worker and web roles.
+        ///</summary>
+        [TestMethod]
+        public void PublishAzureServiceManifestTest()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                // Create a new channel to mock the calls to Azure and
+                // determine all of the results that we'll need.
+                SimpleServiceManagement channel = new SimpleServiceManagement();
+
+                // Create a new service that we're going to publish
+                string serviceName = "TEST_SERVICE_NAME";
+                NewAzureServiceCommand newService = new NewAzureServiceCommand();
+                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                string servicePath = files.CreateDirectory(serviceName);
+                // Add web and worker roles
+                AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
+                string defaultWebRoleName = "WebRoleDefault";
+                string defaultWebRolePath = newWebRole.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
+                AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string defaultWorkerRoleName = "WorkerRoleDefault";
+                string defaultWorkerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
+
+                AddAzureNodeWebRoleCommand matchWebRole = new AddAzureNodeWebRoleCommand();
+                string matchWebRoleName = "WebRoleExactMatch";
+                string matchWebRolePath = matchWebRole.AddAzureNodeWebRoleProcess(matchWebRoleName, 2, servicePath);
+                
+                AddAzureNodeWorkerRoleCommand matchWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string matchWorkerRoleName = "WorkerRoleExactMatch";
+                string matchWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(matchWorkerRoleName, 2, servicePath);
+
+                AddAzureNodeWebRoleCommand overrideWebRole = new AddAzureNodeWebRoleCommand();
+                string overrideWebRoleName = "WebRoleOverride";
+                string overrideWebRolePath = overrideWebRole.AddAzureNodeWebRoleProcess(overrideWebRoleName, 2, servicePath);
+
+                AddAzureNodeWorkerRoleCommand overrideWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string overrideWorkerRoleName = "WorkerRoleOverride";
+                string overrideWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(overrideWorkerRoleName, 2, servicePath);
+                
+                AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, "FOO", "BAR");
+                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, "FOO");
+                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, overrideUrl: "http://OVERRIDE");
+                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, overrideUrl: "http://OVERRIDE");
+                testService.Components.Save(testService.Paths);
+
+                // Get the publishing process started by creating the package
+                PublishAzureServiceCommand publishService = new PublishAzureServiceCommand(channel);
+                publishService.InitializeSettingsAndCreatePackage(servicePath, RuntimeHelper.GetTestManifest(files));
+
+                AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
+
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe", null);
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.bar.exe", null);
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.bar.exe", null);
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
+                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
             }
         }
 

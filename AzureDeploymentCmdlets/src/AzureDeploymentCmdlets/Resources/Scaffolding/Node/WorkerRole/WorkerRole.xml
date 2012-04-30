@@ -5,11 +5,21 @@
       <InputEndpoint name="HttpIn" protocol="tcp" port="$Port$" />
     </Endpoints>
     <Startup>
-      <Task executionContext="elevated" commandLine="setup_worker.cmd">
+      <Task executionContext="elevated" commandLine="setup_worker.cmd > log.txt">
         <Environment>
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
           </Variable>
+          <!-- 
+                Use this value to provide your own url for a role runtime self-extracting package 
+                <Variable name="RUNTIMEURLOVERRIDE" value=""/> 
+                
+                Use this value to specify a particular node version to install on the role
+                Not all node versions are available in the cloud
+                <Variable name="RUNTIMEVERSIONPRIMARYKEY" value="" />
+          -->
+          <Variable name="RUNTIMEID" value="NODE" />
+          <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
     </Startup>
@@ -23,7 +33,7 @@
         </Variable>
       </Environment>
       <EntryPoint>
-        <ProgramEntryPoint commandLine="node.exe .\server.js" setReadyOnProcessStart="true"/>
+        <ProgramEntryPoint commandLine="node.cmd .\server.js" setReadyOnProcessStart="true"/>
       </EntryPoint>
     </Runtime>
   </WorkerRole>
