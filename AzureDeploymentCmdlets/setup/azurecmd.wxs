@@ -60,7 +60,7 @@
     </Condition>
 
     <Condition Message="Windows Azure SDK $(var.azureSdkVersion) must be installed before Windows Azure PowerShell for Node.js  installation.">
-      <![CDATA[Installed or AZURESDK]]>
+      <![CDATA[Installed or AZURESDK or AZURESDK17]]>
     </Condition>
                                              
     <Condition Message="PowerShell 2.0 must be installed before Windows Azure PowerShell for Node.js installation.">
