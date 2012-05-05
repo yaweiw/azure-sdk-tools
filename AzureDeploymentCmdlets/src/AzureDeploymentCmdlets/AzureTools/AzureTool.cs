@@ -53,7 +53,6 @@ namespace AzureDeploymentCmdlets.AzureTools
                 if (AzureSdkVersion.Equals(min, StringComparison.OrdinalIgnoreCase))
                 {
                     AzureEmulatorDirectory = AzureSdkDirectory.Replace(string.Format(Resources.AzureSdkDirectory, AzureSdkVersion), Resources.AzureEmulatorPathPortion);
-                    Console.WriteLine("Used 1.6 version {0} = {1}", min, AzureSdkVersion);
                 }
                 else
                 {
@@ -61,7 +60,6 @@ namespace AzureDeploymentCmdlets.AzureTools
                         Resources.AzureEmulatorRegistryKey), Resources.AzureSdkInstallPathRegistryKeyValue, null), 
                         Resources.AzureEmulatorDirectory);
                 }
-                Console.WriteLine("Using emulator directory {0}, sdk version {1}", AzureEmulatorDirectory, AzureSdkVersion);
             }
         }
     }
