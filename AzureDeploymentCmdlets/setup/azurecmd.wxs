@@ -6,6 +6,7 @@
 
   <?define version="0.5.3" ?> 
   <?define azureSdkVersion="1.6" ?>
+  <?define azureSdk17Version="1.7" ?>
   <?define versionedFolder="Nov2011" ?>
   <?define versionedStartMenuFolder="Windows Azure SDK for Node.js - November 2011" ?>  
 
@@ -40,6 +41,10 @@
 
     <Property Id="AZURESDK">
       <RegistrySearch Id="AZURESDK" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v$(var.azureSdkVersion)" Name="FullVersion" Type="raw" />
+    </Property>
+
+    <Property Id="AZURESDK17">
+      <RegistrySearch Id="AZURESDK17" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v$(var.azureSdk17Version)" Name="FullVersion" Type="raw" />
     </Property>
 
     <Property Id="POWERSHELLVERSION">

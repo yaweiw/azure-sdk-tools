@@ -313,7 +313,7 @@
     <value>ServiceConfiguration.Local.cscfg</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.6</value>
+    <value>v1.7</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
     <value>v1.6</value>
@@ -703,5 +703,11 @@
   </data>
   <data name="RuntimeUrlKey" xml:space="preserve">
     <value>RUNTIMEURL</value>
+  </data>
+  <data name="AzureEmulatorDirectory" xml:space="preserve">
+    <value>Emulator</value>
+  </data>
+  <data name="AzureEmulatorRegistryKey" xml:space="preserve">
+    <value>SOFTWARE\Microsoft\Windows Azure Emulator</value>
   </data>
 </root>
