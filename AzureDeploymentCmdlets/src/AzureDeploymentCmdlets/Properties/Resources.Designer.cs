@@ -88,11 +88,29 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Emulator.
+        /// </summary>
+        internal static string AzureEmulatorDirectory {
+            get {
+                return ResourceManager.GetString("AzureEmulatorDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Emulator\emulator.
         /// </summary>
         internal static string AzureEmulatorPathPortion {
             get {
                 return ResourceManager.GetString("AzureEmulatorPathPortion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SOFTWARE\Microsoft\Windows Azure Emulator.
+        /// </summary>
+        internal static string AzureEmulatorRegistryKey {
+            get {
+                return ResourceManager.GetString("AzureEmulatorRegistryKey", resourceCulture);
             }
         }
         
@@ -828,7 +846,7 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.6.
+        ///   Looks up a localized string similar to v1.7.
         /// </summary>
         internal static string MaxSupportAzureSdkVersion {
             get {

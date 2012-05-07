@@ -6,6 +6,7 @@
 
   <?define version="0.5.3" ?> 
   <?define azureSdkVersion="1.6" ?>
+  <?define azureSdk17Version="1.7" ?>
   <?define versionedFolder="Nov2011" ?>
   <?define versionedStartMenuFolder="Windows Azure SDK for Node.js - November 2011" ?>  
 
@@ -42,6 +43,10 @@
       <RegistrySearch Id="AZURESDK" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v$(var.azureSdkVersion)" Name="FullVersion" Type="raw" />
     </Property>
 
+    <Property Id="AZURESDK17">
+      <RegistrySearch Id="AZURESDK17" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v$(var.azureSdk17Version)" Name="FullVersion" Type="raw" />
+    </Property>
+
     <Property Id="POWERSHELLVERSION">
       <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
@@ -55,7 +60,7 @@
     </Condition>
 
     <Condition Message="Windows Azure SDK $(var.azureSdkVersion) must be installed before Windows Azure PowerShell for Node.js  installation.">
-      <![CDATA[Installed or AZURESDK]]>
+      <![CDATA[Installed or AZURESDK or AZURESDK17]]>
     </Condition>
                                              
     <Condition Message="PowerShell 2.0 must be installed before Windows Azure PowerShell for Node.js installation.">

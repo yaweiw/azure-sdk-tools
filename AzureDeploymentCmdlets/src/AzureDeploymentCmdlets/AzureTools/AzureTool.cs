@@ -50,7 +50,16 @@ namespace AzureDeploymentCmdlets.AzureTools
                 string keyName = Path.Combine(Resources.AzureSdkRegistryKeyName, AzureSdkVersion);
                 AzureSdkDirectory = (string)Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, keyName), Resources.AzureSdkInstallPathRegistryKeyValue, null);
                 AzureSdkBinDirectory = Path.Combine(AzureSdkDirectory, Resources.RoleBinFolderName);
-                AzureEmulatorDirectory = AzureSdkDirectory.Replace(string.Format(Resources.AzureSdkDirectory, AzureSdkVersion), Resources.AzureEmulatorPathPortion);
+                if (AzureSdkVersion.Equals(min, StringComparison.OrdinalIgnoreCase))
+                {
+                    AzureEmulatorDirectory = AzureSdkDirectory.Replace(string.Format(Resources.AzureSdkDirectory, AzureSdkVersion), Resources.AzureEmulatorPathPortion);
+                }
+                else
+                {
+                    AzureEmulatorDirectory = Path.Combine((string)Registry.GetValue(Path.Combine(Registry.LocalMachine.Name, 
+                        Resources.AzureEmulatorRegistryKey), Resources.AzureSdkInstallPathRegistryKeyValue, null), 
+                        Resources.AzureEmulatorDirectory);
+                }
             }
         }
     }

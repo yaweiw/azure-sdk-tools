@@ -25,6 +25,7 @@ namespace AzureDeploymentCmdlets.Model
         Dictionary<Runtime, List<CloudRuntimePackage>> packages = new Dictionary<Runtime, List<CloudRuntimePackage>>();
         Dictionary<Runtime, CloudRuntimePackage> defaults = new Dictionary<Runtime, CloudRuntimePackage>();
         private XmlReader documentReader;
+        private MemoryStream documentStream;
         private bool disposed;
 
         private CloudRuntimeCollection()
@@ -121,8 +122,8 @@ namespace AzureDeploymentCmdlets.Model
             if (filePath != null)
             {
                 byte[] buffer = File.ReadAllBytes(filePath);
-                MemoryStream myStream = new MemoryStream(buffer);
-                this.documentReader = XmlReader.Create(myStream);
+                this.documentStream= new MemoryStream(buffer);
+                this.documentReader = XmlReader.Create(documentStream);
             }
             else
             {
@@ -177,6 +178,10 @@ namespace AzureDeploymentCmdlets.Model
                 if (this.documentReader != null)
                 {
                     this.documentReader.Close();
+                }
+                if (this.documentStream != null)
+                {
+                    this.documentStream.Close();
                 }
             }
         }
