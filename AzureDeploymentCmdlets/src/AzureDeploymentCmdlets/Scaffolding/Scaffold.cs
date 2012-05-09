@@ -54,7 +54,15 @@ namespace AzureDeploymentCmdlets.Scaffolding
 
             foreach (ScaffoldFile file in scaffold.Files)
             {
-                string sourceDirectory = string.IsNullOrEmpty(file.SourceDirectory) ? sourcePath : Path.Combine(General.GetAssemblyDirectory(), file.SourceDirectory);
+                string sourceDirectory; 
+                if(String.IsNullOrEmpty(file.SourceDirectory) ||
+                    !parameters.ContainsKey(file.SourceDirectory))
+                {
+                    sourceDirectory = sourcePath;
+                } else {
+                    sourceDirectory = (string) parameters[file.SourceDirectory];
+                }
+
 
                 foreach (string path in GetPaths(sourceDirectory, file))
                 {
