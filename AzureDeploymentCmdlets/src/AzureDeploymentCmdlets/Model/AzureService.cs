@@ -170,6 +170,7 @@ namespace AzureDeploymentCmdlets.Model
             parameters[ScaffoldParams.Port] = Components.GetNextPort();
             parameters[ScaffoldParams.Paths] = Paths;
             parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
 
             string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Resources.NodeScaffolding), type.ToString());
             Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);

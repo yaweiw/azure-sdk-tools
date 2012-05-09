@@ -623,4 +623,7 @@
   <data name="ShouldProcessCaption" xml:space="preserve">
     <value>Confirm</value>
   </data>
+  <data name="NodeProgramFilesFolderName" xml:space="preserve">
+    <value>nodejs</value>
+  </data>
 </root>
