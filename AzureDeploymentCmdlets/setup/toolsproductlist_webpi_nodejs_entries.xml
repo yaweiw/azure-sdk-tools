@@ -254,7 +254,7 @@ not support x86 machines. This is only used by Azure Websites. -->
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1077</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9790232</installerURL>
+          <installerURL>http://go.microsoft.com/?linkid=9808884</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -272,7 +272,7 @@ not support x86 machines. This is only used by Azure Websites. -->
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1858</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
+          <installerURL>http://go.microsoft.com/?linkid=9808885</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
