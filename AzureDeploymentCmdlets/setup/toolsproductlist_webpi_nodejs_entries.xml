@@ -4,8 +4,8 @@
     <productId>AzureNodePowershell</productId>
     <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - May 2012</title>
     <version>0.5.4</version>
-    <published>2012-01-20T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-01-20T12:00:00Z</updated>
     <summary resourceName="Entry_AzureNodePowershell_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
     <longSummary resourceName="Entry_AzureNodePowershell_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
     <link href="http://www.windowsazure.com/en-us/develop/nodejs" />
@@ -61,7 +61,7 @@
         <languageId>en</languageId>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>8508</fileSize>                  
+          <fileSize>7058</fileSize>                  
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=AzureNodePowershell</trackingURL>
           <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>                  
         </installerFile>
@@ -83,8 +83,8 @@
     <longSummary resourceName="Entry_NodeJS_LongSummary">Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript. 
     Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.</longSummary>
     <link href="http://nodejs.org/" />
-    <published>2011-12-15T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-01-20T12:00:00Z</updated>
     <author>
       <name>Joyent, Inc</name>
       <uri>http://www.joyent.com/</uri>
@@ -138,8 +138,8 @@
     <longSummary resourceName="Entry_iisnode_LongSummary">This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
     <id>http://go.microsoft.com/?linkid=9790232</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
-    <published>2011-09-14T16:30:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-01-20T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -214,8 +214,8 @@ not support x86 machines. This is only used by Azure Websites. -->
     <longSummary resourceName="Entry_iisnode_LongSummary">Azure Websites only</longSummary>
     <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
-    <published>2011-09-14T16:30:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-01-20T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -295,8 +295,8 @@ not support x86 machines. This is only used by Azure Websites. -->
     <summary resourceName="Entry_iisnode32_Summary">Host node.js applications side by side with other application types in IIS Express</summary>
     <longSummary resourceName="Entry_iisnode32_LongSummary">This package contains a native IIS module for hosting node.js application in IIS Express. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
     <id>http://go.microsoft.com/fwlink/?LinkID=227938</id>
-    <published>2011-09-14T16:30:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-01-20T12:00:00Z</updated>
     <author>
       <name>Microsoft</name>
       <uri>http://www.microsoft.com/</uri>

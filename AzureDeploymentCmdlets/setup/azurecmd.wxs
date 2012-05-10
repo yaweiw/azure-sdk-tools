@@ -38,6 +38,12 @@
       </DirectorySearch>
     </Property>
 
+    <Property Id="IISNODEX64">
+      <DirectorySearch Id="IISNodeDirX64" Path="[ProgramFiles64Folder]iisnode">
+        <FileSearch Name="iisnode.dll" />
+      </DirectorySearch>
+    </Property>
+
     <Property Id="AZURESDK">
       <RegistrySearch Id="AZURESDK" Root="HKLM" Key="SOFTWARE\Microsoft\Microsoft SDKs\ServiceHosting\v$(var.azureSdkVersion)" Name="FullVersion" Type="raw" />
     </Property>
@@ -51,7 +57,7 @@
     </Condition>
 
     <Condition Message="IIS Node must be installed before Windows Azure PowerShell for Node.js installation.">
-      <![CDATA[Installed or IISNODE]]>
+      <![CDATA[Installed or IISNODE or IISNODEX64]]>
     </Condition>
 
     <Condition Message="Windows Azure SDK $(var.azureSdkVersion) must be installed before Windows Azure PowerShell for Node.js  installation.">
