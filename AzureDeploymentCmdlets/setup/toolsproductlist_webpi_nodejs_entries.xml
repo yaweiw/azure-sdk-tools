@@ -61,7 +61,7 @@
         <languageId>en</languageId>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>8508</fileSize>                  
+          <fileSize>7058</fileSize>                  
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=AzureNodePowershell</trackingURL>
           <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>                  
         </installerFile>
