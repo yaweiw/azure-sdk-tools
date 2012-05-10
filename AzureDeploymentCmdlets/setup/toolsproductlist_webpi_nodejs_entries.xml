@@ -59,11 +59,11 @@
       <installer>
         <id>1</id>
         <languageId>en</languageId>
-        <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/azure-sdk-tools/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>7058</fileSize>                  
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=AzureNodePowershell</trackingURL>
-          <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>                  
+          <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>            
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -171,7 +171,7 @@
         <architectures>
           <x86 />
         </architectures>
-        <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1077</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790232</installerURL>
@@ -189,7 +189,7 @@
         <architectures>
           <x64 />
         </architectures>
-        <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1858</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
@@ -251,7 +251,7 @@ not support x86 machines. This is only used by Azure Websites. -->
         <architectures>
           <x86 />
         </architectures>
-        <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1077</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790232</installerURL>
@@ -269,7 +269,7 @@ not support x86 machines. This is only used by Azure Websites. -->
         <architectures>
           <x64 />
         </architectures>
-        <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1858</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
@@ -322,6 +322,7 @@ not support x86 machines. This is only used by Azure Websites. -->
       <installer>
         <id>1</id>
         <languageId>en</languageId>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1288</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9808803</installerURL>
