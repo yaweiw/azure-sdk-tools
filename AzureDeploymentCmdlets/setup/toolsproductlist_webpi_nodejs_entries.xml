@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <entry>
     <productId>AzureNodePowershell</productId>
-    <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - February 2012</title>
-    <version>0.5.3</version>
+    <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - May 2012</title>
+    <version>0.5.4</version>
     <published>2012-01-20T12:00:00Z</published>
-    <updated>2012-02-10T12:00:00Z</updated>
+    <updated>2012-05-09T12:00:00Z</updated>
     <summary resourceName="Entry_AzureNodePowershell_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
     <longSummary resourceName="Entry_AzureNodePowershell_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
     <link href="http://www.windowsazure.com/en-us/develop/nodejs" />
@@ -25,13 +25,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-            <minimumVersion>1.0.3</minimumVersion>
+            <minimumVersion>1.0.4</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-            <minimumVersion>1.0.3</minimumVersion>
+            <minimumVersion>1.0.4</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -78,13 +78,13 @@
   <entry>
     <productId>NodeJS</productId>
     <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
-    <version>0.6.10</version>
-    <summary resourceName="Entry_NodeJS_Summary">Node.JS is a server-side environment for JavaScript.</summary>
-    <longSummary resourceName="Entry_NodeJS_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript. 
-    Node.JS installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.</longSummary>
+    <version>0.6.17</version>
+    <summary resourceName="Entry_NodeJS_Summary">Node.js is a server-side environment for JavaScript.</summary>
+    <longSummary resourceName="Entry_NodeJS_LongSummary">Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript. 
+    Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.</longSummary>
     <link href="http://nodejs.org/" />
     <published>2011-12-15T12:00:00Z</published>
-    <updated>2012-02-10T12:00:00Z</updated>
+    <updated>2012-05-09T12:00:00Z</updated>
     <author>
       <name>Joyent, Inc</name>
       <uri>http://www.joyent.com/</uri>
@@ -98,13 +98,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.10</minimumVersion>
+            <minimumVersion>0.6.17</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.10</minimumVersion>
+            <minimumVersion>0.6.17</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -115,7 +115,7 @@
         <languageId>en</languageId>
         <eulaURL>http://go.microsoft.com/fwlink/?LinkId=235467</eulaURL>
         <installerFile>
-          <fileSize>2600</fileSize>
+          <fileSize>3012</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9791865</installerURL>
         </installerFile>
         <installCommands>
@@ -128,28 +128,29 @@
     </installers>
   </entry>
   
+  <!-- iisnode/iis which will install x64 binaries on x64 machines
+  and will install x86 binaries on x86 machines -->
   <entry>
     <productId>iisnode</productId>
-    <title resourceName="Entry_iis_node_Title">IIS7.x module for hosting Node.JS applications</title>
-    <version>0.1.15</version>
+    <title resourceName="Entry_iis_node_Title">IISNode for IIS</title>
+    <version>0.1.19</version>
     <summary resourceName="Entry_iisnode_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
-    <longSummary resourceName="Entry_iisnode_LongSummary">Host node.js applications side by side with other application types in IIS 7.x. This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
-    <id>http://go.microsoft.com/fwlink/?LinkID=9790232</id>
+    <longSummary resourceName="Entry_iisnode_LongSummary">This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
+    <id>http://go.microsoft.com/?linkid=9790232</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
-    <published>2011-12-20T12:00:00Z</published>
-    <updated>2012-01-18T12:00:00Z</updated>
+    <published>2011-09-14T16:30:00Z</published>
+    <updated>2012-05-09T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
     </author>
-    <searchExclude/>
     <images>
       <icon>http://www.iis.net/favicon.ico</icon>
     </images>
     <discoveryHint>
       <file>
         <filePath>%programfiles%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.15</minimumVersion>
+        <minimumVersion>0.1.19</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
@@ -161,7 +162,8 @@
           <productId>NodeJS</productId>
         </dependency>
       </and>
-    </dependency>  
+    </dependency>
+    <!-- Installers-->  
     <installers>
       <installer>
         <id>1</id>
@@ -171,7 +173,7 @@
         </architectures>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>1090</fileSize>
+          <fileSize>1077</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790232</installerURL>
         </installerFile>
         <installCommands>
@@ -189,7 +191,7 @@
         </architectures>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>1093</fileSize>
+          <fileSize>1858</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
         </installerFile>
         <installCommands>
@@ -202,16 +204,18 @@
     </installers>
   </entry>
   
-  <entry>
-    <productId>iisnode32</productId>
-    <title resourceName="Entry_iis_node_Title">IIS7.x module for hosting Node.JS applications</title>
-    <version>0.1.15</version>
-    <summary resourceName="Entry_iisnode_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
-    <longSummary resourceName="Entry_iisnode_LongSummary">Host node.js applications side by side with other application types in IIS 7.x. This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
-    <id>http://go.microsoft.com/fwlink/?LinkID=9790232</id>
+  <!-- iisnode/iis which will install ONLY x86 binaries on x64 machines and does 
+not support x86 machines. This is only used by Azure Websites. -->
+<entry>
+    <productId>iisnodeWow</productId>
+    <title resourceName="Entry_iis_node_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
+    <version>0.1.19</version>
+    <summary resourceName="Entry_iisnode_Summary">Azure Websites only</summary>
+    <longSummary resourceName="Entry_iisnode_LongSummary">Azure Websites only</longSummary>
+    <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
-    <published>2011-12-20T12:00:00Z</published>
-    <updated>2012-01-18T12:00:00Z</updated>
+    <published>2011-09-14T16:30:00Z</published>
+    <updated>2012-05-09T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -223,7 +227,7 @@
     <discoveryHint>
       <file>
         <filePath>%programfiles(x86)%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.15</minimumVersion>
+        <minimumVersion>0.1.19</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
@@ -239,6 +243,7 @@
         </dependency>
       </and>
     </dependency>
+    <!-- Installers-->  
     <installers>
       <installer>
         <id>1</id>
@@ -248,7 +253,7 @@
         </architectures>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>1090</fileSize>
+          <fileSize>1077</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790232</installerURL>
         </installerFile>
         <installCommands>
@@ -266,7 +271,7 @@
         </architectures>
         <eulaURL>http://www.apache.org/licenses/LICENSE-2.0</eulaURL>
         <installerFile>
-          <fileSize>1093</fileSize>
+          <fileSize>1858</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
         </installerFile>
         <installCommands>
@@ -280,40 +285,139 @@
     </installers>
   </entry>
 
+
+
+<!-- iisnode/iis express which will install only x86 binaries on x86 machines and does not support x64 machines. -->
   <entry>
-    <productId>VC10Redist32</productId>
-    <title resourceName="Entry_VC10Redist_32_Title">Microsoft Visual C++ 2010 (x86) Redistributable Package</title>
+    <productId>iisnode32</productId>
+    <title resourceName="Entry_iisnode32_Title">IISNode for IIS Express</title>
+    <version>0.1.19</version>
+    <summary resourceName="Entry_iisnode32_Summary">Host node.js applications side by side with other application types in IIS Express</summary>
+    <longSummary resourceName="Entry_iisnode32_LongSummary">This package contains a native IIS module for hosting node.js application in IIS Express. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
+    <id>http://go.microsoft.com/fwlink/?LinkID=227938</id>
+    <published>2011-09-14T16:30:00Z</published>
+    <updated>2012-05-09T12:00:00Z</updated>
+    <author>
+      <name>Microsoft</name>
+      <uri>http://www.microsoft.com/</uri>
+    </author>
+     <images>
+      <icon>http://www.iis.net/favicon.ico</icon>
+    </images>
+    <discoveryHint>
+      <msiProductCode>{712520D1-8854-484B-85CA-768A96B9F706}</msiProductCode>
+    </discoveryHint>
+    <dependency>
+     <and>
+      <dependency>
+         <productId>VC10Redist32</productId>
+      </dependency>
+      <dependency>
+         <productId>NodeJS</productId>
+      </dependency>
+     </and>
+    </dependency> 
+    <!-- Installers-->
+    <installers>
+      <installer>
+        <id>1</id>
+        <languageId>en</languageId>
+        <installerFile>
+          <fileSize>1288</fileSize>
+          <installerURL>http://go.microsoft.com/?linkid=9808803</installerURL>
+        </installerFile>
+        <installCommands>
+          <msiInstall>
+            <msi>%InstallerFile%</msi>
+          </msiInstall>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+    </installers>
+  </entry>
+
+  <!-- Microsoft Visual C++ 2010 Redistributable Package -->
+  <entry>
+    <productId>VC10Redist</productId>
+    <title resourceName="Entry_VC10Redist_Title">Microsoft Visual C++ 2010 SP1 Redistributable Package</title>
     <id>http://www.microsoft.com/web/webpi/WindowsImagingComponent</id>
-    <summary resourceName="Entry_Hosting_VC10Redist_32_Summary">Installs runtime components of Visual C++ Libraries required on a computer that does not have Visual C++ 2010 installed.</summary>
-    <published>2011-10-11</published>
-    <longSummary resourceName="Entry_Hosting_VC10Redist_32_LongSummary">The Microsoft Visual C++ 2010 Redistributable Package (x86) installs runtime components of Visual C++ Libraries required to run applications developed with Visual C++ on a computer that does not have Visual C++ 2010 installed.</longSummary>
-    <version>10.0.30319</version>
-    <link href="http://www.microsoft.com/download/en/details.aspx?id=14632" />
+    <summary resourceName="Entry_VC10Redist_Summary">Installs runtime components of Visual C++ Libraries required on a computer that does not have Visual C++ 2010 installed.</summary>
+    <published>2011-03-03</published>
+    <longSummary resourceName="Entry_VC10Redist_LongSummary">The Microsoft Visual C++ 2010 Redistributable Package (x86) installs runtime components of Visual C++ Libraries required to run applications developed with Visual C++ on a computer that does not have Visual C++ 2008 installed.</longSummary>
+    <version>10.0.40219</version>
+    <link href="http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&amp;displaylang=en" />
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com</uri>
     </author>
-    <searchExclude/>
+    <searchExclude />
     <discoveryHint>
       <or>
-        <discoveryHint>
-          <registry>
-            <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{196BB40D-1578-3D01-B289-BEFC77A11A1E}</keyPath>
-          </registry>
-        </discoveryHint>
-        <discoveryHint>
-          <registry>
-            <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{196BB40D-1578-3D01-B289-BEFC77A11A1E}</keyPath>
-          </registry>
-        </discoveryHint>
-      </or>
-    </discoveryHint>
+         <discoveryHint>
+            <registry>
+               <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x64</keyPath>
+              <valueName>Installed</valueName>
+               <valueValue>1</valueValue>
+            </registry>
+         </discoveryHint>
+         <discoveryHint>
+            <registry>
+               <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\VisualStudio\10.0\VC\VCRedist\x86</keyPath>
+               <valueName>Installed</valueName>
+               <valueValue>1</valueValue>
+            </registry>
+         </discoveryHint>
+         <discoveryHint>
+            <registry>
+               <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\VC\VCRedist\x86</keyPath>
+               <valueName>Installed</valueName>
+               <valueValue>1</valueValue>
+            </registry>
+         </discoveryHint>
+       </or>
+    </discoveryHint> 
     <installers>
       <installer>
         <id>1</id>
         <languageId>en</languageId>
         <architectures>
           <x86 />
+        </architectures>
+        <osList>
+          <os>
+            <minimumVersion>
+              <osMajorVersion>5</osMajorVersion>
+            </minimumVersion>
+            <maximumVersion>
+              <osMajorVersion>6</osMajorVersion>
+            </maximumVersion>
+          </os>
+        </osList>
+        <installerFile>
+          <fileSize>1779</fileSize>
+          <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=vc10redist</trackingURL>
+          <installerURL>http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe</installerURL>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%InstallerFile%</exe>
+            <commandLineArguments>/q /norestart</commandLineArguments>
+            <returnCodeMappings>
+              <mapping>
+                <returnCode>3010</returnCode>
+                <successRebootRequired>
+                  <detailedInformation resourceName="Mapping_netframework20sp2_3010_DetailedInformation">The installation was successful and the computer needs to be restarted.</detailedInformation>
+                </successRebootRequired>
+              </mapping>
+            </returnCodeMappings>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&amp;displaylang=en</helpLink>
+      </installer>
+      <installer>
+        <id>2</id>
+        <languageId>en</languageId>
+        <architectures>
           <x64 />
         </architectures>
         <osList>
@@ -327,9 +431,9 @@
           </os>
         </osList>
         <installerFile>
-          <fileSize>4995</fileSize>
-          <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=vc10redist_32</trackingURL>
-          <installerURL>http://download.microsoft.com/download/5/B/C/5BC5DBB3-652D-4DCE-B14A-475AB85EEF6E/vcredist_x86.exe</installerURL>
+          <fileSize>1779</fileSize>
+          <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=vc10redist</trackingURL>
+          <installerURL>http://download.microsoft.com/download/A/8/0/A80747C3-41BD-45DF-B505-E9710D2744E0/vcredist_x64.exe</installerURL>
         </installerFile>
         <installCommands>
           <cmdline>
@@ -339,13 +443,77 @@
               <mapping>
                 <returnCode>3010</returnCode>
                 <successRebootRequired>
-                  <detailedInformation resourceName="Mapping_vc2010_32_3010_DetailedInformation">The installation was successful and the computer needs to be restarted.</detailedInformation>
+                  <detailedInformation resourceName="Mapping_netframework20sp2_3010_DetailedInformation">The installation was successful and the computer needs to be restarted.</detailedInformation>
                 </successRebootRequired>
               </mapping>
             </returnCodeMappings>
           </cmdline>
         </installCommands>
-        <helpLink>http://www.microsoft.com/download/en/details.aspx?id=14632</helpLink>
+        <helpLink>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&amp;displaylang=en</helpLink>
+      </installer>
+    </installers>
+  </entry>
+ 
+  <!-- Microsoft Visual C++ 2010 Redistributable Package -->
+  <entry>
+    <productId>VC10Redist32</productId>
+    <title resourceName="Entry_VC10Redist32_Title">Microsoft Visual C++ 2010 SP1 Redistributable Package for x86 only</title>
+    <id>http://www.microsoft.com/web/webpi/WindowsImagingComponent</id>
+    <summary resourceName="Entry_VC10Redist_Summary">Installs runtime components of Visual C++ Libraries required on a computer that does not have Visual C++ 2010 installed.</summary>
+    <published>2011-03-03</published>
+    <longSummary resourceName="Entry_VC10Redist_LongSummary">The Microsoft Visual C++ 2010 Redistributable Package (x86) installs runtime components of Visual C++ Libraries required to run applications developed with Visual C++ on a computer that does not have Visual C++ 2008 installed.</longSummary>
+    <version>10.0.40219</version>
+    <link href="http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&amp;displaylang=en" />
+    <author>
+      <name>Microsoft Corporation</name>
+      <uri>http://www.microsoft.com</uri>
+    </author>
+    <searchExclude />      
+     <discoveryHint>
+        <registry>
+           <keyPath>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\VC\VCRedist\x86</keyPath>
+           <valueName>Installed</valueName>
+           <valueValue>1</valueValue>
+        </registry>
+    </discoveryHint>
+    <installers>
+      <installer>
+        <id>1</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x86 />
+                  <x64 />
+        </architectures>
+        <osList>
+          <os>
+            <minimumVersion>
+              <osMajorVersion>5</osMajorVersion>
+            </minimumVersion>
+            <maximumVersion>
+              <osMajorVersion>6</osMajorVersion>
+            </maximumVersion>
+          </os>
+        </osList>
+        <installerFile>
+          <fileSize>1779</fileSize>
+          <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=vc10redist</trackingURL>
+          <installerURL>http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe</installerURL>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%InstallerFile%</exe>
+            <commandLineArguments>/q /norestart</commandLineArguments>
+            <returnCodeMappings>
+              <mapping>
+                <returnCode>3010</returnCode>
+                <successRebootRequired>
+                  <detailedInformation resourceName="Mapping_netframework20sp2_3010_DetailedInformation">The installation was successful and the computer needs to be restarted.</detailedInformation>
+                </successRebootRequired>
+              </mapping>
+            </returnCodeMappings>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://www.microsoft.com/downloads/en/details.aspx?FamilyID=9b2da534-3e03-4391-8a4d-074b9f2bc1bf&amp;displaylang=en</helpLink>
       </installer>
     </installers>
   </entry>
