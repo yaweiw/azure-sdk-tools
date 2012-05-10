@@ -4,7 +4,7 @@
   <?define productName="Windows Azure PowerShell for Node.js - November 2011" ?>
   <?define sourcedir="$(var.SolutionDir)..\src\AzureDeploymentCmdlets\bin\$(var.Configuration)\" ?>
 
-  <?define version="0.5.3" ?> 
+  <?define version="0.5.4" ?> 
   <?define azureSdkVersion="1.6" ?>
   <?define azureSdk17Version="1.7" ?>
   <?define versionedFolder="Nov2011" ?>
