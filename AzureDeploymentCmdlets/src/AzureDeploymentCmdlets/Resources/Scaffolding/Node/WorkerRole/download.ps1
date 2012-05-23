@@ -1,5 +1,7 @@
-$runtimeUrl = $args[0]
-$overrideUrl = $args[1]
+$manifestUrl = $env:MANIFESTURL
+$datacenter = $args[0]
+$version = $args[1]
+$runtimeUrl = $args[2]
 $current = [string] (Get-Location -PSProvider FileSystem)
 $client = New-Object System.Net.WebClient
 
@@ -26,23 +28,28 @@ function downloadWithRetry {
     $client.downloadfile($url, $dest)
 }
 
-function download($url, $dest) {
+function download($url) {
+    $dest = $current + "\runtime.exe"
 	Write-Host "Downloading $url \r\n"
 	downloadWithRetry $url $dest 1
 }
 
-function verify($file) {
-  return true
+function getBlobUrl {
+    param([string]$datacenter, [string]$version)
+    Write-Host "Retrieving runtime manifest from $manifestUrl\r\n"
+    $dest = $current + "\runtimemanifest.xml" 
+    $client.downloadFile($manifestUrl, $dest)
+    $manifest = New-Object System.Xml.XmlDocument
+    $manifest.load($dest)
+    $datacenterElement = $manifest.SelectSingleNode("//blobcontainer[@datacenter='" + $datacenter + "']")
+    return $datacenterElement.{uri} + "node/" + $version + ".exe"
 }
 
-if ($overrideUrl) {
-    Write-Host "Using override url: $overrideUrl \r\n"
-	$url = $overrideUrl
-}
-else {
+if ($runtimeUrl) {
+    Write-Host "Using override url: $runtimeUrl \r\n"
 	$url = $runtimeUrl
 }
-
-$dest = $current + "\runtime.exe"
-download $url $dest
-verify $file
+else {
+	$url = getBlobUrl $datacenter $version
+}
+download $url

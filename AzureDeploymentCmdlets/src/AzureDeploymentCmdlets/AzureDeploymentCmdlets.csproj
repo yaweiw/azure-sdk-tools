@@ -145,9 +145,6 @@
     <Compile Include="Cmdlet\GetAzurePublishSettings.cs" />
     <Compile Include="Cmdlet\GetAzureStorageAccounts.cs" />
     <Compile Include="Model\AzureServiceManagementException.cs" />
-    <Compile Include="Model\CloudRuntime.cs" />
-    <Compile Include="Model\CloudRuntimeCollection.cs" />
-    <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
@@ -249,7 +246,6 @@
   <ItemGroup>
     <Content Include="Resources\Scaffolding\Node\WebRole\WebRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +257,6 @@
     </Content>
     <Content Include="Resources\Scaffolding\Node\WorkerRole\WorkerRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
