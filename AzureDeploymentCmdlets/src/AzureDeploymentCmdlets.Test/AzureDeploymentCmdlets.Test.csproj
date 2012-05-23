@@ -164,7 +164,6 @@
     <Compile Include="Utilities\AzureAssert.cs" />
     <Compile Include="Utilities\FakeWriter.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
-    <Compile Include="Utilities\RuntimeHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
     <Compile Include="Utilities\Testing.cs" />
@@ -186,7 +185,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -203,9 +201,6 @@
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>AzureDeploymentCmdlets</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\testruntimemanifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -33,5 +33,6 @@ namespace AzureDeploymentCmdlets.Scaffolding
         public const string StorageAccountName = "StorageAccountName";
         public const string ServiceName = "ServiceName";
         public const string NodeModules = "NodeModules";
+        public const string NodeJsProgramFilesX86 = "NodeJsProgramFilesX86";
     }
 }
