@@ -81,8 +81,8 @@ namespace AzureDeploymentCmdlets.Test.Utilities
         /// <returns>The resolved runtime url for the runtime package to be installed on the role</returns>
         public static string GetRoleRuntimeUrl(ServiceDefinition definition, string roleName)
         {
-            Variable setting = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeUrlKey));
-            return (null == setting ? null : setting.value);
+            Variable v = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeUrlKey));
+            return (null == v ? null : v.value);
         }
 
         /// <summary>
@@ -93,8 +93,8 @@ namespace AzureDeploymentCmdlets.Test.Utilities
         /// <returns>The user-specified url of a privately hosted runtime to be insytalled on the role (if any) </returns>
         public static string GetRoleRuntimeOverrideUrl(ServiceDefinition definition, string roleName)
         {
-            Variable setting = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeOverrideKey));
-            return (null == setting ? null : setting.value);
+            Variable v = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeOverrideKey));
+            return (null == v ? null : v.value);
         }
 
         /// <summary>
@@ -165,16 +165,16 @@ namespace AzureDeploymentCmdlets.Test.Utilities
         /// <returns>The runtime environment with the given setting applied</returns>
         private static Variable[] SetRuntimeEnvironment(IEnumerable<Variable> environment, string keyName, string keyValue)
         {
-            Variable setting = environment.FirstOrDefault<Variable>( variable => string.Equals(variable.name, keyName, StringComparison.OrdinalIgnoreCase));
-            if (setting != null)
+            Variable v = environment.FirstOrDefault<Variable>( variable => string.Equals(variable.name, keyName, StringComparison.OrdinalIgnoreCase));
+            if (v != null)
             {
-                setting.value = keyValue;
+                v.value = keyValue;
                 return environment.ToArray<Variable>();
             }
             else
             {
-                setting = new Variable { name = keyName, value = keyValue };
-                return environment.Concat<Variable>(new List<Variable>{setting}).ToArray<Variable>();
+                v = new Variable { name = keyName, value = keyValue };
+                return environment.Concat<Variable>(new List<Variable>{v}).ToArray<Variable>();
             }
         }
 
