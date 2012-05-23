@@ -43,8 +43,7 @@ namespace AzureDeploymentCmdlets.Model
             }
 
             this.Runtime = GetRuntimeType(versionNode.Attributes[CloudRuntimePackage.RuntimeKey].Value);
-            XmlAttribute defaultAttribute = versionNode.Attributes[CloudRuntimePackage.DefaultKey];
-            this.IsDefaultRuntimePackage = defaultAttribute != null && bool.Parse(defaultAttribute.Value);
+            this.IsDefaultRuntimePackage = bool.Parse(versionNode.Attributes[CloudRuntimePackage.DefaultKey].Value);
         }
 
         public string PrimaryVersionKey

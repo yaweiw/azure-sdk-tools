@@ -19,35 +19,12 @@ namespace AzureDeploymentCmdlets.Test.Utilities
     using System.Linq;
     using System.Text;
     using AzureDeploymentCmdlets;
-    using AzureDeploymentCmdlets.Model;
-    using AzureDeploymentCmdlets.Properties;
     using AzureDeploymentCmdlets.ServiceDefinitionSchema;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
+    using AzureDeploymentCmdlets.Properties;
 
     public class RuntimeHelper
     {
-        /// <summary>
-        /// Write out the test manifest file to a directory under the root
-        /// </summary>
-        /// <param name="helper">The file system helper being used for the test</param>
-        /// <returns>The path to the test manifest file</returns>
-        public static string GetTestManifest(FileSystemHelper helper)
-        {
-            string filePath = helper.CreateEmptyFile("testruntimemanifest.xml");
-            File.WriteAllText(filePath, AzureDeploymentCmdlets.Test.Properties.Resources.testruntimemanifest);
-            return filePath;
-        }
 
-        /// <summary>
-        /// Set the runtime properties for a role
-        /// </summary>
-        /// <param name="definition">The service containing the role</param>
-        /// <param name="roleName">The name of the role to change</param>
-        /// <param name="primaryVersion">The value of the primary version key for the runtime to be installed</param>
-        /// <param name="secondaryversion">The value of the secondary version key for the runtime to be installed</param>
-        /// <param name="overrideUrl">The value of the override url, if the user wants to opt out of the system</param>
-        /// <returns>true if the settings were successfully changed</returns>
         public static bool SetRoleRuntime(ServiceDefinition definition, string roleName, string primaryVersion = null, string secondaryversion = null, string overrideUrl = null)
         {
             bool changed = false;
@@ -73,69 +50,18 @@ namespace AzureDeploymentCmdlets.Test.Utilities
             return changed && ApplyRuntimeChanges(definition, roleName, environment);   
         }
 
-        /// <summary>
-        /// Get the resolved runtime url for the runtime that will be installed on the given role
-        /// </summary>
-        /// <param name="definition">The service definition containing the role</param>
-        /// <param name="roleName">The name of the role</param>
-        /// <returns>The resolved runtime url for the runtime package to be installed on the role</returns>
         public static string GetRoleRuntimeUrl(ServiceDefinition definition, string roleName)
         {
             Variable v = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeUrlKey));
             return (null == v ? null : v.value);
         }
 
-        /// <summary>
-        /// Get the override url for the specified role
-        /// </summary>
-        /// <param name="definition">The service definition containing the role</param>
-        /// <param name="roleName">The name of the role</param>
-        /// <returns>The user-specified url of a privately hosted runtime to be insytalled on the role (if any) </returns>
-        public static string GetRoleRuntimeOverrideUrl(ServiceDefinition definition, string roleName)
+        public static string GetRoleRuntim.eOverrideUrl(ServiceDefinition definition, string roleName)
         {
             Variable v = GetRoleRuntimeEnvironment(definition, roleName).FirstOrDefault<Variable>(variable => string.Equals(variable.name, Resources.RuntimeOverrideKey));
             return (null == v ? null : v.value);
         }
 
-        /// <summary>
-        /// Validate that the actual role runtime values for the given role match the given expected values
-        /// </summary>
-        /// <param name="definition">The service definition containing the role to validate</param>
-        /// <param name="roleName">The name of the role to validate</param>
-        /// <param name="runtimeUrl">The resolved runtime url for the role</param>
-        /// <param name="overrideUrl">The override url for the role runtime</param>
-        public static void ValidateRoleRuntime(ServiceDefinition definition, string roleName, string runtimeUrl, string overrideUrl)
-        {
-            string actualRuntimeUrl = GetRoleRuntimeUrl(definition, roleName);
-            string actualOverrideUrl = GetRoleRuntimeOverrideUrl(definition, roleName);
-            Assert.IsTrue(VerifySetting(runtimeUrl, actualRuntimeUrl), string.Format("Actual runtime URL '{0}' does not match expected runtime URL '{1}'", actualRuntimeUrl, runtimeUrl));
-            Assert.IsTrue(VerifySetting(overrideUrl, actualOverrideUrl), string.Format("Actual override URL '{0}' does not match expected override URL '{1}'", actualOverrideUrl, overrideUrl));
-        }
-
-        /// <summary>
-        /// Verify that a given role variable setting matches expectations, null, blank, empty and whitespace only values 
-        /// are counted as equivalent
-        /// </summary>
-        /// <param name="expected">The expected value</param>
-        /// <param name="actual">The actual value (from the definition)</param>
-        /// <returns>True if the expected and actaul values match</returns>
-        private static bool VerifySetting(string expected, string actual)
-        {
-            if (string.IsNullOrWhiteSpace(expected))
-            {
-                return string.IsNullOrWhiteSpace(actual);
-            }
-
-            return string.Equals(expected, actual, StringComparison.OrdinalIgnoreCase);
-        }
-
-        /// <summary>
-        /// Apply the specified Variable values to the specified role's startup task environment
-        /// </summary>
-        /// <param name="definition">The service definition containing the role</param>
-        /// <param name="roleName">The name of the role to change</param>
-        /// <param name="environment">The Variables containing the changes</param>
-        /// <returns>true if the variables environment is successfully changed</returns>
         private static bool ApplyRuntimeChanges(ServiceDefinition definition, string roleName, Variable[] environment)
         {
             WebRole webRole;
@@ -155,14 +81,6 @@ namespace AzureDeploymentCmdlets.Test.Utilities
             return false;
         }
 
-        /// <summary>
-        /// Adds the specified runtime environment setting to the specified runtime environment - either changes the setting in 
-        /// the environment if the setting already exists, or adds a new setting if it does not
-        /// </summary>
-        /// <param name="environment">The source runtime environment</param>
-        /// <param name="keyName">The variable key</param>
-        /// <param name="keyValue">The variable value</param>
-        /// <returns>The runtime environment with the given setting applied</returns>
         private static Variable[] SetRuntimeEnvironment(IEnumerable<Variable> environment, string keyName, string keyValue)
         {
             Variable v = environment.FirstOrDefault<Variable>( variable => string.Equals(variable.name, keyName, StringComparison.OrdinalIgnoreCase));
@@ -178,12 +96,6 @@ namespace AzureDeploymentCmdlets.Test.Utilities
             }
         }
 
-        /// <summary>
-        /// Get the startup task environment settings for the given role
-        /// </summary>
-        /// <param name="definition">The definition containign the role</param>
-        /// <param name="roleName">The name of the role</param>
-        /// <returns>The environment settings for the role, or null if the role is not found</returns>
         private static Variable[] GetRoleRuntimeEnvironment(ServiceDefinition definition, string roleName)
         {
             WebRole webRole;
@@ -201,39 +113,19 @@ namespace AzureDeploymentCmdlets.Test.Utilities
             return null;
         }
 
-        /// <summary>
-        /// Try to get the specified web role from the given definiiton
-        /// </summary>
-        /// <param name="definition">The service definiiton</param>
-        /// <param name="roleName">The name of the role</param>
-        /// <param name="role">output variable where the webRole is returned</param>
-        /// <returns>true if the web role is found in the given definition</returns>
         private static bool TryGetWebRole(ServiceDefinition definition, string roleName, out WebRole role)
         {
             role = definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
             return role != null;
         }
 
-        /// <summary>
-        /// Try to get the specified worker role from the given definiiton
-        /// </summary>
-        /// <param name="definition">The service definiiton</param>
-        /// <param name="roleName">The name of the role</param>
-        /// <param name="role">output variable where the worker role is returned</param>
-        /// <returns>true if the web role is found in the given definition</returns>
         private static bool TryGetWorkerRole(ServiceDefinition definition, string roleName, out WorkerRole role)
         {
             role = definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
             return role != null;
         }
 
-        /// <summary>
-        /// Return the value for the specified setting, if it exists in the given runtime environment
-        /// </summary>
-        /// <param name="environment">The runtime environment to search</param>
-        /// <param name="key">The name of the setting</param>
-        /// <param name="value">The value of the setting, if it is found, null otherwise</param>
-        /// <returns>true if the setting is found in the given environment</returns>
+        
         private bool TryGetEnvironmentValue(ServiceDefinitionSchema.Variable[] environment, string key, out string value)
         {
             value = null;
@@ -252,5 +144,42 @@ namespace AzureDeploymentCmdlets.Test.Utilities
 
             return found;
         }
+
+        private bool VerifyWebRoleRuntime(string rootPath, string roleName, string expectedUrl)
+        {
+            bool result = false;
+            AzureService service = new AzureService(rootPath, null);
+            ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
+            ServiceDefinitionSchema.WebRole role;
+            if (TryGetWebRole(definition, roleName, out role))
+            {
+                string actualUrl;
+                if (TryGetEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey, out actualUrl))
+                {
+                    result = string.Equals(expectedUrl, actualUrl, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            return result;
+        }
+
+        private bool VerifyWorkerRoleRuntime(string rootPath, string roleName, string expectedUrl)
+        {
+            bool result = false;
+            AzureService service = new AzureService(rootPath, null);
+            ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
+            ServiceDefinitionSchema.WorkerRole role;
+            if (TryGetWorkerRole(definition, roleName, out role))
+            {
+                string actualUrl;
+                if (TryGetEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey, out actualUrl))
+                {
+                    result = string.Equals(expectedUrl, actualUrl, StringComparison.OrdinalIgnoreCase);
+                }
+            }
+
+            return result;
+        }
+
     }
 }

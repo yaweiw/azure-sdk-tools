@@ -25,7 +25,6 @@ using AzureDeploymentCmdlets.WAPPSCmdlet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using AzureDeploymentCmdlets.Properties;
-using AzureDeploymentCmdlets.Test.Utilities;
 
 namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
 {
@@ -180,47 +179,18 @@ namespace AzureDeploymentCmdlets.Test.Tests.Cmdlet
                 string servicePath = files.CreateDirectory(serviceName);
                 // Add web and worker roles
                 AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
-                string defaultWebRoleName = "WebRoleDefault";
-                string defaultWebRolePath = newWebRole.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
+                string webRoleName = "NODE_WEB_ROLE";
+                string webRolePath = newWebRole.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
                 AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
-                string defaultWorkerRoleName = "WorkerRoleDefault";
-                string defaultWorkerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
-
-                AddAzureNodeWebRoleCommand matchWebRole = new AddAzureNodeWebRoleCommand();
-                string matchWebRoleName = "WebRoleExactMatch";
-                string matchWebRolePath = matchWebRole.AddAzureNodeWebRoleProcess(matchWebRoleName, 2, servicePath);
-                
-                AddAzureNodeWorkerRoleCommand matchWorkerRole = new AddAzureNodeWorkerRoleCommand();
-                string matchWorkerRoleName = "WorkerRoleExactMatch";
-                string matchWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(matchWorkerRoleName, 2, servicePath);
-
-                AddAzureNodeWebRoleCommand overrideWebRole = new AddAzureNodeWebRoleCommand();
-                string overrideWebRoleName = "WebRoleOverride";
-                string overrideWebRolePath = overrideWebRole.AddAzureNodeWebRoleProcess(overrideWebRoleName, 2, servicePath);
-
-                AddAzureNodeWorkerRoleCommand overrideWorkerRole = new AddAzureNodeWorkerRoleCommand();
-                string overrideWorkerRoleName = "WorkerRoleOverride";
-                string overrideWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(overrideWorkerRoleName, 2, servicePath);
-                
-                AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
-                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, "FOO", "BAR");
-                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, "FOO");
-                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, overrideUrl: "http://OVERRIDE");
-                RuntimeHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, overrideUrl: "http://OVERRIDE");
-                testService.Components.Save(testService.Paths);
+                string workerRoleName = "NODE_WORKER_ROLE";
+                string workerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
 
                 // Get the publishing process started by creating the package
                 PublishAzureServiceCommand publishService = new PublishAzureServiceCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath, RuntimeHelper.GetTestManifest(files));
+                publishService.InitializeSettingsAndCreatePackage(servicePath, @"c:\aztest\runtimemanifest.xml");
 
-                AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
-
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe", null);
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.bar.exe", null);
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.bar.exe", null);
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
-                RuntimeHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
+                VerifyWebRoleRuntime(files.RootPath, webRoleName, "");
+                VerifyWorkerRoleRuntime(files.RootPath, workerRoleName, "");
             }
         }
 
