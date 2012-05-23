@@ -5,15 +5,11 @@
       <InputEndpoint name="HttpIn" protocol="tcp" port="$Port$" />
     </Endpoints>
     <Startup>
-      <Task executionContext="elevated" commandLine="setup_worker.cmd > log.txt">
+      <Task executionContext="elevated" commandLine="setup_worker.cmd">
         <Environment>
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
           </Variable>
-          <Variable name="VERSION" value="0.5.3"/>
-          <Variable name="DATACENTER" value=""/>
-          <Variable name="RUNTIMEURL" value=""/>
-          <Variable name="MANIFESTURL" value="http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml"/>
         </Environment>
       </Task>
     </Startup>
@@ -27,7 +23,7 @@
         </Variable>
       </Environment>
       <EntryPoint>
-        <ProgramEntryPoint commandLine="node.cmd .\server.js" setReadyOnProcessStart="true"/>
+        <ProgramEntryPoint commandLine="node.exe .\server.js" setReadyOnProcessStart="true"/>
       </EntryPoint>
     </Runtime>
   </WorkerRole>
