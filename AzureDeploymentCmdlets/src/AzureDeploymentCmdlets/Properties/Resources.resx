@@ -629,4 +629,7 @@
   <data name="AzureEmulatorRegistryKey" xml:space="preserve">
     <value>SOFTWARE\Microsoft\Windows Azure Emulator</value>
   </data>
+  <data name="NodeProgramFilesFolderName" xml:space="preserve">
+    <value>nodejs</value>
+  </data>
 </root>

@@ -73,8 +73,8 @@
                             <File Id="filD34B8286D04C8745FE9931A026EEF205" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dir03414EA0481755308ED902FBD2E19AD8" Name="bin">
-                            <Component Id="cmp4F75F6F4D011A5894B11854CE968FF98" Guid="12ED7368-49E9-497D-9050-B1E854FAC067">
-                                <File Id="fil0B2973C0A65623A845EC31FAD2BF58B5" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WebRole\bin\download.ps1" />
+                            <Component Id="cmp66175FA9ED0F343CBC06DAE048CBD23D" Guid="83453DFE-589A-4D80-ACA3-A88ECF5DF7FA">
+                                <File Id="fil8B55ECB079DA9FE73DC009D7CB441F47" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WebRole\bin\iisnode.msi" />
                             </Component>
                             <Component Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" Guid="DB4BBA25-A89A-4073-B7BD-1BDE077777C5">
                                 <File Id="fil27330BED0B156663E0E165164F5A32CD" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WebRole\bin\setup_web.cmd" />
@@ -82,9 +82,6 @@
                         </Directory>
                     </Directory>
                     <Directory Id="dirDE832161068F0182CB5E8A2889E3F7E4" Name="WorkerRole">
-                      <Component Id="cmp66175FA9ED0F343CBC06DAE048CBD23D" Guid="83453DFE-589A-4D80-ACA3-A88ECF5DF7FA">
-                        <File Id="fil8B55ECB079DA9FE73DC009D7CB441F47" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WorkerRole\download.ps1" />
-                      </Component>
                       <Component Id="cmpBE4AF6311FEEAF8A4184596C8101F109" Guid="4C2B129F-F16E-4B59-B30A-6BCEB4B443FE">
                             <File Id="fil08231C727BA1B0FC4164CB2F154698F0" KeyPath="yes" Source="$(var.sourcedir)\Scaffolding\Node\WorkerRole\node.cmd" />
                         </Component>
@@ -131,7 +128,6 @@
             <ComponentRef Id="cmp1A9444AE0B9C2AB8A2EE24FB6D6C8596" />
             <ComponentRef Id="cmp7476F311530EBA4C97AA57E5C1534D48" />
             <ComponentRef Id="cmp66175FA9ED0F343CBC06DAE048CBD23D" />
-            <ComponentRef Id="cmp4F75F6F4D011A5894B11854CE968FF98" />
             <ComponentRef Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" />
             <ComponentRef Id="cmpBE4AF6311FEEAF8A4184596C8101F109" />
             <ComponentRef Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" />

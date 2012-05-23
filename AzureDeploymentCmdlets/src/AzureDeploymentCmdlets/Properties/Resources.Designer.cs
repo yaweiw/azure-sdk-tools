@@ -801,6 +801,15 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to nodejs.
+        /// </summary>
+        internal static string NodeProgramFilesFolderName {
+            get {
+                return ResourceManager.GetString("NodeProgramFilesFolderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffolding\Node.
         /// </summary>
         internal static string NodeScaffolding {
