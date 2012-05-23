@@ -101,6 +101,6 @@ namespace AzureDeploymentCmdlets.Model
     {
         Node,
         PHP,
-        Null
+        Override
     }
 }

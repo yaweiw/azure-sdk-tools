@@ -18,10 +18,17 @@ namespace AzureDeploymentCmdlets.Model
     using System.IO;
     using System.Net;
     using System.Xml;
-    using AzureDeploymentCmdlets.Properties;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {
+        public const string ManifestUri = "http://localhost/runtimemanifest.xml"; //"http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml";
+        public const string DatacenterBlobQuery = "//blobcontainer[@datacenter='{0}']";
+        public const string RuntimeQuery = "/runtimemanifest/runtimes/runtime";
+        public const string ManifestBlobUriKey = "uri";
+
+        public const string InvalidRuntimeError = "{0} is not a recognized runtime type";
+        public const string InvalidManifestError = "Could not download a valid runtime manifest, Please check your internet connection and try again";
+
         Dictionary<Runtime, List<CloudRuntimePackage>> packages = new Dictionary<Runtime, List<CloudRuntimePackage>>();
         Dictionary<Runtime, CloudRuntimePackage> defaults = new Dictionary<Runtime, CloudRuntimePackage>();
         private FileStream stream;
@@ -101,15 +108,15 @@ namespace AzureDeploymentCmdlets.Model
             Debug.Assert(manifest != null);
             bool found = false;
             baseUri = null;
-            string query = string.Format(Resources.DatacenterBlobQuery, ArgumentConstants.Locations[location].ToUpperInvariant());
+            string query = string.Format(DatacenterBlobQuery, ArgumentConstants.Locations[location].ToUpperInvariant());
             XmlNode node = manifest.SelectSingleNode(query);
             if (null != node)
             {
                 found = true;
-                XmlAttribute blobUriAttribute = node.Attributes[Resources.ManifestBlobUriKey];
+                XmlAttribute blobUriAttribute = node.Attributes[ManifestBlobUriKey];
                 if (null == blobUriAttribute || null == blobUriAttribute.Value)
                 {
-                    throw new ArgumentException(Resources.InvalidManifestError);
+                    throw new ArgumentException(InvalidManifestError);
                 }
 
                 baseUri = blobUriAttribute.Value;
@@ -127,7 +134,7 @@ namespace AzureDeploymentCmdlets.Model
             }
             else
             {
-                this.documentReader = XmlReader.Create(Resources.ManifestUri);
+                this.documentReader = XmlReader.Create(ManifestUri);
             }
 
             XmlDocument document = new XmlDocument();
@@ -139,7 +146,7 @@ namespace AzureDeploymentCmdlets.Model
         {
             bool retrieved = false;
             packages = new Collection<CloudRuntimePackage>();
-            XmlNodeList nodes = manifest.SelectNodes(Resources.RuntimeQuery);
+            XmlNodeList nodes = manifest.SelectNodes(RuntimeQuery);
             if (nodes != null)
             {
                 retrieved = true;

@@ -39,6 +39,12 @@ namespace AzureDeploymentCmdlets.Cmdlet
     [Cmdlet(VerbsData.Publish, "AzureService", SupportsShouldProcess=true)]
     public class PublishAzureServiceCommand : ServiceManagementCmdletBase
     {
+        public const string RuntimeDeploymentLocationError = "Unable to resolve location '{0}'";
+        public const string ErrorRetrievingRuntimesForLocation = "Unable to download available runtimes for location '{0}'";
+        public const string PublishAbortedAtUserRequest = "Service not published at user request.";
+        public const string RuntimeDeploymentStart = "Preparing runtime deployment for service '{0}'";
+        public const string RuntimeMismatchWarning = "WARNING Runtime Mismatch: Are you sure that you want to publish service '{0}' using an Azure runtime version that does not match your local runtime version?";
+
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
@@ -185,7 +191,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             }
             else
             {
-                SafeWriteObject(Resources.PublishAbortedAtUserRequest);
+                SafeWriteObject(PublishAbortedAtUserRequest);
             }
         }
 
@@ -216,7 +222,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
             Model.Location deploymentLocation = GetSettingsLocation(settings);
             if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation, out availableRuntimePackages, manifestFile: manifest))
             {
-                throw new ArgumentException(string.Format(Resources.ErrorRetrievingRuntimesForLocation, deploymentLocation));
+                throw new ArgumentException(string.Format(ErrorRetrievingRuntimesForLocation, deploymentLocation));
             }
 
             ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
@@ -260,9 +266,9 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 }
             }
 
-            if (!shouldWarn || ShouldProcess(string.Format(Resources.RuntimeMismatchWarning, _azureService.ServiceName)))
+            if (!shouldWarn || ShouldProcess(string.Format(RuntimeMismatchWarning, _azureService.ServiceName)))
             {
-                if (!shouldWarn || Force || ShouldContinue(warningText.ToString(), string.Format(Resources.RuntimeMismatchWarning, _azureService.ServiceName))) 
+                if (!shouldWarn || Force || ShouldContinue(warningText.ToString(), string.Format(RuntimeMismatchWarning, _azureService.ServiceName))) 
                 {
                     service.Components.Save(service.Paths);
                     return true;
@@ -279,7 +285,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 return ArgumentConstants.ReverseLocations[settings.Location.ToLower()];
             }
 
-            throw new ArgumentException(string.Format(Resources.RuntimeDeploymentLocationError, settings.Location));
+            throw new ArgumentException(string.Format(RuntimeDeploymentLocationError, settings.Location));
         }
 
         /// <summary>
@@ -316,7 +322,7 @@ namespace AzureDeploymentCmdlets.Cmdlet
                 new GlobalComponents(GlobalPathInfo.GlobalSettingsDirectory)
                 .GetSubscriptionId(defaultSettings.Subscription);
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart, _hostedServiceName));
+            SafeWriteObjectWithTimestamp(String.Format(RuntimeDeploymentStart, _hostedServiceName));
 
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {

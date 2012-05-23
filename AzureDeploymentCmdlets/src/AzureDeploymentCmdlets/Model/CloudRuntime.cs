@@ -21,11 +21,27 @@ namespace AzureDeploymentCmdlets.Model
     using System.Net;
     using System.Xml;
     using System.Diagnostics;
-    using AzureDeploymentCmdlets.Properties;
-    using AzureDeploymentCmdlets.ServiceDefinitionSchema;
+using AzureDeploymentCmdlets.ServiceDefinitionSchema;
 
     public abstract class CloudRuntime
     {
+        public const string PHPRuntimeVersion = "1.5";
+        public const string PHPRuntimeValue = "php";
+        public const string RuntimeTypeKey = "RUNTIMEID";
+        public const string RuntimePrimaryVersionKey = "RUNTIMEVERSIONPRIMARYKEY";
+        public const string RuntimeSecondaryVersionKey = "RUNTIMEVERSIONSECONDARYKEY";
+        public const string RuntimeOverrideKey = "RUNTIMEURLOVERRIDE";
+        public const string RuntimeUrlKey = "RUNTIMEURL";
+        public const string NodePath = "nodejs";
+        public const string NodeExe = "node.exe";
+        public const string IISNodePath = "iisnode";
+        public const string IISNodeDLL = "iisnode.dll";
+        public const string DefaultFileVersion = "none";
+
+        public const string NodeWebRoleVersionWarningText = "Installing Node version {0} and IISNode version {1} in Azure for WebRole '{2}' (the versions locally installed are: Node {3}, IISNode: {4})";
+        public const string NodeWorkerRoleVersionWarningText = "Installing Node version {0} in Azure for WorkerRole '{1}' (the Node version locally installed is: {2})";
+        public const string PHPVersionWarningText = "Installing PHP version {0} for {1}Role '{2}' (the PHP version locally installed is: {3})";
+
         public string PrimaryVersionKey
         {
             get;
@@ -75,7 +91,7 @@ namespace AzureDeploymentCmdlets.Model
         private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, RoleType roleType, string roleName)
         {
             CloudRuntime runtime;
-            if (runtimeType == Runtime.Null)
+            if (runtimeType == Runtime.Override)
             {
                 runtime = new NullCloudRuntime();
             }
@@ -115,28 +131,24 @@ namespace AzureDeploymentCmdlets.Model
 
         private static void ConfigureRuntimeOverrides(CloudRuntime runtime, Dictionary<string, string> environmentSettings)
         {
-            if (environmentSettings.ContainsKey(Resources.RuntimePrimaryVersionKey))
+            if (environmentSettings.ContainsKey(RuntimePrimaryVersionKey))
             {
-                runtime.PrimaryVersionKey = environmentSettings[Resources.RuntimePrimaryVersionKey];
+                runtime.PrimaryVersionKey = environmentSettings[RuntimePrimaryVersionKey];
             }
-            if (environmentSettings.ContainsKey(Resources.RuntimeSecondaryVersionKey))
+            if (environmentSettings.ContainsKey(RuntimeSecondaryVersionKey))
             {
-                runtime.SecondaryVersionKey = environmentSettings[Resources.RuntimeSecondaryVersionKey];
+                runtime.SecondaryVersionKey = environmentSettings[RuntimeSecondaryVersionKey];
             }
         }
 
         private static Runtime GetRuntimeType(Dictionary<string, string> environmentSettings)
         {
-            Runtime runtimeType = Runtime.Null;
-            if (environmentSettings.ContainsKey(Resources.RuntimeOverrideKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeOverrideKey]))
+            Runtime runtimeType = Runtime.Node;
+            if (environmentSettings.ContainsKey(RuntimeOverrideKey) && !string.IsNullOrEmpty(environmentSettings[RuntimeOverrideKey]))
             {
-                runtimeType = Runtime.Null;
+                runtimeType = Runtime.Override;
             }
-            else if (environmentSettings.ContainsKey(Resources.RuntimeTypeKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeTypeKey]) && string.Equals(environmentSettings[Resources.RuntimeTypeKey], Resources.NodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
-            {
-                runtimeType = Runtime.Node;
-            }
-            else if (environmentSettings.ContainsKey(Resources.RuntimeTypeKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeTypeKey]) && string.Equals(environmentSettings[Resources.RuntimeTypeKey], Resources.PHPRuntimeValue, StringComparison.OrdinalIgnoreCase))
+            else if (environmentSettings.ContainsKey(RuntimeTypeKey) && !string.IsNullOrEmpty(environmentSettings[RuntimeTypeKey]) && string.Equals(environmentSettings[RuntimeTypeKey], PHPRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
                 runtimeType = Runtime.PHP;
             }
@@ -269,12 +281,12 @@ namespace AzureDeploymentCmdlets.Model
                 string returnValue;
                 if (this.Role == RoleType.WebRole)
                 {
-                    returnValue = string.Format(Resources.NodeWebRoleVersionWarningText, package.PrimaryVersionKey, 
+                    returnValue = string.Format(CloudRuntime.NodeWebRoleVersionWarningText, package.PrimaryVersionKey, 
                         package.SecondaryVersionKey, this.RoleName, this.PrimaryVersionKey, this.SecondaryVersionKey);
                 }
                 else
                 {
-                    returnValue = string.Format(Resources.NodeWorkerRoleVersionWarningText, package.PrimaryVersionKey,
+                    returnValue = string.Format(CloudRuntime.NodeWorkerRoleVersionWarningText, package.PrimaryVersionKey,
                         this.RoleName, this.PrimaryVersionKey);
                 }
 
@@ -283,11 +295,11 @@ namespace AzureDeploymentCmdlets.Model
 
             private string GetNodeVersion()
             {
-                string fileVersion = Resources.DefaultFileVersion;
-                string nodePath = Path.Combine(GetProgramFilesDirectoryPathx86(), Path.Combine(Resources.NodePath, Resources.NodeExe));
+                string fileVersion = DefaultFileVersion;
+                string nodePath = Path.Combine(GetProgramFilesDirectoryPathx86(), Path.Combine(NodePath, NodeExe));
                 if (!File.Exists(nodePath))
                 {
-                    nodePath = Path.Combine(GetProgramFilesDirectory(), Path.Combine(Resources.NodePath, Resources.NodeExe));
+                    nodePath = Path.Combine(GetProgramFilesDirectory(), Path.Combine(NodePath, NodeExe));
                 }
                 if (File.Exists(nodePath)) 
                 {
@@ -299,8 +311,8 @@ namespace AzureDeploymentCmdlets.Model
 
             private string GetIISNodeVersion()
             {
-                string fileVersion = Resources.DefaultFileVersion;
-                string nodePath = Path.Combine(GetProgramFilesDirectory(), Path.Combine(Resources.IISNodePath, Resources.IISNodeDLL));
+                string fileVersion = DefaultFileVersion;
+                string nodePath = Path.Combine(GetProgramFilesDirectory(), Path.Combine("iisnode", "iisnode.dll"));
                 if (File.Exists(nodePath))
                 {
                     fileVersion = GetFileVersion(nodePath);
@@ -312,8 +324,8 @@ namespace AzureDeploymentCmdlets.Model
             protected override bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
             {
                 changes = new Dictionary<string, string>();
-                changes[Resources.RuntimeTypeKey] = package.Runtime.ToString().ToLower();
-                changes[Resources.RuntimeUrlKey] = package.PackageUri.ToString();
+                changes[RuntimeTypeKey] = package.Runtime.ToString().ToLower();
+                changes[RuntimeUrlKey] = package.PackageUri.ToString();
                 return true;
             }
 
@@ -346,7 +358,7 @@ namespace AzureDeploymentCmdlets.Model
                 this.Runtime = Runtime.PHP;
                 if (string.IsNullOrEmpty(this.PrimaryVersionKey))
                 {
-                    this.PrimaryVersionKey = Resources.PHPRuntimeVersion;
+                    this.PrimaryVersionKey = CloudRuntime.PHPRuntimeVersion;
                 }
             }
 
@@ -357,15 +369,15 @@ namespace AzureDeploymentCmdlets.Model
 
             protected override string GenerateWarningText(CloudRuntimePackage package)
             {
-                return string.Format(Resources.PHPVersionWarningText, package.PrimaryVersionKey, this.Role, this.RoleName, 
+                return string.Format(CloudRuntime.PHPVersionWarningText, package.PrimaryVersionKey, this.Role, this.RoleName, 
                     this.PrimaryVersionKey);
             }
 
             protected override bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
             {
                 changes = new Dictionary<string, string>();
-                changes[Resources.RuntimeTypeKey] = package.Runtime.ToString().ToLower();
-                changes[Resources.RuntimeUrlKey] = package.PackageUri.ToString();
+                changes[RuntimeTypeKey] = package.Runtime.ToString().ToLower();
+                changes[RuntimeUrlKey] = package.PackageUri.ToString();
                 return true;
             }
         }
