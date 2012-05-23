@@ -23,7 +23,7 @@
         </Variable>
       </Environment>
       <EntryPoint>
-        <ProgramEntryPoint commandLine="node.exe .\server.js" setReadyOnProcessStart="true"/>
+        <ProgramEntryPoint commandLine="node.cmd .\server.js" setReadyOnProcessStart="true"/>
       </EntryPoint>
     </Runtime>
   </WorkerRole>
