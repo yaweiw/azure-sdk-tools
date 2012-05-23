@@ -164,7 +164,6 @@
     <Compile Include="Utilities\AzureAssert.cs" />
     <Compile Include="Utilities\FakeWriter.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
-    <Compile Include="Utilities\RuntimeHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
     <Compile Include="Utilities\Testing.cs" />
@@ -186,7 +185,6 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
