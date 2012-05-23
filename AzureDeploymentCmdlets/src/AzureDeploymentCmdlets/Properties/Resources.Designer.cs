@@ -837,7 +837,7 @@ namespace AzureDeploymentCmdlets.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml.
+        ///   Looks up a localized string similar to http://localhost/runtimemanifest.xml.
         /// </summary>
         internal static string ManifestUri {
             get {

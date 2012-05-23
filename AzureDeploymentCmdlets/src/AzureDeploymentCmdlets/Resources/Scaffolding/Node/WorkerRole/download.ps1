@@ -6,52 +6,43 @@ $client = New-Object System.Net.WebClient
 function downloadWithRetry {
 	param([string]$url, [string]$dest, [int]$retry) 
 	Write-Host
-	Write-Host "Attempt: $retry"
+	Write-Host "Attempt: $retry\r\n"
     Write-Host
     trap {
-    	Write-Host $_.Exception.ToString()
+    	Write-Host $_.Exception.ToString() + "\r\n"
 	    if ($retry -lt 5) {
 	    	$retry=$retry+1
 	    	Write-Host
-	    	Write-Host "Waiting 5 seconds and retrying"
+	    	Write-Host "Waiting 5 seconds and retrying\r\n"
 	    	Write-Host
 	    	Start-Sleep -s 5
 	    	downloadWithRetry $url $dest $retry $client
 	    }
 	    else {
-	    	Write-Host "Download failed"
-	   		throw "Max number of retries downloading [5] exceeded" 	
+	    	Write-Host "Download failed \r\n"
+	   		throw "Max number of retries downloading [5] exceeded\r\n" 	
 	    }
     }
     $client.downloadfile($url, $dest)
 }
 
 function download($url, $dest) {
-	Write-Host "Downloading $url"
+	Write-Host "Downloading $url \r\n"
 	downloadWithRetry $url $dest 1
 }
 
-function copyOnVerify($file, $output) {
-  Write-Host "Verifying $file"
-  $verify = Get-AuthenticodeSignature $file
-  Out-Host -InputObject $verify
-  if ($verify.Status -ne "Valid") {
-     throw "Invalid signature for runtime package $file"
-  }
-  else {
-    mv $file $output
-  }
+function verify($file) {
+  return true
 }
 
 if ($overrideUrl) {
-    Write-Host "Using override url: $overrideUrl"
+    Write-Host "Using override url: $overrideUrl \r\n"
 	$url = $overrideUrl
 }
 else {
 	$url = $runtimeUrl
 }
 
-$dest = $current + "\sandbox.exe"
+$dest = $current + "\runtime.exe"
 download $url $dest
-$final = $current + "\runtime.exe"
-copyOnVerify $dest $final
+verify $file

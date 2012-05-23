@@ -648,7 +648,8 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml</value>
+    <value>http://localhost/runtimemanifest.xml</value>
+    <comment>http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml</comment>
   </data>
   <data name="NodeExe" xml:space="preserve">
     <value>node.exe</value>
