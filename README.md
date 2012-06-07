@@ -106,7 +106,7 @@ For comprehensive documentation on the full set of Windows Azure cmdlets see
     <li>You are now ready to publish to the cloud. Make sure you specify a
     unique name for your application to ensure there aren't any conflicts during
     the publish process<br/>
-    <pre>Publish-AzureService -ServiceName UNIQUE_NAME -Launch</pre></li>
+    <pre>Publish-AzureServiceProject -ServiceName UNIQUE_NAME -Launch</pre></li>
 </ol>
 
 <h1>Need Help?</h1>
