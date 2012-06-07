@@ -76,7 +76,7 @@ For comprehensive documentation on the full set of Windows Azure cmdlets see
 </ul>
 <h2>PHP Prerequisites (developer only)</h2>
 <ul>
-    <li><a href="http://windows.php.net/download">PHP</a></li>
+    <li><a href="http://php.iis.net/">PHP</a></li>
 </ul>
 </h2>
 
