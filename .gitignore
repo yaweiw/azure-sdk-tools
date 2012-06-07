@@ -1,11 +1,11 @@
 _ReSharper*
-/AzureDeploymentCmdlets/src/AzureDeploymentCmdlets.Test/bin
-/AzureDeploymentCmdlets/src/AzureDeploymentCmdlets/bin
-/AzureDeploymentCmdlets/setup/build
+/WindowsAzurePowershell/src/*/bin
+/WindowsAzurePowershell/src/package/*
+/WindowsAzurePowershell/setup/build
 obj
 TestResults
 *.user
 *.suo
-/AzureDeploymentCmdlets/src/util
 *.orig
 /Publish
+/Package

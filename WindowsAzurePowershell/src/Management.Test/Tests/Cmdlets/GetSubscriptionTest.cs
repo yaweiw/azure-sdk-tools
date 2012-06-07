@@ -1,0 +1,130 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright 2011 Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
+{
+    using VisualStudio.TestTools.UnitTesting;
+    using Stubs;
+    using TestData;
+    using Management.Extensions;
+    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Cmdlets;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Management.Model;
+
+    [TestClass]
+    public class GetSubscriptionTest
+    {
+        [TestInitialize]
+        public void SetupTest()
+        {
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureAppDir;
+        }
+
+        [TestMethod]
+        public void TestGetCurrentSubscriptionByName()
+        {
+            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+
+            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            importSubscriptionCommand.ImportSubscriptionProcess(
+                Data.ValidPublishSettings.First(),
+                null);
+
+            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.IsTrue(currentSubscription.IsDefault);
+
+            // Test the get for all subscription (null name)
+            var getSubscriptionCommand = new GetSubscriptionCommandStub();
+            getSubscriptionCommand.GetSubscriptionProcess("ByName", null, null);
+
+            Assert.AreEqual(3, getSubscriptionCommand.Messages.Count);
+
+            // Test the get for a specific susbcription
+            getSubscriptionCommand = new GetSubscriptionCommandStub();
+            getSubscriptionCommand.GetSubscriptionProcess("ByName", currentSubscription.SubscriptionName, null);
+
+            Assert.AreEqual(1, getSubscriptionCommand.Messages.Count);
+            Assert.AreEqual(currentSubscription.SubscriptionName, getSubscriptionCommand.Messages.First().SubscriptionName);
+            Assert.AreEqual(currentSubscription.SubscriptionId, getSubscriptionCommand.Messages.First().SubscriptionId);
+
+            globalComponents.DeleteGlobalComponents();
+        }
+
+        [TestMethod]
+        public void TestGetCurrentSubscriptionCurrent()
+        {
+            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+
+            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            importSubscriptionCommand.ImportSubscriptionProcess(
+                Data.ValidPublishSettings.First(),
+                null);
+
+            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.IsTrue(currentSubscription.IsDefault);
+
+            // Test the get for the current subscription
+            var getSubscriptionCommand = new GetSubscriptionCommandStub();
+            getSubscriptionCommand.GetSubscriptionProcess("Current", null, null);
+
+            Assert.AreEqual(1, getSubscriptionCommand.Messages.Count);
+            Assert.AreEqual(currentSubscription.SubscriptionName, getSubscriptionCommand.Messages.First().SubscriptionName);
+            Assert.AreEqual(currentSubscription.SubscriptionId, getSubscriptionCommand.Messages.First().SubscriptionId);
+
+            globalComponents.DeleteGlobalComponents();
+        }
+
+        [TestMethod]
+        public void TestGetCurrentSubscriptionDefault()
+        {
+            var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
+
+            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            importSubscriptionCommand.ImportSubscriptionProcess(
+                Data.ValidPublishSettings.First(),
+                null);
+
+            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.IsTrue(currentSubscription.IsDefault);
+
+            // Test the get for the current subscription
+            var getSubscriptionCommand = new GetSubscriptionCommandStub();
+            getSubscriptionCommand.GetSubscriptionProcess("Default", null, null);
+
+            Assert.AreEqual(1, getSubscriptionCommand.Messages.Count);
+            Assert.AreEqual(currentSubscription.SubscriptionName, getSubscriptionCommand.Messages.First().SubscriptionName);
+            Assert.AreEqual(currentSubscription.SubscriptionId, getSubscriptionCommand.Messages.First().SubscriptionId);
+
+            globalComponents.DeleteGlobalComponents();
+        }
+    }
+
+    public class GetSubscriptionCommandStub : GetAzureSubscriptionCommand
+    {
+        public readonly IList<SubscriptionData> Messages = new List<SubscriptionData>();
+
+        protected override void WriteSubscription(SubscriptionData subscription)
+        {
+            Messages.Add(subscription);
+        }
+    }
+}

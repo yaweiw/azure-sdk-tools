@@ -6,20 +6,26 @@
   
   <!-- Define build properties -->
   <PropertyGroup>
-    <CmdletBinDirectory>.\AzureDeploymentCmdlets\src\AzureDeploymentCmdlets\bin</CmdletBinDirectory>
-    <SetupDirectory>.\AzureDeploymentCmdlets\setup\build</SetupDirectory>
-    <TestDirectory>.\AzureDeploymentCmdlets\src\AzureDeploymentCmdlets.Test\bin</TestDirectory>
-    <TestAssemblyName>AzureDeploymentCmdlets.Test.dll</TestAssemblyName>
-    <TestSettings>.\AzureDeploymentCmdlets\src\Local.testsettings</TestSettings>
-    
+    <ManagementCmdletBinDirectory>.\WindowsAzurePowershell\src\Management\bin</ManagementCmdletBinDirectory>
+    <ManagementTestDirectory>.\WindowsAzurePowershell\src\Management.Test\bin</ManagementTestDirectory>
+    <ManagementTestAssemblyName>Microsoft.WindowsAzure.Management.Test.dll</ManagementTestAssemblyName>
+
+    <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
+    <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
+    <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
+
+	<TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
+    <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>	
+    <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
+
     <PublishDirectory>.\Publish</PublishDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
   </PropertyGroup>
   <ItemGroup>
-    <CmdletSln Include=".\AzureDeploymentCmdlets\src\AzureDeploymentCmdlets.sln" />
-    <SetupSln Include=".\AzureDeploymentCmdlets\setup\azuresdk-nodejs.sln" />
+    <CmdletSln Include=".\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" />
+    <SetupSln Include=".\WindowsAzurePowershell\setup\azurepowershell.sln" />
   </ItemGroup>
   
   <!-- Clean the build in all configurations -->
@@ -108,8 +114,10 @@
     <!-- Copy code artifacts -->
     <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="true" />
     <ItemGroup>
-      <DebugFiles Include="$(CmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CmdletBinDirectory)\Release\**\*.*" />
+      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
+	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
+      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
+	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
     </ItemGroup>
     <MakeDir
       Directories="$(BuildOutputDirectory)"
@@ -145,11 +153,11 @@
     
     <Message Importance="high" Text="Debug tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(TestDirectory)\Debug\$(TestAssemblyName) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="true" />
     <Message Importance="high" Text="Release tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(TestDirectory)\Release\$(TestAssemblyName) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Release.trx"
+      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Release.trx"
       ContinueOnError="true" />
   </Target>
   
