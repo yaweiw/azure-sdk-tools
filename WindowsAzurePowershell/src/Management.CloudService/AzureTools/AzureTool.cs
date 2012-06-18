@@ -12,23 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Win32;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using System.IO;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
 {
+    using System;
+    using System.Linq;
+    using Win32;
+    using Properties;
+    using System.IO;
+
     public class AzureTool
     {
         public string AzureSdkDirectory { get; private set; }
         public string AzureSdkBinDirectory { get; private set; }
         public string AzureEmulatorDirectory { get; private set; }
         public string AzureSdkVersion { get; private set; }
+
+        public static void Validate()
+        {
+            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
+            new AzureTool();
+        }
 
         public AzureTool()
         {

@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Text;
+    using AzureTools;
     using Model;
     using Properties;
     using Services;
@@ -31,12 +32,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
-
-        public StartAzureEmulatorCommand()
-        {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
-            new AzureTools.AzureTool();
-        }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public string StartAzureEmulatorProcess(string rootPath)
@@ -60,6 +55,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
+                AzureTool.Validate();
                 SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = this.StartAzureEmulatorProcess(base.GetServiceRootPath());
