@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Extensions;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
@@ -35,6 +36,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
+                this.ValidateTools();
                 base.ProcessRecord();
                 DisableRemoteDesktop();
             }
@@ -57,12 +59,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 UpdateServiceConfigurations(service, forwarderName);
                 service.Components.Save(service.Paths);
             }
-        }
-
-        public DisableAzureServiceProjectRemoteDesktopCommand()
-        {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
-            new AzureTools.AzureTool();
         }
 
         private static string GetForwarderName(WebRole[] webRoles, WorkerRole[] workerRoles)

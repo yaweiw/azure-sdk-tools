@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
+    using Extensions;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
@@ -46,17 +47,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
-        public EnableAzureServiceProjectRemoteDesktopCommand()
-        {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
-            new AzureTools.AzureTool();
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void ProcessRecord()
         {
             try
             {
+                this.ValidateTools();
                 base.ProcessRecord();
                 EnableRemoteDesktop();
             }

@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Threading;
+    using Management.Extensions;
     using Model;
     using Properties;
     using Services;
@@ -90,9 +91,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </param>
         public PublishAzureServiceProjectCommand(IServiceManagement channel)
         {
-            // This instantiation will throw if user is running with incompatible Windows Azure SDK version.
-            new AzureTools.AzureTool();
-
             Channel = channel;
         }
 
@@ -104,6 +102,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
+                this.ValidateTools();
+
                 base.ProcessRecord();
 
                 PublishService(GetServiceRootPath());
