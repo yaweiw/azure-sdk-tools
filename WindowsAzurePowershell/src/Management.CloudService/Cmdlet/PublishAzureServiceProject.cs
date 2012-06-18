@@ -103,13 +103,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             try
             {
                 this.ValidateTools();
-
                 base.ProcessRecord();
-
                 PublishService(GetServiceRootPath());
-
                 SafeWriteObjectWithTimestamp(Resources.PublishCompleteMessage);
-
             }
             catch (Exception ex)
             {

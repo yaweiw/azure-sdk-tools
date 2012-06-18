@@ -51,7 +51,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             try
             {
                 this.ValidateTools();
-
                 SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = this.StopAzureEmulatorProcess();
