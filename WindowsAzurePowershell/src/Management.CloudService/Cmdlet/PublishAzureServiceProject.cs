@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Threading;
-    using Management.Extensions;
+    using AzureTools;
     using Model;
     using Properties;
     using Services;
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                this.ValidateTools();
+                AzureTool.Validate();
                 base.ProcessRecord();
                 PublishService(GetServiceRootPath());
                 SafeWriteObjectWithTimestamp(Resources.PublishCompleteMessage);

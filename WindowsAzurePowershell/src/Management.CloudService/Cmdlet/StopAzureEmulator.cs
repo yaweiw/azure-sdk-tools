@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Extensions;
+    using AzureTools;
     using Model;
     using Properties;
     using Services;
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                this.ValidateTools();
+                AzureTool.Validate();
                 SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = this.StopAzureEmulatorProcess();

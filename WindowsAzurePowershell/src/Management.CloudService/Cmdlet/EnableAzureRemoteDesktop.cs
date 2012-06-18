@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
-    using Extensions;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
@@ -52,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                this.ValidateTools();
+                AzureTool.Validate();
                 base.ProcessRecord();
                 EnableRemoteDesktop();
             }
