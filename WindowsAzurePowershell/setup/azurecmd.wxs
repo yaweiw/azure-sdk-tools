@@ -50,7 +50,7 @@
     </Directory>
     
     <DirectoryRef Id="AzureSdkMenu">
-      <Component Id="AzureSdkShortcut" Guid="2BF9D830-E540-4BAC-A5D0-3E39AFDECDC5">
+      <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
         <Shortcut Id="AzureSdkStartMenuShortcut"
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell commandlets"
