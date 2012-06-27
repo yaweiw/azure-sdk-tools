@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  
+
   <?define productName="Windows Azure PowerShell - June 2012" ?>
   <?define sourceDir="$(var.SolutionDir)..\..\Package\$(var.Configuration)" ?>
+  <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
-  <?define version="0.6.0" ?> 
+  <?define version="0.6.0" ?>
   <?define azureSdkVersion="1.7" ?>
   <?define versionedFolder="Jun2012" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
-  <Product Id="*" 
-           Name="$(var.productName)" 
-           Language="1033" 
-           Version="$(var.version)" 
+  <Product Id="*"
+           Name="$(var.productName)"
+           Language="1033"
+           Version="$(var.version)"
            Manufacturer="Microsoft Corporation"
            UpgradeCode="EBC1AD5E-1BBE-45B5-9E8D-ACFC8951C252">
 
     <Package InstallerVersion="200" Compressed="yes" Platform="x86" />
-    
+
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
     <MajorUpgrade AllowSameVersionUpgrades="yes"
                   DowngradeErrorMessage="A later version of Windows Azure PowerShell is already installed. Setup will now exit." />
-    
+
     <Icon Id="icon.ico" SourceFile="media\WAIcon.ico"/>
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
-    <Property Id="ALLUSERS" Value="1" />  <!-- per machine install-->
+    <Property Id="ALLUSERS" Value="1" />
+    <!-- per machine install-->
 
     <Property Id="POWERSHELLVERSION">
       <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
-    
+
     <Condition Message="PowerShell 2.0 must be installed before Windows Azure PowerShell installation.">
       <![CDATA[Installed or (POWERSHELLVERSION = "2.0")]]>
     </Condition>
@@ -39,8 +41,8 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MicrosoftSdkFolder" Name = "Microsoft SDKs">
           <Directory Id="AzureSdkFolder" Name = "Windows Azure">
-              <Directory Id="PowerShellFolder" Name = "PowerShell"/>
-              <Directory Id="ModulesFolder" Name = "modules"/>
+            <Directory Id="PowerShellFolder" Name = "PowerShell"/>
+            <Directory Id="ModulesFolder" Name = "modules"/>
           </Directory>
         </Directory>
       </Directory>
@@ -48,7 +50,7 @@
         <Directory Id="AzureSdkMenu" Name="$(var.versionedStartMenuFolder)"/>
       </Directory>
     </Directory>
-    
+
     <DirectoryRef Id="AzureSdkMenu">
       <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
         <Shortcut Id="AzureSdkStartMenuShortcut"
@@ -67,12 +69,21 @@
       <ComponentRef Id="AzureSdkShortcut" />
     </Feature>
 
+    <Binary Id="CustomActions" SourceFile="$(var.caSourceDir)\Microsoft.WindowsAzure.Setup.CA.dll"/>
+    <CustomAction Id="UpdatePSShortcut" BinaryKey="CustomActions" DllEntry="UpdatePSShortcut" Execute ="deferred" Impersonate="no"/>
+    <CustomAction Id="SetCustomActionDataValue" Return="check" Property="UpdatePSShortcut"
+                     Value="ShortcutPath=[AzureSdkMenu]Windows Azure PowerShell.lnk;DefaultShortcutPath=[ProgramMenuFolder]System Tools\Windows PowerShell.lnk" />
+
+    <InstallExecuteSequence>
+      <Custom Action="SetCustomActionDataValue" After="CreateShortcuts">NOT Installed</Custom>
+      <Custom Action="UpdatePSShortcut" After="SetCustomActionDataValue">NOT Installed</Custom>
+    </InstallExecuteSequence>
+
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\media\License.rtf" />
     <UIRef Id="WixUI_Minimal" />
     <WixVariable Id="WixUIBannerBmp" Value="media\bannrbmp.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="media\dlgbmp.bmp" />   
+    <WixVariable Id="WixUIDialogBmp" Value="media\dlgbmp.bmp" />
   </Product>
 
   <?include azurecmdfiles.wxi ?>
-  
 </Wix>
