@@ -37,6 +37,11 @@
       <![CDATA[Installed or (POWERSHELLVERSION = "2.0")]]>
     </Condition>
 
+    <PropertyRef Id="NETFRAMEWORK35" />
+    <Condition Message="This setup requires the .NET Framework 3.5 to be installed.">
+      Installed OR NETFRAMEWORK35
+    </Condition>
+
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MicrosoftSdkFolder" Name = "Microsoft SDKs">
