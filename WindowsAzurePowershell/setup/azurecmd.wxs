@@ -46,8 +46,20 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="MicrosoftSdkFolder" Name = "Microsoft SDKs">
           <Directory Id="AzureSdkFolder" Name = "Windows Azure">
-            <Directory Id="PowerShellFolder" Name = "PowerShell"/>
-            <Directory Id="ModulesFolder" Name = "modules"/>
+            <Directory Id="Powershell" Name = "PowerShell">
+              <Directory Id="PowerShellFolder" Name = "Azure">
+                <Component Id="EnvironmentVariable" Guid="{BC703E70-50E5-4305-B984-E6A3E8603AF1}">
+                  <CreateFolder />
+                  <Environment Id="Environment"
+                               Action="set"
+                               Part="last"
+                               Name="PSModulePath"
+                               Permanent="no"
+                               System="yes"
+                               Value="[PowerShell]" />
+                </Component>
+              </Directory>
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -72,6 +84,7 @@
     <Feature Id="azurecmd" Title="Windows Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
       <ComponentGroupRef Id="azurecmdfiles" />
       <ComponentRef Id="AzureSdkShortcut" />
+      <ComponentRef Id="EnvironmentVariable" />
     </Feature>
 
     <Binary Id="CustomActions" SourceFile="$(var.caSourceDir)\Microsoft.WindowsAzure.Setup.CA.dll"/>
