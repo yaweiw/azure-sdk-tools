@@ -40,7 +40,7 @@
                 <File Id="fil41AB56A0AA56DEC0BB1F1CDC8C66DCDA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.pdb" />
             </Component>
             <Component Id="cmpD1930BE03EC593478EB6B8DB607DE198" Guid="23B92C5B-E65B-491C-9DB5-69FC56CF946E">
-                <File Id="fil34560E3C9DC2FFD7888218DF3FE5FA1A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.psd1" />
+                <File Id="fil34560E3C9DC2FFD7888218DF3FE5FA1A" KeyPath="yes" Source="$(var.sourceDir)\Azure.psd1" />
             </Component>
             <Component Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" Guid="3F8183AB-3661-44F2-9EB8-2092C9081984">
                 <File Id="fil189E2221C0ABD364C5D1DD5874571B7A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Service.dll" />
