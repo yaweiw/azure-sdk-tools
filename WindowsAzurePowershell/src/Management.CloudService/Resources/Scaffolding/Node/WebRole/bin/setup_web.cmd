@@ -49,8 +49,8 @@ if "%OPN%"=="%OPN:apphostconfig:=%" (
     goto error
 )
 
-set IISNODE_BINARY_DIRECTORY=%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\x86
-if "%PROCESSOR_ARCHITECTURE%"=="AMD64" set IISNODE_BINARY_DIRECTORY=%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\x64
+set IISNODE_BINARY_DIRECTORY=%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\Azure\x86
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" set IISNODE_BINARY_DIRECTORY=%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\Azure\x64
 
 echo "Using iisnode binaries location '%IISNODE_BINARY_DIRECTORY%'"
 echo installing iisnode module using AppCMD alias %appcmd%
