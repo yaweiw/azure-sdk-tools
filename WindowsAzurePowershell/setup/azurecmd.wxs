@@ -44,21 +44,10 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="MicrosoftSdkFolder" Name = "Microsoft SDKs">
-          <Directory Id="AzureSdkFolder" Name = "Windows Azure">
-            <Directory Id="Powershell" Name = "PowerShell">
-              <Directory Id="PowerShellFolder" Name = "Azure">
-                <Component Id="EnvironmentVariable" Guid="{BC703E70-50E5-4305-B984-E6A3E8603AF1}">
-                  <CreateFolder />
-                  <Environment Id="Environment"
-                               Action="set"
-                               Part="last"
-                               Name="PSModulePath"
-                               Permanent="no"
-                               System="yes"
-                               Value="[PowerShell]" />
-                </Component>
-              </Directory>
+        <Directory Id="MicrosoftSdkFolder" Name="Microsoft SDKs">
+          <Directory Id="AzureSdkFolder" Name="Windows Azure">
+            <Directory Id="Powershell" Name="PowerShell">
+              <Directory Id="PowerShellFolder" Name="Azure"/>
             </Directory>
           </Directory>
         </Directory>
@@ -68,6 +57,19 @@
       </Directory>
     </Directory>
 
+    <DirectoryRef Id="Powershell">
+      <Component Id="ModulePath" Guid="2FFD16CE-41A9-4129-A0AB-5AC55E73BEB2">
+        <Environment Id="PsModulePathEnvironment"
+                     Action="set"
+                     Part="last"
+                     Name="PSMODULEPATH"
+                     Permanent="no"
+                     System="yes"
+                     Value="[Powershell]" />
+        <CreateFolder />
+      </Component>
+    </DirectoryRef>
+    
     <DirectoryRef Id="AzureSdkMenu">
       <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
         <Shortcut Id="AzureSdkStartMenuShortcut"
@@ -83,8 +85,8 @@
 
     <Feature Id="azurecmd" Title="Windows Azure PowerShell" Level="1" Description="Windows PowerShell commandlets">
       <ComponentGroupRef Id="azurecmdfiles" />
+      <ComponentRef Id="ModulePath" />
       <ComponentRef Id="AzureSdkShortcut" />
-      <ComponentRef Id="EnvironmentVariable" />
     </Feature>
 
     <Binary Id="CustomActions" SourceFile="$(var.caSourceDir)\Microsoft.WindowsAzure.Setup.CA.dll"/>
