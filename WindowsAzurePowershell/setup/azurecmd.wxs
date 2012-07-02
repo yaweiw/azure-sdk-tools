@@ -5,9 +5,8 @@
   <?define sourceDir="$(var.SolutionDir)..\..\Package\$(var.Configuration)" ?>
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
-  <?define version="0.6.0" ?>
+  <?define version="0.6.1" ?>
   <?define azureSdkVersion="1.7" ?>
-  <?define versionedFolder="Jun2012" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
   <Product Id="*"
