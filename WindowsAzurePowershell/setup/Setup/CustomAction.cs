@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Threading;
-
 namespace Microsoft.WindowsAzure.Setup
 {
     using System;
     using System.IO;
     using Deployment.WindowsInstaller;
+    using System.Threading;
 
     public class CustomAction
     {

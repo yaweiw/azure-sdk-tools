@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-
 namespace Microsoft.WindowsAzure.Setup
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Text;
+
     // IShellLink.ShowCmd fFlags
     [Flags]
     public enum ShowCmd
