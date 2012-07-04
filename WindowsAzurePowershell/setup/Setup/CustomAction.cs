@@ -1,6 +1,18 @@
-﻿// ---------------------------------------------------------------------------- 
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// ---------------------------------------------------------------------------- 
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright 2011 Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+using System.Threading;
 
 namespace Microsoft.WindowsAzure.Setup
 {
@@ -10,25 +22,31 @@ namespace Microsoft.WindowsAzure.Setup
 
     public class CustomAction
     {
+        // The exception object which will store (if) exception which is occured in our sta thread
+        private static Exception _STAThreadException; 
+
         private static uint[] powerShellDefaultColorTable = new uint[] 
             { 
                 0x0, 0x800000, 0x8000, 0x808000, 0x80, 0x562401, 0xF0EDEE, 0xC0C0C0,
                 0x808080, 0xFF0000, 0xFF00, 0xFFFF00, 0xFF, 0xFF00FF, 0xFFFF, 0xFFFFFF 
             };
 
-        [CustomAction]
-        public static ActionResult UpdatePSShortcut(Session session)
+        // Method which contains our custom action behaviour
+        private static void RunSTAThread(object sessionObject)
         {
-            string powerShellShortcutPath = session.CustomActionData["ShortcutPath"];
-            string powerShellDefaultShortcutPath = session.CustomActionData["DefaultShortcutPath"];
-
-            if (!File.Exists(powerShellShortcutPath))
-            {
-                session.Log("UpdatePSShortcut: file {0} does not exist", powerShellShortcutPath);
-                return ActionResult.Failure;
-            }
             try
             {
+                Session session = sessionObject as Session;
+
+                string powerShellShortcutPath = session.CustomActionData["ShortcutPath"];
+                string powerShellDefaultShortcutPath = session.CustomActionData["DefaultShortcutPath"];
+
+                if (!File.Exists(powerShellShortcutPath))
+                {
+                    _STAThreadException = new Exception(string.Format("UpdatePSShortcut: file {0} does not exist", powerShellShortcutPath));
+                    return;
+                }
+
                 ShellLink powerShellShellLink = new ShellLink(powerShellShortcutPath);
                 if (File.Exists(powerShellDefaultShortcutPath))
                 {
@@ -66,7 +84,24 @@ namespace Microsoft.WindowsAzure.Setup
             }
             catch (Exception ex)
             {
-                session.Log("UpdatePSShortcut: failed with exception {0}", ex.Message);
+                _STAThreadException = new Exception(string.Format("UpdatePSShortcut: failed with exception {0}", ex.Message));
+            }
+        }
+
+        [CustomAction]
+        public static ActionResult UpdatePSShortcut(Session session)
+        {
+            Thread staThread = new Thread(RunSTAThread);
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start(session);
+            // Wait for the new thread to finish its operations
+            staThread.Join();
+
+            // If there is any exception in the new thread pass it to the installer
+            if (_STAThreadException != null)
+            {
+                session.Log(_STAThreadException.Message);
+                return ActionResult.Failure;
             }
 
             return ActionResult.Success;
