@@ -197,7 +197,7 @@
         <installerFile>
           <fileSize>7408</fileSize>
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;prodid=AzureNodePowershell</trackingURL>
-          <installerURL>http://github.com/downloads/WindowsAzure/azure-sdk-tools/windowsazure-powershell.0.6.0.msi</installerURL>
+          <installerURL>http://github.com/downloads/WindowsAzure/azure-sdk-tools/windowsazure-powershell.0.6.1.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
