@@ -31,7 +31,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     public class AddAzureDjangoWebRoleCommand : AddRole
     {
         const string PythonCorePath = "SOFTWARE\\Python\\PythonCore";
-
+        const string SupportedPythonVersion = "2.7";
+        const string InstallPathSubKey = "InstallPath";
+        const string PythonInterpreterExe = "python.exe";
+        const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
+        
         internal string AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
         {
             string result;
@@ -47,8 +51,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
-                        Path.Combine(interpPath, "python.exe"),
-                        String.Format("-m django.bin.django-admin startproject {0}", webRoleName)
+                        Path.Combine(interpPath, PythonInterpreterExe),
+                        String.Format(DjangoStartProjectCommand, webRoleName)
                     ),
                     out stdOut,
                     out stdErr
@@ -105,9 +109,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
                     {
                         foreach (var key in python.GetSubKeyNames())
                         {
-                            if (key == "2.7")
+                            if (key == SupportedPythonVersion)
                             {
-                                var value = python.OpenSubKey(key + "\\InstallPath");
+                                var value = python.OpenSubKey(key + "\\" + InstallPathSubKey);
                                 if (value != null)
                                 {
                                     return value.GetValue("") as string;

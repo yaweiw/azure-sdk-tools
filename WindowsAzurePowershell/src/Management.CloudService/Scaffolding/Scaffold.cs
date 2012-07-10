@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
                         }
                     }
 
-                    tempPath = ReplaceParameter(Path.Combine(destPath, tempPath), parameters);
+                    tempPath = Path.Combine(destPath, tempPath);
                     Directory.CreateDirectory(Path.GetDirectoryName(tempPath));
 
                     File.Copy(path, tempPath);
