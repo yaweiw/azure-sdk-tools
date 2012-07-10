@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-<!-- Start Windows Azure SDK for Node, PHP, and Python -->
+  <!-- Start Windows Azure SDK for Node, PHP, and Python -->
   <entry>
     <productId>AzureNodeSDK</productId>
     <title resourceName="Entry_AzureNodeSDK_Title">Windows Azure SDK for Node.js - July 2012</title>
@@ -209,18 +209,17 @@
     </installers>
   </entry>
 
-  <!-- iisnode/iis which will install x64 binaries on x64 machines
-  and will install x86 binaries on x86 machines, only if IIS exists-->
+  <!-- iisnode/iis which will install x64 binaries on x64 machines and will install x86 binaries on x86 machines, only if IIS exists-->
   <entry>
     <productId>iisnode_if_iis7_exists</productId>
-    <title resourceName="Entry_iisnode_Title">IISNode for IIS</title>
+    <title resourceName="Entry_iisnode_if_iis7_exists_Title">IISNode for IIS (IIS exists)</title>
     <version>0.1.19</version>
-    <summary resourceName="Entry_iisnode_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
-    <longSummary resourceName="Entry_iisnode_LongSummary">This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
+    <summary resourceName="Entry_iisnode_if_iis7_exists_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
+    <longSummary resourceName="Entry_iisnode_if_iis7_exists_LongSummary">This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
     <id>http://go.microsoft.com/?linkid=9790232</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <updated>2012-06-07T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -232,7 +231,7 @@
     <dependency>
       <and>
         <dependency>
-          <productId>VC10Redist</productId>
+          <productId>VC10Redist_NoWow</productId>
         </dependency>
         <dependency>
           <productId>NodeJS</productId>
@@ -283,60 +282,61 @@
     </installers>
   </entry>
 
-   <discoveryHints>
-     <!-- discovery hint if Windows Azure PowerShell exists-->
-     <discoveryHint id="DH_AzurePowerShell">
-       <or>
-         <discoveryHint>
-           <file>
-             <filePath>%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
-             <minimumVersion>0.6.1</minimumVersion>
-           </file>
-         </discoveryHint>
-         <discoveryHint>
-           <file>
-             <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
-             <minimumVersion>0.6.1</minimumVersion>
-           </file>
-         </discoveryHint>
-       </or>
-     </discoveryHint>
-     <!-- discovery hint for the iisnode_if_iis7_exist product. returns true if IISNode is installed or if IIS7 is not installed-->
-     <discoveryHint id="DH_iisnode_if_iis7_exists">
-       <or>
-         <discoveryHint>
-           <file>
-             <filePath>%programfiles%\iisnode\iisnode.dll</filePath>
-             <minimumVersion>0.1.19</minimumVersion>
-           </file>
-         </discoveryHint>
-         <discoveryHint>
-           <not>
-             <discoveryHint>
-               <or>
-                 <discoveryHint>
-                   <file>
-                     <filePath>%windir%\System32\inetsrv\iiscore.dll</filePath>
-                     <minimumVersion>7.0.6002.22615</minimumVersion>
-                   </file>
-                 </discoveryHint>
-                 <discoveryHint>
-                   <file>
-                     <filePath>%windir%\System32\inetsrv\iiscore.dll</filePath>
-                     <minimumVersion>7.5.7600.20927</minimumVersion>
-                   </file>
-                 </discoveryHint>
-               </or>
-             </discoveryHint>
-           </not>
-         </discoveryHint>
-       </or>
-     </discoveryHint>
-  </discoveryHints> 
+  <discoveryHints>
+    <!-- discovery hint if Windows Azure PowerShell exists-->
+    <discoveryHint id="DH_AzurePowerShell">
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
+            <minimumVersion>0.6.1</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
+            <minimumVersion>0.6.1</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
+
+    <!-- discovery hint for the iisnode_if_iis7_exist product. returns true if IISNode is installed or if IIS7 is not installed-->
+    <discoveryHint id="DH_iisnode_if_iis7_exists">
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\iisnode\iisnode.dll</filePath>
+            <minimumVersion>0.1.19</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <not>
+            <discoveryHint>
+              <or>
+                <discoveryHint>
+                  <file>
+                    <filePath>%windir%\System32\inetsrv\iiscore.dll</filePath>
+                    <minimumVersion>7.0.6002.22615</minimumVersion>
+                  </file>
+                </discoveryHint>
+                <discoveryHint>
+                  <file>
+                    <filePath>%windir%\System32\inetsrv\iiscore.dll</filePath>
+                    <minimumVersion>7.5.7600.20927</minimumVersion>
+                  </file>
+                </discoveryHint>
+              </or>
+            </discoveryHint>
+          </not>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
+  </discoveryHints>
 
   <!-- end Windows Azure SDK for Node, PHP, and Python-->
 
-<entry>
+  <entry>
     <productId>AzureNodePowershell</productId>
     <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - May 2012</title>
     <version>0.5.4</version>
@@ -382,7 +382,7 @@
         </dependency>
         <dependency>
           <productId>UrlRewrite2</productId>
-        </dependency>      
+        </dependency>
         <dependency>
           <productId>IISNode</productId>
         </dependency>
@@ -397,16 +397,16 @@
         <languageId>en</languageId>
         <eulaURL>https://raw.github.com/WindowsAzure/azure-sdk-tools/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>7058</fileSize>                  
+          <fileSize>7058</fileSize>
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=AzureNodePowershell</trackingURL>
-          <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>            
+          <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
             <msi>%InstallerFile%</msi>
           </msiInstall>
         </installCommands>
-       <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
       </installer>
     </installers>
   </entry>
@@ -416,8 +416,10 @@
     <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
     <version>0.6.17</version>
     <summary resourceName="Entry_NodeJS_Summary">Node.js is a server-side environment for JavaScript.</summary>
-    <longSummary resourceName="Entry_NodeJS_LongSummary">Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript. 
-    Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.</longSummary>
+    <longSummary resourceName="Entry_NodeJS_LongSummary">
+      Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.
+      Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.
+    </longSummary>
     <link href="http://nodejs.org/" />
     <published>2012-05-09T12:00:00Z</published>
     <updated>2012-05-09T12:00:00Z</updated>
@@ -464,9 +466,7 @@
     </installers>
   </entry>
 
-
-  <!-- iisnode/iis which will install x64 binaries on x64 machines
-  and will install x86 binaries on x86 machines -->
+  <!-- iisnode/iis which will install x64 binaries on x64 machines and will install x86 binaries on x86 machines -->
   <entry>
     <productId>iisnode</productId>
     <title resourceName="Entry_iisnode_Title">IISNode for IIS</title>
@@ -501,9 +501,9 @@
         </dependency>
       </and>
     </dependency>
-    <!-- Installers-->  
+    <!-- Installers-->
     <installers>
-     <installer>
+      <installer>
         <id>1</id>
         <languageId>en</languageId>
         <architectures>
@@ -527,7 +527,7 @@
         <architectures>
           <x64 />
         </architectures>
-       <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1858</fileSize>
           <installerURL>http://go.microsoft.com/?linkid=9790233</installerURL>
@@ -552,7 +552,7 @@
     <id>http://go.microsoft.com/?linkid=9790232</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <updated>2012-06-07T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -561,20 +561,20 @@
       <icon>http://www.iis.net/favicon.ico</icon>
     </images>
     <discoveryHint>
-     <or>
-      <discoveryHint>
-       <file>
-         <filePath>%programfiles%\iisnode-express\iisnode.dll</filePath>
-         <minimumVersion>0.1.19</minimumVersion>
-       </file>
-      </discoveryHint>
-      <discoveryHint>
-       <file>
-         <filePath>%programfiles(x86)%\iisnode-express\iisnode.dll</filePath>
-         <minimumVersion>0.1.19</minimumVersion>
-       </file>
-      </discoveryHint>
-     </or>
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\iisnode-express\iisnode.dll</filePath>
+            <minimumVersion>0.1.19</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\iisnode-express\iisnode.dll</filePath>
+            <minimumVersion>0.1.19</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
     </discoveryHint>
     <dependency>
       <and>
@@ -586,9 +586,9 @@
         </dependency>
       </and>
     </dependency>
-    <!-- Installers-->  
+    <!-- Installers-->
     <installers>
-     <installer>
+      <installer>
         <id>1</id>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
@@ -605,9 +605,8 @@
     </installers>
   </entry>
 
-  <!-- iisnode/iis which will install ONLY x86 binaries on x64 machines and does 
-not support x86 machines. This is only used by Azure Websites. -->
-<entry>
+  <!-- iisnode/iis which will install ONLY x86 binaries on x64 machines and does not support x86 machines. This is only used by Azure Websites. -->
+  <entry>
     <productId>iisnodeWow</productId>
     <title resourceName="Entry_iisnodeWow_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
     <version>0.1.19</version>
@@ -616,12 +615,12 @@ not support x86 machines. This is only used by Azure Websites. -->
     <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-01-20T12:00:00Z</updated>
-   <author>
+    <updated>2012-06-07T12:00:00Z</updated>
+    <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
     </author>
-    <searchExclude/>
+    <searchExclude />
     <images>
       <icon>http://www.iis.net/favicon.ico</icon>
     </images>
@@ -634,17 +633,14 @@ not support x86 machines. This is only used by Azure Websites. -->
     <dependency>
       <and>
         <dependency>
-          <productId>VC10Redist32</productId>
-        </dependency>
-        <dependency>
-          <productId>VC10Redist</productId>
+          <productId>VC10Redist_x64</productId>
         </dependency>
         <dependency>
           <productId>NodeJS</productId>
         </dependency>
       </and>
     </dependency>
-    <!-- Installers-->  
+    <!-- Installers-->
     <installers>
       <installer>
         <id>1</id>
