@@ -1154,9 +1154,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Python 2.7 is not installed.  Please install it as well as Django 1.4..
         /// </summary>
-        internal static string Python27Missing {
+        internal static string MissingPythonPreReq {
             get {
-                return ResourceManager.GetString("Python27Missing", resourceCulture);
+                return ResourceManager.GetString("MissingPythonPreReq", resourceCulture);
             }
         }
         

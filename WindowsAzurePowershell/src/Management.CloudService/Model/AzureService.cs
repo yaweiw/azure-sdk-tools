@@ -154,7 +154,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <summary>
         /// Adds the given role to both config files and the service def.
         /// </summary>
-        /// <param name="role"></param>
         private void AddRoleCore(String Scaffolding, RoleInfo role, RoleType type)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);

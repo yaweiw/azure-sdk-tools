@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             }
             else
             {
-                SafeWriteObject(Resources.Python27Missing);
+                SafeWriteObject(Resources.MissingPythonPreReq);
             }
 
             try
