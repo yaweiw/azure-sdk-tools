@@ -15,14 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.Win32;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Model;
     using Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using System.IO;
 
     /// <summary>
     /// Create scaffolding for a new Python Django web role, change cscfg file and csdef to include the added web role
@@ -35,7 +35,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         const string InstallPathSubKey = "InstallPath";
         const string PythonInterpreterExe = "python.exe";
         const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
-        
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         internal string AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
         {
             string result;
@@ -100,7 +101,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 
         internal static string FindPythonInterpreterPath()
         {
-            HashSet<string> registeredPaths = new HashSet<string>();
             foreach (var baseKey in new[] { Registry.LocalMachine, Registry.CurrentUser })
             {
                 using (var python = baseKey.OpenSubKey(PythonCorePath))

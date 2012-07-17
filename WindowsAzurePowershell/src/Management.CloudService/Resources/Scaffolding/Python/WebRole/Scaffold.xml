@@ -8,7 +8,7 @@
 
   <ScaffoldFile Path="wfastcgi.py" TargetPath="bin\wfastcgi.py" />
   <ScaffoldFile Path="AzureSetup.cfg" TargetPath="bin\AzureSetup.cfg">
-    <Scaffold.ReplaceParameterRule />
+    <Scaffold.ReplaceParameterRule />   
   </ScaffoldFile>
 
   <ScaffoldFile Path="Web.cloud.config" />
