@@ -2,6 +2,22 @@
 <Include xmlns="http://schemas.microsoft.com/Include/2006/wi">
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
+            <Directory Id="dir73FAF5E42B856722148ED0B4A31EE07A" Name="x86"> 
+                <Component Id="cmp77AE1633398946A0A20B0364179832C9" Guid="DDA91212-0F35-435B-B5DD-09CD6B8C5976"> 
+                    <File Id="fil66D88A4318634E21931C651B074598CA" KeyPath="yes" Source="bin\x86\iisnode.dll" /> 
+                </Component>
+                <Component Id="cmp287E3E2ED8AF4C68B6092B93C6773067" Guid="80947678-AC41-44C8-86B8-89C3EB93CCB8"> 
+                    <File Id="fil8B8E0517E43048EFB650FFFDBF8359D1" KeyPath="yes" Source="bin\x86\iisnode_schema.xml" /> 
+                </Component>
+            </Directory>
+            <Directory Id="dir73FAF5E42B856722148ED0B4A31EE07B" Name="x64"> 
+                <Component Id="cmp2FDA8365DD354344BD9B1DA891F57C27" Guid="34AC7955-D624-49C0-8DD8-404EC13CD5C7"> 
+                    <File Id="fil81090A13FB37476491A2EBF4B3A6F9AF" KeyPath="yes" Source="bin\x64\iisnode.dll" /> 
+                </Component>
+                <Component Id="cmp33B2D348B8C849518221BD1E08691A75" Guid="BCB39308-774E-4CED-8C84-608D499574DC"> 
+                    <File Id="fil18F2EDF1407C43239ECAD7013C703C58" KeyPath="yes" Source="bin\x64\iisnode_schema.xml" /> 
+                </Component>
+            </Directory>
             <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="ABEFB43F-56C3-43F9-BD4E-A58B09E6FFE8">
                 <File Id="filF638140167895CBAE7E04BC99BF304B2" KeyPath="yes" Source="$(var.sourceDir)\Azure.psd1" />
             </Component>
@@ -461,6 +477,10 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="azurecmdfiles">
+            <ComponentRef Id="cmp77AE1633398946A0A20B0364179832C9" /> 
+            <ComponentRef Id="cmp287E3E2ED8AF4C68B6092B93C6773067" /> 
+            <ComponentRef Id="cmp2FDA8365DD354344BD9B1DA891F57C27" /> 
+            <ComponentRef Id="cmp33B2D348B8C849518221BD1E08691A75" /> 
             <ComponentRef Id="cmpB02573B0FF3D017E0F119567539CCDDC" />
             <ComponentRef Id="cmp3DCAF3083D0E02E22982344922ACDC9E" />
             <ComponentRef Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" />
