@@ -818,7 +818,7 @@
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1081</fileSize>
-          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.20-x86.msi</installerURL>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x86.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -836,7 +836,7 @@
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
           <fileSize>1861</fileSize>
-          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.20-x64.msi</installerURL>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x64.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
