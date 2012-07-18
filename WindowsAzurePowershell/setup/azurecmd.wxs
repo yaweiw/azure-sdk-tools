@@ -37,8 +37,10 @@
     </Condition>
 
     <PropertyRef Id="NETFRAMEWORK35" />
-    <Condition Message="This setup requires the .NET Framework 3.5 to be installed.">
-      Installed OR NETFRAMEWORK35
+    <PropertyRef Id="NETFRAMEWORK40FULL" />
+    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
+    <Condition Message="This setup requires the .NET Framework 3.5 or higher to be installed.">
+      Installed OR NETFRAMEWORK35 OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
     </Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
