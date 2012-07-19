@@ -51,6 +51,15 @@
             <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="241EB129-868E-47D9-8266-F7218CFC7A99">
                  <File Id="filE2144C8E5105E49D1525C9D7809B501B" KeyPath="yes" Source="$(var.sourceDir)\..\..\WindowsAzurePowershell\src\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml" />
             </Component>
+            <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="53EAD651-7F77-4871-BA48-0FBB79607820">
+                <File Id="filE738A7F4F746B6E5AB058142D57D7CE4" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll" />
+            </Component>
+            <Component Id="cmp3696789E7171F8B704380E6E1C7DA50A" Guid="E6076757-F1B3-441D-800E-0FE2129DA495">
+                <File Id="fil61F4420EB48D4B42646487EEA06EF3C7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
+            </Component>
+            <Component Id="cmp082481E2AF0AB70140050A5AEAE69D8F" Guid="2393AD69-EFCA-4DA8-903A-82B26C52ED8E">
+                <File Id="filE91096563D86CCE16337E7B635C6FD64" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.pdb" />
+            </Component>
             <Component Id="cmpF275B2621CA54C32ACCA236605DC9B69" Guid="5767F740-4910-4FA0-97DD-C2367EDD9B13">
                 <File Id="fil9EFB50E4C7783DD621FA9DED027C980C" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.StorageClient.dll" />
             </Component>
@@ -449,6 +458,9 @@
             <ComponentRef Id="cmpD1930BE03EC593478EB6B8DB607DE198" />
             <ComponentRef Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" />
             <ComponentRef Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" />
+            <ComponentRef Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" />
+            <ComponentRef Id="cmp3696789E7171F8B704380E6E1C7DA50A" />
+            <ComponentRef Id="cmp082481E2AF0AB70140050A5AEAE69D8F" />
             <ComponentRef Id="cmpF275B2621CA54C32ACCA236605DC9B69" />
             <ComponentRef Id="cmpBB6322A06009BF5D4E29F9E158119827" />
             <ComponentRef Id="cmp35CF39A5B078B1B50ACD530DFB951C62" />

@@ -27,7 +27,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using WAPPSCmdlet;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
-    public abstract class CloudCmdlet : CmdletBase<IServiceManagement>
+    public abstract class CloudCmdlet<T> : CmdletBase<T>
+        where T : class
     {
         private bool hasOutput = false;
         private IMessageWriter writer;
