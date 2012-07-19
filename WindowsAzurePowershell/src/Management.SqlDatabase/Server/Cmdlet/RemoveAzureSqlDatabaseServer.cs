@@ -57,9 +57,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         {
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
-                !ShouldProcess(string.Empty, string.Format(CultureInfo.InvariantCulture,
-                               Resources.RemoveAzureSqlDatabaseServerWarning, serverName),
-                               Resources.ShouldProcessCaption))
+                !ShouldProcess(
+                    string.Format(CultureInfo.InvariantCulture, Resources.RemoveAzureSqlDatabaseServerDescription, serverName),
+                    string.Format(CultureInfo.InvariantCulture, Resources.RemoveAzureSqlDatabaseServerWarning, serverName),
+                    Resources.ShouldProcessCaption))
             {
                 return null;
             }
