@@ -188,7 +188,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reseting administrator password for Windows Azure Sql Database server &quot;{0}&quot;..
+        ///   Looks up a localized string similar to Resetting administrator password for Windows Azure Sql Database server &quot;{0}&quot;..
         /// </summary>
         internal static string SetAzureSqlDatabaseServerAdminPasswordDescription {
             get {

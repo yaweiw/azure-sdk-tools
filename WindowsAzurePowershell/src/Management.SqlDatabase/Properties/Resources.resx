@@ -161,7 +161,7 @@ Error Code: {0}</value>
     <value>Are you sure you want to remove the Windows Azure Sql Database server "{0}"?</value>
   </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordDescription" xml:space="preserve">
-    <value>Reseting administrator password for Windows Azure Sql Database server "{0}".</value>
+    <value>Resetting administrator password for Windows Azure Sql Database server "{0}".</value>
   </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordWarning" xml:space="preserve">
     <value>Are you sure you want to reset the administrator password for Windows Azure Sql Database server "{0}"?</value>
