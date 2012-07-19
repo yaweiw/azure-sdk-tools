@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
-    public class DeploymentServiceManagementCmdletBase : CloudCmdlet
+    public class DeploymentServiceManagementCmdletBase : CloudCmdlet<IServiceManagement>
     {
         /// <summary>
         /// Gets or sets a flag indicating whether CreateChannel should share
