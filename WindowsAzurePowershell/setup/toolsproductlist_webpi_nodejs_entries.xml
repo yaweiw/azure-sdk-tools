@@ -776,7 +776,7 @@
   <entry>
     <productId>iisnodeWow</productId>
     <title resourceName="Entry_iisnodeWow_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
-    <version>0.1.20</version>
+    <version>0.1.21</version>
     <summary resourceName="Entry_iisnodeWow_Summary">Azure Websites only</summary>
     <longSummary resourceName="Entry_iisnodeWow_LongSummary">Azure Websites only</longSummary>
     <id>http://go.microsoft.com/?linkid=9790233</id>
@@ -794,7 +794,7 @@
     <discoveryHint>
       <file>
         <filePath>%programfiles(x86)%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.20</minimumVersion>
+        <minimumVersion>0.1.21</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
