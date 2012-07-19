@@ -82,9 +82,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         {
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
-                !ShouldProcess(string.Empty, string.Format(CultureInfo.InvariantCulture,
-                               Resources.NewAzureSqlDatabaseServerFirewallRuleWarning, ruleName, serverName),
-                               Resources.ShouldProcessCaption))
+                !ShouldProcess(
+                    string.Format(CultureInfo.InvariantCulture, Resources.NewAzureSqlDatabaseServerFirewallRuleDescription, ruleName, serverName),
+                    string.Format(CultureInfo.InvariantCulture, Resources.NewAzureSqlDatabaseServerFirewallRuleWarning, ruleName, serverName),
+                    Resources.ShouldProcessCaption))
             {
                 return null;
             }

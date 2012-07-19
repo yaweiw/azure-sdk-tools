@@ -100,11 +100,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             }
             catch (CommunicationException ex)
             {
-                if (ex is EndpointNotFoundException && IsVerbose() == false)
-                {
-                    return null;
-                }
-
                 this.WriteErrorDetails(ex);
             }
 

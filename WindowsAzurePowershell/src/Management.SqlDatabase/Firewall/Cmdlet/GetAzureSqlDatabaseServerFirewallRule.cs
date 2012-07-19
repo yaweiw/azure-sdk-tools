@@ -111,11 +111,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             }
             catch (CommunicationException ex)
             {
-                if (ex is EndpointNotFoundException && IsVerbose() == false)
-                {
-                    return null;
-                }
-
                 this.WriteErrorDetails(ex);
             }
 

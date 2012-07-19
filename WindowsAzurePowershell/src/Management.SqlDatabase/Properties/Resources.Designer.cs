@@ -116,7 +116,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to update or add the firewall rule &quot;{0}&quot; for Windows Azure Sql Database server &quot;{1}&quot;?.
+        ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database server..
+        /// </summary>
+        internal static string NewAzureSqlDatabaseServerDescription {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseServerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adding firewall rule &quot;{0}&quot; for Windows Azure Sql Database server &quot;{1}&quot;..
+        /// </summary>
+        internal static string NewAzureSqlDatabaseServerFirewallRuleDescription {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseServerFirewallRuleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to add the firewall rule &quot;{0}&quot; for Windows Azure Sql Database server &quot;{1}&quot;?.
         /// </summary>
         internal static string NewAzureSqlDatabaseServerFirewallRuleWarning {
             get {
@@ -130,6 +148,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         internal static string NewAzureSqlDatabaseServerWarning {
             get {
                 return ResourceManager.GetString("NewAzureSqlDatabaseServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Windows Azure Sql Database server &quot;{0}&quot;..
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseServerDescription {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseServerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing firewall rule &quot;{0}&quot; for Windows Azure Sql Database server &quot;{1}&quot;..
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseServerFirewallRuleDescription {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseServerFirewallRuleDescription", resourceCulture);
             }
         }
         
@@ -152,11 +188,29 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resetting administrator password for Windows Azure Sql Database server &quot;{0}&quot;..
+        /// </summary>
+        internal static string SetAzureSqlDatabaseServerAdminPasswordDescription {
+            get {
+                return ResourceManager.GetString("SetAzureSqlDatabaseServerAdminPasswordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to reset the administrator password for Windows Azure Sql Database server &quot;{0}&quot;?.
         /// </summary>
         internal static string SetAzureSqlDatabaseServerAdminPasswordWarning {
             get {
                 return ResourceManager.GetString("SetAzureSqlDatabaseServerAdminPasswordWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating firewall rule &quot;{0}&quot; for Windows Azure Sql Database server &quot;{1}&quot;..
+        /// </summary>
+        internal static string SetAzureSqlDatabaseServerFirewallRuleDescription {
+            get {
+                return ResourceManager.GetString("SetAzureSqlDatabaseServerFirewallRuleDescription", resourceCulture);
             }
         }
         

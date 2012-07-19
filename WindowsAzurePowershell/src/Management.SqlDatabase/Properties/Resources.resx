@@ -136,11 +136,23 @@ Error Code: {0}</value>
   <data name="GetAzureSqlDatabaseServerNotFound" xml:space="preserve">
     <value>The Windows Azure Sql Database server "{0}" could not be found in the currently selected subscription.</value>
   </data>
+  <data name="NewAzureSqlDatabaseServerDescription" xml:space="preserve">
+    <value>Creating a new Windows Azure Sql Database server.</value>
+  </data>
+  <data name="NewAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
+    <value>Adding firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
+  </data>
   <data name="NewAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
-    <value>Are you sure you want to update or add the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <value>Are you sure you want to add the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
   </data>
   <data name="NewAzureSqlDatabaseServerWarning" xml:space="preserve">
     <value>Are you sure you want to create a new Windows Azure Sql Database server?</value>
+  </data>
+  <data name="RemoveAzureSqlDatabaseServerDescription" xml:space="preserve">
+    <value>Removing Windows Azure Sql Database server "{0}".</value>
+  </data>
+  <data name="RemoveAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
+    <value>Removing firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
   </data>
   <data name="RemoveAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
     <value>Are you sure you want to remove the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
@@ -148,8 +160,14 @@ Error Code: {0}</value>
   <data name="RemoveAzureSqlDatabaseServerWarning" xml:space="preserve">
     <value>Are you sure you want to remove the Windows Azure Sql Database server "{0}"?</value>
   </data>
+  <data name="SetAzureSqlDatabaseServerAdminPasswordDescription" xml:space="preserve">
+    <value>Resetting administrator password for Windows Azure Sql Database server "{0}".</value>
+  </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordWarning" xml:space="preserve">
     <value>Are you sure you want to reset the administrator password for Windows Azure Sql Database server "{0}"?</value>
+  </data>
+  <data name="SetAzureSqlDatabaseServerFirewallRuleDescription" xml:space="preserve">
+    <value>Updating firewall rule "{0}" for Windows Azure Sql Database server "{1}".</value>
   </data>
   <data name="SetAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
     <value>Are you sure you want to update the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
