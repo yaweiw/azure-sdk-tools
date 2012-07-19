@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
     }
 
-    public class FakeCmdlet : CloudCmdlet
+    public class FakeCmdlet : CloudCmdlet<IServiceManagement>
     {
         public FakeCmdlet(IMessageWriter writer) : base(writer)
         {

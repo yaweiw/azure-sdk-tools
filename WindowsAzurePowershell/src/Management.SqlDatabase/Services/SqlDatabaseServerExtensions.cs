@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 {
     using System.IO;
     using System.Xml;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     public static partial class SqlDatabaseManagementExtensionMethods
     {

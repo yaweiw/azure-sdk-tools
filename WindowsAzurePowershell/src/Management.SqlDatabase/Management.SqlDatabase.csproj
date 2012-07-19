@@ -174,10 +174,6 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559A16C7-B11C-4AA6-8C16-8ADECA6ABED7}</Project>
-      <Name>ServiceManagement</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml">
