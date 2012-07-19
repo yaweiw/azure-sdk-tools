@@ -154,8 +154,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <summary>
         /// Adds the given role to both config files and the service def.
         /// </summary>
-        /// <param name="role"></param>
         private void AddRoleCore(String Scaffolding, RoleInfo role, RoleType type)
+        {
+            Dictionary<string, object> parameters = CreateDefaultParameters(role);
+            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+
+            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Scaffolding), type.ToString());
+            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+        }
+
+        private Dictionary<string, object> CreateDefaultParameters(RoleInfo role)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters[ScaffoldParams.Role] = role;
@@ -164,11 +173,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             parameters[ScaffoldParams.InstancesCount] = role.InstanceCount;
             parameters[ScaffoldParams.Port] = Components.GetNextPort();
             parameters[ScaffoldParams.Paths] = Paths;
-            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
-
-            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Scaffolding), type.ToString());
-            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+            return parameters;
         }
 
         public RoleInfo AddWebRole(string scaffolding, string name = null, int instanceCount = 1)
@@ -185,6 +190,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             name = GetRoleName(name, Resources.WorkerRole, Components.Definition.WorkerRole == null ? new String[0] : Components.Definition.WorkerRole.Select(wr => wr.name.ToLower()));
             WorkerRoleInfo role = new WorkerRoleInfo(name, instanceCount);
             AddRoleCore(Scaffolding, role, RoleType.WorkerRole);
+
+            return role;
+        }
+
+        /// <summary>
+        /// Adds the given role to both config files and the service def.
+        /// </summary>
+        /// <param name="role"></param>
+        private void AddPythonRoleCore(RoleInfo role, RoleType type)
+        {
+            Dictionary<string, object> parameters = CreateDefaultParameters(role);
+
+            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Resources.PythonScaffolding), type.ToString());
+            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+        }
+
+        public RoleInfo AddDjangoWebRole(string name = null, int instanceCount = 1)
+        {
+            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new String[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
+            WebRoleInfo role = new WebRoleInfo(name, instanceCount);
+            AddPythonRoleCore(role, RoleType.WebRole);
 
             return role;
         }
