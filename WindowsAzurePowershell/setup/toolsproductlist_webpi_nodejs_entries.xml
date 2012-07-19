@@ -632,7 +632,6 @@
     </installers>
   </entry>
 
-
   <!-- iisnode/iis which will install x64 binaries on x64 machines and will install x86 binaries on x86 machines -->
   <entry>
     <productId>iisnode</productId>
