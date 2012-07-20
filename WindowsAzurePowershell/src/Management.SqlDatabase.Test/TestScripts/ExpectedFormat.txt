@@ -1,9 +1,9 @@
-<server_location>,<server_name>,<operationId1>,<operationId2>,<operationId3>
+<server_location>,<server_name>
 SqlDatabaseServerContext
 
-ServerName                                                         Location                                                           AdministratorLogin                                               
-----------                                                         --------                                                           ------------------                                               
-<server_name>                                                         <server_location>                                                   mylogin1                                                         
+ServerName Location         AdministratorLogin
+---------- --------         ------------------
+<server_name> <server_location> mylogin1          
 
 
 
@@ -16,9 +16,9 @@ AdministratorLogin : mylogin1
 
 SqlDatabaseServerContext
 
-ServerName                                                         Location                                                           AdministratorLogin                                               
-----------                                                         --------                                                           ------------------                                               
-<server_name>                                                         <server_location>                                                   mylogin1                                                         
+ServerName Location         AdministratorLogin
+---------- --------         ------------------
+<server_name> <server_location> mylogin1          
 
 
 
@@ -31,9 +31,9 @@ AdministratorLogin : mylogin1
 
 SqlDatabaseServerFirewallRuleContext
 
-RuleName                                          StartIpAddress                                    EndIpAddress                                      ServerName                                       
---------                                          --------------                                    ------------                                      ----------                                       
-test                                              1.0.0.0                                           2.0.0.0                                           <server_name>                                       
+RuleName StartIpAddress EndIpAddress ServerName
+-------- -------------- ------------ ----------
+test     1.0.0.0        2.0.0.0      <server_name>
 
 
 
