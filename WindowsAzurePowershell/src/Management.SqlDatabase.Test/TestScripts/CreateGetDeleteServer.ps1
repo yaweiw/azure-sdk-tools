@@ -54,8 +54,6 @@ Try
     Assert {$getServer} "Can not get server $($server.ServerName)"
     Validate-SqlDatabaseServerContext -Actual $getServer -ExpectedAdministratorLogin $loginName -ExpectedLocation $serverLocation -ExpectedServerName $server.ServerName -ExpectedOperationDescription "Get-AzureSqlDatabaseServer"
     Write-Output "Got server $($server.ServerName)"
-
-    $isTestPass = $True
 }
 Finally
 {
@@ -63,8 +61,7 @@ Finally
     {
         # Drop server
         Write-Output "Dropping server $($server.ServerName)"
-        $droppedServer = Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
-        Validate-SqlDatabaseServerOperationContext -Actual $droppedServer -expectedServerName $server.ServerName -expectedOperationDescription "Remove-AzureSqlDatabaseServer"
+        Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
         
         #Validate Drop server
@@ -72,6 +69,7 @@ Finally
         $getDroppedServer = Get-AzureSqlDatabaseServer | Where-Object {$_.ServerName -eq $server.ServerName}
         Assert {!$getDroppedServer} "Server is not dropped"
         Write-Output "Validation successful"
+        $isTestPass = $True
     }
     if($IsTestPass)
     {

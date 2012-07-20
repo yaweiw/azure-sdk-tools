@@ -100,8 +100,6 @@ Try
     Write-Output "Deleted"
     $rules = Get-AzureSqlDatabaseServerFirewallRule -ServerName $server.ServerName | Where-Object {$_.RuleName -eq $rule1Name}
     Assert {$rules -eq $null} "Firewall rule $rule1Name is not dropped"
-    
-    $isTestPass = $True
 }
 Finally
 {
@@ -111,6 +109,7 @@ Finally
         Write-Output "Dropping server $($server.ServerName) ..."
         Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
+        $isTestPass = $True
     }
     if($IsTestPass)
     {

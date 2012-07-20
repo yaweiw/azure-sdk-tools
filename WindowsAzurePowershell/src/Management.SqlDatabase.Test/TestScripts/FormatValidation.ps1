@@ -55,22 +55,20 @@ Try
     $SqlDatabaseFirewallRuleContext = New-AzureSqlDatabaseServerFirewallRule $server.ServerName -RuleName "test" -StartIpAddress "1.0.0.0" -EndIpAddress "2.0.0.0"
     
     # write the dynamic content in comma separated line
-    "$ServerLocation,$($SqlDatabaseOperationContext.ServerName),$($SqlDatabaseOperationContext.OperationId),$($SqlDatabaseServerContext.OperationId),$($SqlDatabaseFirewallRuleContext.OperationId)"  > $OutputFile
+    "$ServerLocation,$($SqlDatabaseOperationContext.ServerName)"  > $OutputFile
     
     # write output object to output file
     $SqlDatabaseOperationContext.GetType().Name >> $OutputFile
-    $SqlDatabaseOperationContext | ft -Wrap >> $OutputFile
+    $SqlDatabaseOperationContext | ft -Wrap -AutoSize >> $OutputFile
     $SqlDatabaseOperationContext | fl >> $OutputFile
 
     $SqlDatabaseServerContext.GetType().Name >> $OutputFile
-    $SqlDatabaseServerContext | ft -Wrap >> $OutputFile
+    $SqlDatabaseServerContext | ft -Wrap -AutoSize >> $OutputFile
     $SqlDatabaseServerContext | fl >> $OutputFile
 
     $SqlDatabaseFirewallRuleContext.GetType().Name >> $OutputFile
-    $SqlDatabaseFirewallRuleContext | ft -Wrap >> $OutputFile
+    $SqlDatabaseFirewallRuleContext | ft -Wrap -AutoSize >> $OutputFile
     $SqlDatabaseFirewallRuleContext | fl >> $OutputFile
-    
-    $isTestPass = $True
 }
 Finally
 {
@@ -80,6 +78,7 @@ Finally
         Write-Output "Dropping server $($server.ServerName) ..."
         Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
+        $isTestPass = $True
     }
     if($IsTestPass)
     {
