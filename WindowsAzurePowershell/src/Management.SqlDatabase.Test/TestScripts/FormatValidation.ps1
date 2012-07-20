@@ -69,6 +69,8 @@ Try
     $SqlDatabaseFirewallRuleContext.GetType().Name >> $OutputFile
     $SqlDatabaseFirewallRuleContext | ft -Wrap -AutoSize >> $OutputFile
     $SqlDatabaseFirewallRuleContext | fl >> $OutputFile
+    
+    $isTestPass = $True
 }
 Finally
 {
@@ -78,7 +80,6 @@ Finally
         Write-Output "Dropping server $($server.ServerName) ..."
         Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
-        $isTestPass = $True
     }
     if($IsTestPass)
     {

@@ -54,6 +54,8 @@ Try
     Assert {$getServer} "Can not get server $($server.ServerName)"
     Validate-SqlDatabaseServerContext -Actual $getServer -ExpectedAdministratorLogin $loginName -ExpectedLocation $serverLocation -ExpectedServerName $server.ServerName -ExpectedOperationDescription "Get-AzureSqlDatabaseServer"
     Write-Output "Got server $($server.ServerName)"
+    
+    $isTestPass = $True
 }
 Finally
 {
@@ -69,7 +71,6 @@ Finally
         $getDroppedServer = Get-AzureSqlDatabaseServer | Where-Object {$_.ServerName -eq $server.ServerName}
         Assert {!$getDroppedServer} "Server is not dropped"
         Write-Output "Validation successful"
-        $isTestPass = $True
     }
     if($IsTestPass)
     {

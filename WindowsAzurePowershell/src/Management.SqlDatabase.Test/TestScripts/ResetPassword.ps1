@@ -68,6 +68,8 @@ Try
     $conn = New-Object System.Data.SqlClient.SqlConnection($connString);
     $conn.Open()
     Write-Output "Connection success"
+    
+    $isTestPass = $True
 }
 Finally
 {
@@ -77,7 +79,6 @@ Finally
         Write-Output "Dropping server $($server.ServerName) ..."
         Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
-        $isTestPass = $True
     }
     if($IsTestPass)
     {
