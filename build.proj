@@ -21,7 +21,7 @@
     <PublishDirectory>.\Publish</PublishDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-	<TestFilter>!Functional</TestFilter>
+    <TestFilter>!Functional</TestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
   </PropertyGroup>
   <ItemGroup>
