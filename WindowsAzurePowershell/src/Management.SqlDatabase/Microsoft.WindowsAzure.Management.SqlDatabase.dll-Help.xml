@@ -74,7 +74,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -91,7 +91,7 @@
         </command:commandLines>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <maml:title>-------------- Example 2 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -216,7 +216,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -233,7 +233,7 @@
         </command:commandLines>
       </command:example>
       <command:example>
-        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <maml:title>-------------- Example 2 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -320,7 +320,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -331,7 +331,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -398,7 +398,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -409,7 +409,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -450,7 +450,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -518,28 +518,28 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>EndIpAddress</maml:name>
           <maml:description>
-            <maml:para>End of the IP address range.</maml:para>
+            <maml:para>End value of the IP address range.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>New SQL Database server firewall rule name.</maml:para>
+            <maml:para>New SQL Database firewall rule name.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>StartIpAddress</maml:name>
           <maml:description>
-            <maml:para>Start of the IP address range.</maml:para>
+            <maml:para>Start value of the IP address range.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -550,7 +550,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -564,7 +564,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>EndIpAddress</maml:name>
         <maml:description>
-          <maml:para>End of the IP address range.</maml:para>
+          <maml:para>End value of the IP address range.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -588,7 +588,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>New SQL Database server firewall rule name.</maml:para>
+          <maml:para>New SQL Database firewall rule name.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -612,7 +612,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
         <maml:name>StartIpAddress</maml:name>
         <maml:description>
-          <maml:para>Start of the IP address range.</maml:para>
+          <maml:para>Start value of the IP address range.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -624,7 +624,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -635,7 +635,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -676,7 +676,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -744,7 +744,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -755,7 +755,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -793,7 +793,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -804,7 +804,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -845,7 +845,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -891,7 +891,7 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Deletes a firewall rule from the specified SQL Database server in the current subscription.</maml:para>
+      <maml:para>The Remove-AzureSqlDatabaseServerFirewallRule deletes a firewall rule from the specified SQL Database server in the current subscription.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -913,14 +913,14 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>RuleName</maml:name>
           <maml:description>
-            <maml:para>The SQL Database server firewall rule name to be deleted.</maml:para>
+            <maml:para>The SQL Database firewall rule name to be deleted.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -931,7 +931,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -957,7 +957,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
         <maml:name>RuleName</maml:name>
         <maml:description>
-          <maml:para>The SQL Database server firewall rule name to be deleted.</maml:para>
+          <maml:para>The SQL Database firewall rule name to be deleted.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -981,7 +981,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -992,7 +992,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1033,7 +1033,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -1069,7 +1069,7 @@
     <command:details>
       <command:name>Set-AzureSqlDatabaseServer</command:name>
       <maml:description>
-        <maml:para>Updates the properties of the specified SQL Database server in the current subscription. </maml:para>
+        <maml:para>Updates the properties of the specified SQL Database server in the current subscription.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -1079,7 +1079,7 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureSqlDatabaseServer cmdlet updates the properties of the specified SQL Database server. In the current release, you can only update the administrator account password for a SQL Database server.</maml:para>
+      <maml:para>The Set-AzureSqlDatabaseServer cmdlet updates the properties of the specified SQL Database server. In the current release, you can update only the administrator account password for a SQL Database server.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1113,7 +1113,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -1124,7 +1124,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -1179,7 +1179,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1190,7 +1190,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1231,7 +1231,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -1267,7 +1267,7 @@
     <command:details>
       <command:name>Set-AzureSqlDatabaseServerFirewallRule</command:name>
       <maml:description>
-        <maml:para>Updates the properties of the specified SQL Database server firewall rule.</maml:para>
+        <maml:para>Updates the properties of an existing firewall rule in the specified SQL Database server.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -1277,7 +1277,7 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Set-AzureSqlDatabaseServerFirewallRule cmdlet updates the start IP address and end IP address values of an existing firewall rule.</maml:para>
+      <maml:para>The Set-AzureSqlDatabaseServerFirewallRule cmdlet updates the start IP address and end IP address values of an existing firewall rule in the specified SQL Database server.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1320,7 +1320,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>Confirm</maml:name>
           <maml:description>
-            <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -1331,7 +1331,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>WhatIf</maml:name>
           <maml:description>
-            <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
           <dev:type>
@@ -1405,7 +1405,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>Confirm</maml:name>
         <maml:description>
-          <maml:para>Prompts you for confirmation before executing the command.</maml:para>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1416,7 +1416,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>WhatIf</maml:name>
         <maml:description>
-          <maml:para>Describes what would happen if you executed the command without actually executing the command.</maml:para>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
@@ -1457,7 +1457,7 @@
     <command:nonTerminatingErrors />
     <command:examples>
       <command:example>
-        <maml:title></maml:title>
+        <maml:title>-------------- Example 1 --------------</maml:title>
         <maml:introduction>
           <maml:para></maml:para>
         </maml:introduction>
@@ -1465,7 +1465,7 @@
           PS C:\&gt; Set-AzureSqlDatabaseServerFirewallRule –ServerName "lpqd0zbr8y" -RuleName "myRule" –StartIpAddress 12.1.1.2 –EndIpAddress 12.1.1.4
         </dev:code>
         <dev:remarks>
-          <maml:para>This command updates the start IP address and end IP address of the firewall (“myRule”) in the SQL Database server (“lpqd0zbr8y”).</maml:para>
+          <maml:para>This command updates the start IP address and end IP address of the firewall rule (“myRule”) in the SQL Database server (“lpqd0zbr8y”).</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
