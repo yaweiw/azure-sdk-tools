@@ -16,7 +16,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Management.Automation;
+    using System.Security.Cryptography.X509Certificates;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Model;
 
     /// <summary>
     /// Common helper functions for SqlDatabase UnitTests.
@@ -44,6 +46,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
                 // If the Cmdlet modifies data, there needs to be a Force property to bypass ShouldProcess
                 Assert.AreNotEqual(null, cmdlet.GetProperty("Force"), "Force property is expected for Cmdlets that modifies data.");
             }
+        }
+
+        public static SubscriptionData CreateUnitTestSubscription()
+        {
+            return new SubscriptionData()
+            {
+                SubscriptionName = "TestSubscription",
+                SubscriptionId = "00000000-0000-0000-0000-000000000000",
+                Certificate = new X509Certificate2()
+            };
         }
     }
 }

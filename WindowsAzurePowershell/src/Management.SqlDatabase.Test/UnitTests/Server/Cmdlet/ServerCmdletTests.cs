@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             };
 
             NewAzureSqlDatabaseServer newAzureSqlDatabaseServer = new NewAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            newAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             newAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var newServerResult = newAzureSqlDatabaseServer.NewAzureSqlDatabaseServerProcess("MyLogin", "MyPassword", "MyLocation");
             Assert.AreEqual("NewServerName", newServerResult.ServerName);
@@ -89,6 +90,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
 
             // Add two servers
             NewAzureSqlDatabaseServer newAzureSqlDatabaseServer = new NewAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            newAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             newAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var newServerResult = newAzureSqlDatabaseServer.NewAzureSqlDatabaseServerProcess("MyLogin0", "MyPassword0", "MyLocation0");
             Assert.AreEqual("TestServer0", newServerResult.ServerName);
@@ -100,6 +102,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
 
             // Get all servers
             GetAzureSqlDatabaseServer getAzureSqlDatabaseServer = new GetAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            getAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             getAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var getServerResult = getAzureSqlDatabaseServer.GetAzureSqlDatabaseServersProcess(null);
             Assert.AreEqual(2, getServerResult.Count());
@@ -167,6 +170,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
 
             // Add two servers
             NewAzureSqlDatabaseServer newAzureSqlDatabaseServer = new NewAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            newAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             newAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var newServerResult = newAzureSqlDatabaseServer.NewAzureSqlDatabaseServerProcess("MyLogin0", "MyPassword0", "MyLocation0");
             Assert.AreEqual("TestServer0", newServerResult.ServerName);
@@ -178,17 +182,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
 
             // Get all servers
             GetAzureSqlDatabaseServer getAzureSqlDatabaseServer = new GetAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            getAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             getAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var getServerContext = getAzureSqlDatabaseServer.GetAzureSqlDatabaseServersProcess(null);
             Assert.AreEqual(2, getServerContext.Count());
 
             // Remove TestServer0
             RemoveAzureSqlDatabaseServer removeAzureSqlDatabaseServer = new RemoveAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            removeAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             removeAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var removeServerContext = removeAzureSqlDatabaseServer.RemoveAzureSqlDatabaseServerProcess("TestServer0");
 
             // Verify only one server is left
             getAzureSqlDatabaseServer = new GetAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            getAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             getAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var getServerResult = getAzureSqlDatabaseServer.GetAzureSqlDatabaseServersProcess(null);
             Assert.AreEqual(1, getServerContext.Count());
@@ -197,11 +204,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("MyLogin1", firstServer.AdministratorLogin);
             Assert.AreEqual("MyLocation1", firstServer.Location);
             Assert.AreEqual("Success", firstServer.OperationStatus);
-            
+
             Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
 
             // Remove TestServer0 again
             removeAzureSqlDatabaseServer = new RemoveAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            removeAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             removeAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             removeServerContext = removeAzureSqlDatabaseServer.RemoveAzureSqlDatabaseServerProcess("TestServer0");
             Assert.AreEqual(1, commandRuntime.ErrorRecords.Count);
@@ -239,18 +247,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             };
 
             NewAzureSqlDatabaseServer newAzureSqlDatabaseServer = new NewAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            newAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             newAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var newServerResult = newAzureSqlDatabaseServer.NewAzureSqlDatabaseServerProcess("MyLogin", "MyPassword", "MyLocation");
             Assert.AreEqual("NewServerName", newServerResult.ServerName);
             Assert.AreEqual("Success", newServerResult.OperationStatus);
 
             SetAzureSqlDatabaseServer setAzureSqlDatabaseServer = new SetAzureSqlDatabaseServer(channel) { ShareChannel = true };
+            setAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelpers.CreateUnitTestSubscription();
             setAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             var setPasswordResult = setAzureSqlDatabaseServer.ResetAzureSqlDatabaseServerAdminPasswordProcess("NewServerName", "NewPassword");
             Assert.AreEqual("NewServerName", setPasswordResult.ServerName);
             Assert.AreEqual("Success", setPasswordResult.OperationStatus);
             Assert.AreEqual("NewPassword", password);
-            
+
             Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
         }
     }
