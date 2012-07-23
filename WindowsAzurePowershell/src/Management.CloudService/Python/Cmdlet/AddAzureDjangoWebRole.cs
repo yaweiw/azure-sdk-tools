@@ -48,12 +48,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             if (interpPath != null)
             {
                 string stdOut, stdErr;
-                Environment.CurrentDirectory = Path.Combine(rootPath, webRoleName);
+                Environment.CurrentDirectory = Path.Combine(rootPath, webRole.Name);
 
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
-                        String.Format(DjangoStartProjectCommand, webRoleName)
+                        String.Format(DjangoStartProjectCommand, webRole.Name)
                     ),
                     out stdOut,
                     out stdErr
