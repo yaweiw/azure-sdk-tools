@@ -31,10 +31,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServer", ConfirmImpact = ConfirmImpact.None)]
     public class GetAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="GetAzureSqlDatabaseServer"/> class.
+        /// </summary>
         public GetAzureSqlDatabaseServer()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="GetAzureSqlDatabaseServer"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public GetAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -48,6 +59,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Retrieves one or more servers in the current subscription.
+        /// </summary>
+        /// <param name="serverName">
+        /// The specific name of the server to retrieve, or <c>null</c> to
+        /// retrieve all servers in the current subscription.
+        /// </param>
+        /// <returns>A list of servers in the subscription.</returns>
         internal IEnumerable<SqlDatabaseServerContext> GetAzureSqlDatabaseServersProcess(string serverName)
         {
             IEnumerable<SqlDatabaseServerContext> processResult = null;
@@ -62,7 +81,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
 
                     if (string.IsNullOrEmpty(serverName))
                     {
-                        // Server name is not specified, select all 
+                        // Server name is not specified, return all servers
+                        // in the subscription.
                         processResult = servers.Select(server => new SqlDatabaseServerContext
                         {
                             ServerName = server.Name,
@@ -75,6 +95,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                     }
                     else
                     {
+                        // Server name is specified, find the one with the
+                        // specified rule name and return that.
                         SqlDatabaseServer server = servers.FirstOrDefault(s => s.Name == serverName);
                         if (server != null)
                         {
@@ -107,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {

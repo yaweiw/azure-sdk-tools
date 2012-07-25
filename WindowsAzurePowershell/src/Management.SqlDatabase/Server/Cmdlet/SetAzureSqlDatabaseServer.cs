@@ -30,10 +30,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServer", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class SetAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="SetAzureSqlDatabaseServer"/> class.
+        /// </summary>
         public SetAzureSqlDatabaseServer()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="SetAzureSqlDatabaseServer"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public SetAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -62,6 +73,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Resets the administrator password for an existing server in the
+        /// current subscription.
+        /// </summary>
+        /// <param name="serverName">
+        /// The name of the server for which to reset the password.
+        /// </param>
+        /// <param name="newPassword">
+        /// The new password for the server.
+        /// </param>
+        /// <returns>The context to this operation.</returns>
         internal SqlDatabaseServerOperationContext ResetAzureSqlDatabaseServerAdminPasswordProcess(string serverName, string newPassword)
         {
             // Do nothing if force is not specified and user cancelled the operation
@@ -100,6 +122,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             return operationContext;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         protected override void ProcessRecord()
         {
             try

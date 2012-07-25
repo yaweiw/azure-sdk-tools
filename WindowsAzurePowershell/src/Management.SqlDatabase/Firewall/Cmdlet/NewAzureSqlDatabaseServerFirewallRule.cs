@@ -30,10 +30,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerFirewallRule", DefaultParameterSetName = "IpRange", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="NewAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
         public NewAzureSqlDatabaseServerFirewallRule()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="NewAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public NewAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -78,7 +89,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
-        internal SqlDatabaseServerFirewallRuleContext NewAzureSqlDatabaseServerFirewallRuleProcess(string paramterSetName, string serverName, string ruleName, string startIpAddress, string endIpAddress)
+        /// <summary>
+        /// Creates a new firewall rule on the specified server.
+        /// </summary>
+        /// <param name="parameterSetName">
+        /// The parameter set for the command.
+        /// </param>
+        /// <param name="serverName">
+        /// The name of the server in which to create the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the new firewall rule.
+        /// </param>
+        /// <param name="startIpAddress">
+        /// The starting IP address for the firewall rule.
+        /// </param>
+        /// <param name="endIpAddress">
+        /// The ending IP address for the firewall rule.
+        /// </param>
+        /// <returns>The context to the newly created firewall rule.</returns>
+        internal SqlDatabaseServerFirewallRuleContext NewAzureSqlDatabaseServerFirewallRuleProcess(string parameterSetName, string serverName, string ruleName, string startIpAddress, string endIpAddress)
         {
             // Do nothing if force is not specified and user cancelled the operation
             if (!Force.IsPresent &&
@@ -93,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             SqlDatabaseServerFirewallRuleContext operationContext = null;
             try
             {
-                switch (paramterSetName)
+                switch (parameterSetName)
                 {
                     case "IpRange":
                         InvokeInOperationContext(() =>
@@ -129,7 +159,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {

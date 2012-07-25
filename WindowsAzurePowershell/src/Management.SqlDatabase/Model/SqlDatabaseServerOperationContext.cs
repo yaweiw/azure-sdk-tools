@@ -18,10 +18,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Model
 
     public class SqlDatabaseServerOperationContext : ManagementOperationContext
     {
-        public string ServerName
-        {
-            get;
-            set;
-        }
+        public string ServerName { get; set; }
     }
 }

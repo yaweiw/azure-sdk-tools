@@ -16,11 +16,45 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 {
     public static partial class SqlDatabaseManagementExtensionMethods
     {
+        /// <summary>
+        /// Retrieves all firewall rules on the specified server.
+        /// </summary>
+        /// <param name="proxy">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="subscriptionId">
+        /// The subscription id which contains the server.
+        /// </param>
+        /// <param name="serverName">
+        /// The name of the server to retrieve firewall rules for.
+        /// </param>
+        /// <returns>A list of all firewall rules on the server.</returns>
         public static SqlDatabaseFirewallRulesList GetServerFirewallRules(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName)
         {
             return proxy.EndGetServerFirewallRules(proxy.BeginGetServerFirewallRules(subscriptionId, serverName, null, null));
         }
 
+        /// <summary>
+        /// Creates a new firewall rule on the specified server.
+        /// </summary>
+        /// <param name="proxy">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="subscriptionId">
+        /// The subscription id which contains the server.
+        /// </param>
+        /// <param name="serverName">
+        /// The name of the server in which to create the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the new firewall rule.
+        /// </param>
+        /// <param name="startIpAddress">
+        /// The starting IP address for the firewall rule.
+        /// </param>
+        /// <param name="endIpAddress">
+        /// The ending IP address for the firewall rule.
+        /// </param>
         public static void NewServerFirewallRule(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, string ruleName, string startIpAddress, string endIpAddress)
         {
             var input = new SqlDatabaseFirewallRuleInput
@@ -33,6 +67,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             proxy.EndNewServerFirewallRule(proxy.BeginNewServerFirewallRule(subscriptionId, serverName, input, null, null));
         }
 
+        /// <summary>
+        /// Updates a firewall rule on the specified server.
+        /// </summary>
+        /// <param name="proxy">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="subscriptionId">
+        /// The subscription id which contains the server.
+        /// </param>
+        /// <param name="serverName">
+        /// The name of the server containing the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the firewall rule to update.
+        /// </param>
+        /// <param name="startIpAddress">
+        /// The starting IP address for the firewall rule.
+        /// </param>
+        /// <param name="endIpAddress">
+        /// The ending IP address for the firewall rule.
+        /// </param>
         public static void UpdateServerFirewallRule(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, string ruleName, string startIpAddress, string endIpAddress)
         {
             var input = new SqlDatabaseFirewallRuleInput
@@ -45,6 +100,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             proxy.EndUpdateServerFirewallRule(proxy.BeginUpdateServerFirewallRule(subscriptionId, serverName, ruleName, input, null, null));
         }
 
+        /// <summary>
+        /// Removes a new firewall rule on the specified server.
+        /// </summary>
+        /// <param name="proxy">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="subscriptionId">
+        /// The subscription id which contains the server.
+        /// </param>
+        /// <param name="serverName">
+        /// The name of the server containing the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the firewall rule to remove.
+        /// </param>
         public static void RemoveServerFirewallRule(this ISqlDatabaseManagement proxy, string subscriptionId, string serverName, string ruleName)
         {
             proxy.EndRemoveServerFirewallRule(proxy.BeginRemoveServerFirewallRule(subscriptionId, serverName, ruleName, null, null));

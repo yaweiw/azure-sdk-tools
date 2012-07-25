@@ -29,10 +29,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServerFirewallRule", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Medium)]
     public class RemoveAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="RemoveAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
         public RemoveAzureSqlDatabaseServerFirewallRule()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="RemoveAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public RemoveAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -61,6 +72,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Removes a new firewall rule on the specified server.
+        /// </summary>
+        /// <param name="serverName">
+        /// The name of the server containing the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the firewall rule to remove.
+        /// </param>
+        /// <returns>The context to this operation.</returns>
         internal SqlDatabaseServerOperationContext RemoveAzureSqlDatabaseServerFirewallRuleProcess(string serverName, string ruleName)
         {
             // Do nothing if force is not specified and user cancelled the operation
@@ -100,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {

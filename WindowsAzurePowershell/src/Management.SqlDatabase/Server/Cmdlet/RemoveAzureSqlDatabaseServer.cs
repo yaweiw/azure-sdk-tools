@@ -29,10 +29,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabaseServer", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="RemoveAzureSqlDatabaseServer"/> class.
+        /// </summary>
         public RemoveAzureSqlDatabaseServer()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="RemoveAzureSqlDatabaseServer"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public RemoveAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -53,6 +64,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Removes an existing server in the current subscription.
+        /// </summary>
+        /// <param name="serverName">
+        /// The name of the server to remove.
+        /// </param>
+        /// <returns>The context to this operation.</returns>
         internal SqlDatabaseServerOperationContext RemoveAzureSqlDatabaseServerProcess(string serverName)
         {
             // Do nothing if force is not specified and user cancelled the operation
@@ -91,6 +109,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             return operationContext;
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
         protected override void ProcessRecord()
         {
             try

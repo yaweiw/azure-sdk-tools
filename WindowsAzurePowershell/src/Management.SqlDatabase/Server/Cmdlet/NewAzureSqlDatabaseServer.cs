@@ -29,10 +29,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServer", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabaseServer : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="NewAzureSqlDatabaseServer"/> class.
+        /// </summary>
         public NewAzureSqlDatabaseServer()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="NewAzureSqlDatabaseServer"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public NewAzureSqlDatabaseServer(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -69,6 +80,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Creates a new server in the current subscription.
+        /// </summary>
+        /// <param name="adminLogin">
+        /// The administrator login name for the new server.
+        /// </param>
+        /// <param name="adminLoginPassword">
+        /// The administrator login password for the new server.
+        /// </param>
+        /// <param name="location">
+        /// The location in which to create the new server.
+        /// </param>
+        /// <returns>The context to the newly created server.</returns>
         internal SqlDatabaseServerContext NewAzureSqlDatabaseServerProcess(string adminLogin, string adminLoginPassword, string location)
         {
             // Do nothing if force is not specified and user cancelled the operation
@@ -110,7 +134,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {

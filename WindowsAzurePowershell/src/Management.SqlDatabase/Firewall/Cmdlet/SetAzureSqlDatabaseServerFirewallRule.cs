@@ -29,10 +29,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     [Cmdlet(VerbsCommon.Set, "AzureSqlDatabaseServerFirewallRule", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.Low)]
     public class SetAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="SetAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
         public SetAzureSqlDatabaseServerFirewallRule()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="SetAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
         public SetAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -77,6 +88,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Updates a firewall rule on the specified server.
+        /// </summary>
+        /// <param name="serverName">
+        /// The name of the server containing the firewall rule.
+        /// </param>
+        /// <param name="ruleName">
+        /// The name of the firewall rule to update.
+        /// </param>
+        /// <param name="startIpAddress">
+        /// The starting IP address for the firewall rule.
+        /// </param>
+        /// <param name="endIpAddress">
+        /// The ending IP address for the firewall rule.
+        /// </param>
+        /// <returns>The updated firewall rule.</returns>
         internal SqlDatabaseServerFirewallRuleContext SetAzureSqlDatabaseServerFirewallRuleProcess(string serverName, string ruleName, string startIpAddress, string endIpAddress)
         {
             // Do nothing if force is not specified and user cancelled the operation
@@ -119,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {

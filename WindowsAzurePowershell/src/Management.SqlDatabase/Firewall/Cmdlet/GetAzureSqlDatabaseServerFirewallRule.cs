@@ -31,10 +31,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     [Cmdlet(VerbsCommon.Get, "AzureSqlDatabaseServerFirewallRule", ConfirmImpact = ConfirmImpact.None)]
     public class GetAzureSqlDatabaseServerFirewallRule : SqlDatabaseManagementCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
         public GetAzureSqlDatabaseServerFirewallRule()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetAzureSqlDatabaseServerFirewallRule"/> class.
+        /// </summary>
+        /// <param name="channel">Channel used for communication with Azure's service management APIs.</param>
         public GetAzureSqlDatabaseServerFirewallRule(ISqlDatabaseManagement channel)
         {
             this.Channel = channel;
@@ -56,6 +63,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             set;
         }
 
+        /// <summary>
+        /// Retrieves one or more firewall rules on the specified server.
+        /// </summary>
+        /// <param name="serverName">
+        /// The name of the server to retrieve firewall rules for.
+        /// </param>
+        /// <param name="ruleName">
+        /// The specific name of the rule to retrieve, or <c>null</c> to
+        /// retrieve all rules on the specified server.
+        /// </param>
+        /// <returns>A list of firewall rules on the server.</returns>
         internal IEnumerable<SqlDatabaseServerFirewallRuleContext> GetAzureSqlDatabaseServerFirewallRuleProcess(string serverName, string ruleName)
         {
             IEnumerable<SqlDatabaseServerFirewallRuleContext> processResult = null;
@@ -70,7 +88,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
 
                     if (string.IsNullOrEmpty(ruleName))
                     {
-                        // Firewall rule name is not specified, select all 
+                        // Firewall rule name is not specified, return all
+                        // firewall rules.
                         processResult = firewallRules.Select(p => new SqlDatabaseServerFirewallRuleContext()
                         {
                             OperationDescription = CommandRuntime.ToString(),
@@ -84,6 +103,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
                     }
                     else
                     {
+                        // Firewall rule name is specified, find the one
+                        // with the specified rule name and return that.
                         SqlDatabaseFirewallRule firewallRule = firewallRules.FirstOrDefault(p => p.Name == ruleName);
                         if (firewallRule != null)
                         {
@@ -118,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
         }
 
         /// <summary>
-        /// Executes the cmdlet.
+        /// Execute the command.
         /// </summary>
         protected override void ProcessRecord()
         {
