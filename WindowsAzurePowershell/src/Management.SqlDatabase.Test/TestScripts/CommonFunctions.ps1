@@ -30,6 +30,13 @@ function Init-TestEnvironment
         $SerializedCert
     )
     $ConfirmPreference = "Medium"
+    $DebugPreference = "Continue"
+    $ErrorActionPreference = "Continue"
+    $FormatEnumerationLimit = 10000
+    $ProgressPreference = "SilentlyContinue"
+    $VerbosePreference = "Continue"
+    $WarningPreference = "Continue"
+    $WhatIfPreference = $false
 
     $moduleLoaded = Get-Module -Name "Microsoft.WindowsAzure.Management"
     if(!$moduleLoaded)
@@ -188,4 +195,43 @@ function Validate-SqlDatabaseServerFirewallRuleContext
     Assert {$actual.StartIpAddress -eq $ExpectedStartIpAddress} "StartIpAddress didn't match. Actual:[$($actual.StartIpAddress)] expected:[$ExpectedStartIpAddress]"
     Assert {$actual.EndIpAddress -eq $ExpectedEndIpAddress} "EndIpAddress didn't match. Actual:[$($actual.EndIpAddress)] expected:[$ExpectedEndIpAddress]"
     Validate-SqlDatabaseServerOperationContext -Actual $actual -ExpectedServerName $ExpectedServerName -ExpectedOperationDescription $ExpectedOperationDescription
+}
+
+function Drop-Server
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Model.SqlDatabaseServerOperationContext]
+        $Server
+    )
+
+    if($server)
+    {
+        # Drop server
+        Write-Output "Dropping server $($server.ServerName) ..."
+        Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
+        Write-Output "Dropped server $($server.ServerName)"
+    }
+}
+
+function Write-TestResult
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [bool]
+        $TestResult
+    )
+
+    if($IsTestPass)
+    {
+        Write-Output "PASS"
+    }
+    else
+    {
+        Write-Output "FAILED"
+    }
 }

@@ -30,6 +30,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         private string serializedCert;
         private string serverLocation;
 
+        private const string ServerTestScript = "CreateGetDeleteServer.ps1";
+        private const string FirewallTestScript = "CreateGetDropFirewall.ps1";
+        private const string ResetPasswordScript = "ResetPassword.ps1";
+        private const string FormatValidationScript = "FormatValidation.ps1";
+
         [TestInitialize]
         public void Setup()
         {
@@ -50,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         public void ServerTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript("CreateGetDeleteServer.ps1", arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.ServerTestScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -59,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         public void FirewallTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript("CreateGetDropFirewall.ps1", arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.FirewallTestScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -68,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         public void ResetServerPassword()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript("ResetPassword.ps1", arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.ResetPasswordScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -78,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", this.subscriptionID, this.serializedCert, this.serverLocation, outputFile);
-            bool testResult = PSScriptExecutor.ExecuteScript("FormatValidation.ps1", arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
 
             string actualFormat = GetMaskedData(outputFile);

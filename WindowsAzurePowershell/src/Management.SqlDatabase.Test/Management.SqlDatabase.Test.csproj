@@ -113,6 +113,7 @@
     <Compile Include="Utilities\PSScriptExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FunctionalTests\Readme.txt" />
     <Content Include="Resources\Microsoft.WindowsAzure.Management.SqlDatabase.Test.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

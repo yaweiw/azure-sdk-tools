@@ -74,20 +74,7 @@ Try
 }
 Finally
 {
-    if($server)
-    {
-        # Drop server
-        Write-Output "Dropping server $($server.ServerName) ..."
-        Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
-        Write-Output "Dropped server $($server.ServerName)"
-    }
-    if($IsTestPass)
-    {
-        Write-Output "PASS"
-    }
-    else
-    {
-        Write-Output "FAILED"
-    }
+    Drop-Server $server
+    Write-TestResult $IsTestPass
 }
 

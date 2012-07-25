@@ -62,9 +62,7 @@ Finally
     if($server)
     {
         # Drop server
-        Write-Output "Dropping server $($server.ServerName)"
-        Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
-        Write-Output "Dropped server $($server.ServerName)"
+        Drop-Server $server
         
         #Validate Drop server
         Write-Output 'Validating drop'
@@ -72,12 +70,5 @@ Finally
         Assert {!$getDroppedServer} "Server is not dropped"
         Write-Output "Validation successful"
     }
-    if($IsTestPass)
-    {
-        Write-Output "PASS"
-    }
-    else
-    {
-        Write-Output "FAILED"
-    }
+    Write-TestResult $IsTestPass
 }
