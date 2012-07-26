@@ -21,6 +21,7 @@
     <PublishDirectory>.\Publish</PublishDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
+    <TestFilter>!Functional</TestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
   </PropertyGroup>
   <ItemGroup>
@@ -153,11 +154,11 @@
     
     <Message Importance="high" Text="Debug tests:" />
     <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="true" />
     <Message Importance="high" Text="Release tests:" />
     <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /resultsfile:$(TestOutputDirectory)\Release.trx"
+      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Release.trx"
       ContinueOnError="true" />
   </Target>
   
