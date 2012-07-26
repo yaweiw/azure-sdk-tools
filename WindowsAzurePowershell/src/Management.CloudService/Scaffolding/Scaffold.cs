@@ -39,12 +39,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
         {
             string contents = File.ReadAllText(path);
 
-            foreach (KeyValuePair<string, object> pair in parameters)
-            {
-                contents = contents.Replace(string.Format("${0}$", pair.Key), pair.Value.ToString());
-            }
+            contents = ReplaceParameter(contents, parameters);
 
             File.WriteAllText(path, contents);
+        }
+
+        private static string ReplaceParameter(string text, Dictionary<string, object> parameters)
+        {
+            foreach (KeyValuePair<string, object> pair in parameters)
+            {
+                text = text.Replace(string.Format("${0}$", pair.Key), pair.Value.ToString());
+            }
+            return text;
         }
 
         public static void GenerateScaffolding(string sourcePath, string destPath, Dictionary<string, object> parameters)

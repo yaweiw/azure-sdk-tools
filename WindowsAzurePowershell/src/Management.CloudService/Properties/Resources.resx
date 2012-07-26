@@ -647,4 +647,19 @@
   <data name="ServiceDoesNotExist" xml:space="preserve">
     <value>The specified service does not exist.</value>
   </data>
+  <data name="AddRoleMessageCreatePython" xml:space="preserve">
+    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running "pip windowsazure".</value>
+  </data>
+  <data name="MissingPythonPreReq" xml:space="preserve">
+    <value>Python 2.7 is not installed.  Please install it as well as Django 1.4.</value>
+  </data>
+  <data name="PythonScaffolding" xml:space="preserve">
+    <value>Scaffolding\Python</value>
+  </data>
+  <data name="UnableToCreateDjangoApp" xml:space="preserve">
+    <value>Unable to create Django application: {0}</value>
+  </data>
+  <data name="UnableToCreateDjangoAppFix" xml:space="preserve">
+    <value>Make sure you have Python 2.7 installed along with Django installed to site-packages.</value>
+  </data>
 </root>
