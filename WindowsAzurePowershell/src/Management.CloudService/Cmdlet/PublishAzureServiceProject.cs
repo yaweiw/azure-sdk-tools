@@ -33,12 +33,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using WAPPSCmdlet;
     using Extensions;
     using Management.Services;
+    using System.Text;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess=true)]
+    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true)]
     public class PublishAzureServiceProjectCommand : DeploymentServiceManagementCmdletBase
     {
         private DeploymentSettings _deploymentSettings;
@@ -69,6 +71,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
+        [Parameter(Mandatory = false)]
+        public SwitchParameter Force
+        {
+            get { return force; }
+            set { force = value; }
+        }
+
+        private bool force;
         /// <summary>
         /// Gets or sets a flag indicating whether publishing should skip the
         /// upload step.  This is only used for testing.
@@ -135,35 +145,42 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             SafeWriteObject(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
-            InitializeSettingsAndCreatePackage(serviceRootPath);
-
-            if (ServiceExists())
+            if (InitializeSettingsAndCreatePackage(serviceRootPath))
             {
-                var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
-                bool deploymentExists = deploymentStatusCommand.DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
-                if (deploymentExists)
+
+
+                if (ServiceExists())
                 {
-                    UpgradeDeployment();
+                    var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                    bool deploymentExists = deploymentStatusCommand.DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
+                    if (deploymentExists)
+                    {
+                        UpgradeDeployment();
+                    }
+                    else
+                    {
+                        CreateNewDeployment();
+                    }
                 }
                 else
                 {
+                    CreateHostedService();
                     CreateNewDeployment();
+                }
+
+                // Verify the deployment succeeded by checking that each of the
+                // roles are running
+                VerifyDeployment();
+
+                // After we've finished deploying, optionally launch a browser pointed at the service
+                if (Launch && CanGenerateUrlForDeploymentSlot())
+                {
+                    LaunchService();
                 }
             }
             else
             {
-                CreateHostedService();
-                CreateNewDeployment();
-            }
-
-            // Verify the deployment succeeded by checking that each of the
-            // roles are running
-            VerifyDeployment();
-
-            // After we've finished deploying, optionally launch a browser pointed at the service
-            if (Launch && CanGenerateUrlForDeploymentSlot())
-            {
-                LaunchService();
+                SafeWriteObject(Resources.PublishAbortedAtUserRequest);
             }
         }
 
@@ -187,7 +204,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// path along with its DeploymentSettings and SubscriptionId.
         /// </summary>
         /// <param name="rootPath">Root path of the Azure service.</param>
-        internal void InitializeSettingsAndCreatePackage(string rootPath)
+        /// <param name="manifest">External runtime manifest to use, mainly for testing purposes</param>
+        internal bool InitializeSettingsAndCreatePackage(string rootPath, string manifest = null)
         {
             Debug.Assert(!string.IsNullOrEmpty(rootPath), "rootPath cannot be null or empty.");
             Debug.Assert(Directory.Exists(rootPath), "rootPath does not exist.");
@@ -222,17 +240,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 defaultSettings.Subscription = CurrentSubscription.SubscriptionName;
             }
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
-                _hostedServiceName, CurrentSubscription.SubscriptionId));
+            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart, 
+                _hostedServiceName));
+            if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
+            {
 
-            CreatePackage();
+                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
+                    _hostedServiceName, CurrentSubscription.SubscriptionId));
 
-            _deploymentSettings = new DeploymentSettings(
-                defaultSettings,
-                _azureService.Paths.CloudPackage,
-                _azureService.Paths.CloudConfiguration,
-                _hostedServiceName,
-                string.Format(Resources.ServiceDeploymentName, defaultSettings.Slot));
+                CreatePackage();
+
+                _deploymentSettings = new DeploymentSettings(
+                    defaultSettings,
+                    _azureService.Paths.CloudPackage,
+                    _azureService.Paths.CloudConfiguration,
+                    _hostedServiceName,
+                    string.Format(Resources.ServiceDeploymentName, defaultSettings.Slot));
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -246,6 +274,96 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             string unused = null;
             _azureService.CreatePackage(DevEnv.Cloud, out unused, out unused);
+        }
+
+        /// <summary>
+        /// Set up runtime deployment info for each role in the service - after this method is called, 
+        /// each role will have its startup configured with the URI of a runtime package to install at 
+        /// role start
+        /// </summary>
+        /// <param name="service">The service to prepare</param>
+        /// <param name="settings">The runtime settings to use to determine location</param>
+        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings,
+            string manifest = null)
+        {
+            CloudRuntimeCollection availableRuntimePackages;
+            Model.Location deploymentLocation = GetSettingsLocation(settings);
+            if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation,
+                out availableRuntimePackages, manifestFile: manifest))
+            {
+                throw new ArgumentException(string.Format(Resources.ErrorRetrievingRuntimesForLocation,
+                    deploymentLocation));
+            }
+
+            ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
+            StringBuilder warningText = new StringBuilder();
+            bool shouldWarn = false;
+            if (definition.WebRole != null)
+            {
+                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
+                {
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role))
+                    {
+                        CloudRuntimePackage package;
+                        if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                        {
+                            string warning;
+                            if (!runtime.ValidateMatch(package, out warning))
+                            {
+                                shouldWarn = true;
+                                warningText.AppendFormat("{0}\r\n", warning);
+                            }
+                        }
+
+                        runtime.ApplyRuntime(package, role);
+                    }
+                }
+            }
+
+            if (definition.WorkerRole != null)
+            {
+                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
+                {
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role))
+                    {
+                        CloudRuntimePackage package;
+                        if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                        {
+                            string warning;
+                            if (!runtime.ValidateMatch(package, out warning))
+                            {
+                                shouldWarn = true;
+                                warningText.AppendFormat("{0}\r\n", warning);
+                            }
+                        }
+                        runtime.ApplyRuntime(package, role);
+                    }
+                }
+            }
+
+            if (!shouldWarn || ShouldProcess(string.Format(Resources.RuntimeMismatchWarning,
+                _azureService.ServiceName)))
+            {
+                if (!shouldWarn || Force || ShouldContinue(warningText.ToString(),
+                    string.Format(Resources.RuntimeMismatchWarning, _azureService.ServiceName)))
+                {
+                    service.Components.Save(service.Paths);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private Model.Location GetSettingsLocation(ServiceSettings settings)
+        {
+            if (ArgumentConstants.ReverseLocations.ContainsKey(settings.Location.ToLower()))
+            {
+                return ArgumentConstants.ReverseLocations[settings.Location.ToLower()];
+            }
+
+            throw new ArgumentException(string.Format(Resources.RuntimeDeploymentLocationError,
+                settings.Location));
         }
 
         /// <summary>
