@@ -740,4 +740,22 @@
   <data name="RuntimeUrlKey" xml:space="preserve">
     <value>RUNTIMEURL</value>
   </data>
+  <data name="IISNodeEngineKey" xml:space="preserve">
+    <value>iisnode</value>
+  </data>
+  <data name="JsonEnginesSectionName" xml:space="preserve">
+    <value>engines</value>
+  </data>
+  <data name="NodeEngineKey" xml:space="preserve">
+    <value>node</value>
+  </data>
+  <data name="PackageJsonDefaultFile" xml:space="preserve">
+    <value>{\r\n  "author": "",
+\r\n  "name": "{0}",\r\n  "version": "0.0.0",\r\n  "dependencies": {},\r\n  "devDependencies": {},\r\n  "optionalDependencies": {},\r\n  "engines": {
+\r\n    "node": "*",\r\n    "iisnode": "*"\r\n  }
+\r\n}\r\n</value>
+  </data>
+  <data name="PackageJsonFileName" xml:space="preserve">
+    <value>package.json</value>
+  </data>
 </root>

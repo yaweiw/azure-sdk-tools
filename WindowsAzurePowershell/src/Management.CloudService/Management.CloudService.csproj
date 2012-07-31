@@ -144,6 +144,7 @@
     <Compile Include="Model\CloudRuntimeCollection.cs" />
     <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
+    <Compile Include="Model\JavaScriptPackageHelpers.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
     <Compile Include="Cmdlet\StartAzureService.cs" />
@@ -364,6 +365,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1" />
+    <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1" />
     <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

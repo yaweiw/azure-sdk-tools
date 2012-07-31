@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
         }
 
-        private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName)
+        private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)
         {
             CloudRuntime runtime;
             switch(runtimeType)
@@ -84,41 +84,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             }
 
             runtime.RoleName = roleName;
+            runtime.FilePath = rolePath;
             return runtime;
         }
 
-        private static Collection<CloudRuntime> GetRuntimes(Dictionary<string, string> settings, string roleName)
+        private static Collection<CloudRuntime> GetRuntimes(Dictionary<string, string> settings, 
+            string roleName, string rolePath)
         {
             Collection<CloudRuntime> runtimes = new Collection<CloudRuntime>(new List<CloudRuntime>());
             foreach (Runtime runtimeType in GetRuntimeTypes(settings))
             {
-                CloudRuntime runtime = CreateRuntimeInternal(runtimeType, roleName);
-                runtime.ConfigureRuntimeOverrides(runtime, settings);
-                runtime.Configure();
+                CloudRuntime runtime = CreateRuntimeInternal(runtimeType, roleName, rolePath);
+                runtime.Configure(settings);
                 runtimes.Add(runtime);
             }
 
             return runtimes;
         }
 
-        public static Collection<CloudRuntime> CreateRuntime(WebRole webRole)
+        public static Collection<CloudRuntime> CreateRuntime(WebRole webRole, string rolePath)
         {
-            return GetRuntimes(GetStartupEnvironment(webRole), webRole.name);
+            return GetRuntimes(GetStartupEnvironment(webRole), webRole.name, rolePath);
         }
 
-        public static Collection<CloudRuntime> CreateRuntime(WorkerRole workerRole)
+        public static Collection<CloudRuntime> CreateRuntime(WorkerRole workerRole, string rolePath)
         {
-            return GetRuntimes(GetStartupEnvironment(workerRole), workerRole.name);
-        }
-
-        protected void ConfigureRuntimeOverrides(CloudRuntime runtime, Dictionary<string, string> environmentSettings)
-        {
+            return GetRuntimes(GetStartupEnvironment(workerRole), workerRole.name, rolePath);
         }
 
         private static Collection<Runtime> GetRuntimeTypes(Dictionary<string, string> environmentSettings)
         {
             Collection<Runtime> runtimes = new Collection<Runtime>(new List<Runtime>());
-            Runtime runtimeType = Runtime.Null;
             if (environmentSettings.ContainsKey(Resources.RuntimeOverrideKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeOverrideKey]))
             {
                 runtimes.Add(Runtime.Null);
@@ -140,7 +136,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                         runtimes.Add(Runtime.PHP);
                     }
                 }
-                runtimeType = Runtime.Node;
             }
 
             return runtimes;
@@ -242,18 +237,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             workerRole.Startup.Task[0].Environment = ApplySettingChanges(changes, workerRole.Startup.Task[0].Environment);
         }
 
-        public virtual void ApplyRuntime(CloudRuntimePackage package, AzureService service, WebRole webRole)
+        public virtual void ApplyRuntime(CloudRuntimePackage package, WebRole webRole)
         {
-
             Dictionary<string, string> changes;
             if( this.GetChanges(package, out changes)) {
                 ApplyRoleXmlChanges(changes, webRole);
             }
 
-            ApplyScaffoldingChanges(package, service, webRole.name);
+            ApplyScaffoldingChanges(package);
         }
 
-        public virtual void ApplyRuntime(CloudRuntimePackage package, AzureService service, WorkerRole workerRole)
+        public virtual void ApplyRuntime(CloudRuntimePackage package, WorkerRole workerRole)
         {
             Dictionary<string, string> changes;
             if (this.GetChanges(package, out changes))
@@ -261,10 +255,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 ApplyRoleXmlChanges(changes, workerRole);
             }
 
-            ApplyScaffoldingChanges(package, service, workerRole.name);
+            ApplyScaffoldingChanges(package);
         }
 
-        protected abstract void ApplyScaffoldingChanges(CloudRuntimePackage package, AzureService service, string roleName);
+        protected abstract void ApplyScaffoldingChanges(CloudRuntimePackage package);
 
         public abstract bool Match(CloudRuntimePackage runtime);
 
@@ -280,7 +274,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return result;
         }
 
-        protected abstract void Configure();
+        protected abstract void Configure(Dictionary<string,string> environment);
         protected abstract string GenerateWarningText(CloudRuntimePackage package);
         protected virtual bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
         {
@@ -292,13 +286,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private class IISNodeCloudRuntime : JavaScriptCloudRuntime
         {
-            protected override void Configure()
+
+            protected override void SetRunttimeType()
             {
                 this.Runtime = Runtime.IISNode;
-                if (string.IsNullOrEmpty(this.Version))
-                {
-                    this.Version = GetIISNodeVersion();
-                }
             }
 
             public override bool Match(CloudRuntimePackage runtime)
@@ -307,7 +298,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return string.Equals(this.Version, runtime.Version, StringComparison.OrdinalIgnoreCase);
             }
 
-            private string GetIISNodeVersion()
+            protected override string GetEngineKey()
+            {
+                return Resources.IISNodeEngineKey;
+            }
+
+            protected override string GetDefaultVersion()
             {
                 string fileVersion = Resources.DefaultFileVersion;
                 string iisnodePath = Path.Combine(GetProgramFilesDirectoryPathx86(), Path.Combine(Resources.IISNodePath, Resources.IISNodeDll));
@@ -324,15 +320,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return string.Format(Resources.IISNodeVersionWarningText, package.Version,
                         this.RoleName, this.Version);
             }
-
-            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package, AzureService service, string roleName)
-            {
-                ApplyChangesToPackageJson(package, service, roleName, Resources.IISNodeRuntimeValue);
-            }
         }
 
         abstract class JavaScriptCloudRuntime : CloudRuntime
         {
+            protected override void  Configure(Dictionary<string,string> environment)
+            {
+                SetRunttimeType();
+                if (string.IsNullOrEmpty(this.Version))
+                {
+                    string version;
+                    if (!TryGetVersionFromPackageJson(GetEngineKey(), out version))
+                    {
+                        version = GetDefaultVersion();
+                    }
+
+                    this.Version = version;
+                }
+            }
+
+            protected abstract void SetRunttimeType();
+            protected abstract string GetDefaultVersion();
+            protected abstract string GetEngineKey();
+
+            protected virtual bool TryGetVersionFromPackageJson(string engineKey, out string version)
+            {
+                version = null;
+                JavaScriptPackageHelpers.EnsurePackageJsonExists(this.FilePath, this.RoleName);
+                return JavaScriptPackageHelpers.TryGetEngineVersion(this.FilePath, engineKey, out version);
+            }
 
             public override bool Match(CloudRuntimePackage runtime)
             {
@@ -361,29 +377,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
             }
 
-            protected void ApplyChangesToPackageJson(CloudRuntimePackage package, AzureService service, string roleName, string engineKey)
+            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
             {
-                string packageJsonPath = GetPackageJsonPath(service, roleName);
-                StreamReader reader = new StreamReader(packageJsonPath);
-                string jsonText = reader.ReadToEnd();
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-            }
-
-            private string GetPackageJsonPath(AzureService service, string roleName)
-            {
-                throw new NotImplementedException();
+                JavaScriptPackageHelpers.EnsurePackageJsonExists(this.FilePath, this.RoleName);
+                JavaScriptPackageHelpers.TrySetEngineVersion(this.FilePath, GetEngineKey(), package.Version);
             }
         }
 
         private class NodeCloudRuntime : JavaScriptCloudRuntime
         {
-            protected override void Configure()
+            protected override void SetRunttimeType()
             {
                 this.Runtime = Runtime.Node;
-                if (string.IsNullOrEmpty(this.Version))
-                {
-                    this.Version = GetNodeVersion();
-                }
+            }
+
+            protected override string GetEngineKey()
+            {
+                return Resources.NodeEngineKey;
             }
 
             protected override string GenerateWarningText(CloudRuntimePackage package)
@@ -392,7 +402,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                         this.RoleName, this.Version);
             }
 
-            private string GetNodeVersion()
+            protected override string GetDefaultVersion()
             {
                 string fileVersion = Resources.DefaultFileVersion;
                 string nodePath = Path.Combine(GetProgramFilesDirectoryPathx86(), Path.Combine(Resources.NodeDirectory, Resources.NodeExe));
@@ -407,16 +417,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
                 return fileVersion;
             }
-
-            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package, AzureService service, string roleName)
-            {
-                ApplyChangesToPackageJson(package, service, roleName, Resources.NodeRuntimeValue);
-            }
         }
 
         private class PHPCloudRuntime : CloudRuntime
         {
-            protected override void Configure()
+            protected override void Configure(Dictionary<string, string> environment)
             {
                 this.Runtime = Runtime.PHP;
                 if (string.IsNullOrEmpty(this.Version))
@@ -435,6 +440,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return string.Format(Resources.PHPVersionWarningText, package.Version, this.RoleName, 
                     this.Version);
             }
+
+            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
+            {
+            }
         }
 
         private class NullCloudRuntime : CloudRuntime
@@ -444,7 +453,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return true;
             }
 
-            protected override void Configure()
+            protected override void Configure(Dictionary<string,string> environment)
             {
             }
 
@@ -457,6 +466,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 changes = null;
                 return false;
+            }
+
+            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
+            {
             }
         }
     }

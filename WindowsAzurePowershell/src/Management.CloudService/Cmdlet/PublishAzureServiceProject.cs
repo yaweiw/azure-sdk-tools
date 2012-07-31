@@ -302,7 +302,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
                 {
-                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role))
+                    string rolePath = Path.Combine(service.Paths.RootPath, role.name);
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))
@@ -324,7 +325,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
                 {
-                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role))
+                    string rolePath = Path.Combine(service.Paths.RootPath, role.name);
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
                         if (!availableRuntimePackages.TryFindMatch(runtime, out package))

@@ -621,6 +621,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to iisnode.
+        /// </summary>
+        internal static string IISNodeEngineKey {
+            get {
+                return ResourceManager.GetString("IISNodeEngineKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to iisnode-dev\\release\\x64.
         /// </summary>
         internal static string IISNodePath {
@@ -846,6 +855,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to engines.
+        /// </summary>
+        internal static string JsonEnginesSectionName {
+            get {
+                return ResourceManager.GetString("JsonEnginesSectionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffolding for this language is not yet supported.
         /// </summary>
         internal static string LanguageScaffoldingIsNotSupported {
@@ -932,6 +950,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string NodeDirectory {
             get {
                 return ResourceManager.GetString("NodeDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to node.
+        /// </summary>
+        internal static string NodeEngineKey {
+            get {
+                return ResourceManager.GetString("NodeEngineKey", resourceCulture);
             }
         }
         
@@ -1040,6 +1067,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string Package {
             get {
                 return ResourceManager.GetString("Package", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\r\n  &quot;author&quot;: &quot;&quot;,
+        ///\r\n  &quot;name&quot;: &quot;{0}&quot;,\r\n  &quot;version&quot;: &quot;0.0.0&quot;,\r\n  &quot;dependencies&quot;: {},\r\n  &quot;devDependencies&quot;: {},\r\n  &quot;optionalDependencies&quot;: {},\r\n  &quot;engines&quot;: {
+        ///\r\n    &quot;node&quot;: &quot;*&quot;,\r\n    &quot;iisnode&quot;: &quot;*&quot;\r\n  }
+        ///\r\n}\r\n.
+        /// </summary>
+        internal static string PackageJsonDefaultFile {
+            get {
+                return ResourceManager.GetString("PackageJsonDefaultFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to package.json.
+        /// </summary>
+        internal static string PackageJsonFileName {
+            get {
+                return ResourceManager.GetString("PackageJsonFileName", resourceCulture);
             }
         }
         
