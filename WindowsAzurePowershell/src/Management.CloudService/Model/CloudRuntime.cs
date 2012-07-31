@@ -102,6 +102,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return runtimes;
         }
 
+        public static CloudRuntime CreateCloudRuntime(string runtimeType, string runtimeVersion, string roleName, string rolePath)
+        {
+            CloudRuntime runtime = CreateRuntimeInternal(GetRuntimeByType(runtimeType), roleName, rolePath);
+            runtime.Version = runtimeVersion;
+            return runtime;
+        }
+
+        public static Runtime GetRuntimeByType(string runtimeType)
+        {
+            if (string.Equals(runtimeType, Resources.PhpRuntimeValue))
+            {
+                return Runtime.PHP;
+            }
+            else if (string.Equals(runtimeType, Resources.IISNodeRuntimeValue))
+            {
+                return Runtime.IISNode;
+            }
+            else if (string.Equals(runtimeType, Resources.NodeRuntimeValue))
+            {
+                return Runtime.Node;
+            }
+            else
+            {
+                return Runtime.Null;
+            }
+        }
+
         public static Collection<CloudRuntime> CreateRuntime(WebRole webRole, string rolePath)
         {
             return GetRuntimes(GetStartupEnvironment(webRole), webRole.name, rolePath);

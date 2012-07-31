@@ -18,35 +18,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using Model;
     using Services;
+    using System.Collections.ObjectModel;
+    using System.Linq;
 
     /// <summary>
     /// Configure the number of instances for a web/worker role. Updates the cscfg with the number of instances
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole")]
-    public class SetAzureServiceProjectRoleCommand : DeploymentServiceManagementCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime")]
+    public class GetAzureServiceProjectRoleRuntimeCommand : DeploymentServiceManagementCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName=true)]
-        public string RoleName { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName="Instances", ValueFromPipelineByPropertyName=true)]
-        public int Instances { get; set; }
-
-        [Parameter(Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName=true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName = true)]
-        public string Version { get; set; }
 
-        public void SetAzureInstancesProcess(string roleName, int instances, string rootPath)
+        public void GetAzureRuntimesProcess(string runtimeType, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
-            service.SetRoleInstances(service.Paths, roleName, instances);
-        }
-
-        public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath)
-        {
-            AzureService service = new AzureService(rootPath, null);
-            service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion);
+            CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths);
+            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) || p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)), true);
         }
 
         protected override void ProcessRecord()
@@ -55,14 +44,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 SkipChannelInit = true;
                 base.ProcessRecord();
-                if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
-                {
-                    this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
-                }
-                else
-                {
-                    this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
-                }
+                
+                    this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
             }
             catch (Exception ex)
             {

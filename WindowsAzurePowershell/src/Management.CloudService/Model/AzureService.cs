@@ -220,7 +220,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null), 
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null),
                 FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
@@ -267,6 +267,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             Components.SetRoleInstances(roleName, instances);
             Components.Save(paths);
+        }
+
+        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths)
+        {
+            CloudRuntimeCollection collection;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(ArgumentConstants.ReverseLocations[this.Components.Settings.Location.ToLower()], out collection);
+            return collection;
+        }
+
+        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion)
+        {
+            if (this.Components.RoleExists(roleName))
+            {
+                CloudRuntimeCollection collection;
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(ArgumentConstants.ReverseLocations[this.Components.Settings.Location.ToLower()], out collection);
+                CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
+                CloudRuntimePackage foundPackage;
+                if (collection.TryFindMatch(desiredRuntime, out foundPackage))
+                {
+                    WorkerRole worker = this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
+                    WebRole web = this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
+                    if (worker != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, worker);
+                    }
+                    else if (web != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, web);
+                    }
+                }
+            }
         }
     }
 }

@@ -130,6 +130,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
       <SubType>Component</SubType>
