@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running â€˜pip windowsazureâ€™..
+        /// </summary>
+        internal static string AddRoleMessageCreatePython {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreatePython", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to set role permissions. Please give the &apos;Network Service&apos; user &apos;Read &amp; execute&apos; and &apos;Modify&apos; permissions to the role folder, or run PowerShell as an Administrator.
         /// </summary>
         internal static string AddRoleMessageInsufficientPermissions {
@@ -1143,6 +1152,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Python 2.7 is not installed.  Please install it as well as Django 1.4..
+        /// </summary>
+        internal static string MissingPythonPreReq {
+            get {
+                return ResourceManager.GetString("MissingPythonPreReq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scaffolding\Python.
+        /// </summary>
+        internal static string PythonScaffolding {
+            get {
+                return ResourceManager.GetString("PythonScaffolding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing service {0}.
         /// </summary>
         internal static string RemoveAzureServiceWaitMessage {
@@ -1580,6 +1607,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string SubscriptionIdNotFoundMessage {
             get {
                 return ResourceManager.GetString("SubscriptionIdNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create Django application: {0}.
+        /// </summary>
+        internal static string UnableToCreateDjangoApp {
+            get {
+                return ResourceManager.GetString("UnableToCreateDjangoApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make sure you have Python 2.7 installed along with Django installed to site-packages..
+        /// </summary>
+        internal static string UnableToCreateDjangoAppFix {
+            get {
+                return ResourceManager.GetString("UnableToCreateDjangoAppFix", resourceCulture);
             }
         }
         
