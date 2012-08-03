@@ -31,10 +31,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public string Runtime { get; set; }
 
 
-        public void GetAzureRuntimesProcess(string runtimeType, string rootPath)
+        public void GetAzureRuntimesProcess(string runtimeType, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
-            CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths);
+            CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
             WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) || p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)), true);
         }
 

@@ -750,10 +750,21 @@
     <value>node</value>
   </data>
   <data name="PackageJsonDefaultFile" xml:space="preserve">
-    <value>{\r\n  "author": "",
-\r\n  "name": "{0}",\r\n  "version": "0.0.0",\r\n  "dependencies": {},\r\n  "devDependencies": {},\r\n  "optionalDependencies": {},\r\n  "engines": {
-\r\n    "node": "*",\r\n    "iisnode": "*"\r\n  }
-\r\n}\r\n</value>
+    <value>{{
+  "author": "",
+
+  "name": "{0}",
+  "version": "0.0.0",
+  "dependencies":{{}},
+  "devDependencies":{{}},
+  "optionalDependencies": {{}},
+  "engines": {{
+    "node": "*",
+    "iisnode": "*"
+  }}
+
+}}
+</value>
   </data>
   <data name="PackageJsonFileName" xml:space="preserve">
     <value>package.json</value>

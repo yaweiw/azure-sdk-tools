@@ -28,13 +28,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName=true)]
         public string RoleName { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName="Instances", ValueFromPipelineByPropertyName=true)]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName="Instances", ValueFromPipelineByPropertyName=true)]
         public int Instances { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName=true)]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName=true)]
         public string Runtime { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName="Runtime", ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
 
         public void SetAzureInstancesProcess(string roleName, int instances, string rootPath)
@@ -43,10 +43,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             service.SetRoleInstances(service.Paths, roleName, instances);
         }
 
-        public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath)
+        public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
-            service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion);
+            service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
         }
 
         protected override void ProcessRecord()

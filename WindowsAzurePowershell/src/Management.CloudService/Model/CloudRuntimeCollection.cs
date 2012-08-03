@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             success &= TryGetRuntimePackages(manifest, baseUri, out runtimePackages);
             foreach (CloudRuntimePackage package in runtimePackages)
             {
-                runtimes.AddPackage(package);
+                runtimes.Add(package);
             }
 
             return success;
@@ -61,7 +61,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return true;
             }
 
-            matchingPackage = defaults[runtime.Runtime];
+            if (defaults.ContainsKey(runtime.Runtime))
+            {
+                matchingPackage = defaults[runtime.Runtime];
+            }
+
             return false;
         }
 
@@ -71,26 +75,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 this.packages[runtime].Clear();
             }
+
+            foreach (Runtime runtime in this.defaults.Keys)
+            {
+                this.defaults.Remove(runtime);
+            }
+
+            base.ClearItems();
         }
 
         protected override void InsertItem(int index, CloudRuntimePackage item)
         {
-            Debug.Assert(index < this.packages.Count, string.Format(
-                "Attempt to insert a runtime package at position {0} when there are {1} packages total", index, this.packages.Count));
-            this.packages[item.Runtime].Insert(index, item);
+            base.InsertItem(index, item);
+            this.AddPackage(item);
         }
 
         protected override void RemoveItem(int index)
         {
-            Debug.Assert(index < this.packages.Count, string.Format(
-                "Attempt to remove a runtime package at position {0} when there are {1} packages total", index, this.packages.Count));
+            this.RemovePackage(base[index]);
+            base.RemoveItem(index);
         }
 
         protected override void SetItem(int index, CloudRuntimePackage item)
         {
-            Debug.Assert(index < this.packages[item.Runtime].Count, string.Format(
-                "Attempt to set a runtime package at position {0} when there are {1} packages total", index, this.packages.Count));
-            this.packages[item.Runtime][index] = item;
+            if (index < this.Count)
+            {
+                this.RemovePackage(base[index]);
+            }
+
+            this.AddPackage(item);
+            base.SetItem(index, item);
         }
 
         private static bool TryGetBlobUriFromManifest(XmlDocument manifest, Location location, out string baseUri)
@@ -152,14 +166,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void AddPackage(CloudRuntimePackage package)
         {
-            if (package.IsDefaultRuntimePackage)
+            if (package.IsDefault)
             {
                 this.defaults[package.Runtime] = package;
             }
-            else
+            
+            this.packages[package.Runtime].Add(package);
+        }
+
+        private void RemovePackage(CloudRuntimePackage package)
+        {
+            if (package.IsDefault)
             {
-                this.packages[package.Runtime].Add(package);
+                this.defaults.Remove(package.Runtime);
             }
+            
+            this.packages[package.Runtime].Remove(package);
         }
 
 

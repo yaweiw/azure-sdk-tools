@@ -269,25 +269,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Components.Save(paths);
         }
 
-        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths)
+        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
         {
             CloudRuntimeCollection collection;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(ArgumentConstants.ReverseLocations[this.Components.Settings.Location.ToLower()], out collection);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
             return collection;
         }
 
-        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion)
+        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion, string manifest = null)
         {
             if (this.Components.RoleExists(roleName))
             {
                 CloudRuntimeCollection collection;
-                CloudRuntimeCollection.CreateCloudRuntimeCollection(ArgumentConstants.ReverseLocations[this.Components.Settings.Location.ToLower()], out collection);
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
                 CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
                 CloudRuntimePackage foundPackage;
                 if (collection.TryFindMatch(desiredRuntime, out foundPackage))
                 {
-                    WorkerRole worker = this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
-                    WebRole web = this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, StringComparison.OrdinalIgnoreCase));
+                    WorkerRole worker = (this.Components.Definition.WorkerRole == null? null : 
+                        this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, 
+                            StringComparison.OrdinalIgnoreCase)));
+                    WebRole web = (this.Components.Definition.WebRole == null? null : 
+                        this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, 
+                            StringComparison.OrdinalIgnoreCase)));
                     if (worker != null)
                     {
                         desiredRuntime.ApplyRuntime(foundPackage, worker);

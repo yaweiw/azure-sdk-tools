@@ -1071,10 +1071,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\r\n  &quot;author&quot;: &quot;&quot;,
-        ///\r\n  &quot;name&quot;: &quot;{0}&quot;,\r\n  &quot;version&quot;: &quot;0.0.0&quot;,\r\n  &quot;dependencies&quot;: {},\r\n  &quot;devDependencies&quot;: {},\r\n  &quot;optionalDependencies&quot;: {},\r\n  &quot;engines&quot;: {
-        ///\r\n    &quot;node&quot;: &quot;*&quot;,\r\n    &quot;iisnode&quot;: &quot;*&quot;\r\n  }
-        ///\r\n}\r\n.
+        ///   Looks up a localized string similar to {{
+        ///  &quot;author&quot;: &quot;&quot;,
+        ///
+        ///  &quot;name&quot;: &quot;{0}&quot;,
+        ///  &quot;version&quot;: &quot;0.0.0&quot;,
+        ///  &quot;dependencies&quot;:{{}},
+        ///  &quot;devDependencies&quot;:{{}},
+        ///  &quot;optionalDependencies&quot;: {{}},
+        ///  &quot;engines&quot;: {{
+        ///    &quot;node&quot;: &quot;*&quot;,
+        ///    &quot;iisnode&quot;: &quot;*&quot;
+        ///  }}
+        ///
+        ///}}
+        ///.
         /// </summary>
         internal static string PackageJsonDefaultFile {
             get {

@@ -37,16 +37,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             this.PackageUri = GetUri(baseUri, filePath);
             this.Runtime = GetRuntimeType(versionNode.Attributes[CloudRuntimePackage.RuntimeKey].Value);
             XmlAttribute defaultAttribute = versionNode.Attributes[CloudRuntimePackage.DefaultKey];
-            this.IsDefaultRuntimePackage = defaultAttribute != null && bool.Parse(defaultAttribute.Value);
+            this.IsDefault = defaultAttribute != null && bool.Parse(defaultAttribute.Value);
         }
 
-        public string Version
+        public Runtime Runtime
         {
             get;
             private set;
         }
 
-        public Runtime Runtime
+        public string Version
         {
             get;
             private set;
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             private set;
         }
 
-        public bool IsDefaultRuntimePackage
+        public bool IsDefault
         {
             get;
             private set;

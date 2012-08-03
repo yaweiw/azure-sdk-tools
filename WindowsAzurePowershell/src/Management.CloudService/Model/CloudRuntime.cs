@@ -83,6 +83,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     break;
             }
 
+            runtime.Runtime = runtimeType;
             runtime.RoleName = roleName;
             runtime.FilePath = rolePath;
             return runtime;
@@ -314,11 +315,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private class IISNodeCloudRuntime : JavaScriptCloudRuntime
         {
 
-            protected override void SetRunttimeType()
-            {
-                this.Runtime = Runtime.IISNode;
-            }
-
             public override bool Match(CloudRuntimePackage runtime)
             {
                 // here is where we would put in semver semantics
@@ -353,7 +349,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             protected override void  Configure(Dictionary<string,string> environment)
             {
-                SetRunttimeType();
                 if (string.IsNullOrEmpty(this.Version))
                 {
                     string version;
@@ -366,7 +361,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 }
             }
 
-            protected abstract void SetRunttimeType();
             protected abstract string GetDefaultVersion();
             protected abstract string GetEngineKey();
 
@@ -413,11 +407,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private class NodeCloudRuntime : JavaScriptCloudRuntime
         {
-            protected override void SetRunttimeType()
-            {
-                this.Runtime = Runtime.Node;
-            }
-
             protected override string GetEngineKey()
             {
                 return Resources.NodeEngineKey;
