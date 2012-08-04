@@ -10,10 +10,10 @@
     <blobcontainer datacenter="EAST ASIA" uri="http://DATACENTER/"/>
   </blobcontainers>
   <runtimes>
-    <runtime type="iisnode" version="BAR" filepath="/iisnode/bar.exe" />
-    <runtime type="iisnode" version="KEY2" filepath="/iisnode/default.exe" default="true" />
-    <runtime type="node" version="FOO" filepath="/node/foo.exe" />
-    <runtime type="node" version="KEY1" filepath="/node/default.exe" default="true" />
+    <runtime type="iisnode" version="0.1.20" filepath="/iisnode/bar.exe" />
+    <runtime type="iisnode" version="0.1.21" filepath="/iisnode/default.exe" default="true" />
+    <runtime type="node" version="0.8.2" filepath="/node/foo.exe" />
+    <runtime type="node" version="0.6.20" filepath="/node/default.exe" default="true" />
     <runtime type="php" version="5.3" filepath="/php/5.3.exe" default="true" />
   </runtimes>
 </runtimemanifest>

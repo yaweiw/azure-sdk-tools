@@ -14,10 +14,6 @@ echo Downloading runtime components
 powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
 if %ERRORLEVEL% neq 0 goto error
 
-echo Extracting components
-runtime.exe
-
-
 echo SUCCESS
 exit /b 0
 

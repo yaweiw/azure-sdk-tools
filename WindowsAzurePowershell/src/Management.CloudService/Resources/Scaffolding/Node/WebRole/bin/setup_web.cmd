@@ -33,21 +33,13 @@ copy /y ..\Web.cloud.config ..\Web.config
 if %ERRORLEVEL% neq 0 goto error
 echo OK
 
-echo Installing Visual Studio 2010 C++ Redistributable Package...
-vcredist_x64.exe /q 
+powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
 if %ERRORLEVEL% neq 0 goto error
-echo OK
-
-echo Installing iisnode...
-msiexec.exe /quiet /i iisnode.msi
-if %ERRORLEVEL% neq 0 goto error
-echo OK
 
 echo SUCCESS
 exit /b 0
 
 :error
-
 echo FAILED
 exit /b -1
 

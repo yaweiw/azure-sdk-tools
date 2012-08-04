@@ -71,6 +71,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
+        /// <summary>
+        /// true if we only want to create a package
+        /// </summary>
+        [Parameter(Mandatory = false)]
+        [Alias("po")]
+        public SwitchParameter PackageOnly { get; set; } 
+
         [Parameter(Mandatory = false)]
         public SwitchParameter Force
         {
@@ -145,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             SafeWriteObject(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
-            if (InitializeSettingsAndCreatePackage(serviceRootPath))
+            if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
             {
 
 
@@ -283,6 +290,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         /// <param name="service">The service to prepare</param>
         /// <param name="settings">The runtime settings to use to determine location</param>
+        /// <returns>True if requested runtimes were successfully resolved, otherwise false</returns>
         internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings,
             string manifest = null)
         {
@@ -298,10 +306,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
             StringBuilder warningText = new StringBuilder();
             bool shouldWarn = false;
+            List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
             if (definition.WebRole != null)
             {
                 foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
                 {
+                    CloudRuntime.ClearRuntime(role);
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
@@ -316,7 +326,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                             }
                         }
 
-                        runtime.ApplyRuntime(package, role);
+                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(runtime, 
+                            package, role));
                     }
                 }
             }
@@ -326,6 +337,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
                 {
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
+                    CloudRuntime.ClearRuntime(role);
                     foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
                     {
                         CloudRuntimePackage package;
@@ -338,7 +350,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                 warningText.AppendFormat("{0}\r\n", warning);
                             }
                         }
-                        runtime.ApplyRuntime(package, role);
+                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(runtime,
+                            package, role));
                     }
                 }
             }
@@ -349,6 +362,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 if (!shouldWarn || Force || ShouldContinue(warningText.ToString(),
                     string.Format(Resources.RuntimeMismatchWarning, _azureService.ServiceName)))
                 {
+                    applicators.ForEach<CloudRuntimeApplicator>(a => a.Apply());
                     service.Components.Save(service.Paths);
                     return true;
                 }

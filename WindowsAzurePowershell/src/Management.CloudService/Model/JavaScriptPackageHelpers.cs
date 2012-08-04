@@ -194,12 +194,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Dictionary<string, object> engines;
             if (TryGetEnginesSection(store, out engines))
             {
-                return TryGetValue<string>(engines, engineKey, out engineVersion);
+                return TryGetValue<string>(engines, engineKey, out engineVersion) && ISValidVersion(engineVersion);
             }
 
             return false;
         }
 
+        /// <summary>
+        /// Determine if the version contained in a package.json is a real version value
+        /// </summary>
+        /// <param name="version">The version to check</param>
+        /// <returns>true if a valid 3-part version, otherwise false</returns>
+        static bool ISValidVersion(string version)
+        {
+            if (!string.IsNullOrEmpty(version))
+            {
+                string[] versions = version.Split('.');
+                return versions != null && versions.Length == 3;
+            }
+
+            return false;
+        }
         /// <summary>
         /// Try to get the engine version specification from the given package.json object (represented 
         /// as a dictionary)

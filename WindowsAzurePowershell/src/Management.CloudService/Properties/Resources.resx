@@ -666,7 +666,7 @@
     <value>RUNTIMEOVERRIDEURL</value>
   </data>
   <data name="RuntimeTypeKey" xml:space="preserve">
-    <value>RUNTIMETYPE</value>
+    <value>RUNTIMEID</value>
   </data>
   <data name="DatacenterBlobQuery" xml:space="preserve">
     <value>//blobcontainer[@datacenter='{0}']</value>

@@ -132,6 +132,7 @@
     <Compile Include="Utilities\AzureAssert.cs" />
     <Compile Include="Utilities\FakeWriter.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
+    <Compile Include="Utilities\RuntimeHelpers.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
     <Compile Include="Utilities\Testing.cs" />

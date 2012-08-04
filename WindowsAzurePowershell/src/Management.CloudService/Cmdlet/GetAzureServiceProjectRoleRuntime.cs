@@ -15,14 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using Model;
     using Services;
-    using System.Collections.ObjectModel;
-    using System.Linq;
 
     /// <summary>
-    /// Configure the number of instances for a web/worker role. Updates the cscfg with the number of instances
+    /// Retrieve a list of role runtimes available in the cloud
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime")]
     public class GetAzureServiceProjectRoleRuntimeCommand : DeploymentServiceManagementCmdletBase
@@ -30,22 +29,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
 
-
+        /// <summary>
+        /// Retrieve the runtimes from the given manifest, or from the default cloud location, if none given.
+        /// The manifest parameter is mainly a testing hook.
+        /// </summary>
+        /// <param name="runtimeType">The runtime type to filter by</param>
+        /// <param name="rootPath">The path to the service in question</param>
+        /// <param name="manifest">The path to the manifest file, if null, the default cloud manifest is used (test hook)</param>
         public void GetAzureRuntimesProcess(string runtimeType, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
             CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
-            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) || p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)), true);
+            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
+                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)), true);
         }
 
+        /// <summary>
+        /// Do work on Pipeline objects
+        /// </summary>
         protected override void ProcessRecord()
         {
             try
             {
                 SkipChannelInit = true;
                 base.ProcessRecord();
-                
-                    this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
+                this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
             }
             catch (Exception ex)
             {

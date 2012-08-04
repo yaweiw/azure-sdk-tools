@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     runtime = new PHPCloudRuntime();
                     break;
                 case Runtime.IISNode:
-                    runtime = new NullCloudRuntime();
+                    runtime = new IISNodeCloudRuntime();
                     break;
                 case Runtime.Node:
                 default:
@@ -263,6 +263,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private static void ApplyRoleXmlChanges(Dictionary<string, string> changes, WorkerRole workerRole)
         {
             workerRole.Startup.Task[0].Environment = ApplySettingChanges(changes, workerRole.Startup.Task[0].Environment);
+        }
+
+        public static void ClearRuntime(WebRole role)
+        {
+            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+        }
+
+        public static void ClearRuntime(WorkerRole role)
+        {
+            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+        }
+
+        static void ClearEnvironmentValue(Variable[] environment, string key)
+        {
+            foreach (Variable variable in environment)
+            {
+                if (string.Equals(key, variable.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    variable.value = "";
+                }
+            }
         }
 
         public virtual void ApplyRuntime(CloudRuntimePackage package, WebRole webRole)

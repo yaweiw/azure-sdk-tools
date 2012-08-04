@@ -142,6 +142,7 @@
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
     <Compile Include="Model\AzureServiceManagementException.cs" />
     <Compile Include="Model\CloudRuntime.cs" />
+    <Compile Include="Model\CloudRuntimeApplicator.cs" />
     <Compile Include="Model\CloudRuntimeCollection.cs" />
     <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
@@ -365,8 +366,12 @@
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1" />
-    <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1" />
+    <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

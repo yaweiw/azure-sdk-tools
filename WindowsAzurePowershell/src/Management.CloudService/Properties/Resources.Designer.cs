@@ -1580,7 +1580,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RUNTIMETYPE.
+        ///   Looks up a localized string similar to RUNTIMEID.
         /// </summary>
         internal static string RuntimeTypeKey {
             get {
