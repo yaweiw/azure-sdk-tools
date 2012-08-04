@@ -13,14 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet

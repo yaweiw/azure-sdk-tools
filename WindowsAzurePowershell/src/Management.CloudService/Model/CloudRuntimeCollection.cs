@@ -16,10 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
-    using System.Net;
+    using System.Linq;
     using System.Xml;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using System.Linq;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {
@@ -134,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (filePath != null)
             {
                 byte[] buffer = File.ReadAllBytes(filePath);
-                this.documentStream= new MemoryStream(buffer);
+                this.documentStream = new MemoryStream(buffer);
                 this.documentReader = XmlReader.Create(documentStream);
             }
             else
@@ -147,7 +146,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return document;
         }
 
-        private static bool TryGetRuntimePackages(XmlDocument manifest, string baseUri, out Collection<CloudRuntimePackage> packages)
+        private static bool TryGetRuntimePackages(XmlDocument manifest, string baseUri, 
+            out Collection<CloudRuntimePackage> packages)
         {
             bool retrieved = false;
             packages = new Collection<CloudRuntimePackage>();
@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 this.defaults[package.Runtime] = package;
             }
-            
+
             this.packages[package.Runtime].Add(package);
         }
 
@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 this.defaults.Remove(package.Runtime);
             }
-            
+
             this.packages[package.Runtime].Remove(package);
         }
 
@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     return 1;
                 }
 
-                if (xVersion < yVersion) 
+                if (xVersion < yVersion)
                 {
                     return -1;
                 }

@@ -15,12 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Net;
-    using System.Xml;
     using System.Diagnostics;
+    using System.Xml;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
 
     public class CloudRuntimePackage

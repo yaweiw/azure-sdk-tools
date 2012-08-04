@@ -14,23 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Net;
-    using System.Xml;
-    using System.Diagnostics;
-    using System.Web.Script.Serialization;
-    using System.Reflection;
 
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
 
+    /// <summary>
+    /// Used to delay application of runtime until the user has acknowledged she wants the change
+    /// </summary>
     public class CloudRuntimeApplicator
     {
         CloudRuntime Runtime { get; set; }
-        CloudRuntimePackage Package { get; set;}
+        CloudRuntimePackage Package { get; set; }
         WebRole WebRole { get; set; }
         WorkerRole WorkerRole { get; set; }
 
@@ -38,6 +31,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
         }
 
+        /// <summary>
+        /// Create a cloud runtime application, essentialy this is a tuple of runtime X package X role
+        /// </summary>
+        /// <param name="cloudRuntime">The runtime in the tuple</param>
+        /// <param name="cloudRuntimePackage">The package in the tuple</param>
+        /// <param name="role">The role to apply the package to</param>
+        /// <returns>The tuple, use the apply method to apply the runtime as specified</returns>
         public static CloudRuntimeApplicator CreateCloudRuntimeApplicator(CloudRuntime cloudRuntime, CloudRuntimePackage cloudRuntimePackage, WebRole role)
         {
             CloudRuntimeApplicator applicator = new CloudRuntimeApplicator
@@ -50,18 +50,28 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return applicator;
         }
 
+        /// <summary>
+        /// Create a cloud runtime application, essentialy this is a tuple of runtime X package X role
+        /// </summary>
+        /// <param name="cloudRuntime">The runtime in the tuple</param>
+        /// <param name="cloudRuntimePackage">The package in the tuple</param>
+        /// <param name="role">The role to apply the package to</param>
+        /// <returns>The tuple, use the apply method to apply the runtime as specified</returns>
         public static CloudRuntimeApplicator CreateCloudRuntimeApplicator(CloudRuntime cloudRuntime, CloudRuntimePackage cloudRuntimePackage, WorkerRole role)
         {
-            CloudRuntimeApplicator applicator = new CloudRuntimeApplicator 
+            CloudRuntimeApplicator applicator = new CloudRuntimeApplicator
             {
-                Runtime = cloudRuntime, 
-                Package = cloudRuntimePackage, 
+                Runtime = cloudRuntime,
+                Package = cloudRuntimePackage,
                 WorkerRole = role
             };
 
             return applicator;
         }
 
+        /// <summary>
+        /// Apply the cloud runtime to the package as specified when creating the applicator
+        /// </summary>
         public void Apply()
         {
             if (this.WorkerRole != null)

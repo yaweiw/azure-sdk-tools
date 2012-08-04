@@ -16,16 +16,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using System.Text;
-    using AzureDeploymentCmdlets;
+    using System.Xml;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
     using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
-using System.Xml;
 
     public class RuntimeHelper
     {
@@ -104,7 +102,7 @@ using System.Xml;
         /// <param name="roleName">The name of the role to validate</param>
         /// <param name="runtimeUrl">The resolved runtime url for the role</param>
         /// <param name="overrideUrl">The override url for the role runtime</param>
-        public static void ValidateRoleRuntime(ServiceDefinition definition, string roleName, string runtimeUrl, 
+        public static void ValidateRoleRuntime(ServiceDefinition definition, string roleName, string runtimeUrl,
             string overrideUrl)
         {
             string actualRuntimeUrl = GetRoleRuntimeUrl(definition, roleName);
@@ -168,7 +166,7 @@ using System.Xml;
         /// <returns>The runtime environment with the given setting applied</returns>
         private static Variable[] SetRuntimeEnvironment(IEnumerable<Variable> environment, string keyName, string keyValue)
         {
-            Variable v = environment.FirstOrDefault<Variable>(variable => string.Equals(variable.name, keyName, 
+            Variable v = environment.FirstOrDefault<Variable>(variable => string.Equals(variable.name, keyName,
                 StringComparison.OrdinalIgnoreCase));
             if (v != null)
             {
@@ -214,7 +212,7 @@ using System.Xml;
         /// <returns>true if the web role is found in the given definition</returns>
         private static bool TryGetWebRole(ServiceDefinition definition, string roleName, out WebRole role)
         {
-            role = definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, 
+            role = definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
                 StringComparison.OrdinalIgnoreCase));
             return role != null;
         }
@@ -228,7 +226,7 @@ using System.Xml;
         /// <returns>true if the web role is found in the given definition</returns>
         private static bool TryGetWorkerRole(ServiceDefinition definition, string roleName, out WorkerRole role)
         {
-            role = definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, 
+            role = definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName,
                 StringComparison.OrdinalIgnoreCase));
             return role != null;
         }
@@ -273,7 +271,7 @@ using System.Xml;
             XmlReader reader = XmlReader.Create(new MemoryStream(File.ReadAllBytes(manifestFile)));
             document.Load(reader);
             XmlNodeList items = document.SelectNodes("/runtimemanifest/runtimes/runtime");
-            foreach( XmlNode node in items)
+            foreach (XmlNode node in items)
             {
                 if (string.IsNullOrEmpty(runtimeType) || string.Equals(node.Attributes["type"].Value, runtimeType, StringComparison.OrdinalIgnoreCase))
                 {
@@ -293,7 +291,7 @@ using System.Xml;
                 Assert.AreEqual(1, allPackages.Count<CloudRuntimePackage>(
                     p => p.Runtime.Equals(package.Runtime) && string.Equals(p.Version, package.Version,
                         StringComparison.OrdinalIgnoreCase)));
-                
+
             }
         }
     }

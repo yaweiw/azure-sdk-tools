@@ -18,14 +18,14 @@ using System.IO;
 using System.IO.Packaging;
 using System.Linq;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
 using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
 using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
 using Microsoft.WindowsAzure.Management.Test.Stubs;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet

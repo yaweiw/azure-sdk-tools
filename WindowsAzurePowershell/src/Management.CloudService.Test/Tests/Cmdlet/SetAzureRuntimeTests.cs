@@ -12,16 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
 using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
 

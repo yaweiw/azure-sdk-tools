@@ -17,13 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Net;
-    using System.Xml;
     using System.Diagnostics;
-    using System.Web.Script.Serialization;
-    using System.Reflection;
-
+    using System.IO;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
 
@@ -66,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)
         {
             CloudRuntime runtime;
-            switch(runtimeType)
+            switch (runtimeType)
             {
                 case Runtime.Null:
                     runtime = new NullCloudRuntime();
@@ -89,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return runtime;
         }
 
-        private static Collection<CloudRuntime> GetRuntimes(Dictionary<string, string> settings, 
+        private static Collection<CloudRuntime> GetRuntimes(Dictionary<string, string> settings,
             string roleName, string rolePath)
         {
             Collection<CloudRuntime> runtimes = new Collection<CloudRuntime>(new List<CloudRuntime>());
@@ -172,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private static Dictionary<string, string> GetStartupEnvironment(WebRole webRole)
         {
             Dictionary<string, string> settings = new Dictionary<string, string>();
-            foreach (Variable variable in webRole.Startup.Task[0].Environment) 
+            foreach (Variable variable in webRole.Startup.Task[0].Environment)
             {
                 settings[variable.name] = variable.value;
             }
@@ -198,8 +193,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <returns>True if the variable should be merged, false if the value should be replaced instead</returns>
         private static bool ShouldMerge(Variable variableToCheck)
         {
-            return string.Equals(variableToCheck.name, Resources.RuntimeTypeKey, 
-                StringComparison.OrdinalIgnoreCase) || string.Equals(variableToCheck.name, 
+            return string.Equals(variableToCheck.name, Resources.RuntimeTypeKey,
+                StringComparison.OrdinalIgnoreCase) || string.Equals(variableToCheck.name,
                 Resources.RuntimeUrlKey, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -241,15 +236,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             int settingsCount = (settings == null ? 0 : settings.Count);
             Variable[] newSettings = new Variable[settingsCount + roleVariableCount];
             int i = 0;
-            foreach (string key in settings.Keys) 
+            foreach (string key in settings.Keys)
             {
-                newSettings[i] = new Variable {name = key, value = settings[key]};
+                newSettings[i] = new Variable { name = key, value = settings[key] };
                 ++i;
             }
 
-            for (int j = 0; j < roleVariables.Length ; ++j) 
+            for (int j = 0; j < roleVariables.Length; ++j)
             {
-                newSettings[i+j] = roleVariables[j];
+                newSettings[i + j] = roleVariables[j];
             }
 
             return newSettings;
@@ -289,7 +284,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public virtual void ApplyRuntime(CloudRuntimePackage package, WebRole webRole)
         {
             Dictionary<string, string> changes;
-            if( this.GetChanges(package, out changes)) {
+            if (this.GetChanges(package, out changes))
+            {
                 ApplyRoleXmlChanges(changes, webRole);
             }
 
@@ -323,7 +319,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return result;
         }
 
-        protected abstract void Configure(Dictionary<string,string> environment);
+        protected abstract void Configure(Dictionary<string, string> environment);
         protected abstract string GenerateWarningText(CloudRuntimePackage package);
         protected virtual bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
         {
@@ -368,7 +364,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         abstract class JavaScriptCloudRuntime : CloudRuntime
         {
-            protected override void  Configure(Dictionary<string,string> environment)
+            protected override void Configure(Dictionary<string, string> environment)
             {
                 if (string.IsNullOrEmpty(this.Version))
                 {
@@ -447,7 +443,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 {
                     nodePath = Path.Combine(GetProgramFilesDirectory(), Path.Combine(Resources.NodeDirectory, Resources.NodeExe));
                 }
-                if (File.Exists(nodePath)) 
+                if (File.Exists(nodePath))
                 {
                     fileVersion = GetFileVersion(nodePath);
                 }
@@ -474,7 +470,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             protected override string GenerateWarningText(CloudRuntimePackage package)
             {
-                return string.Format(Resources.PHPVersionWarningText, package.Version, this.RoleName, 
+                return string.Format(Resources.PHPVersionWarningText, package.Version, this.RoleName,
                     this.Version);
             }
 
@@ -490,7 +486,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return true;
             }
 
-            protected override void Configure(Dictionary<string,string> environment)
+            protected override void Configure(Dictionary<string, string> environment)
             {
             }
 

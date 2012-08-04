@@ -20,7 +20,6 @@ using System.Reflection;
 using System.Security.AccessControl;
 using System.Security.Permissions;
 using System.Security.Principal;
-using Microsoft.WindowsAzure.Management.CloudService;
 using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
 using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
@@ -269,6 +268,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Components.Save(paths);
         }
 
+        /// <summary>
+        /// Retrieve currently available cloud runtimes
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="manifest">The manifest to use to get current runtime info - default is the cloud manifest</param>
+        /// <returns></returns>
         public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
         {
             CloudRuntimeCollection collection;
@@ -276,6 +281,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return collection;
         }
 
+        /// <summary>
+        /// Add the specified runtime to a role, checking that the runtime and version are currently available int he cloud
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="roleName">Name of the role to change</param>
+        /// <param name="runtimeType">The runtime identifier</param>
+        /// <param name="runtimeVersion">The runtime version</param>
+        /// <param name="manifest">Location fo the manifest file, default is the cloud manifest</param>
         public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion, string manifest = null)
         {
             if (this.Components.RoleExists(roleName))
@@ -286,11 +299,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 CloudRuntimePackage foundPackage;
                 if (collection.TryFindMatch(desiredRuntime, out foundPackage))
                 {
-                    WorkerRole worker = (this.Components.Definition.WorkerRole == null? null : 
-                        this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName, 
+                    WorkerRole worker = (this.Components.Definition.WorkerRole == null ? null :
+                        this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName,
                             StringComparison.OrdinalIgnoreCase)));
-                    WebRole web = (this.Components.Definition.WebRole == null? null : 
-                        this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName, 
+                    WebRole web = (this.Components.Definition.WebRole == null ? null :
+                        this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
                             StringComparison.OrdinalIgnoreCase)));
                     if (worker != null)
                     {

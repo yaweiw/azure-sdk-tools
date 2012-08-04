@@ -24,17 +24,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.ServiceModel;
+    using System.Text;
     using System.Threading;
     using AzureTools;
+    using Extensions;
+    using Management.Services;
     using Model;
     using Properties;
     using Services;
     using Utilities;
     using WAPPSCmdlet;
-    using Extensions;
-    using Management.Services;
-    using System.Text;
-    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -76,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         [Parameter(Mandatory = false)]
         [Alias("po")]
-        public SwitchParameter PackageOnly { get; set; } 
+        public SwitchParameter PackageOnly { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter Force
@@ -247,7 +246,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 defaultSettings.Subscription = CurrentSubscription.SubscriptionName;
             }
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart, 
+            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
                 _hostedServiceName));
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {
@@ -326,7 +325,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                             }
                         }
 
-                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(runtime, 
+                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(runtime,
                             package, role));
                     }
                 }

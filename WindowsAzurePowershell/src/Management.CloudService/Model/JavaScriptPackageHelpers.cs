@@ -17,8 +17,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
 
@@ -228,7 +226,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Dictionary<string, object> engines;
             if (!TryGetEnginesSection(store, out engines))
             {
-                engines = new Dictionary<string,object>();
+                engines = new Dictionary<string, object>();
                 store[Resources.JsonEnginesSectionName] = engines;
             }
 
