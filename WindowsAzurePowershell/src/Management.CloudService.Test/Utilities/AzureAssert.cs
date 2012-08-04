@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             Assert.IsNotNull(actual.Settings);
         }
 
-        public static void ScaffoldingExists(string destinationDirectory, string scaffoldFilePath)
+        public static void ScaffoldingExists(string destinationDirectory, string scaffoldFilePath, string roleName = "WebRole")
         {
             Scaffold scaffold = Scaffold.Parse(Path.Combine(Data.TestResultDirectory, scaffoldFilePath, Resources.ScaffoldXml));
 
@@ -103,12 +103,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                     if (string.IsNullOrEmpty(file.PathExpression))
                     {
                         elementPath = string.IsNullOrEmpty(file.TargetPath) ? Path.Combine(destinationDirectory, file.Path) : Path.Combine(destinationDirectory, file.TargetPath);
+                        elementPath = elementPath.Replace("$RoleName$", roleName);
                         Assert.IsTrue(File.Exists(elementPath));
                     }
                     else
                     {
                         string substring = file.PathExpression.Substring(0, file.PathExpression.LastIndexOf('\\'));
                         elementPath = string.IsNullOrEmpty(file.TargetPath) ? Path.Combine(destinationDirectory, substring) : Path.Combine(destinationDirectory, file.TargetPath);
+                        elementPath = elementPath.Replace("$RoleName$", roleName);
                         Assert.IsTrue(Directory.Exists(elementPath));
                     }
                 }

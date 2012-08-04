@@ -166,6 +166,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Python\Cmdlet\AddAzureDjangoWebRole.cs" />
+    <Compile Include="Scaffolding\PythonRules.cs" />
     <Compile Include="Scaffolding\NodeRules.cs" />
     <Compile Include="Scaffolding\PHPRules.cs" />
     <Compile Include="Scaffolding\Scaffold.cs" />
@@ -283,6 +285,30 @@
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\WebRole.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\wfastcgi.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Scaffolding\Node\WebRole\WebRole.xml">
@@ -370,6 +396,24 @@
     <None Include="Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Resources\Scaffolding\Python\WebRole\WebPICmdLine.exe.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\AzureSetup.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Python\WebRole\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">

@@ -5,6 +5,10 @@
     <DeploymentItem filename="Management.CloudService.Test\Resources\" />
     <DeploymentItem filename="Management.CloudService\Resources\" />
     <DeploymentItem filename="Management.Test\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
+    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
+    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>
@@ -32,6 +36,7 @@
               <Regular>
                 <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.CloudService.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.CloudService.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

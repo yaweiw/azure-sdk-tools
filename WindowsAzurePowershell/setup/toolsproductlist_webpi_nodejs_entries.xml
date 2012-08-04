@@ -337,92 +337,17 @@
   <!-- end Windows Azure SDK for Node, PHP, and Python-->
 
   <entry>
-    <productId>AzureNodePowershell</productId>
-    <title resourceName="Entry_AzureNodePowershell_Title">Windows Azure SDK for Node.js - May 2012</title>
-    <version>0.5.4</version>
-    <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
-    <summary resourceName="Entry_AzureNodePowershell_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
-    <longSummary resourceName="Entry_AzureNodePowershell_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
-    <link href="http://www.windowsazure.com/en-us/develop/nodejs" />
-    <author>
-      <name>Microsoft Corporation</name>
-      <uri>http://www.microsoft.com/</uri>
-    </author>
-    <images>
-      <icon>http://www.microsoft.com/web/media/gallery/apps-screenshots/wa_vs_graphic.png</icon>
-    </images>
-    <keywords>
-      <keywordId>ProductTools</keywordId>
-      <keywordId>ProductSpotlight</keywordId>
-    </keywords>
-    <discoveryHint>
-      <or>
-        <discoveryHint>
-          <file>
-            <filePath>%programfiles%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-            <minimumVersion>1.0.4</minimumVersion>
-          </file>
-        </discoveryHint>
-        <discoveryHint>
-          <file>
-            <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\Nodejs\Nov2011\PowerShell\AzureDeploymentCmdlets.dll</filePath>
-            <minimumVersion>1.0.4</minimumVersion>
-          </file>
-        </discoveryHint>
-      </or>
-    </discoveryHint>
-    <dependency>
-      <and>
-        <dependency>
-          <productId>WindowsAzureSDKOnly_1_6</productId>
-        </dependency>
-        <dependency>
-          <productId>WindowsAzureEmulator_1_6</productId>
-        </dependency>
-        <dependency>
-          <productId>UrlRewrite2</productId>
-        </dependency>
-        <dependency>
-          <productId>IISNode</productId>
-        </dependency>
-        <dependency>
-          <productId>PowerShell2</productId>
-        </dependency>
-      </and>
-    </dependency>
-    <installers>
-      <installer>
-        <id>1</id>
-        <languageId>en</languageId>
-        <eulaURL>https://raw.github.com/WindowsAzure/azure-sdk-tools/master/LICENSE.txt</eulaURL>
-        <installerFile>
-          <fileSize>7058</fileSize>
-          <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;appid=AzureNodePowershell</trackingURL>
-          <installerURL>http://go.microsoft.com/?linkid=9790230</installerURL>
-        </installerFile>
-        <installCommands>
-          <msiInstall>
-            <msi>%InstallerFile%</msi>
-          </msiInstall>
-        </installCommands>
-        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
-      </installer>
-    </installers>
-  </entry>
-
-  <entry>
     <productId>NodeJS</productId>
     <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
-    <version>0.6.17</version>
+    <version>0.6.20</version>
     <summary resourceName="Entry_NodeJS_Summary">Node.js is a server-side environment for JavaScript.</summary>
     <longSummary resourceName="Entry_NodeJS_LongSummary">
       Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.
       Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.
     </longSummary>
     <link href="http://nodejs.org/" />
-    <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-07-16T12:00:00Z</published>
+    <updated>2012-07-16T12:00:00Z</updated>
     <author>
       <name>Joyent, Inc</name>
       <uri>http://www.joyent.com/</uri>
@@ -436,12 +361,68 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.17</minimumVersion>
+            <minimumVersion>0.6.20</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
+            <minimumVersion>0.6.20</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
+    <installers>
+      <installer>
+        <id>1</id>
+        <languageId>en</languageId>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>3117</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.20/node-v0.6.20.msi</installerURL>
+        </installerFile>
+        <installCommands>
+          <msiInstall>
+            <msi>%InstallerFile%</msi>
+          </msiInstall>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+    </installers>
+  </entry>
+  
+  <!-- node.js versions for WAWS SxS support -->
+  <entry>
+    <productId>NodeJS0.6.17</productId>
+    <title resourceName="Entry_NodeJS_0.6.17_Title">Node.js v0.6.17 side by side add-on</title>
+    <version>0.6.17</version>
+    <summary resourceName="Entry_NodeJS_0.6.17_Summary">Node.JS is a server-side environment for JavaScript.</summary>
+    <longSummary resourceName="Entry_NodeJS_0.6.17_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.</longSummary>
+    <link href="http://nodejs.org/"/>
+    <published>2012-05-04T12:00:00Z</published>
+    <updated>2012-05-04T12:00:00Z</updated>
+    <author>
+      <name>Joyent, Inc</name>
+      <uri>http://www.joyent.com/</uri>
+    </author>
+    <searchExclude/>
+    <images>
+      <icon>http://nodejs.org/images/logo.png</icon>
+    </images>
+    <dependency>
+      <productId>NodeJS</productId>
+    </dependency>
+    <discoveryHint>
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\nodejs\0.6.17\node.exe</filePath>
+            <minimumVersion>0.6.17</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\nodejs\0.6.17\node.exe</filePath>
             <minimumVersion>0.6.17</minimumVersion>
           </file>
         </discoveryHint>
@@ -451,15 +432,200 @@
       <installer>
         <id>1</id>
         <languageId>en</languageId>
-        <eulaURL>http://go.microsoft.com/fwlink/?LinkId=235467</eulaURL>
+        <architectures>
+          <x86 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
         <installerFile>
-          <fileSize>3012</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9791865</installerURL>
+          <fileSize>4701</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.17/node.exe</installerURL>
+          <sha1>fcc62d0b96517614f50c3967f29f6c8c73b27ec0</sha1>
         </installerFile>
         <installCommands>
-          <msiInstall>
-            <msi>%InstallerFile%</msi>
-          </msiInstall>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles%\nodejs\0.6.17" &amp; copy /Y "%InstallerFile%" "%programfiles%\nodejs\0.6.17"</commandLineArguments>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+      <installer>
+        <id>2</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x64 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>4701</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.17/node.exe</installerURL>
+          <sha1>fcc62d0b96517614f50c3967f29f6c8c73b27ec0</sha1>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles(x86)%\nodejs\0.6.17" &amp; copy /Y "%InstallerFile%" "%programfiles(x86)%\nodejs\0.6.17"</commandLineArguments>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+    </installers>
+  </entry>
+
+  <entry>
+    <productId>NodeJS0.6.20</productId>
+    <title resourceName="Entry_NodeJS_0.6.20_Title">Node.js v0.6.20 side by side add-on</title>
+    <version>0.6.20</version>
+    <summary resourceName="Entry_NodeJS_0.6.20_Summary">Node.JS is a server-side environment for JavaScript.</summary>
+    <longSummary resourceName="Entry_NodeJS_0.6.20_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.</longSummary>
+    <link href="http://nodejs.org/" />
+    <published>2012-07-11T12:00:00Z</published>
+    <updated>2012-07-11T12:00:00Z</updated>
+    <author>
+      <name>Joyent, Inc</name>
+      <uri>http://www.joyent.com/</uri>
+    </author>
+    <searchExclude/>
+    <images>
+      <icon>http://nodejs.org/images/logo.png</icon>
+    </images>
+    <dependency>
+      <productId>NodeJS</productId>
+    </dependency>
+    <discoveryHint>
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\nodejs\0.6.20\node.exe</filePath>
+            <minimumVersion>0.6.20</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\nodejs\0.6.20\node.exe</filePath>
+            <minimumVersion>0.6.20</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
+    <installers>
+      <installer>
+        <id>1</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x86 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>4699</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.20/node.exe</installerURL>
+          <sha1>efa29addd716c175d945ade5dfa2b9ebd7f6fed8</sha1>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles%\nodejs\0.6.20" &amp; copy /Y "%InstallerFile%" "%programfiles%\nodejs\0.6.20"</commandLineArguments>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+      <installer>
+        <id>2</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x64 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>4699</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.20/node.exe</installerURL>
+          <sha1>efa29addd716c175d945ade5dfa2b9ebd7f6fed8</sha1>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles(x86)%\nodejs\0.6.20" &amp; copy /Y "%InstallerFile%" "%programfiles(x86)%\nodejs\0.6.20"</commandLineArguments>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+    </installers>
+  </entry>
+
+  <entry>
+    <productId>NodeJS0.8.2</productId>
+    <title resourceName="Entry_NodeJS_0.8.2_Title">Node.js v0.8.2 side by side add-on</title>
+    <version>0.8.2</version>
+    <summary resourceName="Entry_NodeJS_0.8.2_Summary">Node.JS is a server-side environment for JavaScript.</summary>
+    <longSummary resourceName="Entry_NodeJS_0.8.2_LongSummary">Node.JS is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.</longSummary>
+    <link href="http://nodejs.org/" />
+    <published>2012-07-09T12:00:00Z</published>
+    <updated>2012-07-09T12:00:00Z</updated>
+    <author>
+      <name>Joyent, Inc</name>
+      <uri>http://www.joyent.com/</uri>
+    </author>
+    <searchExclude/>
+    <images>
+      <icon>http://nodejs.org/images/logo.png</icon>
+    </images>
+    <dependency>
+      <productId>NodeJS</productId>
+    </dependency>
+    <discoveryHint>
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\nodejs\0.8.2\node.exe</filePath>
+            <minimumVersion>0.8.2</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\nodejs\0.8.2\node.exe</filePath>
+            <minimumVersion>0.8.2</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
+    <installers>
+      <installer>
+        <id>1</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x86 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>5042</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.8.2/node.exe</installerURL>
+          <sha1>dcc45bee9d4a6b38ccef0f00e4a6028864f07278</sha1>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles%\nodejs\0.8.2" &amp; copy /Y "%InstallerFile%" "%programfiles%\nodejs\0.8.2"</commandLineArguments>
+          </cmdline>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+      <installer>
+        <id>2</id>
+        <languageId>en</languageId>
+        <architectures>
+          <x64 />
+        </architectures>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <installerFile>
+          <fileSize>5042</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.8.2/node.exe</installerURL>
+          <sha1>dcc45bee9d4a6b38ccef0f00e4a6028864f07278</sha1>
+        </installerFile>
+        <installCommands>
+          <cmdline>
+            <exe>%WINDIR%\system32\cmd.exe</exe>
+            <commandLineArguments>/c mkdir "%programfiles(x86)%\nodejs\0.8.2" &amp; copy /Y "%InstallerFile%" "%programfiles(x86)%\nodejs\0.8.2"</commandLineArguments>
+          </cmdline>
         </installCommands>
         <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
       </installer>
@@ -609,13 +775,13 @@
   <entry>
     <productId>iisnodeWow</productId>
     <title resourceName="Entry_iisnodeWow_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
-    <version>0.1.19</version>
+    <version>0.1.21</version>
     <summary resourceName="Entry_iisnodeWow_Summary">Azure Websites only</summary>
     <longSummary resourceName="Entry_iisnodeWow_LongSummary">Azure Websites only</longSummary>
     <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-06-07T12:00:00Z</updated>
+    <updated>2012-07-16T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
@@ -627,7 +793,7 @@
     <discoveryHint>
       <file>
         <filePath>%programfiles(x86)%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.19</minimumVersion>
+        <minimumVersion>0.1.21</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
@@ -650,8 +816,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1077</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9808884</installerURL>
+          <fileSize>1081</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x86.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -668,8 +834,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1858</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9808885</installerURL>
+          <fileSize>1861</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x64.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
