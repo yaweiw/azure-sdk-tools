@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
+using System.Xml;
 
     public class RuntimeHelper
     {
@@ -256,6 +257,44 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             }
 
             return found;
+        }
+
+        private static XmlDocument GetManifest(string manifest)
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(XmlReader.Create(new MemoryStream(File.ReadAllBytes(manifest))));
+            return document;
+        }
+
+        private static List<CloudRuntimePackage> GetNodesFromManifest(string manifestFile, string runtimeType = null)
+        {
+            List<CloudRuntimePackage> packages = new List<CloudRuntimePackage>();
+            XmlDocument document = new XmlDocument();
+            XmlReader reader = XmlReader.Create(new MemoryStream(File.ReadAllBytes(manifestFile)));
+            document.Load(reader);
+            XmlNodeList items = document.SelectNodes("/runtimemanifest/runtimes/runtime");
+            foreach( XmlNode node in items)
+            {
+                if (string.IsNullOrEmpty(runtimeType) || string.Equals(node.Attributes["type"].Value, runtimeType, StringComparison.OrdinalIgnoreCase))
+                {
+                    packages.Add(new CloudRuntimePackage(node, "http://DATACENTER/"));
+                }
+            }
+
+            reader.Close();
+            return packages;
+        }
+
+        public static void ValidateNodeList(string manifestFile, IEnumerable<CloudRuntimePackage> packages, string runtimeType = null)
+        {
+            List<CloudRuntimePackage> allPackages = GetNodesFromManifest(manifestFile, runtimeType);
+            foreach (CloudRuntimePackage package in packages)
+            {
+                Assert.AreEqual(1, allPackages.Count<CloudRuntimePackage>(
+                    p => p.Runtime.Equals(package.Runtime) && string.Equals(p.Version, package.Version,
+                        StringComparison.OrdinalIgnoreCase)));
+                
+            }
         }
     }
 }
