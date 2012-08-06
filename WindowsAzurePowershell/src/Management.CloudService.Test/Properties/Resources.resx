@@ -135,4 +135,20 @@
   &lt;/ScaffoldFile&gt;
 &lt;/Scaffold&gt;</value>
   </data>
+  <data name="ValidPackageJson" xml:space="preserve">
+    <value>{{
+  "author": "",
+
+  "name": "{0}",
+  "version": "0.0.0",
+  "dependencies":{{}},
+  "devDependencies":{{}},
+  "optionalDependencies": {{}},
+  "engines": {{
+    "node": "{1}",
+    "iisnode": "*"
+  }}
+
+}}</value>
+  </data>
 </root>

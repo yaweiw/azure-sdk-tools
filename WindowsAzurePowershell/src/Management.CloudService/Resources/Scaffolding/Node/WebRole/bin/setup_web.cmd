@@ -10,6 +10,16 @@ icacls ..\ /grant "Network Service":(OI)(CI)W
 if %ERRORLEVEL% neq 0 goto error
 echo OK
 
+echo Configuring powershell permissions
+powershell -c "set-executionpolicy unrestricted"
+
+echo Downloading runtime components
+powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
+if %ERRORLEVEL% neq 0 goto error
+
+echo Extracting components
+runtime.exe
+
 echo Ensuring the "%programfiles(x86)%\nodejs" directory exists...
 md "%programfiles(x86)%\nodejs"
 
@@ -23,21 +33,13 @@ copy /y ..\Web.cloud.config ..\Web.config
 if %ERRORLEVEL% neq 0 goto error
 echo OK
 
-echo Installing Visual Studio 2010 C++ Redistributable Package...
-vcredist_x64.exe /q 
+powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
 if %ERRORLEVEL% neq 0 goto error
-echo OK
-
-echo Installing iisnode...
-msiexec.exe /quiet /i iisnode.msi
-if %ERRORLEVEL neq 0 goto error
-echo OK
 
 echo SUCCESS
 exit /b 0
 
 :error
-
 echo FAILED
 exit /b -1
 

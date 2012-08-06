@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     public class ArgumentConstants
     {
         public static Dictionary<Location, string> Locations { get; private set; }
+        public static Dictionary<string, Location> ReverseLocations { get; private set; }
         public static Dictionary<Slot, string> Slots { get; private set; }
 
         static ArgumentConstants()
@@ -41,6 +42,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 { Location.WestUS, "west us" }
             };
 
+            ReverseLocations = new Dictionary<string, Location>()
+            {
+                { "anywhere asia", Location.EastAsia },
+                { "anywhere europe", Location.NorthEurope },
+                { "anywhere us", Location.SouthCentralUS },
+                { "east asia", Location.EastAsia },
+                { "north central us", Location.NorthCentralUS },
+                { "north europe", Location.NorthEurope },
+                { "south central us", Location.SouthCentralUS },
+                { "southeast asia", Location.SouthEastAsia },
+                { "west europe", Location.WestEurope },
+                { "west us", Location.WestUS },
+                { "east us", Location.EastUS },
+            };
             Slots = new Dictionary<Slot, string>()
             {
                 { Slot.Production, "production" },
@@ -80,5 +95,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     {
         WebRole,
         WorkerRole
+    }
+
+    public enum Runtime
+    {
+        IISNode,
+        Node,
+        PHP,
+        Null
     }
 }
