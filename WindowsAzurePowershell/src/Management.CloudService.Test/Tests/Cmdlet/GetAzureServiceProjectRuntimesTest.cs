@@ -24,6 +24,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     {
         private const string serviceName = "AzureService";
 
+        /// <summary>
+        /// Verify that the correct runtimes are returned in the correct format from a given runtime manifest
+        /// </summary>
         [TestMethod]
         public void TestGetRuntimes()
         {
@@ -31,9 +34,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWebRole(Resources.NodeScaffolding);
-                string manifest = RuntimeHelper.GetTestManifest(files);
+                string manifest = RuntimePackageHelper.GetTestManifest(files);
                 CloudRuntimeCollection collection = service.GetCloudRuntimes(service.Paths, manifest);
-                RuntimeHelper.ValidateNodeList(manifest, collection);
+                RuntimePackageHelper.ValidateRuntimesMatchManifest(manifest, collection);
             }
         }
     }

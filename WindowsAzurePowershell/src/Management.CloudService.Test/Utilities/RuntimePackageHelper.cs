@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
 
-    public class RuntimeHelper
+    public class RuntimePackageHelper
     {
         /// <summary>
         /// Write out the test manifest file to a directory under the root
@@ -283,7 +283,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return packages;
         }
 
-        public static void ValidateNodeList(string manifestFile, IEnumerable<CloudRuntimePackage> packages, string runtimeType = null)
+        public static void ValidateRuntimesMatchManifest(string manifestFile, IEnumerable<CloudRuntimePackage> packages, string runtimeType = null)
         {
             List<CloudRuntimePackage> allPackages = GetNodesFromManifest(manifestFile, runtimeType);
             foreach (CloudRuntimePackage package in packages)

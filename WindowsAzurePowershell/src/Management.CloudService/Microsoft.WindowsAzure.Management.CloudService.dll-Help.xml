@@ -1308,7 +1308,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>Set-AzureServiceProjectRole</command:name>
 		<maml:description>
-			<maml:para>Set the number of instances for the specified role</maml:para>
+			<maml:para>Set the number of instances or the runtime version of a role</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -1325,7 +1325,7 @@ C:\PS&gt;			</maml:introduction>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>Set-AzureServiceProjectRole</maml:name>
-			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+			<command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1">
 				<maml:name>RoleName</maml:name>
 				<maml:description>
 					<maml:para>The name of the web or worker role that is changing</maml:para>
@@ -1339,7 +1339,21 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
 			</command:parameter>
-		</command:syntaxItem>
+    <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "2" >
+      <maml:name>Runtime</maml:name>
+      <maml:description>
+        <maml:para>The runtime to add to the specified role</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+    </command:parameter>
+    <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "3" >
+      <maml:name>Version</maml:name>
+      <maml:description>
+        <maml:para>The version of the runtime to add to the specified role</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
+    </command:parameter>
+  </command:syntaxItem>
 	</command:syntax>
 	<command:parameters>
 		<command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
@@ -1366,7 +1380,31 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
-	</command:parameters>
+    <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+      <maml:name>Runtime</maml:name>
+      <maml:description>
+        <maml:para>The runtime to add to the specified role</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      <dev:type>
+        <maml:name>String</maml:name>
+        <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+    </command:parameter>
+    <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+      <maml:name>Version</maml:name>
+      <maml:description>
+        <maml:para>The runtime version to add to the specified role</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      <dev:type>
+        <maml:name>String</maml:name>
+        <maml:uri/>
+      </dev:type>
+      <dev:defaultValue></dev:defaultValue>
+    </command:parameter>
+  </command:parameters>
 	<command:inputTypes>
 		<command:inputType>
 			<dev:type>
@@ -1398,7 +1436,7 @@ C:\PS&gt;			</maml:introduction>
   <maml:alertSet>
     <maml:title></maml:title>
     <maml:alert>
-      <maml:para>node-dev, php-dev</maml:para>
+      <maml:para>node-dev, php-dev, python</maml:para>
     </maml:alert>
   </maml:alertSet>
   <command:examples>
@@ -1446,7 +1484,31 @@ C:\PS&gt;			</maml:introduction>
 				</command:commandLine>
 			</command:commandLines>
 		</command:example>
-	</command:examples>
+    <command:example>
+      <maml:title>
+        --------------  Add Node Runtime --------------
+      </maml:title>
+      <maml:introduction>
+        <maml:para>C:\PS&gt;</maml:para>
+        C:\PS&gt;
+      </maml:introduction>
+      <dev:code>Set-AzureServiceProjectRole MyRole1 node 0.6.20</dev:code>
+      <dev:remarks>
+        <maml:para>Sets the node.exe runtime version for role &quot;MyRole1&quot; to 0.6.20.</maml:para>
+        <maml:para></maml:para>
+        <maml:para></maml:para>
+        <maml:para>
+        </maml:para>
+        <maml:para></maml:para>
+      </dev:remarks>
+      <command:commandLines>
+        <command:commandLine>
+          <command:commandText>
+          </command:commandText>
+        </command:commandLine>
+      </command:commandLines>
+    </command:example>
+  </command:examples>
 	<maml:relatedLinks>
 		<maml:navigationLink>
 			<maml:linkText>Add-AzureNodeWebRole</maml:linkText>
@@ -1460,8 +1522,118 @@ C:\PS&gt;			</maml:introduction>
       <maml:linkText>Set-AzureServiceProject</maml:linkText>
       <maml:uri/>
     </maml:navigationLink>
+    <maml:navigationLink>
+      <maml:linkText>Get-AzureServiceProjectRoleRuntime</maml:linkText>
+      <maml:uri/>
+    </maml:navigationLink>
   </maml:relatedLinks>
 </command:command>
+
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>Get-AzureServiceProjectRoleRuntime</command:name>
+      <maml:description>
+        <maml:para>Get the runtimes available to install in a role</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--Add copy right info here.-->
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceProjectRoleRuntime</command:noun>
+      <!--Add Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Gets the runtimes available to install in a role.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceProjectRoleRuntime</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1">
+          <maml:name>Runtime</maml:name>
+          <maml:description>
+            <maml:para>The name of the runtime.  If a runtime specified, only the specific versions of that runtime 
+            available to install in your role in Azure will be returned.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Runtime</maml:name>
+        <maml:description>
+          <maml:para>
+            The name of the runtime.  If a runtime specified, only the specific versions of that runtime
+            available to install in your role in Azure will be returned.
+          </maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureNodeWebRole</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Add-AzureNodeWorkerRole</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureServiceProjectRole</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureServiceProject</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 <!--Generated by Help Cmdlet Editor-->
 	<command:details>
