@@ -5,9 +5,6 @@
             <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="BFEF0930-71EE-4E1E-8D06-13D872592AE9">
                 <File Id="filF638140167895CBAE7E04BC99BF304B2" KeyPath="yes" Source="$(var.sourceDir)\Azure.psd1" />
             </Component>
-            <Component Id="cmpCC67DC8137BF7F60277D959212798028" Guid="B0D9D275-3D55-4F9D-8A1B-3BCF1DC4D3F6">
-                <File Id="fil915BE6C78553ABD497D6F4C0CE2712A1" KeyPath="yes" Source="$(var.sourceDir)\azurecmdfiles.wxi" />
-            </Component>
             <Component Id="cmp3DCAF3083D0E02E22982344922ACDC9E" Guid="8DFAA7EA-E095-4EDF-9E72-C2DD59DEA799">
                 <File Id="fil5AFB9CDC0EE257E4EFF522D23671D731" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Samples.WindowsAzure.ServiceManagement.dll" />
             </Component>
@@ -898,7 +895,6 @@
     <Fragment>
         <ComponentGroup Id="azurecmdfiles">
             <ComponentRef Id="cmpB02573B0FF3D017E0F119567539CCDDC" />
-            <ComponentRef Id="cmpCC67DC8137BF7F60277D959212798028" />
             <ComponentRef Id="cmp3DCAF3083D0E02E22982344922ACDC9E" />
             <ComponentRef Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" />
             <ComponentRef Id="cmp21AD45C8184EE9697743031D64B90DBF" />
