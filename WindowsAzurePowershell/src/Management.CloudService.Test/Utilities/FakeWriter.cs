@@ -12,14 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
+    using System.Collections.Generic;
+    using CloudService.Utilities;
+
     public class FakeWriter : IMessageWriter
     {
         private List<string> messages; 

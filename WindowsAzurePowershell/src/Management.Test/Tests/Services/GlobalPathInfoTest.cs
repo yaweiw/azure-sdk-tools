@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
 {
     using System.IO;
-    using VisualStudio.TestTools.UnitTesting;
     using Management.Properties;
     using Management.Services;
     using TestData;
     using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GlobalPathInfoTest

@@ -12,16 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Management.Automation;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-using Microsoft.WindowsAzure.Management.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System.Management.Automation;
+    using Services;
+
     public class SetSettings : DeploymentServiceManagementCmdletBase
     {
         // Uncomment this to enable global set for settings

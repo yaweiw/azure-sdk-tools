@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
+    using Properties;
 
     public static class SqlDatabaseManagementHelper
     {

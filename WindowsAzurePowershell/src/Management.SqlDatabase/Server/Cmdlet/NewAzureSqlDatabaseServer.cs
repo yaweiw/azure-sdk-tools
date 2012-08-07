@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
+    using CloudService.Services;
     using Model;
     using Properties;
     using Services;
-    using CloudService.Services;
 
     /// <summary>
     /// Creates a new Windows Azure SQL Database server in the selected subscription.

@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.WindowsAzure.Management.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdlet
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using CloudService.Cmdlet;
+    using CloudService.Properties;
+    using CloudService.Python.Cmdlet;
+    using Management.Utilities;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AddAzurePythonWebRoleTests : TestBase
     {

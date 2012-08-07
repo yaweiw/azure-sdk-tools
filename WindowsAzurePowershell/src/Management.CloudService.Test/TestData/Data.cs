@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using CloudService.Model;
+    using Services;
+
     static class Data
     {
         // To Do:

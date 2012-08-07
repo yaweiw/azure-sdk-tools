@@ -12,16 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding {
+    using System.Collections.Generic;
+    using Model;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using Utilities;
+
     public static class PythonRules {
         public static void AddRoleToConfig(string path, Dictionary<string, object> parameters) {
             RoleInfo role = parameters["Role"] as RoleInfo;

@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+
     /// <summary>
     /// This class represents a storage account.
     /// </summary>

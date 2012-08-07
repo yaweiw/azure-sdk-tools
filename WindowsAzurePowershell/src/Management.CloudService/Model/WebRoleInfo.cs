@@ -12,13 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System.Linq;
+    using ServiceDefinitionSchema;
+
     /// <summary>
     /// RoleInfo implementation for WebRole
     /// </summary>

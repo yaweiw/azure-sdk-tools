@@ -14,17 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
-    using System.Diagnostics;
     using System;
-    using System.Globalization;
+    using System.Diagnostics;
     using System.Management.Automation;
-    using System.Net;
     using System.ServiceModel;
-    using System.ServiceModel.Security;
-    using System.ServiceModel.Web;
+    using Cmdlets.Common;
     using Model;
     using Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     public abstract class CloudCmdlet<T> : CmdletBase<T>
         where T : class

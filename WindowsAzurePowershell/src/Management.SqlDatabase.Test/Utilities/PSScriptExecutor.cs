@@ -11,11 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using System;
-using System.Diagnostics;
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities
 {
+    using System;
+    using System.Diagnostics;
+
     /// <summary>
     /// Helper class that executes a given powershell script
     /// </summary>

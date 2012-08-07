@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-using System.Collections.Generic;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ServiceModel.Channels;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+    using Services;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// Simple IAsyncResult implementation that can be used to cache all the
     /// parameters to the BeginFoo call and then passed to the FooThunk

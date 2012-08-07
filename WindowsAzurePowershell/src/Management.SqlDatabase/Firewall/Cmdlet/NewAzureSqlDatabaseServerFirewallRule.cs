@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
+    using CloudService.Services;
     using Model;
     using Properties;
     using Services;
-    using CloudService.Services;
 
     /// <summary>
     /// Creates a new firewall rule for a Windows Azure SQL Database server in the selected subscription.

@@ -12,19 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.Cmdlets;
-using Microsoft.WindowsAzure.Management.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using Cmdlet;
+    using Cmdlets;
+    using Management.Services;
+    using Model;
+    using TestData;
+
     /// <summary>
     /// Utility used to create files and directories and clean them up when
     /// complete.

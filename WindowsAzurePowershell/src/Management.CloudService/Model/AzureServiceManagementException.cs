@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Management.Automation;
-using System.Net;
-using System.ServiceModel;
-using System.Xml.Linq;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Management.Automation;
+    using System.Net;
+    using System.ServiceModel;
+    using System.Xml.Linq;
+
     /// <summary>
     /// Exception used to wrap Azure Service Management errors before
     /// displaying them to users in PowerShell and use their text as the

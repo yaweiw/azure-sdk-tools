@@ -12,12 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System.Diagnostics;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// Base class for AzureDeploymentCmdlets unit tests.
     /// </summary>

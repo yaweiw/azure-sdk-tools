@@ -12,21 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Management.Automation;
-using System.Reflection;
-using System.Xml.Serialization;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using System.Linq;
-using System.Collections;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using Properties;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using Utilities;
+
     /// <summary>
     /// Base class for describing roles that we will create.
     /// </summary>

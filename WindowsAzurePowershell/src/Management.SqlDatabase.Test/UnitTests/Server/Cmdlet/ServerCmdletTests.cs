@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using System.ServiceModel;
-using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTest;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
+    using System.Linq;
+    using System.ServiceModel;
+    using System.Xml;
+    using CloudService.Test;
+    using Management.Test.Stubs;
+    using Services;
+    using SqlDatabase.Server.Cmdlet;
+    using UnitTest;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ServerCmdletTests : TestBase
     {

@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
+    using System.Collections.Generic;
+    using CloudService.Model;
+
     class ServiceSettingsTestData
     {
         // To Do: Add bad cases for ServiceSettings

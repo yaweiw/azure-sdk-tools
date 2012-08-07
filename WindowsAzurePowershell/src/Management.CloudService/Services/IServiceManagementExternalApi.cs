@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.ServiceModel;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System.ServiceModel;
+
     /// <summary>
     /// Provides the Windows Azure Service Management Api. 
     /// </summary>

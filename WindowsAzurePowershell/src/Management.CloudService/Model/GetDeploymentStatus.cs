@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.

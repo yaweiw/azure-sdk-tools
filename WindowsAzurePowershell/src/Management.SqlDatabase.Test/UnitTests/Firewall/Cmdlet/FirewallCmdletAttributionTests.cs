@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using CloudService.Test;
+    using SqlDatabase.Firewall.Cmdlet;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// These tests prevent regression in parameter validation attributes.
     /// </summary>

@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
-    using System.Linq;
-    using VisualStudio.TestTools.UnitTesting;
     using System.IO;
+    using System.Linq;
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
     using Stubs;
     using TestData;
-    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class RemoveSubscriptionTest

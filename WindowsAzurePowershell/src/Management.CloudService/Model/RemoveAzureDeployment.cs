@@ -12,15 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.

@@ -12,15 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using System.IO;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
+    using System.IO;
+    using CloudService.Model;
+
     class AzureServiceWrapper : AzureService
     {
         public AzureServiceWrapper(string rootPath, string serviceName, string scaffoldingPath) : base(rootPath, serviceName, scaffoldingPath) { }

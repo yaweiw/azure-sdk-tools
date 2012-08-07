@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
     using CloudService.Services;
     using Properties;
     using Services;
+    using ConfigurationConstants = Services.ConfigurationConstants;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets

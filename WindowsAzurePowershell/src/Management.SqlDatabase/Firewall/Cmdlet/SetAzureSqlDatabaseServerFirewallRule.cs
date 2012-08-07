@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
 {
     using System;
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
+    using CloudService.Services;
     using Model;
     using Properties;
     using Services;

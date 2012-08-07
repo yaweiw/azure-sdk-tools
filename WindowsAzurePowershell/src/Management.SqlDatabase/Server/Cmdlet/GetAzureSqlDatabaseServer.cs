@@ -20,10 +20,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
+    using CloudService.Services;
     using Model;
     using Properties;
     using Services;
-    using CloudService.Services;
 
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Database servers in the selected subscription.

@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Security.Permissions;
-using System.Text;
-using System.Text.RegularExpressions;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Security.Permissions;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using Properties;
+    using Utilities;
+
     public class CsRun : AzureTool
     {
         public int DeploymentId { get; private set; }

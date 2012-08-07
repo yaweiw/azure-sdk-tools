@@ -1,17 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Model;
-using Microsoft.WindowsAzure.Management.Properties;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Test.TestData;
-using System.Linq;
-using Microsoft.WindowsAzure.Management.Utilities;
-using Microsoft.WindowsAzure.Management.XmlSchema;
-
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
+﻿namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using Management.Properties;
+    using Management.Services;
+    using Management.Utilities;
+    using Model;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+    using XmlSchema;
+
     [TestClass]
     public class SubscriptionsManagerTests
     {
