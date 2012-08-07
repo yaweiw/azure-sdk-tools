@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+
     /// <summary>
     /// List of affinity groups.
     /// </summary>
@@ -60,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public HostedServiceList HostedServices { get; set; }
 
         [DataMember(Order = 6, EmitDefaultValue = false)]
-        public Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet.StorageServiceList StorageServices { get; set; }
+        public StorageServiceList StorageServices { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }

@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using System.Linq;
     using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Services;
     using Management.Services;
-    using WAPPSCmdlet;
     using Properties;
+    using Services;
 
     /// <summary>
     /// Change deployment status to running or suspended.

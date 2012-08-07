@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Model;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using WAPPSCmdlet = Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+    using CloudService.Services;
+    using Model;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Deletes a firewall rule from a Windows Azure SQL Database server in the selected subscription.
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
                 {
                     RetryCall(subscription =>
                         Channel.RemoveServerFirewallRule(subscription, serverName, ruleName));
-                    WAPPSCmdlet.Operation operation = WaitForSqlDatabaseOperation();
+                    Operation operation = WaitForSqlDatabaseOperation();
 
                     operationContext = new SqlDatabaseServerOperationContext()
                     {

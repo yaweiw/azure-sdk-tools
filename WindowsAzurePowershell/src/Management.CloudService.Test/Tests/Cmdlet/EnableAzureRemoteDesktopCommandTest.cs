@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security;
+    using CloudService.Model;
+    using Cmdlet;
+    using Extensions;
+    using Management.Services;
+    using Management.Test.Stubs;
+    using Node.Cmdlet;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop command.
     /// </summary>

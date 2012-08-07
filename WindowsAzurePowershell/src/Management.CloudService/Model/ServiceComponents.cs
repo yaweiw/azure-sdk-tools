@@ -12,19 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using System.Reflection;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using System.IO;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System;
+    using System.Linq;
+    using Properties;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using Utilities;
+
     public class ServiceComponents
     {
         public ServiceDefinition Definition { get; private set; }

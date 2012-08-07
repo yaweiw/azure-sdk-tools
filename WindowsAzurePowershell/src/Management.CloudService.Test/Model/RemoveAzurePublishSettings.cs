@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Model
 {
+    using Management.Services;
+
     public class RemoveAzurePublishSettingsCommand
     {
         public void RemovePublishSettingsProcess(string azureSdkDirPath)

@@ -139,7 +139,6 @@
     <Compile Include="AzureTools\CsPack.cs" />
     <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
-    <Compile Include="Model\AzureServiceManagementException.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
@@ -203,8 +202,6 @@
     <Compile Include="Services\StorageService2.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="AzureTools\CsRun.cs" />
-    <Compile Include="Utilities\IMessageWriter.cs" />
-    <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />

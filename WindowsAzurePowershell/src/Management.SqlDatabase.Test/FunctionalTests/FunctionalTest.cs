@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Xml.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
-using Microsoft.WindowsAzure.Management.Utilities;
-using Microsoft.WindowsAzure.Management.XmlSchema;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 {
+    using System;
+    using System.IO;
+    using System.Xml.Linq;
+    using Firewall.Cmdlet;
+    using Management.Utilities;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+    using XmlSchema;
+
     [TestClass]
     public class FunctionalTest
     {

@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using Microsoft.WindowsAzure.Management.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System;
+    using Management.Services;
+    using Properties;
+    using Utilities;
+
     public class DeploymentSettings
     {
         public ServiceSettings ServiceSettings { get; private set; }

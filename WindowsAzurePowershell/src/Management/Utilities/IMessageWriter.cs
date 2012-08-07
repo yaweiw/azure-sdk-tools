@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
+    using System.Collections.Generic;
+
     public interface IMessageWriter
     {
         List<string> Messages { get; }

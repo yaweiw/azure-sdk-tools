@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
     using System;
-    using VisualStudio.TestTools.UnitTesting;
     using Management.Cmdlets;
     using Management.Properties;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzurePublishSettingsTests

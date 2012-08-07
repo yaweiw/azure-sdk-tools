@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
 {
     using System;
-    using System.Linq;
-    using Win32;
-    using Properties;
     using System.IO;
+    using System.Linq;
+    using Properties;
+    using Win32;
 
     public class AzureTool
     {

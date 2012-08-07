@@ -26,13 +26,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.ServiceModel;
     using System.Threading;
     using AzureTools;
+    using Extensions;
+    using Management.Services;
     using Model;
     using Properties;
     using Services;
     using Utilities;
-    using WAPPSCmdlet;
-    using Extensions;
-    using Management.Services;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

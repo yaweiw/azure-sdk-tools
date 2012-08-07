@@ -25,10 +25,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Threading;
     using Extensions;
     using Model;
+    using Properties;
+    using Samples.WindowsAzure.ServiceManagement;
     using Service;
     using Service.Gateway;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Properties;
 
     public abstract class CmdletBase<T> : PSCmdlet, IDynamicParameters
         where T : class

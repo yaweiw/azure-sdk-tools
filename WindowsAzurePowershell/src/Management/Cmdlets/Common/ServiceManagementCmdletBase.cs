@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 {
     using System;
     using Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Service;
+    using Service;
 
     public class ServiceManagementCmdletBase : CmdletBase<IServiceManagement>
     {

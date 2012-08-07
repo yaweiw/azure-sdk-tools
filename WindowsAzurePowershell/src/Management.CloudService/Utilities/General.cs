@@ -12,19 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Permissions;
-using System.Xml.Serialization;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Security.Permissions;
+    using System.Xml.Serialization;
+    using Properties;
+
     internal static class General
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();

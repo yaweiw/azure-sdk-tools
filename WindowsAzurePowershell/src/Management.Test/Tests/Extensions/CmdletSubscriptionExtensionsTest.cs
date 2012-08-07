@@ -1,15 +1,14 @@
-﻿using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Model;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-using Microsoft.WindowsAzure.Management.Test.TestData;
-
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Extensions
+﻿namespace Microsoft.WindowsAzure.Management.Test.Tests.Extensions
 {
+    using System.IO;
+    using System.Linq;
+    using System.Management.Automation;
+    using Management.Extensions;
+    using Management.Services;
+    using Stubs;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class CmdletSubscriptionExtensionsTest
     {

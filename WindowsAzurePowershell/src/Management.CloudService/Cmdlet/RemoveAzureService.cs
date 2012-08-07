@@ -15,12 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
-    using System.Management.Automation;
     using System.Linq;
+    using System.Management.Automation;
     using Management.Services;
-    using WAPPSCmdlet;
-    using Properties;
     using Model;
+    using Properties;
     using Services;
 
     /// <summary>

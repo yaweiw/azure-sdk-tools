@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Concrete
 {
     public class RoleInstance
     {
-        private Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet.RoleInstance innerInstance;
+        private Services.RoleInstance innerInstance;
 
-        public RoleInstance(Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet.RoleInstance innerInstance)
+        public RoleInstance(Services.RoleInstance innerInstance)
         {
             this.innerInstance = innerInstance;
         }

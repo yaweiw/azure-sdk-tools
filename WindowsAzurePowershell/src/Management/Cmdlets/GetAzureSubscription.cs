@@ -15,15 +15,15 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
-    using System.Management.Automation;
-    using System.Linq;
-    using System.ServiceModel;
     using System.Collections.Generic;
-    using Samples.WindowsAzure.ServiceManagement;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.ServiceModel;
     using Common;
     using Extensions;
     using Model;
     using Properties;
+    using Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Gets details about subscriptions.
