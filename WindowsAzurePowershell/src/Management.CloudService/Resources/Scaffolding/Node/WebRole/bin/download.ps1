@@ -62,9 +62,9 @@ foreach($singleUrl in $url -split ";")
     copyOnVerify $dest $final
     if (Test-Path -LiteralPath $final)
     {
-	   cd $downloaddir
+       cd $downloaddir
        Start-Process -FilePath $final -ArgumentList -y -Wait
-	   $cmd = $downloaddir + "\setup.cmd"
+       $cmd = $downloaddir + "\setup.cmd"
        Start-Process -FilePath $cmd  -Wait
     }
     else
@@ -74,6 +74,6 @@ foreach($singleUrl in $url -split ";")
     cd $current
     if (Test-Path -LiteralPath $downloaddir)
     {
-		Remove-Item -LiteralPath $downloaddir -Force -Recurse
-	}
+        Remove-Item -LiteralPath $downloaddir -Force -Recurse
+    }
 }
