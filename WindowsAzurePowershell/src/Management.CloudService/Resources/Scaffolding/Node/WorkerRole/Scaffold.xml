@@ -1,5 +1,4 @@
 ﻿<Scaffold>
- <!-- <ScaffoldFile Path="node.exe" SourceDirectory="NodeJsProgramFilesX86"/> -->
   <ScaffoldFile Path="download.ps1" />
   <ScaffoldFile Path="node.cmd" />
   <ScaffoldFile Path="setup_worker.cmd" />
