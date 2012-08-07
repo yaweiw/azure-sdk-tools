@@ -53,23 +53,27 @@ else {
 
 foreach($singleUrl in $url -split ";") 
 {
-    $downloaddir = $current + "\sandbox"
+    $suffix = Get-Random
+    $downloaddir = $current + "\sandbox" + $suffix
     mkdir $downloaddir
-    cd $downloaddir
     $dest = $downloaddir + "\sandbox.exe"
     download $singleUrl $dest
     $final = $downloaddir + "\runtime.exe"
     copyOnVerify $dest $final
     if (Test-Path -LiteralPath $final)
     {
-       Start-Process -FilePath $final -Wait
-       Start-Process -FilePath $downloaddir + "\setup.cmd" -Wait
+       cd $downloaddir
+       Start-Process -FilePath $final -ArgumentList -y -Wait
+       $cmd = $downloaddir + "\setup.cmd"
+       Start-Process -FilePath $cmd  -Wait
     }
     else
     {
-      throw "Unable to verify package"
+       throw "Unable to verify package"
     }
-
     cd $current
-    Remove-Item -LiteralPath $downloaddir -Force -Recurse
+    if (Test-Path -LiteralPath $downloaddir)
+    {
+       Remove-Item -LiteralPath $downloaddir -Force -Recurse
+    }
 }
