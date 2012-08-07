@@ -36,8 +36,8 @@ set IISNODE_BINARY_DIRECTORY=%programfiles(x86)%\iisnode-dev\release\x64
 set IISNODE_SCHEMA=%programfiles(x86)%\iisnode-dev\release\x64\iisnode_schema.xml
 
 if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto start
-set IISNODE_BINARY_DIRECTORY=%programfiles%\iisnode_dev\release\x86
-set IISNODE_SCHEMA=%programfiles%\iisnode_dev\release\x86\iisnode_schema_x86.xml
+set IISNODE_BINARY_DIRECTORY=%programfiles%\iisnode-dev\release\x86
+set IISNODE_SCHEMA=%programfiles%\iisnode-dev\release\x86\iisnode_schema_x86.xml
 
 
 :start
