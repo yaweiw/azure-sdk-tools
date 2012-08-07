@@ -249,4 +249,8 @@
   <data name="InvalidEndpoint" xml:space="preserve">
     <value>Invalid service endpoint.</value>
   </data>
+  <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
+    <value>Azure service management error
+{0}</value>
+  </data>
 </root>

@@ -15,7 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
-    using CloudService.Utilities;
+    using Cmdlets.Common;
+    using Management.Utilities;
     using Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -34,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
     }
 
-    public class FakeCmdlet : CloudCmdlet<IServiceManagement>
+    public class FakeCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
         public FakeCmdlet(IMessageWriter writer) : base(writer)
         {

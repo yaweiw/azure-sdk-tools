@@ -140,9 +140,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\Common\CloudBaseCmdlet.cs" />
     <Compile Include="Cmdlets\GetAzurePublishSettings.cs" />
     <Compile Include="Extensions\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Extensions\CmdletExtensions.cs" />
+    <Compile Include="Model\AzureServiceManagementException.cs" />
     <Compile Include="Model\InnerDataServiceException.cs" />
     <Compile Include="Model\ManagementOperationContext.cs" />
     <Compile Include="Services\GlobalComponents.cs" />
@@ -169,6 +171,8 @@
     <Compile Include="Cmdlets\SetAzureSubscription.cs" />
     <Compile Include="Model\SubscriptionData.cs" />
     <Compile Include="Utilities\General.cs" />
+    <Compile Include="Utilities\IMessageWriter.cs" />
+    <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="Cmdlets\Common\ServiceManagementCmdletBase.cs" />

@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System.Collections.Generic;
-    using CloudService.Utilities;
+    using Management.Utilities;
 
     public class FakeWriter : IMessageWriter
     {

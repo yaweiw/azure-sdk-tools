@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System.Collections.Generic;
 
