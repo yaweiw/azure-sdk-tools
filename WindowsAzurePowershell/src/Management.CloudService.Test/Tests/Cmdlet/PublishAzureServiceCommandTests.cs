@@ -21,7 +21,7 @@ using System.ServiceModel;
 using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
 using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+using Microsoft.WindowsAzure.Management.CloudService.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;

@@ -12,10 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using System.ServiceModel;
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     /// <summary>
     /// Provides the Windows Azure Service Management Api. 

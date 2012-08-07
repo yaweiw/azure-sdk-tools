@@ -12,16 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.Serialization;
-    using System.ServiceModel;
-    using System.ServiceModel.Web;
-    using System.Text;
+using System;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
 
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
+{
     /// <summary>
     /// This class represents a storage account.
     /// </summary>

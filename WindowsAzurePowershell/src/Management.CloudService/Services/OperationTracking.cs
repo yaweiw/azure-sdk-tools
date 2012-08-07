@@ -16,9 +16,8 @@ using System;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Net;
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class Operation : IExtensibleDataObject

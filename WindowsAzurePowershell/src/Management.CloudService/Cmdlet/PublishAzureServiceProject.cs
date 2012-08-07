@@ -30,7 +30,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Properties;
     using Services;
     using Utilities;
-    using WAPPSCmdlet;
     using Extensions;
     using Management.Services;
 

@@ -18,7 +18,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+using Microsoft.WindowsAzure.Management.CloudService.Services;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {

@@ -14,7 +14,7 @@
 
 using System;
 using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+using Microsoft.WindowsAzure.Management.CloudService.Services;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

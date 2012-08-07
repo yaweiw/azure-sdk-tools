@@ -18,7 +18,6 @@ using System.Linq;
 using System.Text;
 using System.Management.Automation;
 using Microsoft.WindowsAzure.Management.CloudService.Services;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
 using Microsoft.WindowsAzure.Management.Services;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model

@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.ServiceModel.Web;
     using Model;
     using Utilities;
-    using WAPPSCmdlet;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     public abstract class CloudCmdlet<T> : CmdletBase<T>

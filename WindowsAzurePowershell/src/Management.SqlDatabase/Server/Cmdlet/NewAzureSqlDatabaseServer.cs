@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Model;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using WAPPSCmdlet = Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+    using Model;
+    using Properties;
+    using Services;
+    using CloudService.Services;
 
     /// <summary>
     /// Creates a new Windows Azure SQL Database server in the selected subscription.
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                 {
                     XmlElement serverName = RetryCall(subscription =>
                         Channel.NewServer(subscription, adminLogin, adminLoginPassword, location));
-                    WAPPSCmdlet.Operation operation = WaitForSqlDatabaseOperation();
+                    Operation operation = WaitForSqlDatabaseOperation();
 
                     operationContext = new SqlDatabaseServerContext()
                     {

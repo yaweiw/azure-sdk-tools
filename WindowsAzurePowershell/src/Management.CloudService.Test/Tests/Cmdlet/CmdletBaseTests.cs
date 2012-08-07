@@ -19,7 +19,6 @@ using System.Text;
 using Microsoft.WindowsAzure.Management.CloudService.Services;
 using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
 using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Model;
 

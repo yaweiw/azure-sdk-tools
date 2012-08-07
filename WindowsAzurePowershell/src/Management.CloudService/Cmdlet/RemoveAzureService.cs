@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Linq;
     using Management.Services;
-    using WAPPSCmdlet;
     using Properties;
     using Model;
     using Services;

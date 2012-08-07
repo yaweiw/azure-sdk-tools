@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Management.Automation;
     using Services;
     using Management.Services;
-    using WAPPSCmdlet;
     using Properties;
 
     /// <summary>

@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System;
+
     public class DeploymentServiceManagementCmdletBase : CloudCmdlet<IServiceManagement>
     {
         /// <summary>
