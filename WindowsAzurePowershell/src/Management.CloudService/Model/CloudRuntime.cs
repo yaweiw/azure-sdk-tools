@@ -107,15 +107,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public static Runtime GetRuntimeByType(string runtimeType)
         {
-            if (string.Equals(runtimeType, Resources.PhpRuntimeValue))
+            if (string.Equals(runtimeType, Resources.PhpRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
                 return Runtime.PHP;
             }
-            else if (string.Equals(runtimeType, Resources.IISNodeRuntimeValue))
+            else if (string.Equals(runtimeType, Resources.IISNodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
                 return Runtime.IISNode;
             }
-            else if (string.Equals(runtimeType, Resources.NodeRuntimeValue))
+            else if (string.Equals(runtimeType, Resources.NodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
                 return Runtime.Node;
             }
