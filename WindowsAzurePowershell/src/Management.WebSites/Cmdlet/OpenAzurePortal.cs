@@ -14,13 +14,48 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
 {
+    using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
+    using Properties;
+    using Utilities;
 
     /// <summary>
     /// Opens the azure portal.
     /// </summary>
     [Cmdlet(VerbsCommon.Open, "AzurePortal")]
-    public class OpenAzurePortal
+    public class OpenAzurePortal : PSCmdlet
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
+        [ValidateNotNullOrEmpty]
+        public string WebSiteName { get; set; }
+
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        internal void GetAzurePublishSettingsProcess(string url, string webSiteName)
+        {
+            Validate.ValidateStringIsNullOrEmpty(url, "Azure portal url");
+            Validate.ValidateInternetConnection();
+
+            if (!string.IsNullOrEmpty(webSiteName))
+            {
+                url += string.Format(Resources.WebsiteSufixUrl, webSiteName);
+            }
+
+            General.LaunchWebPage(url);
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+                GetAzurePublishSettingsProcess(Resources.AzurePortalUrl, WebSiteName);
+            }
+            catch (Exception ex)
+            {
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
     }
 }
