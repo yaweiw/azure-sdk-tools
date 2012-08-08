@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is invalid or empty.
+        /// </summary>
+        internal static string InvalidOrEmptyArgumentMessage {
+            get {
+                return ResourceManager.GetString("InvalidOrEmptyArgumentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to #Workspaces/WebsiteExtension/Website/{0}/dashboard.
         /// </summary>
         internal static string WebsiteSufixUrl {

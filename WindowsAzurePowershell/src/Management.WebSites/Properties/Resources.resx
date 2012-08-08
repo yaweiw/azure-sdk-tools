@@ -120,6 +120,9 @@
   <data name="AzurePortalUrl" xml:space="preserve">
     <value>http://go.microsoft.com/fwlink/?LinkId=254433</value>
   </data>
+  <data name="InvalidOrEmptyArgumentMessage" xml:space="preserve">
+    <value>{0} is invalid or empty</value>
+  </data>
   <data name="WebsiteSufixUrl" xml:space="preserve">
     <value>#Workspaces/WebsiteExtension/Website/{0}/dashboard</value>
   </data>

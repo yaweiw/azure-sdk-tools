@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
+namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System.Management.Automation;
 
     /// <summary>
-    /// Opens the azure portal.
+    /// Starts an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
-    public class GetAzureWebSite
+    [Cmdlet(VerbsLifecycle.Start, "AzureWebSite")]
+    public class StartAzureWebSiteCommand
     {
     }
 }

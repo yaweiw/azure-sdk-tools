@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
+namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System.Management.Automation;
 
     /// <summary>
-    /// Removes an azure website.
+    /// Opens the azure portal.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureWebSite")]
-    public class RemoveAzureWebSite
+    [Cmdlet(VerbsCommon.New, "AzureWebSite")]
+    public class NewAzureWebSiteCommand
     {
     }
 }

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
+namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
@@ -24,14 +24,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
     /// Opens the azure portal.
     /// </summary>
     [Cmdlet(VerbsCommon.Open, "AzurePortal")]
-    public class OpenAzurePortal : PSCmdlet
+    public class OpenAzurePortalCommand : PSCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
         public string WebSiteName { get; set; }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void GetAzurePublishSettingsProcess(string url, string webSiteName)
+        internal void OpenAzurePortalProcess(string url, string webSiteName)
         {
             Validate.ValidateStringIsNullOrEmpty(url, "Azure portal url");
             Validate.ValidateInternetConnection();
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlet
             try
             {
                 base.ProcessRecord();
-                GetAzurePublishSettingsProcess(Resources.AzurePortalUrl, WebSiteName);
+                OpenAzurePortalProcess(Resources.AzurePortalUrl, WebSiteName);
             }
             catch (Exception ex)
             {
