@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     using System.Xml.Serialization;
     using Properties;
 
-    internal static class General
+    public static class General
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
