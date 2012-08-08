@@ -130,10 +130,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\GetAzureWebSite.cs" />
     <Compile Include="Cmdlet\NewAzureWebSite.cs" />
     <Compile Include="Cmdlet\OpenAzurePortal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\RemoveAzureWebSite.cs" />
     <Compile Include="Cmdlet\ShowAzureWebSite.cs" />
     <Compile Include="Cmdlet\StartAzureWebSite.cs" />
@@ -141,9 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">
