@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     using System.Management.Automation;
 
     /// <summary>
-    /// Opens the azure portal.
+    /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
     public class GetAzureWebSiteCommand
