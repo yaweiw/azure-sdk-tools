@@ -20,7 +20,6 @@ using System.Reflection;
 using System.Security.AccessControl;
 using System.Security.Permissions;
 using System.Security.Principal;
-using Microsoft.WindowsAzure.Management.CloudService;
 using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
 using Microsoft.WindowsAzure.Management.CloudService.Properties;
 using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
@@ -154,8 +153,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <summary>
         /// Adds the given role to both config files and the service def.
         /// </summary>
-        /// <param name="role"></param>
         private void AddRoleCore(String Scaffolding, RoleInfo role, RoleType type)
+        {
+            Dictionary<string, object> parameters = CreateDefaultParameters(role);
+            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+
+            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Scaffolding), type.ToString());
+            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+        }
+
+        private Dictionary<string, object> CreateDefaultParameters(RoleInfo role)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters[ScaffoldParams.Role] = role;
@@ -164,11 +172,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             parameters[ScaffoldParams.InstancesCount] = role.InstanceCount;
             parameters[ScaffoldParams.Port] = Components.GetNextPort();
             parameters[ScaffoldParams.Paths] = Paths;
-            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
-
-            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Scaffolding), type.ToString());
-            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+            return parameters;
         }
 
         public RoleInfo AddWebRole(string scaffolding, string name = null, int instanceCount = 1)
@@ -189,12 +193,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return role;
         }
 
+        /// <summary>
+        /// Adds the given role to both config files and the service def.
+        /// </summary>
+        /// <param name="role"></param>
+        private void AddPythonRoleCore(RoleInfo role, RoleType type)
+        {
+            Dictionary<string, object> parameters = CreateDefaultParameters(role);
+
+            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Resources.PythonScaffolding), type.ToString());
+            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+        }
+
+        public RoleInfo AddDjangoWebRole(string name = null, int instanceCount = 1)
+        {
+            name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new String[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
+            WebRoleInfo role = new WebRoleInfo(name, instanceCount);
+            AddPythonRoleCore(role, RoleType.WebRole);
+
+            return role;
+        }
+
         public void ChangeRolePermissions(RoleInfo role)
         {
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null), 
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null),
                 FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
@@ -241,6 +266,55 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             Components.SetRoleInstances(roleName, instances);
             Components.Save(paths);
+        }
+
+        /// <summary>
+        /// Retrieve currently available cloud runtimes
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="manifest">The manifest to use to get current runtime info - default is the cloud manifest</param>
+        /// <returns></returns>
+        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
+        {
+            CloudRuntimeCollection collection;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+            return collection;
+        }
+
+        /// <summary>
+        /// Add the specified runtime to a role, checking that the runtime and version are currently available int he cloud
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="roleName">Name of the role to change</param>
+        /// <param name="runtimeType">The runtime identifier</param>
+        /// <param name="runtimeVersion">The runtime version</param>
+        /// <param name="manifest">Location fo the manifest file, default is the cloud manifest</param>
+        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion, string manifest = null)
+        {
+            if (this.Components.RoleExists(roleName))
+            {
+                CloudRuntimeCollection collection;
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+                CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
+                CloudRuntimePackage foundPackage;
+                if (collection.TryFindMatch(desiredRuntime, out foundPackage))
+                {
+                    WorkerRole worker = (this.Components.Definition.WorkerRole == null ? null :
+                        this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName,
+                            StringComparison.OrdinalIgnoreCase)));
+                    WebRole web = (this.Components.Definition.WebRole == null ? null :
+                        this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
+                            StringComparison.OrdinalIgnoreCase)));
+                    if (worker != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, worker);
+                    }
+                    else if (web != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, web);
+                    }
+                }
+            }
         }
     }
 }

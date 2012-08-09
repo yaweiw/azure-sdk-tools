@@ -113,6 +113,8 @@
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
     <Compile Include="Tests\Cmdlet\CmdletBaseTests.cs" />
+    <Compile Include="Tests\Cmdlet\GetAzureServiceProjectRuntimesTest.cs" />
+    <Compile Include="Tests\Cmdlet\SetAzureRuntimeTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureServiceProjectTests.cs" />
     <Compile Include="Tests\Cmdlet\DisableAzureRemoteDesktopCommandTest.cs" />
     <Compile Include="Tests\Cmdlet\EnableAzureRemoteDesktopCommandTest.cs" />
@@ -126,11 +128,13 @@
     <Compile Include="Tests\Model\DeploymentStatusManagerTests.cs" />
     <Compile Include="Tests\Model\ServiceComponentsTests.cs" />
     <Compile Include="Tests\Model\ServicePathInfoTests.cs" />
+    <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
     <Compile Include="Utilities\AzureAssert.cs" />
     <Compile Include="Utilities\FakeWriter.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
+    <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
     <Compile Include="Utilities\Testing.cs" />

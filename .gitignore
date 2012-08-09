@@ -1,7 +1,8 @@
 _ReSharper*
 /WindowsAzurePowershell/src/*/bin
-/WindowsAzurePowershell/src/package/*
+/WindowsAzurePowershell/src/package
 /WindowsAzurePowershell/setup/build
+/WindowsAzurePowershell/setup/*/bin
 obj
 TestResults
 *.user
