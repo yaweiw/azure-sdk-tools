@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.ServiceModel;
     using System.Threading;
     using AzureTools;
+    using Common;
     using Extensions;
     using Management.Services;
     using Model;
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess=true)]
-    public class PublishAzureServiceProjectCommand : DeploymentServiceManagementCmdletBase
+    public class PublishAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;

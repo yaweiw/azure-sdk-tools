@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Management.Automation;
     using System.ServiceModel;
     using Model;
+    using Services;
     using Utilities;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase<T>
@@ -175,6 +176,40 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 action();
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a flag indicating whether CreateChannel should share
+        /// the command's current Channel when asking for a new one.  This is
+        /// only used for testing.
+        /// </summary>
+        public bool ShareChannel { get; set; }
+
+        protected override T CreateChannel()
+        {
+            // If ShareChannel is set by a unit test, use the same channel that
+            // was passed into out constructor.  This allows the test to submit
+            // a mock that we use for all network calls.
+            if (ShareChannel)
+            {
+                return Channel;
+            }
+
+            if (ServiceBinding == null)
+            {
+                ServiceBinding = ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
+            }
+
+            if (string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+            {
+                ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+            }
+            else
+            {
+                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
+            }
+
+            return ServiceManagementHelper.CreateServiceManagementChannel<T>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
         }
     }
 }

@@ -143,6 +143,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\IServiceManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -154,7 +155,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="Cmdlets\Common\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

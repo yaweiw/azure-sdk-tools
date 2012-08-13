@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Operation : IExtensibleDataObject
     {
         [DataMember(Name = "ID", Order = 1)]

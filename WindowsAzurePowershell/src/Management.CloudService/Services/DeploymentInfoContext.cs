@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
+    using Management.Services;
 
     public class DeploymentInfoContext : ManagementOperationContext
     {

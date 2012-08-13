@@ -173,9 +173,8 @@
     <Compile Include="Scaffolding\ScaffoldFile.cs" />
     <Compile Include="Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Services\Certificates.cs" />
-    <Compile Include="Services\CloudCmdlet.cs" />
+    <Compile Include="Cmdlet\Common\CloudCmdlet.cs" />
     <Compile Include="Cmdlet\NewAzureServiceProject.cs" />
-    <Compile Include="Services\DeploymentServiceManagementCmdletBase.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\PublishAzureServiceProject.cs" />
@@ -195,9 +194,7 @@
     <Compile Include="Services\OperationTracking.cs" />
     <Compile Include="Services\RoleConfiguration.cs" />
     <Compile Include="Services\RoleInstance.cs" />
-    <Compile Include="Services\ServiceConfigurationConstants.cs" />
     <Compile Include="Services\ServiceManagementError.cs" />
-    <Compile Include="Services\ServiceManagementHelper.cs" />
     <Compile Include="Services\StorageService1.cs" />
     <Compile Include="Services\StorageService2.cs" />
     <Compile Include="Services\Utility.cs" />

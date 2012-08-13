@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Services
+namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
 {
     using Cmdlets.Common;
     using Model;

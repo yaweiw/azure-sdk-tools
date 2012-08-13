@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
 
-    [CollectionDataContract(Name = "Certificates", ItemName = "Certificate", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "Certificates", ItemName = "Certificate", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class CertificateList : List<Certificate>
     {
         public CertificateList()
@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Certificate : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class CertificateFile : IExtensibleDataObject
     {
         [DataMember(Order = 1)]

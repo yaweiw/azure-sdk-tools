@@ -158,6 +158,7 @@
     </Compile>
     <Compile Include="Services\ISubscriptionsManager.cs" />
     <Compile Include="Services\ServiceConfiguration.cs" />
+    <Compile Include="Services\ServiceManagementHelper.cs" />
     <Compile Include="Services\SubscriptionsManager.cs" />
     <Compile Include="Cmdlets\Common\CmdletBase.cs">
       <SubType>Code</SubType>
@@ -174,6 +175,7 @@
     <Compile Include="Utilities\IMessageWriter.cs" />
     <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
+    <Compile Include="Utilities\ConfigurationConstants.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="Cmdlets\Common\ServiceManagementCmdletBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

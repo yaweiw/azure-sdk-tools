@@ -18,11 +18,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.Runtime.Serialization;
     using System.ServiceModel;
     using System.ServiceModel.Web;
+    using Management.Services;
 
     /// <summary>
     /// This class represents a storage account.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class CreateStorageServiceInput : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// This class represents a storage account label and description.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class UpdateStorageServiceInput : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]

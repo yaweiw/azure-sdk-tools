@@ -14,13 +14,27 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
+    using System;
     using System.Management.Automation;
+    using Services;
+    using Management.Cmdlets.Common;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
-    public class GetAzureWebSiteCommand
+    public class GetAzureWebSiteCommand : CloudBaseCmdlet<IServiceManagement>
     {
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
     }
 }

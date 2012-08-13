@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// List of affinity groups.
     /// </summary>
-    [CollectionDataContract(Name = "AffinityGroups", ItemName = "AffinityGroup", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "AffinityGroups", ItemName = "AffinityGroup", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class AffinityGroupList : List<AffinityGroup>
     {
         public AffinityGroupList()
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// Affinity Group data contract. 
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class AffinityGroup : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
