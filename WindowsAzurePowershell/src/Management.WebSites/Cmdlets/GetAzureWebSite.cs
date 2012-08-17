@@ -16,20 +16,40 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
+    using System.ServiceModel;
+    using Common;
+    using Samples.WindowsAzure.ServiceManagement;
     using Services;
-    using Management.Cmdlets.Common;
+    using IServiceManagement = Services.IWebsitesServiceManagement;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
-    public class GetAzureWebSiteCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureWebSiteCommand : WebsitesCmdletBase
     {
+        internal void NewWebsiteProcess()
+        {
+            using (new OperationContextScope((IContextChannel)Channel))
+            {
+                try
+                {
+                    var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                }
+                catch (CommunicationException ex)
+                {
+                    WriteErrorDetails(ex);
+                }
+            }
+        }
+
         protected override void ProcessRecord()
         {
             try
             {
                 base.ProcessRecord();
+                NewWebsiteProcess();
             }
             catch (Exception ex)
             {

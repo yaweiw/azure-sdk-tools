@@ -104,6 +104,10 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
     </Reference>
@@ -130,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />
     <Compile Include="Cmdlets\GetAzureWebSite.cs" />
     <Compile Include="Cmdlets\NewAzureWebSite.cs" />
     <Compile Include="Cmdlets\OpenAzurePortal.cs" />
@@ -143,7 +148,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\IServiceManagement.cs" />
+    <Compile Include="Services\IWebsitesServiceManagement.cs" />
+    <Compile Include="Services\WebsitesExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -154,9 +160,7 @@
       <Name>Management</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cmdlets\Common\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

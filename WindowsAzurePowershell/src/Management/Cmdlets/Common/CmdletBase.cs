@@ -270,12 +270,12 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             return operation;
         }
 
-        protected Operation WaitForOperation(string opdesc)
+        protected virtual Operation WaitForOperation(string opdesc)
         {
             return WaitForOperation(opdesc, false);
         }
 
-        protected Operation WaitForOperation(string opdesc, bool silent)
+        protected virtual Operation WaitForOperation(string opdesc, bool silent)
         {
             string operationId = RetrieveOperationId();
             Operation operation = null;
@@ -286,8 +286,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 {
                     SubscriptionData currentSubscription = this.GetCurrentSubscription();
 
-                    var channel = (IServiceManagement)Channel;
-                    operation = RetryCall(s => channel.GetOperationStatus(currentSubscription.SubscriptionId, operationId));
+                    operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
 
                     var activityId = new Random().Next(1, 999999);
                     var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
@@ -301,7 +300,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         }
 
                         Thread.Sleep(1 * 1000);
-                        operation = RetryCall(s => channel.GetOperationStatus(currentSubscription.SubscriptionId, operationId));
+                        operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
                     }
 
                     if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
@@ -332,6 +331,12 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
 
             return operation;
-        }  
+        }
+
+        protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
+        {
+            var channel = (IServiceManagement)Channel;
+            return channel.GetOperationStatus(subscriptionId, operationId);
+        }
     }
 }
