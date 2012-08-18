@@ -240,5 +240,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
                 return ResourceManager.GetString("UriDoesNotExist", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The asyncResult object was not created by a preceding call of the BeginCreate method from the same control..
+        /// </summary>
+        internal static string WrongAsyncResultForCreate {
+            get {
+                return ResourceManager.GetString("WrongAsyncResultForCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The asyncResult object was not created by a preceding call of the BeginGetAccessToken method from the same control..
+        /// </summary>
+        internal static string WrongAsyncResultForGetAccessToken {
+            get {
+                return ResourceManager.GetString("WrongAsyncResultForGetAccessToken", resourceCulture);
+            }
+        }
     }
 }

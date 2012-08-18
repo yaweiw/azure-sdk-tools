@@ -115,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -149,6 +150,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
     <Compile Include="Services\ClientOutputMessageInspector.cs" />
+    <Compile Include="Services\Common\AccessTokenResult.cs" />
+    <Compile Include="Services\Common\DataConnectionUtility.cs" />
+    <Compile Include="Services\Common\DataServiceAccess.cs" />
+    <Compile Include="Services\Common\DataServiceBasicCredentials.cs" />
+    <Compile Include="Services\Common\DataServiceConnectionType.cs" />
+    <Compile Include="Services\Common\DataServiceConstants.cs" />
+    <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\ConfigurationConstants.cs" />
     <Compile Include="Services\Constants.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />
@@ -189,6 +197,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
