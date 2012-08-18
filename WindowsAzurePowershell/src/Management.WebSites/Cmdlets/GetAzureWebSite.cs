@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
-    using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
@@ -51,9 +50,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal IList<Website> GetWebsiteProcess()
+        internal void GetWebsiteProcess()
         {
-            IList<Website> allWebsites = new List<Website>();
             InvokeInOperationContext(() =>
             {
                 try
@@ -71,7 +69,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                         foreach (var website in currentWebsites)
                         {
                             WriteWebsite(website);
-                            allWebsites.Add(website);
                         }
                     }
                 }
@@ -80,8 +77,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     WriteErrorDetails(ex);
                 }
             });
-
-            return allWebsites;
         }
 
         protected override void ProcessRecord()

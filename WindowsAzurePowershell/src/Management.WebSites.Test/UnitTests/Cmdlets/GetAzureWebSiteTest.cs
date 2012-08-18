@@ -54,10 +54,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            var websites = getAzureWebSiteCommand.GetWebsiteProcess();
-            Assert.AreEqual(2, websites.Count);
-            Assert.IsTrue(websites.Any(website => website.Name.Equals("website1") && website.WebSpace.Equals("webspace1")));
-            Assert.IsTrue(websites.Any(website => website.Name.Equals("website2") && website.WebSpace.Equals("webspace2")));
+            getAzureWebSiteCommand.GetWebsiteProcess();
+            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website2") && ((Website)website).WebSpace.Equals("webspace2")));
         }
     }
 }

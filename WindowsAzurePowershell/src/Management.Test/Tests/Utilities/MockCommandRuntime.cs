@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     public class MockCommandRuntime : ICommandRuntime
     {
         public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
+        public List<object> WrittenObjects = new List<object>(); 
         public StringBuilder WarningOutput = new StringBuilder();
 
         public override string ToString()
@@ -95,12 +96,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            // Do nothing
+            WrittenObjects.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
         {
-            // Do nothing
+            WrittenObjects.Add(sendToPipeline);
         }
 
         public void WriteProgress(long sourceId, ProgressRecord progressRecord)
