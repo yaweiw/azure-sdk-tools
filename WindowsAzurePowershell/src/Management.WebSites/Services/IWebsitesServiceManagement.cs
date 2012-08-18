@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// Provides the Windows Azure Service Management Api for Windows Azure Websites. 
     /// </summary>
     [ServiceContract(Namespace = Constants.ServiceManagementNS)]
-    public partial interface IWebsitesServiceManagement
+    public interface IWebsitesServiceManagement
     {
         /// <summary>
         /// Gets the list of created webspaces.

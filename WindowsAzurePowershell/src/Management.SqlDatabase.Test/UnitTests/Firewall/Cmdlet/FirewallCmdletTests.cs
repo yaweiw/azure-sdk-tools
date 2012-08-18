@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
     using System.ServiceModel;
     using CloudService.Test;
     using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
     using Services;
     using SqlDatabase.Firewall.Cmdlet;
-    using UnitTest;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]

@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
     using System.Xml;
     using CloudService.Test;
     using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
     using Services;
     using SqlDatabase.Server.Cmdlet;
-    using UnitTest;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

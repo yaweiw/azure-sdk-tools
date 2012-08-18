@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Extensions;
     using Management.Test.Stubs;
     using Services;
+    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

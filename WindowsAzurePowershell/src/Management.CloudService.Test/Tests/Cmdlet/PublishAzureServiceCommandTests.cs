@@ -26,7 +26,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
     using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
     using Services;
+    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

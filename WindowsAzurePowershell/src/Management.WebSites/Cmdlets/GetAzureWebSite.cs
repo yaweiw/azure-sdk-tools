@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
@@ -27,14 +28,34 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
     public class GetAzureWebSiteCommand : WebsitesCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// </summary>
+        public GetAzureWebSiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public GetAzureWebSiteCommand(IServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
         protected virtual void WriteWebsite(Website website)
         {
             WriteObject(website, true);
         }
 
-        internal void NewWebsiteProcess()
+        internal IList<Website> GetWebsiteProcess()
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            IList<Website> allWebsites = new List<Website>();
+            InvokeInOperationContext(() =>
             {
                 try
                 {
@@ -51,6 +72,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                         foreach (var website in currentWebsites)
                         {
                             WriteWebsite(website);
+                            allWebsites.Add(website);
                         }
                     }
                 }
@@ -58,7 +80,9 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                 {
                     WriteErrorDetails(ex);
                 }
-            }
+            });
+
+            return allWebsites;
         }
 
         protected override void ProcessRecord()
@@ -66,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                NewWebsiteProcess();
+                GetWebsiteProcess();
             }
             catch (Exception ex)
             {

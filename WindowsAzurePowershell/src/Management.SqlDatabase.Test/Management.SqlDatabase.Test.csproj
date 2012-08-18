@@ -104,7 +104,6 @@
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletTests.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletAttributionTests.cs" />
-    <Compile Include="UnitTests\MockCommandRuntime.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />
