@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
-    using Samples.WindowsAzure.ServiceManagement;
     using Services;
     using IServiceManagement = Services.IWebsitesServiceManagement;
 
@@ -28,6 +27,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
     public class GetAzureWebSiteCommand : WebsitesCmdletBase
     {
+        protected virtual void WriteWebsite(Website website)
+        {
+            WriteObject(website, true);
+        }
+
         internal void NewWebsiteProcess()
         {
             using (new OperationContextScope((IContextChannel)Channel))
@@ -35,7 +39,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                 try
                 {
                     var webspaces = RetryCall(s => Channel.GetWebspaces(s));
-                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                    WaitForOperation(CommandRuntime.ToString());
+
+                    foreach(var webspace in webspaces)
+                    {
+                        var currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
+                            new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
+                        
+                        WaitForOperation(CommandRuntime.ToString());
+
+                        foreach (var website in currentWebsites)
+                        {
+                            WriteWebsite(website);
+                        }
+                    }
                 }
                 catch (CommunicationException ex)
                 {

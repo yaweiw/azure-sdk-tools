@@ -24,17 +24,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             return proxy.EndGetWebspaces(proxy.BeginGetWebspaces(subscriptionId, null, null));
         }
 
-        public static void GetWebsites(this IWebsitesServiceManagement proxy, string webspace, IList<string> propertiesToInclude, string subscriptionId)
+        public static WebsiteList GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
         {
-            proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, string.Join(",", propertiesToInclude.ToArray()), null, null));
+            return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, string.Join(",", propertiesToInclude.ToArray()), null, null));
         }
 
-        public static void GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string webspace, string website, string subscriptionId)
+        public static void GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
         {
             proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
         }
 
-        public static void GetPublishingUsers(this IWebsitesServiceManagement proxy, string webspace, IList<string> propertiesToInclude, string subscriptionId)
+        public static void GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
         {
             proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
         }

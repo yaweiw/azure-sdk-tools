@@ -33,6 +33,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     }
 
     /// <summary>
+    /// A website site properties.
+    /// </summary>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class WebsiteSiteProperties
+    {
+        [DataMember(Order = 1)]
+        public object Metadata { get; set; }
+
+        [DataMember(Order = 2)]
+        public Dictionary<string, string> Properties { get; set; }
+    }
+
+    /// <summary>
     /// A webspace.
     /// </summary>
     [DataContract(Namespace = Constants.ServiceManagementNS)]
@@ -77,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// <summary>
     /// A list of websites.
     /// </summary>
-    [CollectionDataContract(Name = "Websites", ItemName = "Website", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "Sites", ItemName = "Site", Namespace = Constants.ServiceManagementNS)]
     public class WebsiteList : List<Website>
     {
         public WebsiteList() { }
@@ -90,6 +103,42 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class Website : IExtensibleDataObject
     {
+        [DataMember(Order = 1)]
+        public bool AdminEnabled { get; set; }
+
+        [DataMember(Order = 2)]
+        public string AvailabilityState { get; set; }
+
+        [DataMember(Order = 3)]
+        public IList<string> EnabledHostNames { get; set; }
+
+        [DataMember(Order = 4)]
+        public IList<string> HostNames { get; set; }
+
+        [DataMember(Order = 5)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 6)]
+        public string Owner { get; set; }
+
+        [DataMember(Order = 7)]
+        public string RepositorySiteName { get; set; }
+
+        [DataMember(Order = 8)]
+        public string SelfLink { get; set; }
+
+        [DataMember(Order = 9)]
+        public WebsiteSiteProperties SiteProperties { get; set; }
+
+        [DataMember(Order = 10)]
+        public string State { get; set; }
+
+        [DataMember(Order = 11)]
+        public string UsageState { get; set; }
+
+        [DataMember(Order = 12)]
+        public string WebSpace { get; set; }
+
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
@@ -113,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [OperationContract(AsyncPattern = true)]
         [WebGet(UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/?propertiesToInclude={propertiesToInclude}")]
         IAsyncResult BeginGetWebsites(string subscriptionId, string webspace, string propertiesToInclude, AsyncCallback callback, object state);
-        Website EndGetWebsites(IAsyncResult asyncResult);
+        WebsiteList EndGetWebsites(IAsyncResult asyncResult);
 
         /// <summary>
         /// Gets the site configuration.
