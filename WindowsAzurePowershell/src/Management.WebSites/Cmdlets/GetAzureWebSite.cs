@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     using System.ServiceModel;
     using Common;
     using Services;
-    using IServiceManagement = Services.IWebsitesServiceManagement;
 
     /// <summary>
     /// Gets an azure website.
@@ -42,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureWebSiteCommand(IServiceManagement channel)
+        public GetAzureWebSiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
