@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
     using WebSites.Cmdlets;
 
     [TestClass]
-    public class GetAzureWebSiteTest
+    public class GetAzureWebSiteTests
     {
         [TestInitialize]
         public void SetupTest()

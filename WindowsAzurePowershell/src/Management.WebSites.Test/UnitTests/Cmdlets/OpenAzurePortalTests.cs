@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.Tests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
     using System;
     using Properties;

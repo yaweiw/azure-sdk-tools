@@ -106,12 +106,46 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
             return default(WebsiteList);
         }
 
+        #endregion
+
+        #region DeleteWebsite
+
+        public Action<SimpleServiceManagementAsyncResult> DeleteWebsiteThunk { get; set; }
+
+        public IAsyncResult BeginDeleteWebsite(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["website"] = website;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndDeleteWebsite(IAsyncResult asyncResult)
+        {
+            if (DeleteWebsiteThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                DeleteWebsiteThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeleteWebsiteThunk is not implemented!");
+            }
+        }
+
+        #endregion
+
         public IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
 
-        public Website EndGetWebsiteConfiguration(IAsyncResult asyncResult)
+        public WebsiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
@@ -125,8 +159,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
         {
             throw new NotImplementedException();
         }
-
-        #endregion
      
         #endregion
     }
