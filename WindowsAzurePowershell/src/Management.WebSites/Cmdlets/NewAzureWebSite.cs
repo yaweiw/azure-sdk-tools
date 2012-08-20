@@ -27,9 +27,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     [Cmdlet(VerbsCommon.New, "AzureWebSite")]
     public class NewAzureWebSiteCommand : WebsitesCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website")]
         [ValidateNotNullOrEmpty]
-        public string Website
+        public string Location
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Custom host name to use.")]
+        [ValidateNotNullOrEmpty]
+        public string Hostname
         {
             get;
             set;
@@ -54,13 +62,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             Channel = channel;
         }
 
-        internal bool NewWebsiteProcess(string website)
+        internal bool NewWebsiteProcess(string location, string hostname)
         {
             InvokeInOperationContext(() =>
             {
                 try
                 {
+                    // New website
+                    Website website = new Website
+                                          {
+                                              Name = hostname
+                                          };
 
+                    RetryCall(s => Channel.NewWebsite(s, location, website));
                 }
                 catch (CommunicationException ex)
                 {
@@ -77,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 base.ProcessRecord();
 
-                if (NewWebsiteProcess(Website))
+                if (NewWebsiteProcess(Location, Hostname))
                 {
                     SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
                 }

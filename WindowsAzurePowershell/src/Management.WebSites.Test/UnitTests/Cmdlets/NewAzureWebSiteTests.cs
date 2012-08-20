@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Show existing website
-            newAzureWebSiteCommand.NewWebsiteProcess("website1");
+            newAzureWebSiteCommand.NewWebsiteProcess("east", "website1");
         }
     }
 }
