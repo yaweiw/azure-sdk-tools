@@ -35,6 +35,25 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             set;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the ShowAzureWebSiteCommand class.
+        /// </summary>
+        public ShowAzureWebSiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ShowAzureWebSiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public ShowAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
         internal bool ShowWebsiteProcess(string website)
         {
             InvokeInOperationContext(() =>

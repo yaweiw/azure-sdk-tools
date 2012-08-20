@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
-    using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Services;
@@ -23,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
     using WebSites.Cmdlets;
 
     [TestClass]
-    public class ShowAzureWebSiteTests
+    public class RemoveAzureWebSiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,9 +31,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void ShowWebsiteProcessTest()
+        public void RemoveWebsiteProcessTest()
         {
             // Setup
+            bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
             channel.GetWebsitesThunk = ar =>
@@ -46,31 +46,31 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 
                 return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
             };
-            channel.GetWebsiteConfigurationThunk = ar =>
-                                                       {
-                                                           if (ar.Values["website"].Equals("website1") && ar.Values["webspace"].Equals("webspace1"))
-                                                           {
-                                                               return new WebsiteConfig
-                                                               {
-                                                                   PublishingUsername = "user1"
-                                                               };
-                                                           }
 
-                                                           return null;
-                                                       };
+            channel.DeleteWebsiteThunk = ar =>
+                                             {
+                                                 if (ar.Values["website"].Equals("website1"))
+                                                 {
+                                                     deletedWebsite = true;
+                                                 }
+                                             };
 
             // Test
-            ShowAzureWebSiteCommand showAzureWebSiteCommand = new ShowAzureWebSiteCommand(channel)
+            RemoveAzureWebSiteCommand removeAzureWebSiteCommand = new RemoveAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            // Show existing website
-            showAzureWebSiteCommand.ShowWebsiteProcess("website1");
-            Assert.AreEqual(2, ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => website is Website && ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => website is WebsiteConfig && ((WebsiteConfig)website).PublishingUsername.Equals("user1")));
+            // Delete existing website
+            removeAzureWebSiteCommand.RemoveWebsiteProcess("website1");
+            Assert.IsTrue(deletedWebsite);
+
+            // Delete unexisting website
+            deletedWebsite = false;
+
+            removeAzureWebSiteCommand.RemoveWebsiteProcess("website2");
+            Assert.IsFalse(deletedWebsite);
         }
     }
 }
