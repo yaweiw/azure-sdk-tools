@@ -14,13 +14,78 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
+    using System;
     using System.Management.Automation;
+    using System.ServiceModel;
+    using Common;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebSite")]
-    public class NewAzureWebSiteCommand
+    public class NewAzureWebSiteCommand : WebsitesCmdletBase
     {
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Website
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the NewAzureWebSiteCommand class.
+        /// </summary>
+        public NewAzureWebSiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the NewAzureWebSiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public NewAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
+        internal bool NewWebsiteProcess(string website)
+        {
+            InvokeInOperationContext(() =>
+            {
+                try
+                {
+
+                }
+                catch (CommunicationException ex)
+                {
+                    WriteErrorDetails(ex);
+                }
+            });
+
+            return true;
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                if (NewWebsiteProcess(Website))
+                {
+                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
     }
 }
