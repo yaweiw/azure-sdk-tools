@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// <summary>
     /// A website site properties.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "SiteProperties", Namespace = Constants.ServiceManagementNS)]
     public class WebsiteSiteProperties
     {
         [DataMember(Order = 1)]
@@ -98,7 +98,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// <summary>
     /// A website.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
+    public class CreateWebsite : IExtensibleDataObject
+    {
+        [DataMember(Order = 1)]
+        public string Name { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
+    }
+
+    /// <summary>
+    /// A website.
+    /// </summary>
+    [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
     public class Website
     {
         [DataMember(Order = 1)]
@@ -223,7 +235,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// </summary>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites")]
-        IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state);
+        IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, CreateWebsite website, AsyncCallback callback, object state);
         void EndNewWebsite(IAsyncResult asyncResult);
     }
 }

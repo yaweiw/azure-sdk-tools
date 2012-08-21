@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
@@ -36,6 +37,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Custom host name to use.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Custom host name to use.")]
         [ValidateNotNullOrEmpty]
         public string Hostname
         {
@@ -62,16 +71,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             Channel = channel;
         }
 
-        internal bool NewWebsiteProcess(string location, string hostname)
+        internal bool NewWebsiteProcess(string location, string name, string hostname)
         {
             InvokeInOperationContext(() =>
             {
                 try
                 {
                     // New website
-                    Website website = new Website
+                    CreateWebsite website = new CreateWebsite
                                           {
-                                              Name = hostname
+                                              Name = name //,
+                                              // HostNames = new List<string>(new [] { hostname })
                                           };
 
                     RetryCall(s => Channel.NewWebsite(s, location, website));
@@ -91,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 base.ProcessRecord();
 
-                if (NewWebsiteProcess(Location, Hostname))
+                if (NewWebsiteProcess(Location, Name, Hostname))
                 {
                     SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
                 }

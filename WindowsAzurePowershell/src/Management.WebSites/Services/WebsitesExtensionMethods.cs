@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             return null;
         }
 
-        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, Website website)
+        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, CreateWebsite website)
         {
             proxy.EndNewWebsite(proxy.BeginNewWebsite(subscriptionId, webspace, website, null, null));
         }

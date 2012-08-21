@@ -184,7 +184,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state)
+        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, CreateWebsite website, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
