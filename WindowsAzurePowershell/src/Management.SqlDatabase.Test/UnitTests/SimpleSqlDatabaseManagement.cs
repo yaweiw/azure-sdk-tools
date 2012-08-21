@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTest
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 {
     using System;
     using System.Xml;
-    using CloudService.Test;
+    using Management.Test.Tests.Utilities;
     using Services;
     using VisualStudio.TestTools.UnitTesting;
 

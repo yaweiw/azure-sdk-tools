@@ -12,22 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
-    using System.Management.Automation;
-    using Cmdlet.Common;
-    using Services;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
 
-    public class SetSettings : CloudCmdlet<IServiceManagement>
+    public static class ConfigurationConstants
     {
-        // Uncomment this to enable global set for settings
-        //[Parameter(Position = 1, Mandatory = false)]
-        //[Alias("g")]
-        public SwitchParameter Global { get; set; }
+        public const string ServiceManagementEndpoint = "https://management.core.windows.net";
 
-        internal string GetServiceSettingsPath(bool global)
+        public static Binding WebHttpBinding(int maxStringContentLength)
         {
-            return new AzureService(GetServiceRootPath(), null).Paths.Settings;
+            var binding = new WebHttpBinding(WebHttpSecurityMode.Transport);
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Certificate;
+            binding.ReaderQuotas.MaxStringContentLength =
+                maxStringContentLength > 0 ?
+                maxStringContentLength :
+                67108864;
+
+            return binding;
         }
     }
 }

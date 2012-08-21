@@ -12,25 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Services
+namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 {
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
+    using Management.Cmdlets.Common;
+    using Samples.WindowsAzure.ServiceManagement;
+    using Services;
 
-    public static class ConfigurationConstants
+    public class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
     {
-        public const string ServiceManagementEndpoint = "https://management.core.windows.net";
-
-        public static Binding WebHttpBinding(int maxStringContentLength)
+        protected override Operation WaitForOperation(string opdesc)
         {
-            var binding = new WebHttpBinding(WebHttpSecurityMode.Transport);
-            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Certificate;
-            binding.ReaderQuotas.MaxStringContentLength =
-                maxStringContentLength > 0 ?
-                maxStringContentLength :
-                67108864;
-
-            return binding;
+            string operationId = RetrieveOperationId();
+            Operation operation = new Operation();
+            operation.OperationTrackingId = operationId;
+            operation.Status = "Success";
+            return operation;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// List of operating system families.
     /// </summary>
-    [CollectionDataContract(Name = "OperatingSystemFamilies", ItemName = "OperatingSystemFamily", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "OperatingSystemFamilies", ItemName = "OperatingSystemFamily", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class OperatingSystemFamilyList : List<OperatingSystemFamily>
     {
         public OperatingSystemFamilyList()
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// An operating system family supported in Windows Azure.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class OperatingSystemFamily : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// List of operating systems.
     /// </summary>
-    [CollectionDataContract(Name = "OperatingSystems", ItemName = "OperatingSystem", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "OperatingSystems", ItemName = "OperatingSystem", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class OperatingSystemList : List<OperatingSystem>
     {
         public OperatingSystemList()
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// An operating system supported in Windows Azure.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class OperatingSystem : IExtensibleDataObject
     {
         [DataMember(Order = 1)]

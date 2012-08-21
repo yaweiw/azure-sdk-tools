@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     using System.Runtime.Serialization;
 
-    [DataContract(Name = "Error", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "Error", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class ServiceManagementError : IExtensibleDataObject
     {
         [DataMember(Order = 1)]

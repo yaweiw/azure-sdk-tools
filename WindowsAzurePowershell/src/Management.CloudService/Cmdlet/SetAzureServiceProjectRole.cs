@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Common;
     using Model;
     using Services;
 
@@ -23,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Configure the number of instances for a web/worker role. Updates the cscfg with the number of instances
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole")]
-    public class SetAzureServiceProjectRoleCommand : DeploymentServiceManagementCmdletBase
+    public class SetAzureServiceProjectRoleCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true)]
         public string RoleName { get; set; }

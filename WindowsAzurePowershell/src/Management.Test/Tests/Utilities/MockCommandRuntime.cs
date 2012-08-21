@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
+namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 {
     using System.Collections.Generic;
     using System.Management.Automation;
@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
     public class MockCommandRuntime : ICommandRuntime
     {
         public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
+        public List<object> WrittenObjects = new List<object>(); 
         public StringBuilder WarningOutput = new StringBuilder();
 
         public override string ToString()
@@ -90,22 +91,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
         public void WriteError(ErrorRecord errorRecord)
         {
-            this.ErrorRecords.Add(errorRecord);
+            ErrorRecords.Add(errorRecord);
         }
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            throw new System.NotImplementedException();
+            WrittenObjects.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
         {
-            throw new System.NotImplementedException();
+            WrittenObjects.Add(sendToPipeline);
         }
 
         public void WriteProgress(long sourceId, ProgressRecord progressRecord)
         {
-            throw new System.NotImplementedException();
+            // Do nothing
         }
 
         public void WriteProgress(ProgressRecord progressRecord)

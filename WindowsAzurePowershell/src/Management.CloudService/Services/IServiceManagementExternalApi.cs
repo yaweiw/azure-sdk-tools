@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// Provides the Windows Azure Service Management Api. 
     /// </summary>
-    [ServiceContract(Namespace = Constants.ServiceManagementNS)]
+    [ServiceContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public partial interface IServiceManagement
     {
     }

@@ -14,13 +14,82 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
+    using System;
     using System.Management.Automation;
+    using System.ServiceModel;
+    using Common;
+    using Services;
 
     /// <summary>
-    /// Opens the azure portal.
+    /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
-    public class GetAzureWebSiteCommand
+    public class GetAzureWebSiteCommand : WebsitesCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// </summary>
+        public GetAzureWebSiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public GetAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
+        protected virtual void WriteWebsite(Website website)
+        {
+            WriteObject(website, true);
+        }
+
+        internal void GetWebsiteProcess()
+        {
+            InvokeInOperationContext(() =>
+            {
+                try
+                {
+                    var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    WaitForOperation(CommandRuntime.ToString());
+
+                    foreach(var webspace in webspaces)
+                    {
+                        var currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
+                            new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
+                        
+                        WaitForOperation(CommandRuntime.ToString());
+
+                        foreach (var website in currentWebsites)
+                        {
+                            WriteWebsite(website);
+                        }
+                    }
+                }
+                catch (CommunicationException ex)
+                {
+                    WriteErrorDetails(ex);
+                }
+            });
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+                GetWebsiteProcess();
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
     }
 }

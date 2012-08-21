@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// A list of hosted services
     /// </summary>
-    [CollectionDataContract(Name = "HostedServices", ItemName = "HostedService", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "HostedServices", ItemName = "HostedService", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class HostedServiceList : List<HostedService>
     {
         public HostedServiceList()
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// A hosted service
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class HostedService : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// A list of deployments contained in the hosted service
     /// </summary>
-    [CollectionDataContract(Name = "Deployments", ItemName = "Deployment", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "Deployments", ItemName = "Deployment", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class DeploymentList : List<Deployment>
     {
         public DeploymentList()
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// A hosted service
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class HostedServiceProperties : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// List of locations
     /// </summary>
-    [CollectionDataContract(Name = "Locations", ItemName = "Location", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "Locations", ItemName = "Location", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class LocationList : List<Location>
     {
         public LocationList()
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// A location constraint
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Location : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// CreateHostedService contract
     /// </summary>
-    [DataContract(Name = "CreateHostedService", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "CreateHostedService", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class CreateHostedServiceInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -151,7 +151,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     /// <summary>
     /// UpdateHostedService contract
     /// </summary>
-    [DataContract(Name = "UpdateHostedService", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "UpdateHostedService", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class UpdateHostedServiceInput : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
