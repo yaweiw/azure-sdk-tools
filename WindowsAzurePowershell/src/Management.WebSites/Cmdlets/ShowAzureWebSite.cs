@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Website
+        public string Name
         {
             get;
             set;
@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ShowWebsiteProcess(Website);
+                ShowWebsiteProcess(Name);
             }
             catch (Exception ex)
             {
