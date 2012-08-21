@@ -106,15 +106,73 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
             return default(WebsiteList);
         }
 
-        public IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
+        #endregion
+
+        #region DeleteWebsite
+
+        public Action<SimpleServiceManagementAsyncResult> DeleteWebsiteThunk { get; set; }
+
+        public IAsyncResult BeginDeleteWebsite(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["website"] = website;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
         }
 
-        public Website EndGetWebsiteConfiguration(IAsyncResult asyncResult)
+        public void EndDeleteWebsite(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (DeleteWebsiteThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                DeleteWebsiteThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeleteWebsiteThunk is not implemented!");
+            }
         }
+
+        #endregion
+
+        #region GetWebsiteConfiguration
+
+        public Func<SimpleServiceManagementAsyncResult, WebsiteConfig> GetWebsiteConfigurationThunk { get; set; }
+
+        public IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["website"] = website;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public WebsiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult)
+        {
+            if (GetWebsiteConfigurationThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return GetWebsiteConfigurationThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetWebsiteConfigurationThunk is not implemented!");
+            }
+
+            return default(WebsiteConfig);
+        }
+
+        #endregion
 
         public IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state)
         {
@@ -125,8 +183,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
         {
             throw new NotImplementedException();
         }
-
-        #endregion
      
         #endregion
     }
