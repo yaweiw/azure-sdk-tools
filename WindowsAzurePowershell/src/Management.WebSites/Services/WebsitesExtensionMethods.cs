@@ -26,17 +26,44 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
 
         public static WebsiteList GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
         {
-            return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, string.Join(",", propertiesToInclude.ToArray()), null, null));
+            var properties = string.Empty;
+            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
+            {
+                properties = string.Join(",", propertiesToInclude.ToArray());
+            }
+
+            return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, properties, null, null));
         }
 
-        public static void GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
+        public static WebsiteConfig GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
         {
-            proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
+            return proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
+        }
+
+        public static void DeleteWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
+        {
+            proxy.EndDeleteWebsite(proxy.BeginDeleteWebsite(subscriptionId, webspace, website, null, null));
         }
 
         public static void GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
         {
             proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
+        }
+
+        public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
+        {
+            var webspaces = proxy.GetWebspaces(subscriptionId);
+            foreach (var webspace in webspaces)
+            {
+                var websites = proxy.GetWebsites(subscriptionId, webspace.Name, null);
+                var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
+                if (matchWebsite != null)
+                {
+                    return matchWebsite;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// A webspace.
     /// </summary>
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class WebSpace : IExtensibleDataObject
+    public class WebSpace
     {
         [DataMember(Order = 1)]
         public string AvailabilityState { get; set; }
@@ -83,8 +83,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
 
         [DataMember(Order = 11)]
         public string Subscription { get; set; }
-        
-        public ExtensionDataObject ExtensionData { get; set; }
     }
 
     /// <summary>
@@ -101,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// A website.
     /// </summary>
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class Website : IExtensibleDataObject
+    public class Website
     {
         [DataMember(Order = 1)]
         public bool AdminEnabled { get; set; }
@@ -138,8 +136,40 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
 
         [DataMember(Order = 12)]
         public string WebSpace { get; set; }
+    }
 
-        public ExtensionDataObject ExtensionData { get; set; }
+    /// <summary>
+    /// A website.
+    /// </summary>
+    [DataContract(Name = "SiteConfig", Namespace = Constants.ServiceManagementNS)]
+    public class WebsiteConfig
+    {
+        [DataMember]
+        public bool DetailedErrorLoggingEnabled { get; set; }
+
+        [DataMember]
+        public bool HttpLoggingEnabled { get; set; }
+
+        [DataMember]
+        public IList<string> Metadata { get; set; }
+
+        [DataMember]
+        public string NetFrameworkVersion { get; set; }
+
+        [DataMember]
+        public int NumberOfWorkers { get; set; }
+
+        [DataMember]
+        public string PhpVersion { get; set; }
+
+        [DataMember]
+        public string PublishingPassword { get; set; }
+
+        [DataMember]
+        public string PublishingUsername { get; set; }
+
+        [DataMember]
+        public bool RequestTracingEnabled { get; set; }
     }
 
     /// <summary>
@@ -152,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// Gets the list of created webspaces.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = @"{subscriptionId}/services/webspaces/")]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/")]
         IAsyncResult BeginGetWebspaces(string subscriptionId, AsyncCallback callback, object state);
         WebspaceList EndGetWebspaces(IAsyncResult asyncResult);
 
@@ -160,7 +190,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// Gets the list of created websites in a webspace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/?propertiesToInclude={propertiesToInclude}")]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/?propertiesToInclude={propertiesToInclude}")]
         IAsyncResult BeginGetWebsites(string subscriptionId, string webspace, string propertiesToInclude, AsyncCallback callback, object state);
         WebsiteList EndGetWebsites(IAsyncResult asyncResult);
 
@@ -168,15 +198,23 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// Gets the site configuration.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}/config")]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}/config")]
         IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state);
-        Website EndGetWebsiteConfiguration(IAsyncResult asyncResult);
+        WebsiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Deletes a site.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}")]
+        IAsyncResult BeginDeleteWebsite(string subscriptionId, string webspace, string website, AsyncCallback callback, object state);
+        void EndDeleteWebsite(IAsyncResult asyncResult);
 
         /// <summary>
         /// Gets the list of publishing users.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
         IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state);
         Website EndGetPublishingUsers(IAsyncResult asyncResult);
     }
