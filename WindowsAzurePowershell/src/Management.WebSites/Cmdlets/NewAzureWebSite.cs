@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                var website = new CreateWebsite
+                var website = new Website
                                         {
                                             Name = name,
                                             HostNames = new List<string>(new [] { name + ".azurewebsites.net" })

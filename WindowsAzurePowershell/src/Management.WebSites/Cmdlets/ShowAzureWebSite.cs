@@ -64,10 +64,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     throw new Exception(Resources.InvalidWebsite);
                 }
 
-                WriteObject(websiteObject, false);
-
                 // Show configuration
                 var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+
+                // Output results
+                websiteConfiguration.Merge(websiteObject);
                 WriteObject(websiteConfiguration, false);
             });
 

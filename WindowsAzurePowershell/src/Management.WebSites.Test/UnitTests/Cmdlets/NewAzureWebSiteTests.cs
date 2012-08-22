@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             channel.NewWebsiteThunk = ar =>
                                           {
                                               Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                                              CreateWebsite website = ar.Values["website"] as CreateWebsite;
+                                              Website website = ar.Values["website"] as Website;
                                               Assert.IsNotNull(website);
                                               Assert.AreEqual(websiteName, website.Name);
                                               Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));

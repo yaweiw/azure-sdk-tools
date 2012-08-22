@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 try
                 {
-                    var websiteUpdate = new UpdateWebsite
+                    var websiteUpdate = new Website
                                             {
                                                 Name = name,
                                                 HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),

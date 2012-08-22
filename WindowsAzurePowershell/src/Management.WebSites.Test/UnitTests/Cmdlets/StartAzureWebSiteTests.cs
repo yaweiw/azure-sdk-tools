@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using Microsoft.WindowsAzure.Management.WebSites.Services;
-
 namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
+    using System.Linq;
+    using Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
@@ -47,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             channel.UpdateWebsiteThunk = ar =>
             {
                 Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                UpdateWebsite website = ar.Values["website"] as UpdateWebsite;
+                Website website = ar.Values["website"] as Website;
                 Assert.IsNotNull(website);
                 Assert.AreEqual(websiteName, website.Name);
                 Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));

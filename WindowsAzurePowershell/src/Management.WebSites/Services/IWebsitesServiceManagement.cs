@@ -38,10 +38,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     [DataContract(Name = "SiteProperties", Namespace = Constants.ServiceManagementNS)]
     public class WebsiteSiteProperties
     {
-        [DataMember(Order = 1)]
+        [DataMember(EmitDefaultValue = false)]
         public object Metadata { get; set; }
 
-        [DataMember(Order = 2)]
+        [DataMember(EmitDefaultValue = false)]
         public Dictionary<string, string> Properties { get; set; }
     }
 
@@ -51,37 +51,37 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class WebSpace
     {
-        [DataMember(Order = 1)]
+        [DataMember(EmitDefaultValue = false)]
         public string AvailabilityState { get; set; }
 
-        [DataMember(Order = 2)]
+        [DataMember(EmitDefaultValue = false)]
         public string ComputeMode { get; set; }
 
-        [DataMember(Order = 3)]
+        [DataMember(EmitDefaultValue = false)]
         public string CurrentNumberOfWorkers { get; set; }
 
-        [DataMember(Order = 4)]
+        [DataMember(EmitDefaultValue = false)]
         public string CurrentWorkerSize { get; set; }
 
-        [DataMember(Order = 5)]
+        [DataMember(EmitDefaultValue = false)]
         public string GeoLocation { get; set; }
 
-        [DataMember(Order = 6)]
+        [DataMember(EmitDefaultValue = false)]
         public string GeoRegion { get; set; }
 
-        [DataMember(Order = 7)]
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
 
-        [DataMember(Order = 8)]
+        [DataMember(EmitDefaultValue = false)]
         public string NumberOfWorkers { get; set; }
 
-        [DataMember(Order = 9)]
+        [DataMember(EmitDefaultValue = false)]
         public string Plan { get; set; }
 
-        [DataMember(Order = 10)]
+        [DataMember(EmitDefaultValue = false)]
         public string Status { get; set; }
 
-        [DataMember(Order = 11)]
+        [DataMember(EmitDefaultValue = false)]
         public string Subscription { get; set; }
     }
 
@@ -99,71 +99,42 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// A website.
     /// </summary>
     [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
-    public class CreateWebsite
-    {
-        [DataMember(Order = 1)]
-        public IList<string> HostNames { get; set; }
-
-        [DataMember(Order = 2)]
-        public string Name { get; set; }
-    }
-
-    /// <summary>
-    /// A website.
-    /// </summary>
-    [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
-    public class UpdateWebsite
-    {
-        [DataMember(Order = 1)]
-        public IList<string> HostNames { get; set; }
-
-        [DataMember(Order = 2)]
-        public string Name { get; set; }
-
-        [DataMember(Order = 3)]
-        public string State { get; set; }
-    }
-
-    /// <summary>
-    /// A website.
-    /// </summary>
-    [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
     public class Website
     {
-        [DataMember(Order = 1)]
+        [DataMember(EmitDefaultValue = false)]
         public bool AdminEnabled { get; set; }
 
-        [DataMember(Order = 2)]
+        [DataMember(EmitDefaultValue = false)]
         public string AvailabilityState { get; set; }
 
-        [DataMember(Order = 3)]
+        [DataMember(EmitDefaultValue = false)]
         public IList<string> EnabledHostNames { get; set; }
 
-        [DataMember(Order = 4)]
+        [DataMember(EmitDefaultValue = false)]
         public IList<string> HostNames { get; set; }
 
-        [DataMember(Order = 5)]
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
 
-        [DataMember(Order = 6)]
+        [DataMember(EmitDefaultValue = false)]
         public string Owner { get; set; }
 
-        [DataMember(Order = 7)]
+        [DataMember(EmitDefaultValue = false)]
         public string RepositorySiteName { get; set; }
 
-        [DataMember(Order = 8)]
+        [DataMember(EmitDefaultValue = false)]
         public string SelfLink { get; set; }
 
-        [DataMember(Order = 9)]
+        [DataMember(EmitDefaultValue = false)]
         public WebsiteSiteProperties SiteProperties { get; set; }
 
-        [DataMember(Order = 10)]
+        [DataMember(EmitDefaultValue = false)]
         public string State { get; set; }
 
-        [DataMember(Order = 11)]
+        [DataMember(EmitDefaultValue = false)]
         public string UsageState { get; set; }
 
-        [DataMember(Order = 12)]
+        [DataMember(EmitDefaultValue = false)]
         public string WebSpace { get; set; }
     }
 
@@ -173,32 +144,85 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     [DataContract(Name = "SiteConfig", Namespace = Constants.ServiceManagementNS)]
     public class WebsiteConfig
     {
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public bool DetailedErrorLoggingEnabled { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public bool HttpLoggingEnabled { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public IList<string> Metadata { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string NetFrameworkVersion { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public int NumberOfWorkers { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string PhpVersion { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string PublishingPassword { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string PublishingUsername { get; set; }
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public bool RequestTracingEnabled { get; set; }
+
+        [IgnoreDataMember]
+        public bool AdminEnabled { get; set; }
+
+        [IgnoreDataMember]
+        public string AvailabilityState { get; set; }
+
+        [IgnoreDataMember]
+        public IList<string> EnabledHostNames { get; set; }
+
+        [IgnoreDataMember]
+        public IList<string> HostNames { get; set; }
+
+        [IgnoreDataMember]
+        public string Name { get; set; }
+
+        [IgnoreDataMember]
+        public string Owner { get; set; }
+
+        [IgnoreDataMember]
+        public string RepositorySiteName { get; set; }
+
+        // Website properties
+        [IgnoreDataMember]
+        public string SelfLink { get; set; }
+
+        [IgnoreDataMember]
+        public WebsiteSiteProperties SiteProperties { get; set; }
+
+        [IgnoreDataMember]
+        public string State { get; set; }
+
+        [IgnoreDataMember]
+        public string UsageState { get; set; }
+
+        [IgnoreDataMember]
+        public string WebSpace { get; set; }
+
+        public void Merge(Website website)
+        {
+            AdminEnabled = website.AdminEnabled;
+            AvailabilityState = website.AvailabilityState;
+            EnabledHostNames = website.EnabledHostNames;
+            HostNames = website.HostNames;
+            Name = website.Name;
+            Owner = website.Owner;
+            RepositorySiteName = website.RepositorySiteName;
+            SelfLink = website.SelfLink;
+            SiteProperties = website.SiteProperties;
+            State = website.State;
+            UsageState = website.UsageState;
+            WebSpace = website.WebSpace;
+        }
     }
 
     /// <summary>
@@ -252,7 +276,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// </summary>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites")]
-        IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, CreateWebsite website, AsyncCallback callback, object state);
+        IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state);
         void EndNewWebsite(IAsyncResult asyncResult);
 
         /// <summary>
@@ -260,7 +284,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         /// </summary>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}")]
-        IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, UpdateWebsite website, AsyncCallback callback, object state);
+        IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state);
         void EndUpdateWebsite(IAsyncResult asyncResult);
     }
 }

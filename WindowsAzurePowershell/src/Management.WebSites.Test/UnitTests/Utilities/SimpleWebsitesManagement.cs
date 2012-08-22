@@ -178,7 +178,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
 
         public Action<SimpleServiceManagementAsyncResult> NewWebsiteThunk { get; set; }
 
-        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, CreateWebsite website, AsyncCallback callback, object state)
+        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -210,7 +210,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
 
         public Action<SimpleServiceManagementAsyncResult> UpdateWebsiteThunk { get; set; }
 
-        public IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, UpdateWebsite website, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
