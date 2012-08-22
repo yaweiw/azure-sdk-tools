@@ -20,19 +20,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
     using WebSites.Cmdlets;
 
     [TestClass]
-    public class OpenAzurePortalTests
+    public class ShowAzurePortalTests
     {
         [TestMethod]
         public void GetAzurePublishSettingsProcessTest()
         {
-            new OpenAzurePortalCommand().OpenAzurePortalProcess(Resources.AzurePortalUrl, null);
+            new ShowAzurePortalCommand().ShowAzurePortalProcess(Resources.AzurePortalUrl, null);
         }
 
         /// <summary>
         /// Happy case, user has internet connection and uri specified is valid.
         /// </summary>
         [TestMethod]
-        public void OpenAzurePortalProcessTestFail()
+        public void ShowAzurePortalProcessTestFail()
         {
             Assert.IsFalse(string.IsNullOrEmpty(Resources.AzurePortalUrl));
         }
@@ -41,14 +41,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         /// The url doesn't exist.
         /// </summary>
         [TestMethod]
-        public void OpenAzurePortalProcessTestEmptyDnsFail()
+        public void ShowAzurePortalProcessTestEmptyDnsFail()
         {
             string emptyDns = string.Empty;
             string expectedMsg = string.Format(Resources.InvalidOrEmptyArgumentMessage, "azure portal url");
 
             try
             {
-                new OpenAzurePortalCommand().OpenAzurePortalProcess(emptyDns, null);
+                new ShowAzurePortalCommand().ShowAzurePortalProcess(emptyDns, null);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)

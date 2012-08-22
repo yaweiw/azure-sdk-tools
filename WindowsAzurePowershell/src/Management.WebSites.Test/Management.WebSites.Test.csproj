@@ -109,9 +109,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\Cmdlets\StartAzureWebSiteTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\StopAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\GetAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\NewAzureWebSiteTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\OpenAzurePortalTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\ShowAzurePortalTests.cs" />
     <Compile Include="UnitTests\Cmdlets\RemoveAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\ShowAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />

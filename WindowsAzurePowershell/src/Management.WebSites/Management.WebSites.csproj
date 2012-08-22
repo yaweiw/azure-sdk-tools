@@ -137,7 +137,7 @@
     <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />
     <Compile Include="Cmdlets\GetAzureWebSite.cs" />
     <Compile Include="Cmdlets\NewAzureWebSite.cs" />
-    <Compile Include="Cmdlets\OpenAzurePortal.cs" />
+    <Compile Include="Cmdlets\ShowAzurePortal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureWebSite.cs" />
     <Compile Include="Cmdlets\ShowAzureWebSite.cs" />

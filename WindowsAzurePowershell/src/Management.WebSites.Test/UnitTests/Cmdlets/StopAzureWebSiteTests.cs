@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
@@ -23,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
     using WebSites.Cmdlets;
 
     [TestClass]
-    public class NewAzureWebSiteTests
+    public class StopAzureWebSiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void NewWebsiteProcessTest()
+        public void StopWebsiteProcessTest()
         {
             const string websiteName = "website1";
             const string webspaceName = "webspace";
@@ -40,24 +41,28 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             // Setup
             bool created = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.NewWebsiteThunk = ar =>
-                                          {
-                                              Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                                              CreateWebsite website = ar.Values["website"] as CreateWebsite;
-                                              Assert.IsNotNull(website);
-                                              Assert.AreEqual(websiteName, website.Name);
-                                              Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
-                                              created = true;
-                                          };
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = webspaceName } });
+            channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
+
+            channel.UpdateWebsiteThunk = ar =>
+            {
+                Assert.AreEqual(webspaceName, ar.Values["webspace"]);
+                UpdateWebsite website = ar.Values["website"] as UpdateWebsite;
+                Assert.IsNotNull(website);
+                Assert.AreEqual(websiteName, website.Name);
+                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
+                Assert.AreEqual(website.State, "Stopped");
+                created = true;
+            };
 
             // Test
-            NewAzureWebSiteCommand newAzureWebSiteCommand = new NewAzureWebSiteCommand(channel)
+            StopAzureWebSiteCommand stopAzureWebSiteCommand = new StopAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            newAzureWebSiteCommand.NewWebsiteProcess(webspaceName, websiteName, null);
+            stopAzureWebSiteCommand.StopWebsiteProcess(websiteName);
             Assert.IsTrue(created);
         }
     }
