@@ -75,11 +75,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
         internal bool NewWebsiteProcess(string location, string name, string hostname)
         {
-            InvokeInOperationContext(() =>
+            if (string.IsNullOrEmpty(location))
             {
-                try
+                InvokeInOperationContext(() =>
                 {
-                    if (string.IsNullOrEmpty(location))
+                    try
                     {
                         // If no location was provided as a parameter, try to default it
                         var webspaces = RetryCall(s => Channel.GetWebspaces(s));
@@ -88,16 +88,25 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                             location = webspaces.First().Name;
                         } 
                     }
-
-                    if (string.IsNullOrEmpty(location))
+                    catch (CommunicationException ex)
                     {
-                        // If location is still empty or null, give portal instructions.
-                        SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, name));
-                        return;
+                        WriteErrorDetails(ex);
                     }
+                });
+            }
 
-                    // New website
-                    CreateWebsite website = new CreateWebsite
+            if (string.IsNullOrEmpty(location))
+            {
+                // If location is still empty or null, give portal instructions.
+                SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, name));
+                return false;
+            }
+
+            InvokeInOperationContext(() =>
+            {
+                try
+                {
+                    var website = new CreateWebsite
                                           {
                                               Name = name,
                                               HostNames = new List<string>(new [] { name + ".azurewebsites.net" })
