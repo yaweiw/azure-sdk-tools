@@ -135,6 +135,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             gitWebSite.WriteConfiguration();
         }
 
+        internal void CreateRepositoryAndAddRemote(string websiteName, string webspace)
+        {
+            // Create website repository
+            InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
+        }
+
         internal bool NewWebsiteProcess(string location, string name, string hostname)
         {
             if (string.IsNullOrEmpty(location))
@@ -181,6 +187,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     InitGitOnCurrentDirectory();
                     CopyIisNodeWhenServerJsPresent();
                     UpdateLocalConfigWithSiteName(name, location);
+                    CreateRepositoryAndAddRemote(name, location);
                 }   
             }
 

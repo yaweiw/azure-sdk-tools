@@ -269,7 +269,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
         IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state);
-        Website EndGetPublishingUsers(IAsyncResult asyncResult);
+        void EndGetPublishingUsers(IAsyncResult asyncResult);
 
         /// <summary>
         /// Create a new website.
@@ -286,5 +286,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}")]
         IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state);
         void EndUpdateWebsite(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Update a website repository.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}/repository")]
+        IAsyncResult BeginCreateWebsiteRepository(string subscriptionId, string webspace, string websiteName, AsyncCallback callback, object state);
+        void EndCreateWebsiteRepository(IAsyncResult asyncResult);
     }
 }

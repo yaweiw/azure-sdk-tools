@@ -239,15 +239,67 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region GetPublishingUsers
+
+        public Action<SimpleServiceManagementAsyncResult> GetPublishingUsersThunk { get; set; }
+
         public IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
         }
 
-        public Website EndGetPublishingUsers(IAsyncResult asyncResult)
+        public void EndGetPublishingUsers(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            if (GetPublishingUsersThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                GetPublishingUsersThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetPublishingUsersThunk is not implemented!");
+            }
         }
+
+        #endregion
+
+        #region CreateWebsiteRepository
+
+        public Action<SimpleServiceManagementAsyncResult> CreateWebsiteRepositoryThunk { get; set; }
+
+        public IAsyncResult BeginCreateWebsiteRepository(string subscriptionId, string webspace, string websiteName, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["websiteName"] = websiteName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndCreateWebsiteRepository(IAsyncResult asyncResult)
+        {
+            if (CreateWebsiteRepositoryThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                CreateWebsiteRepositoryThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("CreateWebsiteRepositoryThunk is not implemented!");
+            }
+        }
+
+        #endregion
 
         #endregion
     }
