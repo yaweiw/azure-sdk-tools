@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         internal bool IsGitWorkingTree()
         {
             bool gitWorkingTree = false;
-            using (Process process = new Process())
+            using (var process = new Process())
             {
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
@@ -103,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
         internal void InitGitOnCurrentDirectory()
         {
-            using (Process process = new Process())
+            using (var process = new Process())
             {
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
@@ -128,9 +129,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             }
         }
 
+        internal void UpdateLocalConfigWithSiteName(string websiteName, string webspace)
+        {
+            var gitWebSite = new GitWebSite(websiteName, webspace);
+            gitWebSite.WriteConfiguration();
+        }
+
         internal bool NewWebsiteProcess(string location, string name, string hostname)
         {
-            /*
             if (string.IsNullOrEmpty(location))
             {
                 InvokeInOperationContext(() =>
@@ -166,7 +172,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
                 RetryCall(s => Channel.NewWebsite(s, location, website));
             });
-            */
 
             if (Git)
             {
@@ -175,6 +180,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     // Init git in current directory
                     InitGitOnCurrentDirectory();
                     CopyIisNodeWhenServerJsPresent();
+                    UpdateLocalConfigWithSiteName(name, location);
                 }   
             }
 
