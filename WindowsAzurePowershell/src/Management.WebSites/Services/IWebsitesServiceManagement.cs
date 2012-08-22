@@ -99,12 +99,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// A website.
     /// </summary>
     [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
-    public class CreateWebsite : IExtensibleDataObject
+    public class CreateWebsite
     {
         [DataMember(Order = 1)]
-        public string Name { get; set; }
+        public IList<string> HostNames { get; set; }
 
-        public ExtensionDataObject ExtensionData { get; set; }
+        [DataMember(Order = 2)]
+        public string Name { get; set; }
     }
 
     /// <summary>

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
@@ -28,17 +30,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     [Cmdlet(VerbsCommon.New, "AzureWebSite")]
     public class NewAzureWebSiteCommand : WebsitesCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Location
+        public string Name
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Custom host name to use.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public string Location
         {
             get;
             set;
@@ -77,12 +79,34 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 try
                 {
+                    if (string.IsNullOrEmpty(location))
+                    {
+                        // If no location was provided as a parameter, try to default it
+                        var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                        if (webspaces.Count > 0)
+                        {
+                            location = webspaces.First().Name;
+                        } 
+                    }
+
+                    if (string.IsNullOrEmpty(location))
+                    {
+                        // If location is still empty or null, give portal instructions.
+                        SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, name));
+                        return;
+                    }
+
                     // New website
                     CreateWebsite website = new CreateWebsite
                                           {
-                                              Name = name //,
-                                              // HostNames = new List<string>(new [] { hostname })
+                                              Name = name,
+                                              HostNames = new List<string>(new [] { name + ".azurewebsites.net" })
                                           };
+
+                    if (!string.IsNullOrEmpty(hostname))
+                    {
+                        website.HostNames.Add(hostname);
+                    }
 
                     RetryCall(s => Channel.NewWebsite(s, location, website));
                 }
