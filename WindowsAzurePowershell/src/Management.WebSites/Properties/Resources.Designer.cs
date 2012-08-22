@@ -79,6 +79,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to node_modules
+        ///azure_error.
+        /// </summary>
+        internal static string GitIgnoreFileContent {
+            get {
+                return ResourceManager.GetString("GitIgnoreFileContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is invalid or empty.
         /// </summary>
         internal static string InvalidOrEmptyArgumentMessage {

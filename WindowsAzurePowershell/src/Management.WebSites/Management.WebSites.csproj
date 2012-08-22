@@ -148,6 +148,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\GitWebSite.cs" />
     <Compile Include="Services\IWebsitesServiceManagement.cs" />
     <Compile Include="Services\WebsitesExtensionMethods.cs" />
   </ItemGroup>
@@ -159,6 +160,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\Scaffolding\Node\iisnode.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">
