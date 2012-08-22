@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             const string webspaceName = "webspace";
 
             // Setup
-            bool created = true;
+            bool updated = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = webspaceName } });
             channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                 Assert.AreEqual(websiteName, website.Name);
                 Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
                 Assert.AreEqual(website.State, "Running");
-                created = true;
+                updated = true;
             };
 
             // Test
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             startAzureWebSiteCommand.StartWebsiteProcess(websiteName);
-            Assert.IsTrue(created);
+            Assert.IsTrue(updated);
         }
     }
 }
