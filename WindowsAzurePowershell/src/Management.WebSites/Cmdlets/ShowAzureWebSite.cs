@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Common;
     using Properties;
     using Services;
@@ -58,25 +57,18 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         {
             InvokeInOperationContext(() =>
             {
-                try
+                // Show website
+                var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
+                if (websiteObject == null)
                 {
-                    // Show website
-                    var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
-                    if (websiteObject == null)
-                    {
-                        throw new Exception(Resources.InvalidWebsite);
-                    }
-
-                    WriteObject(websiteObject, false);
-
-                    // Show configuration
-                    var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
-                    WriteObject(websiteConfiguration, false);
+                    throw new Exception(Resources.InvalidWebsite);
                 }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
+
+                WriteObject(websiteObject, false);
+
+                // Show configuration
+                var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+                WriteObject(websiteConfiguration, false);
             });
 
             return true;

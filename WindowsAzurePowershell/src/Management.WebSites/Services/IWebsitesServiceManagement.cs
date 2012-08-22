@@ -112,6 +112,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
     /// A website.
     /// </summary>
     [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
+    public class UpdateWebsite
+    {
+        [DataMember(Order = 1)]
+        public IList<string> HostNames { get; set; }
+
+        [DataMember(Order = 2)]
+        public string Name { get; set; }
+
+        [DataMember(Order = 3)]
+        public string State { get; set; }
+    }
+
+    /// <summary>
+    /// A website.
+    /// </summary>
+    [DataContract(Name = "Site", Namespace = Constants.ServiceManagementNS)]
     public class Website
     {
         [DataMember(Order = 1)]
@@ -238,5 +254,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites")]
         IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, CreateWebsite website, AsyncCallback callback, object state);
         void EndNewWebsite(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Update a website.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}")]
+        IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, UpdateWebsite website, AsyncCallback callback, object state);
+        void EndUpdateWebsite(IAsyncResult asyncResult);
     }
 }

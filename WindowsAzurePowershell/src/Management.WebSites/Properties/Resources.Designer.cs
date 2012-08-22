@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.\nPlease follow these steps in the portal:\n1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create\n2. Type {0} in the URL field\n3. Click on &quot;Create Web Site&quot;\n4. Once the site has been created, click on the site name\n5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you create..
+        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.\\nPlease follow these steps in the portal:\\n1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create\\n2. Type {0} in the URL field\\n3. Click on &quot;Create Web Site&quot;\\n4. Once the site has been created, click on the site name\\n5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you create..
         /// </summary>
         internal static string PortalInstructions {
             get {

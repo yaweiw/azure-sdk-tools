@@ -70,5 +70,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         {
             proxy.EndNewWebsite(proxy.BeginNewWebsite(subscriptionId, webspace, website, null, null));
         }
+
+        public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, UpdateWebsite website)
+        {
+            proxy.EndUpdateWebsite(proxy.BeginUpdateWebsite(subscriptionId, webspace, websiteName, website, null, null));
+        }
     }
 }

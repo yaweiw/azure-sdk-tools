@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Common;
     using Services;
 
@@ -54,27 +53,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         {
             InvokeInOperationContext(() =>
             {
-                try
+                var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                WaitForOperation(CommandRuntime.ToString());
+
+                foreach(var webspace in webspaces)
                 {
-                    var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    var currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
+                        new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
+                        
                     WaitForOperation(CommandRuntime.ToString());
 
-                    foreach(var webspace in webspaces)
+                    foreach (var website in currentWebsites)
                     {
-                        var currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
-                            new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
-                        
-                        WaitForOperation(CommandRuntime.ToString());
-
-                        foreach (var website in currentWebsites)
-                        {
-                            WriteWebsite(website);
-                        }
+                        WriteWebsite(website);
                     }
-                }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
                 }
             });
         }

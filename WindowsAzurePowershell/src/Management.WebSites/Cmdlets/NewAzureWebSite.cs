@@ -12,14 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using System.ServiceModel;
+    using System.Linq;
     using Common;
     using Properties;
     using Services;
@@ -79,19 +77,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 InvokeInOperationContext(() =>
                 {
-                    try
+                    // If no location was provided as a parameter, try to default it
+                    var webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    if (webspaces.Count > 0)
                     {
-                        // If no location was provided as a parameter, try to default it
-                        var webspaces = RetryCall(s => Channel.GetWebspaces(s));
-                        if (webspaces.Count > 0)
-                        {
-                            location = webspaces.First().Name;
-                        } 
-                    }
-                    catch (CommunicationException ex)
-                    {
-                        WriteErrorDetails(ex);
-                    }
+                        location = webspaces.First().Name;
+                    } 
                 });
             }
 
@@ -104,25 +95,18 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                try
-                {
-                    var website = new CreateWebsite
-                                          {
-                                              Name = name,
-                                              HostNames = new List<string>(new [] { name + ".azurewebsites.net" })
-                                          };
+                var website = new CreateWebsite
+                                        {
+                                            Name = name,
+                                            HostNames = new List<string>(new [] { name + ".azurewebsites.net" })
+                                        };
 
-                    if (!string.IsNullOrEmpty(hostname))
-                    {
-                        website.HostNames.Add(hostname);
-                    }
-
-                    RetryCall(s => Channel.NewWebsite(s, location, website));
-                }
-                catch (CommunicationException ex)
+                if (!string.IsNullOrEmpty(hostname))
                 {
-                    WriteErrorDetails(ex);
+                    website.HostNames.Add(hostname);
                 }
+
+                RetryCall(s => Channel.NewWebsite(s, location, website));
             });
 
             return true;
