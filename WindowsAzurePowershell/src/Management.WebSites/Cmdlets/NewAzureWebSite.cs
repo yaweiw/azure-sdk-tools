@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
+    using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -53,6 +53,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             set;
         }
 
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string PublishingUsername
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure git on web site and local folder.")]
         public SwitchParameter Git
         {
@@ -81,11 +89,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
         internal bool IsGitWorkingTree()
         {
-            bool gitWorkingTree = false;
-            var lines = Services.Git.GetWorkingTree();
-            gitWorkingTree = lines.Any(line => line.Equals(".git"));
-
-            return gitWorkingTree;
+            return Services.Git.GetWorkingTree().Any(line => line.Equals(".git"));
         }
 
         internal void InitGitOnCurrentDirectory()
@@ -113,20 +117,48 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             gitWebSite.WriteConfiguration();
         }
 
+        internal string GetPublishingUser()
+        {
+            if (!string.IsNullOrEmpty(PublishingUsername))
+            {
+                return PublishingUsername;
+            }
+
+            // Get publishing users
+            IList<string> users = null;
+            InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetPublishingUsers(s)); });
+
+            IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
+            if (!validUsers.Any())
+            {
+                throw new Exception(Resources.InvalidGitCredentials);
+            } 
+            
+            if (!(validUsers.Count() == 1 && users.Count() == 1))
+            {
+                throw new Exception(Resources.MultiplePublishingUsernames);
+            }
+
+            return users.First();
+        }
+
         internal void CreateRepositoryAndAddRemote(string websiteName, string webspace)
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
 
-            // Get publishing users
-            IList<string> users = null;
-            InvokeInOperationContext(() =>
-            {
-                users = RetryCall(s => Channel.GetPublishingUsers(s));
-            });
+            string publishingUser = GetPublishingUser();
 
             // Get remote repos
-            IList<string> remoteRepos = Services.Git.GetRemoteRepos();
+            IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
+            if (remoteRepositories.Any(repository => repository.Equals("azure")))
+            {
+                // Removing existing azure remote alias
+                Services.Git.RemoveRemoteRepository("azure");
+            }
+
+            string url = Services.Git.GetUri("", Name, publishingUser);
+            Services.Git.AddRemoteRepository("azure", url);
         }
 
         internal override bool ExecuteCommand()

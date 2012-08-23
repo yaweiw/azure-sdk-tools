@@ -89,6 +89,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Git credentials needs to be setup on the portal..
+        /// </summary>
+        internal static string InvalidGitCredentials {
+            get {
+                return ResourceManager.GetString("InvalidGitCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is invalid or empty.
         /// </summary>
         internal static string InvalidOrEmptyArgumentMessage {
@@ -103,6 +112,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         internal static string InvalidWebsite {
             get {
                 return ResourceManager.GetString("InvalidWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multiple possible publishing users. Please specify one using the argument PublishingUsername..
+        /// </summary>
+        internal static string MultiplePublishingUsernames {
+            get {
+                return ResourceManager.GetString("MultiplePublishingUsernames", resourceCulture);
             }
         }
         

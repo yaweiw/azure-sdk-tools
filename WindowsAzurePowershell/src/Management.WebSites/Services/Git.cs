@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -35,9 +36,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             ExecuteGitProcess(string.Format("config --unset {0}", name));
         }
 
-        public static IList<string> GetRemoteRepos()
+        public static IList<string> GetRemoteRepositories()
         {
             return ExecuteGitProcess("remote").Split('\n');
+        }
+
+        public static void AddRemoteRepository(string name, string url)
+        {
+            ExecuteGitProcess(string.Format("remote add {0} {1}", name, url));
+        }
+
+        public static void RemoveRemoteRepository(string name)
+        {
+            ExecuteGitProcess(string.Format("remote rm {0}", name));
         }
 
         public static void InitRepository()
@@ -48,6 +59,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         public static IList<string> GetWorkingTree()
         {
             return ExecuteGitProcess("rev-parse --git-dir").Split('\n');
+        }
+
+        public static string GetUri(string repositoryUri, string siteName, string auth)
+        {
+            throw new NotImplementedException();
         }
 
         private static string ExecuteGitProcess(string arguments)
