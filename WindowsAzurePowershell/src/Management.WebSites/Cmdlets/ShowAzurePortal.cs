@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         public string WebSiteName { get; set; }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void ShowAzurePortalProcess(string url, string webSiteName)
+        internal void ProcessShowAzurePortal(string url, string webSiteName)
         {
             Validate.ValidateStringIsNullOrEmpty(url, "Azure portal url");
             Validate.ValidateInternetConnection();
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ShowAzurePortalProcess(Resources.AzurePortalUrl, WebSiteName);
+                ProcessShowAzurePortal(Resources.AzurePortalUrl, WebSiteName);
             }
             catch (Exception ex)
             {

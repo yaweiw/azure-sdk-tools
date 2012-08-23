@@ -54,13 +54,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             Channel = channel;
         }
 
-        internal bool StopWebsiteProcess(string name)
+        internal override bool ExecuteCommand()
         {
             Website website = null;
 
             InvokeInOperationContext(() =>
             {
-                website = RetryCall(s => Channel.GetWebsite(s, name));
+                website = RetryCall(s => Channel.GetWebsite(s, Name));
             });
 
             if (website == null)
@@ -70,34 +70,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                var websiteUpdate = new Website
+                Website websiteUpdate = new Website
                                         {
-                                            Name = name,
-                                            HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),
+                                            Name = Name,
+                                            HostNames = new List<string> { Name + ".azurewebsites.net" },
                                             State = "Stopped"
                                         };
 
-                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, name, websiteUpdate));
+                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (StopWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

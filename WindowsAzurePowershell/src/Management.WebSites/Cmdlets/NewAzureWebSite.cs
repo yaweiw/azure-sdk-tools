@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -131,7 +130,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
         internal void UpdateLocalConfigWithSiteName(string websiteName, string webspace)
         {
-            var gitWebSite = new GitWebSite(websiteName, webspace);
+            GitWebSite gitWebSite = new GitWebSite(websiteName, webspace);
             gitWebSite.WriteConfiguration();
         }
 
@@ -139,44 +138,48 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
+
+            // Get publishing users
+            InvokeInOperationContext(() =>
+            {
+                // If no location was provided as a parameter, try to default it
+                RetryCall(s => Channel.GetPublishingUsers(s));
+
+            });
         }
 
-        internal bool NewWebsiteProcess(string location, string name, string hostname)
+        internal override bool ExecuteCommand()
         {
-            if (string.IsNullOrEmpty(location))
+            if (string.IsNullOrEmpty(Location))
             {
                 InvokeInOperationContext(() =>
                 {
                     // If no location was provided as a parameter, try to default it
-                    var webspaces = RetryCall(s => Channel.GetWebspaces(s));
-                    if (webspaces.Count > 0)
-                    {
-                        location = webspaces.First().Name;
-                    } 
+                    Location = RetryCall(s => Channel.GetWebspaces(s).Select(webspace => webspace.Name).FirstOrDefault());
                 });
             }
 
-            if (string.IsNullOrEmpty(location))
+            if (string.IsNullOrEmpty(Location))
             {
                 // If location is still empty or null, give portal instructions.
-                SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, name));
+                SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, Name));
                 return false;
             }
 
             InvokeInOperationContext(() =>
             {
-                var website = new Website
+                Website website = new Website
                                         {
-                                            Name = name,
-                                            HostNames = new List<string>(new [] { name + ".azurewebsites.net" })
+                                            Name = Name,
+                                            HostNames = new List<string> { Name + ".azurewebsites.net" }
                                         };
 
-                if (!string.IsNullOrEmpty(hostname))
+                if (!string.IsNullOrEmpty(Hostname))
                 {
-                    website.HostNames.Add(hostname);
+                    website.HostNames.Add(Hostname);
                 }
 
-                RetryCall(s => Channel.NewWebsite(s, location, website));
+                RetryCall(s => Channel.NewWebsite(s, Location, website));
             });
 
             if (Git)
@@ -186,29 +189,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     // Init git in current directory
                     InitGitOnCurrentDirectory();
                     CopyIisNodeWhenServerJsPresent();
-                    UpdateLocalConfigWithSiteName(name, location);
-                    CreateRepositoryAndAddRemote(name, location);
+                    UpdateLocalConfigWithSiteName(Name, Location);
+                    CreateRepositoryAndAddRemote(Name, Location);
                 }   
             }
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (NewWebsiteProcess(Location, Name, Hostname))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

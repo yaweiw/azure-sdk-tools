@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            getAzureWebSiteCommand.GetWebsiteProcess(null);
+            getAzureWebSiteCommand.ExecuteCommand();
             Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
             Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
             Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website2") && ((Website)website).WebSpace.Equals("webspace2")));
@@ -93,10 +93,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             GetAzureWebSiteCommand getAzureWebSiteCommand = new GetAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = "website1"
             };
 
-            getAzureWebSiteCommand.GetWebsiteProcess("website1");
+            getAzureWebSiteCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
 
             var website = ((MockCommandRuntime) getAzureWebSiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;

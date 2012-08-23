@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void StartWebsiteProcessTest()
+        public void ProcessStartWebsiteTest()
         {
             const string websiteName = "website1";
             const string webspaceName = "webspace";
@@ -58,10 +58,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             StartAzureWebSiteCommand startAzureWebSiteCommand = new StartAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = websiteName
             };
 
-            startAzureWebSiteCommand.StartWebsiteProcess(websiteName);
+            startAzureWebSiteCommand.ExecuteCommand();
             Assert.IsTrue(updated);
         }
     }

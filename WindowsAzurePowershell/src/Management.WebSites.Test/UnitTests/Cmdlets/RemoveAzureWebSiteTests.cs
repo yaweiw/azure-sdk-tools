@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void RemoveWebsiteProcessTest()
+        public void ProcessRemoveWebsiteTest()
         {
             // Setup
             bool deletedWebsite = false;
@@ -59,17 +59,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             RemoveAzureWebSiteCommand removeAzureWebSiteCommand = new RemoveAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = "website1"
             };
 
             // Delete existing website
-            removeAzureWebSiteCommand.RemoveWebsiteProcess("website1");
+            removeAzureWebSiteCommand.ExecuteCommand();
             Assert.IsTrue(deletedWebsite);
 
             // Delete unexisting website
             deletedWebsite = false;
 
-            removeAzureWebSiteCommand.RemoveWebsiteProcess("website2");
+            removeAzureWebSiteCommand.Name = "website2";
+            removeAzureWebSiteCommand.ExecuteCommand();
             Assert.IsFalse(deletedWebsite);
         }
     }

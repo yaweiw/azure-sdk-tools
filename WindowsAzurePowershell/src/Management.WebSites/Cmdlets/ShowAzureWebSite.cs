@@ -53,19 +53,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             Channel = channel;
         }
 
-        internal bool ShowWebsiteProcess(string website)
+        internal override bool ExecuteCommand()
         {
             InvokeInOperationContext(() =>
             {
                 // Show website
-                var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
+                Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
                 if (websiteObject == null)
                 {
                     throw new Exception(Resources.InvalidWebsite);
                 }
 
                 // Show configuration
-                var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+                WebsiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
 
                 // Output results
                 websiteConfiguration.Merge(websiteObject);
@@ -73,19 +73,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-                ShowWebsiteProcess(Name);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

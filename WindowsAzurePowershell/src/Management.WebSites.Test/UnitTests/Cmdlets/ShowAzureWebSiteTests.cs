@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void ShowWebsiteProcessTest()
+        public void ProcessShowWebsiteTest()
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
@@ -63,11 +63,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             ShowAzureWebSiteCommand showAzureWebSiteCommand = new ShowAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = "website1"
             };
 
             // Show existing website
-            showAzureWebSiteCommand.ShowWebsiteProcess("website1");
+            showAzureWebSiteCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
 
             var website = ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;

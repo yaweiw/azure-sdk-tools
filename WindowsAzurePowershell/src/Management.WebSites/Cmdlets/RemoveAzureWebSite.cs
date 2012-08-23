@@ -65,10 +65,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal bool RemoveWebsiteProcess(string website)
+        internal override bool ExecuteCommand()
         {
             if (!Force.IsPresent &&
-                !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, website),
+                !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),
                                 Resources.ShouldProcessCaption))
             {
                 return false;
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Find out in which webspace is the website
-                var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
+                var websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
                 if (websiteObject == null)
                 {
                     throw new Exception(Resources.InvalidWebsite);
@@ -88,23 +88,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (RemoveWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

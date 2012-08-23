@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void StopWebsiteProcessTest()
+        public void ProcessStopWebsiteTest()
         {
             const string websiteName = "website1";
             const string webspaceName = "webspace";
@@ -58,10 +58,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             StopAzureWebSiteCommand stopAzureWebSiteCommand = new StopAzureWebSiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = websiteName
             };
 
-            stopAzureWebSiteCommand.StopWebsiteProcess(websiteName);
+            stopAzureWebSiteCommand.ExecuteCommand();
             Assert.IsTrue(updated);
         }
     }

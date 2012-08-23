@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             Channel = channel;
         }
 
-        internal bool StartWebsiteProcess(string name)
+        internal override bool ExecuteCommand()
         {
             Website website = null;
 
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 try
                 {
-                    website = RetryCall(s => Channel.GetWebsite(s, name));
+                    website = RetryCall(s => Channel.GetWebsite(s, Name));
                 }
                 catch (CommunicationException ex)
                 {
@@ -80,14 +80,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 try
                 {
-                    var websiteUpdate = new Website
+                    Website websiteUpdate = new Website
                                             {
-                                                Name = name,
-                                                HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),
+                                                Name = Name,
+                                                HostNames = new List<string> { Name + ".azurewebsites.net" },
                                                 State = "Running"
                                             };
 
-                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, name, websiteUpdate));
+                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
                 }
                 catch (CommunicationException ex)
                 {
@@ -96,23 +96,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (StartWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

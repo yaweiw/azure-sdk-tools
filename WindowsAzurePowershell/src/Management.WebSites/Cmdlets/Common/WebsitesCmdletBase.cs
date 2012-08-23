@@ -14,11 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 {
+    using System;
+    using System.Management.Automation;
     using Management.Cmdlets.Common;
+    using Properties;
     using Samples.WindowsAzure.ServiceManagement;
     using Services;
 
-    public class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
+    public abstract class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
     {
         protected override Operation WaitForOperation(string opdesc)
         {
@@ -27,6 +30,25 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
             operation.OperationTrackingId = operationId;
             operation.Status = "Success";
             return operation;
+        }
+
+        internal abstract bool ExecuteCommand();
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                if (ExecuteCommand())
+                {
+                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
         }
     }
 }
