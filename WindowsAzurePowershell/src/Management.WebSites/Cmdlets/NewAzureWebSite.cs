@@ -213,16 +213,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                 RetryCall(s => Channel.NewWebsite(s, Location, website));
             });
 
-            if (Git)
+            if (Git && !IsGitWorkingTree())
             {
-                if(!IsGitWorkingTree())
-                {
-                    // Init git in current directory
-                    InitGitOnCurrentDirectory();
-                    CopyIisNodeWhenServerJsPresent();
-                    UpdateLocalConfigWithSiteName(Name, Location);
-                    CreateRepositoryAndAddRemote(publishingUser, Name, Location);
-                }   
+                // Init git in current directory
+                InitGitOnCurrentDirectory();
+                CopyIisNodeWhenServerJsPresent();
+                UpdateLocalConfigWithSiteName(Name, Location);
+                CreateRepositoryAndAddRemote(publishingUser, Name, Location);
             }
 
             return true;
