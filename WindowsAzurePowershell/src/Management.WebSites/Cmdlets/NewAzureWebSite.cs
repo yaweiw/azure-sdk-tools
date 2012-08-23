@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             set;
         }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The publishing user name.")]
         [ValidateNotNullOrEmpty]
         public string PublishingUsername
         {
@@ -142,12 +142,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             return users.First();
         }
 
-        internal void CreateRepositoryAndAddRemote(string websiteName, string webspace)
+        internal string GetRepositoryUri(Website website)
+        {
+            if (website.SiteProperties.Properties.ContainsKey("RepositoryUri"))
+            {
+                return website.SiteProperties.Properties["RepositoryUri"];
+            }
+
+            return null;
+        }
+
+        internal void CreateRepositoryAndAddRemote(string publishingUser, string websiteName, string webspace)
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
-
-            string publishingUser = GetPublishingUser();
 
             // Get remote repos
             IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
@@ -157,12 +165,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                 Services.Git.RemoveRemoteRepository("azure");
             }
 
-            string url = Services.Git.GetUri("", Name, publishingUser);
-            Services.Git.AddRemoteRepository("azure", url);
+            // Get website and from it the repository url
+            Website website = RetryCall(s => Channel.GetWebsite(s, Name));
+            string repositoryUri = GetRepositoryUri(website);
+
+            string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
+            Services.Git.AddRemoteRepository("azure", uri);
         }
 
         internal override bool ExecuteCommand()
         {
+            string publishingUser = null;
+            if (Git)
+            {
+                publishingUser = GetPublishingUser();
+            }
+
             if (string.IsNullOrEmpty(Location))
             {
                 InvokeInOperationContext(() =>
@@ -203,7 +221,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                     InitGitOnCurrentDirectory();
                     CopyIisNodeWhenServerJsPresent();
                     UpdateLocalConfigWithSiteName(Name, Location);
-                    CreateRepositoryAndAddRemote(Name, Location);
+                    CreateRepositoryAndAddRemote(publishingUser, Name, Location);
                 }   
             }
 
