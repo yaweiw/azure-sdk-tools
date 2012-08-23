@@ -16,86 +16,55 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
-    public abstract class Git
+    public static class Git
     {
         public static string GetConfigurationValue(string name)
         {
-            using (Process process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = string.Format("config --get {0}", name);
-                process.Start();
-
-                // Read the output stream first and then wait.
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-
-                return output;
-            }
+            return ExecuteGitProcess(string.Format("config --get {0}", name)).Split('\n').FirstOrDefault();
         }
 
         public static void SetConfigurationValue(string name, string value)
         {
-            using (Process process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = string.Format("config {0} {1}", name, value);
-                process.Start();
-                process.WaitForExit();
-            }
+            ExecuteGitProcess(string.Format("config {0} {1}", name, value));
+        }
+
+        public static void ClearConfigurationValue(string name)
+        {
+            ExecuteGitProcess(string.Format("config --unset {0}", name));
         }
 
         public static IList<string> GetRemoteRepos()
         {
-            using (var process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = "remote";
-                process.Start();
-
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-
-                return output.Split('\n');
-            }
-        } 
+            return ExecuteGitProcess("remote").Split('\n');
+        }
 
         public static void InitRepository()
         {
-            using (var process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = "init";
-                process.Start();
-                process.WaitForExit();
-            }
+            ExecuteGitProcess("init");
         }
 
         public static IList<string> GetWorkingTree()
         {
+            return ExecuteGitProcess("rev-parse --git-dir").Split('\n');
+        }
+
+        private static string ExecuteGitProcess(string arguments)
+        {
             using (var process = new Process())
             {
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = "rev-parse --git-dir";
+                process.StartInfo.Arguments = arguments;
                 process.Start();
 
                 // Read the output stream first and then wait.
                 string output = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
-
-                return output.Split('\n');
+                return output;
             }
-        } 
+        }
     }
 }

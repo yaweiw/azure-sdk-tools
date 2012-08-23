@@ -15,12 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
-    using Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using WebSites.Cmdlets;
+    using WebSites.Services;
 
     [TestClass]
     public class StopAzureWebSiteTests

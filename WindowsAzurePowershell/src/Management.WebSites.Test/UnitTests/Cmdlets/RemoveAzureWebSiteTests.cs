@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
 {
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
-    using Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using WebSites.Cmdlets;
+    using WebSites.Services;
 
     [TestClass]
     public class RemoveAzureWebSiteTests

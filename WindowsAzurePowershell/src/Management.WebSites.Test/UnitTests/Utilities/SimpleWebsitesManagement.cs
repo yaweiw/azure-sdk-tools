@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
     using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Services;
+    using WebSites.Services;
 
     /// <summary>
     /// Simple implementation of the <see cref="IWebsitesServiceManagement"/> interface that can be
