@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// Removes an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureWebsite")]
-    public class RemoveAzureWebSiteCommand : WebsitesCmdletBase
+    public class RemoveAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -42,20 +42,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebSiteCommand class.
+        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
         /// </summary>
-        public RemoveAzureWebSiteCommand()
+        public RemoveAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebSiteCommand class.
+        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public RemoveAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public RemoveAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

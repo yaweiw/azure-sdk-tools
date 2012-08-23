@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 {
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Services;
+    using Websites.Services;
 
     [TestClass]
     public class GitTests

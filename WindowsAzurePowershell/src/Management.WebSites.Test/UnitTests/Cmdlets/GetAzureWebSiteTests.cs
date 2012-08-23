@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
-    using WebSites.Services;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class GetAzureWebSiteTests
+    public class GetAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -48,16 +48,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                            };
 
             // Test
-            GetAzureWebSiteCommand getAzureWebSiteCommand = new GetAzureWebSiteCommand(channel)
+            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            getAzureWebSiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website2") && ((Website)website).WebSpace.Equals("webspace2")));
+            getAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website2") && ((Website)website).WebSpace.Equals("webspace2")));
         }
 
         [TestMethod]
@@ -90,17 +90,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Test
-            GetAzureWebSiteCommand getAzureWebSiteCommand = new GetAzureWebSiteCommand(channel)
+            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1"
             };
 
-            getAzureWebSiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
+            getAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
 
-            var website = ((MockCommandRuntime) getAzureWebSiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
+            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);

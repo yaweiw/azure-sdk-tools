@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
-    using WebSites.Services;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class RemoveAzureWebSiteTests
+    public class RemoveAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                              };
 
             // Test
-            RemoveAzureWebSiteCommand removeAzureWebSiteCommand = new RemoveAzureWebSiteCommand(channel)
+            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
@@ -64,14 +64,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Delete existing website
-            removeAzureWebSiteCommand.ExecuteCommand();
+            removeAzureWebsiteCommand.ExecuteCommand();
             Assert.IsTrue(deletedWebsite);
 
             // Delete unexisting website
             deletedWebsite = false;
 
-            removeAzureWebSiteCommand.Name = "website2";
-            removeAzureWebSiteCommand.ExecuteCommand();
+            removeAzureWebsiteCommand.Name = "website2";
+            removeAzureWebsiteCommand.ExecuteCommand();
             Assert.IsFalse(deletedWebsite);
         }
     }

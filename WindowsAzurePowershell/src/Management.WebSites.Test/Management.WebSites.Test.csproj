@@ -127,9 +127,9 @@
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
       <Name>Management.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.WebSites\Management.WebSites.csproj">
+    <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
       <Project>{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}</Project>
-      <Name>Management.WebSites</Name>
+      <Name>Management.Websites</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>

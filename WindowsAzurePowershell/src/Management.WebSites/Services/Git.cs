@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
     using System.Collections.Generic;

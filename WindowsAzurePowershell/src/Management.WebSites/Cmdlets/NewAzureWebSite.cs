@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Collections.Generic;
@@ -26,8 +26,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureWebSite")]
-    public class NewAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsCommon.New, "AzureWebsite")]
+    public class NewAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -69,20 +69,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureWebSiteCommand class.
+        /// Initializes a new instance of the NewAzureWebsiteCommand class.
         /// </summary>
-        public NewAzureWebSiteCommand()
+        public NewAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the NewAzureWebSiteCommand class.
+        /// Initializes a new instance of the NewAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public NewAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
@@ -113,8 +113,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
         internal void UpdateLocalConfigWithSiteName(string websiteName, string webspace)
         {
-            GitWebSite gitWebSite = new GitWebSite(websiteName, webspace);
-            gitWebSite.WriteConfiguration();
+            GitWebsite gitWebsite = new GitWebsite(websiteName, webspace);
+            gitWebsite.WriteConfiguration();
         }
 
         internal string GetPublishingUser()
@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             return null;
         }
 
-        internal void CreateRepositoryAndAddRemote(string publishingUser, string websiteName, string webspace)
+        internal void CreateRepositoryAndAddRemote(string publishingUser, string webspace, string websiteName)
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             }
 
             // Get website and from it the repository url
-            Website website = RetryCall(s => Channel.GetWebsite(s, Name));
+            Website website = RetryCall(s => Channel.GetWebsite(s, webspace, websiteName, new List<string> { "repositoryuri", "publishingpassword", "publishingusername" }));
             string repositoryUri = GetRepositoryUri(website);
 
             string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
@@ -213,13 +213,17 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                 RetryCall(s => Channel.NewWebsite(s, Location, website));
             });
 
-            if (Git && !IsGitWorkingTree())
+            if (Git)
             {
-                // Init git in current directory
-                InitGitOnCurrentDirectory();
+                if (!IsGitWorkingTree())
+                {
+                    // Init git in current directory
+                    InitGitOnCurrentDirectory();
+                }
+
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, Location);
-                CreateRepositoryAndAddRemote(publishingUser, Name, Location);
+                CreateRepositoryAndAddRemote(publishingUser, Location, Name);
             }
 
             return true;

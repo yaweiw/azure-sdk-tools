@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
@@ -23,8 +23,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
-    public class GetAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureWebsite")]
+    public class GetAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -35,20 +35,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// Initializes a new instance of the GetAzureWebsiteCommand class.
         /// </summary>
-        public GetAzureWebSiteCommand()
+        public GetAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the GetAzureWebSiteCommand class.
+        /// Initializes a new instance of the GetAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public GetAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

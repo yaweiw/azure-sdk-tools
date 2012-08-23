@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Collections.Generic;
@@ -24,8 +24,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// <summary>
     /// Stops an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureWebSite")]
-    public class StopAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
+    public class StopAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -36,20 +36,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
-        public StopAzureWebSiteCommand()
+        public StopAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public StopAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public StopAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

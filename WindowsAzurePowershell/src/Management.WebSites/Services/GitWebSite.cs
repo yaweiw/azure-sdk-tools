@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    public class GitWebSite
+    public class GitWebsite
     {
         public string Name { get; set; }
         public string Webspace { get; set; }
 
-        public GitWebSite(string name, string webspace)
+        public GitWebsite(string name, string webspace)
         {
             Name = name;
             Webspace = webspace;
@@ -31,9 +31,9 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             Git.SetConfigurationValue("azure.site.webspace", Webspace);
         }
 
-        public static GitWebSite ReadConfiguration()
+        public static GitWebsite ReadConfiguration()
         {
-            return new GitWebSite(
+            return new GitWebsite(
                 Git.GetConfigurationValue("azure.site.name"),
                 Git.GetConfigurationValue("azure.site.webspace"));
         }

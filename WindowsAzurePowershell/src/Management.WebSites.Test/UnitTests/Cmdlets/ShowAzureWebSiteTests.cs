@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
-    using WebSites.Services;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class ShowAzureWebSiteTests
+    public class ShowAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                                        };
 
             // Test
-            ShowAzureWebSiteCommand showAzureWebSiteCommand = new ShowAzureWebSiteCommand(channel)
+            ShowAzureWebsiteCommand showAzureWebsiteCommand = new ShowAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
@@ -68,10 +68,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Show existing website
-            showAzureWebSiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
+            showAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(1, ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
 
-            var website = ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
+            var website = ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);

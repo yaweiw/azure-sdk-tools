@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
-    using WebSites.Services;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class StartAzureWebSiteTests
+    public class StartAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -55,14 +55,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Test
-            StartAzureWebSiteCommand startAzureWebSiteCommand = new StartAzureWebSiteCommand(channel)
+            StartAzureWebsiteCommand startAzureWebsiteCommand = new StartAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName
             };
 
-            startAzureWebSiteCommand.ExecuteCommand();
+            startAzureWebsiteCommand.ExecuteCommand();
             Assert.IsTrue(updated);
         }
     }

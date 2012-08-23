@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// Shows an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebSiteCommand : WebsitesCmdletBase
+    public class ShowAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -35,20 +35,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the ShowAzureWebSiteCommand class.
+        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
         /// </summary>
-        public ShowAzureWebSiteCommand()
+        public ShowAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the ShowAzureWebSiteCommand class.
+        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public ShowAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public ShowAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
-        public string WebSiteName { get; set; }
+        public string WebsiteName { get; set; }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void ProcessShowAzurePortal(string url, string webSiteName)
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ProcessShowAzurePortal(Resources.AzurePortalUrl, WebSiteName);
+                ProcessShowAzurePortal(Resources.AzurePortalUrl, WebsiteName);
             }
             catch (Exception ex)
             {
