@@ -14,8 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Services
 {
-    using System.Diagnostics;
-
     public class GitWebSite
     {
         public string Name { get; set; }
@@ -29,52 +27,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
 
         public void WriteConfiguration()
         {
-            SetGitConfigurationValue("azure.site.name", Name);
-            SetGitConfigurationValue("azure.site.webspace", Webspace);
+            Git.SetConfigurationValue("azure.site.name", Name);
+            Git.SetConfigurationValue("azure.site.webspace", Webspace);
         }
 
         public static GitWebSite ReadConfiguration()
         {
             return new GitWebSite(
-                GetGitConfigurationValue("azure.site.name"),
-                GetGitConfigurationValue("azure.site.webspace"));
-        }
-
-        private static string GetGitConfigurationValue(string name)
-        {
-            using (Process process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = string.Format("config --get {0}", name);
-                process.Start();
-
-                // Read the output stream first and then wait.
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-
-                var lines = output.Split('\n');
-                
-            }
-
-            return null;
-        }
-
-        private static void SetGitConfigurationValue(string name, string value)
-        {
-            using (Process process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = string.Format("config {0} {1}", name, value);
-                process.Start();
-
-                // Read the output stream first and then wait.
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-            }
+                Git.GetConfigurationValue("azure.site.name"),
+                Git.GetConfigurationValue("azure.site.webspace"));
         }
     }
 }

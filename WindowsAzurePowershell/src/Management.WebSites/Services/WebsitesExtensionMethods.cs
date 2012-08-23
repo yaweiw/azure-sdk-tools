@@ -45,9 +45,9 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             proxy.EndDeleteWebsite(proxy.BeginDeleteWebsite(subscriptionId, webspace, website, null, null));
         }
 
-        public static void GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId)
+        public static IList<string> GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId)
         {
-            proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
+            return proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
         }
 
         public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)

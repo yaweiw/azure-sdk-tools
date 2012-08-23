@@ -269,7 +269,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
         IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state);
-        void EndGetPublishingUsers(IAsyncResult asyncResult);
+        IList<string> EndGetPublishingUsers(IAsyncResult asyncResult);
 
         /// <summary>
         /// Create a new website.

@@ -82,41 +82,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         internal bool IsGitWorkingTree()
         {
             bool gitWorkingTree = false;
-            using (var process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = "rev-parse --git-dir";
-                process.Start();
-
-                // Read the output stream first and then wait.
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-
-                var lines = output.Split('\n');
-                gitWorkingTree = lines.Any(line => line.Equals(".git"));
-            }
+            var lines = Services.Git.GetWorkingTree();
+            gitWorkingTree = lines.Any(line => line.Equals(".git"));
 
             return gitWorkingTree;
         }
 
         internal void InitGitOnCurrentDirectory()
         {
-            using (var process = new Process())
-            {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = "init";
-                process.Start();
-                process.WaitForExit();
+            Services.Git.InitRepository();
 
-                if (!File.Exists(".gitignore"))
-                {
-                    // Scaffold gitignore
-                    File.WriteAllText(".gitignore", Resources.GitIgnoreFileContent);
-                }
+            if (!File.Exists(".gitignore"))
+            {
+                // Scaffold gitignore
+                File.WriteAllText(".gitignore", Resources.GitIgnoreFileContent);
             }
         }
 
@@ -140,12 +119,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
 
             // Get publishing users
+            IList<string> users = null;
             InvokeInOperationContext(() =>
             {
-                // If no location was provided as a parameter, try to default it
-                RetryCall(s => Channel.GetPublishingUsers(s));
-
+                users = RetryCall(s => Channel.GetPublishingUsers(s));
             });
+
+            // Get remote repos
+            IList<string> remoteRepos = Services.Git.GetRemoteRepos();
         }
 
         internal override bool ExecuteCommand()

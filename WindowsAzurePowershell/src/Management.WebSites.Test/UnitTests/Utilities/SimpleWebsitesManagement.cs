@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
 {
     using System;
+    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Services;
@@ -241,7 +242,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
 
         #region GetPublishingUsers
 
-        public Action<SimpleServiceManagementAsyncResult> GetPublishingUsersThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, IList<string>> GetPublishingUsersThunk { get; set; }
 
         public IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state)
         {
@@ -252,19 +253,21 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Utilities
             return result;
         }
 
-        public void EndGetPublishingUsers(IAsyncResult asyncResult)
+        public IList<string> EndGetPublishingUsers(IAsyncResult asyncResult)
         {
             if (GetPublishingUsersThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                GetPublishingUsersThunk(result);
+                return GetPublishingUsersThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("GetPublishingUsersThunk is not implemented!");
             }
+
+            return default(IList<string>);
         }
 
         #endregion
