@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
 
     public static class Git
@@ -63,7 +64,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static string GetUri(string repositoryUri, string siteName, string auth)
         {
-            throw new NotImplementedException();
+            UriBuilder uriBuilder = new UriBuilder(repositoryUri)
+            {
+                Path = siteName + ".git",
+                UserName = auth
+            };
+
+            return uriBuilder.Uri.ToString();
         }
 
         private static string ExecuteGitProcess(string arguments)
