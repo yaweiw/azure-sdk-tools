@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.WebSites.Properties;
+
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Common;
     using Services;
 
@@ -26,6 +27,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebSite")]
     public class GetAzureWebSiteCommand : WebsitesCmdletBase
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Initializes a new instance of the GetAzureWebSiteCommand class.
         /// </summary>
@@ -50,20 +59,40 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal void GetWebsiteProcess()
+        internal void GetWebsiteProcess(string name)
         {
-            InvokeInOperationContext(() =>
+            if (!string.IsNullOrEmpty(name))
             {
-                try
+                // if a name is passed, do the same as show-azurewebsite
+                InvokeInOperationContext(() =>
+                {
+                    // Show website
+                    var websiteObject = RetryCall(s => Channel.GetWebsite(s, name));
+                    if (websiteObject == null)
+                    {
+                        throw new Exception(Resources.InvalidWebsite);
+                    }
+
+                    // Show configuration
+                    var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+
+                    // Output results
+                    websiteConfiguration.Merge(websiteObject);
+                    WriteObject(websiteConfiguration, false);
+                });
+            }
+            else
+            {
+                InvokeInOperationContext(() =>
                 {
                     var webspaces = RetryCall(s => Channel.GetWebspaces(s));
                     WaitForOperation(CommandRuntime.ToString());
 
-                    foreach(var webspace in webspaces)
+                    foreach (var webspace in webspaces)
                     {
                         var currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
                             new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
-                        
+
                         WaitForOperation(CommandRuntime.ToString());
 
                         foreach (var website in currentWebsites)
@@ -71,12 +100,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
                             WriteWebsite(website);
                         }
                     }
-                }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
-            });
+                });
+            }
         }
 
         protected override void ProcessRecord()
@@ -84,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                GetWebsiteProcess();
+                GetWebsiteProcess(Name);
             }
             catch (Exception ex)
             {

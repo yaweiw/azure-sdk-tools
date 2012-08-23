@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
     using Common;
     using Properties;
     using Services;
@@ -29,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
-        public string Website
+        public string Name
         {
             get;
             set;
@@ -58,25 +57,19 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         {
             InvokeInOperationContext(() =>
             {
-                try
+                // Show website
+                var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
+                if (websiteObject == null)
                 {
-                    // Show website
-                    var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
-                    if (websiteObject == null)
-                    {
-                        throw new Exception(Resources.InvalidWebsite);
-                    }
-
-                    WriteObject(websiteObject, false);
-
-                    // Show configuration
-                    var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
-                    WriteObject(websiteConfiguration, false);
+                    throw new Exception(Resources.InvalidWebsite);
                 }
-                catch (CommunicationException ex)
-                {
-                    WriteErrorDetails(ex);
-                }
+
+                // Show configuration
+                var websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+
+                // Output results
+                websiteConfiguration.Merge(websiteObject);
+                WriteObject(websiteConfiguration, false);
             });
 
             return true;
@@ -87,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ShowWebsiteProcess(Website);
+                ShowWebsiteProcess(Name);
             }
             catch (Exception ex)
             {

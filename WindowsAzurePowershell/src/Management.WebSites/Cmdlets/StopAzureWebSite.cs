@@ -14,13 +14,90 @@
 
 namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 {
+    using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
+    using Common;
+    using Properties;
+    using Services;
 
     /// <summary>
-    /// Starts an azure website.
+    /// Stops an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebSite")]
-    public class StopAzureWebSiteCommand
+    public class StopAzureWebSiteCommand : WebsitesCmdletBase
     {
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// </summary>
+        public StopAzureWebSiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public StopAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
+        internal bool StopWebsiteProcess(string name)
+        {
+            Website website = null;
+
+            InvokeInOperationContext(() =>
+            {
+                website = RetryCall(s => Channel.GetWebsite(s, name));
+            });
+
+            if (website == null)
+            {
+                throw new Exception(Resources.InvalidWebsite);
+            }
+
+            InvokeInOperationContext(() =>
+            {
+                var websiteUpdate = new Website
+                                        {
+                                            Name = name,
+                                            HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),
+                                            State = "Stopped"
+                                        };
+
+                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, name, websiteUpdate));
+            });
+
+            return true;
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                if (StopWebsiteProcess(Name))
+                {
+                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
     }
 }

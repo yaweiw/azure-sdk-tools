@@ -23,15 +23,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
     /// <summary>
     /// Opens the azure portal.
     /// </summary>
-    [Cmdlet(VerbsCommon.Open, "AzurePortal")]
-    public class OpenAzurePortalCommand : PSCmdlet
+    [Cmdlet(VerbsCommon.Show, "AzurePortal")]
+    public class ShowAzurePortalCommand : PSCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
         public string WebSiteName { get; set; }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void OpenAzurePortalProcess(string url, string webSiteName)
+        internal void ShowAzurePortalProcess(string url, string webSiteName)
         {
             Validate.ValidateStringIsNullOrEmpty(url, "Azure portal url");
             Validate.ValidateInternetConnection();
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                OpenAzurePortalProcess(Resources.AzurePortalUrl, WebSiteName);
+                ShowAzurePortalProcess(Resources.AzurePortalUrl, WebSiteName);
             }
             catch (Exception ex)
             {
