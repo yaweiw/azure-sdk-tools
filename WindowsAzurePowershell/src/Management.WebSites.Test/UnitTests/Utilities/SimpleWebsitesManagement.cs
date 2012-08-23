@@ -304,6 +304,41 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region GetWebsite
+
+        public Func<SimpleServiceManagementAsyncResult, Website> GetWebsiteThunk { get; set; }
+
+        public IAsyncResult BeginGetWebsite(string subscriptionId, string webspace, string website, string propertiesToInclude, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["website"] = website;
+            result.Values["propertiesToInclude"] = propertiesToInclude;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public Website EndGetWebsite(IAsyncResult asyncResult)
+        {
+            if (GetWebsiteThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                return GetWebsiteThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetWebsiteThunk is not implemented!");
+            }
+
+            return default(Website);
+        }
+
+        #endregion
+
         #endregion
     }
 }
