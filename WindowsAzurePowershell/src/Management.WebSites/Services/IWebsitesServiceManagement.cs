@@ -35,6 +35,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     /// <summary>
     /// A website site properties.
     /// </summary>
+    [DataContract(Name = "NameValuePair", Namespace = Constants.ServiceManagementNS)]
+    public class NameValuePair
+    {
+        [DataMember(EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string Value { get; set; }
+    }
+
+    /// <summary>
+    /// A website site properties.
+    /// </summary>
     [DataContract(Name = "SiteProperties", Namespace = Constants.ServiceManagementNS)]
     public class WebsiteSiteProperties
     {
@@ -42,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public object Metadata { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public Dictionary<string, string> Properties { get; set; }
+        public IList<NameValuePair> Properties { get; set; }
     }
 
     /// <summary>

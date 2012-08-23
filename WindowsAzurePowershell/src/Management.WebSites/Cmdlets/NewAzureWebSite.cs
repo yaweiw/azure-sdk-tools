@@ -144,9 +144,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         internal string GetRepositoryUri(Website website)
         {
-            if (website.SiteProperties.Properties.ContainsKey("RepositoryUri"))
+            if (website.SiteProperties.Properties.Any(kvp => kvp.Name.Equals("RepositoryUri")))
             {
-                return website.SiteProperties.Properties["RepositoryUri"];
+                return website.SiteProperties.Properties.First(kvp => kvp.Name.Equals("RepositoryUri")).Value;
             }
 
             return null;
