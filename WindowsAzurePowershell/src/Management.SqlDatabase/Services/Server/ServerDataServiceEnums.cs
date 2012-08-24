@@ -15,32 +15,24 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     /// <summary>
-    /// Common interface for all server based operations.
+    /// The database edition
     /// </summary>
-    public interface IServerDataServiceContext
+    public enum DatabaseEdition
     {
         /// <summary>
-        /// Gets the per session tracing Id.
+        /// No database edition specified
         /// </summary>
-        string ClientSessionId { get; }
+        None = 0,
 
         /// <summary>
-        /// Gets or sets the per request client request Id.
+        /// A database business edition
         /// </summary>
-        string ClientRequestId { get; set; }
+        Business = 1,
 
         /// <summary>
-        /// Creates a new Sql Database.
+        /// A database web edition
         /// </summary>
-        /// <param name="databaseName">The name for the new database.</param>
-        /// <param name="databaseMaxSize">The max size for the database.</param>
-        /// <param name="databaseCollation">The collation for the database.</param>
-        /// <param name="databaseEdition">The edition for the database.</param>
-        /// <returns>The newly created Sql Database.</returns>
-        Database CreateNewDatabase(
-            string databaseName,
-            int? databaseMaxSize,
-            string databaseCollation,
-            DatabaseEdition databaseEdition);
+        Web = 2
     }
 }
+
