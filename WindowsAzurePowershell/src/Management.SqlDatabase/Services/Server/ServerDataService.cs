@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     /// <summary>
     /// Common abstract class for the generated <see cref="ServerContextInternal"/> class.
     /// </summary>
-    public abstract class ServerDataServiceContext : ServerContextInternal, IServerDataServiceContext
+    public abstract class ServerDataServiceContext : ServerContextInternal
     {
         #region Constants
 
@@ -34,11 +34,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         private const int DefaultDataServiceContextTimeoutInSeconds = 180;
 
         #endregion
-
-        /// <summary>
-        /// The per request client request Id.
-        /// </summary>
-        private string clientRequestId;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ServerDataServiceContext"/> class.
@@ -55,52 +50,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             // Allow this client model to talk to newer versions of server model
             this.IgnoreMissingProperties = true;
         }
-
-        /// <summary>
-        /// Gets the per session tracing Id.
-        /// </summary>
-        public string ClientSessionId
-        {
-            get
-            {
-                return SqlDatabaseManagementCmdletBase.clientSessionId;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the per request client request Id.
-        /// </summary>
-        public string ClientRequestId
-        {
-            get
-            {
-                return this.clientRequestId;
-            }
-            set
-            {
-                this.clientRequestId = value;
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the metadata for the context as a <see cref="XDocument"/>
-        /// </summary>
-        /// <returns>The metadata for the context as a <see cref="XDocument"/></returns>
-        public abstract XDocument RetrieveMetadata();
-
-        /// <summary>
-        /// Creates a new Sql Database.
-        /// </summary>
-        /// <param name="databaseName">The name for the new database.</param>
-        /// <param name="databaseMaxSize">The max size for the database.</param>
-        /// <param name="databaseCollation">The collation for the database.</param>
-        /// <param name="databaseEdition">The edition for the database.</param>
-        /// <returns>The newly created Sql Database.</returns>
-        public abstract Database CreateNewDatabase(
-            string databaseName,
-            int? databaseMaxSize,
-            string databaseCollation,
-            DatabaseEdition databaseEdition);
 
         /// <summary>
         /// Handler to add aditional headers and properties to the request.
@@ -155,10 +104,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             if (request != null)
             {
                 this.OnEnhanceRequest(request);
-
-                // Add the tracing Ids
-                request.Headers[Constants.ClientSessionIdHeaderName]= this.ClientSessionId;
-                request.Headers[Constants.ClientRequestIdHeaderName] = this.ClientRequestId;
             }
         }
     }

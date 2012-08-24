@@ -25,9 +25,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         string ClientSessionId { get; }
 
         /// <summary>
-        /// Gets or sets the per request client request Id.
+        /// Gets the previous request's client request Id.
         /// </summary>
-        string ClientRequestId { get; set; }
+        string ClientRequestId { get; }
 
         /// <summary>
         /// Creates a new Sql Database.
