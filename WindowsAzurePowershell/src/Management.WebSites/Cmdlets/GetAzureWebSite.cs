@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                     // Output results
                     websiteConfiguration.Merge(websiteObject);
-                    WriteObject(websiteConfiguration, false);
+                    WriteObject(websiteConfiguration, true);
                 });
             }
             else

@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services;
 
     [TestClass]
-    public class StartAzureWebsiteTests
+    public class GetAzureWebsiteLocationTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,38 +32,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void ProcessStartWebsiteTest()
+        public void ProcessGetAzureWebsiteLocationTest()
         {
-            const string websiteName = "website1";
-            const string webspaceName = "webspace";
-
             // Setup
-            bool updated = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = webspaceName } });
-            channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
-
-            channel.UpdateWebsiteThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                Website website = ar.Values["website"] as Website;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
-                Assert.AreEqual(website.State, "Running");
-                updated = true;
-            };
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
 
             // Test
-            StartAzureWebsiteCommand startAzureWebsiteCommand = new StartAzureWebsiteCommand(channel)
+            GetAzureWebsiteLocationCommand getAzureWebsiteCommand = new GetAzureWebsiteLocationCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime(),
-                Name = websiteName
+                CommandRuntime = new MockCommandRuntime()
             };
 
-            startAzureWebsiteCommand.ExecuteCommand();
-            Assert.IsTrue(updated);
+            getAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace1")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace2")));
         }
     }
 }

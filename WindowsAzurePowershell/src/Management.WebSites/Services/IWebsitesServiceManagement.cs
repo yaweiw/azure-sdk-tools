@@ -25,11 +25,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     /// A list of webspaces.
     /// </summary>
     [CollectionDataContract(Name = "WebSpaces", ItemName = "WebSpace", Namespace = Constants.ServiceManagementNS)]
-    public class WebspaceList : List<WebSpace>
+    public class WebspaceList : List<Webspace>
     {
         public WebspaceList() { }
 
-        public WebspaceList(IEnumerable<WebSpace> webspaces) : base(webspaces) { }
+        public WebspaceList(IEnumerable<Webspace> webspaces) : base(webspaces) { }
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     /// A webspace.
     /// </summary>
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class WebSpace
+    public class Webspace
     {
         [DataMember(EmitDefaultValue = false)]
         public string AvailabilityState { get; set; }

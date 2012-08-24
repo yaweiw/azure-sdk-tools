@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             // Setup
             bool updated = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = webspaceName } });
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = webspaceName } });
             channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
 
             channel.UpdateWebsiteThunk = ar =>

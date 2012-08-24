@@ -181,11 +181,28 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     Location = RetryCall(s => Channel.GetWebspaces(s).Select(webspace => webspace.Name).FirstOrDefault());
                 });
             }
+            else
+            {
+                InvokeInOperationContext(() =>
+                {
+                    // Find the webspace that corresponds to the geolocation
+                    Location = RetryCall(s => Channel.GetWebspaces(s).Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault());
+                });                
+            }
 
             if (string.IsNullOrEmpty(Location))
             {
                 // If location is still empty or null, give portal instructions.
-                SafeWriteObjectWithTimestamp(string.Format(Resources.PortalInstructions, Name));
+                string error = string.Format(Resources.PortalInstructions, Name);
+                if (!Git)
+                {
+                    SafeWriteObjectWithTimestamp(error);     
+                }
+                else
+                {
+                    SafeWriteObjectWithTimestamp(string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));  
+                }
+
                 return false;
             }
 
