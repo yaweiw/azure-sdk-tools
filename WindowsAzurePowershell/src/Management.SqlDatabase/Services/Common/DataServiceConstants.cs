@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
         /// <summary>
         /// The service endpoint for management service.
         /// </summary>
-        public static readonly string ManagementServiceUri = "v1/ManagementService.svc";
+        public static readonly string ManagementServiceUri = "v1/ManagementService.svc/";
 
         /// <summary>
         /// The name of the Header that holds the session tracing activityId.
@@ -45,5 +45,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
         /// The relative <see cref="Uri"/> to the GetAccessToken operation.
         /// </summary>
         public static readonly string AccessTokenOperation = "GetAccessToken";
+
+        /// <summary>
+        /// The DNS suffix for Windows Azure Sql Databases.
+        /// </summary>
+        public static readonly string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
     }
 }
