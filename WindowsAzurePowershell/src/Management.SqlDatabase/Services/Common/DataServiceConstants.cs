@@ -50,5 +50,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
         /// The DNS suffix for Windows Azure Sql Databases.
         /// </summary>
         public static readonly string AzureSqlDatabaseDnsSuffix = ".database.windows.net";
+        
+        /// <summary>
+        /// The name of a supplemental property added to the Exception.Data property bag when an exception should be 
+        /// mapped to a SQL Server error. Identifies one of the message_id values in sys.messages. 
+        /// </summary>
+        public static readonly string SqlMessageIdKey = "Microsoft.SqlServer.MessageId";
+
+        /// <summary>
+        /// The name of a supplemental property added to the Exception.Data property bag when an exception should be 
+        /// mapped to a SQL Server error. Determines the severity level that is associated with the error. 
+        /// </summary>
+        public static readonly string SqlMessageSeverityKey = "Microsoft.SqlServer.MessageSeverity";
+
+        /// <summary>
+        /// The name of a supplemental property added to the Exception.Data property bag when an
+        /// exception should be mapped to a SQL Server error. Identifies the text of a message in
+        /// sys.messages. 
+        /// </summary>
+        public static readonly string SqlMessageTextKey = "Microsoft.SqlServer.MessageText";
     }
 }

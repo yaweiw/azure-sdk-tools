@@ -16,8 +16,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     using System;
     using System.Data.Services.Client;
+    using System.Linq;
     using System.Net;
     using System.Xml.Linq;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
     /// Common abstract class for the generated <see cref="ServerContextInternal"/> class.
@@ -34,6 +36,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         #endregion
 
         /// <summary>
+        /// The per request client request Id.
+        /// </summary>
+        private string clientRequestId;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ServerDataServiceContext"/> class.
         /// </summary>
         /// <param name="serviceUri">The service's base <see cref="Uri"/>.</param>
@@ -44,8 +51,36 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 
             // Set the default timeout for the context.
             this.Timeout = DefaultDataServiceContextTimeoutInSeconds;
+
+            // Allow this client model to talk to newer versions of server model
+            this.IgnoreMissingProperties = true;
         }
 
+        /// <summary>
+        /// Gets the per session tracing Id.
+        /// </summary>
+        public string ClientSessionId
+        {
+            get
+            {
+                return SqlDatabaseManagementCmdletBase.clientSessionId;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the per request client request Id.
+        /// </summary>
+        public string ClientRequestId
+        {
+            get
+            {
+                return this.clientRequestId;
+            }
+            set
+            {
+                this.clientRequestId = value;
+            }
+        }
 
         /// <summary>
         /// Retrieves the metadata for the context as a <see cref="XDocument"/>
@@ -74,6 +109,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             if (request != null)
             {
                 this.OnEnhanceRequest(request);
+
+                // Add the tracing Ids
+                request.Headers[Constants.ClientSessionIdHeaderName]= this.ClientSessionId;
+                request.Headers[Constants.ClientRequestIdHeaderName] = this.ClientRequestId;
             }
         }
     }

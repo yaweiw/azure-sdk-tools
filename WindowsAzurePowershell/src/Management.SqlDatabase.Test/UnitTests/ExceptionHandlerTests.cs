@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
-{
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet{
     using System;
     using System.IO;
     using System.Management.Automation;
     using System.Net;
     using System.Text;
-    using CloudService.Test;
-    using Services;
-    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     [TestClass]
     public class ExceptionHandlerTests : TestBase
@@ -33,15 +33,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
         {
             string serverRequestId = Guid.NewGuid().ToString();
 
-            string errorMessage = @"<Error xmlns=""Microsoft.SqlServer.Management.Framework.Web.Services"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Message>Resource with the name 'FirewallRule1' does not exist. To continue, specify a valid resource name.</Message><InnerError i:nil=""true""/></Error>";
+            string errorMessage = 
+@"<Error xmlns=""Microsoft.SqlServer.Management.Framework.Web.Services"" xmlns:i=""http://www.w3.org/2001/XMLSchema-instance""><Message>Resource with the name 'FirewallRule1' does not exist. To continue, specify a valid resource name.</Message><InnerError i:nil=""true""/></Error>";
             WebException exception = CreateWebException(HttpStatusCode.NotFound, errorMessage, (context) =>
             {
                 context.Response.Headers.Add(Constants.RequestIdHeaderName, serverRequestId);
             });
 
-            ErrorRecord errorRecord;
             string requestId;
-            SqlDatabaseManagementHelper.RetrieveExceptionDetails(exception, out errorRecord, out requestId);
+            ErrorRecord errorRecord = SqlDatabaseExceptionHandler.RetrieveExceptionDetails(
+                exception,
+                out requestId);
 
             Assert.AreEqual(serverRequestId, requestId);
             Assert.AreEqual("Resource with the name 'FirewallRule1' does not exist. To continue, specify a valid resource name.", errorRecord.Exception.Message);
@@ -52,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
         {
             string serverRequestId = Guid.NewGuid().ToString();
 
-            string errorMessage = 
+            string errorMessage =
 @"<Error xmlns=""http://schemas.microsoft.com/sqlazure/2010/12/"">
   <Code>40647</Code>
   <Message>Subscription '00000000-1111-2222-3333-444444444444' does not have the server 'server0001'.</Message>
@@ -64,14 +66,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
                 context.Response.Headers.Add(Constants.RequestIdHeaderName, serverRequestId);
             });
 
-            ErrorRecord errorRecord;
             string requestId;
-            SqlDatabaseManagementHelper.RetrieveExceptionDetails(exception, out errorRecord, out requestId);
+            ErrorRecord errorRecord = SqlDatabaseExceptionHandler.RetrieveExceptionDetails(
+                exception, 
+                out requestId);
 
             Assert.AreEqual(serverRequestId, requestId);
             Assert.AreEqual(
 @"Subscription '00000000-1111-2222-3333-444444444444' does not have the server 'server0001'.
-Error Code: 40647", 
+Error Code: 40647",
                   errorRecord.Exception.Message);
         }
 
