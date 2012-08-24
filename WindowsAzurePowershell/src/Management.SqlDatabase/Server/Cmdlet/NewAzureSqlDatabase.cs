@@ -30,7 +30,7 @@ namespace Microsoft.SqlServer.Management.Client.DataServices.Server.Powershell
         /// <summary>
         /// Gets or sets the database name.
         /// </summary>
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, Position = 1)]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
 
@@ -88,10 +88,7 @@ namespace Microsoft.SqlServer.Management.Client.DataServices.Server.Powershell
                     this.Collation,
                     this.Edition);
 
-                if (database != null)
-                {
-                    WriteObject(database, true);
-                }
+                WriteObject(database, true);
             }
             catch (Exception ex)
             {
