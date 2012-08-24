@@ -80,6 +80,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing database..
+        /// </summary>
+        internal static string ErrorRefreshingDatabase {
+            get {
+                return ResourceManager.GetString("ErrorRefreshingDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client Request Id: &apos;{0}&apos;.
         /// </summary>
         internal static string ExceptionClientRequestId {
@@ -152,6 +161,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database..
+        /// </summary>
+        internal static string NewAzureSqlDatabaseDescription {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database server..
         /// </summary>
         internal static string NewAzureSqlDatabaseServerDescription {
@@ -184,6 +202,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         internal static string NewAzureSqlDatabaseServerWarning {
             get {
                 return ResourceManager.GetString("NewAzureSqlDatabaseServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to create a new Windows Azure Sql Database?.
+        /// </summary>
+        internal static string NewAzureSqlDatabaseWarning {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseWarning", resourceCulture);
             }
         }
         

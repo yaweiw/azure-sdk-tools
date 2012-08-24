@@ -144,6 +144,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
+    <Compile Include="Server\Cmdlet\NewAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServerContext.cs" />
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
     <Compile Include="Services\ClientOutputMessageInspector.cs" />
     <Compile Include="Services\Common\AccessTokenResult.cs" />
+    <Compile Include="Services\Common\DataServiceExtensions.cs" />
     <Compile Include="Services\Common\DataConnectionUtility.cs" />
     <Compile Include="Services\Common\DataServiceAccess.cs" />
     <Compile Include="Services\Common\DataServiceBasicCredentials.cs" />
@@ -163,6 +165,7 @@
     <Compile Include="Services\Constants.cs" />
     <Compile Include="Services\Server\IServerDataServiceContext.cs" />
     <Compile Include="Services\Server\ServerDataService.cs" />
+    <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
     <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
     <Compile Include="Services\Server\ServerContextInternal.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />

@@ -203,6 +203,56 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             return doc;
         }
 
+        /// <summary>
+        /// Creates a new Sql Database.
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <returns>The newly created Sql Database.</returns>
+        public override Database CreateNewDatabase(
+            string databaseName,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition)
+        {
+            // Create a new request Id for this operation
+            this.ClientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
+            // Create the new entity and set its properties
+            Database database = new Database();
+            database.Name = databaseName;
+
+            if (databaseMaxSize != null)
+            {
+                database.MaxSizeGB = (int)databaseMaxSize;
+            }
+
+            if (!string.IsNullOrEmpty(databaseCollation))
+            {
+                database.CollationName = databaseCollation;
+            }
+
+            if (databaseEdition != DatabaseEdition.None)
+            {
+                database.Edition = databaseEdition.ToString();
+            }
+
+            // Save changes
+            this.AddToDatabases(database);
+            DataServiceResponse response = this.SaveChanges(SaveChangesOptions.None);
+
+            // Re-Query the database for server side updated information
+            database = this.RefreshEntity(database);
+            if (database == null)
+            {
+                throw new ApplicationException(Resources.ErrorRefreshingDatabase);
+            }
+
+            return database;
+        }
+
         #endregion
 
         /// <summary>

@@ -88,6 +88,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <returns>The metadata for the context as a <see cref="XDocument"/></returns>
         public abstract XDocument RetrieveMetadata();
 
+        /// <summary>
+        /// Creates a new Sql Database.
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <returns>The newly created Sql Database.</returns>
+        public abstract Database CreateNewDatabase(
+            string databaseName,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition);
 
         /// <summary>
         /// Handler to add aditional headers and properties to the request.
@@ -96,6 +109,39 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         protected virtual void OnEnhanceRequest(HttpWebRequest request)
         {
         }
+
+        #region Entity Refresh/Revert Helpers
+
+        /// <summary>
+        /// Refresh the object by requerying for the object and merge changes.
+        /// </summary>
+        /// <param name="database">The object to refresh.</param>
+        protected Database RefreshEntity(Database database)
+        {
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+            this.Databases.Where(s => s.Id == database.Id).SingleOrDefault();
+            this.MergeOption = tempOption;
+
+            return database;
+        }
+
+        /// <summary>
+        /// Revert the changes made to the given object, detach it from the context.
+        /// </summary>
+        /// <param name="database">The object that is being operated on.</param>
+        protected void RevertChanges(Database database)
+        {
+            // Revert the object by requerying for the object and clean up tracking
+            if (database != null)
+            {
+                this.RefreshEntity(database);
+            }
+
+            this.ClearTrackedEntity(database);
+        }
+
+        #endregion
 
         /// <summary>
         /// Handler that appends the token to every data access context request.
