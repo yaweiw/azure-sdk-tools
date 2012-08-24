@@ -39,11 +39,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             try
             {
                 base.ProcessRecord();
-
-                if (ExecuteCommand())
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
             }
             catch (Exception ex)
             {

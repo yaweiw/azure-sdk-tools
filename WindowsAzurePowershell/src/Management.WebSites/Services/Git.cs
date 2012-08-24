@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
     using System.Linq;
 
     public static class Git
