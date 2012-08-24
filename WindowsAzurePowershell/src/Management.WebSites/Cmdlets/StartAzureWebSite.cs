@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             if (website == null)
             {
-                throw new Exception(Resources.InvalidWebsite);
+                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
             InvokeInOperationContext(() =>

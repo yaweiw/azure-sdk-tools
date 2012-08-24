@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
                 if (websiteObject == null)
                 {
-                    throw new Exception(Resources.InvalidWebsite);
+                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
                 // Show configuration
