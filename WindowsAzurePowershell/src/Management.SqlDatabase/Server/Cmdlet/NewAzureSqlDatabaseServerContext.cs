@@ -106,11 +106,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         /// Gets or sets the server credentials.
         /// </summary>
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or $null for current subscription")]
+            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or $null for current subscription")]
+            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         [Parameter(Mandatory = false, Position = 2, ParameterSetName = ManageUrlWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or $null for current subscription")]
+            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
         [ValidateNotNull]
         public SubscriptionData SubscriptionData { get; set; }
 
@@ -132,32 +132,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             ServerDataServiceSqlAuth context = null;
 
             Guid sessionActivityId = Guid.NewGuid();
-            try
+            context = ServerDataServiceSqlAuth.Create(
+                managementServiceUri,
+                sessionActivityId,
+                credentials,
+                serverName);
+
+            // Retrieve $metadata to verify model version compativility
+            XDocument metadata = context.RetrieveMetadata();
+            string metadataHash = DataConnectionUtility.GetDocumentHash(metadata);
+            if (metadataHash != context.metadataHash)
             {
-                context = ServerDataServiceSqlAuth.Create(
-                    managementServiceUri,
-                    sessionActivityId,
-                    credentials,
-                    serverName);
-
-                // Retrieve $metadata to verify model version compativility
-                XDocument metadata = context.RetrieveMetadata();
-                string metadataHash = DataConnectionUtility.GetDocumentHash(metadata);
-                if (metadataHash != context.metadataHash)
-                {
-                    this.WriteWarning(Resources.WarningModelOutOfDate);
-                }
-
-                context.MergeOption = MergeOption.PreserveChanges;
+                this.WriteWarning(Resources.WarningModelOutOfDate);
             }
-            catch (Exception ex)
-            {
-                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
 
-                // The context is not in an valid state because of the error, set the context 
-                // back to null.
-                context = null;
-            }
+            context.MergeOption = MergeOption.PreserveChanges;
 
             return context;
         }
@@ -316,10 +305,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                 // Creates a new Server Data Service Context for the service
                 IServerDataServiceContext operationContext =
                     this.CreateServerDataServiceContext(serverName, managementServiceUri);
-                if (operationContext != null)
-                {
-                    this.WriteObject(operationContext);
-                }
+                this.WriteObject(operationContext);
             }
             catch (Exception ex)
             {
