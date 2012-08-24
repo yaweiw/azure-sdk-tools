@@ -21,6 +21,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.ServiceModel;
     using Utilities;
 
+    [System.Xml.Serialization.XmlRootAttribute(ElementName = "Error", Namespace = Constants.ServiceManagementNS)]
+    public class ServiceError
+    {
+        public string Code { get; set; }
+        public string Message { get; set; }
+        public string ExtendedCode { get; set; }
+        public string MessageTemplate { get; set; }
+    }
+
     /// <summary>
     /// A list of webspaces.
     /// </summary>

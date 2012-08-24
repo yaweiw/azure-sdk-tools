@@ -15,7 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
-    using System.Management.Automation;
+    using System.IO;
+    using System.Net;
+    using System.ServiceModel;
+    using System.Xml.Serialization;
     using Management.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
     using Services;
@@ -42,9 +45,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 // Execute actual cmdlet action
                 ExecuteCommand();
             }
+            catch (ProtocolException ex)
+            {
+                if (ex.InnerException is WebException)
+                {
+                    StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream());
+                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
+                    ServiceError serviceError = (ServiceError)serializer.Deserialize(streamReader);
+                    SafeWriteError(new Exception(serviceError.Message));
+                }
+                else
+                {
+                    SafeWriteError(ex);
+                }
+            }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                SafeWriteError(ex);
             }
         }
     }
