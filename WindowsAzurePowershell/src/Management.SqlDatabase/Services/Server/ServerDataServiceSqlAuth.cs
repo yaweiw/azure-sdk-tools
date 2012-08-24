@@ -23,9 +23,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
-    /// Implementation of the ServerDataService with Sql Authentication.
+    /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
     /// </summary>
-    public partial class ServerDataServiceSqlAuth : ServerDataServiceContext
+    public partial class ServerDataServiceSqlAuth : ServerDataServiceContext, IServerDataServiceContext
     {
         #region Constants
 
@@ -34,19 +34,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </summary>
         private const string ServerModelConnectionType = "Server2";
 
-        /// <summary>
-        /// The default dataservicecontext request timeout.
-        /// </summary>
-        private const int DefaultDataServiceContextTimeoutInSeconds = 180;
-
         #endregion
 
         #region Private data
 
         /// <summary>
-        /// An ID that identifies this session for end-to-end tracing
+        /// A Guid that identifies this session for end-to-end tracing
         /// </summary>
         private readonly Guid sessionActivityId;
+
+        /// <summary>
+        /// The previous request's client request Id.
+        /// </summary>
+        private string clientRequestId;
 
         /// <summary>
         /// The connection type identifying the model and connection parameters to use
@@ -103,6 +103,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
         }
 
+        /// <summary>
+        /// Gets the client per session tracing Id.
+        /// </summary>
+        public string ClientSessionId
+        {
+            get
+            {
+                return SqlDatabaseManagementCmdletBase.clientSessionId;
+            }
+        }
+
+        /// <summary>
+        /// Gets the previous request's client request Id.
+        /// </summary>
+        public string ClientRequestId
+        {
+            get
+            {
+                return this.clientRequestId;
+            }
+        }
+        
         #endregion
 
         /// <summary>
@@ -188,20 +210,20 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
         }
 
-        #region Server Data Service Operations
-
         /// <summary>
         /// Retrieves the metadata for the context as a <see cref="XDocument"/>
         /// </summary>
         /// <returns>The metadata for the context as a <see cref="XDocument"/></returns>
-        public override XDocument RetrieveMetadata()
+        public XDocument RetrieveMetadata()
         {
             // Create a new request Id for this operation
-            this.ClientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
 
             XDocument doc = DataConnectionUtility.GetMetadata(this, EnhanceRequest);
             return doc;
         }
+
+        #region IServerDataServiceContext Members
 
         /// <summary>
         /// Creates a new Sql Database.
@@ -211,14 +233,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="databaseCollation">The collation for the database.</param>
         /// <param name="databaseEdition">The edition for the database.</param>
         /// <returns>The newly created Sql Database.</returns>
-        public override Database CreateNewDatabase(
+        public Database CreateNewDatabase(
             string databaseName,
             int? databaseMaxSize,
             string databaseCollation,
             DatabaseEdition databaseEdition)
         {
             // Create a new request Id for this operation
-            this.ClientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
 
             // Create the new entity and set its properties
             Database database = new Database();
@@ -260,7 +282,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </summary>
         /// <param name="key">A key that uniquely identifies the property</param>
         /// <param name="value">A string representation of the property value</param>
-        public void SetSessionProperty(string key, string value)
+        public void SetSessionHeader(string key, string value)
         {
             lock (this.instanceSyncObject)
             {
@@ -304,6 +326,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 
             // Add the session activity Id
             request.Headers[DataServiceConstants.SessionTraceActivityHeader] = context.sessionActivityId.ToString();
+
+            // Add the client tracing Ids
+            request.Headers[Constants.ClientSessionIdHeaderName] = context.ClientSessionId;
+            request.Headers[Constants.ClientRequestIdHeaderName] = context.ClientRequestId;
         }
     }
 }
