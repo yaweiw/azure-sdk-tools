@@ -16,8 +16,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
+    using System.IO;
     using System.Linq;
+    using Properties;
 
     public static class Git
     {
@@ -74,18 +77,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         private static string ExecuteGitProcess(string arguments)
         {
-            using (var process = new Process())
+            try
             {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.FileName = "git";
-                process.StartInfo.Arguments = arguments;
-                process.Start();
+                using (var process = new Process())
+                {
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.StartInfo.FileName = "git";
+                    process.StartInfo.Arguments = arguments;
+                    process.Start();
 
-                // Read the output stream first and then wait.
-                string output = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
-                return output;
+                    // Read the output stream first and then wait.
+                    string output = process.StandardOutput.ReadToEnd();
+                    process.WaitForExit();
+                    return output;
+                }
+            }
+            catch (Win32Exception)
+            {
+                throw new Exception(Resources.GitNotFound);
             }
         }
     }

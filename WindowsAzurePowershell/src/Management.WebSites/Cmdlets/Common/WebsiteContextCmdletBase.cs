@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 {
     using System;
     using System.Management.Automation;
+    using System.Net;
+    using System.ServiceModel;
     using Websites.Cmdlets.Common;
     using Websites.Services;
 
@@ -40,13 +42,21 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
                 }
 
                 base.ProcessRecord();
-
-                // Execute actual cmdlet action
-                ExecuteCommand();
+            }
+            catch (ProtocolException ex)
+            {
+                if (ex.InnerException is WebException)
+                {
+                    SafeWriteError(ex.InnerException);
+                }
+                else
+                {
+                    SafeWriteError(ex);
+                }
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                SafeWriteError(ex);
             }
         }
     }

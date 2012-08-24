@@ -89,6 +89,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Git not found. Please install git and place it in your command line path..
+        /// </summary>
+        internal static string GitNotFound {
+            get {
+                return ResourceManager.GetString("GitNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git credentials needs to be setup on the portal..
         /// </summary>
         internal static string InvalidGitCredentials {
