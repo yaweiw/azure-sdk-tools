@@ -19,5 +19,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     /// </summary>
     public interface IServerDataServiceContext
     {
+        /// <summary>
+        /// Gets the per session tracing Id.
+        /// </summary>
+        string ClientSessionId { get; }
+
+        /// <summary>
+        /// Gets or sets the per request client request Id.
+        /// </summary>
+        string ClientRequestId { get; set; }
     }
 }

@@ -196,6 +196,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <returns>The metadata for the context as a <see cref="XDocument"/></returns>
         public override XDocument RetrieveMetadata()
         {
+            // Create a new request Id for this operation
+            this.ClientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
             XDocument doc = DataConnectionUtility.GetMetadata(this, EnhanceRequest);
             return doc;
         }

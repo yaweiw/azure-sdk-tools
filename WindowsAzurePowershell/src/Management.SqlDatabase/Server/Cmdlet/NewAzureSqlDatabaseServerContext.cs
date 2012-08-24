@@ -132,21 +132,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             ServerDataServiceSqlAuth context = null;
 
             Guid sessionActivityId = Guid.NewGuid();
-            context = ServerDataServiceSqlAuth.Create(
-                managementServiceUri,
-                sessionActivityId,
-                credentials,
-                serverName);
-
-            // Retrieve $metadata to verify model version compativility
-            XDocument metadata = context.RetrieveMetadata();
-            string metadataHash = DataConnectionUtility.GetDocumentHash(metadata);
-            if (metadataHash != context.metadataHash)
+            try
             {
-                this.WriteWarning(Resources.WarningModelOutOfDate);
-            }
+                context = ServerDataServiceSqlAuth.Create(
+                    managementServiceUri,
+                    sessionActivityId,
+                    credentials,
+                    serverName);
 
-            context.MergeOption = MergeOption.PreserveChanges;
+                // Retrieve $metadata to verify model version compativility
+                XDocument metadata = context.RetrieveMetadata();
+                string metadataHash = DataConnectionUtility.GetDocumentHash(metadata);
+                if (metadataHash != context.metadataHash)
+                {
+                    this.WriteWarning(Resources.WarningModelOutOfDate);
+                }
+
+                context.MergeOption = MergeOption.PreserveChanges;
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this, 
+                    sessionActivityId.ToString(), 
+                    ex);
+
+                // The context is not in an valid state because of the error, set the context 
+                // back to null.
+                context = null;
+            }
 
             return context;
         }
@@ -305,7 +319,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                 // Creates a new Server Data Service Context for the service
                 IServerDataServiceContext operationContext =
                     this.CreateServerDataServiceContext(serverName, managementServiceUri);
-                this.WriteObject(operationContext);
+                if (operationContext != null)
+                {
+                    this.WriteObject(operationContext);
+                }
             }
             catch (Exception ex)
             {
