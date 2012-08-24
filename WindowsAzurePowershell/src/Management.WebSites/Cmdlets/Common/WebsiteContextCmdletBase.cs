@@ -12,32 +12,37 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
+namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 {
     using System;
     using System.Management.Automation;
-    using Management.Cmdlets.Common;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Services;
+    using Websites.Cmdlets.Common;
+    using Websites.Services;
 
-    public abstract class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
+    public abstract class WebsiteContextCmdletBase : WebsitesCmdletBase
     {
-        protected override Operation WaitForOperation(string opdesc)
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
         {
-            string operationId = RetrieveOperationId();
-            Operation operation = new Operation();
-            operation.OperationTrackingId = operationId;
-            operation.Status = "Success";
-            return operation;
+            get;
+            set;
         }
-
-        internal abstract bool ExecuteCommand();
 
         protected override void ProcessRecord()
         {
             try
             {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    // If the website name was not specified as a parameter try to infer it
+                    Name = GitWebsite.ReadConfiguration().Name;
+                }
+
                 base.ProcessRecord();
+
+                // Execute actual cmdlet action
+                ExecuteCommand();
             }
             catch (Exception ex)
             {

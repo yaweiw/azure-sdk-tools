@@ -16,24 +16,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using Common;
     using Properties;
     using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Removes an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureWebsite")]
-    public class RemoveAzureWebsiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
+    public class RemoveAzureWebsiteCommand : WebsiteContextCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
         public SwitchParameter Force
         {

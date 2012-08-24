@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the website.")]
         [ValidateNotNullOrEmpty]
-        public string WebsiteName { get; set; }
+        public string Name { get; set; }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void ProcessShowAzurePortal(string url, string webSiteName)
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ProcessShowAzurePortal(Resources.AzurePortalUrl, WebsiteName);
+                ProcessShowAzurePortal(Resources.AzurePortalUrl, Name);
             }
             catch (Exception ex)
             {

@@ -18,24 +18,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
-    using Common;
     using Properties;
     using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Starts an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureWebsite")]
-    public class StartAzureWebsiteCommand : WebsitesCmdletBase
+    public class StartAzureWebsiteCommand : WebsiteContextCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Initializes a new instance of the StartAzureWebsiteCommand class.
         /// </summary>

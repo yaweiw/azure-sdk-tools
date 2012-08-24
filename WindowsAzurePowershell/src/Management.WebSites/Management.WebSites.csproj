@@ -8,8 +8,8 @@
     <ProjectGuid>{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.WebSites</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.WebSites</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Websites</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.Websites</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -134,6 +134,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\Common\WebsiteContextCmdletBase.cs" />
     <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />
     <Compile Include="Cmdlets\GetAzureWebsite.cs" />
     <Compile Include="Cmdlets\NewAzureWebsite.cs" />
