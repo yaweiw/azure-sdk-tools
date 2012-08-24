@@ -242,11 +242,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
             }
         }
 
-        // $ISSUE-TODO-sboshra-2011/11/11 This method is copied from ExceptionDataSerializer class
-        // which is a private class in Microsoft.SqlServer.Management.Framework.Web.ExceptionHelper
-        // class. We need to move this class to a common shared location so that it could be used
-        // by both the service and the client.
-
         /// <summary>
         /// De-serializes a <c>string</c> representation of an exception data key/vlaue pairs.
         /// </summary>

@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
+    <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServerContext.cs" />
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
     <Compile Include="Model\SqlDatabaseServerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +160,10 @@
     <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\ConfigurationConstants.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\ServerDataService.cs" />
+    <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
+    <Compile Include="Services\Server\ServerContextInternal.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />
     <Compile Include="Services\ISqlDatabaseManagement.cs" />
     <Compile Include="Services\ISqlDatabaseManagementExternalApi.cs" />
@@ -176,6 +181,8 @@
     <Compile Include="Microsoft.WindowsAzure.Management.SqlDatabase.SnapIn.cs">
       <SubType>Component</SubType>
     </Compile>
+    <None Include="Services\Server\ServerDataService.csdl" />
+    <None Include="Services\Server\UpdateServerDataServiceMetadata.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
@@ -198,9 +205,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\Server\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

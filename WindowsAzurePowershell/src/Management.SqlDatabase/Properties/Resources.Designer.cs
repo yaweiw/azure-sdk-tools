@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Sql Authenticate Credential was not specified..
+        /// </summary>
+        internal static string CredentialNotSpecified {
+            get {
+                return ResourceManager.GetString("CredentialNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {1}
         ///Error Code: {0}.
         /// </summary>
@@ -112,6 +121,33 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         internal static string GetAzureSqlDatabaseServerNotFound {
             get {
                 return ResourceManager.GetString("GetAzureSqlDatabaseServerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid authentication for &apos;{0}&apos;..
+        /// </summary>
+        internal static string InvalidAuthentication {
+            get {
+                return ResourceManager.GetString("InvalidAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid error object in the response..
+        /// </summary>
+        internal static string InvalidErrorInResponse {
+            get {
+                return ResourceManager.GetString("InvalidErrorInResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid exception message format..
+        /// </summary>
+        internal static string InvalidExceptionMessageFormat {
+            get {
+                return ResourceManager.GetString("InvalidExceptionMessageFormat", resourceCulture);
             }
         }
         
@@ -233,11 +269,29 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown ParameterSet specified..
+        /// </summary>
+        internal static string UnknownParameterSet {
+            get {
+                return ResourceManager.GetString("UnknownParameterSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} does not exist..
         /// </summary>
         internal static string UriDoesNotExist {
             get {
                 return ResourceManager.GetString("UriDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recomended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility..
+        /// </summary>
+        internal static string WarningModelOutOfDate {
+            get {
+                return ResourceManager.GetString("WarningModelOutOfDate", resourceCulture);
             }
         }
         
