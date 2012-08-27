@@ -14,54 +14,46 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
-    using System;
     using System.Management.Automation;
-    using Properties;
+    using Common;
     using Services;
-    using WebSites.Cmdlets.Common;
 
     /// <summary>
-    /// Shows an azure website.
+    /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteContextCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation")]
+    public class GetAzureWebsiteLocationCommand : WebsitesCmdletBase
     {
         /// <summary>
-        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
+        /// Initializes a new instance of the GetAzureWebsiteLocationCommand class.
         /// </summary>
-        public ShowAzureWebsiteCommand()
+        public GetAzureWebsiteLocationCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the ShowAzureWebsiteCommand class.
+        /// Initializes a new instance of the GetAzureWebsiteLocationCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public ShowAzureWebsiteCommand(IWebsitesServiceManagement channel)
+        public GetAzureWebsiteLocationCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
 
         internal override bool ExecuteCommand()
         {
+            // if a name is passed, do the same as show-azurewebsite
             InvokeInOperationContext(() =>
             {
                 // Show website
-                Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
-                if (websiteObject == null)
+                WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+                foreach (Webspace webspace in webspaceList)
                 {
-                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+                    WriteObject(webspace, true);
                 }
-
-                // Show configuration
-                WebsiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
-
-                // Output results
-                websiteConfiguration.Merge(websiteObject);
-                WriteObject(websiteConfiguration, false);
             });
 
             return true;

@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
-    using Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class NewAzureWebSiteTests
+    public class NewAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void NewWebsiteProcessTest()
+        public void ProcessNewWebsiteTest()
         {
             const string websiteName = "website1";
             const string webspaceName = "webspace";
@@ -51,13 +51,15 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                           };
 
             // Test
-            NewAzureWebSiteCommand newAzureWebSiteCommand = new NewAzureWebSiteCommand(channel)
+            NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = websiteName,
+                Location = webspaceName
             };
 
-            newAzureWebSiteCommand.NewWebsiteProcess(webspaceName, websiteName, null);
+            newAzureWebsiteCommand.ExecuteCommand();
             Assert.IsTrue(created);
         }
     }

@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
-    using Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class RemoveAzureWebSiteTests
+    public class RemoveAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -31,12 +31,12 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void RemoveWebsiteProcessTest()
+        public void ProcessRemoveWebsiteTest()
         {
             // Setup
             bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
             channel.GetWebsitesThunk = ar =>
             {
                 if (ar.Values["webspace"].Equals("webspace1"))
@@ -56,20 +56,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                              };
 
             // Test
-            RemoveAzureWebSiteCommand removeAzureWebSiteCommand = new RemoveAzureWebSiteCommand(channel)
+            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = "website1"
             };
 
             // Delete existing website
-            removeAzureWebSiteCommand.RemoveWebsiteProcess("website1");
+            removeAzureWebsiteCommand.ExecuteCommand();
             Assert.IsTrue(deletedWebsite);
 
             // Delete unexisting website
             deletedWebsite = false;
 
-            removeAzureWebSiteCommand.RemoveWebsiteProcess("website2");
+            removeAzureWebsiteCommand.Name = "website2";
+            removeAzureWebsiteCommand.ExecuteCommand();
             Assert.IsFalse(deletedWebsite);
         }
     }

@@ -9,8 +9,8 @@
     <ProjectGuid>{2739A2EB-3D61-4CC2-987A-BB0A76F64AEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.WebSites.Test</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.WebSites.Test</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Websites.Test</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.Websites.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -75,6 +75,10 @@
     <DelaySign>true</DelaySign>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement">
       <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
@@ -116,6 +120,8 @@
     <Compile Include="UnitTests\Cmdlets\ShowAzurePortalTests.cs" />
     <Compile Include="UnitTests\Cmdlets\RemoveAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\ShowAzureWebSiteTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteLocationTests.cs" />
+    <Compile Include="UnitTests\Services\GitTests.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +132,9 @@
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
       <Name>Management.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.WebSites\Management.WebSites.csproj">
+    <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
       <Project>{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}</Project>
-      <Name>Management.WebSites</Name>
+      <Name>Management.Websites</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>

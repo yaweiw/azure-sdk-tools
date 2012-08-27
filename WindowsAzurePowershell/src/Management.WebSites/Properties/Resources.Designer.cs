@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
+namespace Microsoft.WindowsAzure.Management.Websites.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Management.WebSites.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.WindowsAzure.Management.Websites.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -79,6 +79,34 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to node_modules
+        ///azure_error.
+        /// </summary>
+        internal static string GitIgnoreFileContent {
+            get {
+                return ResourceManager.GetString("GitIgnoreFileContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Git not found. Please install git and place it in your command line path..
+        /// </summary>
+        internal static string GitNotFound {
+            get {
+                return ResourceManager.GetString("GitNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Git credentials needs to be setup on the portal..
+        /// </summary>
+        internal static string InvalidGitCredentials {
+            get {
+                return ResourceManager.GetString("InvalidGitCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is invalid or empty.
         /// </summary>
         internal static string InvalidOrEmptyArgumentMessage {
@@ -88,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid website.
+        ///   Looks up a localized string similar to The website {0} was not found. Please specify a valid website name..
         /// </summary>
         internal static string InvalidWebsite {
             get {
@@ -97,7 +125,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.\\nPlease follow these steps in the portal:\\n1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create\\n2. Type {0} in the URL field\\n3. Click on &quot;Create Web Site&quot;\\n4. Once the site has been created, click on the site name\\n5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you create..
+        ///   Looks up a localized string similar to Multiple possible publishing users. Please specify one using the argument PublishingUsername..
+        /// </summary>
+        internal static string MultiplePublishingUsernames {
+            get {
+                return ResourceManager.GetString("MultiplePublishingUsernames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.
+        ///Please follow these steps in the portal:
+        ///1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create
+        ///2. Type {0} in the URL field
+        ///3. Click on &quot;Create Web Site&quot;
+        ///4. Once the site has been created, click on the site name
+        ///5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you create..
         /// </summary>
         internal static string PortalInstructions {
             get {
@@ -106,7 +149,16 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove the web site &quot;{0}&quot;.
+        ///   Looks up a localized string similar to 6. Back in the console window, rerun this command by typing &quot;New-AzureWebsite &lt;site name&gt; -Git&quot;.
+        /// </summary>
+        internal static string PortalInstructionsGit {
+            get {
+                return ResourceManager.GetString("PortalInstructionsGit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the website &quot;{0}&quot;.
         /// </summary>
         internal static string RemoveWebsiteWarning {
             get {
