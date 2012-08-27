@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find {0} with name {1}..
+        /// </summary>
+        internal static string CannotFind {
+            get {
+                return ResourceManager.GetString("CannotFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete.
         /// </summary>
         internal static string CompleteMessage {
@@ -172,6 +181,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         internal static string ShouldProcessCaption {
             get {
                 return ResourceManager.GetString("ShouldProcessCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WebSite with given name {0} already exists in the specified Subscription and Webspace..
+        /// </summary>
+        internal static string WebsiteAlreadyExists {
+            get {
+                return ResourceManager.GetString("WebsiteAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WebSite with given name {0} already exists in the specified Subscription and Location..
+        /// </summary>
+        internal static string WebsiteAlreadyExistsReplacement {
+            get {
+                return ResourceManager.GetString("WebsiteAlreadyExistsReplacement", resourceCulture);
             }
         }
         

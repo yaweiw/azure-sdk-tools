@@ -174,12 +174,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 publishingUser = GetPublishingUser();
             }
 
+            WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+            if (webspaceList.Count == 0)
+            {
+                // If location is still empty or null, give portal instructions.
+                string error = string.Format(Resources.PortalInstructions, Name);
+                SafeWriteObjectWithTimestamp(!Git
+                    ? error
+                    : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
+
+                return false;
+            }
+
             if (string.IsNullOrEmpty(Location))
             {
                 InvokeInOperationContext(() =>
                 {
                     // If no location was provided as a parameter, try to default it
-                    Location = RetryCall(s => Channel.GetWebspaces(s).Select(webspace => webspace.Name).FirstOrDefault());
+                    Location = webspaceList.Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
                 });
             }
             else
@@ -187,24 +199,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 InvokeInOperationContext(() =>
                 {
                     // Find the webspace that corresponds to the geolocation
-                    Location = RetryCall(s => Channel.GetWebspaces(s).Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault());
-                });                
-            }
-
-            if (string.IsNullOrEmpty(Location))
-            {
-                // If location is still empty or null, give portal instructions.
-                string error = string.Format(Resources.PortalInstructions, Name);
-                if (!Git)
-                {
-                    SafeWriteObjectWithTimestamp(error);     
-                }
-                else
-                {
-                    SafeWriteObjectWithTimestamp(string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));  
-                }
-
-                return false;
+                    Location = webspaceList.Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
+                });   
             }
 
             InvokeInOperationContext(() =>

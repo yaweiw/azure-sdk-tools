@@ -19,15 +19,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.Runtime.Serialization;
     using System.ServiceModel.Web;
     using System.ServiceModel;
+    using System.Xml.Serialization;
     using Utilities;
 
-    [System.Xml.Serialization.XmlRootAttribute(ElementName = "Error", Namespace = Constants.ServiceManagementNS)]
+    [XmlRootAttribute(ElementName = "Error", Namespace = Constants.ServiceManagementNS)]
     public class ServiceError
     {
         public string Code { get; set; }
         public string Message { get; set; }
         public string ExtendedCode { get; set; }
         public string MessageTemplate { get; set; }
+
+        [XmlArray("Parameters")]
+        [XmlArrayItem(typeof(string), Namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays")]
+        public List<string> Parameters { get; set; }
     }
 
     /// <summary>
