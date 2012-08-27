@@ -3,10 +3,10 @@
   <!-- Start Windows Azure SDK for Node, PHP, and Python -->
   <entry>
     <productId>AzureNodeSDK</productId>
-    <title resourceName="Entry_AzureNodeSDK_Title">Windows Azure SDK for Node.js - July 2012</title>
-    <version>0.6.1</version>
+    <title resourceName="Entry_AzureNodeSDK_Title">Windows Azure SDK for Node.js - August 2012</title>
+    <version>0.6.2</version>
     <published>2012-07-02T12:00:00Z</published>
-    <updated>2012-07-02T12:00:00Z</updated>
+    <updated>2012-08-06T12:00:00Z</updated>
     <summary resourceName="Entry_AzureNodeSDK_Summary">The Windows Azure SDK for Node.js provides developers with Tools and APIs for building and deploying Node.js applications to Windows Azure.</summary>
     <longSummary resourceName="Entry_AzureNodeSDK_LongSummary">Windows Azure SDK for Node.js provides developers with client libraries, PowerShell commandlets and other tools for building and deploying Node.js applications to Windows Azure.</longSummary>
     <link href="http://www.windowsazure.com/en-us/develop/nodejs" />
@@ -24,19 +24,20 @@
     <discoveryHint>
       <and>
         <discoveryHint idref="DH_iisnode_if_iis7_exists"/>
+        <discoveryHint idref="DH_iisnodedev_exists" />
         <discoveryHint idref="DH_AzurePowerShell"/>
         <discoveryHint>
           <or>
             <discoveryHint>
               <file>
                 <filePath>%programfiles%\nodejs\node.exe</filePath>
-                <minimumVersion>0.6.17</minimumVersion>
+                <minimumVersion>0.6.20</minimumVersion>
               </file>
             </discoveryHint>
             <discoveryHint>
               <file>
                 <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
-                <minimumVersion>0.6.17</minimumVersion>
+                <minimumVersion>0.6.20</minimumVersion>
               </file>
             </discoveryHint>
           </or>
@@ -60,6 +61,9 @@
         <dependency>
           <productId>iisnode_if_iis7_exists</productId>
         </dependency>
+        <dependency>
+          <productId>iisnodedev</productId>
+        </dependency>
       </and>
     </dependency>
     <installers>
@@ -81,10 +85,10 @@
 
   <entry>
     <productId>AzurePHPSDK</productId>
-    <title resourceName="Entry_AzurePHPSDK_Title">Windows Azure SDK for PHP - July 2012</title>
-    <version>1.0.1</version>
+    <title resourceName="Entry_AzurePHPSDK_Title">Windows Azure SDK for PHP - August 2012</title>
+    <version>1.0.2</version>
     <published>2012-07-02T12:00:00Z</published>
-    <updated>2012-07-02T12:00:00Z</updated>
+    <updated>2012-08-06T12:00:00Z</updated>
     <summary resourceName="Entry_AzurePHPSDK_Summary">The Windows Azure SDK for PHP provides developers with Tools and APIs for building and deploying PHP applications to Windows Azure.</summary>
     <longSummary resourceName="Entry_AzurePHPSDK_LongSummary">The Windows Azure SDK for PHP provides developers with client libraries, PowerShell commandlets and other tools for building and deploying PHP applications to Windows Azure.</longSummary>
     <link href="http://www.windowsazure.com/en-us/develop/php" />
@@ -158,12 +162,13 @@
     </installers>
   </entry>
 
+
   <entry>
     <productId>WindowsAzurePowershell</productId>
     <title resourceName="Entry_AzurePowerShell_Title">Windows Azure PowerShell</title>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
     <published>2012-07-02T12:00:00Z</published>
-    <updated>2012-07-02T12:00:00Z</updated>
+    <updated>2012-08-06T12:00:00Z</updated>
     <summary resourceName="Entry_AzurePowershell_Summary">The Windows Azure PowerShell provides developers and IT/Pros with Windows PowerShell cmdlets for building, deploying and managing Windows Azure services.</summary>
     <longSummary resourceName="Entry_AzurePowershell_LongSummary">The Windows Azure PowerShell provides developers and IT/Pros with Windows PowerShell cmdlets for building, deploying and managing Windows Azure services.</longSummary>
     <link href="http://www.windowsazure.com/en-us/develop/nodejs" />
@@ -197,7 +202,7 @@
         <installerFile>
           <fileSize>7408</fileSize>
           <trackingURL>http://www.microsoft.com/web/handlers/webpi.ashx?command=incrementproddownloadcount&amp;prodid=AzureNodePowershell</trackingURL>
-          <installerURL>http://github.com/downloads/WindowsAzure/azure-sdk-tools/windowsazure-powershell.0.6.1.msi</installerURL>
+          <installerURL>http://github.com/downloads/WindowsAzure/azure-sdk-tools/windowsazure-powershell.0.6.2.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -282,6 +287,78 @@
     </installers>
   </entry>
 
+  <!-- iisnode which will install both x86 and x64 binaries on the machine, but will not perform any registration with
+  IIS or IIS Express -->
+  <entry>
+    <productId>iisnodedev</productId>
+    <title resourceName="Entry_iisnodedev_Title">IISNode Developer Version</title>
+    <version>0.1.21</version>
+    <summary resourceName="Entry_iisnodedev_Summary">Host node.js applications side by side with other application types in IIS 7.x.</summary>
+    <longSummary resourceName="Entry_iisnodedev_LongSummary">This package contains a native IIS 7.x module for hosting node.js application in IIS 7.x. The module supports running node.js applications side by side with other application types (ASP.NET, PHP, WCF, static files). It supports auto-update of application code, scalability to multi-core machines, and access to node.js log files over HTTP.</longSummary>
+    <id>http://go.microsoft.com/?linkid=9790232</id>
+    <link href="http://www.microsoft.com/web/webpi/iisnode" />
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-08-06T12:00:00Z</updated>
+    <author>
+      <name>Microsoft Corporation</name>
+      <uri>http://www.microsoft.com/</uri>
+    </author>
+    <searchExclude/>
+    <images>
+      <icon>http://www.iis.net/favicon.ico</icon>
+    </images>
+    <discoveryHint idref="DH_iisnodedev_exists" />
+    <dependency>
+      <and>
+        <dependency>
+          <productId>VC10Redist_NoWoW</productId>
+        </dependency>
+        <dependency>
+          <productId>NodeJS</productId>
+        </dependency>
+      </and>
+    </dependency>
+    <!-- Installers-->
+    <installers>
+      <installer>
+        <id>1</id>
+        <architectures>
+          <x86 />
+        </architectures>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
+        <installerFile>
+          <fileSize>1077</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-dev-v0.1.21.msi</installerURL>
+          <sha1>aa13aeb47389463394e739a7181f9eb9300ea505</sha1>
+        </installerFile>
+        <installCommands>
+          <msiInstall>
+            <msi>%InstallerFile%</msi>
+          </msiInstall>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+      <installer>
+        <id>2</id>
+        <architectures>
+          <x64 />
+        </architectures>
+        <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
+        <installerFile>
+          <fileSize>1077</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-dev-v0.1.21.msi</installerURL>
+          <sha1>aa13aeb47389463394e739a7181f9eb9300ea505</sha1>
+        </installerFile>
+        <installCommands>
+          <msiInstall>
+            <msi>%InstallerFile%</msi>
+          </msiInstall>
+        </installCommands>
+        <helpLink>http://go.microsoft.com/?linkid=9790234</helpLink>
+      </installer>
+    </installers>
+  </entry>
+
   <discoveryHints>
     <!-- discovery hint if Windows Azure PowerShell exists-->
     <discoveryHint id="DH_AzurePowerShell">
@@ -289,13 +366,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
-            <minimumVersion>0.6.1</minimumVersion>
+            <minimumVersion>0.6.2</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\Azure\Microsoft.WindowsAzure.Management.dll</filePath>
-            <minimumVersion>0.6.1</minimumVersion>
+            <minimumVersion>0.6.2</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -332,6 +409,23 @@
         </discoveryHint>
       </or>
     </discoveryHint>
+
+    <discoveryHint id="DH_iisnodedev_exists">
+      <or>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles%\iisnode-dev\release\x86\iisnode.dll</filePath>
+            <minimumVersion>0.1.21</minimumVersion>
+          </file>
+        </discoveryHint>
+        <discoveryHint>
+          <file>
+            <filePath>%programfiles(x86)%\iisnode-dev\release\x86\iisnode.dll</filePath>
+            <minimumVersion>0.1.21</minimumVersion>
+          </file>
+        </discoveryHint>
+      </or>
+    </discoveryHint>
   </discoveryHints>
 
   <!-- end Windows Azure SDK for Node, PHP, and Python-->
@@ -339,15 +433,15 @@
   <entry>
     <productId>NodeJS</productId>
     <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
-    <version>0.6.20</version>
+    <version>0.6.17</version>
     <summary resourceName="Entry_NodeJS_Summary">Node.js is a server-side environment for JavaScript.</summary>
     <longSummary resourceName="Entry_NodeJS_LongSummary">
       Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.
       Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.
     </longSummary>
     <link href="http://nodejs.org/" />
-    <published>2012-07-16T12:00:00Z</published>
-    <updated>2012-07-16T12:00:00Z</updated>
+    <published>2012-05-09T12:00:00Z</published>
+    <updated>2012-05-09T12:00:00Z</updated>
     <author>
       <name>Joyent, Inc</name>
       <uri>http://www.joyent.com/</uri>
@@ -361,13 +455,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.20</minimumVersion>
+            <minimumVersion>0.6.17</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.20</minimumVersion>
+            <minimumVersion>0.6.17</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -376,10 +470,10 @@
       <installer>
         <id>1</id>
         <languageId>en</languageId>
-        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
+        <eulaURL>http://go.microsoft.com/fwlink/?LinkId=235467</eulaURL>
         <installerFile>
-          <fileSize>3117</fileSize>
-          <installerURL>http://nodejs.org/dist/v0.6.20/node-v0.6.20.msi</installerURL>
+          <fileSize>3012</fileSize>
+          <installerURL>http://go.microsoft.com/?linkid=9791865</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -390,7 +484,7 @@
       </installer>
     </installers>
   </entry>
-  
+
   <!-- node.js versions for WAWS SxS support -->
   <entry>
     <productId>NodeJS0.6.17</productId>
@@ -775,25 +869,24 @@
   <entry>
     <productId>iisnodeWow</productId>
     <title resourceName="Entry_iisnodeWow_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
-    <version>0.1.21</version>
+    <version>0.1.19</version>
     <summary resourceName="Entry_iisnodeWow_Summary">Azure Websites only</summary>
     <longSummary resourceName="Entry_iisnodeWow_LongSummary">Azure Websites only</longSummary>
     <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-07-16T12:00:00Z</updated>
+    <updated>2012-06-07T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
     </author>
-    <searchExclude />
     <images>
       <icon>http://www.iis.net/favicon.ico</icon>
     </images>
     <discoveryHint>
       <file>
         <filePath>%programfiles(x86)%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.21</minimumVersion>
+        <minimumVersion>0.1.19</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
@@ -816,8 +909,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1081</fileSize>
-          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x86.msi</installerURL>
+          <fileSize>1077</fileSize>
+          <installerURL>http://go.microsoft.com/?linkid=9808884</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -834,8 +927,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1861</fileSize>
-          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x64.msi</installerURL>
+          <fileSize>1858</fileSize>
+          <installerURL>http://go.microsoft.com/?linkid=9808885</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -847,4 +940,5 @@
       </installer>
     </installers>
   </entry>
+
 </feed>
