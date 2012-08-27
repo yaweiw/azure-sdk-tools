@@ -99,7 +99,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             if (!File.Exists("iisnode.yml") && (File.Exists("server.js") || File.Exists("app.js")))
             {
-                File.Copy("Resources/Scaffolding/Node/iisnode.yml", "iisnode.yml");
+                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
+                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/iisnode.yml"), "iisnode.yml");
             }
         }
 
@@ -224,6 +225,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             if (Git)
             {
+                try
+                {
+                    Directory.SetCurrentDirectory(SessionState.Path.CurrentFileSystemLocation.Path);
+                }
+                catch (Exception)
+                {
+                    // Do nothing if session state is not present
+                }
+
                 if (!IsGitWorkingTree())
                 {
                     // Init git in current directory

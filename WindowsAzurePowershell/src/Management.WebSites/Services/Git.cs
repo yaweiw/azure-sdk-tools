@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Management.Automation;
     using Properties;
 
     public static class Git
@@ -82,7 +83,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 using (var process = new Process())
                 {
                     process.StartInfo.UseShellExecute = false;
-                    process.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
+
+                    try
+                    {
+                        SessionState sessionState = new SessionState();
+                        process.StartInfo.WorkingDirectory = sessionState.Path.CurrentFileSystemLocation.Path;
+                    }
+                    catch (Exception)
+                    {
+                        // Do nothing
+                    }
+
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.FileName = "git";
                     process.StartInfo.Arguments = arguments;
