@@ -58,13 +58,13 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-	'Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml',
+	'Microsoft.WindowsAzure.Management.Websites.Types.ps1xml',
 	'Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Management.WebSites.format.ps1xml'
+	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess

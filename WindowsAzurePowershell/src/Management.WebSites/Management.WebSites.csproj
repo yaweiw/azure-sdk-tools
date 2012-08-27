@@ -8,8 +8,8 @@
     <ProjectGuid>{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.WebSites</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Management.WebSites</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Websites</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.Websites</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -38,7 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisLogFile>bin\x64\Debug\Management.WebSites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\x64\Debug\Management.Websites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -54,7 +54,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x64</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Management.WebSites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Management.Websites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -76,7 +76,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Management.WebSites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Management.Websites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -90,7 +90,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Management.WebSites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Management.Websites.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
@@ -134,31 +134,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\Common\WebsiteContextCmdletBase.cs" />
     <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />
-    <Compile Include="Cmdlets\GetAzureWebSite.cs" />
-    <Compile Include="Cmdlets\NewAzureWebSite.cs" />
-    <Compile Include="Cmdlets\OpenAzurePortal.cs" />
+    <Compile Include="Cmdlets\GetAzureWebsite.cs" />
+    <Compile Include="Cmdlets\GetAzureWebsiteLocation.cs" />
+    <Compile Include="Cmdlets\NewAzureWebsite.cs" />
+    <Compile Include="Cmdlets\ShowAzurePortal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cmdlets\RemoveAzureWebSite.cs" />
-    <Compile Include="Cmdlets\ShowAzureWebSite.cs" />
-    <Compile Include="Cmdlets\StartAzureWebSite.cs" />
-    <Compile Include="Cmdlets\StopAzureWebSite.cs" />
+    <Compile Include="Cmdlets\RemoveAzureWebsite.cs" />
+    <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
+    <Compile Include="Cmdlets\StartAzureWebsite.cs" />
+    <Compile Include="Cmdlets\StopAzureWebsite.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\Git.cs" />
+    <Compile Include="Services\GitWebsite.cs" />
     <Compile Include="Services\IWebsitesServiceManagement.cs" />
     <Compile Include="Services\WebsitesExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml">
+    <Content Include="Microsoft.WindowsAzure.Management.Websites.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Microsoft.WindowsAzure.Management.WebSites.format.ps1xml">
+    <Content Include="Microsoft.WindowsAzure.Management.Websites.format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\Scaffolding\Node\iisnode.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">

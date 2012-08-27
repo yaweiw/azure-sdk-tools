@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
-    using Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class ShowAzureWebSiteTests
+    public class ShowAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,11 +32,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void ShowWebsiteProcessTest()
+        public void ProcessShowWebsiteTest()
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
             channel.GetWebsitesThunk = ar =>
             {
                 if (ar.Values["webspace"].Equals("webspace1"))
@@ -60,17 +60,22 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
                                                        };
 
             // Test
-            ShowAzureWebSiteCommand showAzureWebSiteCommand = new ShowAzureWebSiteCommand(channel)
+            ShowAzureWebsiteCommand showAzureWebsiteCommand = new ShowAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = "website1"
             };
 
             // Show existing website
-            showAzureWebSiteCommand.ShowWebsiteProcess("website1");
-            Assert.AreEqual(2, ((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => website is Website && ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)showAzureWebSiteCommand.CommandRuntime).WrittenObjects.Any(website => website is WebsiteConfig && ((WebsiteConfig)website).PublishingUsername.Equals("user1")));
+            showAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(1, ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+
+            var website = ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
+            Assert.IsNotNull(website);
+            Assert.AreEqual("website1", website.Name);
+            Assert.AreEqual("webspace1", website.WebSpace);
+            Assert.AreEqual("user1", website.PublishingUsername);
         }
     }
 }

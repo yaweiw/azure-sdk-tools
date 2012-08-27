@@ -12,15 +12,67 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
+    using Properties;
+    using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
-    /// Starts an azure website.
+    /// Stops an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureWebSite")]
-    public class StopAzureWebSiteCommand
+    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
+    public class StopAzureWebsiteCommand : WebsiteContextCmdletBase
     {
+        /// <summary>
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
+        /// </summary>
+        public StopAzureWebsiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public StopAzureWebsiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
+        internal override bool ExecuteCommand()
+        {
+            Website website = null;
+
+            InvokeInOperationContext(() =>
+            {
+                website = RetryCall(s => Channel.GetWebsite(s, Name));
+            });
+
+            if (website == null)
+            {
+                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+            }
+
+            InvokeInOperationContext(() =>
+            {
+                Website websiteUpdate = new Website
+                                        {
+                                            Name = Name,
+                                            HostNames = new List<string> { Name + ".azurewebsites.net" },
+                                            State = "Stopped"
+                                        };
+
+                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
+            });
+
+            return true;
+        }
     }
 }

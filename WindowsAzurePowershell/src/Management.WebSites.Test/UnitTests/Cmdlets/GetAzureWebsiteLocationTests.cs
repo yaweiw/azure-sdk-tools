@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
@@ -22,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services;
 
     [TestClass]
-    public class RemoveAzureWebsiteTests
+    public class GetAzureWebsiteLocationTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -31,48 +32,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void ProcessRemoveWebsiteTest()
+        public void ProcessGetAzureWebsiteLocationTest()
         {
             // Setup
-            bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
-            channel.GetWebsitesThunk = ar =>
-            {
-                if (ar.Values["webspace"].Equals("webspace1"))
-                {
-                    return new WebsiteList(new[] { new Website { Name = "website1", WebSpace = "webspace1" } });
-                }
-
-                return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
-            };
-
-            channel.DeleteWebsiteThunk = ar =>
-                                             {
-                                                 if (ar.Values["website"].Equals("website1"))
-                                                 {
-                                                     deletedWebsite = true;
-                                                 }
-                                             };
 
             // Test
-            RemoveAzureWebsiteCommand removeAzureWebsiteCommand = new RemoveAzureWebsiteCommand(channel)
+            GetAzureWebsiteLocationCommand getAzureWebsiteCommand = new GetAzureWebsiteLocationCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime(),
-                Name = "website1"
+                CommandRuntime = new MockCommandRuntime()
             };
 
-            // Delete existing website
-            removeAzureWebsiteCommand.ExecuteCommand();
-            Assert.IsTrue(deletedWebsite);
-
-            // Delete unexisting website
-            deletedWebsite = false;
-
-            removeAzureWebsiteCommand.Name = "website2";
-            removeAzureWebsiteCommand.ExecuteCommand();
-            Assert.IsFalse(deletedWebsite);
+            getAzureWebsiteCommand.ExecuteCommand();
+            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace1")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace2")));
         }
     }
 }

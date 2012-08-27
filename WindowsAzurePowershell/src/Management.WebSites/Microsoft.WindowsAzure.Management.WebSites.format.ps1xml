@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.WebSites.Services.Website</Name>
+      <Name>Microsoft.WindowsAzure.Management.Websites.Services.Website</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.WebSites.Services.Website</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Websites.Services.Website</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
