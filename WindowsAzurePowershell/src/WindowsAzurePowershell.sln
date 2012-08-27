@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Test", "Management.Test\Management.Test.csproj", "{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.CloudService", "Management.CloudService\Management.CloudService.csproj", "{B6F73AB3-1207-4B52-B90A-065CD5E107EB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6} = {C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.CloudService.Test", "Management.CloudService.Test\Management.CloudService.Test.csproj", "{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}"
 EndProject

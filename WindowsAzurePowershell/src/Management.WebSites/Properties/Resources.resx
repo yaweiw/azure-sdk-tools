@@ -163,4 +163,13 @@ azure_error</value>
   <data name="PortalInstructionsGit" xml:space="preserve">
     <value>6. Back in the console window, rerun this command by typing "New-AzureWebsite &lt;site name&gt; -Git"</value>
   </data>
+  <data name="CannotFind" xml:space="preserve">
+    <value>Cannot find {0} with name {1}.</value>
+  </data>
+  <data name="WebsiteAlreadyExists" xml:space="preserve">
+    <value>WebSite with given name {0} already exists in the specified Subscription and Webspace.</value>
+  </data>
+  <data name="WebsiteAlreadyExistsReplacement" xml:space="preserve">
+    <value>WebSite with given name {0} already exists in the specified Subscription and Location.</value>
+  </data>
 </root>
