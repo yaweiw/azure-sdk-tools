@@ -177,7 +177,6 @@
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\ConfigurationConstants.cs" />
     <Compile Include="Utilities\Validate.cs" />
-    <Compile Include="Cmdlets\Common\ServiceManagementCmdletBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
     <Compile Include="XmlSchema\SubscriptionsData.cs">
