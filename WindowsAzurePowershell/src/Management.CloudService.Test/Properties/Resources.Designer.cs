@@ -78,6 +78,28 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {{
+        ///  &quot;author&quot;: &quot;&quot;,
+        ///
+        ///  &quot;name&quot;: &quot;{0}&quot;,
+        ///  &quot;version&quot;: &quot;0.0.0&quot;,
+        ///  &quot;dependencies&quot;:{{}},
+        ///  &quot;devDependencies&quot;:{{}},
+        ///  &quot;optionalDependencies&quot;: {{}},
+        ///  &quot;engines&quot;: {{
+        ///    &quot;node&quot;: &quot;{1}&quot;,
+        ///    &quot;iisnode&quot;: &quot;*&quot;
+        ///  }}
+        ///
+        ///}}.
+        /// </summary>
+        internal static string ValidPackageJson {
+            get {
+                return ResourceManager.GetString("ValidPackageJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Scaffold Name=&quot;TestScaffold&quot;&gt;
         ///  &lt;ScaffoldFile PathExpression=&quot;modules\.*&quot;/&gt;
         ///  &lt;ScaffoldFile TargetPath=&quot;/bin/node.exe&quot; Path=&quot;bin/node123dfx65.exe&quot;/&gt;

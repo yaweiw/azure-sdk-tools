@@ -12,21 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.AccessControl;
+using System.Security.Permissions;
+using System.Security.Principal;
+using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+using Microsoft.WindowsAzure.Management.CloudService.Properties;
+using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
+using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Security.AccessControl;
-    using System.Security.Permissions;
-    using System.Security.Principal;
-    using AzureTools;
-    using Properties;
-    using Scaffolding;
-    using Utilities;
-
     /// <summary>
     /// Class that encapsulates all of the info about a service, to which we can add roles.  This is all in memory, so no disk operations occur.
     /// </summary>
@@ -218,7 +219,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             string rolePath = Path.Combine(Paths.RootPath, role.Name);
             DirectoryInfo directoryInfo = new DirectoryInfo(rolePath);
             DirectorySecurity directoryAccess = directoryInfo.GetAccessControl(AccessControlSections.All);
-            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null), 
+            directoryAccess.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.NetworkServiceSid, null),
                 FileSystemRights.ReadAndExecute | FileSystemRights.Write, InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit, PropagationFlags.None, AccessControlType.Allow));
             directoryInfo.SetAccessControl(directoryAccess);
         }
@@ -265,6 +266,55 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             Components.SetRoleInstances(roleName, instances);
             Components.Save(paths);
+        }
+
+        /// <summary>
+        /// Retrieve currently available cloud runtimes
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="manifest">The manifest to use to get current runtime info - default is the cloud manifest</param>
+        /// <returns></returns>
+        public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
+        {
+            CloudRuntimeCollection collection;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+            return collection;
+        }
+
+        /// <summary>
+        /// Add the specified runtime to a role, checking that the runtime and version are currently available int he cloud
+        /// </summary>
+        /// <param name="paths">service path info</param>
+        /// <param name="roleName">Name of the role to change</param>
+        /// <param name="runtimeType">The runtime identifier</param>
+        /// <param name="runtimeVersion">The runtime version</param>
+        /// <param name="manifest">Location fo the manifest file, default is the cloud manifest</param>
+        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion, string manifest = null)
+        {
+            if (this.Components.RoleExists(roleName))
+            {
+                CloudRuntimeCollection collection;
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+                CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
+                CloudRuntimePackage foundPackage;
+                if (collection.TryFindMatch(desiredRuntime, out foundPackage))
+                {
+                    WorkerRole worker = (this.Components.Definition.WorkerRole == null ? null :
+                        this.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => string.Equals(r.name, roleName,
+                            StringComparison.OrdinalIgnoreCase)));
+                    WebRole web = (this.Components.Definition.WebRole == null ? null :
+                        this.Components.Definition.WebRole.FirstOrDefault<WebRole>(r => string.Equals(r.name, roleName,
+                            StringComparison.OrdinalIgnoreCase)));
+                    if (worker != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, worker);
+                    }
+                    else if (web != null)
+                    {
+                        desiredRuntime.ApplyRuntime(foundPackage, web);
+                    }
+                }
+            }
         }
     }
 }
