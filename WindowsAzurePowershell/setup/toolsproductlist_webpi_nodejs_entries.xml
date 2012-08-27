@@ -433,15 +433,15 @@
   <entry>
     <productId>NodeJS</productId>
     <title resourceName="Entry_NodeJS_Title">Node.js and Node Package Manager</title>
-    <version>0.6.17</version>
+    <version>0.6.20</version>
     <summary resourceName="Entry_NodeJS_Summary">Node.js is a server-side environment for JavaScript.</summary>
     <longSummary resourceName="Entry_NodeJS_LongSummary">
       Node.js is a server-side scripting environment for building highly scalable concurrent web applications using JavaScript.
       Node.js installer includes the runtime to execute server-side JavaScript as well as a Node Package Manager to install Node.js modules.
     </longSummary>
     <link href="http://nodejs.org/" />
-    <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-05-09T12:00:00Z</updated>
+    <published>2012-07-16T12:00:00Z</published>
+    <updated>2012-07-16T12:00:00Z</updated>
     <author>
       <name>Joyent, Inc</name>
       <uri>http://www.joyent.com/</uri>
@@ -455,13 +455,13 @@
         <discoveryHint>
           <file>
             <filePath>%programfiles%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.17</minimumVersion>
+            <minimumVersion>0.6.20</minimumVersion>
           </file>
         </discoveryHint>
         <discoveryHint>
           <file>
             <filePath>%programfiles(x86)%\nodejs\node.exe</filePath>
-            <minimumVersion>0.6.17</minimumVersion>
+            <minimumVersion>0.6.20</minimumVersion>
           </file>
         </discoveryHint>
       </or>
@@ -470,10 +470,10 @@
       <installer>
         <id>1</id>
         <languageId>en</languageId>
-        <eulaURL>http://go.microsoft.com/fwlink/?LinkId=235467</eulaURL>
+        <eulaURL>https://raw.github.com/joyent/node/master/LICENSE</eulaURL>
         <installerFile>
-          <fileSize>3012</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9791865</installerURL>
+          <fileSize>3117</fileSize>
+          <installerURL>http://nodejs.org/dist/v0.6.20/node-v0.6.20.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -869,24 +869,25 @@
   <entry>
     <productId>iisnodeWow</productId>
     <title resourceName="Entry_iisnodeWow_Title">IISNode for IIS (x86 binaries on x64 machine)</title>
-    <version>0.1.19</version>
+    <version>0.1.21</version>
     <summary resourceName="Entry_iisnodeWow_Summary">Azure Websites only</summary>
     <longSummary resourceName="Entry_iisnodeWow_LongSummary">Azure Websites only</longSummary>
     <id>http://go.microsoft.com/?linkid=9790233</id>
     <link href="http://www.microsoft.com/web/webpi/iisnode" />
     <published>2012-05-09T12:00:00Z</published>
-    <updated>2012-06-07T12:00:00Z</updated>
+    <updated>2012-07-16T12:00:00Z</updated>
     <author>
       <name>Microsoft Corporation</name>
       <uri>http://www.microsoft.com/</uri>
     </author>
+    <searchExclude />
     <images>
       <icon>http://www.iis.net/favicon.ico</icon>
     </images>
     <discoveryHint>
       <file>
         <filePath>%programfiles(x86)%\iisnode\iisnode.dll</filePath>
-        <minimumVersion>0.1.19</minimumVersion>
+        <minimumVersion>0.1.21</minimumVersion>
       </file>
     </discoveryHint>
     <dependency>
@@ -909,8 +910,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1077</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9808884</installerURL>
+          <fileSize>1081</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x86.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
@@ -927,8 +928,8 @@
         </architectures>
         <eulaURL>https://raw.github.com/WindowsAzure/iisnode/master/LICENSE.txt</eulaURL>
         <installerFile>
-          <fileSize>1858</fileSize>
-          <installerURL>http://go.microsoft.com/?linkid=9808885</installerURL>
+          <fileSize>1861</fileSize>
+          <installerURL>https://github.com/downloads/WindowsAzure/iisnode/iisnode-full-iis7-v0.1.21-x64.msi</installerURL>
         </installerFile>
         <installCommands>
           <msiInstall>
