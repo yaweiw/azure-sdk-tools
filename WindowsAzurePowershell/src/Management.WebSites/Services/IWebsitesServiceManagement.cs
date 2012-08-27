@@ -12,24 +12,51 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using System.ServiceModel.Web;
     using System.ServiceModel;
+    using System.Xml.Serialization;
     using Utilities;
+
+    [XmlRootAttribute(ElementName = "Error", Namespace = Constants.ServiceManagementNS)]
+    public class ServiceError
+    {
+        public string Code { get; set; }
+        public string Message { get; set; }
+        public string ExtendedCode { get; set; }
+        public string MessageTemplate { get; set; }
+
+        [XmlArray("Parameters")]
+        [XmlArrayItem(typeof(string), Namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays")]
+        public List<string> Parameters { get; set; }
+    }
 
     /// <summary>
     /// A list of webspaces.
     /// </summary>
     [CollectionDataContract(Name = "WebSpaces", ItemName = "WebSpace", Namespace = Constants.ServiceManagementNS)]
-    public class WebspaceList : List<WebSpace>
+    public class WebspaceList : List<Webspace>
     {
         public WebspaceList() { }
 
-        public WebspaceList(IEnumerable<WebSpace> webspaces) : base(webspaces) { }
+        public WebspaceList(IEnumerable<Webspace> webspaces) : base(webspaces) { }
+    }
+
+    /// <summary>
+    /// A website site properties.
+    /// </summary>
+    [DataContract(Name = "NameValuePair", Namespace = Constants.ServiceManagementNS)]
+    public class NameValuePair
+    {
+        [DataMember(EmitDefaultValue = false)]
+        public string Name { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public string Value { get; set; }
     }
 
     /// <summary>
@@ -42,14 +69,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         public object Metadata { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
-        public Dictionary<string, string> Properties { get; set; }
+        public IList<NameValuePair> Properties { get; set; }
     }
 
     /// <summary>
     /// A webspace.
     /// </summary>
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class WebSpace
+    public class Webspace
     {
         [DataMember(EmitDefaultValue = false)]
         public string AvailabilityState { get; set; }
@@ -248,6 +275,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         WebsiteList EndGetWebsites(IAsyncResult asyncResult);
 
         /// <summary>
+        /// Gets a website.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}?propertiesToInclude={propertiesToInclude}")]
+        IAsyncResult BeginGetWebsite(string subscriptionId, string webspace, string website, string propertiesToInclude, AsyncCallback callback, object state);
+        Website EndGetWebsite(IAsyncResult asyncResult);
+
+        /// <summary>
         /// Gets the site configuration.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
@@ -269,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
         IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state);
-        Website EndGetPublishingUsers(IAsyncResult asyncResult);
+        IList<string> EndGetPublishingUsers(IAsyncResult asyncResult);
 
         /// <summary>
         /// Create a new website.
@@ -286,5 +321,13 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}")]
         IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state);
         void EndUpdateWebsite(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Update a website repository.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}/repository")]
+        IAsyncResult BeginCreateWebsiteRepository(string subscriptionId, string webspace, string websiteName, AsyncCallback callback, object state);
+        void EndCreateWebsiteRepository(IAsyncResult asyncResult);
     }
 }

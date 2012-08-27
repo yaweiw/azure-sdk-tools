@@ -12,13 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.ServiceModel;
+    using System.Xml.Serialization;
     using Management.Cmdlets.Common;
+    using Properties;
     using Samples.WindowsAzure.ServiceManagement;
     using Services;
 
-    public class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
+    public abstract class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
     {
         protected override Operation WaitForOperation(string opdesc)
         {
@@ -27,6 +34,49 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
             operation.OperationTrackingId = operationId;
             operation.Status = "Success";
             return operation;
+        }
+
+        internal abstract bool ExecuteCommand();
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                // Execute actual cmdlet action
+                ExecuteCommand();
+            }
+            catch (ProtocolException ex)
+            {
+                if (ex.InnerException is WebException)
+                {
+                    StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream());
+                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
+                    ServiceError serviceError = (ServiceError)serializer.Deserialize(streamReader);
+
+                    if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
+                    {
+                        SafeWriteError(new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement, serviceError.Parameters.First())));
+                    }
+                    else if(serviceError.MessageTemplate.Equals(Resources.CannotFind) && serviceError.Parameters.First().Equals("WebSpace"))
+                    {
+                        SafeWriteError(new Exception(string.Format(Resources.CannotFind, "Location", serviceError.Parameters[1])));
+                    }
+                    else
+                    {
+                        SafeWriteError(new Exception(serviceError.Message));
+                    }
+                }
+                else
+                {
+                    SafeWriteError(ex);
+                }
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(ex);
+            }
         }
     }
 }

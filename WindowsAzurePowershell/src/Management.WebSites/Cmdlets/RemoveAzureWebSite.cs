@@ -12,28 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using Common;
     using Properties;
     using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Removes an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureWebsite")]
-    public class RemoveAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
+    public class RemoveAzureWebsiteCommand : WebsiteContextCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
         public SwitchParameter Force
         {
@@ -42,20 +34,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
         }
 
         /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebSiteCommand class.
+        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
         /// </summary>
-        public RemoveAzureWebSiteCommand()
+        public RemoveAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the RemoveAzureWebSiteCommand class.
+        /// Initializes a new instance of the RemoveAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public RemoveAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public RemoveAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
@@ -65,10 +57,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal bool RemoveWebsiteProcess(string website)
+        internal override bool ExecuteCommand()
         {
             if (!Force.IsPresent &&
-                !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, website),
+                !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),
                                 Resources.ShouldProcessCaption))
             {
                 return false;
@@ -77,10 +69,10 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Find out in which webspace is the website
-                var websiteObject = RetryCall(s => Channel.GetWebsite(s, website));
+                var websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
                 if (websiteObject == null)
                 {
-                    throw new Exception(Resources.InvalidWebsite);
+                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
                 RetryCall(s => Channel.DeleteWebsite(s, websiteObject.WebSpace, websiteObject.Name));
@@ -88,23 +80,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (RemoveWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

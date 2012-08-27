@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8531411A-0137-4E27-9C5E-49E07C245048}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Test", "Management.Test\Management.Test.csproj", "{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.CloudService", "Management.CloudService\Management.CloudService.csproj", "{B6F73AB3-1207-4B52-B90A-065CD5E107EB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6} = {C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.CloudService.Test", "Management.CloudService.Test\Management.CloudService.Test.csproj", "{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}"
 EndProject
@@ -19,9 +22,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.SqlDatabase", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.SqlDatabase.Test", "Management.SqlDatabase.Test\Management.SqlDatabase.Test.csproj", "{37455286-D8A7-4E0C-8B4D-C517D20C641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.WebSites", "Management.WebSites\Management.WebSites.csproj", "{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Websites", "Management.WebSites\Management.Websites.csproj", "{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.WebSites.Test", "Management.WebSites.Test\Management.WebSites.Test.csproj", "{2739A2EB-3D61-4CC2-987A-BB0A76F64AEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Websites.Test", "Management.WebSites.Test\Management.Websites.Test.csproj", "{2739A2EB-3D61-4CC2-987A-BB0A76F64AEF}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

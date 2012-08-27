@@ -12,50 +12,42 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.Management.Automation;
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
-    using Common;
     using Properties;
     using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Starts an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureWebSite")]
-    public class StartAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsLifecycle.Start, "AzureWebsite")]
+    public class StartAzureWebsiteCommand : WebsiteContextCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
         /// <summary>
-        /// Initializes a new instance of the StartAzureWebSiteCommand class.
+        /// Initializes a new instance of the StartAzureWebsiteCommand class.
         /// </summary>
-        public StartAzureWebSiteCommand()
+        public StartAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the StartAzureWebSiteCommand class.
+        /// Initializes a new instance of the StartAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public StartAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public StartAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
 
-        internal bool StartWebsiteProcess(string name)
+        internal override bool ExecuteCommand()
         {
             Website website = null;
 
@@ -63,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             {
                 try
                 {
-                    website = RetryCall(s => Channel.GetWebsite(s, name));
+                    website = RetryCall(s => Channel.GetWebsite(s, Name));
                 }
                 catch (CommunicationException ex)
                 {
@@ -73,21 +65,21 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
 
             if (website == null)
             {
-                throw new Exception(Resources.InvalidWebsite);
+                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
             InvokeInOperationContext(() =>
             {
                 try
                 {
-                    var websiteUpdate = new Website
+                    Website websiteUpdate = new Website
                                             {
-                                                Name = name,
-                                                HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),
+                                                Name = Name,
+                                                HostNames = new List<string> { Name + ".azurewebsites.net" },
                                                 State = "Running"
                                             };
 
-                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, name, websiteUpdate));
+                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
                 }
                 catch (CommunicationException ex)
                 {
@@ -96,23 +88,6 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (StartWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }

@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Linq;
-    using Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebSites.Cmdlets;
+    using Websites.Cmdlets;
+    using Websites.Services;
 
     [TestClass]
-    public class StopAzureWebSiteTests
+    public class StopAzureWebsiteTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void StopWebsiteProcessTest()
+        public void ProcessStopWebsiteTest()
         {
             const string websiteName = "website1";
             const string webspaceName = "webspace";
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             // Setup
             bool updated = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new WebSpace { Name = webspaceName } });
+            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = webspaceName } });
             channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
 
             channel.UpdateWebsiteThunk = ar =>
@@ -55,13 +55,14 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Test.UnitTests.Cmdlets
             };
 
             // Test
-            StopAzureWebSiteCommand stopAzureWebSiteCommand = new StopAzureWebSiteCommand(channel)
+            StopAzureWebsiteCommand stopAzureWebsiteCommand = new StopAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                Name = websiteName
             };
 
-            stopAzureWebSiteCommand.StopWebsiteProcess(websiteName);
+            stopAzureWebsiteCommand.ExecuteCommand();
             Assert.IsTrue(updated);
         }
     }

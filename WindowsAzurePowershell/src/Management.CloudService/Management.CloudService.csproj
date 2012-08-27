@@ -353,6 +353,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MoveScaffolding.bat" />
     <None Include="MSSharedLibKey.snk" />
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

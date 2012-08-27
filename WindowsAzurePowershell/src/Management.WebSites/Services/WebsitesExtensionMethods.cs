@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -45,9 +45,20 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
             proxy.EndDeleteWebsite(proxy.BeginDeleteWebsite(subscriptionId, webspace, website, null, null));
         }
 
-        public static void GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
+        public static IList<string> GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId)
         {
-            proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
+            return proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
+        }
+
+        public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website, IList<string> propertiesToInclude)
+        {
+            var properties = string.Empty;
+            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
+            {
+                properties = string.Join(",", propertiesToInclude.ToArray());
+            }
+
+            return proxy.EndGetWebsite(proxy.BeginGetWebsite(subscriptionId, webspace, website, properties, null, null));
         }
 
         public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
@@ -74,6 +85,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Services
         public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, Website website)
         {
             proxy.EndUpdateWebsite(proxy.BeginUpdateWebsite(subscriptionId, webspace, websiteName, website, null, null));
+        }
+
+        public static void CreateWebsiteRepository(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName)
+        {
+            proxy.EndCreateWebsiteRepository(proxy.BeginCreateWebsiteRepository(subscriptionId, webspace, websiteName, null, null));
         }
     }
 }

@@ -12,92 +12,67 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Common;
     using Properties;
     using Services;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Stops an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureWebSite")]
-    public class StopAzureWebSiteCommand : WebsitesCmdletBase
+    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
+    public class StopAzureWebsiteCommand : WebsiteContextCmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
         /// <summary>
-        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
-        public StopAzureWebSiteCommand()
+        public StopAzureWebsiteCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the StopAzureWebSiteCommand class.
+        /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public StopAzureWebSiteCommand(IWebsitesServiceManagement channel)
+        public StopAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
 
-        internal bool StopWebsiteProcess(string name)
+        internal override bool ExecuteCommand()
         {
             Website website = null;
 
             InvokeInOperationContext(() =>
             {
-                website = RetryCall(s => Channel.GetWebsite(s, name));
+                website = RetryCall(s => Channel.GetWebsite(s, Name));
             });
 
             if (website == null)
             {
-                throw new Exception(Resources.InvalidWebsite);
+                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
             InvokeInOperationContext(() =>
             {
-                var websiteUpdate = new Website
+                Website websiteUpdate = new Website
                                         {
-                                            Name = name,
-                                            HostNames = new List<string>(new[] { name + ".azurewebsites.net" }),
+                                            Name = Name,
+                                            HostNames = new List<string> { Name + ".azurewebsites.net" },
                                             State = "Stopped"
                                         };
 
-                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, name, websiteUpdate));
+                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
             });
 
             return true;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                if (StopWebsiteProcess(Name))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
         }
     }
 }
