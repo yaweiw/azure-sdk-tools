@@ -13,26 +13,7 @@ echo OK
 echo Configuring powershell permissions
 powershell -c "set-executionpolicy unrestricted"
 
-echo Downloading runtime components
-powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
-if %ERRORLEVEL% neq 0 goto error
-
-echo Extracting components
-runtime.exe
-
-echo Ensuring the "%programfiles(x86)%\nodejs" directory exists...
-md "%programfiles(x86)%\nodejs"
-
-echo Copying node.exe to the "%programfiles(x86)%\nodejs" directory...
-copy /y node.exe "%programfiles(x86)%\nodejs" 
-if %ERRORLEVEL% neq 0 goto error
-echo OK
-
-echo Copying web.cloud.config to web.config...
-copy /y ..\Web.cloud.config ..\Web.config
-if %ERRORLEVEL% neq 0 goto error
-echo OK
-
+echo Downloading and installing runtime components
 powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
 if %ERRORLEVEL% neq 0 goto error
 
@@ -51,10 +32,18 @@ if "%OPN%"=="%OPN:apphostconfig:=%" (
     goto error
 )
 
-set IISNODE_BINARY_DIRECTORY=%programfiles%\Microsoft SDKs\Windows Azure\PowerShell\Azure\x86
-if "%PROCESSOR_ARCHITECTURE%"=="AMD64" set IISNODE_BINARY_DIRECTORY=%programfiles(x86)%\Microsoft SDKs\Windows Azure\PowerShell\Azure\x64
+set IISNODE_BINARY_DIRECTORY=%programfiles(x86)%\iisnode-dev\release\x64
+set IISNODE_SCHEMA=%programfiles(x86)%\iisnode-dev\release\x64\iisnode_schema.xml
 
-echo "Using iisnode binaries location '%IISNODE_BINARY_DIRECTORY%'"
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto start
+set IISNODE_BINARY_DIRECTORY=%programfiles%\iisnode-dev\release\x86
+set IISNODE_SCHEMA=%programfiles%\iisnode-dev\release\x86\iisnode_schema_x86.xml
+
+
+:start
+set
+
+echo Using iisnode binaries location '%IISNODE_BINARY_DIRECTORY%'
 echo installing iisnode module using AppCMD alias %appcmd%
 %appcmd% install module /name:"iisnode" /image:"%IISNODE_BINARY_DIRECTORY%\iisnode.dll"
 
@@ -63,7 +52,6 @@ powershell -c "set-executionpolicy unrestricted"
 powershell .\ChangeConfig.ps1 %apphostconfigfile%
 if %ERRORLEVEL% neq 0 goto error
 
-if "%PROCESSOR_ARCHITECTURE%"=="AMD64" set 
-copy /y "%IISNODE_BINARY_DIRECTORY%\iisnode_schema.xml" "%programfiles%\IIS Express\config\schema\iisnode_schema.xml"
+copy /y "%IISNODE_SCHEMA%" "%programfiles%\IIS Express\config\schema\iisnode_schema.xml"
 if %ERRORLEVEL% neq 0 goto error
 exit /b 0
