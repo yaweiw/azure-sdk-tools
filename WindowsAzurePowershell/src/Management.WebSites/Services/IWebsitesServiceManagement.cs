@@ -267,6 +267,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         WebspaceList EndGetWebspaces(IAsyncResult asyncResult);
 
         /// <summary>
+        /// Create a new webspace.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces")]
+        IAsyncResult BeginNewWebspace(string subscriptionId, Webspace website, AsyncCallback callback, object state);
+        void EndNewWebspace(IAsyncResult asyncResult);
+
+        /// <summary>
         /// Gets the list of created websites in a webspace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
