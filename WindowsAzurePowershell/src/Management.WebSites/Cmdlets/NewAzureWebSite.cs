@@ -91,7 +91,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!File.Exists(".gitignore"))
             {
                 // Scaffold gitignore
-                File.WriteAllText(".gitignore", Resources.GitIgnoreFileContent);
+                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
+                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/.gitignore"), ".gitignore");
             }
         }
 

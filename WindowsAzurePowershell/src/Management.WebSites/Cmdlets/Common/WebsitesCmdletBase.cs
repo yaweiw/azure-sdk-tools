@@ -51,21 +51,28 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             {
                 if (ex.InnerException is WebException)
                 {
-                    StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream());
-                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
-                    ServiceError serviceError = (ServiceError)serializer.Deserialize(streamReader);
+                    using (StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream()))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
+                        ServiceError serviceError = (ServiceError) serializer.Deserialize(streamReader);
 
-                    if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
-                    {
-                        SafeWriteError(new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement, serviceError.Parameters.First())));
-                    }
-                    else if(serviceError.MessageTemplate.Equals(Resources.CannotFind) && serviceError.Parameters.First().Equals("WebSpace"))
-                    {
-                        SafeWriteError(new Exception(string.Format(Resources.CannotFind, "Location", serviceError.Parameters[1])));
-                    }
-                    else
-                    {
-                        SafeWriteError(new Exception(serviceError.Message));
+                        if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
+                        {
+                            SafeWriteError(
+                                new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement,
+                                                            serviceError.Parameters.First())));
+                        }
+                        else if (serviceError.MessageTemplate.Equals(Resources.CannotFind) &&
+                                 serviceError.Parameters.First().Equals("WebSpace"))
+                        {
+                            SafeWriteError(
+                                new Exception(string.Format(Resources.CannotFind, "Location",
+                                                            serviceError.Parameters[1])));
+                        }
+                        else
+                        {
+                            SafeWriteError(new Exception(serviceError.Message));
+                        }
                     }
                 }
                 else

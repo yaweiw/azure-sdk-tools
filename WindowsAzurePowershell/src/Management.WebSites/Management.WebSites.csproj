@@ -162,6 +162,7 @@
     <Content Include="Microsoft.WindowsAzure.Management.Websites.format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Scaffolding\Node\.gitignore" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="Resources\Scaffolding\Node\iisnode.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -178,6 +179,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

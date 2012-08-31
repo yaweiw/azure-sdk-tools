@@ -88,16 +88,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to node_modules
-        ///azure_error.
-        /// </summary>
-        internal static string GitIgnoreFileContent {
-            get {
-                return ResourceManager.GetString("GitIgnoreFileContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Git not found. Please install git and place it in your command line path..
         /// </summary>
         internal static string GitNotFound {
