@@ -186,12 +186,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 return false;
             }
 
-            if (string.IsNullOrEmpty(Location))
+            string geoRegion = Location;
+            if (string.IsNullOrEmpty(geoRegion))
             {
                 InvokeInOperationContext(() =>
                 {
                     // If no location was provided as a parameter, try to default it
-                    Location = webspaceList.Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
+                    geoRegion = webspaceList.Select(webspace => webspace.Name).FirstOrDefault();
                 });
             }
             else
@@ -199,8 +200,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 InvokeInOperationContext(() =>
                 {
                     // Find the webspace that corresponds to the geolocation
-                    Location = webspaceList.Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
+                    geoRegion = webspaceList.Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault();
                 });   
+            }
+
+            if (string.IsNullOrEmpty(geoRegion))
+            {
+                // Webspace webspace = new Webspace { GeoRegion = Location };
+                // RetryCall(s => Channel.NewWebspace(s, webspace));
+                geoRegion = Location;
             }
 
             InvokeInOperationContext(() =>
@@ -208,6 +216,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Website website = new Website
                                         {
                                             Name = Name,
+                                            WebSpace = geoRegion,
                                             HostNames = new List<string> { Name + ".azurewebsites.net" }
                                         };
 
@@ -216,7 +225,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     website.HostNames.Add(Hostname);
                 }
 
-                RetryCall(s => Channel.NewWebsite(s, Location, website));
+                RetryCall(s => Channel.NewWebsite(s, geoRegion, website));
             });
 
             if (Git)
@@ -238,7 +247,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, Location);
-                CreateRepositoryAndAddRemote(publishingUser, Location, Name);
+                CreateRepositoryAndAddRemote(publishingUser, geoRegion, Name);
             }
 
             return true;

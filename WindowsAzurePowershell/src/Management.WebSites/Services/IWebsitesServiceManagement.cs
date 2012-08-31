@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         /// </summary>
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces")]
-        IAsyncResult BeginNewWebspace(string subscriptionId, Webspace website, AsyncCallback callback, object state);
+        IAsyncResult BeginNewWebspace(string subscriptionId, Webspace webspace, AsyncCallback callback, object state);
         void EndNewWebspace(IAsyncResult asyncResult);
 
         /// <summary>
