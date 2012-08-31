@@ -57,13 +57,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             if (!Force.IsPresent &&
                 !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),
                                 Resources.ShouldProcessCaption))
             {
-                return false;
+                return;
             }
 
             InvokeInOperationContext(() =>
@@ -78,8 +78,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 RetryCall(s => Channel.DeleteWebsite(s, websiteObject.WebSpace, websiteObject.Name));
                 WaitForOperation(CommandRuntime.ToString());
             });
-
-            return true;
         }
     }
 }

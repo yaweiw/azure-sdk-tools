@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             if (!string.IsNullOrEmpty(Name))
             {
@@ -101,8 +101,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     }
                 });
             }
-
-            return true;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             return operation;
         }
 
-        internal abstract bool ExecuteCommand();
+        internal abstract void ExecuteCommand();
 
         protected override void ProcessRecord()
         {

@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             InvokeInOperationContext(() =>
             {
@@ -63,8 +63,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 websiteConfiguration.Merge(websiteObject);
                 WriteObject(websiteConfiguration, false);
             });
-
-            return true;
         }
     }
 }

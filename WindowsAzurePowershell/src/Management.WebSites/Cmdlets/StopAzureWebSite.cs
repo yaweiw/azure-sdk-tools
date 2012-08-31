@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             Website website = null;
 
@@ -71,8 +71,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
             });
-
-            return true;
         }
     }
 }

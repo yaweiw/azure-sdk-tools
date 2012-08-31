@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             // if a name is passed, do the same as show-azurewebsite
             InvokeInOperationContext(() =>
@@ -55,8 +55,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     WriteObject(webspace, true);
                 }
             });
-
-            return true;
         }
     }
 }

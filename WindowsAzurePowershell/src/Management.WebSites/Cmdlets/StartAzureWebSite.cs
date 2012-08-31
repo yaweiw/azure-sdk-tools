@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             Website website = null;
 
@@ -86,8 +86,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     WriteErrorDetails(ex);
                 }
             });
-
-            return true;
         }
     }
 }

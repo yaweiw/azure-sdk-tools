@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             string publishingUser = null;
             if (Git)
@@ -180,11 +180,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);
-                SafeWriteObjectWithTimestamp(!Git
+                throw new Exception(!Git
                     ? error
                     : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
-
-                return false;
             }
 
             if (string.IsNullOrEmpty(Location))
@@ -241,8 +239,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 UpdateLocalConfigWithSiteName(Name, Location);
                 CreateRepositoryAndAddRemote(publishingUser, Location, Name);
             }
-
-            return true;
         }
     }
 }
