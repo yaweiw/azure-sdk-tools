@@ -143,6 +143,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabase.cs" />
+    <Compile Include="Server\Cmdlet\GetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
@@ -150,6 +152,7 @@
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
     <Compile Include="Model\SqlDatabaseServerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Server\Cmdlet\SetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
     <Compile Include="Services\ClientOutputMessageInspector.cs" />
     <Compile Include="Services\Common\AccessTokenResult.cs" />
