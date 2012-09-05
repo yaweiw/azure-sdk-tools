@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Extensions
 {
+    using System;
+    using System.Data.Services.Client;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Management.Automation;
     using System.Runtime.Serialization;
     using System.Xml;
-    using System.Diagnostics.CodeAnalysis;
-    using System;
-    using System.Diagnostics;
-    using System.Data.Services.Client;
     using System.Xml.Linq;
     using Model;
 

@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.Properties;
-using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.Test.TestData
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using Management.Properties;
+    using Tests.Utilities;
+
     static class Data
     {
         public static List<string> ValidServiceName { get; private set; }

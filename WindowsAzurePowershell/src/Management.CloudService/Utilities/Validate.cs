@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Runtime.InteropServices;
+    using Properties;
+
     public static class Validate
     {
         [Flags]

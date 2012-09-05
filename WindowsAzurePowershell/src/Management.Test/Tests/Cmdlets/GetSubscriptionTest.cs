@@ -14,16 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
-    using VisualStudio.TestTools.UnitTesting;
-    using Stubs;
-    using TestData;
-    using Management.Extensions;
-    using Management.Services;
-    using Microsoft.WindowsAzure.Management.Cmdlets;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Management.Cmdlets;
+    using Management.Extensions;
+    using Management.Services;
+    using Model;
+    using Stubs;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetSubscriptionTest

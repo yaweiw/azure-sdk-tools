@@ -18,11 +18,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Model;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using WAPPSCmdlet = Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+    using CloudService.Services;
+    using Model;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database server in the selected subscription.
@@ -103,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                 {
                     RetryCall(subscription =>
                         Channel.SetPassword(subscription, serverName, newPassword));
-                    WAPPSCmdlet.Operation operation = WaitForSqlDatabaseOperation();
+                    Operation operation = WaitForSqlDatabaseOperation();
 
                     operationContext = new SqlDatabaseServerOperationContext()
                     {

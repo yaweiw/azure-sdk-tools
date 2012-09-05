@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
     /// </summary>

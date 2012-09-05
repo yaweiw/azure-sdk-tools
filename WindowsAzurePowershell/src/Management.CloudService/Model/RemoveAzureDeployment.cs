@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Cmdlet.Common;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.
     /// </summary>
-    class RemoveAzureDeploymentCommand : DeploymentServiceManagementCmdletBase
+    class RemoveAzureDeploymentCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         public string Slot

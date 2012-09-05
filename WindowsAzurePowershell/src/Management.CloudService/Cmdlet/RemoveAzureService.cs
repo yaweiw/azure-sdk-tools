@@ -15,19 +15,19 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
-    using System.Management.Automation;
     using System.Linq;
+    using System.Management.Automation;
+    using Common;
     using Management.Services;
-    using WAPPSCmdlet;
-    using Properties;
     using Model;
+    using Properties;
     using Services;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureServiceCommand : DeploymentServiceManagementCmdletBase
+    public class RemoveAzureServiceCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName

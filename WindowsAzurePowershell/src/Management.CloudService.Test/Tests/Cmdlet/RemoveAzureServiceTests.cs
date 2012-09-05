@@ -12,22 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System.ServiceModel;
+    using CloudService.Cmdlet;
+    using CloudService.Model;
+    using Extensions;
+    using Management.Test.Stubs;
+    using Services;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class RemoveAzureServiceTests : TestBase
     {

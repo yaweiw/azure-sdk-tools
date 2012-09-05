@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Net;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    using System;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Operation : IExtensibleDataObject
     {
         [DataMember(Name = "ID", Order = 1)]

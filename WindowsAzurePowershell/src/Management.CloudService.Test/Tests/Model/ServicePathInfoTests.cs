@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
+    using System;
+    using CloudService.Model;
+    using CloudService.Properties;
+    using TestData;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ServicePathInfoTests
     {

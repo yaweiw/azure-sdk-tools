@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Management.Automation;
-using System.Net;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
 {
+    using System;
+    using System.IO;
+    using System.Management.Automation;
+    using System.Net;
+    using System.Text;
+    using CloudService.Test;
+    using Services;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ExceptionHandlerTests : TestBase
     {

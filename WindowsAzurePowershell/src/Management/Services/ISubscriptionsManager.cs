@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Services
 {
     using System.Collections.Generic;
-    using Model;
     using System.Security.Cryptography.X509Certificates;
+    using Model;
 
     public interface ISubscriptionsManager
     {

@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
-using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Scaffolding
 {
+    using System.IO;
+    using CloudService.Scaffolding;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ScaffoldTests : TestBase
     {

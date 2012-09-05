@@ -12,13 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System.Collections.Generic;
+
     public class ArgumentConstants
     {
         public static Dictionary<Location, string> Locations { get; private set; }

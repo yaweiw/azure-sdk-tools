@@ -17,17 +17,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
+    using System.Text;
     using System.Xml.Serialization;
     using Properties;
-    using System.Globalization;
-    using System.Text;
 
-    internal static class General
+    public static class General
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 

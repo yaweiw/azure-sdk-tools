@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
-    using System.Management.Automation;
     using System.Linq;
+    using System.Management.Automation;
     using Extensions;
     using Properties;
     using Services;

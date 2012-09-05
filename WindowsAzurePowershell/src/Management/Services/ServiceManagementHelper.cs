@@ -12,28 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
-using System.ServiceModel.Dispatcher;
-using System.ServiceModel.Web;
-using System.Text;
-using System.Xml;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.Services
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Net;
+    using System.Runtime.Serialization;
+    using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.ServiceModel.Dispatcher;
+    using System.ServiceModel.Web;
+    using System.Text;
+    using System.Xml;
+    using Samples.WindowsAzure.ServiceManagement;
+
     public static class ServiceManagementHelper
     {
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>();
+            WebChannelFactory<T> factory = new WebChannelFactory<T>();
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -42,9 +44,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(Binding binding, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(Binding binding, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(binding);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(binding);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -53,9 +56,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(ServiceEndpoint endpoint, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(ServiceEndpoint endpoint, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpoint);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpoint);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -64,9 +68,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(string endpointConfigurationName, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(string endpointConfigurationName, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpointConfigurationName);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -75,9 +80,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(Type channelType, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(Type channelType, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(channelType);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(channelType);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -86,9 +92,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(Uri remoteUri, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(remoteUri);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -97,9 +104,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(binding, remoteUri);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(binding, remoteUri);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -108,9 +116,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static IServiceManagement CreateServiceManagementChannel(string endpointConfigurationName, Uri remoteUri, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(string endpointConfigurationName, Uri remoteUri, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpointConfigurationName, remoteUri);
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName, remoteUri);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
@@ -229,8 +238,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
     {
         #region IClientMessageInspector Members
 
-        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState) { }
-        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
+        public void AfterReceiveReply(ref Message reply, object correlationState) { }
+        public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
             if (request.Properties.ContainsKey(HttpRequestMessageProperty.Name))
             {

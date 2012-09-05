@@ -12,15 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-using System.Security.Permissions;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
 {
+    using System.Diagnostics;
+    using System.Security.Permissions;
+
     internal static class ProcessHelper
     {
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]

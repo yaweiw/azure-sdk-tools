@@ -12,9 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     using System.IO;
+    using Management.Services;
 
     public static class Utility
     {

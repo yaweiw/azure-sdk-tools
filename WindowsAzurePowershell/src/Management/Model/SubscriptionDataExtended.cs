@@ -12,10 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Samples.WindowsAzure.ServiceManagement;
-
 namespace Microsoft.WindowsAzure.Management.Model
 {
+    using Samples.WindowsAzure.ServiceManagement;
+
     public class SubscriptionDataExtended : SubscriptionData
     {
         public string AccountAdminLiveEmailId { get; set; }

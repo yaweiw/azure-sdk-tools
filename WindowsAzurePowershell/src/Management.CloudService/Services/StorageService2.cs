@@ -12,20 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+
     /// <summary>
     /// List of storage services
     /// </summary>
-    [CollectionDataContract(Name = "StorageServices", ItemName = "StorageService", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "StorageServices", ItemName = "StorageService", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class StorageServiceList : List<StorageService>
     {
         public StorageServiceList()
@@ -38,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class StorageService : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -56,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class StorageServiceProperties : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -77,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class StorageServiceKeys : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -89,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class RegenerateKeys : IExtensibleDataObject
     {
         [DataMember(Order = 1)]

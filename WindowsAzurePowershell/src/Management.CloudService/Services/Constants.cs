@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     public static class Constants
     {
-        public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";
         public const string OperationTrackingIdHeader = "x-ms-request-id";
         public const string VersionHeaderName = "x-ms-version";
         public const string VersionHeaderContent = "2009-10-01";

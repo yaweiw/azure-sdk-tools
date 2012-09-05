@@ -27,20 +27,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Text;
     using System.Threading;
     using AzureTools;
+    using Common;
     using Extensions;
     using Management.Services;
     using Model;
     using Properties;
     using Services;
     using Utilities;
-    using WAPPSCmdlet;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true)]
-    public class PublishAzureServiceProjectCommand : DeploymentServiceManagementCmdletBase
+    public class PublishAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;

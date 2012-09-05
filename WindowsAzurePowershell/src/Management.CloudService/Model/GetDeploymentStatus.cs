@@ -12,20 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Cmdlet.Common;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
     /// </summary>
-    public class GetDeploymentStatus : DeploymentServiceManagementCmdletBase
+    public class GetDeploymentStatus : CloudCmdlet<IServiceManagement>
     {
         public GetDeploymentStatus()
         {
@@ -34,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public GetDeploymentStatus(IServiceManagement channel)
         {
-            this.Channel = channel;
+            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]

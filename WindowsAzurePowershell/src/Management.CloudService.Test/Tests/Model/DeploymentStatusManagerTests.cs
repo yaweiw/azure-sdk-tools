@@ -12,17 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
+    using System.ServiceModel;
+    using CloudService.Model;
+    using CloudService.Properties;
+    using Extensions;
+    using Management.Test.Stubs;
+    using Services;
+    using TestData;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase
     {

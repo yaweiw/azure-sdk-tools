@@ -12,25 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using System.ServiceModel;
-using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTest;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.Cmdlet
 {
+    using System.Linq;
+    using System.ServiceModel;
+    using CloudService.Test;
+    using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
+    using Services;
+    using SqlDatabase.Firewall.Cmdlet;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AzureSqlDatabaseServerTests : TestBase
     {
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]

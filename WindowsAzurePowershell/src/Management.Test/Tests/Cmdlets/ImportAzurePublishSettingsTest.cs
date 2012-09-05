@@ -15,12 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
     using System.Linq;
-    using TestData;
-    using Stubs;
-    using VisualStudio.TestTools.UnitTesting;
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
+    using Stubs;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ImportAzurePublishSettingsTest

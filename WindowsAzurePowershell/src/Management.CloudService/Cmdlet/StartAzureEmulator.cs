@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
+    using Cmdlets.Common;
+    using Common;
     using Model;
     using Properties;
     using Services;
@@ -27,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator")]
-    public class StartAzureEmulatorCommand : DeploymentServiceManagementCmdletBase
+    public class StartAzureEmulatorCommand : CmdletBase<IServiceManagement>
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]
@@ -58,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 AzureTool.Validate();
                 SkipChannelInit = true;
                 base.ProcessRecord();
-                string result = this.StartAzureEmulatorProcess(base.GetServiceRootPath());
+                string result = StartAzureEmulatorProcess(base.GetServiceRootPath());
                 SafeWriteObject(result);
             }
             catch (Exception ex)

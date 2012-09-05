@@ -12,16 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
-using Microsoft.WindowsAzure.Management.CloudService.Concrete;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
-    [DataContract(Name = "Error", Namespace = Constants.ServiceManagementNS)]
+    using System.Runtime.Serialization;
+
+    [DataContract(Name = "Error", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class ServiceManagementError : IExtensibleDataObject
     {
         [DataMember(Order = 1)]

@@ -14,16 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
-    using System;
     using System.Globalization;
-    using System.IO;
     using System.Management.Automation;
-    using System.Net;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Services;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using WAPPSCmdlet = Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
+    using CloudService.Cmdlet.Common;
+    using CloudService.Services;
+    using Properties;
+    using Services;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
@@ -50,45 +47,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
             this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether CreateChannel should share
-        /// the command's current Channel when asking for a new one.  This is
-        /// only used for testing.
-        /// </summary>
-        internal bool ShareChannel { get; set; }
-
-        protected override ISqlDatabaseManagement CreateChannel()
-        {
-            // If ShareChannel is set by a unit test, use the same channel that
-            // was passed into out constructor.  This allows the test to submit
-            // a mock that we use for all network calls.
-            if (ShareChannel)
-            {
-                return Channel;
-            }
-
-            if (this.ServiceBinding == null)
-            {
-                this.ServiceBinding = ConfigurationConstants.WebHttpBinding(this.MaxStringContentLength);
-            }
-
-            if (string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
-            {
-                this.ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
-            }
-            else
-            {
-                this.ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
-            }
-
-            return SqlDatabaseManagementHelper.CreateSqlDatabaseManagementChannel(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, this.clientRequestId);
-        }
-
         // Windows Azure SQL Database doesn't support async calls
-        protected static WAPPSCmdlet.Operation WaitForSqlDatabaseOperation()
+        protected static Operation WaitForSqlDatabaseOperation()
         {
             string operationId = RetrieveOperationId();
-            WAPPSCmdlet.Operation operation = new WAPPSCmdlet.Operation();
+            Operation operation = new Operation();
             operation.OperationTrackingId = operationId;
             operation.Status = "Success";
             return operation;

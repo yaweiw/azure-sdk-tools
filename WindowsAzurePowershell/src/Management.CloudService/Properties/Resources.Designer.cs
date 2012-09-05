@@ -178,16 +178,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Azure service management error
-        ///{0}.
-        /// </summary>
-        internal static string AzureServiceManagementException_WrapExistingError_DetailedErrorFormat {
-            get {
-                return ResourceManager.GetString("AzureServiceManagementException_WrapExistingError_DetailedErrorFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Azure Authoring Tools are not installed and are required.
         /// </summary>
         internal static string AzureToolsNotInstalledMessage {

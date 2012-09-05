@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
+    using Management.Services;
 
     public class DeploymentInfoContext : ManagementOperationContext
     {

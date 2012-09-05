@@ -140,7 +140,6 @@
     <Compile Include="AzureTools\CsPack.cs" />
     <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
-    <Compile Include="Model\AzureServiceManagementException.cs" />
     <Compile Include="Model\CloudRuntime.cs" />
     <Compile Include="Model\CloudRuntimeApplicator.cs" />
     <Compile Include="Model\CloudRuntimeCollection.cs" />
@@ -180,9 +179,8 @@
     <Compile Include="Scaffolding\ScaffoldFile.cs" />
     <Compile Include="Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Services\Certificates.cs" />
-    <Compile Include="Services\CloudCmdlet.cs" />
+    <Compile Include="Cmdlet\Common\CloudCmdlet.cs" />
     <Compile Include="Cmdlet\NewAzureServiceProject.cs" />
-    <Compile Include="Services\DeploymentServiceManagementCmdletBase.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\PublishAzureServiceProject.cs" />
@@ -202,15 +200,11 @@
     <Compile Include="Services\OperationTracking.cs" />
     <Compile Include="Services\RoleConfiguration.cs" />
     <Compile Include="Services\RoleInstance.cs" />
-    <Compile Include="Services\ServiceConfigurationConstants.cs" />
     <Compile Include="Services\ServiceManagementError.cs" />
-    <Compile Include="Services\ServiceManagementHelper.cs" />
     <Compile Include="Services\StorageService1.cs" />
     <Compile Include="Services\StorageService2.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="AzureTools\CsRun.cs" />
-    <Compile Include="Utilities\IMessageWriter.cs" />
-    <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
@@ -362,6 +356,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MoveScaffolding.bat" />
     <None Include="MSSharedLibKey.snk" />
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -12,20 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+
     /// <summary>
     /// List of affinity groups.
     /// </summary>
-    [CollectionDataContract(Name = "AffinityGroups", ItemName = "AffinityGroup", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "AffinityGroups", ItemName = "AffinityGroup", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class AffinityGroupList : List<AffinityGroup>
     {
         public AffinityGroupList()
@@ -41,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
     /// <summary>
     /// Affinity Group data contract. 
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class AffinityGroup : IExtensibleDataObject
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
@@ -60,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public HostedServiceList HostedServices { get; set; }
 
         [DataMember(Order = 6, EmitDefaultValue = false)]
-        public Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet.StorageServiceList StorageServices { get; set; }
+        public StorageServiceList StorageServices { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }

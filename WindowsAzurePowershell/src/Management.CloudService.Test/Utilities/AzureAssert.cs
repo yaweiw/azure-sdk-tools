@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.PublishSettingsSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Services;
-using ServiceConfiguration = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ServiceConfiguration;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
+    using System;
+    using System.IO;
+    using CloudService.Model;
+    using CloudService.Properties;
+    using Scaffolding;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+
     internal static class AzureAssert
     {
         public static void AreEqualServiceSettings(ServiceSettings expected, ServiceSettings actual)

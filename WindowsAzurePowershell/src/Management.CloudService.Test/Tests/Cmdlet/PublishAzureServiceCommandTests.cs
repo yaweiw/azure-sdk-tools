@@ -12,24 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Packaging;
-using System.Linq;
-using System.ServiceModel;
-using System.Text.RegularExpressions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.IO.Packaging;
+    using System.Linq;
+    using System.ServiceModel;
+    using System.Text.RegularExpressions;
+    using Management.Test.Tests.Utilities;
+    using Services;
+    using VisualStudio.TestTools.UnitTesting;
+    using CloudService.Cmdlet;
+    using CloudService.Model;
+    using CloudService.Node.Cmdlet;
+    using CloudService.Properties;
+    using Utilities;
+    using Management.Test.Stubs;
+
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
     /// </summary>

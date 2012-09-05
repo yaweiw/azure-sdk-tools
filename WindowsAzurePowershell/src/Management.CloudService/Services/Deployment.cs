@@ -12,17 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Collections.ObjectModel;
-using System.Text;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Services
 {
-    [DataContract(Name = "Swap", Namespace = Constants.ServiceManagementNS)]
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+    using System.Text;
+
+    [DataContract(Name = "Swap", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class SwapDeploymentInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -37,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
     /// <summary>
     /// This class represents a deployment in our deployment-related operations.
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Deployment : IExtensibleDataObject
     {
         public Deployment(string name, string slot, string status)
@@ -91,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [CollectionDataContract(Name = "RoleList", ItemName = "Role", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "RoleList", ItemName = "Role", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class RoleList : List<Role>
     {
         public RoleList()
@@ -104,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class Role : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -116,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [CollectionDataContract(Name = "RoleInstanceList", ItemName = "RoleInstance", Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Name = "RoleInstanceList", ItemName = "RoleInstance", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class RoleInstanceList : List<RoleInstance>
     {
         public RoleInstanceList()
@@ -130,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
     }
 
     // @todo: this should implement IExtensibleDataObject. Can we do this without destroying backwards compatibility???
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class RoleInstance : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -145,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Name = "CreateDeployment", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "CreateDeployment", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class CreateDeploymentInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -169,7 +168,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Name = "ChangeConfiguration", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "ChangeConfiguration", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class ChangeConfigurationInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -181,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Name = "UpdateDeploymentStatus", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "UpdateDeploymentStatus", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class UpdateDeploymentStatusInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -190,7 +189,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Name = "UpgradeDeployment", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "UpgradeDeployment", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class UpgradeDeploymentInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -214,7 +213,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Name = "WalkUpgradeDomain", Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Name = "WalkUpgradeDomain", Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class WalkUpgradeDomainInput : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -223,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class UpgradeStatus : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -241,7 +240,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
     /// <summary>
     /// Represents Warnings in Configuration
     /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    [DataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class ConfigurationWarning : IExtensibleDataObject
     {
         [DataMember(Order = 1)]
@@ -258,7 +257,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
         }
     }
 
-    [CollectionDataContract(Namespace = Constants.ServiceManagementNS)]
+    [CollectionDataContract(Namespace = Management.Utilities.Constants.ServiceManagementNS)]
     public class ConfigurationWarningsList : List<ConfigurationWarning>
     {
         public override string ToString()

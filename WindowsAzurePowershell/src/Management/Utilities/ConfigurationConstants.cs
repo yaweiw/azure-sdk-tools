@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System.ServiceModel;
     using System.ServiceModel.Channels;

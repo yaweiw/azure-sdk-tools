@@ -12,22 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using Microsoft.WindowsAzure.Management.Cmdlets;
-
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
-    using VisualStudio.TestTools.UnitTesting;
-    using Stubs;
-    using TestData;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Cryptography.X509Certificates;
+    using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Security.Cryptography.X509Certificates;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Microsoft.WindowsAzure.Management.XmlSchema;
-    using System;
+    using Management.Utilities;
+    using Stubs;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+    using XmlSchema;
 
     [TestClass]
     public class SetSubscriptionTest
