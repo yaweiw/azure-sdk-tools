@@ -220,7 +220,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     website.HostNames = newHostNames.ToArray();
                 }
 
-                RetryCall(s => Channel.CreateSite(s, Location, website));
+                RetryCall(s => Channel.CreateSite(s, geoLocation, website));
             });
 
             if (Git)
