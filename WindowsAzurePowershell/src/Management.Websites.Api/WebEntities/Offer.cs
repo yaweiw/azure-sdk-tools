@@ -9,6 +9,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
+    using Utilities;
 
     /// <summary>
     /// Offer Contract (has to be implemented by all resource providers called by the RDFE)

@@ -10,7 +10,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.Runtime.Serialization;
     using System;
     using Microsoft.Management.Websites.Api;
-    using Web.Hosting.Administration;
+    using Utilities;
 
     [DataContract(Name = "UsageState", Namespace = UriElements.ServiceNamespace)]
     public enum UsageState

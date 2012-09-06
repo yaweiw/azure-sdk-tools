@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Websites.Test", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.CloudService", "Management.CloudService\Management.CloudService.csproj", "{B6F73AB3-1207-4B52-B90A-065CD5E107EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Websites.Api", "Management.Websites.Api\Management.Websites.Api.csproj", "{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = WindowsAzurePowershell.vsmdi
@@ -166,18 +164,6 @@ Global
 		{B6F73AB3-1207-4B52-B90A-065CD5E107EB}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
 		{B6F73AB3-1207-4B52-B90A-065CD5E107EB}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|x64
 		{B6F73AB3-1207-4B52-B90A-065CD5E107EB}.ReleaseSigned|x64.Build.0 = ReleaseSigned|x64
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.DebugVS|Any CPU.ActiveCfg = DebugVS|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.DebugVS|Any CPU.Build.0 = DebugVS|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.DebugVS|x64.ActiveCfg = DebugVS|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.Release|x64.ActiveCfg = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.ReleaseSigned|Any CPU.ActiveCfg = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.ReleaseSigned|Any CPU.Build.0 = Debug|Any CPU
-		{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}.ReleaseSigned|x64.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

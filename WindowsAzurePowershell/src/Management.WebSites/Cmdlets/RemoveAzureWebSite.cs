@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Properties;
     using Services;
+    using WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
@@ -52,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        protected virtual void WriteWebsite(Website website)
+        protected virtual void WriteWebsite(Site website)
         {
             WriteObject(website, true);
         }

@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Properties;
     using Services;
+    using WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
@@ -136,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             return users.First();
         }
 
-        internal string GetRepositoryUri(Website website)
+        internal string GetRepositoryUri(Site website)
         {
             if (website.SiteProperties.Properties.Any(kvp => kvp.Name.Equals("RepositoryUri")))
             {
@@ -160,7 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             // Get website and from it the repository url
-            Website website = RetryCall(s => Channel.GetWebsite(s, webspace, websiteName, new List<string> { "repositoryuri", "publishingpassword", "publishingusername" }));
+            Site website = RetryCall(s => Channel.GetWebsite(s, webspace, websiteName, new List<string> { "repositoryuri", "publishingpassword", "publishingusername" }));
             string repositoryUri = GetRepositoryUri(website);
 
             string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
@@ -175,7 +176,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 publishingUser = GetPublishingUser();
             }
 
-            WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+            WebSpaces webspaceList = RetryCall(s => Channel.GetWebspaces(s));
             if (webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -204,15 +205,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                Website website = new Website
+                Site website = new Site
                                         {
                                             Name = Name,
-                                            HostNames = new List<string> { Name + ".azurewebsites.net" }
+                                            HostNames = new [] { Name + ".azurewebsites.net" }
                                         };
 
                 if (!string.IsNullOrEmpty(Hostname))
                 {
-                    website.HostNames.Add(Hostname);
+                    List<string> newHostNames = new List<string>(website.HostNames);
+                    newHostNames.Add(Hostname);
+                    website.HostNames = newHostNames.ToArray();
                 }
 
                 RetryCall(s => Channel.NewWebsite(s, Location, website));

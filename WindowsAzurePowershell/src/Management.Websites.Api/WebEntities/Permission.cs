@@ -8,6 +8,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
 {
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
+    using Utilities;
 
     [DataContract(Name = "Permission", Namespace = UriElements.ServiceNamespace)]
     public enum Permission

@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using WebEntities;
     using Websites.Cmdlets;
-    using Websites.Services;
 
     [TestClass]
     public class RemoveAzureWebsiteTests
@@ -36,15 +37,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             // Setup
             bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
+            channel.GetWebspacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
             channel.GetWebsitesThunk = ar =>
             {
                 if (ar.Values["webspace"].Equals("webspace1"))
                 {
-                    return new WebsiteList(new[] { new Website { Name = "website1", WebSpace = "webspace1" } });
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
                 }
 
-                return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
 
             channel.DeleteWebsiteThunk = ar =>

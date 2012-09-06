@@ -9,7 +9,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
-    using Web.Hosting.Administration;
+    using Utilities;
 
     // Role is a user friendly way of grouping together a set of permissions and their scopes
     [DataContract(Name = "Role", Namespace = UriElements.ServiceNamespace)]

@@ -8,6 +8,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
 {
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
+    using Utilities;
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class HandlerMapping

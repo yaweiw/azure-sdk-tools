@@ -16,15 +16,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Collections.Generic;
     using System.Linq;
+    using WebEntities;
 
     public static class WebsitesExtensionMethods
     {
-        public static WebspaceList GetWebspaces(this IWebsitesServiceManagement proxy, string subscriptionId)
+        public static WebSpaces GetWebspaces(this IWebsitesServiceManagement proxy, string subscriptionId)
         {
             return proxy.EndGetWebspaces(proxy.BeginGetWebspaces(subscriptionId, null, null));
         }
 
-        public static WebsiteList GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
+        public static Sites GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
         {
             var properties = string.Empty;
             if (propertiesToInclude != null && propertiesToInclude.Count > 0)
@@ -35,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, properties, null, null));
         }
 
-        public static WebsiteConfig GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
+        public static SiteConfig GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
         {
             return proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
         }
@@ -50,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
         }
 
-        public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website, IList<string> propertiesToInclude)
+        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website, IList<string> propertiesToInclude)
         {
             var properties = string.Empty;
             if (propertiesToInclude != null && propertiesToInclude.Count > 0)
@@ -61,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetWebsite(proxy.BeginGetWebsite(subscriptionId, webspace, website, properties, null, null));
         }
 
-        public static Website GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
+        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
         {
             var webspaces = proxy.GetWebspaces(subscriptionId);
             foreach (var webspace in webspaces)
@@ -77,12 +78,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return null;
         }
 
-        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, Website website)
+        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, Site website)
         {
             proxy.EndNewWebsite(proxy.BeginNewWebsite(subscriptionId, webspace, website, null, null));
         }
 
-        public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, Website website)
+        public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, Site website)
         {
             proxy.EndUpdateWebsite(proxy.BeginUpdateWebsite(subscriptionId, webspace, websiteName, website, null, null));
         }

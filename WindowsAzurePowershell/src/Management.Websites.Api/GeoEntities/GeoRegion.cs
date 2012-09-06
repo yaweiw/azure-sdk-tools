@@ -8,7 +8,7 @@ namespace Microsoft.Management.Websites.Api.GeoEntities
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Web.Hosting.Administration;
+    using Utilities;
 
     [DataContract]
     public class GeoRegion

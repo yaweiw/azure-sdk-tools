@@ -9,7 +9,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Api;
-    using Web.Hosting.Administration;
+    using Utilities;
 
     /// <summary>
     /// Class that represents a connection string.

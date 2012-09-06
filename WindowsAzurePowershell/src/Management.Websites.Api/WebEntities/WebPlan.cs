@@ -8,6 +8,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
 {
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
+    using Utilities;
 
     /// <summary>
     /// Class that represents a Web Plan.

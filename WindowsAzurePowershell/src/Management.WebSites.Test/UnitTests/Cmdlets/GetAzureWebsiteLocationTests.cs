@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using WebEntities;
     using Websites.Cmdlets;
-    using Websites.Services;
 
     [TestClass]
     public class GetAzureWebsiteLocationTests
@@ -36,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
+            channel.GetWebspacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
 
             // Test
             GetAzureWebsiteLocationCommand getAzureWebsiteCommand = new GetAzureWebsiteLocationCommand(channel)
@@ -47,8 +48,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             getAzureWebsiteCommand.ExecuteCommand();
             Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((Webspace)webspace).Name.Equals("webspace2")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((WebSpace)webspace).Name.Equals("webspace1")));
+            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((WebSpace)webspace).Name.Equals("webspace2")));
         }
     }
 }

@@ -4,13 +4,10 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Microsoft.Web.Hosting.Administration
+namespace Microsoft.Management.Websites.Api.Utilities
 {
+    using System;
+
     /// <summary>
     /// Marks a field as PII, so it won't be traced down to the logs
     /// </summary>

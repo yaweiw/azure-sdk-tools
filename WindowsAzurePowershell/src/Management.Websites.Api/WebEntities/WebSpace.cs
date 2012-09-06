@@ -9,6 +9,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
+    using Utilities;
 
     [DataContract(Name = "Status", Namespace = UriElements.ServiceNamespace)]
     public enum StatusOptions

@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Common;
     using Properties;
     using Services;
+    using WebEntities;
 
     /// <summary>
     /// Gets an azure website.
@@ -53,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        protected virtual void WriteWebsite(Website website)
+        protected virtual void WriteWebsite(Site website)
         {
             WriteObject(website, true);
         }
@@ -66,30 +67,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 InvokeInOperationContext(() =>
                 {
                     // Show website
-                    Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                    Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
                     if (websiteObject == null)
                     {
                         throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                     }
 
                     // Show configuration
-                    WebsiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+                    SiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
 
                     // Output results
-                    websiteConfiguration.Merge(websiteObject);
-                    WriteObject(websiteConfiguration, true);
+                    WriteObject(websiteObject, false);
+                    WriteObject(websiteConfiguration, false);
                 });
             }
             else
             {
                 InvokeInOperationContext(() =>
                 {
-                    WebspaceList webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    WebSpaces webspaces = RetryCall(s => Channel.GetWebspaces(s));
                     WaitForOperation(CommandRuntime.ToString());
 
                     foreach (var webspace in webspaces)
                     {
-                        WebsiteList currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
+                        Sites currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
                             new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
 
                         WaitForOperation(CommandRuntime.ToString());

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Common;
     using Services;
+    using WebEntities;
 
     /// <summary>
     /// Gets an azure website.
@@ -49,8 +50,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Show website
-                WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
-                foreach (Webspace webspace in webspaceList)
+                WebSpaces webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+                foreach (WebSpace webspace in webspaceList)
                 {
                     WriteObject(webspace, true);
                 }

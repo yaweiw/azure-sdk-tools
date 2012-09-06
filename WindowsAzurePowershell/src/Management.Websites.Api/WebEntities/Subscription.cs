@@ -10,7 +10,7 @@ namespace Microsoft.Management.Websites.Api.WebEntities
     using System.ComponentModel;
     using System.Runtime.Serialization;
     using Microsoft.Management.Websites.Api;
-    using Web.Hosting.Administration;
+    using Utilities;
 
     /// <summary>
     /// Class that represents a subscription.

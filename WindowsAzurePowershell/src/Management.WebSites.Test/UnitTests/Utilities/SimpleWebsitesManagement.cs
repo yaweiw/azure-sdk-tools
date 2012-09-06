@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
     using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using WebEntities;
     using Websites.Services;
 
     /// <summary>
@@ -45,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #region GetWebspaces
 
-        public Func<SimpleServiceManagementAsyncResult, WebspaceList> GetWebspacesThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, WebSpaces> GetWebspacesThunk { get; set; }
 
         public IAsyncResult BeginGetWebspaces(string subscriptionId, AsyncCallback callback, object state)
         {
@@ -56,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             return result;
         }
 
-        public WebspaceList EndGetWebspaces(IAsyncResult asyncResult)
+        public WebSpaces EndGetWebspaces(IAsyncResult asyncResult)
         {
             if (GetWebspacesThunk != null)
             {
@@ -70,14 +71,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
                 throw new NotImplementedException("GetWebspacesThunk is not implemented!");
             }
 
-            return default(WebspaceList);
+            return default(WebSpaces);
         }
 
         #endregion
 
         #region GetWebsites
 
-        public Func<SimpleServiceManagementAsyncResult, WebsiteList> GetWebsitesThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, Sites> GetWebsitesThunk { get; set; }
 
         public IAsyncResult BeginGetWebsites(string subscriptionId, string webspace, string propertiesToInclude, AsyncCallback callback, object state)
         {
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             return result;
         }
 
-        public WebsiteList EndGetWebsites(IAsyncResult asyncResult)
+        public Sites EndGetWebsites(IAsyncResult asyncResult)
         {
             if (GetWebspacesThunk != null)
             {
@@ -104,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
                 throw new NotImplementedException("GetWebsitesThunk is not implemented!");
             }
 
-            return default(WebsiteList);
+            return default(Sites);
         }
 
         #endregion
@@ -143,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #region GetWebsiteConfiguration
 
-        public Func<SimpleServiceManagementAsyncResult, WebsiteConfig> GetWebsiteConfigurationThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, SiteConfig> GetWebsiteConfigurationThunk { get; set; }
 
         public IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
         {
@@ -156,7 +157,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             return result;
         }
 
-        public WebsiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult)
+        public SiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult)
         {
             if (GetWebsiteConfigurationThunk != null)
             {
@@ -170,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
                 throw new NotImplementedException("GetWebsiteConfigurationThunk is not implemented!");
             }
 
-            return default(WebsiteConfig);
+            return default(SiteConfig);
         }
 
         #endregion
@@ -179,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         public Action<SimpleServiceManagementAsyncResult> NewWebsiteThunk { get; set; }
 
-        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state)
+        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Site website, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -211,7 +212,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         public Action<SimpleServiceManagementAsyncResult> UpdateWebsiteThunk { get; set; }
 
-        public IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Site website, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -306,7 +307,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #region GetWebsite
 
-        public Func<SimpleServiceManagementAsyncResult, Website> GetWebsiteThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, Site> GetWebsiteThunk { get; set; }
 
         public IAsyncResult BeginGetWebsite(string subscriptionId, string webspace, string website, string propertiesToInclude, AsyncCallback callback, object state)
         {
@@ -320,7 +321,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             return result;
         }
 
-        public Website EndGetWebsite(IAsyncResult asyncResult)
+        public Site EndGetWebsite(IAsyncResult asyncResult)
         {
             if (GetWebsiteThunk != null)
             {
@@ -334,7 +335,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
                 throw new NotImplementedException("GetWebsiteThunk is not implemented!");
             }
 
-            return default(Website);
+            return default(Site);
         }
 
         #endregion

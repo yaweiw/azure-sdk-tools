@@ -73,11 +73,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiConstants.cs" />
+    <Compile Include="Utilities\ApiConstants.cs" />
     <Compile Include="GeoEntities\GeoLocation.cs" />
     <Compile Include="GeoEntities\GeoRegion.cs" />
     <Compile Include="GeoEntities\Stamp.cs" />
-    <Compile Include="UriElements.cs" />
+    <Compile Include="Utilities\UriElements.cs" />
     <Compile Include="Utilities\PIIValueAttribute.cs" />
     <Compile Include="WebEntities\AccessControlEntry.cs" />
     <Compile Include="WebEntities\HostingCredential.cs" />

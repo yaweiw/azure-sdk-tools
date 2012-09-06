@@ -4,7 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Management.Websites.Api
+namespace Microsoft.Management.Websites.Api.Utilities
 {
     public static class ApiConstants
     {
