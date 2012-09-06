@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                                                 State = "Running"
                                             };
 
-                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
+                    RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
                 }
                 catch (CommunicationException ex)
                 {

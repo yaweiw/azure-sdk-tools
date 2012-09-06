@@ -14,12 +14,81 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    using System.Collections.Generic;
     using System.Linq;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
     {
+        public static WebSpaces GetWebSpaces(this IWebsitesServiceManagement proxy, string subscriptionName)
+        {
+            return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
+        }
+
+        public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
+        {
+            return proxy.EndGetWebSpace(proxy.BeginGetWebSpace(subscriptionName, name, null, null));
+        }
+
+        public static WebSpace CreateWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, bool allowPendingState, WebSpace webSpace)
+        {
+            return proxy.EndCreateWebSpace(proxy.BeginCreateWebSpace(subscriptionName, allowPendingState, webSpace, null, null));
+        }
+
+        public static WebSpace UpdateWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name, bool allowPendingState, WebSpace webSpace)
+        {
+            return proxy.EndUpdateWebSpace(proxy.BeginUpdateWebSpace(subscriptionName, name, allowPendingState, webSpace, null, null));
+        }
+
+        public static void DeleteWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
+        {
+            proxy.EndDeleteWebSpace(proxy.BeginDeleteWebSpace(subscriptionName, name, null, null));
+        }
+
+        public static string[] GetSubscriptionPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionName)
+        {
+            return proxy.EndGetSubscriptionPublishingUsers(proxy.BeginGetSubscriptionPublishingUsers(subscriptionName, null, null));
+        }
+
+        public static Sites GetSites(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string propertiesToInclude)
+        {
+            return proxy.EndGetSites(proxy.BeginGetSites(subscriptionName, webspaceName, propertiesToInclude, null, null));
+        }
+
+        public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string propertiesToInclude)
+        {
+            return proxy.EndGetSite(proxy.BeginGetSite(subscriptionName, webspaceName, name, propertiesToInclude, null, null));
+        }
+
+        public static Site CreateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, SiteWithWebSpace site)
+        {
+            return proxy.EndCreateSite(proxy.BeginCreateSite(subscriptionName, webspaceName, site, null, null));
+        }
+
+        public static void UpdateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, Site site)
+        {
+            proxy.EndUpdateSite(proxy.BeginUpdateSite(subscriptionName, webspaceName, name, site, null, null));
+        }
+
+        public static void DeleteSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string deleteMetrics)
+        {
+            proxy.EndDeleteSite(proxy.BeginDeleteSite(subscriptionName, webspaceName, name, deleteMetrics, null, null));
+        }
+
+        public static SiteConfig GetSiteConfig(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name)
+        {
+            return proxy.EndGetSiteConfig(proxy.BeginGetSiteConfig(subscriptionName, webspaceName, name, null, null));
+        }
+
+        public static void UpdateSiteConfig(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, SiteConfig siteConfig)
+        {
+            proxy.EndUpdateSiteConfig(proxy.BeginUpdateSiteConfig(subscriptionName, webspaceName, name, siteConfig, null, null));
+        }
+
+        public static void CreateSiteRepository(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name)
+        {
+            proxy.EndCreateSiteRepository(proxy.BeginCreateSiteRepository(subscriptionName, webspaceName, name, null, null));
+        }
+
         public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
         {
             var webspaces = proxy.GetWebSpaces(subscriptionId);

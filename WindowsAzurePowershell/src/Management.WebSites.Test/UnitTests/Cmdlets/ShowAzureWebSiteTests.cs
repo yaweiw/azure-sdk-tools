@@ -38,19 +38,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
-            channel.GetWebsitesThunk = ar =>
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSitesThunk = ar =>
             {
-                if (ar.Values["webspace"].Equals("webspace1"))
+                if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
                     return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
                 }
 
                 return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
-            channel.GetWebsiteConfigurationThunk = ar =>
+            channel.GetSiteConfigThunk = ar =>
                                                        {
-                                                           if (ar.Values["website"].Equals("website1") && ar.Values["webspace"].Equals("webspace1"))
+                                                           if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
                                                            {
                                                                return new SiteConfig
                                                                {
