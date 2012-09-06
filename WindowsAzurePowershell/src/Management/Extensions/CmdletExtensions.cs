@@ -134,7 +134,8 @@ namespace Microsoft.WindowsAzure.Management.Extensions
                 var message = dscException.Message;
                 try
                 {
-                    XNamespace ns = "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata";
+                    XNamespace ns = "http://schemas.microsoft.com/ado/2007/08/dataservices/" +
+                                    "metadata";
                     XDocument doc = XDocument.Parse(message);
                     if (doc.Root != null)
                     {
