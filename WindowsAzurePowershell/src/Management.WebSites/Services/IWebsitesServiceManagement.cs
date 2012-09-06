@@ -44,13 +44,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     {
         [Description("Gets all webspaces for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSpacesRoot)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot)]
         IAsyncResult BeginGetWebSpaces(string subscriptionName, AsyncCallback callback, object state);
         WebSpaces EndGetWebSpaces(IAsyncResult asyncResult);
 
         [Description("Gets all webspaces for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSpacesRoot + UriElements.NameTemplateParameter)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot + UriElements.NameTemplateParameter)]
         IAsyncResult BeginGetWebSpace(string subscriptionName, string name, AsyncCallback callback, object state);
         WebSpace EndGetWebSpace(IAsyncResult asyncResult);
 
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         [Description("Gets all publishing users for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.SubscriptionPublishingUsers)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.SubscriptionPublishingUsers)]
         IAsyncResult BeginGetSubscriptionPublishingUsers(string subscriptionName,  AsyncCallback callback, object state);
         string[] EndGetSubscriptionPublishingUsers(IAsyncResult asyncResult);
 
@@ -82,13 +82,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         [Description("Returns all the sites for a given subscription and webspace.")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSitesRoot + UriElements.PropertiesToIncludeParameter)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSitesRoot + UriElements.PropertiesToIncludeParameter)]
         IAsyncResult BeginGetSites(string subscriptionName, string webspaceName, string propertiesToInclude, AsyncCallback callback, object state);
         Sites EndGetSites(IAsyncResult asyncResult);
 
         [Description("Returns the details of a particular site.")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSitesRoot + UriElements.NameTemplateParameter + UriElements.PropertiesToIncludeParameter)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSitesRoot + UriElements.NameTemplateParameter + UriElements.PropertiesToIncludeParameter)]
         IAsyncResult BeginGetSite(string subscriptionName, string webspaceName, string name, string propertiesToInclude, AsyncCallback callback, object state);
         Site EndGetSite(IAsyncResult asyncResult);
 
@@ -115,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         #region Site configuration settings
 
         [Description("Gets site's configuration settings")]
-        [WebGet(UriTemplate = UriElements.WebSiteConfig)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteConfig)]
         [OperationContract(AsyncPattern = true)]
         IAsyncResult BeginGetSiteConfig(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
         SiteConfig EndGetSiteConfig(IAsyncResult asyncResult);
@@ -138,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         [Description("Gets a site's repository URI")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSiteRepository)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteRepository)]
         IAsyncResult BeginGetSiteRepositoryUri(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
         Uri EndGetSiteRepositoryUri(IAsyncResult asyncResult);
 
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         [Description("Gets a development site in a site's repository")]
         [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = UriElements.WebSiteRepositoryDev)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteRepositoryDev)]
         IAsyncResult BeginGetDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
         SiteRepositoryDev EndGetDevSite(IAsyncResult asyncResult);
 
