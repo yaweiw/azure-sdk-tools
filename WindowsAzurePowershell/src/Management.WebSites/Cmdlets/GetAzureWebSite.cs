@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     }
 
                     // Show configuration
-                    SiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+                    SiteConfig websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name));
 
                     // Output results
                     WriteObject(websiteObject, false);
@@ -85,13 +85,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 InvokeInOperationContext(() =>
                 {
-                    WebSpaces webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    WebSpaces webspaces = RetryCall(s => Channel.GetWebSpaces(s));
                     WaitForOperation(CommandRuntime.ToString());
 
                     foreach (var webspace in webspaces)
                     {
-                        Sites currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
-                            new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
+                        Sites currentWebsites = RetryCall(s => Channel.GetSites(s, webspace.Name,
+                            "repositoryuri,publishingpassword,publishingusername"));
 
                         WaitForOperation(CommandRuntime.ToString());
 

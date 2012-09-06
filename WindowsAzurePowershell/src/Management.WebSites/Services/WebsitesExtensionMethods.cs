@@ -20,54 +20,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public static class WebsitesExtensionMethods
     {
-        public static WebSpaces GetWebspaces(this IWebsitesServiceManagement proxy, string subscriptionId)
-        {
-            return proxy.EndGetWebspaces(proxy.BeginGetWebspaces(subscriptionId, null, null));
-        }
-
-        public static Sites GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
-        {
-            var properties = string.Empty;
-            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
-            {
-                properties = string.Join(",", propertiesToInclude.ToArray());
-            }
-
-            return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, properties, null, null));
-        }
-
-        public static SiteConfig GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
-        {
-            return proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
-        }
-
-        public static void DeleteWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
-        {
-            proxy.EndDeleteWebsite(proxy.BeginDeleteWebsite(subscriptionId, webspace, website, null, null));
-        }
-
-        public static IList<string> GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId)
-        {
-            return proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
-        }
-
-        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website, IList<string> propertiesToInclude)
-        {
-            var properties = string.Empty;
-            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
-            {
-                properties = string.Join(",", propertiesToInclude.ToArray());
-            }
-
-            return proxy.EndGetWebsite(proxy.BeginGetWebsite(subscriptionId, webspace, website, properties, null, null));
-        }
-
         public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
         {
-            var webspaces = proxy.GetWebspaces(subscriptionId);
+            var webspaces = proxy.GetWebSpaces(subscriptionId);
             foreach (var webspace in webspaces)
             {
-                var websites = proxy.GetWebsites(subscriptionId, webspace.Name, null);
+                var websites = proxy.GetSites(subscriptionId, webspace.Name, null);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
                 if (matchWebsite != null)
                 {
@@ -76,21 +34,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
 
             return null;
-        }
-
-        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, Site website)
-        {
-            proxy.EndNewWebsite(proxy.BeginNewWebsite(subscriptionId, webspace, website, null, null));
-        }
-
-        public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, Site website)
-        {
-            proxy.EndUpdateWebsite(proxy.BeginUpdateWebsite(subscriptionId, webspace, websiteName, website, null, null));
-        }
-
-        public static void CreateWebsiteRepository(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName)
-        {
-            proxy.EndCreateWebsiteRepository(proxy.BeginCreateWebsiteRepository(subscriptionId, webspace, websiteName, null, null));
         }
     }
 }

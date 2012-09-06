@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Show website
-                WebSpaces webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+                WebSpaces webspaceList = RetryCall(s => Channel.GetWebSpaces(s));
                 foreach (WebSpace webspace in webspaceList)
                 {
                     WriteObject(webspace, true);
