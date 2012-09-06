@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugVS|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugVS\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Microsoft.Web.Hosting.Administration.Api.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(EnvironmentConfig)" Condition="'$(EnvironmentConfig)' != ''" />
+  <!-- Preserve versions.xml from deletion by CoreClean target -->
+  <Target Name="PreserveVersionsFile" BeforeTargets="CoreClean" Condition="'$(EnvironmentConfig)' != ''">
+    <ItemGroup>
+      <Clean Remove="$(AssemblyVersionDefinitionFile)" />
+    </ItemGroup>
+  </Target>
+  <!-- Assembly Attributes -->
+  <PropertyGroup>
+    <ProductName>Microsoft Web Hosting Administration Api</ProductName>
+    <CompanyName>Microsoft Corporation</CompanyName>
+    <TrademarkName>Microsoft® is a registered trademark of Microsoft Corporation.</TrademarkName>
+    <CopyrightText>Copyright © Microsoft Corporation. All rights reserved.</CopyrightText>
+    <!-- Sign assembly -->
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(_NTTREE)\public\ext\sdk\vs9sp1\internal\strongnamekeys\fake\MSSharedLibSN1024.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>true</DelaySign>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <!-- Override output folder for CoreXT -->
+  <PropertyGroup Condition="'$(EnvironmentConfig)' != ''">
+    <OutputPath>$(ObjectRoot)$(ProjectDirRelativeToBaseDir)\bin</OutputPath>
+    <OutDir>$(OutputPath)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <BuildArchitecture Condition=" '$(Platform)' == 'AnyCPU' ">amd64</BuildArchitecture>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{35CFEE40-28BC-4C04-A9F6-8DAAE3E1E63B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Management.Websites.Api</RootNamespace>
+    <AssemblyName>Microsoft.Management.Websites.Api</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <!-- Properties for editing propject properties in VS -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' And '$(EnvironmentConfig)' == '' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiConstants.cs" />
+    <Compile Include="GeoEntities\GeoLocation.cs" />
+    <Compile Include="GeoEntities\GeoRegion.cs" />
+    <Compile Include="GeoEntities\Stamp.cs" />
+    <Compile Include="UriElements.cs" />
+    <Compile Include="Utilities\PIIValueAttribute.cs" />
+    <Compile Include="WebEntities\AccessControlEntry.cs" />
+    <Compile Include="WebEntities\HostingCredential.cs" />
+    <Compile Include="WebEntities\Permission.cs" />
+    <Compile Include="WebEntities\PermissionScope.cs" />
+    <Compile Include="WebEntities\PermissionScopePair.cs" />
+    <Compile Include="WebEntities\Role.cs" />
+    <Compile Include="WebEntities\Certificate.cs" />
+    <Compile Include="WebEntities\Policy.cs" />
+    <Compile Include="WebEntities\HandlerMapping.cs" />
+    <Compile Include="WebEntities\SiteProperties.cs" />
+    <Compile Include="WebEntities\Offer.cs" />
+    <Compile Include="WebEntities\HostNameSslState.cs" />
+    <Compile Include="WebEntities\StampCapacity.cs" />
+    <Compile Include="WebEntities\ConfigurationSettings.cs" />
+    <Compile Include="WebEntities\ConnStringInfo.cs" />
+    <Compile Include="WebEntities\MetricResponse.cs" />
+    <Compile Include="WebEntities\PagedSet.cs" />
+    <Compile Include="WebEntities\NameValuePair.cs" />
+    <Compile Include="WebEntities\AuditLog.cs" />
+    <Compile Include="WebEntities\Server.cs" />
+    <Compile Include="WebEntities\TraceMessage.cs" />
+    <Compile Include="WebEntities\WebPlan.cs" />
+    <Compile Include="WebEntities\WebQuota.cs" />
+    <Compile Include="WebEntities\WebSystem.cs" />
+    <Compile Include="WebEntities\MetricDefinition.cs" />
+    <Compile Include="WebEntities\MetricSet.cs" />
+    <Compile Include="WebEntities\PublishingCredential.cs" />
+    <Compile Include="WebEntities\Database.cs" />
+    <Compile Include="WebEntities\ErrorEntity.cs" />
+    <Compile Include="WebEntities\Plan.cs" />
+    <Compile Include="WebEntities\SiteRepositoryDev.cs" />
+    <Compile Include="WebEntities\Site.cs" />
+    <Compile Include="WebEntities\SiteConfig.cs" />
+    <Compile Include="WebEntities\Subscription.cs" />
+    <Compile Include="WebEntities\Usage.cs" />
+    <Compile Include="WebEntities\WebSpace.cs" />
+    <Compile Include="WebEntities\User.cs" />
+    <Compile Include="WebEntities\ConnectionString.cs" />
+    <Compile Include="WebEntities\WebSystemSummary.cs" />
+  </ItemGroup>
+  <!-- Original VS-generated targets - left for VS compatibilty support -->
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" Condition="'$(ExtendedTargetsPath)' == ''" />
+  <!-- CoreXT targets -->
+  <Import Project="$(ExtendedTargetsPath)\Microsoft.CSharp.targets" Condition="'$(ExtendedTargetsPath)' != ''" />
+</Project>

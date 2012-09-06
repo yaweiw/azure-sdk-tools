@@ -262,12 +262,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public static void ClearRuntime(WebRole role)
         {
-            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            if (role.Startup != null && role.Startup.Task.Length > 0)
+            {
+                ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            }
         }
 
         public static void ClearRuntime(WorkerRole role)
         {
-            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            if (role.Startup != null && role.Startup.Task.Length > 0)
+            {
+                ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            }
         }
 
         static void ClearEnvironmentValue(Variable[] environment, string key)

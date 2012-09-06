@@ -153,8 +153,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
             {
-
-
                 if (ServiceExists())
                 {
                     var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
