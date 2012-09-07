@@ -46,16 +46,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         internal override void ExecuteCommand()
         {
-            // if a name is passed, do the same as show-azurewebsite
-            InvokeInOperationContext(() =>
-            {
-                // Show website
-                WebSpaces webspaceList = RetryCall(s => Channel.GetWebSpaces(s));
-                foreach (WebSpace webspace in webspaceList)
-                {
-                    WriteObject(webspace, true);
-                }
-            });
+            // For now geo regions will be hardcoded since the Get GeoRegions endpoint is still not exposed.
+            WriteObject(AvailableWebspaces.Webspaces.Keys, true);
         }
     }
 }

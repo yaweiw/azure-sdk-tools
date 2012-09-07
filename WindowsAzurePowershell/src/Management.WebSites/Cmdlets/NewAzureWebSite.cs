@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Text.RegularExpressions;
+    using GeoEntities;
     using Properties;
     using Services;
     using WebEntities;
@@ -202,14 +204,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             if (webspace == null)
             {
-                // If no webspace corresponding to the georegion was found, attempt to create it 
-                webspace = new WebSpace {
-                    Name = "westuswebspace",
-                    GeoRegion = "West US",
-                    GeoLocation = "BLU",
+                // If no webspace corresponding to the georegion was found, attempt to create it
+                webspace = new WebSpace
+                {
+                    Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
+                    GeoRegion = Location,
                     Subscription = CurrentSubscription.SubscriptionId,
-                    ComputeMode = ComputeModeOptions.Shared,
-                    Status = StatusOptions.Ready
+                    Plan = "VirtualDedicatedPlan"
                 };
             }
 

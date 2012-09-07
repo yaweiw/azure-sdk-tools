@@ -18,6 +18,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.WebEntities
     using System.Runtime.Serialization;
     using Utilities;
 
+
+    public static class AvailableWebspaces
+    {
+        public static readonly IDictionary<string, string> Webspaces = new Dictionary<string, string> {
+            { "North Europe", "northeuropewebspace" },
+            { "West Europe", "westeuropewebspace" },
+            { "East US", "eastuswebspace" },
+            { "West US", "westuswebspace" } };
+    }
+
     [DataContract(Name = "Status", Namespace = UriElements.ServiceNamespace)]
     public enum StatusOptions
     {

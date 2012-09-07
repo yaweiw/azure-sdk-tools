@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.GeoEntities
         /// <summary>
         /// Initialize from list
         /// </summary>
-        /// <param name="plans"></param>
+        /// <param name="regions"></param>
         public GeoRegions(List<GeoRegion> regions) : base(regions) { }
     }
 }
