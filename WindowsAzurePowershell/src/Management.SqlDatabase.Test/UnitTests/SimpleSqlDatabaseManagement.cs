@@ -49,8 +49,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
         public IAsyncResult BeginGetServers(string subscriptionId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values[
-                ] = subscriptionId;
+            result.Values["subscriptionId"] = subscriptionId;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.GeoEntities
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Microsoft.WindowsAzure.Management.Websites.WebEntities;
+    using WebEntities;
     using Utilities;
 
     [DataContract(Name = "StampState", Namespace = UriElements.ServiceNamespace)]
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.GeoEntities
         /// <summary>
         /// Initialize from list
         /// </summary>
-        /// <param name="plans"></param>
+        /// <param name="stamps"></param>
         public Stamps(List<Stamp> stamps) : base(stamps) { }
     }
 }

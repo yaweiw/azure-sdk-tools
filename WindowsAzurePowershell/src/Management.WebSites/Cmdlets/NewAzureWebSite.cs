@@ -176,7 +176,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 publishingUser = GetPublishingUser();
             }
 
-            WebSpaces webspaceList = RetryCall(s => Channel.GetWebSpaces(s));
+            WebSpaces webspaceList = null;
+
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
             if (webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -186,22 +188,29 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
             }
 
-            string geoLocation = null;
+            WebSpace webspace = null;
             if (string.IsNullOrEmpty(Location))
             {
-                InvokeInOperationContext(() =>
-                {
-                    // If no location was provided as a parameter, try to default it
-                    geoLocation = webspaceList.Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
-                });
+                // If no location was provided as a parameter, try to default it
+                webspace = webspaceList.FirstOrDefault();
             }
             else
             {
-                InvokeInOperationContext(() =>
-                {
-                    // Find the webspace that corresponds to the geolocation
-                    geoLocation = webspaceList.Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault() ?? Location;
-                });   
+                // Find the webspace that corresponds to the georegion
+                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));   
+            }
+
+            if (webspace == null)
+            {
+                // If no webspace corresponding to the georegion was found, attempt to create it 
+                webspace = new WebSpace {
+                    Name = "eastuswebspace",
+                    GeoRegion = Location,
+                    GeoLocation = "BLU",
+                    Subscription = CurrentSubscription.SubscriptionId,
+                    ComputeMode = ComputeModeOptions.Shared,
+                    Status = StatusOptions.Ready
+                };
             }
 
             InvokeInOperationContext(() =>
@@ -210,7 +219,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                                         {
                                             Name = Name,
                                             HostNames = new [] { Name + ".azurewebsites.net" },
-                                            WebSpace = geoLocation
+                                            WebSpace = webspace.Name,
+                                            WebSpaceToCreate = webspace
                                         };
 
                 if (!string.IsNullOrEmpty(Hostname))
@@ -220,7 +230,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     website.HostNames = newHostNames.ToArray();
                 }
 
-                RetryCall(s => Channel.CreateSite(s, geoLocation, website));
+                RetryCall(s => Channel.CreateSite(s, webspace.Name, website));
             });
 
             if (Git)

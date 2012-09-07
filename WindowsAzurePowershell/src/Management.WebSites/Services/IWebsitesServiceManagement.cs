@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.ServiceModel.Web;
     using System.ServiceModel;
     using System.Xml.Serialization;
+    using GeoEntities;
     using Utilities;
     using WebEntities;
 
@@ -44,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     {
         [Description("Gets all webspaces for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot + "/")]
         IAsyncResult BeginGetWebSpaces(string subscriptionName, AsyncCallback callback, object state);
         WebSpaces EndGetWebSpaces(IAsyncResult asyncResult);
 
@@ -173,5 +174,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         void EndDeleteDevSite(IAsyncResult asyncResult);
 
         #endregion
+
+        [Description("Returns all the geo regions.")]
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = UriElements.GeoRegionsRoot + UriElements.ListOnlyOnlineStampsParameter)]
+        IAsyncResult BeginGetRegions(bool listOnlyOnline, AsyncCallback callback, object state);
+        GeoRegions EndGetRegions(IAsyncResult asyncResult);
+
+        [Description("Returns all the geo locations.")]
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = UriElements.GeoLocationsRoot)]
+        IAsyncResult BeginGetLocations(string regionName, AsyncCallback callback, object state);
+        GeoLocations EndGetLocations(IAsyncResult asyncResult);
     }
 }

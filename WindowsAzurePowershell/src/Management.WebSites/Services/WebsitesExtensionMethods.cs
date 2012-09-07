@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Linq;
+    using GeoEntities;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
@@ -87,6 +88,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static void CreateSiteRepository(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name)
         {
             proxy.EndCreateSiteRepository(proxy.BeginCreateSiteRepository(subscriptionName, webspaceName, name, null, null));
+        }
+
+        public static GeoRegions GetRegions(this IWebsitesServiceManagement proxy, bool listOnlyOnline)
+        {
+            return proxy.EndGetRegions(proxy.BeginGetRegions(listOnlyOnline, null, null));
+        }
+
+        public static GeoLocations GetLocations(this IWebsitesServiceManagement proxy, string regionName)
+        {
+            return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
         public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)

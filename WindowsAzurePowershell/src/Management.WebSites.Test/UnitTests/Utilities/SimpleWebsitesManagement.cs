@@ -409,7 +409,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             throw new NotImplementedException();
         }
 
-        public void EndDeleteSiteRepositoryUri(IAsyncResult asyncResult)
+        public void EndDeleteSiteRepository(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
