@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebEntities;
     using Websites.Cmdlets;
     using Websites.Services;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class ShowAzureWebsiteTests

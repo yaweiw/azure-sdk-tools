@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Common;
     using Properties;
     using Services;
-    using WebEntities;
+    using Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.

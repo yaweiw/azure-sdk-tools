@@ -17,14 +17,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.ServiceModel.Web;
     using System.ServiceModel;
+    using System.ServiceModel.Web;
     using System.Xml.Serialization;
     using GeoEntities;
     using Utilities;
     using WebEntities;
 
-    [XmlRootAttribute(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]
+    [XmlRoot(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]
     public class ServiceError
     {
         public string Code { get; set; }

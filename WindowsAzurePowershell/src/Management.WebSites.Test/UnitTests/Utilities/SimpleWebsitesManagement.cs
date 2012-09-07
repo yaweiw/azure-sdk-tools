@@ -17,8 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
     using System;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebEntities;
     using Websites.Services;
+    using Websites.Services.GeoEntities;
+    using Websites.Services.WebEntities;
 
     /// <summary>
     /// Simple implementation of the <see cref="IWebsitesServiceManagement"/> interface that can be
@@ -460,7 +461,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             throw new NotImplementedException();
         }
 
-        public GeoEntities.GeoRegions EndGetRegions(IAsyncResult asyncResult)
+        public GeoRegions EndGetRegions(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
@@ -470,7 +471,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             throw new NotImplementedException();
         }
 
-        public GeoEntities.GeoLocations EndGetLocations(IAsyncResult asyncResult)
+        public GeoLocations EndGetLocations(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

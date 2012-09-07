@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Common;
     using Services;
-    using WebEntities;
+    using Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.

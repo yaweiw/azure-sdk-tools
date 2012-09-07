@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public const string CleanAuditLogs = "auditlogs?timestamp={timestamp}";
 
         // This is for checking that the URL using {role} parameter is valid according to the specification
-        public static readonly string[] AvailableRoles = new string[] { WebWorkerRole, LoadBalancerRole, PublisherRole, ControllerRole };
+        public static readonly string[] AvailableRoles = new[] { WebWorkerRole, LoadBalancerRole, PublisherRole, ControllerRole };
 
         public const string PutMachineOffline = "systems/{webSystemName}/{role}/{name}/offline";
         public const string PutMachineOnline = "systems/{webSystemName}/{role}/{name}/online";

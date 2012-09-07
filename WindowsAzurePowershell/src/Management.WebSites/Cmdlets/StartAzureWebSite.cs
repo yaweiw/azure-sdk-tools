@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
-    using System.Management.Automation;
     using System;
+    using System.Management.Automation;
     using System.ServiceModel;
     using Properties;
     using Services;
-    using WebEntities;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
