@@ -69,8 +69,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public const string SubscriptionEntitiesRoot = EntitiesRoot + "{subscriptionName}" + UserRoles;
         public const string WebSpaceEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}" + UserRoles;
         public const string WebSiteEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}/sites/{siteName}" + UserRoles;
-        public const string GeoRegionsRoot = "services/regions/";
-        public const string GeoLocationsRoot = "services/regions/{regionName}/locations";
+        public const string GeoRegionsRoot = "regions/";
+        public const string GeoLocationsRoot = "regions/{regionName}/locations";
         public const string StampsRoot = "locations/{locationName}/stamps";
         public const string StampsCommand = "?Command={command}";
         public const string WebSitesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites";

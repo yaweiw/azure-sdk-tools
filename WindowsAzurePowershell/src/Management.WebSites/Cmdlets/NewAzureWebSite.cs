@@ -204,8 +204,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // If no webspace corresponding to the georegion was found, attempt to create it 
                 webspace = new WebSpace {
-                    Name = "eastuswebspace",
-                    GeoRegion = Location,
+                    Name = "westuswebspace",
+                    GeoRegion = "West US",
                     GeoLocation = "BLU",
                     Subscription = CurrentSubscription.SubscriptionId,
                     ComputeMode = ComputeModeOptions.Shared,

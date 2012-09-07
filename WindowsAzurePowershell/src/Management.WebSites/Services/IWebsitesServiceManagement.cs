@@ -175,6 +175,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         #endregion
 
+        #region Region methods
+
         [Description("Returns all the geo regions.")]
         [OperationContract(AsyncPattern = true)]
         [WebGet(UriTemplate = UriElements.GeoRegionsRoot + UriElements.ListOnlyOnlineStampsParameter)]
@@ -186,5 +188,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [WebGet(UriTemplate = UriElements.GeoLocationsRoot)]
         IAsyncResult BeginGetLocations(string regionName, AsyncCallback callback, object state);
         GeoLocations EndGetLocations(IAsyncResult asyncResult);
+
+        #endregion
     }
 }
