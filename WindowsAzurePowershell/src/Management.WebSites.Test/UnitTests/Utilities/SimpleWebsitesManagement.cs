@@ -453,6 +453,27 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
         {
             throw new NotImplementedException();
         }
+
+
+        public IAsyncResult BeginGetRegions(bool listOnlyOnline, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GeoEntities.GeoRegions EndGetRegions(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetLocations(string regionName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GeoEntities.GeoLocations EndGetLocations(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using WebEntities;
     using Websites.Cmdlets;
 
     [TestClass]
@@ -37,7 +36,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
 
             // Test
             GetAzureWebsiteLocationCommand getAzureWebsiteCommand = new GetAzureWebsiteLocationCommand(channel)
@@ -47,9 +45,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((WebSpace)webspace).Name.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(webspace => ((WebSpace)webspace).Name.Equals("webspace2")));
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            var locations = (IEnumerable<string>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            Assert.IsNotNull(locations);
+            Assert.IsTrue(locations.Any(loc => loc.Equals("East US")));
+            Assert.IsTrue(locations.Any(loc => loc.Equals("West US")));
+            Assert.IsTrue(locations.Any(loc => loc.Equals("North Europe")));
+            Assert.IsTrue(locations.Any(loc => loc.Equals("West Europe")));
         }
     }
 }

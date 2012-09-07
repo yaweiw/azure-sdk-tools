@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         public void ProcessNewWebsiteTest()
         {
             const string websiteName = "website1";
-            const string webspaceName = "webspace";
+            const string webspaceName = "webspace1";
 
             // Setup
             bool created = true;
