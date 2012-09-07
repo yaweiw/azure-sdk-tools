@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Common;
     using Properties;
@@ -24,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(Site))]
     public class GetAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
@@ -54,53 +55,45 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        protected virtual void WriteWebsite(Site website)
+        protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
-            WriteObject(website, true);
+            WriteObject(websites, true);
         }
 
         internal override void ExecuteCommand()
         {
             if (!string.IsNullOrEmpty(Name))
             {
-                // if a name is passed, do the same as show-azurewebsite
-                InvokeInOperationContext(() =>
+                // Show website
+                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                if (websiteObject == null)
                 {
-                    // Show website
-                    Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
-                    if (websiteObject == null)
-                    {
-                        throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-                    }
+                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+                }
 
-                    // Show configuration
-                    SiteConfig websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name));
+                // if a name is passed, do the same as show-azurewebsite
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() => { websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name)); });
 
-                    // Output results
-                    WriteObject(websiteObject, false);
-                    WriteObject(websiteConfiguration, false);
-                });
+                // Output results
+                WriteObject(websiteObject, false);
+                WriteObject(websiteConfiguration, false);
             }
             else
             {
-                InvokeInOperationContext(() =>
+                WebSpaces webspaces = null;
+                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
+
+                WaitForOperation(CommandRuntime.ToString());
+
+                List<Site> websites = new List<Site>();
+                foreach (var webspace in webspaces)
                 {
-                    WebSpaces webspaces = RetryCall(s => Channel.GetWebSpaces(s));
+                    websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
                     WaitForOperation(CommandRuntime.ToString());
+                }
 
-                    foreach (var webspace in webspaces)
-                    {
-                        Sites currentWebsites = RetryCall(s => Channel.GetSites(s, webspace.Name,
-                            "repositoryuri,publishingpassword,publishingusername"));
-
-                        WaitForOperation(CommandRuntime.ToString());
-
-                        foreach (var website in currentWebsites)
-                        {
-                            WriteWebsite(website);
-                        }
-                    }
-                });
+                WriteWebsites(websites);
             }
         }
     }

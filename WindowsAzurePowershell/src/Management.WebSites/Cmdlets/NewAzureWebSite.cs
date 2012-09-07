@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using System.Text.RegularExpressions;
-    using GeoEntities;
     using Properties;
     using Services;
     using WebEntities;
@@ -170,6 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
             string publishingUser = null;
