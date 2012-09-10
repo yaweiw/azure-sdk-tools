@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Model;
     using Properties;
     using Services;
+    using StorageClient;
     using Utilities;
 
     /// <summary>
@@ -76,6 +77,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Mandatory = false)]
         [Alias("po")]
         public SwitchParameter PackageOnly { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public int? TimeoutSeconds { get; set; }
 
         [Parameter(Mandatory = false)]
         public SwitchParameter Force
@@ -486,12 +490,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (!SkipUpload)
                 {
-                    packageUri = RetryCall<Uri>(subscription =>
+                    BlobRequestOptions blobRequestOptions = null;
+                    if (TimeoutSeconds != null)
+                    {
+                        blobRequestOptions = new BlobRequestOptions { Timeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
+                    }
+
+                    packageUri = RetryCall(subscription =>
                         AzureBlob.UploadPackageToBlob(
                             CreateChannel(),
                             _deploymentSettings.ServiceSettings.StorageAccountName,
                             subscription,
-                            this.ResolvePath(packagePath)));
+                            this.ResolvePath(packagePath),
+                            blobRequestOptions));
                 }
                 else
                 {
@@ -691,10 +702,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             do
             {
                 Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                certificates = RetryCall<CertificateList>(subscription =>
+                certificates = RetryCall(subscription =>
                     Channel.ListCertificates(subscription, _hostedServiceName));
             }
-            while (certificates == null || certificates.Count<Certificate>(c => c.Thumbprint.Equals(
+            while (certificates == null || certificates.Count(c => c.Thumbprint.Equals(
                 certificate.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1);
         }
 
