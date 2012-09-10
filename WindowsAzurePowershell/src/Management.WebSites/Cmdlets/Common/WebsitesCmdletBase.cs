@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                         }
                     }
                 }
-                {
+                else {
                     SafeWriteError(ex);
                 }
             }
