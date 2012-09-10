@@ -206,7 +206,9 @@
     <Content Include="Microsoft.WindowsAzure.Management.Websites.format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\Node\.gitignore" />
+    <None Include="Resources\Scaffolding\Node\.gitignore">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="Resources\Scaffolding\Node\iisnode.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

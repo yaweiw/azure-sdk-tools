@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public const string SqlDatabasesPerSubscription = "subscriptions/{subscriptionName}/sqldbs";
         public const string MySqlDatabasesPerSubscription = "subscriptions/{subscriptionName}/mysqldbs";
 
-        public const string SubscriptionPublishingUsers = "{subscriptionName}/publishingUsers";
+        public const string SubscriptionPublishingUsers = "{subscriptionName}/services/webspaces/?properties=publishingUsers";
 
         public const string WebSitePublishingProfile = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/publishxml";
 
