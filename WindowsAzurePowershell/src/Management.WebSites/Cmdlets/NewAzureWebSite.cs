@@ -240,7 +240,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
             catch (ProtocolException ex)
             {
-                // Handle special scenario that website already exists so that the cmdlet is idenpotent.
+                // Handle site creating indepently so that cmdlet is idempotent.
                 ProcessException(ex);
             }
 
