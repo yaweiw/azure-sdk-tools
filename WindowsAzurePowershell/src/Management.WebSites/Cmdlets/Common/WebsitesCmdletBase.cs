@@ -36,7 +36,45 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             return operation;
         }
 
-        internal abstract bool ExecuteCommand();
+        internal abstract void ExecuteCommand();
+
+        private void ProcessException(Exception ex)
+        {
+            if (ex.InnerException is WebException)
+            {
+                if (((WebException)ex.InnerException).Response != null)
+                {
+                    using (StreamReader streamReader = new StreamReader(((WebException) ex.InnerException).Response.GetResponseStream()))
+                    {
+                        XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
+                        ServiceError serviceError = (ServiceError) serializer.Deserialize(streamReader);
+
+                        if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
+                        {
+                            SafeWriteError(
+                                new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement,
+                                                            serviceError.Parameters.First())));
+                        }
+                        else if (serviceError.MessageTemplate.Equals(Resources.CannotFind) &&
+                                 serviceError.Parameters.First().Equals("WebSpace") ||
+                                 serviceError.Parameters.First().Equals("GeoRegion"))
+                        {
+                            SafeWriteError(
+                                new Exception(string.Format(Resources.CannotFind, "Location",
+                                                            serviceError.Parameters[1])));
+                        }
+                        else
+                        {
+                            SafeWriteError(new Exception(serviceError.Message));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                SafeWriteError(ex);
+            }
+        }
 
         protected override void ProcessRecord()
         {
@@ -47,31 +85,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 // Execute actual cmdlet action
                 ExecuteCommand();
             }
+            catch (EndpointNotFoundException ex)
+            {
+                ProcessException(ex);       
+            }
             catch (ProtocolException ex)
             {
-                if (ex.InnerException is WebException)
-                {
-                    StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream());
-                    XmlSerializer serializer = new XmlSerializer(typeof(ServiceError));
-                    ServiceError serviceError = (ServiceError)serializer.Deserialize(streamReader);
-
-                    if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
-                    {
-                        SafeWriteError(new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement, serviceError.Parameters.First())));
-                    }
-                    else if(serviceError.MessageTemplate.Equals(Resources.CannotFind) && serviceError.Parameters.First().Equals("WebSpace"))
-                    {
-                        SafeWriteError(new Exception(string.Format(Resources.CannotFind, "Location", serviceError.Parameters[1])));
-                    }
-                    else
-                    {
-                        SafeWriteError(new Exception(serviceError.Message));
-                    }
-                }
-                else
-                {
-                    SafeWriteError(ex);
-                }
+                ProcessException(ex);
             }
             catch (Exception ex)
             {

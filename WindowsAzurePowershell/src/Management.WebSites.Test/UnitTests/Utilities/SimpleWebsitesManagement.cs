@@ -15,10 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Services;
+    using Websites.Services.GeoEntities;
+    using Websites.Services.WebEntities;
 
     /// <summary>
     /// Simple implementation of the <see cref="IWebsitesServiceManagement"/> interface that can be
@@ -45,196 +46,199 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #region GetWebspaces
 
-        public Func<SimpleServiceManagementAsyncResult, WebspaceList> GetWebspacesThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, WebSpaces> GetWebSpacesThunk { get; set; }
 
-        public IAsyncResult BeginGetWebspaces(string subscriptionId, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetWebSpaces(string subscriptionName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["subscriptionName"] = subscriptionName;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public WebspaceList EndGetWebspaces(IAsyncResult asyncResult)
+        public WebSpaces EndGetWebSpaces(IAsyncResult asyncResult)
         {
-            if (GetWebspacesThunk != null)
+            if (GetWebSpacesThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return GetWebspacesThunk(result);
+                return GetWebSpacesThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("GetWebspacesThunk is not implemented!");
+                throw new NotImplementedException("GetWebSpacesThunk is not implemented!");
             }
 
-            return default(WebspaceList);
+            return default(WebSpaces);
         }
 
         #endregion
 
-        #region GetWebsites
+        #region GetSites
 
-        public Func<SimpleServiceManagementAsyncResult, WebsiteList> GetWebsitesThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, Sites> GetSitesThunk { get; set; }
 
-        public IAsyncResult BeginGetWebsites(string subscriptionId, string webspace, string propertiesToInclude, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSites(string subscriptionName, string webspaceName, string propertiesToInclude, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
             result.Values["propertiesToInclude"] = propertiesToInclude;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public WebsiteList EndGetWebsites(IAsyncResult asyncResult)
+        public Sites EndGetSites(IAsyncResult asyncResult)
         {
-            if (GetWebspacesThunk != null)
+            if (GetSitesThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return GetWebsitesThunk(result);
+                return GetSitesThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("GetWebsitesThunk is not implemented!");
+                throw new NotImplementedException("GetSitesThunk is not implemented!");
             }
 
-            return default(WebsiteList);
+            return default(Sites);
         }
 
         #endregion
 
         #region DeleteWebsite
 
-        public Action<SimpleServiceManagementAsyncResult> DeleteWebsiteThunk { get; set; }
+        public Action<SimpleServiceManagementAsyncResult> DeleteSiteThunk { get; set; }
 
-        public IAsyncResult BeginDeleteWebsite(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteSite(string subscriptionName, string webspaceName, string name, string deleteMetrics, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["website"] = website;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
+            result.Values["deleteMetrics"] = deleteMetrics;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndDeleteWebsite(IAsyncResult asyncResult)
+        public void EndDeleteSite(IAsyncResult asyncResult)
         {
-            if (DeleteWebsiteThunk != null)
+            if (DeleteSiteThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                DeleteWebsiteThunk(result);
+                DeleteSiteThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("DeleteWebsiteThunk is not implemented!");
+                throw new NotImplementedException("DeleteSiteThunk is not implemented!");
             }
         }
 
         #endregion
 
-        #region GetWebsiteConfiguration
+        #region GetSiteConfig
 
-        public Func<SimpleServiceManagementAsyncResult, WebsiteConfig> GetWebsiteConfigurationThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, SiteConfig> GetSiteConfigThunk { get; set; }
 
-        public IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSiteConfig(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["website"] = website;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public WebsiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult)
+        public SiteConfig EndGetSiteConfig(IAsyncResult asyncResult)
         {
-            if (GetWebsiteConfigurationThunk != null)
+            if (GetSiteConfigThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return GetWebsiteConfigurationThunk(result);
+                return GetSiteConfigThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("GetWebsiteConfigurationThunk is not implemented!");
+                throw new NotImplementedException("GetSiteConfigThunk is not implemented!");
             }
 
-            return default(WebsiteConfig);
+            return default(SiteConfig);
         }
 
         #endregion
 
-        #region NewWebsite
+        #region CreateSite
 
-        public Action<SimpleServiceManagementAsyncResult> NewWebsiteThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, Site> CreateSiteThunk { get; set; }
 
-        public IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Website website, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, SiteWithWebSpace site, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["website"] = website;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["site"] = site;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndNewWebsite(IAsyncResult asyncResult)
+        public Site EndCreateSite(IAsyncResult asyncResult)
         {
-            if (NewWebsiteThunk != null)
+            if (CreateSiteThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                NewWebsiteThunk(result);
+                return CreateSiteThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("NewWebsiteThunk is not implemented!");
+                throw new NotImplementedException("CreateSiteThunk is not implemented!");
             }
+
+            return default(Site);
         }
 
         #endregion
 
         #region UpdateWebsite
 
-        public Action<SimpleServiceManagementAsyncResult> UpdateWebsiteThunk { get; set; }
+        public Action<SimpleServiceManagementAsyncResult> UpdateSiteThunk { get; set; }
 
-        public IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Website website, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateSite(string subscriptionName, string webspaceName, string name, Site site, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["websiteName"] = websiteName;
-            result.Values["website"] = website;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
+            result.Values["site"] = site;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndUpdateWebsite(IAsyncResult asyncResult)
+        public void EndUpdateSite(IAsyncResult asyncResult)
         {
-            if (UpdateWebsiteThunk != null)
+            if (UpdateSiteThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                UpdateWebsiteThunk(result);
+                UpdateSiteThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("UpdateWebsiteThunk is not implemented!");
+                throw new NotImplementedException("UpdateSiteThunk is not implemented!");
             }
         }
 
@@ -242,104 +246,235 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #region GetPublishingUsers
 
-        public Func<SimpleServiceManagementAsyncResult, IList<string>> GetPublishingUsersThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, string[]> GetSubscriptionPublishingUsersThunk { get; set; }
 
-        public IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSubscriptionPublishingUsers(string subscriptionName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["subscriptionName"] = subscriptionName;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public IList<string> EndGetPublishingUsers(IAsyncResult asyncResult)
+        public string[] EndGetSubscriptionPublishingUsers(IAsyncResult asyncResult)
         {
-            if (GetPublishingUsersThunk != null)
+            if (GetSubscriptionPublishingUsersThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return GetPublishingUsersThunk(result);
+                return GetSubscriptionPublishingUsersThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("GetPublishingUsersThunk is not implemented!");
+                throw new NotImplementedException("GetSubscriptionPublishingUsersThunk is not implemented!");
             }
 
-            return default(IList<string>);
+            return default(string[]);
         }
 
         #endregion
 
         #region CreateWebsiteRepository
 
-        public Action<SimpleServiceManagementAsyncResult> CreateWebsiteRepositoryThunk { get; set; }
+        public Action<SimpleServiceManagementAsyncResult> CreateSiteRepositoryThunk { get; set; }
 
-        public IAsyncResult BeginCreateWebsiteRepository(string subscriptionId, string webspace, string websiteName, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["websiteName"] = websiteName;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndCreateWebsiteRepository(IAsyncResult asyncResult)
+        public void EndCreateSiteRepository(IAsyncResult asyncResult)
         {
-            if (CreateWebsiteRepositoryThunk != null)
+            if (CreateSiteRepositoryThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                CreateWebsiteRepositoryThunk(result);
+                CreateSiteRepositoryThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("CreateWebsiteRepositoryThunk is not implemented!");
+                throw new NotImplementedException("CreateSiteRepositoryThunk is not implemented!");
             }
         }
 
         #endregion
 
-        #region GetWebsite
+        #region GetSite
 
-        public Func<SimpleServiceManagementAsyncResult, Website> GetWebsiteThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, Site> GetSiteThunk { get; set; }
 
-        public IAsyncResult BeginGetWebsite(string subscriptionId, string webspace, string website, string propertiesToInclude, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetSite(string subscriptionName, string webspaceName, string name, string propertiesToInclude, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["webspace"] = webspace;
-            result.Values["website"] = website;
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
             result.Values["propertiesToInclude"] = propertiesToInclude;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public Website EndGetWebsite(IAsyncResult asyncResult)
+        public Site EndGetSite(IAsyncResult asyncResult)
         {
-            if (GetWebsiteThunk != null)
+            if (GetSiteThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                return GetWebsiteThunk(result);
+                return GetSiteThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("GetWebsiteThunk is not implemented!");
+                throw new NotImplementedException("GetSiteThunk is not implemented!");
             }
 
-            return default(Website);
+            return default(Site);
         }
 
         #endregion
 
         #endregion
+
+        public IAsyncResult BeginGetWebSpace(string subscriptionName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebSpace EndGetWebSpace(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCreateWebSpace(string subscriptionName, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebSpace EndCreateWebSpace(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateWebSpace(string subscriptionName, string name, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public WebSpace EndUpdateWebSpace(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteWebSpace(string subscriptionName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteWebSpace(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateSiteConfig(string subscriptionName, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateSiteConfig(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetSiteRepositoryUri(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Uri EndGetSiteRepositoryUri(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteSiteRepository(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCreateDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndCreateDevSite(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SiteRepositoryDev EndGetDevSite(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateDevSite(string subscriptionName, string webspaceName, string name, SiteRepositoryDev repositoryDevSite, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateDevSite(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteDevSite(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IAsyncResult BeginGetRegions(bool listOnlyOnline, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GeoRegions EndGetRegions(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetLocations(string regionName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GeoLocations EndGetLocations(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

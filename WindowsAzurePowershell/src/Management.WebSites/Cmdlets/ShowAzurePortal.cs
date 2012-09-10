@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Management.Utilities;
     using Properties;
-    using Utilities;
 
     /// <summary>
     /// Opens the azure portal.

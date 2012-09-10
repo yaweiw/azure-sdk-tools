@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
 
     public static class AzureBlob
     {
-        public static readonly string BlobEndpointTemplate = "http://{0}.blob.core.windows.net/";
+        public static readonly string BlobEndpointTemplate = "https://{0}.blob.core.windows.net/";
         private const string containerName = "azpsnode122011";
 
         public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath)

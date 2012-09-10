@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Properties;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
@@ -52,18 +53,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        protected virtual void WriteWebsite(Website website)
+        protected virtual void WriteWebsite(Site website)
         {
             WriteObject(website, true);
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             if (!Force.IsPresent &&
                 !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),
                                 Resources.ShouldProcessCaption))
             {
-                return false;
+                return;
             }
 
             InvokeInOperationContext(() =>
@@ -75,11 +76,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
-                RetryCall(s => Channel.DeleteWebsite(s, websiteObject.WebSpace, websiteObject.Name));
+                RetryCall(s => Channel.DeleteSite(s, websiteObject.WebSpace, websiteObject.Name, string.Empty));
                 WaitForOperation(CommandRuntime.ToString());
             });
-
-            return true;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Common;
     using Services;
+    using Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
@@ -43,20 +44,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
-            // if a name is passed, do the same as show-azurewebsite
-            InvokeInOperationContext(() =>
-            {
-                // Show website
-                WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
-                foreach (Webspace webspace in webspaceList)
-                {
-                    WriteObject(webspace, true);
-                }
-            });
-
-            return true;
+            // For now geo regions will be hardcoded since the Get GeoRegions endpoint is still not exposed.
+            WriteObject(AvailableWebspaces.Webspaces.Keys, true);
         }
     }
 }

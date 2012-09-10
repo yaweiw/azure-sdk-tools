@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
-    using System.Management.Automation;
     using System;
-    using System.Collections.Generic;
+    using System.Management.Automation;
     using System.ServiceModel;
     using Properties;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
@@ -47,9 +47,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
-            Website website = null;
+            Site website = null;
 
             InvokeInOperationContext(() =>
             {
@@ -72,22 +72,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 try
                 {
-                    Website websiteUpdate = new Website
+                    Site websiteUpdate = new Site
                                             {
                                                 Name = Name,
-                                                HostNames = new List<string> { Name + ".azurewebsites.net" },
+                                                HostNames = new [] { Name + ".azurewebsites.net" },
                                                 State = "Running"
                                             };
 
-                    RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
+                    RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
                 }
                 catch (CommunicationException ex)
                 {
                     WriteErrorDetails(ex);
                 }
             });
-
-            return true;
         }
     }
 }

@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class StartAzureWebsiteTests
@@ -40,13 +41,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             // Setup
             bool updated = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = webspaceName } });
-            channel.GetWebsitesThunk = ar => new WebsiteList(new[] { new Website { Name = websiteName, WebSpace = webspaceName } });
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
+            channel.GetSitesThunk = ar => new Sites(new List<Site> { new Site { Name = websiteName, WebSpace = webspaceName } });
 
-            channel.UpdateWebsiteThunk = ar =>
+            channel.UpdateSiteThunk = ar =>
             {
-                Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                Website website = ar.Values["website"] as Website;
+                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
+                Site website = ar.Values["site"] as Site;
                 Assert.IsNotNull(website);
                 Assert.AreEqual(websiteName, website.Name);
                 Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
