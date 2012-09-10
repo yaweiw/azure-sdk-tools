@@ -253,8 +253,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, Location);
-                CreateRepositoryAndAddRemote(publishingUser, Location, Name);
+                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+                CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
             }
         }
     }
