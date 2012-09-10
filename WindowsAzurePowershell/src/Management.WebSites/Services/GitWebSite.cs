@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using System.Security.Permissions;
+
     public class GitWebsite
     {
         public string Name { get; set; }
@@ -25,12 +27,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             Webspace = webspace;
         }
 
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         public void WriteConfiguration()
         {
             Git.SetConfigurationValue("azure.site.name", Name);
             Git.SetConfigurationValue("azure.site.webspace", Webspace);
         }
 
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         public static GitWebsite ReadConfiguration()
         {
             return new GitWebsite(

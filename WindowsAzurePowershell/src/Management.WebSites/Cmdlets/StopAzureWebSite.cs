@@ -15,11 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
-    using System.Collections.Generic;
     using System.Management.Automation;
     using Properties;
     using Services;
-    using WebEntities;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
@@ -70,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                                             State = "Stopped"
                                         };
 
-                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
+                RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
             });
         }
     }

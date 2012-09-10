@@ -14,60 +14,98 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    using System.Collections.Generic;
     using System.Linq;
+    using GeoEntities;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
     {
-        public static WebSpaces GetWebspaces(this IWebsitesServiceManagement proxy, string subscriptionId)
+        public static WebSpaces GetWebSpaces(this IWebsitesServiceManagement proxy, string subscriptionName)
         {
-            return proxy.EndGetWebspaces(proxy.BeginGetWebspaces(subscriptionId, null, null));
+            return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
         }
 
-        public static Sites GetWebsites(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, IList<string> propertiesToInclude)
+        public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
         {
-            var properties = string.Empty;
-            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
-            {
-                properties = string.Join(",", propertiesToInclude.ToArray());
-            }
-
-            return proxy.EndGetWebsites(proxy.BeginGetWebsites(subscriptionId, webspace, properties, null, null));
+            return proxy.EndGetWebSpace(proxy.BeginGetWebSpace(subscriptionName, name, null, null));
         }
 
-        public static SiteConfig GetWebsiteConfiguration(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
+        public static WebSpace CreateWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, bool allowPendingState, WebSpace webSpace)
         {
-            return proxy.EndGetWebsiteConfiguration(proxy.BeginGetWebsiteConfiguration(subscriptionId, webspace, website, null, null));
+            return proxy.EndCreateWebSpace(proxy.BeginCreateWebSpace(subscriptionName, allowPendingState, webSpace, null, null));
         }
 
-        public static void DeleteWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website)
+        public static WebSpace UpdateWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name, bool allowPendingState, WebSpace webSpace)
         {
-            proxy.EndDeleteWebsite(proxy.BeginDeleteWebsite(subscriptionId, webspace, website, null, null));
+            return proxy.EndUpdateWebSpace(proxy.BeginUpdateWebSpace(subscriptionName, name, allowPendingState, webSpace, null, null));
         }
 
-        public static IList<string> GetPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionId)
+        public static void DeleteWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
         {
-            return proxy.EndGetPublishingUsers(proxy.BeginGetPublishingUsers(subscriptionId, null, null));
+            proxy.EndDeleteWebSpace(proxy.BeginDeleteWebSpace(subscriptionName, name, null, null));
         }
 
-        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string website, IList<string> propertiesToInclude)
+        public static string[] GetSubscriptionPublishingUsers(this IWebsitesServiceManagement proxy, string subscriptionName)
         {
-            var properties = string.Empty;
-            if (propertiesToInclude != null && propertiesToInclude.Count > 0)
-            {
-                properties = string.Join(",", propertiesToInclude.ToArray());
-            }
+            return proxy.EndGetSubscriptionPublishingUsers(proxy.BeginGetSubscriptionPublishingUsers(subscriptionName, null, null));
+        }
 
-            return proxy.EndGetWebsite(proxy.BeginGetWebsite(subscriptionId, webspace, website, properties, null, null));
+        public static Sites GetSites(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string propertiesToInclude)
+        {
+            return proxy.EndGetSites(proxy.BeginGetSites(subscriptionName, webspaceName, propertiesToInclude, null, null));
+        }
+
+        public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string propertiesToInclude)
+        {
+            return proxy.EndGetSite(proxy.BeginGetSite(subscriptionName, webspaceName, name, propertiesToInclude, null, null));
+        }
+
+        public static Site CreateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, SiteWithWebSpace site)
+        {
+            return proxy.EndCreateSite(proxy.BeginCreateSite(subscriptionName, webspaceName, site, null, null));
+        }
+
+        public static void UpdateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, Site site)
+        {
+            proxy.EndUpdateSite(proxy.BeginUpdateSite(subscriptionName, webspaceName, name, site, null, null));
+        }
+
+        public static void DeleteSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string deleteMetrics)
+        {
+            proxy.EndDeleteSite(proxy.BeginDeleteSite(subscriptionName, webspaceName, name, deleteMetrics, null, null));
+        }
+
+        public static SiteConfig GetSiteConfig(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name)
+        {
+            return proxy.EndGetSiteConfig(proxy.BeginGetSiteConfig(subscriptionName, webspaceName, name, null, null));
+        }
+
+        public static void UpdateSiteConfig(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, SiteConfig siteConfig)
+        {
+            proxy.EndUpdateSiteConfig(proxy.BeginUpdateSiteConfig(subscriptionName, webspaceName, name, siteConfig, null, null));
+        }
+
+        public static void CreateSiteRepository(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name)
+        {
+            proxy.EndCreateSiteRepository(proxy.BeginCreateSiteRepository(subscriptionName, webspaceName, name, null, null));
+        }
+
+        public static GeoRegions GetRegions(this IWebsitesServiceManagement proxy, bool listOnlyOnline)
+        {
+            return proxy.EndGetRegions(proxy.BeginGetRegions(listOnlyOnline, null, null));
+        }
+
+        public static GeoLocations GetLocations(this IWebsitesServiceManagement proxy, string regionName)
+        {
+            return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
         public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
         {
-            var webspaces = proxy.GetWebspaces(subscriptionId);
+            var webspaces = proxy.GetWebSpaces(subscriptionId);
             foreach (var webspace in webspaces)
             {
-                var websites = proxy.GetWebsites(subscriptionId, webspace.Name, null);
+                var websites = proxy.GetSites(subscriptionId, webspace.Name, null);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
                 if (matchWebsite != null)
                 {
@@ -76,21 +114,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
 
             return null;
-        }
-
-        public static void NewWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, Site website)
-        {
-            proxy.EndNewWebsite(proxy.BeginNewWebsite(subscriptionId, webspace, website, null, null));
-        }
-
-        public static void UpdateWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName, Site website)
-        {
-            proxy.EndUpdateWebsite(proxy.BeginUpdateWebsite(subscriptionId, webspace, websiteName, website, null, null));
-        }
-
-        public static void CreateWebsiteRepository(this IWebsitesServiceManagement proxy, string subscriptionId, string webspace, string websiteName)
-        {
-            proxy.EndCreateWebsiteRepository(proxy.BeginCreateWebsiteRepository(subscriptionId, webspace, websiteName, null, null));
         }
     }
 }

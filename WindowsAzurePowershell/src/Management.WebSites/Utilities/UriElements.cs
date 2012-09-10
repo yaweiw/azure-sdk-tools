@@ -66,30 +66,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public const string EntitiesRoot = "entities";
         public const string UserRoles = "/userRoles";
         public const string CloudEntityRoot = EntitiesRoot + UserRoles;
-        public const string SubscriptionEntitiesRoot = EntitiesRoot + "/subscriptions/{subscriptionName}" + UserRoles;
-        public const string WebSpaceEntitiesRoot = EntitiesRoot + "/subscriptions/{subscriptionName}/webspaces/{webspaceName}" + UserRoles;
-        public const string WebSiteEntitiesRoot = EntitiesRoot + "/subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{siteName}" + UserRoles;
-        public const string GeoRegionsRoot = "regions";
+        public const string SubscriptionEntitiesRoot = EntitiesRoot + "{subscriptionName}" + UserRoles;
+        public const string WebSpaceEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}" + UserRoles;
+        public const string WebSiteEntitiesRoot = EntitiesRoot + "{subscriptionName}/services/webspaces/{webspaceName}/sites/{siteName}" + UserRoles;
+        public const string GeoRegionsRoot = "regions/";
         public const string GeoLocationsRoot = "regions/{regionName}/locations";
         public const string StampsRoot = "locations/{locationName}/stamps";
         public const string StampsCommand = "?Command={command}";
-        public const string WebSitesRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites";
-        public const string SqlDatabasesRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sqldbs";
-        public const string MySqlDatabaseRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/mysqldbs";
-        public const string SqlAzureDatabasesRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sqlazuredbs";
-        public const string WebSpacesRoot = "{subscriptionName}/webspaces";
-        public const string WebSpaceUsagesRoot = "{subscriptionName}/webspaces/{webspaceName}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
-        public const string WebSiteUsagesRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
-        public const string WebSiteMetricsRoot = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/metrics";
-        public const string WebSiteMetricDefinitions = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/metricdefinitions";
-        public const string WebSiteConfig = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/config";
-        public const string WebSiteRepository = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/repository";
-        public const string WebSiteRepositoryDev = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/repository/dev";
-        public const string WebSiteAuditLogs = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/auditlogs?startTime={startTime}&endTime={endTime}";
-        public const string WebSiteGetLastAuditLog = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/lastauditlog";
-        public const string WebSiteSwap = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}?Command={command}&OtherSiteName={otherSiteName}";
-        public const string WebSiteRestart = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/restart";
-        public const string WebSiteIsValidCustomDomain = "subscriptions/{subscriptionName}/webspaces/{webspaceName}/sites/{name}/isvalidcustomdomain?hostName={hostName}&type={recordType}";
+        public const string WebSitesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites";
+        public const string SqlDatabasesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sqldbs";
+        public const string MySqlDatabaseRoot = "{subscriptionName}/services/webspaces/{webspaceName}/mysqldbs";
+        public const string SqlAzureDatabasesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sqlazuredbs";
+        public const string WebSpacesRoot = "{subscriptionName}/services/webspaces";
+        public const string WebSpaceUsagesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
+        public const string WebSiteUsagesRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/usages?names={usages}&computeMode={computeMode}&siteMode={siteMode}";
+        public const string WebSiteMetricsRoot = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/metrics";
+        public const string WebSiteMetricDefinitions = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/metricdefinitions";
+        public const string WebSiteConfig = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/config";
+        public const string WebSiteRepository = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/repository";
+        public const string WebSiteRepositoryDev = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/repository/dev";
+        public const string WebSiteAuditLogs = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/auditlogs?startTime={startTime}&endTime={endTime}";
+        public const string WebSiteGetLastAuditLog = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/lastauditlog";
+        public const string WebSiteSwap = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}?Command={command}&OtherSiteName={otherSiteName}";
+        public const string WebSiteRestart = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/restart";
+        public const string WebSiteIsValidCustomDomain = "{subscriptionName}/services/webspaces/{webspaceName}/sites/{name}/isvalidcustomdomain?hostName={hostName}&type={recordType}";
 
         public const string HostNameAvailability = "ishostnameavailable/{subDomain}";
 
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public const string CleanAuditLogs = "auditlogs?timestamp={timestamp}";
 
         // This is for checking that the URL using {role} parameter is valid according to the specification
-        public static readonly string[] AvailableRoles = new string[] { WebWorkerRole, LoadBalancerRole, PublisherRole, ControllerRole };
+        public static readonly string[] AvailableRoles = new[] { WebWorkerRole, LoadBalancerRole, PublisherRole, ControllerRole };
 
         public const string PutMachineOffline = "systems/{webSystemName}/{role}/{name}/offline";
         public const string PutMachineOnline = "systems/{webSystemName}/{role}/{name}/online";

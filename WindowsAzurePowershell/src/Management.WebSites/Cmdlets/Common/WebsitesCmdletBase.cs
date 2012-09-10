@@ -38,20 +38,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 
         internal abstract void ExecuteCommand();
 
-        protected override void ProcessRecord()
+        private void ProcessException(Exception ex)
         {
-            try
+            if (ex.InnerException is WebException)
             {
-                base.ProcessRecord();
-
-                // Execute actual cmdlet action
-                ExecuteCommand();
-            }
-            catch (ProtocolException ex)
-            {
-                if (ex.InnerException is WebException)
+                if (((WebException)ex.InnerException).Response != null)
                 {
-                    using (StreamReader streamReader = new StreamReader(((WebException)ex.InnerException).Response.GetResponseStream()))
+                    using (StreamReader streamReader = new StreamReader(((WebException) ex.InnerException).Response.GetResponseStream()))
                     {
                         XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
                         ServiceError serviceError = (ServiceError) serializer.Deserialize(streamReader);
@@ -63,7 +56,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                                                             serviceError.Parameters.First())));
                         }
                         else if (serviceError.MessageTemplate.Equals(Resources.CannotFind) &&
-                                 serviceError.Parameters.First().Equals("WebSpace"))
+                                 serviceError.Parameters.First().Equals("WebSpace") ||
+                                 serviceError.Parameters.First().Equals("GeoRegion"))
                         {
                             SafeWriteError(
                                 new Exception(string.Format(Resources.CannotFind, "Location",
@@ -75,10 +69,29 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                         }
                     }
                 }
-                else
-                {
-                    SafeWriteError(ex);
-                }
+            }
+            else
+            {
+                SafeWriteError(ex);
+            }
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                // Execute actual cmdlet action
+                ExecuteCommand();
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                ProcessException(ex);       
+            }
+            catch (ProtocolException ex)
+            {
+                ProcessException(ex);
             }
             catch (Exception ex)
             {

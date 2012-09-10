@@ -16,13 +16,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.ServiceModel.Web;
+    using System.ComponentModel;
     using System.ServiceModel;
+    using System.ServiceModel.Web;
     using System.Xml.Serialization;
+    using GeoEntities;
     using Utilities;
     using WebEntities;
 
-    [XmlRootAttribute(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]
+    [XmlRoot(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]
     public class ServiceError
     {
         public string Code { get; set; }
@@ -41,76 +43,152 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     [ServiceContract(Namespace = UriElements.ServiceNamespace)]
     public interface IWebsitesServiceManagement
     {
-        /// <summary>
-        /// Gets the list of created webspaces.
-        /// </summary>
+        [Description("Gets all webspaces for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/")]
-        IAsyncResult BeginGetWebspaces(string subscriptionId, AsyncCallback callback, object state);
-        WebSpaces EndGetWebspaces(IAsyncResult asyncResult);
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot + "/")]
+        IAsyncResult BeginGetWebSpaces(string subscriptionName, AsyncCallback callback, object state);
+        WebSpaces EndGetWebSpaces(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Gets the list of created websites in a webspace.
-        /// </summary>
+        [Description("Gets all webspaces for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/?propertiesToInclude={propertiesToInclude}")]
-        IAsyncResult BeginGetWebsites(string subscriptionId, string webspace, string propertiesToInclude, AsyncCallback callback, object state);
-        Sites EndGetWebsites(IAsyncResult asyncResult);
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSpacesRoot + UriElements.NameTemplateParameter)]
+        IAsyncResult BeginGetWebSpace(string subscriptionName, string name, AsyncCallback callback, object state);
+        WebSpace EndGetWebSpace(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Gets a website.
-        /// </summary>
+        [Description("Creates a new webspace")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}?propertiesToInclude={propertiesToInclude}")]
-        IAsyncResult BeginGetWebsite(string subscriptionId, string webspace, string website, string propertiesToInclude, AsyncCallback callback, object state);
-        Site EndGetWebsite(IAsyncResult asyncResult);
+        [WebInvoke(UriTemplate = UriElements.WebSpacesRoot + UriElements.AllowPendingStateParameter, Method = "POST")]
+        IAsyncResult BeginCreateWebSpace(string subscriptionName, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state);
+        WebSpace EndCreateWebSpace(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Gets the site configuration.
-        /// </summary>
+        [Description("Updates an existing webspace")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}/config")]
-        IAsyncResult BeginGetWebsiteConfiguration(string subscriptionId, string webspace, string website, AsyncCallback callback, object state);
-        SiteConfig EndGetWebsiteConfiguration(IAsyncResult asyncResult);
+        [WebInvoke(UriTemplate = UriElements.WebSpacesRoot + UriElements.NameTemplateParameter + UriElements.AllowPendingStateParameter, Method = "PUT")]
+        IAsyncResult BeginUpdateWebSpace(string subscriptionName, string name, bool allowPendingState, WebSpace webSpace, AsyncCallback callback, object state);
+        WebSpace EndUpdateWebSpace(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Deletes a site.
-        /// </summary>
+        [Description("Deletes a webspace")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "DELETE", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{website}")]
-        IAsyncResult BeginDeleteWebsite(string subscriptionId, string webspace, string website, AsyncCallback callback, object state);
-        void EndDeleteWebsite(IAsyncResult asyncResult);
+        [WebInvoke(UriTemplate = UriElements.WebSpacesRoot + UriElements.NameTemplateParameter, Method = "DELETE")]
+        IAsyncResult BeginDeleteWebSpace(string subscriptionName, string name, AsyncCallback callback, object state);
+        void EndDeleteWebSpace(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Gets the list of publishing users.
-        /// </summary>
+        [Description("Gets all publishing users for subscription")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = @"{subscriptionId}/services/webspaces/?properties=publishingUsers")]
-        IAsyncResult BeginGetPublishingUsers(string subscriptionId, AsyncCallback callback, object state);
-        IList<string> EndGetPublishingUsers(IAsyncResult asyncResult);
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.SubscriptionPublishingUsers)]
+        IAsyncResult BeginGetSubscriptionPublishingUsers(string subscriptionName,  AsyncCallback callback, object state);
+        string[] EndGetSubscriptionPublishingUsers(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Create a new website.
-        /// </summary>
-        [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites")]
-        IAsyncResult BeginNewWebsite(string subscriptionId, string webspace, Site website, AsyncCallback callback, object state);
-        void EndNewWebsite(IAsyncResult asyncResult);
+        #region Site CRUD
 
-        /// <summary>
-        /// Update a website.
-        /// </summary>
+        [Description("Returns all the sites for a given subscription and webspace.")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}")]
-        IAsyncResult BeginUpdateWebsite(string subscriptionId, string webspace, string websiteName, Site website, AsyncCallback callback, object state);
-        void EndUpdateWebsite(IAsyncResult asyncResult);
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSitesRoot + UriElements.PropertiesToIncludeParameter)]
+        IAsyncResult BeginGetSites(string subscriptionName, string webspaceName, string propertiesToInclude, AsyncCallback callback, object state);
+        Sites EndGetSites(IAsyncResult asyncResult);
 
-        /// <summary>
-        /// Update a website repository.
-        /// </summary>
+        [Description("Returns the details of a particular site.")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = @"{subscriptionId}/services/webspaces/{webspace}/sites/{websiteName}/repository")]
-        IAsyncResult BeginCreateWebsiteRepository(string subscriptionId, string webspace, string websiteName, AsyncCallback callback, object state);
-        void EndCreateWebsiteRepository(IAsyncResult asyncResult);
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSitesRoot + UriElements.NameTemplateParameter + UriElements.PropertiesToIncludeParameter)]
+        IAsyncResult BeginGetSite(string subscriptionName, string webspaceName, string name, string propertiesToInclude, AsyncCallback callback, object state);
+        Site EndGetSite(IAsyncResult asyncResult);
+
+        [Description("Adds a new site")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSitesRoot, Method = "POST")]
+        IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, SiteWithWebSpace site, AsyncCallback callback, object state);
+        Site EndCreateSite(IAsyncResult asyncResult);
+
+        [Description("Updates an existing site")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSitesRoot + UriElements.NameTemplateParameter, Method = "PUT")]
+        IAsyncResult BeginUpdateSite(string subscriptionName, string webspaceName, string name, Site site, AsyncCallback callback, object state);
+        void EndUpdateSite(IAsyncResult asyncResult);
+
+        [Description("Deletes an existing site.")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSitesRoot + UriElements.NameTemplateParameter + UriElements.DeleteMetricsParameter, Method = "DELETE")]
+        IAsyncResult BeginDeleteSite(string subscriptionName, string webspaceName, string name, string deleteMetrics, AsyncCallback callback, object state);
+        void EndDeleteSite(IAsyncResult asyncResult);
+
+        #endregion
+
+        #region Site configuration settings
+
+        [Description("Gets site's configuration settings")]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteConfig)]
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginGetSiteConfig(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        SiteConfig EndGetSiteConfig(IAsyncResult asyncResult);
+
+        [Description("Updates site's configuration settings")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteConfig, Method = "PUT")]
+        IAsyncResult BeginUpdateSiteConfig(string subscriptionName, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state);
+        void EndUpdateSiteConfig(IAsyncResult asyncResult);
+
+        #endregion
+
+        #region Repository methods
+
+        [Description("Creates a repository for a site")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteRepository, Method = "POST")]
+        IAsyncResult BeginCreateSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        void EndCreateSiteRepository(IAsyncResult asyncResult);
+
+        [Description("Gets a site's repository URI")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteRepository)]
+        IAsyncResult BeginGetSiteRepositoryUri(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        Uri EndGetSiteRepositoryUri(IAsyncResult asyncResult);
+
+        [Description("Deletes a site's repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteRepository, Method = "DELETE")]
+        IAsyncResult BeginDeleteSiteRepository(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        void EndDeleteSiteRepository(IAsyncResult asyncResult);
+
+        [Description("Creates a development site in a site's repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteRepositoryDev, Method = "POST")]
+        IAsyncResult BeginCreateDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        void EndCreateDevSite(IAsyncResult asyncResult);
+
+        [Description("Gets a development site in a site's repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = UriElements.WebSiteRepositoryDev)]
+        IAsyncResult BeginGetDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        SiteRepositoryDev EndGetDevSite(IAsyncResult asyncResult);
+
+        [Description("Updates a development site in a site's repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteRepositoryDev, Method = "PUT")]
+        IAsyncResult BeginUpdateDevSite(string subscriptionName, string webspaceName, string name, SiteRepositoryDev repositoryDevSite, AsyncCallback callback, object state);
+        void EndUpdateDevSite(IAsyncResult asyncResult);
+
+        [Description("Deletes a development site in a site's repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(UriTemplate = UriElements.WebSiteRepositoryDev, Method = "DELETE")]
+        IAsyncResult BeginDeleteDevSite(string subscriptionName, string webspaceName, string name, AsyncCallback callback, object state);
+        void EndDeleteDevSite(IAsyncResult asyncResult);
+
+        #endregion
+
+        #region Region methods
+
+        [Description("Returns all the geo regions.")]
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = UriElements.GeoRegionsRoot + UriElements.ListOnlyOnlineStampsParameter)]
+        IAsyncResult BeginGetRegions(bool listOnlyOnline, AsyncCallback callback, object state);
+        GeoRegions EndGetRegions(IAsyncResult asyncResult);
+
+        [Description("Returns all the geo locations.")]
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = UriElements.GeoLocationsRoot)]
+        IAsyncResult BeginGetLocations(string regionName, AsyncCallback callback, object state);
+        GeoLocations EndGetLocations(IAsyncResult asyncResult);
+
+        #endregion
     }
 }
