@@ -343,6 +343,37 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region NewWebspace
+
+        public Action<SimpleServiceManagementAsyncResult> NewWebspaceThunk { get; set; }
+
+        public IAsyncResult BeginNewWebspace(string subscriptionId, Webspace webspace, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["webspace"] = webspace;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndNewWebspace(IAsyncResult asyncResult)
+        {
+            if (NewWebspaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                NewWebspaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("NewWebspaceThunk is not implemented!");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         public IAsyncResult BeginGetWebSpace(string subscriptionName, string name, AsyncCallback callback, object state)
