@@ -197,25 +197,34 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // If no location was provided as a parameter, try to default it
                 webspace = webspaceList.FirstOrDefault();
+                if (webspace == null)
+                {
+                    // Use east us
+                    webspace = new WebSpace
+                    {
+                        Name = "eastuswebspace",
+                        GeoRegion = "East US",
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
             else
             {
                 // Find the webspace that corresponds to the georegion
-                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));   
-            }
-
-            if (webspace == null)
-            {
-                // If no webspace corresponding to the georegion was found, attempt to create it
-                webspace = new WebSpace
+                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));
+                if (webspace == null)
                 {
-                    Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
-                    GeoRegion = Location,
-                    Subscription = CurrentSubscription.SubscriptionId,
-                    Plan = "VirtualDedicatedPlan"
-                };
+                    // If no webspace corresponding to the georegion was found, attempt to create it
+                    webspace = new WebSpace
+                    {
+                        Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
+                        GeoRegion = Location,
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
-
 
             SiteWithWebSpace website = new SiteWithWebSpace
             {
