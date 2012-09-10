@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class NewAzureWebsiteTests
@@ -35,25 +36,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         public void ProcessNewWebsiteTest()
         {
             const string websiteName = "website1";
-            const string webspaceName = "webspace";
+            const string webspaceName = "webspace1";
 
             // Setup
             bool created = true;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[]
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace>
             {
-                new Webspace { Name = "webspace1", GeoRegion = "webspace1" },
-                new Webspace { Name = "webspace2", GeoRegion = "webspace2" }
+                new WebSpace { Name = "webspace1", GeoRegion = "webspace1" },
+                new WebSpace { Name = "webspace2", GeoRegion = "webspace2" }
             });
 
-            channel.NewWebsiteThunk = ar =>
+            channel.CreateSiteThunk = ar =>
                                           {
-                                              Assert.AreEqual(webspaceName, ar.Values["webspace"]);
-                                              Website website = ar.Values["website"] as Website;
+                                              Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
+                                              Site website = ar.Values["site"] as Site;
                                               Assert.IsNotNull(website);
                                               Assert.AreEqual(websiteName, website.Name);
                                               Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
                                               created = true;
+                                              return website;
                                           };
 
             // Test

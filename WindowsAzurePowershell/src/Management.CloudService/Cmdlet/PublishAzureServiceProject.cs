@@ -153,8 +153,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
             {
-
-
                 if (ServiceExists())
                 {
                     var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
@@ -308,7 +306,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
             if (definition.WebRole != null)
             {
-                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
+                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole.Where(role => role.Startup != null))
                 {
                     CloudRuntime.ClearRuntime(role);
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
@@ -333,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (definition.WorkerRole != null)
             {
-                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
+                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null))
                 {
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
                     CloudRuntime.ClearRuntime(role);

@@ -15,15 +15,17 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Common;
     using Properties;
     using Services;
+    using Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(Site))]
     public class GetAzureWebsiteCommand : WebsitesCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
@@ -53,56 +55,46 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        protected virtual void WriteWebsite(Website website)
+        protected virtual void WriteWebsites(IEnumerable<Site> websites)
         {
-            WriteObject(website, true);
+            WriteObject(websites, true);
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             if (!string.IsNullOrEmpty(Name))
             {
-                // if a name is passed, do the same as show-azurewebsite
-                InvokeInOperationContext(() =>
+                // Show website
+                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                if (websiteObject == null)
                 {
-                    // Show website
-                    Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
-                    if (websiteObject == null)
-                    {
-                        throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-                    }
+                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+                }
 
-                    // Show configuration
-                    WebsiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
+                // if a name is passed, do the same as show-azurewebsite
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() => { websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name)); });
 
-                    // Output results
-                    websiteConfiguration.Merge(websiteObject);
-                    WriteObject(websiteConfiguration, true);
-                });
+                // Output results
+                WriteObject(websiteObject, false);
+                WriteObject(websiteConfiguration, false);
             }
             else
             {
-                InvokeInOperationContext(() =>
+                WebSpaces webspaces = null;
+                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
+
+                WaitForOperation(CommandRuntime.ToString());
+
+                List<Site> websites = new List<Site>();
+                foreach (var webspace in webspaces)
                 {
-                    WebspaceList webspaces = RetryCall(s => Channel.GetWebspaces(s));
+                    websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
                     WaitForOperation(CommandRuntime.ToString());
+                }
 
-                    foreach (var webspace in webspaces)
-                    {
-                        WebsiteList currentWebsites = RetryCall(s => Channel.GetWebsites(s, webspace.Name,
-                            new[] { "repositoryuri", "publishingpassword", "publishingusername" }));
-
-                        WaitForOperation(CommandRuntime.ToString());
-
-                        foreach (var website in currentWebsites)
-                        {
-                            WriteWebsite(website);
-                        }
-                    }
-                });
+                WriteWebsites(websites);
             }
-
-            return true;
         }
     }
 }
