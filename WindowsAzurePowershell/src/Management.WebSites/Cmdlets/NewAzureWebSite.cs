@@ -19,8 +19,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.Security.Permissions;
+    using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using System.Xml.Serialization;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -215,25 +218,31 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 };
             }
 
-            InvokeInOperationContext(() =>
+
+            SiteWithWebSpace website = new SiteWithWebSpace
             {
-                SiteWithWebSpace website = new SiteWithWebSpace
-                                        {
-                                            Name = Name,
-                                            HostNames = new [] { Name + ".azurewebsites.net" },
-                                            WebSpace = webspace.Name,
-                                            WebSpaceToCreate = webspace
-                                        };
+                Name = Name,
+                HostNames = new[] { Name + ".azurewebsites.net" },
+                WebSpace = webspace.Name,
+                WebSpaceToCreate = webspace
+            };
 
-                if (!string.IsNullOrEmpty(Hostname))
-                {
-                    List<string> newHostNames = new List<string>(website.HostNames);
-                    newHostNames.Add(Hostname);
-                    website.HostNames = newHostNames.ToArray();
-                }
+            if (!string.IsNullOrEmpty(Hostname))
+            {
+                List<string> newHostNames = new List<string>(website.HostNames);
+                newHostNames.Add(Hostname);
+                website.HostNames = newHostNames.ToArray();
+            }
 
-                RetryCall(s => Channel.CreateSite(s, webspace.Name, website));
-            });
+            try
+            {
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
+            }
+            catch (ProtocolException ex)
+            {
+                // Handle special scenario that website already exists so that the cmdlet is idenpotent.
+                ProcessException(ex);
+            }
 
             if (Git)
             {
