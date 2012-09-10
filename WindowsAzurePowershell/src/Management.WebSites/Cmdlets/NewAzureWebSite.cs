@@ -19,11 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Net;
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using System.Xml.Serialization;
     using Properties;
     using Services;
     using Services.WebEntities;
