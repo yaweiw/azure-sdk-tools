@@ -42,9 +42,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
         {
             if (ex.InnerException is WebException)
             {
-                if (((WebException)ex.InnerException).Response != null)
+                WebException webException = ex.InnerException as WebException;
+                if (webException != null && webException.Response != null)
                 {
-                    using (StreamReader streamReader = new StreamReader(((WebException) ex.InnerException).Response.GetResponseStream()))
+                    using (StreamReader streamReader = new StreamReader(webException.Response.GetResponseStream()))
                     {
                         XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
                         ServiceError serviceError = (ServiceError) serializer.Deserialize(streamReader);
@@ -68,6 +69,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                             SafeWriteError(new Exception(serviceError.Message));
                         }
                     }
+                }
+                {
+                    SafeWriteError(ex);
                 }
             }
             else
