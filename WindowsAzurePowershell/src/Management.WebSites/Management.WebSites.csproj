@@ -145,7 +145,6 @@
     <Compile Include="Services\GeoEntities\Stamp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureWebsite.cs" />
-    <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
     <Compile Include="Cmdlets\StartAzureWebsite.cs" />
     <Compile Include="Cmdlets\StopAzureWebsite.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

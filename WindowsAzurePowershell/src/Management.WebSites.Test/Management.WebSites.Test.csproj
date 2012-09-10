@@ -119,7 +119,6 @@
     <Compile Include="UnitTests\Cmdlets\NewAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\ShowAzurePortalTests.cs" />
     <Compile Include="UnitTests\Cmdlets\RemoveAzureWebSiteTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\ShowAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteLocationTests.cs" />
     <Compile Include="UnitTests\Services\GitTests.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
