@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                website = RetryCall(s => Channel.GetWebsite(s, Name));
+                website = RetryCall(s => Channel.GetWebsite(s, Name, null));
             });
 
             if (website == null)

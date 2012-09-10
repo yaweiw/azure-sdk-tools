@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));

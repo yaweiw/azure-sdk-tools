@@ -100,12 +100,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
-        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website)
+        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
         {
             var webspaces = proxy.GetWebSpaces(subscriptionId);
             foreach (var webspace in webspaces)
             {
-                var websites = proxy.GetSites(subscriptionId, webspace.Name, null);
+                var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
                 if (matchWebsite != null)
                 {
