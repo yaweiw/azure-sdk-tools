@@ -26,6 +26,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzurePublishSettingsFile")]
     public class GetAzurePublishSettingsCommand : PSCmdlet
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Realm of the account.")]
+        [ValidateNotNullOrEmpty]
+        public string Realm { get; set; }
+
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void GetAzurePublishSettingsProcess(string url)
         {
@@ -41,7 +45,14 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             try
             {
                 base.ProcessRecord();
-                GetAzurePublishSettingsProcess(Resources.PublishSettingsUrl);
+                if (string.IsNullOrEmpty(Realm))
+                {
+                    GetAzurePublishSettingsProcess(Resources.PublishSettingsUrl);
+                }
+                else
+                {
+                    GetAzurePublishSettingsProcess(string.Format(Resources.PublishSettingsUrlWithRealm, Realm)); 
+                }
             }
             catch (Exception ex)
             {

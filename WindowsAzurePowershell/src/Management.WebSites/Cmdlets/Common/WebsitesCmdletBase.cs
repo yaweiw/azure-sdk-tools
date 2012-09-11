@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 
         internal abstract void ExecuteCommand();
 
-        private void ProcessException(Exception ex)
+        protected void ProcessException(Exception ex)
         {
             if (ex.InnerException is WebException)
             {
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                         }
                     }
                 }
-                {
+                else {
                     SafeWriteError(ex);
                 }
             }

@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 try
                 {
-                    website = RetryCall(s => Channel.GetWebsite(s, Name));
+                    website = RetryCall(s => Channel.GetSite(s, Name, null));
                 }
                 catch (CommunicationException ex)
                 {

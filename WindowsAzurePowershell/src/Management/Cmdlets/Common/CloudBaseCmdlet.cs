@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                     _currentSubscription = value;
 
                     // Recreate the channel if necessary
-                    if (!SkipChannelInit)
+                    if (!ShareChannel && !SkipChannelInit)
                     {
                         InitChannelCurrentSubscription(true);
                     }

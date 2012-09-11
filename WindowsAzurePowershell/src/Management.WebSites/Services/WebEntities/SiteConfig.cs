@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Utilities;
 
@@ -49,10 +50,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         public string PublishingPassword { get; set; }
 
         [DataMember(IsRequired = false)]
-        public NameValuePropertyBag AppSettings { get; set; }
+        public List<NameValuePair> AppSettings { get; set; }
 
         [DataMember(IsRequired = false)]
-        public NameValuePropertyBag Metadata { get; set; }
+        public List<NameValuePair> Metadata { get; set; }
 
         [DataMember(IsRequired = false)]
         public ConnStringPropertyBag ConnectionStrings { get; set; }

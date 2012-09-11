@@ -15,8 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Collections.Generic;
+    using System.IO;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
@@ -28,6 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -38,6 +42,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                }
+
+                return new Site { Name = "website2", WebSpace = "webspace2" };
+            };
+
             channel.GetSitesThunk = ar =>
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
@@ -61,7 +75,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                Name = "website1"
+                Name = "website1",
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
             };
 
             // Delete existing website

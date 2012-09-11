@@ -14,17 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Utilities;
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class SiteProperties
     {
+        [DataMember(IsRequired = true)]
+        public List<NameValuePair> Properties { get; set; }
 
         [DataMember(IsRequired = true)]
-        public NameValuePropertyBag Properties { get; set; }
-
-        [DataMember(IsRequired = true)]
-        public NameValuePropertyBag Metadata { get; set; }
+        public List<NameValuePair> Metadata { get; set; }
     }
 }

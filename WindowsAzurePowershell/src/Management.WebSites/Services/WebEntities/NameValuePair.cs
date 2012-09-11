@@ -14,33 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Utilities;
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class NameValuePair
     {
-
         [DataMember(IsRequired = true)]
         public string Name { get; set; }
 
         [DataMember(IsRequired = true)]
         [PIIValue]
         public string Value { get; set; }
-    }
-
-    [CollectionDataContract(Namespace = UriElements.ServiceNamespace)]
-    public class NameValuePropertyBag : List<NameValuePair>
-    {
-
-        public NameValuePropertyBag()
-        {
-        }
-
-        public NameValuePropertyBag(List<NameValuePair> nameValuePairs)
-            : base(nameValuePairs)
-        {
-        }
     }
 }

@@ -65,15 +65,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
-                // if a name is passed, do the same as show-azurewebsite
                 SiteConfig websiteConfiguration = null;
                 InvokeInOperationContext(() => { websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name)); });
+
+                // Add to cache
+                Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
                 // Output results
                 WriteObject(websiteObject, false);
@@ -81,6 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
             else
             {
+                // Show websites
                 WebSpaces webspaces = null;
                 InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
 
@@ -93,6 +96,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     WaitForOperation(CommandRuntime.ToString());
                 }
 
+                // Add to cache
+                Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
+
+                // Output results
                 WriteWebsites(websites);
             }
         }

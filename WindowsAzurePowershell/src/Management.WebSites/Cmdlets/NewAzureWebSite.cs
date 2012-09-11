@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.ServiceModel;
     using System.Text.RegularExpressions;
     using Properties;
     using Services;
@@ -181,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             WebSpaces webspaceList = null;
 
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
             if (webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -196,44 +197,67 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // If no location was provided as a parameter, try to default it
                 webspace = webspaceList.FirstOrDefault();
+                if (webspace == null)
+                {
+                    // Use east us
+                    webspace = new WebSpace
+                    {
+                        Name = "eastuswebspace",
+                        GeoRegion = "East US",
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
             else
             {
                 // Find the webspace that corresponds to the georegion
-                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));   
+                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));
+                if (webspace == null)
+                {
+                    // If no webspace corresponding to the georegion was found, attempt to create it
+                    webspace = new WebSpace
+                    {
+                        Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
+                        GeoRegion = Location,
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
 
-            if (webspace == null)
+            SiteWithWebSpace website = new SiteWithWebSpace
             {
-                // If no webspace corresponding to the georegion was found, attempt to create it
-                webspace = new WebSpace
-                {
-                    Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
-                    GeoRegion = Location,
-                    Subscription = CurrentSubscription.SubscriptionId,
-                    Plan = "VirtualDedicatedPlan"
-                };
+                Name = Name,
+                HostNames = new[] { Name + ".azurewebsites.net" },
+                WebSpace = webspace.Name,
+                WebSpaceToCreate = webspace
+            };
+
+            if (!string.IsNullOrEmpty(Hostname))
+            {
+                List<string> newHostNames = new List<string>(website.HostNames);
+                newHostNames.Add(Hostname);
+                website.HostNames = newHostNames.ToArray();
             }
 
-            InvokeInOperationContext(() =>
+            try
             {
-                SiteWithWebSpace website = new SiteWithWebSpace
-                                        {
-                                            Name = Name,
-                                            HostNames = new [] { Name + ".azurewebsites.net" },
-                                            WebSpace = webspace.Name,
-                                            WebSpaceToCreate = webspace
-                                        };
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
 
-                if (!string.IsNullOrEmpty(Hostname))
+                // If operation succeeded try to update cache with new webspace if that's the case
+                if (webspaceList.FirstOrDefault(ws => ws.Name.Equals(webspace.Name)) == null)
                 {
-                    List<string> newHostNames = new List<string>(website.HostNames);
-                    newHostNames.Add(Hostname);
-                    website.HostNames = newHostNames.ToArray();
+                    Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
                 }
 
-                RetryCall(s => Channel.CreateSite(s, webspace.Name, website));
-            });
+                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+            }
+            catch (ProtocolException ex)
+            {
+                // Handle site creating indepently so that cmdlet is idempotent.
+                ProcessException(ex);
+            }
 
             if (Git)
             {
@@ -253,8 +277,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, Location);
-                CreateRepositoryAndAddRemote(publishingUser, Location, Name);
+                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+                CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
             }
         }
     }

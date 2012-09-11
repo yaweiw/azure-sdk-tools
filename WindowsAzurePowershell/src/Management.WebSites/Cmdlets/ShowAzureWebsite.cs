@@ -15,7 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
+    using Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -51,18 +53,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
-                // Show configuration
-                SiteConfig websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name));
-
-                // Output results
-                WriteObject(websiteObject, false);
-                WriteObject(websiteConfiguration, false);
+                // Show website in the portal
+                General.LaunchWebPage("http://" + websiteObject.HostNames.First());
             });
         }
     }
