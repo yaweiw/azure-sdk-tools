@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Script.Serialization;
@@ -23,9 +22,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public static class Cache
     {
-        public static WebSpaces GetWebSpaces(string subscriptionName)
+        public static void AddWebSpace(string subscriptionId, WebSpace webSpace)
         {
-            string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionName));
+            WebSpaces webSpaces = GetWebSpaces(subscriptionId);
+            if (webSpaces == null)
+            {
+                webSpaces = new WebSpaces();
+            }
+
+            webSpaces.Add(webSpace);
+            SaveSpaces(subscriptionId, webSpaces);
+        }
+
+        public static WebSpaces GetWebSpaces(string subscriptionId)
+        {
+            string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionId));
             if (!File.Exists(webspacesFile))
             {
                 return null;
@@ -36,9 +47,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return new WebSpaces(webSpaces);
         }
 
-        public static Sites GetSites(string subscriptionName)
+        public static void AddSite(string subscriptionId, Site site)
         {
-            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionName));
+            Sites sites = GetSites(subscriptionId);
+            if (sites == null)
+            {
+                sites = new Sites();
+            }
+
+            sites.Add(site);
+            SaveSites(subscriptionId, sites);
+        }
+
+        public static Sites GetSites(string subscriptionId)
+        {
+            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionId));
             if (!File.Exists(sitesFile))
             {
                 return null;
@@ -49,9 +72,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return new Sites(sites);
         }
 
-        public static void SaveSpaces(string subscriptionName, WebSpaces webSpaces)
+        public static void SaveSpaces(string subscriptionId, WebSpaces webSpaces)
         {
-            string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionName));
+            string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionId));
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             
             // Make sure path exists
@@ -59,14 +82,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             File.WriteAllText(webspacesFile, javaScriptSerializer.Serialize(webSpaces));
         }
 
-        public static void SaveSites(string subscriptionName, Sites sites)
+        public static void SaveSites(string subscriptionId, Sites sites)
         {
-            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionName));
+            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionId));
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
 
             // Make sure path exists
             Directory.CreateDirectory(GlobalPathInfo.AzureAppDir);
             File.WriteAllText(sitesFile, javaScriptSerializer.Serialize(sites));
+        }
+
+        public static void Clear(string subscriptionId)
+        {
+            string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionId));
+            string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionId));
+            
+            if (File.Exists(webspacesFile))
+            {
+                File.Delete(webspacesFile);
+            }
+
+            if (File.Exists(sitesFile))
+            {
+                File.Delete(sitesFile);
+            }
         }
     }
 }

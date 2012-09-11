@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             else
             {
                 WebSpaces webspaces = null;
-                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
+                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
 
                 WaitForOperation(CommandRuntime.ToString());
 

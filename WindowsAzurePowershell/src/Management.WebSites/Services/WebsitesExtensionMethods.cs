@@ -25,6 +25,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
         }
 
+        public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
+        {
+            WebSpaces webSpaces = Cache.GetWebSpaces(subscriptionName);
+            if (webSpaces != null)
+            {
+                return webSpaces;
+            }
+
+            return GetWebSpaces(proxy, subscriptionName);
+        }
+
         public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
         {
             return proxy.EndGetWebSpace(proxy.BeginGetWebSpace(subscriptionName, name, null, null));
