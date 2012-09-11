@@ -25,6 +25,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
         }
 
+        public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
+        {
+            WebSpaces webSpaces = Cache.GetWebSpaces(subscriptionName);
+            if (webSpaces != null)
+            {
+                return webSpaces;
+            }
+
+            webSpaces = GetWebSpaces(proxy, subscriptionName);
+            Cache.SaveSpaces(subscriptionName, webSpaces);
+
+            return webSpaces;
+        }
+
         public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
         {
             return proxy.EndGetWebSpace(proxy.BeginGetWebSpace(subscriptionName, name, null, null));
@@ -100,9 +114,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
-        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
+        public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
         {
-            var webspaces = proxy.GetWebSpaces(subscriptionId);
+            // Try to find webspace for site from cache
+            Site site = Cache.GetSite(subscriptionId, website, propertiesToInclude);
+            if (site != null)
+            {
+                try
+                {
+                    return proxy.GetSite(subscriptionId, site.WebSpace, site.Name, propertiesToInclude);
+                }
+                catch
+                {
+                    Cache.RemoveSite(subscriptionId, site);
+                    throw;
+                }
+            }
+
+            // If site was not in cache, find out in which webspace it could be
+            var webspaces = proxy.GetWebSpacesWithCache(subscriptionId);
             foreach (var webspace in webspaces)
             {
                 var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);

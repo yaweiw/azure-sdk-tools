@@ -15,9 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
@@ -29,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -52,13 +56,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
             };
 
             getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Site)website).Name.Equals("website1") && ((Site)website).WebSpace.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Site)website).Name.Equals("website2") && ((Site)website).WebSpace.Equals("webspace2")));
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            var sites = (IEnumerable<Site>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            Assert.IsNotNull(sites);
+            Assert.IsTrue(sites.Any(website => (website).Name.Equals("website1") && (website).WebSpace.Equals("webspace1")));
+            Assert.IsTrue(sites.Any(website => (website).Name.Equals("website2") && (website).WebSpace.Equals("webspace2")));
         }
 
         [TestMethod]
@@ -67,6 +74,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                }
+
+                return new Site { Name = "website2", WebSpace = "webspace2" };
+            };
+
             channel.GetSiteConfigThunk = ar =>
             {
                 if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
@@ -95,6 +112,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" },
                 Name = "website1"
             };
 

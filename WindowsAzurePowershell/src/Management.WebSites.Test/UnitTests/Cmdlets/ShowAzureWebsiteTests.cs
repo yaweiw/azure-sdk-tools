@@ -14,9 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
@@ -28,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -41,10 +46,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", HostNames = new [] {"website1.cloudapp.com" } } });
                 }
 
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2", HostNames = new[] { "website2.cloudapp.com" } } });
             };
             channel.GetSiteConfigThunk = ar =>
             {
@@ -64,20 +69,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                Name = "website1"
+                Name = "website1",
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
             };
 
             // Show existing website
             showAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-
-            var website = ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as Site;
-            var websiteConfig = ((MockCommandRuntime)showAzureWebsiteCommand.CommandRuntime).WrittenObjects[1] as SiteConfig;
-            Assert.IsNotNull(website);
-            Assert.IsNotNull(websiteConfig);
-            Assert.AreEqual("website1", website.Name);
-            Assert.AreEqual("webspace1", website.WebSpace);
-            Assert.AreEqual("user1", websiteConfig.PublishingUsername);
         }
     }
 }

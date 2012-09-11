@@ -15,7 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
@@ -28,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 

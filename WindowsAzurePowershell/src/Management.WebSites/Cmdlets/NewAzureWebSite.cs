@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             WebSpaces webspaceList = null;
 
-            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpaces(s)); });
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
             if (webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
@@ -244,6 +244,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             try
             {
                 InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
+
+                // If operation succeeded try to update cache with new webspace if that's the case
+                if (webspaceList.FirstOrDefault(ws => ws.Name.Equals(webspace.Name)) == null)
+                {
+                    Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
+                }
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
             }
             catch (ProtocolException ex)
             {
