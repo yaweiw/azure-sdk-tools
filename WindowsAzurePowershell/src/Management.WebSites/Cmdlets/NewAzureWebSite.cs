@@ -164,7 +164,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             // Get website and from it the repository url
-            Site website = RetryCall(s => Channel.GetSiteWithCache(s, webspace, websiteName, "repositoryuri,publishingpassword,publishingusername"));
+            Site website = RetryCall(s => Channel.GetSite(s, webspace, websiteName, "repositoryuri,publishingpassword,publishingusername"));
             string repositoryUri = GetRepositoryUri(website);
 
             string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
