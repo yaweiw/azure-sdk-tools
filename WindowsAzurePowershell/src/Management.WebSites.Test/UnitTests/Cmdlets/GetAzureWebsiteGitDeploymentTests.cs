@@ -12,20 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
-    using System.Management.Automation;
-    using WebSites.Cmdlets.Common;
+    using System.IO;
+    using Management.Services;
+    using Management.Test.Stubs;
+    using VisualStudio.TestTools.UnitTesting;
 
-    /// <summary>
-    /// Gets the git deployments.
-    /// </summary>
-    [Cmdlet(VerbsCommon.Get, "WebsiteGitDeployment")]
-    public class GetWebsiteGitDeploymentCommand : WebsiteContextCmdletBase
+    [TestClass]
+    public class GetAzureWebsiteGitDeploymentTests
     {
-        internal override void ExecuteCommand()
+        [TestInitialize]
+        public void SetupTest()
         {
-            throw new System.NotImplementedException();
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
+            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+        }
+
+        [TestMethod]
+        public void GetAzureWebsiteGitDeploymentTest()
+        {
         }
     }
 }

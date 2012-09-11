@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using WebSites.Cmdlets.Common;
 
     /// <summary>
-    /// Gets the azure logs.
+    /// Gets the git deployments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "WebsiteLogs")]
-    public class GetWebsiteLogsCommand : WebsiteContextCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteGitDeployment")]
+    public class GetAzureWebsiteGitDeploymentCommand : WebsiteContextCmdletBase
     {
         internal override void ExecuteCommand()
         {
