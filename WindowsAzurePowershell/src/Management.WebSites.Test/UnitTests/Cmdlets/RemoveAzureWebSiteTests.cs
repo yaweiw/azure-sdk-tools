@@ -42,6 +42,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                }
+
+                return new Site { Name = "website2", WebSpace = "webspace2" };
+            };
+
             channel.GetSitesThunk = ar =>
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
