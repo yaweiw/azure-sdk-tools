@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Web.Script.Serialization;
     using Management.Services;
     using WebEntities;
@@ -61,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static void AddSite(string subscriptionId, Site site)
         {
-            Sites sites = GetSites(subscriptionId);
+            Sites sites = GetSites(subscriptionId, null);
             if (sites == null)
             {
                 sites = new Sites();
@@ -73,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static void RemoveSite(string subscriptionId, Site site)
         {
-            Sites sites = GetSites(subscriptionId);
+            Sites sites = GetSites(subscriptionId, null);
             if (sites == null)
             {
                 return;
@@ -83,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             SaveSites(subscriptionId, sites);
         }
 
-        public static Sites GetSites(string subscriptionId)
+        public static Sites GetSites(string subscriptionId, string webspaceName)
         {
             string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionId));
             if (!File.Exists(sitesFile))
@@ -93,7 +94,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             List<Site> sites = javaScriptSerializer.Deserialize<List<Site>>(File.ReadAllText(sitesFile));
-            return new Sites(sites);
+            if (string.IsNullOrEmpty(webspaceName))
+            {
+                return new Sites(sites);
+            }
+            
+            return new Sites(sites.Where(s => s.WebSpace.Equals(webspaceName)).ToList());
         }
 
         public static void SaveSpaces(string subscriptionId, WebSpaces webSpaces)

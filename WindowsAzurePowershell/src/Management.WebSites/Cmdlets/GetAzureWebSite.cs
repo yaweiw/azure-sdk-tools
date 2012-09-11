@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website
-                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name, "repositoryuri,publishingpassword,publishingusername"));
+                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             else
             {
                 WebSpaces webspaces = null;
-                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
+                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
 
                 WaitForOperation(CommandRuntime.ToString());
 

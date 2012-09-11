@@ -33,7 +33,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 return webSpaces;
             }
 
-            return GetWebSpaces(proxy, subscriptionName);
+            webSpaces = GetWebSpaces(proxy, subscriptionName);
+            Cache.SaveSpaces(subscriptionName, webSpaces);
+
+            return webSpaces;
         }
 
         public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
@@ -64,6 +67,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static Sites GetSites(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string propertiesToInclude)
         {
             return proxy.EndGetSites(proxy.BeginGetSites(subscriptionName, webspaceName, propertiesToInclude, null, null));
+        }
+
+        public static Sites GetSitesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string propertiesToInclude)
+        {
+            Sites sites = Cache.GetSites(subscriptionName, webspaceName);
+            if (sites != null)
+            {
+                return sites;
+            }
+
+            sites = GetSites(proxy, subscriptionName, webspaceName, propertiesToInclude);
+            Cache.SaveSites(subscriptionName, sites);
+            return sites;
         }
 
         public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string propertiesToInclude)
@@ -111,12 +127,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetLocations(proxy.BeginGetLocations(regionName, null, null));
         }
 
-        public static Site GetWebsite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
+        public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
         {
-            var webspaces = proxy.GetWebSpaces(subscriptionId);
+            var webspaces = proxy.GetWebSpacesWithCache(subscriptionId);
             foreach (var webspace in webspaces)
             {
-                var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
+                var websites = proxy.GetSitesWithCache(subscriptionId, webspace.Name, propertiesToInclude);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
                 if (matchWebsite != null)
                 {

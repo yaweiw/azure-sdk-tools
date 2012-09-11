@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInOperationContext(() =>
             {
                 // Find out in which webspace is the website
-                Site websiteObject = RetryCall(s => Channel.GetWebsite(s, Name, null));
+                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
@@ -78,6 +78,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 RetryCall(s => Channel.DeleteSite(s, websiteObject.WebSpace, websiteObject.Name, string.Empty));
                 WaitForOperation(CommandRuntime.ToString());
+
+                Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
             });
         }
     }
