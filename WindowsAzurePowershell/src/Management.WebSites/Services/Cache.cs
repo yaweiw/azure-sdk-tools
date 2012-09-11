@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Web.Script.Serialization;
     using Management.Services;
     using WebEntities;
@@ -81,6 +82,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
             sites.RemoveAll(s => s.Name.Equals(site.Name));
             SaveSites(subscriptionId, sites);
+        }
+
+        public static Site GetSite(string subscriptionId, string website, string propertiesToInclude)
+        {
+            Sites sites = Cache.GetSites(subscriptionId);
+            if (sites != null)
+            {
+                return sites.FirstOrDefault(s => s.Name.Equals(website));
+            }
+
+            return null;
         }
 
         public static Sites GetSites(string subscriptionId)

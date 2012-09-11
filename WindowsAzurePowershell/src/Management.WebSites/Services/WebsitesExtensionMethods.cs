@@ -141,22 +141,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
         {
             // Try to find webspace for site from cache
-            Sites sites = Cache.GetSites(subscriptionId);
-            if (sites != null)
+            Site site = Cache.GetSite(subscriptionId, website, propertiesToInclude);
+            if (site != null)
             {
-                Site site = sites.FirstOrDefault(s => s.Name.Equals(website));
-                if (site != null)
+                try
                 {
-                    try
-                    {
-                        return proxy.GetSite(subscriptionId, site.WebSpace, site.Name, propertiesToInclude);
-                    }
-                    catch
-                    {
-                        Cache.RemoveSite(subscriptionId, site);
-                        throw;
-                    }
-                }    
+                    return proxy.GetSite(subscriptionId, site.WebSpace, site.Name, propertiesToInclude);
+                }
+                catch
+                {
+                    Cache.RemoveSite(subscriptionId, site);
+                    throw;
+                }
             }
 
             // If site was not in cache, find out in which webspace it could be
