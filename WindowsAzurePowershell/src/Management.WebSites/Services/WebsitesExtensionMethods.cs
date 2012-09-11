@@ -69,22 +69,33 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetSites(proxy.BeginGetSites(subscriptionName, webspaceName, propertiesToInclude, null, null));
         }
 
-        public static Sites GetSitesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string propertiesToInclude)
-        {
-            Sites sites = Cache.GetSites(subscriptionName, webspaceName);
-            if (sites != null)
-            {
-                return sites;
-            }
-
-            sites = GetSites(proxy, subscriptionName, webspaceName, propertiesToInclude);
-            Cache.SaveSites(subscriptionName, sites);
-            return sites;
-        }
-
         public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string propertiesToInclude)
         {
             return proxy.EndGetSite(proxy.BeginGetSite(subscriptionName, webspaceName, name, propertiesToInclude, null, null));
+        }
+
+        public static Site GetSiteWithCache(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, string name, string propertiesToInclude)
+        {
+            Sites sites = Cache.GetSites(subscriptionName);
+            if (sites == null)
+            {
+                sites = new Sites();
+            }
+
+
+            Site site = sites.FirstOrDefault(s => s.Name.Equals(name) && s.WebSpace.Equals(webspaceName));
+            if (site == null)
+            {
+                site = GetSite(proxy, subscriptionName, webspaceName, name, propertiesToInclude);
+            }
+            
+            if (site != null)
+            {
+                sites.Add(site);
+                Cache.SaveSites(subscriptionName, sites);   
+            }
+
+            return site;
         }
 
         public static Site CreateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, SiteWithWebSpace site)
@@ -129,10 +140,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static Site GetSite(this IWebsitesServiceManagement proxy, string subscriptionId, string website, string propertiesToInclude)
         {
+            Sites sites = Cache.GetSites(subscriptionId);
+            if (sites != null)
+            {
+                Site site = sites.FirstOrDefault(s => s.Name.Equals(website));
+                if (site != null)
+                {
+                    return site;
+                }    
+            }
+
             var webspaces = proxy.GetWebSpacesWithCache(subscriptionId);
             foreach (var webspace in webspaces)
             {
-                var websites = proxy.GetSitesWithCache(subscriptionId, webspace.Name, propertiesToInclude);
+                var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
                 var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
                 if (matchWebsite != null)
                 {

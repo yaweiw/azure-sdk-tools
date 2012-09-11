@@ -52,6 +52,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             }
         }
 
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            if (File.Exists(WebSpacesFile))
+            {
+                File.Delete(WebSpacesFile);
+            }
+
+            if (File.Exists(SitesFile))
+            {
+                File.Delete(SitesFile);
+            }
+        }
+
         [TestMethod]
         public void AddWebSpaceTest()
         {
@@ -101,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             // Add without any cache from before
             Cache.AddSite(SubscriptionName, site);
 
-            Sites getSites = Cache.GetSites(SubscriptionName, null);
+            Sites getSites = Cache.GetSites(SubscriptionName);
             Assert.IsNotNull(getSites.Find(ws => ws.Name.Equals("newsite")));
         }
 
@@ -112,24 +126,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             // Add without any cache from before
             Cache.AddSite(SubscriptionName, site);
 
-            Sites getSites = Cache.GetSites(SubscriptionName, null);
+            Sites getSites = Cache.GetSites(SubscriptionName);
             Assert.IsNotNull(getSites.Find(ws => ws.Name.Equals("newsite")));
 
             // Now remove it
             Cache.RemoveSite(SubscriptionName, site);
-            getSites = Cache.GetSites(SubscriptionName, null);
+            getSites = Cache.GetSites(SubscriptionName);
             Assert.IsNull(getSites.Find(ws => ws.Name.Equals("newsite")));
         }
 
         [TestMethod]
         public void GetSetSitesTest()
         {
-            Assert.IsNull(Cache.GetSites(SubscriptionName, null));
+            Assert.IsNull(Cache.GetSites(SubscriptionName));
 
             Sites sites = new Sites(new List<Site> { new Site { Name = "site1" }, new Site { Name = "site2" }});
             Cache.SaveSites(SubscriptionName, sites);
 
-            Sites getSites = Cache.GetSites(SubscriptionName, null);
+            Sites getSites = Cache.GetSites(SubscriptionName);
             Assert.IsNotNull(getSites.Find(s => s.Name.Equals("site1")));
             Assert.IsNotNull(getSites.Find(s => s.Name.Equals("site2")));
         }

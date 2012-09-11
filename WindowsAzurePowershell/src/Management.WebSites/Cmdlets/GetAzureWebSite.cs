@@ -89,10 +89,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 List<Site> websites = new List<Site>();
                 foreach (var webspace in webspaces)
                 {
-                    websites.AddRange(RetryCall(s => Channel.GetSitesWithCache(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
+                    websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
                     WaitForOperation(CommandRuntime.ToString());
                 }
 
+                Cache.SaveSites(CurrentSubscription.SubscriptionId, new Sites(websites));
                 WriteWebsites(websites);
             }
         }

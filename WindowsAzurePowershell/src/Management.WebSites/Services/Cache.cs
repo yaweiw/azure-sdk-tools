@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static void AddSite(string subscriptionId, Site site)
         {
-            Sites sites = GetSites(subscriptionId, null);
+            Sites sites = GetSites(subscriptionId);
             if (sites == null)
             {
                 sites = new Sites();
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public static void RemoveSite(string subscriptionId, Site site)
         {
-            Sites sites = GetSites(subscriptionId, null);
+            Sites sites = GetSites(subscriptionId);
             if (sites == null)
             {
                 return;
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             SaveSites(subscriptionId, sites);
         }
 
-        public static Sites GetSites(string subscriptionId, string webspaceName)
+        public static Sites GetSites(string subscriptionId)
         {
             string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("sites.{0}.json", subscriptionId));
             if (!File.Exists(sitesFile))
@@ -94,12 +94,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             
             JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
             List<Site> sites = javaScriptSerializer.Deserialize<List<Site>>(File.ReadAllText(sitesFile));
-            if (string.IsNullOrEmpty(webspaceName))
-            {
-                return new Sites(sites);
-            }
-            
-            return new Sites(sites.Where(s => s.WebSpace.Equals(webspaceName)).ToList());
+            return new Sites(sites);
         }
 
         public static void SaveSpaces(string subscriptionId, WebSpaces webSpaces)
