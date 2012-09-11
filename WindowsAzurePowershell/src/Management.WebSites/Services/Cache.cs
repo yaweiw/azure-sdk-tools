@@ -34,6 +34,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             SaveSpaces(subscriptionId, webSpaces);
         }
 
+        public static void RemoveWebSpace(string subscriptionId, WebSpace webSpace)
+        {
+            WebSpaces webSpaces = GetWebSpaces(subscriptionId);
+            if (webSpaces == null)
+            {
+                return;
+            }
+
+            webSpaces.RemoveAll(ws => ws.Name.Equals(webSpace.Name));
+            SaveSpaces(subscriptionId, webSpaces);
+        }
+
         public static WebSpaces GetWebSpaces(string subscriptionId)
         {
             string webspacesFile = Path.Combine(GlobalPathInfo.AzureAppDir, string.Format("spaces.{0}.json", subscriptionId));
@@ -56,6 +68,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
 
             sites.Add(site);
+            SaveSites(subscriptionId, sites);
+        }
+
+        public static void RemoveSite(string subscriptionId, Site site)
+        {
+            Sites sites = GetSites(subscriptionId);
+            if (sites == null)
+            {
+                return;
+            }
+
+            sites.RemoveAll(s => s.Name.Equals(site.Name));
             SaveSites(subscriptionId, sites);
         }
 

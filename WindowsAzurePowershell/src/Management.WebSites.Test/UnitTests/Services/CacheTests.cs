@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 {
     using System.Collections.Generic;
     using System.IO;
@@ -53,6 +53,33 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
+        public void AddWebSpaceTest()
+        {
+            WebSpace webSpace = new WebSpace {Name = "newwebspace"};
+            // Add without any cache from before
+            Cache.AddWebSpace(SubscriptionName, webSpace);
+
+            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
+            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
+        }
+
+        [TestMethod]
+        public void RemoveWebSpaceTest()
+        {
+            WebSpace webSpace = new WebSpace { Name = "newwebspace" };
+            // Add without any cache from before
+            Cache.AddWebSpace(SubscriptionName, webSpace);
+
+            WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
+            Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
+
+            // Now remove it
+            Cache.RemoveWebSpace(SubscriptionName, webSpace);
+            getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
+            Assert.IsNull(getWebSpaces.Find(ws => ws.Name.Equals("newwebspace")));
+        }
+
+        [TestMethod]
         public void GetSetWebSpacesTest()
         {
             // Test no webspaces
@@ -65,6 +92,33 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             WebSpaces getWebSpaces = Cache.GetWebSpaces(SubscriptionName);
             Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace1")));
             Assert.IsNotNull(getWebSpaces.Find(ws => ws.Name.Equals("webspace2")));
+        }
+
+        [TestMethod]
+        public void AddSiteTest()
+        {
+            Site site = new Site { Name = "newsite" };
+            // Add without any cache from before
+            Cache.AddSite(SubscriptionName, site);
+
+            Sites getSites = Cache.GetSites(SubscriptionName);
+            Assert.IsNotNull(getSites.Find(ws => ws.Name.Equals("newsite")));
+        }
+
+        [TestMethod]
+        public void RemoveSiteTest()
+        {
+            Site site = new Site { Name = "newsite" };
+            // Add without any cache from before
+            Cache.AddSite(SubscriptionName, site);
+
+            Sites getSites = Cache.GetSites(SubscriptionName);
+            Assert.IsNotNull(getSites.Find(ws => ws.Name.Equals("newsite")));
+
+            // Now remove it
+            Cache.RemoveSite(SubscriptionName, site);
+            getSites = Cache.GetSites(SubscriptionName);
+            Assert.IsNull(getSites.Find(ws => ws.Name.Equals("newsite")));
         }
 
         [TestMethod]

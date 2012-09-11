@@ -250,6 +250,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
                 }
+
+                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
             }
             catch (ProtocolException ex)
             {
