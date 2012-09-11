@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Web.Script.Serialization;
     using Management.Services;
     using WebEntities;
