@@ -17,7 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using Management.Cmdlets.Common;
     using Services;
 
-    public abstract class DeploymentBaseCmdlet : CmdletBase<IDeploymentServiceManagement>
-    {   
+    public abstract class DeploymentBaseCmdlet : CloudBaseCmdlet<IDeploymentServiceManagement>
+    {
+        internal abstract void ExecuteCommand();
     }
 }

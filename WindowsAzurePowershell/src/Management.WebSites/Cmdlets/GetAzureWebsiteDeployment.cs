@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel)
+        public GetAzureWebsiteDeploymentCommand(IDeploymentServiceManagement channel)
         {
             Channel = channel;
         }
