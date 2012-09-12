@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets the azure logs.
     /// </summary>
     [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
-    public class SaveAzureWebsiteLogCommand : WebsiteContextCmdletBase
+    public class SaveAzureWebsiteLogCommand : WebsiteContextBaseCmdlet
     {
 
         /// <summary>

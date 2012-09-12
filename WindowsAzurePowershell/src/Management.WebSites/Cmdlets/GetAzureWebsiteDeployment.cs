@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.Management.Automation;
+    using Common;
     using Services;
     using WebSites.Cmdlets.Common;
 
@@ -22,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets the git deployments.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
-    public class GetAzureWebsiteDeploymentCommand : WebsiteContextCmdletBase
+    public class GetAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]

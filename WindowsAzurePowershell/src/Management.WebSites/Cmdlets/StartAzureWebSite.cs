@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Starts an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureWebsite")]
-    public class StartAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class StartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the StartAzureWebsiteCommand class.

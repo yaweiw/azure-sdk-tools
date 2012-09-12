@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets the git deployments.
     /// </summary>
     [Cmdlet(VerbsData.Restore, "AzureWebsiteDeployment")]
-    public class RestoreAzureWebsiteDeploymentCommand : WebsiteContextCmdletBase
+    public class RestoreAzureWebsiteDeploymentCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
