@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Common;
     using Services;
-    using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Gets the git deployments.
