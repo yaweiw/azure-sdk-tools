@@ -113,8 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteLogsTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteGitDeploymentTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\SaveAzureWebsiteLogTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteDeploymentTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StartAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StopAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\GetAzureWebSiteTests.cs" />

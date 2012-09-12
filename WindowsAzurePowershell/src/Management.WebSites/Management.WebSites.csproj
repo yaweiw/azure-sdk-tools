@@ -134,8 +134,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmdlets\GetAzureWebsiteLogs.cs" />
-    <Compile Include="Cmdlets\GetAzureWebsiteGitDeployment.cs" />
+    <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
+    <Compile Include="Cmdlets\GetAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
     <Compile Include="Cmdlets\Common\WebsiteContextCmdletBase.cs" />
     <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />

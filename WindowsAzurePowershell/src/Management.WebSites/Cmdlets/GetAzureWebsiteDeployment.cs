@@ -15,14 +15,42 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.Management.Automation;
+    using Services;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Gets the git deployments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteGitDeployment")]
-    public class GetAzureWebsiteGitDeploymentCommand : WebsiteContextCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
+    public class GetAzureWebsiteDeploymentCommand : WebsiteContextCmdletBase
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
+        [ValidateNotNullOrEmpty]
+        public string MaxResults
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
+        /// </summary>
+        public GetAzureWebsiteDeploymentCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public GetAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
         internal override void ExecuteCommand()
         {
             throw new System.NotImplementedException();

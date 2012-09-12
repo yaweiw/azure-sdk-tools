@@ -15,14 +15,35 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.Management.Automation;
+    using Services;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLogs")]
-    public class GetWebsiteLogsCommand : WebsiteContextCmdletBase
+    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
+    public class SaveAzureWebsiteLogCommand : WebsiteContextCmdletBase
     {
+
+        /// <summary>
+        /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
+        /// </summary>
+        public SaveAzureWebsiteLogCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
         internal override void ExecuteCommand()
         {
             throw new System.NotImplementedException();

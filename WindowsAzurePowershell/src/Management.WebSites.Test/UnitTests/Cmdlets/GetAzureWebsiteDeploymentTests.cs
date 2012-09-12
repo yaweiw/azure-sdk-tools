@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetAzureWebsiteLogsTests
+    public class GetAzureWebsiteDeploymentTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void GetAzureWebsiteLogsTest()
+        public void GetAzureWebsiteDeploymentTest()
         {
         }
     }
