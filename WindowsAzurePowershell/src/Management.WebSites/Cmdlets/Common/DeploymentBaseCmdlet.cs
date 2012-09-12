@@ -14,11 +14,41 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Management.Cmdlets.Common;
     using Services;
 
     public abstract class DeploymentBaseCmdlet : CloudBaseCmdlet<IDeploymentServiceManagement>
     {
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
+        [ValidateNotNullOrEmpty]
+        public string Name
+        {
+            get;
+            set;
+        }
+
         internal abstract void ExecuteCommand();
+
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(Name))
+                {
+                    // If the website name was not specified as a parameter try to infer it
+                    Name = GitWebsite.ReadConfiguration().Name;
+                }
+
+                base.ProcessRecord();
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(ex);
+            }
+        }
     }
 }

@@ -15,7 +15,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using System;
+    using System.ComponentModel;
     using System.ServiceModel;
+    using System.ServiceModel.Web;
+    using DeploymentEntities;
     using Utilities;
 
     /// <summary>
@@ -24,6 +28,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     [ServiceContract(Namespace = UriElements.ServiceNamespace)]
     public interface IDeploymentServiceManagement
     {
-
+        [Description("Gets all deployments for a given repository")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments?$orderby=ReceivedTime%20desc&$top={0}")]
+        IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
+        Deployments EndGetDeployments(IAsyncResult asyncResult);
     }
 }

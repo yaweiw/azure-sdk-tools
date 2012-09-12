@@ -34,6 +34,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     {
         private SubscriptionData _currentSubscription;
 
+        public string CurrentServiceEndpoint { get; set; }
+
         public SubscriptionData CurrentSubscription
         {
             get
@@ -159,13 +161,18 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 ServiceBinding = ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
             }
 
-            if (string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+            if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
             {
-                ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+                ServiceEndpoint = CurrentServiceEndpoint;
+            }
+            else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+            {
+                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
             }
             else
             {
-                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
+                // Use default endpoint
+                ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
             }
 
             return ServiceManagementHelper.CreateServiceManagementChannel<T>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
