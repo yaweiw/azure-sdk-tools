@@ -65,8 +65,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             Deployments deployments;
             InvokeInOperationContext(() => deployments = DeploymentChannel.GetDeployments(MaxResults));
-
-            throw new System.NotImplementedException();
         }
     }
 }

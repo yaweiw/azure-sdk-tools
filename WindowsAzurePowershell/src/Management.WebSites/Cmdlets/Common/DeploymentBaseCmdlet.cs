@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 Password = repository.PublishingPassword
             };
 
-            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(uriBuilder.Uri, null);
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(uriBuilder.Uri);
         }
     }
 }
