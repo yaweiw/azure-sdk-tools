@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     {
         [Description("Gets all deployments for a given repository")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "deployments?$orderby=ReceivedTime%20desc&$top={0}")]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments?$orderby=ReceivedTime%20desc&$top={maxItems}")]
         IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
         Deployments EndGetDeployments(IAsyncResult asyncResult);
     }

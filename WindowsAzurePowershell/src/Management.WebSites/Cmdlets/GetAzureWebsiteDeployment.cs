@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Common;
     using Services;
+    using Services.DeploymentEntities;
     using Services.WebEntities;
 
     /// <summary>
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
-        public string MaxResults
+        public int MaxResults
         {
             get;
             set;
@@ -58,21 +59,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             DeploymentChannel = deploymentChannel;
         }
 
-        private Repository GetRepository(string websiteName)
-        {
-            Site site = null;
-            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSite(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
-            if (site != null)
-            {
-                return new Repository(site);
-            }
-
-            return null;
-        }
-
         internal override void ExecuteCommand()
         {
-            Repository repository = GetRepository(Name);
+            base.ExecuteCommand();
+
+            Deployments deployments;
+            InvokeInOperationContext(() => deployments = DeploymentChannel.GetDeployments(MaxResults));
 
             throw new System.NotImplementedException();
         }

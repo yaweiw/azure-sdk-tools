@@ -15,23 +15,36 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
+    using System.Security.Permissions;
     using Management.Services;
     using Management.Utilities;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {
         protected IDeploymentServiceManagement DeploymentChannel { get; set; }
 
-        protected override void InitChannelCurrentSubscription(bool force)
+        private Repository GetRepository(string websiteName)
         {
-            base.InitChannelCurrentSubscription(force);
+            Site site = null;
+            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSite(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
+            if (site != null)
+            {
+                return new Repository(site);
+            }
 
-            DeploymentChannel = CreateDeploymentChannel();
+            return null;
         }
 
-        private IDeploymentServiceManagement CreateDeploymentChannel()
+        internal override void ExecuteCommand()
+        {
+            Repository repository = GetRepository(Name);
+            DeploymentChannel = CreateDeploymentChannel(repository);
+        }        
+
+        protected IDeploymentServiceManagement CreateDeploymentChannel(Repository repository)
         {
             // If ShareChannel is set by a unit test, use the same channel that
             // was passed into out constructor.  This allows the test to submit
@@ -41,15 +54,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 return DeploymentChannel;
             }
 
-            if (ServiceBinding == null)
+            UriBuilder uriBuilder = new UriBuilder(repository.RepositoryUri)
             {
-                ServiceBinding = ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
-            }
+                UserName = repository.PublishingUsername,
+                Password = repository.PublishingPassword
+            };
 
-            // TODO: use repository URI
-            ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
-            
-            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(uriBuilder.Uri, null);
         }
     }
 }
