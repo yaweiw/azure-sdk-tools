@@ -14,9 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Common;
     using Services;
+    using Services.WebEntities;
 
     /// <summary>
     /// Gets the git deployments.
@@ -36,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
         /// </summary>
         public GetAzureWebsiteDeploymentCommand()
-            : this(null)
+            : this(null, null)
         {
         }
 
@@ -46,13 +49,31 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureWebsiteDeploymentCommand(IDeploymentServiceManagement channel)
+        /// <param name="deploymentChannel">
+        /// Channel used for communication with the git repository.
+        /// </param>
+        public GetAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
         {
             Channel = channel;
+            DeploymentChannel = deploymentChannel;
+        }
+
+        private Repository GetRepository(string websiteName)
+        {
+            Site site = null;
+            InvokeInOperationContext(() => { site = RetryCall(s => Channel.GetSite(s, websiteName, "repositoryuri,publishingpassword,publishingusername")); });
+            if (site != null)
+            {
+                return new Repository(site);
+            }
+
+            return null;
         }
 
         internal override void ExecuteCommand()
         {
+            Repository repository = GetRepository(Name);
+
             throw new System.NotImplementedException();
         }
     }

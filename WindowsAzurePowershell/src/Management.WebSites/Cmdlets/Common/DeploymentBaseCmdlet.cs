@@ -15,40 +15,41 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using Management.Cmdlets.Common;
+    using Management.Services;
+    using Management.Utilities;
     using Services;
+    using WebSites.Cmdlets.Common;
 
-    public abstract class DeploymentBaseCmdlet : CloudBaseCmdlet<IDeploymentServiceManagement>
+    public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
-        [ValidateNotNullOrEmpty]
-        public string Name
+        protected IDeploymentServiceManagement DeploymentChannel { get; set; }
+
+        protected override void InitChannelCurrentSubscription(bool force)
         {
-            get;
-            set;
+            base.InitChannelCurrentSubscription(force);
+
+            DeploymentChannel = CreateDeploymentChannel();
         }
 
-        internal abstract void ExecuteCommand();
-
-        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
-        protected override void ProcessRecord()
+        private IDeploymentServiceManagement CreateDeploymentChannel()
         {
-            try
+            // If ShareChannel is set by a unit test, use the same channel that
+            // was passed into out constructor.  This allows the test to submit
+            // a mock that we use for all network calls.
+            if (ShareChannel)
             {
-                if (string.IsNullOrEmpty(Name))
-                {
-                    // If the website name was not specified as a parameter try to infer it
-                    Name = GitWebsite.ReadConfiguration().Name;
-                }
+                return DeploymentChannel;
+            }
 
-                base.ProcessRecord();
-            }
-            catch (Exception ex)
+            if (ServiceBinding == null)
             {
-                SafeWriteError(ex);
+                ServiceBinding = ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
             }
+
+            // TODO: use repository URI
+            ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+            
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             InitChannelCurrentSubscription(false);
         }
 
-        protected void InitChannelCurrentSubscription(bool force)
+        protected virtual void InitChannelCurrentSubscription(bool force)
         {
             if (CurrentSubscription == null)
             {
