@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
-    using System.Security.Permissions;
     using System.ServiceModel;
     using Management.Services;
-    using Management.Utilities;
+    using Properties;
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
@@ -42,6 +41,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
         internal override void ExecuteCommand()
         {
             Repository repository = GetRepository(Name);
+            if (repository == null)
+            {
+                throw new Exception(Resources.RepositoryNotSetup);    
+            }
+
             DeploymentChannel = CreateDeploymentChannel(repository);
         }
 

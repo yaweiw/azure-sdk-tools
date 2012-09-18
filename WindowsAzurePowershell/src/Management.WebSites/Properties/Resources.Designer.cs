@@ -166,6 +166,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repository is not setup.
+        /// </summary>
+        internal static string RepositoryNotSetup {
+            get {
+                return ResourceManager.GetString("RepositoryNotSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         internal static string ShouldProcessCaption {

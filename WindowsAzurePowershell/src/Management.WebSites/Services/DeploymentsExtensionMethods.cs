@@ -20,11 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     {
         public static Deployments GetDeployments(this IDeploymentServiceManagement proxy, int maxItems)
         {
-            if (maxItems == 0)
-            {
-                maxItems = 20;
-            }
-
             return proxy.EndGetDeployments(proxy.BeginGetDeployments(maxItems, null, null));
         }
     }

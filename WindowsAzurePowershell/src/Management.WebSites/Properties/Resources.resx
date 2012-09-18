@@ -168,4 +168,7 @@ Please follow these steps in the portal:
   <data name="WebsiteAlreadyExistsReplacement" xml:space="preserve">
     <value>WebSite with given name {0} already exists in the specified Subscription and Location.</value>
   </data>
+  <data name="RepositoryNotSetup" xml:space="preserve">
+    <value>Repository is not setup</value>
+  </data>
 </root>

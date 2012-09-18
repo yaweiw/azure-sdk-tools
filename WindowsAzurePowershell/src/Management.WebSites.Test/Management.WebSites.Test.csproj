@@ -126,6 +126,7 @@
     <Compile Include="UnitTests\Cmdlets\ShowAzureWebsiteTests.cs" />
     <Compile Include="UnitTests\Services\CacheTests.cs" />
     <Compile Include="UnitTests\Services\GitTests.cs" />
+    <Compile Include="UnitTests\Utilities\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
   </ItemGroup>
   <ItemGroup>

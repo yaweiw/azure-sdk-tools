@@ -25,9 +25,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
     public class GetAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
+        private const int DefaultMaxResults = 20;
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
-        public int MaxResults
+        public int? MaxResults
         {
             get;
             set;
@@ -60,8 +62,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             base.ExecuteCommand();
 
-            Deployments deployments;
-            InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(MaxResults); });
+            InvokeInDeploymentOperationContext(() =>
+            {
+                Deployments deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
+                WriteObject(deployments, true);
+            });
         }
     }
 }

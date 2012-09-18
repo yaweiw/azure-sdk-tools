@@ -14,10 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Management.Services;
     using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
+    using Model;
+    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Websites.Cmdlets;
+    using Websites.Services.DeploymentEntities;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class GetAzureWebsiteDeploymentTests
@@ -32,6 +40,46 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void GetAzureWebsiteDeploymentTest()
         {
+            // Setup
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSitesThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", SiteProperties = new SiteProperties
+                        {
+                            Properties = new List<NameValuePair>
+                            {
+                                new NameValuePair { Name = "repositoryuri", Value = "http" },
+                                new NameValuePair { Name = "PublishingUsername", Value = "user1" },
+                                new NameValuePair { Name = "PublishingPassword", Value = "password1" }
+                            }
+                        }} 
+                    });
+                }
+
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+            };
+
+            SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
+            deploymentChannel.GetDeploymentsThunk = ar => new Deployments { new Deployment(), new Deployment() };
+
+            // Test
+            GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(channel, deploymentChannel)
+            {
+                Name = "website1",
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+            };
+
+            getAzureWebsiteDeploymentCommand.ExecuteCommand();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
+            var deployments = (IEnumerable<Deployment>)((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            Assert.IsNotNull(deployments);
+            Assert.AreEqual(2, deployments.Count());
         }
     }
 }
