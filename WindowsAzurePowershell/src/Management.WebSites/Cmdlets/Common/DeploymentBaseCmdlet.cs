@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
     using System.Security.Permissions;
+    using System.ServiceModel;
     using Management.Services;
     using Management.Utilities;
     using Services;
@@ -55,6 +56,27 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             }
 
             return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(new Uri(repository.RepositoryUri), repository.PublishingUsername, repository.PublishingPassword);
+        }
+
+        /// <summary>
+        /// Invoke the given operation within an OperationContextScope if the
+        /// channel supports it.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void InvokeInDeploymentOperationContext(Action action)
+        {
+            IContextChannel contextChannel = DeploymentChannel as IContextChannel;
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    action();
+                }
+            }
+            else
+            {
+                action();
+            }
         }
     }
 }

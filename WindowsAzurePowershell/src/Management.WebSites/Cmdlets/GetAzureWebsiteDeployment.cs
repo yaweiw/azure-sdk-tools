@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             base.ExecuteCommand();
 
             Deployments deployments;
-            InvokeInOperationContext(() => deployments = DeploymentChannel.GetDeployments(MaxResults));
+            InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(MaxResults); });
         }
     }
 }
