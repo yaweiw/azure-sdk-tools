@@ -14,8 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System;
+    using System.Linq;
     using System.Management.Automation;
     using Common;
+    using Properties;
     using Services;
     using Services.DeploymentEntities;
 
@@ -27,7 +30,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     {
         private const int DefaultMaxResults = 20;
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
+        [ValidateNotNullOrEmpty]
+        public string CommitId
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
         public int? MaxResults
         {
@@ -65,7 +76,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInDeploymentOperationContext(() =>
             {
                 Deployments deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
-                WriteObject(deployments, true);
+
+                if (CommitId != null)
+                {
+                    Deployment deployment = deployments.FirstOrDefault(d => d.Id.Equals(CommitId));
+                    if (deployment == null)
+                    {
+                        throw new Exception(string.Format(Resources.InvalidDeployment, CommitId));
+                    }
+
+                    WriteObject(deployment);
+                } 
+                else
+                {
+                    WriteObject(deployments, true);   
+                }
             });
         }
     }

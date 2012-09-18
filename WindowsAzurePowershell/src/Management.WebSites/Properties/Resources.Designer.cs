@@ -97,6 +97,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deployment with {0} does not exist.
+        /// </summary>
+        internal static string InvalidDeployment {
+            get {
+                return ResourceManager.GetString("InvalidDeployment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git credentials needs to be setup on the portal..
         /// </summary>
         internal static string InvalidGitCredentials {
