@@ -32,5 +32,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [WebInvoke(Method = "GET", UriTemplate = "deployments?%24orderby=ReceivedTime%20desc&%24top={maxItems}")]
         IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
         Deployments EndGetDeployments(IAsyncResult asyncResult);
+
+        [Description("Redeploys a specific commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "deployments/{commitId}")]
+        IAsyncResult BeginDeploy(string commitId, AsyncCallback callback, object state);
+        void EndDeploy(IAsyncResult asyncResult);
     }
 }
