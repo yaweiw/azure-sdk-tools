@@ -14,13 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
-    using System;
-    using System.Linq;
     using System.Management.Automation;
     using Common;
     using Services;
     using Services.DeploymentEntities;
-    using Services.WebEntities;
 
     /// <summary>
     /// Gets the git deployments.
