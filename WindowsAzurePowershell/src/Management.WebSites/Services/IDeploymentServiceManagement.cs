@@ -20,17 +20,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using DeploymentEntities;
-    using Utilities;
 
     /// <summary>
     /// Provides the Windows Azure Service Management Api for Windows Azure Websites Deployment. 
     /// </summary>
-    [ServiceContract(Namespace = UriElements.ServiceNamespace)]
+    [ServiceContract]
     public interface IDeploymentServiceManagement
     {
         [Description("Gets all deployments for a given repository")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "deployments?$orderby=ReceivedTime%20desc&$top={maxItems}")]
+        [WebGet(UriTemplate = "deployments?%24orderby=ReceivedTime%20desc&%24top={maxItems}")]
         IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
         Deployments EndGetDeployments(IAsyncResult asyncResult);
     }

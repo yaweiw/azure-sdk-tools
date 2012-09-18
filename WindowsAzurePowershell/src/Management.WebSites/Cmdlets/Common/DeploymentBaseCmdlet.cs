@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
         {
             Repository repository = GetRepository(Name);
             DeploymentChannel = CreateDeploymentChannel(repository);
-        }        
+        }
 
         protected IDeploymentServiceManagement CreateDeploymentChannel(Repository repository)
         {
@@ -54,13 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 return DeploymentChannel;
             }
 
-            UriBuilder uriBuilder = new UriBuilder(repository.RepositoryUri)
-            {
-                UserName = repository.PublishingUsername,
-                Password = repository.PublishingPassword
-            };
-
-            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(uriBuilder.Uri);
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(new Uri(repository.RepositoryUri), repository.PublishingUsername, repository.PublishingPassword);
         }
     }
 }
