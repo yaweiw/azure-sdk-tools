@@ -15,39 +15,38 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.Management.Automation;
-    using Common;
     using Services;
-    using Services.WebEntities;
+    using WebSites.Cmdlets.Common;
 
     /// <summary>
-    /// Gets an azure website.
+    /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation")]
-    public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
+    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
+    public class SaveAzureWebsiteLogCommand : WebsiteContextBaseCmdlet
     {
+
         /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteLocationCommand class.
+        /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
-        public GetAzureWebsiteLocationCommand()
+        public SaveAzureWebsiteLogCommand()
             : this(null)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the GetAzureWebsiteLocationCommand class.
+        /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureWebsiteLocationCommand(IWebsitesServiceManagement channel)
+        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
 
         internal override void ExecuteCommand()
         {
-            // For now geo regions will be hardcoded since the Get GeoRegions endpoint is still not exposed.
-            WriteObject(AvailableWebspaces.Webspaces.Keys, true);
+            throw new System.NotImplementedException();
         }
     }
 }

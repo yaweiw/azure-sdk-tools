@@ -97,6 +97,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deployment with {0} does not exist.
+        /// </summary>
+        internal static string InvalidDeployment {
+            get {
+                return ResourceManager.GetString("InvalidDeployment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git credentials needs to be setup on the portal..
         /// </summary>
         internal static string InvalidGitCredentials {
@@ -162,6 +171,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         internal static string RemoveWebsiteWarning {
             get {
                 return ResourceManager.GetString("RemoveWebsiteWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository is not setup.
+        /// </summary>
+        internal static string RepositoryNotSetup {
+            get {
+                return ResourceManager.GetString("RepositoryNotSetup", resourceCulture);
             }
         }
         

@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
