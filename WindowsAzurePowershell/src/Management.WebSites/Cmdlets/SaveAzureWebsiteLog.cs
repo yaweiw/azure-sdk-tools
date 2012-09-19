@@ -24,13 +24,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets the azure logs.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteLog")]
-    public class GetAzureWebsiteLogCommand : DeploymentBaseCmdlet
+    public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
-
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
-        public GetAzureWebsiteLogCommand()
+        public SaveAzureWebsiteLogCommand()
             : this(null, null)
         {
         }
@@ -44,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// <param name="deploymentChannel">
         /// Channel used for communication with the git repository.
         /// </param>
-        public GetAzureWebsiteLogCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
+        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
         {
             Channel = channel;
             DeploymentChannel = deploymentChannel;

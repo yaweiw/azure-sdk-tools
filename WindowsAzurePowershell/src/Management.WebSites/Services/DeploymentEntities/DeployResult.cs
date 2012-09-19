@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Runtime.Serialization;
 
@@ -69,5 +70,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 
         [DataMember(Name = "log_url")]
         public Uri LogUrl { get; set; }
+
+        [IgnoreDataMember]
+        public List<LogEntry> Logs { get; set; }
     }
 }

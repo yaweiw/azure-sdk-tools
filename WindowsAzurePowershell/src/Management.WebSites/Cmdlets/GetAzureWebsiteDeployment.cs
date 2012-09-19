@@ -47,6 +47,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
+        [Parameter(HelpMessage = "show deployment details")]
+        public SwitchParameter Details
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteDeploymentCommand class.
         /// </summary>
@@ -70,6 +77,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             DeploymentChannel = deploymentChannel;
         }
 
+        internal void SetDetails(DeployResult deployResult)
+        {
+            InvokeInDeploymentOperationContext(() => { deployResult.Logs = DeploymentChannel.GetDeploymentLogs(deployResult.Id); });
+        }
+
         internal override void ExecuteCommand()
         {
             base.ExecuteCommand();
@@ -86,12 +98,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                         throw new Exception(string.Format(Resources.InvalidDeployment, CommitId));
                     }
 
-                    WriteObject(deployment);
+                    if (Details)
+                    {
+                        SetDetails(deployment);
+                    }
+
+                    deployments.Add(deployment);
                 } 
-                else
+                else if (Details)
                 {
-                    WriteObject(deployments, true);   
+                    foreach (DeployResult deployResult in deployments)
+                    {
+                        SetDetails(deployResult);
+                    }
                 }
+
+                WriteObject(deployments, true);
             });
         }
     }

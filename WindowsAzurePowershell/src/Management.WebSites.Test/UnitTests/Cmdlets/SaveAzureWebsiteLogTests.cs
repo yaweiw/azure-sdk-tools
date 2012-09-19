@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services.WebEntities;
 
     [TestClass]
-    public class GetAzureWebsiteLogTests
+    public class SaveAzureWebsiteLogTests
     {
         [TestInitialize]
         public void SetupTest()
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             // Test
-            GetAzureWebsiteLogCommand getAzureWebsiteLogCommand = new GetAzureWebsiteLogCommand(channel, deploymentChannel)
+            SaveAzureWebsiteLogCommand getAzureWebsiteLogCommand = new SaveAzureWebsiteLogCommand(channel, deploymentChannel)
             {
                 Name = "website1", 
                 ShareChannel = true,
