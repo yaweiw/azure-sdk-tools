@@ -64,15 +64,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
-            deploymentChannel.GetDeploymentsThunk = ar => new Deployments { new Deployment { Id = "commit1" }, new Deployment { Id = "commit2" } };
+            deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult { Id = "commit1" }, new DeployResult { Id = "commit2" } };
             deploymentChannel.GetDeploymentLogsThunk = ar =>
             {
                 if (ar.Values["commitId"].Equals("commit1"))
                 {
-                    return new Logs { new Log { Id = "log1" }, new Log { Id = "log2" } };
+                    return new List<LogEntry> { new LogEntry { Id = "log1" }, new LogEntry { Id = "log2" } };
                 }
 
-                return new Logs();
+                return new List<LogEntry>();
             };
 
             // Test
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             getAzureWebsiteLogCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteLogCommand.CommandRuntime).WrittenObjects.Count);
-            var logs = (IEnumerable<Log>)((MockCommandRuntime)getAzureWebsiteLogCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            var logs = (IEnumerable<LogEntry>)((MockCommandRuntime)getAzureWebsiteLogCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
             Assert.IsNotNull(logs);
             Assert.AreEqual(2, logs.Count());
         }

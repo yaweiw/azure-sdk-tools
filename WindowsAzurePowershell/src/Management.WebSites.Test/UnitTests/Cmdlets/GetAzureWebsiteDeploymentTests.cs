@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
-            deploymentChannel.GetDeploymentsThunk = ar => new Deployments { new Deployment(), new Deployment() };
+            deploymentChannel.GetDeploymentsThunk = ar => new List<DeployResult> { new DeployResult(), new DeployResult() };
 
             // Test
             GetAzureWebsiteDeploymentCommand getAzureWebsiteDeploymentCommand = new GetAzureWebsiteDeploymentCommand(channel, deploymentChannel)
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             getAzureWebsiteDeploymentCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            var deployments = (IEnumerable<Deployment>)((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            var deployments = (IEnumerable<DeployResult>)((MockCommandRuntime)getAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
             Assert.IsNotNull(deployments);
             Assert.AreEqual(2, deployments.Count());
         }

@@ -65,19 +65,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             SimpleDeploymentServiceManagement deploymentChannel = new SimpleDeploymentServiceManagement();
 
-            var deployments = new Deployments { new Deployment { Id = "id1", Active = false }, new Deployment { Id = "id2", Active = true } };
+            var deployments = new List<DeployResult> { new DeployResult { Id = "id1", Current = false }, new DeployResult { Id = "id2", Current = true } };
             deploymentChannel.GetDeploymentsThunk = ar => deployments;
             deploymentChannel.DeployThunk = ar =>
             {
                 // Keep track of currently deployed id
-                Deployment newDeployment = deployments.FirstOrDefault(d => d.Id.Equals(ar.Values["commitId"]));
+                DeployResult newDeployment = deployments.FirstOrDefault(d => d.Id.Equals(ar.Values["commitId"]));
                 if (newDeployment != null)
                 {
                     // Make all inactive
-                    deployments.ForEach(d => d.Active = false);
+                    deployments.ForEach(d => d.Complete = false);
                     
                     // Set new to active
-                    newDeployment.Active = true;
+                    newDeployment.Complete = true;
                 }
             };
 
@@ -94,11 +94,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            var responseDeployments = (IEnumerable<Deployment>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            var responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
-            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && d.Active));
-            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && !d.Active));
+            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && d.Complete));
+            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && !d.Complete));
 
             // Change active deployment to id1
             restoreAzureWebsiteDeploymentCommand = new RestoreAzureWebsiteDeploymentCommand(channel, deploymentChannel)
@@ -112,11 +112,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
             Assert.AreEqual(1, ((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            responseDeployments = (IEnumerable<Deployment>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
-            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && d.Active));
-            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && !d.Active));
+            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && d.Complete));
+            Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && !d.Complete));
         }
     }
 }

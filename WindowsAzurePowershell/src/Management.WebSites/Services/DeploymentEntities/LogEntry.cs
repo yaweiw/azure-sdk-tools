@@ -14,17 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 {
-    using System.Collections.Generic;
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>
     /// Log.
     /// </summary>
     [DataContract]
-    public class Log
+    public class LogEntry
     {
         [DataMember(Name = "log_time")]
-        public string LogTime { get; set; }
+        public DateTime LogTime { get; set; }
 
         [DataMember(Name = "id")]
         public string Id { get; set; }
@@ -33,25 +33,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
         public string Message { get; set; }
 
         [DataMember(Name = "type")]
-        public string Type { get; set; }
-    }
+        public LogEntryType Type { get; set; }
 
-    /// <summary>
-    /// Collection of logs.
-    /// </summary>
-    [CollectionDataContract]
-    public class Logs : List<Log>
-    {
+        [DataMember(Name = "details_url")]
+        public Uri DetailsUrl { get; set; }
 
-        /// <summary>
-        /// Empty collection.
-        /// </summary>
-        public Logs() { }
+        public bool HasDetails { get; set; }
 
-        /// <summary>
-        /// Initialize collection.
-        /// </summary>
-        /// <param name="logs"></param>
-        public Logs(List<Log> logs) : base(logs) { }
+        public LogEntry()
+        {
+        }
+
+        public LogEntry(DateTime logTime, string id, string message, LogEntryType type)
+        {
+            LogTime = logTime;
+            Id = id;
+            Message = message;
+            Type = type;
+        }
     }
 }

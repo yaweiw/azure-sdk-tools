@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Common;
@@ -75,11 +76,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             InvokeInDeploymentOperationContext(() =>
             {
-                Deployments deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
+                List<DeployResult> deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
 
                 if (CommitId != null)
                 {
-                    Deployment deployment = deployments.FirstOrDefault(d => d.Id.Equals(CommitId));
+                    DeployResult deployment = deployments.FirstOrDefault(d => d.Id.Equals(CommitId));
                     if (deployment == null)
                     {
                         throw new Exception(string.Format(Resources.InvalidDeployment, CommitId));

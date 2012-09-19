@@ -146,9 +146,11 @@
     <Compile Include="Cmdlets\NewAzureWebsite.cs" />
     <Compile Include="Cmdlets\ShowAzurePortal.cs" />
     <Compile Include="Services\Cache.cs" />
-    <Compile Include="Services\DeploymentEntities\Logs.cs" />
+    <Compile Include="Services\DeploymentEntities\DeployStatus.cs" />
+    <Compile Include="Services\DeploymentEntities\LogEntryType.cs" />
+    <Compile Include="Services\DeploymentEntities\LogEntry.cs" />
     <Compile Include="Services\DeploymentsExtensionMethods.cs" />
-    <Compile Include="Services\DeploymentEntities\Deployments.cs" />
+    <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />
     <Compile Include="Services\GeoEntities\GeoLocation.cs" />
     <Compile Include="Services\GeoEntities\GeoRegion.cs" />

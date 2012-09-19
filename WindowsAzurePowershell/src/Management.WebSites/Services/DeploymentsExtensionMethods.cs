@@ -14,21 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using System.Collections.Generic;
     using DeploymentEntities;
 
     public static class DeploymentsExtensionMethods
     {
-        public static Deployments GetDeployments(this IDeploymentServiceManagement proxy, int maxItems)
+        public static List<DeployResult> GetDeployments(this IDeploymentServiceManagement proxy, int maxItems)
         {
             return proxy.EndGetDeployments(proxy.BeginGetDeployments(maxItems, null, null));
         }
 
-        public static Log GetDeploymentLog(this IDeploymentServiceManagement proxy, string commitId, string logId)
+        public static LogEntry GetDeploymentLog(this IDeploymentServiceManagement proxy, string commitId, string logId)
         {
             return proxy.EndGetDeploymentLog(proxy.BeginGetDeploymentLog(commitId, logId, null, null));
         }
 
-        public static Logs GetDeploymentLogs(this IDeploymentServiceManagement proxy, string commitId)
+        public static List<LogEntry> GetDeploymentLogs(this IDeploymentServiceManagement proxy, string commitId)
         {
             return proxy.EndGetDeploymentLogs(proxy.BeginGetDeploymentLogs(commitId, null, null));
         }

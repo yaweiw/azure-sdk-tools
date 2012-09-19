@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Common;
     using Properties;
@@ -80,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             // List new deployments
             InvokeInDeploymentOperationContext(() =>
             {
-                Deployments deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults);
+                List<DeployResult> deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults);
                 WriteObject(deployments, true);
             });
         }

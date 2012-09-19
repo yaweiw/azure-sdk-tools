@@ -14,20 +14,22 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 {
-    using System.Collections.Generic;
+    using System;
+    using System.Diagnostics;
     using System.Runtime.Serialization;
 
     /// <summary>
     /// Deployment.
     /// </summary>
+    [DebuggerDisplay("{Id} {Status}")]
     [DataContract]
-    public class Deployment
+    public class DeployResult
     {
         [DataMember(Name = "id")]
         public string Id { get; set; }
 
         [DataMember(Name = "status")]
-        public int Status { get; set; }
+        public DeployStatus Status { get; set; }
 
         [DataMember(Name = "status_text")]
         public string StatusText { get; set; }
@@ -45,46 +47,27 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
         public string Message { get; set; }
 
         [DataMember(Name = "received_time")]
-        public string ReceivedTime { get; set; }
+        public DateTime ReceivedTime { get; set; }
 
         [DataMember(Name = "start_time")]
-        public string StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         [DataMember(Name = "end_time")]
-        public string EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         [DataMember(Name = "last_success_end_time")]
-        public string LastSuccessEndTime { get; set; }
+        public DateTime? LastSuccessEndTime { get; set; }
 
         [DataMember(Name = "complete")]
         public bool Complete { get; set; }
 
         [DataMember(Name = "active")]
-        public bool Active { get; set; }
+        public bool Current { get; set; }
 
         [DataMember(Name = "url")]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         [DataMember(Name = "log_url")]
-        public string LogUrl { get; set; }
-    }
-
-    /// <summary>
-    /// Collection of deployments.
-    /// </summary>
-    [CollectionDataContract]
-    public class Deployments : List<Deployment>
-    {
-
-        /// <summary>
-        /// Empty collection.
-        /// </summary>
-        public Deployments() { }
-
-        /// <summary>
-        /// Initialize collection.
-        /// </summary>
-        /// <param name="deployments"></param>
-        public Deployments(List<Deployment> deployments) : base(deployments) { }
+        public Uri LogUrl { get; set; }
     }
 }

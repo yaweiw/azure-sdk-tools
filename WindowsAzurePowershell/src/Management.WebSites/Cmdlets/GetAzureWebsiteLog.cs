@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Common;
     using Services;
@@ -54,13 +55,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             base.ExecuteCommand();
 
             // List new deployments
-            Deployments deployments = null;
+            List<DeployResult> deployments = null;
             InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults); });
 
-            Logs allLogs = new Logs();
-            foreach (Deployment deployment in deployments)
+            List<LogEntry> allLogs = new List<LogEntry>();
+            foreach (DeployResult deployment in deployments)
             {
-                Logs logs = null;
+                List<LogEntry> logs = null;
                 InvokeInDeploymentOperationContext(() => { logs = DeploymentChannel.GetDeploymentLogs(deployment.Id); });
                 allLogs.AddRange(logs);
             }
