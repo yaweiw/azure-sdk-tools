@@ -35,9 +35,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         [Description("Gets all deployment logs for a given commit")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/logs/{logId}")]
-        IAsyncResult BeginGetDeploymentLogs(string commitId, string logId, AsyncCallback callback, object state);
+        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/log")]
+        IAsyncResult BeginGetDeploymentLogs(string commitId, AsyncCallback callback, object state);
         Logs EndGetDeploymentLogs(IAsyncResult asyncResult);
+
+        [Description("Gets a deployment log for a given commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/log/{logId}")]
+        IAsyncResult BeginGetDeploymentLog(string commitId, string logId, AsyncCallback callback, object state);
+        Log EndGetDeploymentLog(IAsyncResult asyncResult);
 
         [Description("Redeploys a specific commit")]
         [OperationContract(AsyncPattern = true)]

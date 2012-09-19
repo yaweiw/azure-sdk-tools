@@ -14,23 +14,32 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 {
-    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     /// <summary>
     /// Log.
     /// </summary>
-    [DataContract(Namespace = UriElements.ServiceNamespace)]
+    [DataContract]
     public class Log
     {
+        [DataMember(Name = "log_time")]
+        public string LogTime { get; set; }
+
+        [DataMember(Name = "id")]
+        public string Id { get; set; }
+
+        [DataMember(Name = "message")]
+        public string Message { get; set; }
+
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
     }
 
     /// <summary>
     /// Collection of logs.
     /// </summary>
-    [CollectionDataContract(Namespace = UriElements.ServiceNamespace)]
+    [CollectionDataContract]
     public class Logs : List<Log>
     {
 

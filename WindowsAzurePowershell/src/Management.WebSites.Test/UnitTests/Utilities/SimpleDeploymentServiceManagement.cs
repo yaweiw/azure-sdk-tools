@@ -108,11 +108,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         public Func<SimpleServiceManagementAsyncResult, Logs> GetDeploymentLogsThunk { get; set; }
 
-        public IAsyncResult BeginGetDeploymentLogs(string commitId, string logId, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetDeploymentLogs(string commitId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["commitId"] = commitId;
-            result.Values["logId"] = logId;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
@@ -133,6 +132,39 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             }
 
             return default(Logs);
+        }
+
+        #endregion
+
+        #region GetDeploymentLog
+
+        public Func<SimpleServiceManagementAsyncResult, Log> GetDeploymentLogThunk { get; set; }
+
+        public IAsyncResult BeginGetDeploymentLog(string commitId, string logId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["commitId"] = commitId;
+            result.Values["logId"] = logId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public Log EndGetDeploymentLog(IAsyncResult asyncResult)
+        {
+            if (GetDeploymentLogThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return GetDeploymentLogThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDeploymentLog is not implemented!");
+            }
+
+            return default(Log);
         }
 
         #endregion

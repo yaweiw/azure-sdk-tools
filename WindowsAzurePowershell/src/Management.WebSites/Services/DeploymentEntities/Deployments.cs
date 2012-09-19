@@ -14,15 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
 {
-    using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     /// <summary>
     /// Deployment.
     /// </summary>
-    [DataContract(Namespace = UriElements.ServiceNamespace)]
+    [DataContract]
     public class Deployment
     {
         [DataMember(Name = "id")]
@@ -74,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
     /// <summary>
     /// Collection of deployments.
     /// </summary>
-    [CollectionDataContract(Namespace = UriElements.ServiceNamespace)]
+    [CollectionDataContract]
     public class Deployments : List<Deployment>
     {
 
