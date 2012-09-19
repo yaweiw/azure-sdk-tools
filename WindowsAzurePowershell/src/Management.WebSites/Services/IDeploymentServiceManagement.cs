@@ -33,6 +33,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
         Deployments EndGetDeployments(IAsyncResult asyncResult);
 
+        [Description("Gets all deployment logs for a given commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/logs/{logId}")]
+        IAsyncResult BeginGetDeploymentLogs(string commitId, string logId, AsyncCallback callback, object state);
+        Logs EndGetDeploymentLogs(IAsyncResult asyncResult);
+
         [Description("Redeploys a specific commit")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "PUT", UriTemplate = "deployments/{commitId}")]

@@ -47,16 +47,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
         public string Message { get; set; }
 
         [DataMember(Name = "received_time")]
-        public DateTime ReceivedTime { get; set; }
+        public string ReceivedTime { get; set; }
 
         [DataMember(Name = "start_time")]
-        public DateTime StartTime { get; set; }
+        public string StartTime { get; set; }
 
         [DataMember(Name = "end_time")]
-        public DateTime EndTime { get; set; }
+        public string EndTime { get; set; }
 
         [DataMember(Name = "last_success_end_time")]
-        public DateTime LastSuccessEndTime { get; set; }
+        public string LastSuccessEndTime { get; set; }
 
         [DataMember(Name = "complete")]
         public bool Complete { get; set; }

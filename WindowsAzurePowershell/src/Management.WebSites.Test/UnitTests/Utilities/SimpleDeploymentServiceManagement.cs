@@ -75,6 +75,68 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region Deploy
+
+        public Action<SimpleServiceManagementAsyncResult> DeployThunk { get; set; }
+
+        public IAsyncResult BeginDeploy(string commitId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["commitId"] = commitId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndDeploy(IAsyncResult asyncResult)
+        {
+            if (DeployThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+                DeployThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeployThunk is not implemented!");
+            }
+        }
+
+        #endregion
+
+        #region GetDeploymentLogs
+
+        public Func<SimpleServiceManagementAsyncResult, Logs> GetDeploymentLogsThunk { get; set; }
+
+        public IAsyncResult BeginGetDeploymentLogs(string commitId, string logId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["commitId"] = commitId;
+            result.Values["logId"] = logId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public Logs EndGetDeploymentLogs(IAsyncResult asyncResult)
+        {
+            if (GetDeploymentLogsThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return GetDeploymentLogsThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDeploymentLogs is not implemented!");
+            }
+
+            return default(Logs);
+        }
+
+        #endregion
+
         #endregion
     }
 }

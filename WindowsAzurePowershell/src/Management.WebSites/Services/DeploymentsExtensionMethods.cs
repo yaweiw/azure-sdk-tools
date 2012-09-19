@@ -23,6 +23,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetDeployments(proxy.BeginGetDeployments(maxItems, null, null));
         }
 
+        public static Logs GetDeploymentLogs(this IDeploymentServiceManagement proxy, string commitId, string logId)
+        {
+            return proxy.EndGetDeploymentLogs(proxy.BeginGetDeploymentLogs(commitId, logId, null, null));
+        }
+
         public static void Deploy(this IDeploymentServiceManagement proxy, string commitId)
         {
             proxy.EndDeploy(proxy.BeginDeploy(commitId, null, null));

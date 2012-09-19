@@ -146,6 +146,7 @@
     <Compile Include="Cmdlets\NewAzureWebsite.cs" />
     <Compile Include="Cmdlets\ShowAzurePortal.cs" />
     <Compile Include="Services\Cache.cs" />
+    <Compile Include="Services\DeploymentEntities\Logs.cs" />
     <Compile Include="Services\DeploymentsExtensionMethods.cs" />
     <Compile Include="Services\DeploymentEntities\Deployments.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />

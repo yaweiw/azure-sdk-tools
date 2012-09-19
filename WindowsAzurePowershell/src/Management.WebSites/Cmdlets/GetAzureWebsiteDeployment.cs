@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
     public class GetAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
-        private const int DefaultMaxResults = 20;
+        internal const int DefaultMaxResults = 20;
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
