@@ -57,12 +57,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Deployments deployments = null;
             InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults); });
 
+            Logs allLogs = new Logs();
             foreach (Deployment deployment in deployments)
             {
                 Logs logs = null;
                 InvokeInDeploymentOperationContext(() => { logs = DeploymentChannel.GetDeploymentLogs(deployment.Id); });
-                WriteObject(logs, true);
+                allLogs.AddRange(logs);
             }
+
+            WriteObject(allLogs, true);
         }
     }
 }
