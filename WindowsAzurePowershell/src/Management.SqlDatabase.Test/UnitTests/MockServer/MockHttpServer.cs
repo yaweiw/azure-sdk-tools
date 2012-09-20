@@ -213,8 +213,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         {
             HttpMessage.Request requestInfo = new HttpMessage.Request();
 
-            // Copy the request Uri
+            // Copy the request Uri and Method
             requestInfo.RequestUri = originalRequest.Url;
+            requestInfo.Method = originalRequest.HttpMethod;
 
             // Copy all relevant headers to the request
             requestInfo.Headers = new HttpMessage.HeaderCollection();
@@ -224,9 +225,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 {
                     requestInfo.UserAgent = originalRequest.Headers[headerKey];
                 }
+                else if (headerKey.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
+                {
+                    requestInfo.ContentType = originalRequest.Headers[headerKey];
+                }
+                else if (headerKey.Equals("Accept", StringComparison.OrdinalIgnoreCase))
+                {
+                    requestInfo.Accept = originalRequest.Headers[headerKey];
+                }
                 else if (!headerKey.Equals("Connection", StringComparison.OrdinalIgnoreCase) &&
                          !headerKey.Equals("Host", StringComparison.OrdinalIgnoreCase) &&
-                         !headerKey.Equals("Content-Length", StringComparison.OrdinalIgnoreCase))
+                         !headerKey.Equals("Content-Length", StringComparison.OrdinalIgnoreCase) &&
+                         !headerKey.Equals("Expect", StringComparison.OrdinalIgnoreCase))
                 {
                     requestInfo.Headers.Add(new HttpMessage.Header
                     {
@@ -326,10 +336,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUri);
 
+            request.Method = originalRequest.Method;
+
             // Copy all relevant headers to the request
             if (originalRequest.UserAgent != null)
             {
                 request.UserAgent = originalRequest.UserAgent;
+            }
+
+            if (originalRequest.ContentType != null)
+            {
+                request.ContentType = originalRequest.ContentType;
+            }
+
+            if (originalRequest.Accept != null)
+            {
+                request.Accept = originalRequest.Accept;
             }
 
             foreach (HttpMessage.Header header in originalRequest.Headers)
