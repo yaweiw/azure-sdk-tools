@@ -35,32 +35,32 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
         public void GetAzureSqlDatabaseServerFirewallRuleAttributeTest()
         {
             Type cmdlet = typeof(GetAzureSqlDatabaseServerFirewallRule);
-            UnitTestHelpers.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
-            UnitTestHelpers.CheckCmdletModifiesData(cmdlet, false);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.None);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, false);
         }
 
         [TestMethod]
         public void NewAzureSqlDatabaseServerFirewallRuleAttributeTest()
         {
             Type cmdlet = typeof(NewAzureSqlDatabaseServerFirewallRule);
-            UnitTestHelpers.CheckConfirmImpact(cmdlet, ConfirmImpact.Low);
-            UnitTestHelpers.CheckCmdletModifiesData(cmdlet, true);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Low);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
 
         [TestMethod]
         public void SetAzureSqlDatabaseServerFirewallRuleAttributeTest()
         {
             Type cmdlet = typeof(SetAzureSqlDatabaseServerFirewallRule);
-            UnitTestHelpers.CheckConfirmImpact(cmdlet, ConfirmImpact.Low);
-            UnitTestHelpers.CheckCmdletModifiesData(cmdlet, true);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Low);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
 
         [TestMethod]
         public void RemoveAzureSqlDatabaseServerFirewallRuleAttributeTest()
         {
             Type cmdlet = typeof(RemoveAzureSqlDatabaseServerFirewallRule);
-            UnitTestHelpers.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
-            UnitTestHelpers.CheckCmdletModifiesData(cmdlet, true);
+            UnitTestHelper.CheckConfirmImpact(cmdlet, ConfirmImpact.Medium);
+            UnitTestHelper.CheckCmdletModifiesData(cmdlet, true);
         }
     }
 }
