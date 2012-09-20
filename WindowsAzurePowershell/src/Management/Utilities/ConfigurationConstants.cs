@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities
 {
+    using System;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
 
@@ -29,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                 maxStringContentLength > 0 ?
                 maxStringContentLength :
                 67108864;
+
+            binding.MaxReceivedMessageSize = Int64.MaxValue;
 
             return binding;
         }
