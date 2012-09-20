@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using Common;
@@ -28,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
     public class GetAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
-        private const int DefaultMaxResults = 20;
+        internal const int DefaultMaxResults = 20;
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
@@ -41,6 +42,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
         public int? MaxResults
+        {
+            get;
+            set;
+        }
+
+        [Parameter(HelpMessage = "show deployment details")]
+        public SwitchParameter Details
         {
             get;
             set;
@@ -69,28 +77,43 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             DeploymentChannel = deploymentChannel;
         }
 
+        internal void SetDetails(DeployResult deployResult)
+        {
+            InvokeInDeploymentOperationContext(() => { deployResult.Logs = DeploymentChannel.GetDeploymentLogs(deployResult.Id); });
+        }
+
         internal override void ExecuteCommand()
         {
             base.ExecuteCommand();
 
             InvokeInDeploymentOperationContext(() =>
             {
-                Deployments deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
+                List<DeployResult> deployments = DeploymentChannel.GetDeployments(MaxResults ?? DefaultMaxResults);
 
                 if (CommitId != null)
                 {
-                    Deployment deployment = deployments.FirstOrDefault(d => d.Id.Equals(CommitId));
+                    DeployResult deployment = deployments.FirstOrDefault(d => d.Id.Equals(CommitId));
                     if (deployment == null)
                     {
                         throw new Exception(string.Format(Resources.InvalidDeployment, CommitId));
                     }
 
-                    WriteObject(deployment);
+                    if (Details)
+                    {
+                        SetDetails(deployment);
+                    }
+
+                    deployments.Add(deployment);
                 } 
-                else
+                else if (Details)
                 {
-                    WriteObject(deployments, true);   
+                    foreach (DeployResult deployResult in deployments)
+                    {
+                        SetDetails(deployResult);
+                    }
                 }
+
+                WriteObject(deployments, true);
             });
         }
     }
