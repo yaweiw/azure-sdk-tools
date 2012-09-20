@@ -33,13 +33,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     {
         #region ParameterSet Names
 
-        private const string ServerNameWithSqlAuthParamSet = "ByServerNameWithSqlAuth";
-        private const string FullyQualifiedServerNameWithSqlAuthParamSet = "ByFullyQualifiedServerNameWithSqlAuth";
-        private const string ManageUrlWithSqlAuthParamSet = "ByManageUrlWithSqlAuth";
+        internal const string ServerNameWithSqlAuthParamSet = "ByServerNameWithSqlAuth";
+        internal const string FullyQualifiedServerNameWithSqlAuthParamSet = "ByFullyQualifiedServerNameWithSqlAuth";
+        internal const string ManageUrlWithSqlAuthParamSet = "ByManageUrlWithSqlAuth";
 
-        private const string ServerNameWithCertAuthParamSet = "ByServerNameWithCertAuth";
-        private const string FullyQualifiedServerNameWithCertAuthParamSet = "ByFullyQualifiedServerNameWithCertAuth";
-        private const string ManageUrlWithCertAuthParamSet = "ByManageUrlWithCertAuth";
+        internal const string ServerNameWithCertAuthParamSet = "ByServerNameWithCertAuth";
+        internal const string FullyQualifiedServerNameWithCertAuthParamSet = "ByFullyQualifiedServerNameWithCertAuth";
+        internal const string ManageUrlWithCertAuthParamSet = "ByManageUrlWithCertAuth";
 
         #endregion
 
@@ -120,6 +120,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         /// Connect to a Azure Sql Server with the given ManagementService Uri using
         /// Sql Authentication credentials.
         /// </summary>
+        /// <param name="serverName">The server name.</param>
         /// <param name="managementServiceUri">The server's ManagementService Uri.</param>
         /// <param name="credentials">The Sql Authentication credentials for the server.</param>
         /// <returns>A new <see cref="ServerDataServiceSqlAuth"/> context,
@@ -169,7 +170,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         /// Connect to a Azure Sql Server with the given ManagementService Uri using
         /// certificate based authentication.
         /// </summary>
-        /// <param name="managementServiceUri">The server's ManagementService Uri.</param>
+        /// <param name="serverName">The server name.</param>
+        /// <param name="subscriptionData">The subscription data used to authenticate.</param>
+        /// <returns>A new <see cref="ServerDataServiceSqlAuth"/> context,
+        /// or <c>null</c> if an error occurred.</returns>
         internal IServerDataServiceContext GetServerDataServiceByCertAuth(
             string serverName,
             SubscriptionData subscriptionData)
@@ -180,9 +184,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Creates a new operation context based on the Cmdlet's parameter set and the manageUrl.
         /// </summary>
+        /// <param name="serverName">The server name.</param>
         /// <param name="managementServiceUri">The server's ManagementService Uri.</param>
         /// <returns>A new operation context for the server.</returns>
-        private IServerDataServiceContext CreateServerDataServiceContext(
+        internal IServerDataServiceContext CreateServerDataServiceContext(
             string serverName,
             Uri managementServiceUri)
         {
@@ -210,15 +215,44 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Execute the command.
+        /// </summary>
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+
+                // First obtain the Management Service Uri and the ServerName
+                Uri manageUrl = this.GetManageUrl(this.ParameterSetName);
+                Uri managementServiceUri = DataConnectionUtility.GetManagementServiceUri(manageUrl);
+                string serverName = this.GetServerName(manageUrl);
+
+                // Creates a new Server Data Service Context for the service
+                IServerDataServiceContext operationContext =
+                    this.CreateServerDataServiceContext(serverName, managementServiceUri);
+                if (operationContext != null)
+                {
+                    this.WriteObject(operationContext);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
+
         #region Parameter Parsing Helpers
 
         /// <summary>
         /// Obtain the ManageUrl based on the Cmdlet's parameter set.
         /// </summary>
+        /// <param name="parameterSetName">The name of the invoking parameter set.</param>
         /// <returns>The ManageUrl based on the Cmdlet's parameter set.</returns>
-        private Uri GetManageUrl()
+        private Uri GetManageUrl(string parameterSetName)
         {
-            switch (this.ParameterSetName)
+            switch (parameterSetName)
             {
                 case ServerNameWithSqlAuthParamSet:
                 case ServerNameWithCertAuthParamSet:
@@ -248,6 +282,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         /// <summary>
         /// Obtain the ServerName based on the Cmdlet's parameter set.
         /// </summary>
+        /// <param name="manageUrl">The server's manageUrl.</param>
         /// <returns>The ServerName based on the Cmdlet's parameter set.</returns>
         private string GetServerName(Uri manageUrl)
         {
@@ -262,7 +297,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
                 return manageUrl.Host.Split('.').First();
             }
         }
-
 
         /// <summary>
         /// Obtain the SqlAuthentication Credentials based on the Cmdlet's parameter set.
@@ -301,33 +335,5 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         }
 
         #endregion
-
-        /// <summary>
-        /// Execute the command.
-        /// </summary>
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                // First obtain the Management Service Uri and the ServerName
-                Uri manageUrl = this.GetManageUrl();
-                Uri managementServiceUri = DataConnectionUtility.GetManagementServiceUri(manageUrl);
-                string serverName = this.GetServerName(manageUrl);
-
-                // Creates a new Server Data Service Context for the service
-                IServerDataServiceContext operationContext =
-                    this.CreateServerDataServiceContext(serverName, managementServiceUri);
-                if (operationContext != null)
-                {
-                    this.WriteObject(operationContext);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
     }
 }
