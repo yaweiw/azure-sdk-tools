@@ -69,5 +69,132 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
                 Certificate = new X509Certificate2()
             };
         }
+
+        /// <summary>
+        /// Use reflection to invoke a private member of an object.
+        /// </summary>
+        /// <param name="instance">The object on which to invoke the method.</param>
+        /// <param name="methodName">The name of the method to invoke.</param>
+        /// <param name="paramerters">An array of parameters for this method.</param>
+        /// <returns>The return value for the method.</returns>
+        public static object InvokePrivate(
+            object instance,
+            string methodName,
+            params object[] paramerters)
+        {
+            Type cmdletType = instance.GetType();
+            MethodInfo getManageUrlMethod = cmdletType.GetMethod(
+                methodName,
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            try
+            {
+                return getManageUrlMethod.Invoke(instance, paramerters);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
+        }
+
+        public static void SetFieldValue(
+            Type type,
+            string fieldName,
+            object value)
+        {
+            FieldInfo field = type.GetField(fieldName);
+            field.SetValue(null, value);
+        }
+
+        /// <summary>
+        /// Invokes an array of scripts using the specified powershell instance.
+        /// </summary>
+        /// <param name="powershell">The powershell instance that executes the scripts.</param>
+        /// <param name="scripts">An array of script to execute.</param>
+        public static Collection<PSObject> InvokeBatchScript(
+            this PowerShell powershell,
+            params string[] scripts)
+        {
+            if (powershell == null)
+            {
+                throw new ArgumentNullException("powershell");
+            }
+
+            powershell.Commands.Clear();
+
+            foreach (string script in scripts)
+            {
+                powershell.AddScript(script);
+            }
+
+            Collection<PSObject> results = powershell.Invoke();
+            powershell.DumpStreams();
+            return results;
+        }
+
+        /// <summary>
+        /// Dumps all powershell streams to the console.
+        /// </summary>
+        /// <param name="powershell">The powershell instance containing the streams.</param>
+        public static void DumpStreams(this PowerShell powershell)
+        {
+            if (powershell == null)
+            {
+                throw new ArgumentNullException("powershell");
+            }
+
+            foreach (ProgressRecord record in powershell.Streams.Progress)
+            {
+                Console.Out.WriteLine("Progress: {0}", record.ToString());
+            }
+
+            foreach (DebugRecord record in powershell.Streams.Debug)
+            {
+                Console.Out.WriteLine("Debug: {0}", record.ToString());
+            }
+
+            foreach (VerboseRecord record in powershell.Streams.Verbose)
+            {
+                Console.Out.WriteLine("Verbose: {0}", record.ToString());
+            }
+
+            foreach (WarningRecord record in powershell.Streams.Warning)
+            {
+                Console.Error.WriteLine("Warning: {0}", record.ToString());
+            }
+
+            foreach (ErrorRecord record in powershell.Streams.Error)
+            {
+                Console.Error.WriteLine("Error: {0}", record.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Imports the SqlDatabase Test Manifest to the given <paramref name="powershell"/>
+        /// instance.
+        /// </summary>
+        /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
+        public static void ImportSqlDatabaseModule(PowerShell powershell)
+        {
+            // Import the test manifest file
+            powershell.InvokeBatchScript(
+                string.Format(@"Import-Module .\{0}", SqlDatabaseTestManifest));
+            Assert.IsTrue(powershell.Streams.Error.Count == 0);
+        }
+
+        /// <summary>
+        /// Creates the $credential object in the given <paramref name="powershell"/> instance with
+        /// user name "testuser" and password "testpass".
+        /// </summary>
+        /// <param name="powershell">An instance of the <see cref="PowerShell"/> object.</param>
+        public static void CreateTestCredential(PowerShell powershell)
+        {
+            // Create the test credential
+            powershell.InvokeBatchScript(
+@"$user = ""testuser""",
+@"$pass = ""testp@ss1"" | ConvertTo-SecureString -asPlainText -Force",
+@"$credential = New-Object System.Management.Automation.PSCredential($user, $pass)");
+            Assert.IsTrue(powershell.Streams.Error.Count == 0);
+        }
     }
 }

@@ -102,6 +102,12 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
+    <Compile Include="UnitTests\AsyncExceptionManager.cs" />
+    <Compile Include="UnitTests\MockServer\HttpSession.cs" />
+    <Compile Include="UnitTests\MockServer\HttpMessageCollection.cs" />
+    <Compile Include="UnitTests\MockServer\HttpSessionCollection.cs" />
+    <Compile Include="UnitTests\MockServer\HttpMessage.cs" />
+    <Compile Include="UnitTests\MockServer\MockHttpServer.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletTests.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\DatabaseCmdletAttributionTests.cs" />
