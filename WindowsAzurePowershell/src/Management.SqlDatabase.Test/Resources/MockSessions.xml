@@ -1,0 +1,572 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HttpSessionCollection xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer">
+  <HttpSession>
+    <Name>UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/GetAccessToken</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>sqlauthorization</Name>
+              <Value>Basic dGVzdHVzZXI6dGVzdHBAc3Mx</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a08c9398-48e3-f162-8d74-626e474f632a</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml; charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 20 Sep 2012 01:10:16 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Set-Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=+lG9vYlwJpWNWx8pL6ITBA==; path=/v1/ManagementService.svc; expires=20-Sep-2012 06:10:16 GMT; httponly; secure</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>+lG9vYlwJpWNWx8pL6ITBA==</Value>
+              <RelativeUri>v1/ManagementService.svc</RelativeUri>
+            </Cookie>
+          </Cookies>
+          <ResponseText>&lt;string xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==&lt;/string&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/$metadata</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>036127ea-e141-492d-b73a-e93b0b781a13-2012-09-20 01:10:15Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>d55c8886-2f22-4815-a2eb-9225e24ab8f1-2012-09-20 01:10:15Z</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=+lG9vYlwJpWNWx8pL6ITBA==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>+lG9vYlwJpWNWx8pL6ITBA==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a08c9398-48e3-f162-8d74-626e474f632a</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Thu, 20 Sep 2012 01:10:16 GMT</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"&gt;
+  &lt;edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0"&gt;
+    &lt;Schema Namespace="Microsoft.SqlServer.Management.Server.Domain" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2007/05/edm"&gt;
+      &lt;EntityType Name="Server"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Name" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
+        &lt;NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Server_Databases" ToRole="Database_Server" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="Database"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Id" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Id" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
+        &lt;Property Name="CollationName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreationDate" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="IsSystemObject" Type="Edm.Boolean" Nullable="false" /&gt;
+        &lt;Property Name="Status" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="IsFederationRoot" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="SizeMB" Type="Edm.Decimal" Nullable="false" /&gt;
+        &lt;Property Name="IsRecursiveTriggersOn" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Database_Server" ToRole="Server_Databases" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="Operation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="ActionId" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="CompletedSteps" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="TotalSteps" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="OperationDetails" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="Operation_OperationDetails" ToRole="OperationDetail_Operation" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="OperationDetail"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="EntityId" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="SequenceId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="EntityId" Type="Edm.String" Nullable="false" /&gt;
+        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="Operation" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="OperationDetail_Operation" ToRole="Operation_OperationDetails" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="CreateDatabaseFromDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
+        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ExtractDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Version" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Description" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="UpgradeDatabaseFromDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ViewDatabaseChangesOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ChangeResult" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="IsRegisteredDac" Type="Edm.Boolean" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ViewUpgradePlanOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="UpgradePlan" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="UpgradeScript" Type="Edm.String" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="FirewallRule"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Name" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
+        &lt;Property Name="StartIPAddress" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="EndIPAddress" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreateDate" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="ModifyDate" Type="Edm.DateTime" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;Association Name="Server_Databases_Database_Server"&gt;
+        &lt;End Role="Server_Databases" Type="Microsoft.SqlServer.Management.Server.Domain.Server" Multiplicity="0..1" /&gt;
+        &lt;End Role="Database_Server" Type="Microsoft.SqlServer.Management.Server.Domain.Database" Multiplicity="*" /&gt;
+      &lt;/Association&gt;
+      &lt;Association Name="Operation_OperationDetails_OperationDetail_Operation"&gt;
+        &lt;End Role="Operation_OperationDetails" Type="Microsoft.SqlServer.Management.Server.Domain.Operation" Multiplicity="0..1" /&gt;
+        &lt;End Role="OperationDetail_Operation" Type="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" Multiplicity="*" /&gt;
+      &lt;/Association&gt;
+      &lt;EntityContainer Name="ServerContextInternal" m:IsDefaultEntityContainer="true"&gt;
+        &lt;EntitySet Name="Servers" EntityType="Microsoft.SqlServer.Management.Server.Domain.Server" /&gt;
+        &lt;EntitySet Name="Databases" EntityType="Microsoft.SqlServer.Management.Server.Domain.Database" /&gt;
+        &lt;EntitySet Name="Operations" EntityType="Microsoft.SqlServer.Management.Server.Domain.Operation" /&gt;
+        &lt;EntitySet Name="OperationDetails" EntityType="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" /&gt;
+        &lt;EntitySet Name="CreateDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.CreateDatabaseFromDacPacOperation" /&gt;
+        &lt;EntitySet Name="ExtractDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ExtractDacPacOperation" /&gt;
+        &lt;EntitySet Name="UpgradeDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.UpgradeDatabaseFromDacPacOperation" /&gt;
+        &lt;EntitySet Name="ViewDatabaseChangesOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewDatabaseChangesOperation" /&gt;
+        &lt;EntitySet Name="ViewUpgradePlanOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewUpgradePlanOperation" /&gt;
+        &lt;EntitySet Name="FirewallRules" EntityType="Microsoft.SqlServer.Management.Server.Domain.FirewallRule" /&gt;
+        &lt;AssociationSet Name="ServerDatabase" Association="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server"&gt;
+          &lt;End Role="Server_Databases" EntitySet="Servers" /&gt;
+          &lt;End Role="Database_Server" EntitySet="Databases" /&gt;
+        &lt;/AssociationSet&gt;
+        &lt;AssociationSet Name="OperationOperationDetail" Association="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation"&gt;
+          &lt;End Role="Operation_OperationDetails" EntitySet="Operations" /&gt;
+          &lt;End Role="OperationDetail_Operation" EntitySet="OperationDetails" /&gt;
+        &lt;/AssociationSet&gt;
+      &lt;/EntityContainer&gt;
+    &lt;/Schema&gt;
+  &lt;/edmx:DataServices&gt;
+&lt;/edmx:Edmx&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/GetAccessToken</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a08c9398-48e3-f162-8d74-626e474f632a</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>+lG9vYlwJpWNWx8pL6ITBA==</Value>
+              <RelativeUri>v1/ManagementService.svc</RelativeUri>
+            </Cookie>
+          </Cookies>
+          <ResponseText>&lt;string xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==&lt;/string&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('localhost')/$metadata</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers />
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"&gt;
+  &lt;edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0"&gt;
+    &lt;Schema Namespace="Microsoft.SqlServer.Management.Server.Domain" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2007/05/edm"&gt;
+      &lt;EntityType Name="Server"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Name" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
+        &lt;NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Server_Databases" ToRole="Database_Server" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="Database"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Id" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Id" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
+        &lt;Property Name="CollationName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreationDate" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="IsSystemObject" Type="Edm.Boolean" Nullable="false" /&gt;
+        &lt;Property Name="Status" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="IsFederationRoot" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="SizeMB" Type="Edm.Decimal" Nullable="false" /&gt;
+        &lt;Property Name="IsRecursiveTriggersOn" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Database_Server" ToRole="Server_Databases" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="Operation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="ActionId" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="CompletedSteps" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="TotalSteps" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="OperationDetails" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="Operation_OperationDetails" ToRole="OperationDetail_Operation" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="OperationDetail"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="EntityId" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="SequenceId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="EntityId" Type="Edm.String" Nullable="false" /&gt;
+        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;NavigationProperty Name="Operation" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="OperationDetail_Operation" ToRole="Operation_OperationDetails" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="CreateDatabaseFromDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
+        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ExtractDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacTypeName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Version" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="Description" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="UpgradeDatabaseFromDacPacOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ViewDatabaseChangesOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="ChangeResult" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="IsRegisteredDac" Type="Edm.Boolean" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="ViewUpgradePlanOperation"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="OperationGuid" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
+        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
+        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
+        &lt;Property Name="UpgradePlan" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="UpgradeScript" Type="Edm.String" Nullable="true" /&gt;
+      &lt;/EntityType&gt;
+      &lt;EntityType Name="FirewallRule"&gt;
+        &lt;Key&gt;
+          &lt;PropertyRef Name="Name" /&gt;
+        &lt;/Key&gt;
+        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
+        &lt;Property Name="StartIPAddress" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="EndIPAddress" Type="Edm.String" Nullable="true" /&gt;
+        &lt;Property Name="CreateDate" Type="Edm.DateTime" Nullable="false" /&gt;
+        &lt;Property Name="ModifyDate" Type="Edm.DateTime" Nullable="false" /&gt;
+      &lt;/EntityType&gt;
+      &lt;Association Name="Server_Databases_Database_Server"&gt;
+        &lt;End Role="Server_Databases" Type="Microsoft.SqlServer.Management.Server.Domain.Server" Multiplicity="0..1" /&gt;
+        &lt;End Role="Database_Server" Type="Microsoft.SqlServer.Management.Server.Domain.Database" Multiplicity="*" /&gt;
+      &lt;/Association&gt;
+      &lt;Association Name="Operation_OperationDetails_OperationDetail_Operation"&gt;
+        &lt;End Role="Operation_OperationDetails" Type="Microsoft.SqlServer.Management.Server.Domain.Operation" Multiplicity="0..1" /&gt;
+        &lt;End Role="OperationDetail_Operation" Type="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" Multiplicity="*" /&gt;
+      &lt;/Association&gt;
+      &lt;EntityContainer Name="ServerContextInternal" m:IsDefaultEntityContainer="true"&gt;
+        &lt;EntitySet Name="Servers" EntityType="Microsoft.SqlServer.Management.Server.Domain.Server" /&gt;
+        &lt;EntitySet Name="Databases" EntityType="Microsoft.SqlServer.Management.Server.Domain.Database" /&gt;
+        &lt;EntitySet Name="Operations" EntityType="Microsoft.SqlServer.Management.Server.Domain.Operation" /&gt;
+        &lt;EntitySet Name="OperationDetails" EntityType="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" /&gt;
+        &lt;EntitySet Name="CreateDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.CreateDatabaseFromDacPacOperation" /&gt;
+        &lt;EntitySet Name="ExtractDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ExtractDacPacOperation" /&gt;
+        &lt;EntitySet Name="UpgradeDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.UpgradeDatabaseFromDacPacOperation" /&gt;
+        &lt;EntitySet Name="ViewDatabaseChangesOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewDatabaseChangesOperation" /&gt;
+        &lt;EntitySet Name="ViewUpgradePlanOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewUpgradePlanOperation" /&gt;
+        &lt;EntitySet Name="FirewallRules" EntityType="Microsoft.SqlServer.Management.Server.Domain.FirewallRule" /&gt;
+        &lt;AssociationSet Name="ServerDatabase" Association="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server"&gt;
+          &lt;End Role="Server_Databases" EntitySet="Servers" /&gt;
+          &lt;End Role="Database_Server" EntitySet="Databases" /&gt;
+        &lt;/AssociationSet&gt;
+        &lt;AssociationSet Name="OperationOperationDetail" Association="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation"&gt;
+          &lt;End Role="Operation_OperationDetails" EntitySet="Operations" /&gt;
+          &lt;End Role="OperationDetail_Operation" EntitySet="OperationDetails" /&gt;
+        &lt;/AssociationSet&gt;
+      &lt;/EntityContainer&gt;
+    &lt;/Schema&gt;
+  &lt;/edmx:DataServices&gt;
+&lt;/edmx:Edmx&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/GetAccessToken</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a08c9398-48e3-f162-8d74-626e474f632a</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>+lG9vYlwJpWNWx8pL6ITBA==</Value>
+              <RelativeUri>v1/ManagementService.svc</RelativeUri>
+            </Cookie>
+          </Cookies>
+          <ResponseText>&lt;string xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==&lt;/string&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/$metadata</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers />
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"&gt;
+&lt;/edmx:Edmx&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/GetAccessToken</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>a08c9398-48e3-f162-8d74-626e474f632a</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>+lG9vYlwJpWNWx8pL6ITBA==</Value>
+              <RelativeUri>v1/ManagementService.svc</RelativeUri>
+            </Cookie>
+          </Cookies>
+          <ResponseText>&lt;string xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==&lt;/string&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/$metadata</RequestUri>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers />
+          <Cookies />
+          <RequestText i:nil="true" />
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Forbidden</StatusCode>
+          <Headers />
+          <Cookies />
+          <ResponseText>&lt;Error xmlns=&quot;Microsoft.SqlServer.Management.Framework.Web.Services&quot; xmlns:i=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;&lt;Message&gt;Test error message&lt;/Message&gt;&lt;InnerError i:nil=&quot;true&quot;/&gt;&lt;/Error&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+</HttpSessionCollection>
