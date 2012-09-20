@@ -43,16 +43,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
             public Uri RequestUri { get; set; }
 
             [DataMember(Order = 1)]
-            public string UserAgent { get; set; }
+            public string Method { get; set; }
 
             [DataMember(Order = 2)]
-            public HeaderCollection Headers { get; set; }
+            public string UserAgent { get; set; }
 
             [DataMember(Order = 3)]
-            public CookieCollection Cookies { get; set; }
+            public HeaderCollection Headers { get; set; }
 
             [DataMember(Order = 4)]
+            public CookieCollection Cookies { get; set; }
+
+            [DataMember(Order = 5)]
             public string RequestText { get; set; }
+
+            [DataMember(Order = 6)]
+            public string ContentType { get; set; }
+
+            [DataMember(Order = 7)]
+            public string Accept { get; set; }
 
             public ExtensionDataObject ExtensionData { get; set; }
         }
