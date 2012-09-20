@@ -15,7 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Management.Automation;
+    using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using Management.Model;
     using VisualStudio.TestTools.UnitTesting;
@@ -23,8 +25,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
     /// <summary>
     /// Common helper functions for SqlDatabase UnitTests.
     /// </summary>
-    public class UnitTestHelpers
+    public static class UnitTestHelper
     {
+        /// <summary>
+        /// Manifest file for SqlDatabase Tests
+        /// </summary>
+        private static readonly string SqlDatabaseTestManifest =
+            "Microsoft.WindowsAzure.Management.SqlDatabase.Test.psd1";
+
         public static void CheckConfirmImpact(Type cmdlet, ConfirmImpact confirmImpact)
         {
             object[] cmdletAttributes = cmdlet.GetCustomAttributes(typeof(CmdletAttribute), true);
@@ -43,8 +51,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
             if (supportsShouldProcess)
             {
-                // If the Cmdlet modifies data, there needs to be a Force property to bypass ShouldProcess
-                Assert.AreNotEqual(null, cmdlet.GetProperty("Force"), "Force property is expected for Cmdlets that modifies data.");
+                // If the Cmdlet modifies data, there needs to be a Force property to bypass
+                // ShouldProcess.
+                Assert.AreNotEqual(
+                    null,
+                    cmdlet.GetProperty("Force"),
+                    "Force property is expected for Cmdlets that modifies data.");
             }
         }
 

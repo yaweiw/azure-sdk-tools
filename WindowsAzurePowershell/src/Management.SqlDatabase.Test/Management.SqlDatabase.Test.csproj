@@ -109,7 +109,7 @@
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />
     <Compile Include="UnitTests\SimpleSqlDatabaseManagement.cs" />
-    <Compile Include="UnitTests\UnitTestHelpers.cs" />
+    <Compile Include="UnitTests\UnitTestHelper.cs" />
     <Compile Include="Utilities\PSScriptExecutor.cs" />
   </ItemGroup>
   <ItemGroup>

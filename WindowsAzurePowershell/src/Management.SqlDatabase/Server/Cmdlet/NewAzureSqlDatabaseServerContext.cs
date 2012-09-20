@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None)]
     public class NewAzureSqlDatabaseServerContext : PSCmdlet
     {
-        #region Constants
+        #region ParameterSet Names
 
         private const string ServerNameWithSqlAuthParamSet = "ByServerNameWithSqlAuth";
         private const string FullyQualifiedServerNameWithSqlAuthParamSet = "ByFullyQualifiedServerNameWithSqlAuth";
