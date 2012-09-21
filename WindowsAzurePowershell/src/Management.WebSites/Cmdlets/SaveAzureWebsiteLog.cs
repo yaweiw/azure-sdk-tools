@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Extensions;
-
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.IO;
@@ -27,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
     public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
-        private const string DefaultOutput = "./logs.zip";
+        internal const string DefaultOutput = "./logs.zip";
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The logs output file.")]
         public string Output
@@ -59,18 +57,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             DeploymentChannel = deploymentChannel;
         }
 
+        internal string DefaultCurrentPath = null;
+        internal string GetCurrentPath()
+        {
+            return SessionState != null ?
+                SessionState.Path.CurrentFileSystemLocation.Path :
+                DefaultCurrentPath;
+        }
+
         internal override void ExecuteCommand()
         {
+            if (string.IsNullOrEmpty(Output))
+            {
+                Output = Path.Combine(GetCurrentPath(), DefaultOutput);
+            }
+
             base.ExecuteCommand();
 
             // List new deployments
             Stream websiteLogs = null;
             InvokeInDeploymentOperationContext(() => { websiteLogs = DeploymentChannel.DownloadLogs(); });
-
-            if (string.IsNullOrEmpty(Output))
-            {
-                Output = Path.Combine(SessionState.Path.CurrentFileSystemLocation.Path, DefaultOutput);
-            }
 
             using (Stream file = File.OpenWrite(Output))
             {
