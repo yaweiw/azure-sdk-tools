@@ -124,7 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             // Get publishing users
             IList<string> users = null;
-            InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+            // InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+            users = new List<string> { "andrerod" };
 
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
