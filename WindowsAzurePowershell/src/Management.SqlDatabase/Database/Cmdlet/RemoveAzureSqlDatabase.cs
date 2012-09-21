@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
     using System.Management.Automation;
@@ -21,10 +21,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
 
     /// <summary>
-    /// Retrieves a list of Windows Azure SQL Databases in the given server context.
+    /// Update settings for an existing Windows Azure SQL Database in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", DefaultParameterSetName = "ByName")]
-    public class GetAzureSqlDatabase : PSCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabase", SupportsShouldProcess = true,
+        ConfirmImpact = ConfirmImpact.High)]
+    public class RemoveAzureSqlDatabase : PSCmdlet
     {
         #region Parameters
 
@@ -37,20 +38,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         public IServerDataServiceContext Context { get; set; }
 
         /// <summary>
-        /// Gets or sets the database object to refresh.
+        /// Gets or sets the database.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByInputObject",
-            ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
+            ValueFromPipeline = true)]
         [ValidateNotNull]
+        [Alias("InputObject")]
         public Database Database { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the database to retrieve.
+        /// Gets or sets the database name.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByName",
-            HelpMessage = "The name of the database to retrieve.")]
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string DatabaseName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the switch to not confirm on the removal of the database.
+        /// </summary>
+        [Parameter(HelpMessage = "Do not confirm on the removal of the database")]
+        public SwitchParameter Force { get; set; }
 
         #endregion
 
