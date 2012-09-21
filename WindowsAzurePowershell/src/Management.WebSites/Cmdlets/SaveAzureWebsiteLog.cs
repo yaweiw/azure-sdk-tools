@@ -14,22 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
+    using Common;
     using Services;
-    using WebSites.Cmdlets.Common;
+    using Services.DeploymentEntities;
 
     /// <summary>
     /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
-    public class SaveAzureWebsiteLogCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLog")]
+    public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
-
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
         public SaveAzureWebsiteLogCommand()
-            : this(null)
+            : this(null, null)
         {
         }
 
@@ -39,14 +40,32 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel)
+        /// <param name="deploymentChannel">
+        /// Channel used for communication with the git repository.
+        /// </param>
+        public SaveAzureWebsiteLogCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
         {
             Channel = channel;
+            DeploymentChannel = deploymentChannel;
         }
 
         internal override void ExecuteCommand()
         {
-            throw new System.NotImplementedException();
+            base.ExecuteCommand();
+
+            // List new deployments
+            List<DeployResult> deployments = null;
+            InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults); });
+
+            List<LogEntry> allLogs = new List<LogEntry>();
+            foreach (DeployResult deployment in deployments)
+            {
+                List<LogEntry> logs = null;
+                InvokeInDeploymentOperationContext(() => { logs = DeploymentChannel.GetDeploymentLogs(deployment.Id); });
+                allLogs.AddRange(logs);
+            }
+
+            WriteObject(allLogs, true);
         }
     }
 }

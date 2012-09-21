@@ -14,19 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
+    using Common;
+    using Properties;
     using Services;
-    using WebSites.Cmdlets.Common;
+    using Services.DeploymentEntities;
 
     /// <summary>
     /// Gets the git deployments.
     /// </summary>
-    [Cmdlet(VerbsData.Restore, "AzureWebsiteDeployment")]
-    public class RestoreAzureWebsiteDeploymentCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsData.Restore, "AzureWebsiteDeployment", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
+    public class RestoreAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The maximum number of results to display.")]
         [ValidateNotNullOrEmpty]
-        public string MaxResults
+        public string CommitId
+        {
+            get;
+            set;
+        }
+
+        [Parameter(HelpMessage = "Do not confirm redeploy")]
+        public SwitchParameter Force
         {
             get;
             set;
@@ -36,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// Initializes a new instance of the RestoreAzureWebsiteDeploymentCommand class.
         /// </summary>
         public RestoreAzureWebsiteDeploymentCommand()
-            : this(null)
+            : this(null, null)
         {
         }
 
@@ -46,14 +56,34 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public RestoreAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel)
+        /// <param name="deploymentChannel">
+        /// Channel used for communication with the git repository.
+        /// </param>
+        public RestoreAzureWebsiteDeploymentCommand(IWebsitesServiceManagement channel, IDeploymentServiceManagement deploymentChannel)
         {
             Channel = channel;
+            DeploymentChannel = deploymentChannel;
         }
 
         internal override void ExecuteCommand()
         {
-            throw new System.NotImplementedException();
+            base.ExecuteCommand();
+
+            if (!Force.IsPresent &&
+                !ShouldProcess("", string.Format(Resources.RedeployCommit, CommitId),
+                                Resources.ShouldProcessCaption))
+            {
+                return;
+            }
+
+            InvokeInDeploymentOperationContext(() => DeploymentChannel.Deploy(CommitId));
+
+            // List new deployments
+            InvokeInDeploymentOperationContext(() =>
+            {
+                List<DeployResult> deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults);
+                WriteObject(deployments, true);
+            });
         }
     }
 }

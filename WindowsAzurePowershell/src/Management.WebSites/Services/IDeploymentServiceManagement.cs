@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ServiceModel;
     using System.ServiceModel.Web;
@@ -31,6 +32,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = "deployments?%24orderby=ReceivedTime%20desc&%24top={maxItems}")]
         IAsyncResult BeginGetDeployments(int maxItems, AsyncCallback callback, object state);
-        Deployments EndGetDeployments(IAsyncResult asyncResult);
+        List<DeployResult> EndGetDeployments(IAsyncResult asyncResult);
+
+        [Description("Gets all deployment logs for a given commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/log")]
+        IAsyncResult BeginGetDeploymentLogs(string commitId, AsyncCallback callback, object state);
+        List<LogEntry> EndGetDeploymentLogs(IAsyncResult asyncResult);
+
+        [Description("Gets a deployment log for a given commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "deployments/{commitId}/log/{logId}")]
+        IAsyncResult BeginGetDeploymentLog(string commitId, string logId, AsyncCallback callback, object state);
+        LogEntry EndGetDeploymentLog(IAsyncResult asyncResult);
+
+        [Description("Redeploys a specific commit")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = "deployments/{commitId}")]
+        IAsyncResult BeginDeploy(string commitId, AsyncCallback callback, object state);
+        void EndDeploy(IAsyncResult asyncResult);
     }
 }

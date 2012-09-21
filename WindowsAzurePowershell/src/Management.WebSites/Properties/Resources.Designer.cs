@@ -166,6 +166,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reploy deployment with {0} Id ?.
+        /// </summary>
+        internal static string RedeployCommit {
+            get {
+                return ResourceManager.GetString("RedeployCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the website &quot;{0}&quot;.
         /// </summary>
         internal static string RemoveWebsiteWarning {
