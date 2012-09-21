@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         }
 
         [TestMethod]
-        public void GetAzureWebsiteLogTest()
+        public void SaveAzureWebsiteLogTest()
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();

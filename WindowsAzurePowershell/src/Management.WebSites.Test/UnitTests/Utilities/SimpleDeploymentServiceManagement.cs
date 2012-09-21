@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 {
     using System;
+    using System.IO;
     using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -166,6 +167,37 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             }
 
             return default(LogEntry);
+        }
+
+        #endregion
+
+        #region DownloadLogs
+
+        public Func<SimpleServiceManagementAsyncResult, Stream> DownloadLogsThunk { get; set; }
+
+        public IAsyncResult BeginDownloadLogs(AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public Stream EndDownloadLogs(IAsyncResult asyncResult)
+        {
+            if (DownloadLogsThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return DownloadLogsThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetDeploymentLog is not implemented!");
+            }
+
+            return default(Stream);
         }
 
         #endregion

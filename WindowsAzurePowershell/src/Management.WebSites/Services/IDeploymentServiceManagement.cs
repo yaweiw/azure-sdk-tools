@@ -16,6 +16,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System;
+    using System.IO;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ServiceModel;
@@ -51,5 +52,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [WebInvoke(Method = "PUT", UriTemplate = "deployments/{commitId}")]
         IAsyncResult BeginDeploy(string commitId, AsyncCallback callback, object state);
         void EndDeploy(IAsyncResult asyncResult);
+
+        [Description("Downloads the website logs")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "dump")]
+        IAsyncResult BeginDownloadLogs(AsyncCallback callback, object state);
+        Stream EndDownloadLogs(IAsyncResult asyncResult);
     }
 }

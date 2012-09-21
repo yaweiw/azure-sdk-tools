@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using System.IO;
     using System.Collections.Generic;
     using DeploymentEntities;
 
@@ -37,6 +38,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static void Deploy(this IDeploymentServiceManagement proxy, string commitId)
         {
             proxy.EndDeploy(proxy.BeginDeploy(commitId, null, null));
+        }
+
+        public static Stream DownloadLogs(this IDeploymentServiceManagement proxy)
+        {
+            return proxy.EndDownloadLogs(proxy.BeginDownloadLogs(null, null));
         }
     }
 }

@@ -14,18 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
-    using System.Collections.Generic;
+    using System.IO;
     using System.Management.Automation;
     using Common;
     using Services;
-    using Services.DeploymentEntities;
-
+    
     /// <summary>
     /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLog")]
+    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
     public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
+        [Parameter(HelpMessage = "The logs output file")]
+        public string Output
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
         /// </summary>
@@ -54,18 +60,28 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             base.ExecuteCommand();
 
             // List new deployments
-            List<DeployResult> deployments = null;
-            InvokeInDeploymentOperationContext(() => { deployments = DeploymentChannel.GetDeployments(GetAzureWebsiteDeploymentCommand.DefaultMaxResults); });
+            Stream websiteLogs = null;
+            InvokeInDeploymentOperationContext(() => { websiteLogs = DeploymentChannel.DownloadLogs(); });
 
-            List<LogEntry> allLogs = new List<LogEntry>();
-            foreach (DeployResult deployment in deployments)
+            using (Stream file = File.OpenWrite(Output))
             {
-                List<LogEntry> logs = null;
-                InvokeInDeploymentOperationContext(() => { logs = DeploymentChannel.GetDeploymentLogs(deployment.Id); });
-                allLogs.AddRange(logs);
+                CopyStream(websiteLogs, file);
             }
 
-            WriteObject(allLogs, true);
+            websiteLogs.Dispose();
+        }
+
+        /// <summary>
+        /// Copies the contents of input to output. Doesn't close either stream.
+        /// </summary>
+        internal static void CopyStream(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[8 * 1024];
+            int len;
+            while ((len = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, len);
+            }
         }
     }
 }
