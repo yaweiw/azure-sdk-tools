@@ -314,6 +314,15 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 100000000.
+        /// </summary>
+        internal static string MaxReceivedMessageSize {
+            get {
+                return ResourceManager.GetString("MaxReceivedMessageSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please connect to internet before executing this cmdlet.
         /// </summary>
         internal static string NoInternetConnection {

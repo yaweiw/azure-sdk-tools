@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities
 {
-    using System;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using Microsoft.WindowsAzure.Management.Properties;
 
     public static class ConfigurationConstants
     {
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                 maxStringContentLength :
                 67108864;
 
-            binding.MaxReceivedMessageSize = Int64.MaxValue;
+            binding.MaxReceivedMessageSize = int.Parse(Resources.MaxReceivedMessageSize);
 
             return binding;
         }
