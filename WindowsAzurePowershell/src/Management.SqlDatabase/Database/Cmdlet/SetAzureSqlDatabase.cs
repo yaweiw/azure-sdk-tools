@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
     using System.Management.Automation;
@@ -23,9 +23,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSqlDatabase", SupportsShouldProcess = true,
-        ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureSqlDatabase : PSCmdlet
+    [Cmdlet(VerbsCommon.Set, "AzureSqlDatabase", SupportsShouldProcess = true,
+        ConfirmImpact = ConfirmImpact.Medium)]
+    public class SetAzureSqlDatabase : PSCmdlet
     {
         #region Parameters
 
@@ -43,7 +43,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
             ValueFromPipeline = true)]
         [ValidateNotNull]
-        [Alias("InputObject")]
         public Database Database { get; set; }
 
         /// <summary>
@@ -54,11 +53,36 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
         public string DatabaseName { get; set; }
 
         /// <summary>
-        /// Gets or sets the switch to not confirm on the removal of the database.
+        /// Gets or sets the new name for the database.
         /// </summary>
-        [Parameter(HelpMessage = "Do not confirm on the removal of the database")]
-        public SwitchParameter Force { get; set; }
+        [Parameter(Mandatory = false, HelpMessage = "The new name for the database.")]
+        [ValidateNotNullOrEmpty]
+        public string NewName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the new Edition value for the database.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new edition for the database.")]
+        public DatabaseEdition Edition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new maximum size for the database in GB.
+        /// </summary>
+        [Parameter(Mandatory = false, HelpMessage = "The new maximum size for the database in GB.")]
+        public int MaxSizeGB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the switch to output the target object to the pipeline.
+        /// </summary>
+        [Parameter(HelpMessage = "Pass through the input object to the output pipeline")]
+        public SwitchParameter PassThru { get; set; }
+
+        /// <summary>
+        /// Gets or sets the switch to not confirm on the altering of the database.
+        /// </summary>
+        [Parameter(HelpMessage = "Do not confirm on the altering of the database")]
+        public SwitchParameter Force { get; set; }
+        
         #endregion
 
         /// <summary>

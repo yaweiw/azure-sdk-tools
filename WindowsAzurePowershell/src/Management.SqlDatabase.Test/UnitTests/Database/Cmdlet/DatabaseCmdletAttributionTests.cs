@@ -17,9 +17,9 @@ using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Test;
 using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
+using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     /// <summary>
     /// These tests prevent regression in parameter validation attributes.

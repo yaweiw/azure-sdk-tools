@@ -111,8 +111,8 @@
     <Compile Include="UnitTests\MockServer\MockHttpServer.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletTests.cs" />
     <Compile Include="UnitTests\Firewall\Cmdlet\FirewallCmdletAttributionTests.cs" />
-    <Compile Include="UnitTests\Server\Cmdlet\NewAzureSqlDatabaseServerContextTests.cs" />
-    <Compile Include="UnitTests\Server\Cmdlet\DatabaseCmdletAttributionTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\NewAzureSqlDatabaseServerContextTests.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\DatabaseCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletAttributionTests.cs" />
     <Compile Include="UnitTests\Server\Cmdlet\ServerCmdletTests.cs" />
     <Compile Include="UnitTests\ExceptionHandlerTests.cs" />

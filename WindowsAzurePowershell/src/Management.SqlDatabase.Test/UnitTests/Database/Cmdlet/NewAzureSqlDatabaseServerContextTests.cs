@@ -21,13 +21,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Management.CloudService.Test;
 using Microsoft.WindowsAzure.Management.Extensions;
 using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
+using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
 using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
 using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
 using Microsoft.WindowsAzure.Management.Test.Stubs;
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cmdlet
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase
