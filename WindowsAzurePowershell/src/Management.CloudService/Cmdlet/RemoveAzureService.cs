@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
     public class RemoveAzureServiceCommand : CloudCmdlet<IServiceManagement>
     {
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName
         {
             get;

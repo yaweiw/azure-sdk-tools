@@ -16,10 +16,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using Microsoft.WindowsAzure.Management.Properties;
 
     public static class ConfigurationConstants
     {
         public const string ServiceManagementEndpoint = "https://management.core.windows.net";
+
+        public const int MaxReceivedMessageSize = 100000000;
 
         public static Binding WebHttpBinding(int maxStringContentLength)
         {
@@ -29,6 +32,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                 maxStringContentLength > 0 ?
                 maxStringContentLength :
                 67108864;
+
+            // Increasing MaxReceivedMessageSize to allow big deployments
+            binding.MaxReceivedMessageSize = MaxReceivedMessageSize;
 
             return binding;
         }
