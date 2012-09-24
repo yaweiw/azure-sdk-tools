@@ -256,7 +256,4 @@
     <value>Azure service management error
 {0}</value>
   </data>
-  <data name="MaxReceivedMessageSize" xml:space="preserve">
-    <value>100000000</value>
-  </data>
 </root>
