@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation")]
-    public class GetAzureWebsiteLocationCommand : WebsitesCmdletBase
+    public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteLocationCommand class.

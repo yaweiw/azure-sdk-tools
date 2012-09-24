@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Gets an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(Site))]
-    public class GetAzureWebsiteCommand : WebsitesCmdletBase
+    public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]

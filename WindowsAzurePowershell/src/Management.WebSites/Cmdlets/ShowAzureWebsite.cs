@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Shows an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class ShowAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the ShowAzureWebsiteCommand class.

@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -124,7 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             // Get publishing users
             IList<string> users = null;
-            InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+            // InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+            users = new List<string> { "andrerod" };
 
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())

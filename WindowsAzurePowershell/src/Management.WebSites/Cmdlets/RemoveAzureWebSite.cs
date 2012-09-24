@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Removes an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
         public SwitchParameter Force
