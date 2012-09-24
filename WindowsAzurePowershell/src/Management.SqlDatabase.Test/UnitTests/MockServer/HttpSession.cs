@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
 
         /// <summary>
         /// The real service's base Uri. If specifed the requests will be forwarded to a
-        /// real service</param>
+        /// real service.</param>
         /// </summary>
         public Uri ServiceBaseUri { get; set; }
     }
