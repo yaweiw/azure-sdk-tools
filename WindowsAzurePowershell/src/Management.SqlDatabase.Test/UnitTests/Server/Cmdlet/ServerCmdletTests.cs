@@ -217,7 +217,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
         }
 
         [TestMethod]
-        public void SetAzureSqlDatabaseServerAdminPasswordProcessTest()
+        public void SetAzureSqlDatabaseServerProcessTest()
         {
             MockCommandRuntime commandRuntime = new MockCommandRuntime();
             SimpleSqlDatabaseManagement channel = new SimpleSqlDatabaseManagement();
