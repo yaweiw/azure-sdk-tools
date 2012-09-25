@@ -144,6 +144,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         3,
                         databases.Count,
                         "Expecting three Database objects");
+
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
