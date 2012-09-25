@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// <summary>
     /// Creates a new Windows Azure SQL Databases in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabase", SupportsShouldProcess = true, 
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabase", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]
     public class NewAzureSqlDatabase : PSCmdlet
     {
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 0,
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext Context { get; set; }
