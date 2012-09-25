@@ -66,6 +66,10 @@
           <UserAgent>Windows Azure PowerShell</UserAgent>
           <Headers>
             <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
               <Name>AccessToken</Name>
               <Value>gsyhRreSxwBE4g+znGKqrfxFdPdAcX/0LuwVXDdvZ3q5HrsuIQhZTtQqmUudAnI1r44ctL0MRRrXvKbtSTtIo45Wkfvht5bCYyTMGn+eBUYsa7/8E1YPzL+TR+9dO6ATl4xHT3/x6RrIMI8zsV4f1Lt/f+zd24NEbLf/I6h4K2RGL47HyI6zB3/M+o37GGppDL6uX8ZEJ2bJPWIq1yYrVfBE6h00LrBO5DfZEaSNTS/WEHJqe0SKHWIxobZxU1ipBOr2cOcjmXHvR3QOC2QIBtSJNQCeqewxx0wVMbuV4gbNmyjy5857sccaVtp2oEFvIZguT2BePE9hgHGPzcpGsXiG9FR015orAUH+u8r9UgQEB8OKUILsBq6XnI7zkMmnRubsZQ+rrBT1I8dk2C6QmuOmzz4TwJGDdOMBemzayqjdAUclIb5ejI9c9lfWN5feqRTtDqvytutmEwm7h3StyNjxkFYof03z5dpfBlY6PIpxxW6qF3RLPGY9ovgeJDtSD/MHTtYVjnE0YA/N2C6RsBYutO9kzsYoJV9VP2Z8RnbZngPfvbCRyhOvfLzBGvjWpqQXnsm0EpZjlVBDqQo7AjspucuySSrkbASZniTHg5Y6xCyubri+ez2z1MGuF7cPJpkHK6HX5EuA7DhA3CcmTOyz5VAAJ2vp7OSj+HtsoVORzSZSxqJSv1/wx8s+YOawZAkjTOeavIVKQDLx/CO9gLw5RWcPlfGB5INPzjUXfOW98UGLgRVcDfK+7rnAV+jjsas6L7wcoBhFrpVO/rLuJw==</Value>
             </Header>

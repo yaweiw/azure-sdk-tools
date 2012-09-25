@@ -122,74 +122,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         // Request 0-2: Create context with both ManageUrl and ServerName overriden
                         case 0:
                             // GetAccessToken call
-                            Assert.IsTrue(
-                                actual.RequestUri.AbsoluteUri.EndsWith("GetAccessToken"),
-                                "Incorrect Uri specified for GetAccessToken");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("sqlauthorization"),
-                                "sqlauthorization header does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Headers["sqlauthorization"],
-                                actual.Headers["sqlauthorization"],
-                                "sqlauthorization header does not match");
-                            Assert.IsNull(
-                                actual.RequestText,
-                                "There should be no request text for GetAccessToken");
+                            DatabaseTestHelper.ValidateGetAccessTokenRequest(expected, actual);
                             break;
                         case 1:
                             // Get server call
-                            Assert.IsTrue(
-                                actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
-                                "AccessToken header does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
-                                actual.Headers[DataServiceConstants.AccessTokenHeader],
-                                "AccessToken header does not match");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-session-id"),
-                                "session-id header does not exist in the request");
-                            Assert.IsFalse(
-                                string.IsNullOrEmpty(actual.Headers["x-ms-client-session-id"]),
-                                "session-id header is empty in the request");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-request-id"),
-                                "request-id header does not exist in the request");
-                            Assert.IsFalse(
-                                string.IsNullOrEmpty(actual.Headers["x-ms-client-request-id"]),
-                                "request-id header is empty in the request");
-                            Assert.IsTrue(
-                                actual.Cookies.Contains(DataServiceConstants.AccessCookie),
-                                "AccessCookie does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
-                                actual.Cookies[DataServiceConstants.AccessCookie],
-                                "AccessCookie does not match");
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
                             break;
                         case 2:
                             // $metadata call
                             Assert.IsTrue(
                                 actual.RequestUri.AbsoluteUri.EndsWith("$metadata"),
                                 "Incorrect Uri specified for $metadata");
-                            Assert.IsTrue(
-                                actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
-                                "AccessToken header does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
-                                actual.Headers[DataServiceConstants.AccessTokenHeader],
-                                "AccessToken header does not match");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-session-id"),
-                                "session-id header does not exist in the request");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-request-id"),
-                                "request-id header does not exist in the request");
-                            Assert.IsTrue(
-                                actual.Cookies.Contains(DataServiceConstants.AccessCookie),
-                                "AccessCookie does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
-                                actual.Cookies[DataServiceConstants.AccessCookie],
-                                "AccessCookie does not match");
+                            DatabaseTestHelper.ValidateHeadersForServiceRequest(expected, actual);
                             break;
                         default:
                             Assert.Fail("No more requests expected.");
