@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System.Data.Services.Client;
     using System.Linq;
     using System.Net;
-    using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
