@@ -48,13 +48,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the management site data connection server name.
         /// </summary>
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = ServerNameWithSqlAuthParamSet,
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ServerNameWithSqlAuthParamSet,
             HelpMessage = "The short server name")]
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = ServerNameWithCertAuthParamSet,
+        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ServerNameWithCertAuthParamSet,
             HelpMessage = "The short server name")]
-        [Parameter(Mandatory = false, ParameterSetName = ManageUrlWithSqlAuthParamSet,
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ManageUrlWithSqlAuthParamSet,
             HelpMessage = "The short server name")]
-        [Parameter(Mandatory = false, ParameterSetName = ManageUrlWithCertAuthParamSet,
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The short server name")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
@@ -154,8 +158,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
-                    this, 
-                    sessionActivityId.ToString(), 
+                    this,
+                    sessionActivityId.ToString(),
                     ex);
 
                 // The context is not in an valid state because of the error, set the context 
