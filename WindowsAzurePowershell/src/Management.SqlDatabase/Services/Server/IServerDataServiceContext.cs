@@ -30,6 +30,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         string ClientRequestId { get; }
 
         /// <summary>
+        /// Gets the name of the server for this context.
+        /// </summary>
+        string ServerName { get; }
+
+        /// <summary>
         /// Creates a new Sql Database.
         /// </summary>
         /// <param name="databaseName">The name for the new database.</param>
