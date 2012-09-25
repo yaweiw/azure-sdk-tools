@@ -37,4 +37,24 @@
       </MemberSet>
     </Members>
   </Type>
+  <Type>
+    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database</Name>
+    <Members>
+      <MemberSet>
+        <Name>PSStandardMembers</Name>
+        <Members>
+          <PropertySet>
+            <Name>DefaultDisplayPropertySet</Name>
+            <ReferencedProperties>
+              <Name>Name</Name>
+              <Name>CollationName</Name>
+              <Name>Edition</Name>
+              <Name>MaxSizeGB</Name>
+              <Name>CreationDate</Name>
+            </ReferencedProperties>
+          </PropertySet>
+        </Members>
+      </MemberSet>
+    </Members>
+  </Type>
 </Types>
