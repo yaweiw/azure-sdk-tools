@@ -105,6 +105,7 @@
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
     <Compile Include="UnitTests\AsyncExceptionManager.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
+    <Compile Include="UnitTests\Database\Cmdlet\GetAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\MockServer\HttpSession.cs" />
     <Compile Include="UnitTests\MockServer\HttpMessageCollection.cs" />
     <Compile Include="UnitTests\MockServer\HttpSessionCollection.cs" />

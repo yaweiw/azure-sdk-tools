@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System;
     using System.Collections.Generic;
     using System.Data.Services.Client;
+    using System.Globalization;
+    using System.Linq;
     using System.Net;
     using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
@@ -283,13 +285,77 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 
             // Save changes
             this.AddToDatabases(database);
-            DataServiceResponse response = this.SaveChanges(SaveChangesOptions.None);
-
-            // Re-Query the database for server side updated information
-            database = this.RefreshEntity(database);
-            if (database == null)
+            try
             {
-                throw new ApplicationException(Resources.ErrorRefreshingDatabase);
+                this.SaveChanges(SaveChangesOptions.None);
+
+                // Re-Query the database for server side updated information
+                database = this.RefreshEntity(database);
+                if (database == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabase);
+                }
+            }
+            catch
+            {
+                this.RevertChanges(database);
+                throw;
+            }
+
+            return database;
+        }
+
+        /// <summary>
+        /// Retrieves the list of all databases on the server.
+        /// </summary>
+        /// <returns>An array of all databases on the server.</returns>
+        public Database[] GetDatabases()
+        {
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+            Database[] allDatabases = null;
+
+            try
+            {
+                allDatabases = this.Databases.ToArray();
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
+            }
+
+            return allDatabases;
+        }
+
+        /// <summary>
+        /// Retrieve information on database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to retrieve.</param>
+        /// <returns>An object containing the information about the specific database.</returns>
+        public Database GetDatabase(string databaseName)
+        {
+            Database database;
+
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+
+            try
+            {
+                // Find the database by name
+                database = this.Databases.Where(db => db.Name == databaseName).SingleOrDefault();
+                if (database == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseNotFound,
+                            this.ServerName,
+                            databaseName));
+                }
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
             }
 
             return database;

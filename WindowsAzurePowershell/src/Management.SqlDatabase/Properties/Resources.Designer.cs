@@ -80,6 +80,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database &apos;{0}.{1}&apos; not found..
+        /// </summary>
+        internal static string DatabaseNotFound {
+            get {
+                return ResourceManager.GetString("DatabaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while refreshing database..
         /// </summary>
         internal static string ErrorRefreshingDatabase {
