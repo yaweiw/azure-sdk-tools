@@ -51,6 +51,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         {
             HttpSession testSession = this.sessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseWithSqlAuth");
+            //testSession.ServiceBaseUri = new Uri("https://kvxv0mrmun.database.windows.net");
             testSession.RequestValidator =
                 new Action<HttpMessage, HttpMessage.Request>(
                 (expected, actual) =>
@@ -59,16 +60,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                     switch (expected.Index)
                     {
-                        // Request 0-1: Create context
+                        // Request 0-2: Create context
                         case 0:
                         case 1:
-                            break;
-                        // Request 2-3: Create testdb1
-                        // Request 4-5: Create testdb2
                         case 2:
+                            break;
+                        // Request 3-4: Create testdb1
+                        // Request 5-6: Create testdb2
                         case 3:
                         case 4:
                         case 5:
+                        case 6:
                             Assert.IsTrue(
                                 actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
                                 "AccessToken header does not exist in the request");
@@ -122,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ServerName testserver " +
+                                @"-ServerName kvxv0mrmun " +
                                 @"-ManageUrl {0} " +
                                 @"-Credential $credential",
                                 MockHttpServer.DefaultServerPrefixUri.AbsoluteUri));

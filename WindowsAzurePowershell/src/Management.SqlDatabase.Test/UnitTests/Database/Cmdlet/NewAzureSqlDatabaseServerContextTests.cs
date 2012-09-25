@@ -111,6 +111,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         {
             HttpSession testSession = this.sessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuth");
+            //testSession.ServiceBaseUri = new Uri("https://kvxv0mrmun.database.windows.net");
             testSession.RequestValidator =
                 new Action<HttpMessage, HttpMessage.Request>(
                 (expected, actual) =>
@@ -118,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                     switch (expected.Index)
                     {
-                        // Request 0-1: Create context with both ManageUrl and ServerName overriden
+                        // Request 0-2: Create context with both ManageUrl and ServerName overriden
                         case 0:
                             // GetAccessToken call
                             Assert.IsTrue(
@@ -136,6 +137,35 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 "There should be no request text for GetAccessToken");
                             break;
                         case 1:
+                            // Get server call
+                            Assert.IsTrue(
+                                actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
+                                "AccessToken header does not exist in the request");
+                            Assert.AreEqual(
+                                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
+                                actual.Headers[DataServiceConstants.AccessTokenHeader],
+                                "AccessToken header does not match");
+                            Assert.IsTrue(
+                                actual.Headers.Contains("x-ms-client-session-id"),
+                                "session-id header does not exist in the request");
+                            Assert.IsFalse(
+                                string.IsNullOrEmpty(actual.Headers["x-ms-client-session-id"]),
+                                "session-id header is empty in the request");
+                            Assert.IsTrue(
+                                actual.Headers.Contains("x-ms-client-request-id"),
+                                "request-id header does not exist in the request");
+                            Assert.IsFalse(
+                                string.IsNullOrEmpty(actual.Headers["x-ms-client-request-id"]),
+                                "request-id header is empty in the request");
+                            Assert.IsTrue(
+                                actual.Cookies.Contains(DataServiceConstants.AccessCookie),
+                                "AccessCookie does not exist in the request");
+                            Assert.AreEqual(
+                                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
+                                actual.Cookies[DataServiceConstants.AccessCookie],
+                                "AccessCookie does not match");
+                            break;
+                        case 2:
                             // $metadata call
                             Assert.IsTrue(
                                 actual.RequestUri.AbsoluteUri.EndsWith("$metadata"),
@@ -160,11 +190,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
                                 actual.Cookies[DataServiceConstants.AccessCookie],
                                 "AccessCookie does not match");
-                            break;
-                        // Request 2-3: Create context with just ManageUrl and a derived servername,
-                        // no need to validate
-                        case 2:
-                        case 3:
                             break;
                         default:
                             Assert.Fail("No more requests expected.");
@@ -191,7 +216,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ServerName testserver " +
+                                @"-ServerName kvxv0mrmun " +
                                 @"-ManageUrl {0} " +
                                 @"-Credential $credential",
                                 MockHttpServer.DefaultServerPrefixUri.AbsoluteUri),
@@ -208,10 +233,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         "Expecting a ServerDataServiceSqlAuth object");
 
                     // Create context with just ManageUrl and a derived servername
+                    HttpSession testSessionWithDerivedName = this.sessionCollection.GetSession(
+                        "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName");
                     using (new MockHttpServer(
                         exceptionManager,
                         MockHttpServer.DefaultServerPrefixUri,
-                        testSession))
+                        testSessionWithDerivedName))
                     {
                         serverContext = powershell.InvokeBatchScript(
                             string.Format(

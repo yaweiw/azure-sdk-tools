@@ -44,11 +44,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         private readonly Guid sessionActivityId;
 
         /// <summary>
-        /// The previous request's client request Id.
-        /// </summary>
-        private string clientRequestId;
-
-        /// <summary>
         /// The connection type identifying the model and connection parameters to use
         /// </summary>
         private readonly DataServiceConnectionType connectionType;
@@ -69,6 +64,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// </summary>
         private readonly object instanceSyncObject = new object();
 
+        /// <summary>
+        /// The name of the server we are connected to.
+        /// </summary>
+        private readonly string serverName;
+
+        /// <summary>
+        /// The previous request's client request Id.
+        /// </summary>
+        private string clientRequestId;
+
         #endregion
 
         /// <summary>
@@ -88,6 +93,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             this.sessionActivityId = sessionActivityId;
             this.connectionType = connectionType;
             this.accessToken = accessToken;
+
+            // Generate a requestId and retrieve the server name
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+            this.serverName = this.Servers.First().Name;
         }
 
         #region Public Properties
@@ -124,7 +133,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 return this.clientRequestId;
             }
         }
-        
+
+        /// <summary>
+        /// Gets the name of the server for this context.
+        /// </summary>
+        public string ServerName
+        {
+            get
+            {
+                return this.serverName;
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -138,8 +158,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="serverName">The name of the server to connect to. (Optional)</param>
         /// <returns>An instance of <see cref="ServerDataServiceSqlAuth"/> class.</returns>
         public static ServerDataServiceSqlAuth Create(
-            Uri managementServiceUri, 
-            Guid sessionActivityId, 
+            Uri managementServiceUri,
+            Guid sessionActivityId,
             SqlAuthenticationCredentials credentials,
             string serverName)
         {
@@ -176,7 +196,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="serverName">The name of the server to connect to. (Optional)</param>
         /// <returns>An instance of <see cref="ServerDataServiceSqlAuth"/> class.</returns>
         public static ServerDataServiceSqlAuth Create(
-            Uri managementServiceUri, 
+            Uri managementServiceUri,
             Guid sessionActivityId,
             AccessTokenResult accessTokenResult,
             string serverName)
