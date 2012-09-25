@@ -126,6 +126,10 @@
 Error Code: {0}</value>
     <comment>Generic</comment>
   </data>
+  <data name="DatabaseNotFound" xml:space="preserve">
+    <value>Database '{0}.{1}' not found.</value>
+    <comment>Parameter Validation</comment>
+  </data>
   <data name="ErrorRefreshingDatabase" xml:space="preserve">
     <value>An error occurred while refreshing database.</value>
   </data>

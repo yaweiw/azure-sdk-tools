@@ -35,6 +35,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         string ServerName { get; }
 
         /// <summary>
+        /// Retrieves the list of all databases on the server.
+        /// </summary>
+        /// <returns>An array of all databases on the server.</returns>
+        Database[] GetDatabases();
+
+        /// <summary>
+        /// Retrieve information on database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to retrieve.</param>
+        /// <returns>An object containing the information about the specific database.</returns>
+        Database GetDatabase(string databaseName);
+
+        /// <summary>
         /// Creates a new Sql Database.
         /// </summary>
         /// <param name="databaseName">The name for the new database.</param>

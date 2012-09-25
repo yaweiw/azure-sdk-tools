@@ -59,6 +59,37 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            // Obtain the database name from the given parameters.
+            string databaseName = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+            {
+                databaseName = this.Database.Name;
+            }
+            else if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
+            {
+                databaseName = this.DatabaseName;
+            }
+
+            try
+            {
+                if (databaseName != null)
+                {
+                    // Retrieve the database with the specified name
+                    this.WriteObject(this.Context.GetDatabase(databaseName));
+                }
+                else
+                {
+                    // No name specified, retrieve all databases in the server
+                    this.WriteObject(this.Context.GetDatabases(), true);
+                }
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.Context.ClientRequestId,
+                    ex);
+            }
         }
     }
 }
