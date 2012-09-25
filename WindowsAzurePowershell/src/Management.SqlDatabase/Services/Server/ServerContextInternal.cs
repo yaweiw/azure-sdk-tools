@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name: ServerContextInternal.cs
-// Generation date: 8/17/2012 11:39:09 PM
+// Generation date: 9/24/2012 4:06:44 PM
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     
@@ -182,6 +182,40 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<ViewUpgradePlanOperation> _ViewUpgradePlanOperations;
         /// <summary>
+        /// There are no comments for DatabaseCopies in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<DatabaseCopy> DatabaseCopies
+        {
+            get
+            {
+                if ((this._DatabaseCopies == null))
+                {
+                    this._DatabaseCopies = base.CreateQuery<DatabaseCopy>("DatabaseCopies");
+                }
+                return this._DatabaseCopies;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<DatabaseCopy> _DatabaseCopies;
+        /// <summary>
+        /// There are no comments for DatabaseCopyValidationOperations in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<DatabaseCopyValidationOperation> DatabaseCopyValidationOperations
+        {
+            get
+            {
+                if ((this._DatabaseCopyValidationOperations == null))
+                {
+                    this._DatabaseCopyValidationOperations = base.CreateQuery<DatabaseCopyValidationOperation>("DatabaseCopyValidationOperations");
+                }
+                return this._DatabaseCopyValidationOperations;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<DatabaseCopyValidationOperation> _DatabaseCopyValidationOperations;
+        /// <summary>
         /// There are no comments for FirewallRules in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -198,6 +232,57 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<FirewallRule> _FirewallRules;
+        /// <summary>
+        /// There are no comments for DatabaseMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<DatabaseMetrics> DatabaseMetrics
+        {
+            get
+            {
+                if ((this._DatabaseMetrics == null))
+                {
+                    this._DatabaseMetrics = base.CreateQuery<DatabaseMetrics>("DatabaseMetrics");
+                }
+                return this._DatabaseMetrics;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<DatabaseMetrics> _DatabaseMetrics;
+        /// <summary>
+        /// There are no comments for ServerMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<ServerMetrics> ServerMetrics
+        {
+            get
+            {
+                if ((this._ServerMetrics == null))
+                {
+                    this._ServerMetrics = base.CreateQuery<ServerMetrics>("ServerMetrics");
+                }
+                return this._ServerMetrics;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<ServerMetrics> _ServerMetrics;
+        /// <summary>
+        /// There are no comments for EventLogs in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<EventLog> EventLogs
+        {
+            get
+            {
+                if ((this._EventLogs == null))
+                {
+                    this._EventLogs = base.CreateQuery<EventLog>("EventLogs");
+                }
+                return this._EventLogs;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<EventLog> _EventLogs;
         /// <summary>
         /// There are no comments for Servers in the schema.
         /// </summary>
@@ -271,12 +356,52 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             base.AddObject("ViewUpgradePlanOperations", viewUpgradePlanOperation);
         }
         /// <summary>
+        /// There are no comments for DatabaseCopies in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToDatabaseCopies(DatabaseCopy databaseCopy)
+        {
+            base.AddObject("DatabaseCopies", databaseCopy);
+        }
+        /// <summary>
+        /// There are no comments for DatabaseCopyValidationOperations in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToDatabaseCopyValidationOperations(DatabaseCopyValidationOperation databaseCopyValidationOperation)
+        {
+            base.AddObject("DatabaseCopyValidationOperations", databaseCopyValidationOperation);
+        }
+        /// <summary>
         /// There are no comments for FirewallRules in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToFirewallRules(FirewallRule firewallRule)
         {
             base.AddObject("FirewallRules", firewallRule);
+        }
+        /// <summary>
+        /// There are no comments for DatabaseMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToDatabaseMetrics(DatabaseMetrics databaseMetrics)
+        {
+            base.AddObject("DatabaseMetrics", databaseMetrics);
+        }
+        /// <summary>
+        /// There are no comments for ServerMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToServerMetrics(ServerMetrics serverMetrics)
+        {
+            base.AddObject("ServerMetrics", serverMetrics);
+        }
+        /// <summary>
+        /// There are no comments for EventLogs in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToEventLogs(EventLog eventLog)
+        {
+            base.AddObject("EventLogs", eventLog);
         }
     }
     /// <summary>
@@ -340,6 +465,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Collections.ObjectModel.Collection<Database> _Databases = new global::System.Collections.ObjectModel.Collection<Database>();
+        /// <summary>
+        /// There are no comments for ServerMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public ServerMetrics ServerMetrics
+        {
+            get
+            {
+                return this._ServerMetrics;
+            }
+            set
+            {
+                this._ServerMetrics = value;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private ServerMetrics _ServerMetrics;
     }
     /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.Database in the schema.
@@ -358,8 +500,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         /// <param name="isSystemObject">Initial value of IsSystemObject.</param>
         /// <param name="status">Initial value of Status.</param>
         /// <param name="sizeMB">Initial value of SizeMB.</param>
+        /// <param name="isReadOnly">Initial value of IsReadOnly.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
-        public static Database CreateDatabase(int ID, global::System.DateTime creationDate, bool isSystemObject, int status, decimal sizeMB)
+        public static Database CreateDatabase(int ID, global::System.DateTime creationDate, bool isSystemObject, int status, decimal sizeMB, bool isReadOnly)
         {
             Database database = new Database();
             database.Id = ID;
@@ -367,6 +510,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             database.IsSystemObject = isSystemObject;
             database.Status = status;
             database.SizeMB = sizeMB;
+            database.IsReadOnly = isReadOnly;
             return database;
         }
         /// <summary>
@@ -601,6 +745,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         partial void OnIsRecursiveTriggersOnChanging(global::System.Nullable<bool> value);
         partial void OnIsRecursiveTriggersOnChanged();
         /// <summary>
+        /// There are no comments for Property IsReadOnly in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public bool IsReadOnly
+        {
+            get
+            {
+                return this._IsReadOnly;
+            }
+            set
+            {
+                this.OnIsReadOnlyChanging(value);
+                this._IsReadOnly = value;
+                this.OnIsReadOnlyChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private bool _IsReadOnly;
+        partial void OnIsReadOnlyChanging(bool value);
+        partial void OnIsReadOnlyChanged();
+        /// <summary>
         /// There are no comments for Server in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
@@ -617,6 +782,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private Server _Server;
+        /// <summary>
+        /// There are no comments for DatabaseMetrics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public DatabaseMetrics DatabaseMetrics
+        {
+            get
+            {
+                return this._DatabaseMetrics;
+            }
+            set
+            {
+                this._DatabaseMetrics = value;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private DatabaseMetrics _DatabaseMetrics;
     }
     /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.Operation in the schema.
@@ -1924,6 +2106,438 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         partial void OnUpgradeScriptChanged();
     }
     /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.DatabaseCopy in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// EntityId
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("EntityId")]
+    public partial class DatabaseCopy
+    {
+        /// <summary>
+        /// Create a new DatabaseCopy object.
+        /// </summary>
+        /// <param name="localDatabaseId">Initial value of LocalDatabaseId.</param>
+        /// <param name="isContinuous">Initial value of IsContinuous.</param>
+        /// <param name="isLocalDatabaseReplicationTarget">Initial value of IsLocalDatabaseReplicationTarget.</param>
+        /// <param name="replicationState">Initial value of ReplicationState.</param>
+        /// <param name="isInterlinkConnected">Initial value of IsInterlinkConnected.</param>
+        /// <param name="entityId">Initial value of EntityId.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static DatabaseCopy CreateDatabaseCopy(int localDatabaseId, bool isContinuous, bool isLocalDatabaseReplicationTarget, byte replicationState, bool isInterlinkConnected, global::System.Guid entityId)
+        {
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.LocalDatabaseId = localDatabaseId;
+            databaseCopy.IsContinuous = isContinuous;
+            databaseCopy.IsLocalDatabaseReplicationTarget = isLocalDatabaseReplicationTarget;
+            databaseCopy.ReplicationState = replicationState;
+            databaseCopy.IsInterlinkConnected = isInterlinkConnected;
+            databaseCopy.EntityId = entityId;
+            return databaseCopy;
+        }
+        /// <summary>
+        /// There are no comments for Property LocalDatabaseId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int LocalDatabaseId
+        {
+            get
+            {
+                return this._LocalDatabaseId;
+            }
+            set
+            {
+                this.OnLocalDatabaseIdChanging(value);
+                this._LocalDatabaseId = value;
+                this.OnLocalDatabaseIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _LocalDatabaseId;
+        partial void OnLocalDatabaseIdChanging(int value);
+        partial void OnLocalDatabaseIdChanged();
+        /// <summary>
+        /// There are no comments for Property DestinationServerName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string DestinationServerName
+        {
+            get
+            {
+                return this._DestinationServerName;
+            }
+            set
+            {
+                this.OnDestinationServerNameChanging(value);
+                this._DestinationServerName = value;
+                this.OnDestinationServerNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _DestinationServerName;
+        partial void OnDestinationServerNameChanging(string value);
+        partial void OnDestinationServerNameChanged();
+        /// <summary>
+        /// There are no comments for Property DestinationDatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string DestinationDatabaseName
+        {
+            get
+            {
+                return this._DestinationDatabaseName;
+            }
+            set
+            {
+                this.OnDestinationDatabaseNameChanging(value);
+                this._DestinationDatabaseName = value;
+                this.OnDestinationDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _DestinationDatabaseName;
+        partial void OnDestinationDatabaseNameChanging(string value);
+        partial void OnDestinationDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property SourceServerName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string SourceServerName
+        {
+            get
+            {
+                return this._SourceServerName;
+            }
+            set
+            {
+                this.OnSourceServerNameChanging(value);
+                this._SourceServerName = value;
+                this.OnSourceServerNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _SourceServerName;
+        partial void OnSourceServerNameChanging(string value);
+        partial void OnSourceServerNameChanged();
+        /// <summary>
+        /// There are no comments for Property SourceDatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string SourceDatabaseName
+        {
+            get
+            {
+                return this._SourceDatabaseName;
+            }
+            set
+            {
+                this.OnSourceDatabaseNameChanging(value);
+                this._SourceDatabaseName = value;
+                this.OnSourceDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _SourceDatabaseName;
+        partial void OnSourceDatabaseNameChanging(string value);
+        partial void OnSourceDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property IsContinuous in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public bool IsContinuous
+        {
+            get
+            {
+                return this._IsContinuous;
+            }
+            set
+            {
+                this.OnIsContinuousChanging(value);
+                this._IsContinuous = value;
+                this.OnIsContinuousChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private bool _IsContinuous;
+        partial void OnIsContinuousChanging(bool value);
+        partial void OnIsContinuousChanged();
+        /// <summary>
+        /// There are no comments for Property TextStartDate in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string TextStartDate
+        {
+            get
+            {
+                return this._TextStartDate;
+            }
+            set
+            {
+                this.OnTextStartDateChanging(value);
+                this._TextStartDate = value;
+                this.OnTextStartDateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _TextStartDate;
+        partial void OnTextStartDateChanging(string value);
+        partial void OnTextStartDateChanged();
+        /// <summary>
+        /// There are no comments for Property TextModifyDate in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string TextModifyDate
+        {
+            get
+            {
+                return this._TextModifyDate;
+            }
+            set
+            {
+                this.OnTextModifyDateChanging(value);
+                this._TextModifyDate = value;
+                this.OnTextModifyDateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _TextModifyDate;
+        partial void OnTextModifyDateChanging(string value);
+        partial void OnTextModifyDateChanged();
+        /// <summary>
+        /// There are no comments for Property PercentComplete in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<float> PercentComplete
+        {
+            get
+            {
+                return this._PercentComplete;
+            }
+            set
+            {
+                this.OnPercentCompleteChanging(value);
+                this._PercentComplete = value;
+                this.OnPercentCompleteChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<float> _PercentComplete;
+        partial void OnPercentCompleteChanging(global::System.Nullable<float> value);
+        partial void OnPercentCompleteChanged();
+        /// <summary>
+        /// There are no comments for Property IsLocalDatabaseReplicationTarget in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public bool IsLocalDatabaseReplicationTarget
+        {
+            get
+            {
+                return this._IsLocalDatabaseReplicationTarget;
+            }
+            set
+            {
+                this.OnIsLocalDatabaseReplicationTargetChanging(value);
+                this._IsLocalDatabaseReplicationTarget = value;
+                this.OnIsLocalDatabaseReplicationTargetChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private bool _IsLocalDatabaseReplicationTarget;
+        partial void OnIsLocalDatabaseReplicationTargetChanging(bool value);
+        partial void OnIsLocalDatabaseReplicationTargetChanged();
+        /// <summary>
+        /// There are no comments for Property ReplicationState in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public byte ReplicationState
+        {
+            get
+            {
+                return this._ReplicationState;
+            }
+            set
+            {
+                this.OnReplicationStateChanging(value);
+                this._ReplicationState = value;
+                this.OnReplicationStateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private byte _ReplicationState;
+        partial void OnReplicationStateChanging(byte value);
+        partial void OnReplicationStateChanged();
+        /// <summary>
+        /// There are no comments for Property ReplicationStateDescription in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string ReplicationStateDescription
+        {
+            get
+            {
+                return this._ReplicationStateDescription;
+            }
+            set
+            {
+                this.OnReplicationStateDescriptionChanging(value);
+                this._ReplicationStateDescription = value;
+                this.OnReplicationStateDescriptionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _ReplicationStateDescription;
+        partial void OnReplicationStateDescriptionChanging(string value);
+        partial void OnReplicationStateDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Property IsInterlinkConnected in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public bool IsInterlinkConnected
+        {
+            get
+            {
+                return this._IsInterlinkConnected;
+            }
+            set
+            {
+                this.OnIsInterlinkConnectedChanging(value);
+                this._IsInterlinkConnected = value;
+                this.OnIsInterlinkConnectedChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private bool _IsInterlinkConnected;
+        partial void OnIsInterlinkConnectedChanging(bool value);
+        partial void OnIsInterlinkConnectedChanged();
+        /// <summary>
+        /// There are no comments for Property IsForcedTerminate in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<bool> IsForcedTerminate
+        {
+            get
+            {
+                return this._IsForcedTerminate;
+            }
+            set
+            {
+                this.OnIsForcedTerminateChanging(value);
+                this._IsForcedTerminate = value;
+                this.OnIsForcedTerminateChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<bool> _IsForcedTerminate;
+        partial void OnIsForcedTerminateChanging(global::System.Nullable<bool> value);
+        partial void OnIsForcedTerminateChanged();
+        /// <summary>
+        /// There are no comments for Property MaximumLag in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<int> MaximumLag
+        {
+            get
+            {
+                return this._MaximumLag;
+            }
+            set
+            {
+                this.OnMaximumLagChanging(value);
+                this._MaximumLag = value;
+                this.OnMaximumLagChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<int> _MaximumLag;
+        partial void OnMaximumLagChanging(global::System.Nullable<int> value);
+        partial void OnMaximumLagChanged();
+        /// <summary>
+        /// There are no comments for Property EntityId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Guid EntityId
+        {
+            get
+            {
+                return this._EntityId;
+            }
+            set
+            {
+                this.OnEntityIdChanging(value);
+                this._EntityId = value;
+                this.OnEntityIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Guid _EntityId;
+        partial void OnEntityIdChanging(global::System.Guid value);
+        partial void OnEntityIdChanged();
+    }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.DatabaseCopyValidationOperation in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// DatabaseName
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("DatabaseName")]
+    public partial class DatabaseCopyValidationOperation
+    {
+        /// <summary>
+        /// Create a new DatabaseCopyValidationOperation object.
+        /// </summary>
+        /// <param name="databaseName">Initial value of DatabaseName.</param>
+        /// <param name="action">Initial value of Action.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static DatabaseCopyValidationOperation CreateDatabaseCopyValidationOperation(string databaseName, int action)
+        {
+            DatabaseCopyValidationOperation databaseCopyValidationOperation = new DatabaseCopyValidationOperation();
+            databaseCopyValidationOperation.DatabaseName = databaseName;
+            databaseCopyValidationOperation.Action = action;
+            return databaseCopyValidationOperation;
+        }
+        /// <summary>
+        /// There are no comments for Property DatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string DatabaseName
+        {
+            get
+            {
+                return this._DatabaseName;
+            }
+            set
+            {
+                this.OnDatabaseNameChanging(value);
+                this._DatabaseName = value;
+                this.OnDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _DatabaseName;
+        partial void OnDatabaseNameChanging(string value);
+        partial void OnDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property Action in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Action
+        {
+            get
+            {
+                return this._Action;
+            }
+            set
+            {
+                this.OnActionChanging(value);
+                this._Action = value;
+                this.OnActionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Action;
+        partial void OnActionChanging(int value);
+        partial void OnActionChanged();
+    }
+    /// <summary>
     /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.FirewallRule in the schema.
     /// </summary>
     /// <KeyProperties>
@@ -2053,11 +2667,613 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         partial void OnModifyDateChanging(global::System.DateTime value);
         partial void OnModifyDateChanged();
     }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.DatabaseMetrics in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// DatabaseId
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("DatabaseId")]
+    public partial class DatabaseMetrics
+    {
+        /// <summary>
+        /// Create a new DatabaseMetrics object.
+        /// </summary>
+        /// <param name="databaseId">Initial value of DatabaseId.</param>
+        /// <param name="numberOfLoginSuccessEvents">Initial value of NumberOfLoginSuccessEvents.</param>
+        /// <param name="numberOfLoginFailureEvents">Initial value of NumberOfLoginFailureEvents.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static DatabaseMetrics CreateDatabaseMetrics(int databaseId, long numberOfLoginSuccessEvents, long numberOfLoginFailureEvents)
+        {
+            DatabaseMetrics databaseMetrics = new DatabaseMetrics();
+            databaseMetrics.DatabaseId = databaseId;
+            databaseMetrics.NumberOfLoginSuccessEvents = numberOfLoginSuccessEvents;
+            databaseMetrics.NumberOfLoginFailureEvents = numberOfLoginFailureEvents;
+            return databaseMetrics;
+        }
+        /// <summary>
+        /// There are no comments for Property DatabaseId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int DatabaseId
+        {
+            get
+            {
+                return this._DatabaseId;
+            }
+            set
+            {
+                this.OnDatabaseIdChanging(value);
+                this._DatabaseId = value;
+                this.OnDatabaseIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _DatabaseId;
+        partial void OnDatabaseIdChanging(int value);
+        partial void OnDatabaseIdChanged();
+        /// <summary>
+        /// There are no comments for Property DatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string DatabaseName
+        {
+            get
+            {
+                return this._DatabaseName;
+            }
+            set
+            {
+                this.OnDatabaseNameChanging(value);
+                this._DatabaseName = value;
+                this.OnDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _DatabaseName;
+        partial void OnDatabaseNameChanging(string value);
+        partial void OnDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfLoginSuccessEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfLoginSuccessEvents
+        {
+            get
+            {
+                return this._NumberOfLoginSuccessEvents;
+            }
+            set
+            {
+                this.OnNumberOfLoginSuccessEventsChanging(value);
+                this._NumberOfLoginSuccessEvents = value;
+                this.OnNumberOfLoginSuccessEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfLoginSuccessEvents;
+        partial void OnNumberOfLoginSuccessEventsChanging(long value);
+        partial void OnNumberOfLoginSuccessEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfLoginFailureEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfLoginFailureEvents
+        {
+            get
+            {
+                return this._NumberOfLoginFailureEvents;
+            }
+            set
+            {
+                this.OnNumberOfLoginFailureEventsChanging(value);
+                this._NumberOfLoginFailureEvents = value;
+                this.OnNumberOfLoginFailureEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfLoginFailureEvents;
+        partial void OnNumberOfLoginFailureEventsChanging(long value);
+        partial void OnNumberOfLoginFailureEventsChanged();
+        /// <summary>
+        /// There are no comments for Database in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public Database Database
+        {
+            get
+            {
+                return this._Database;
+            }
+            set
+            {
+                this._Database = value;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private Database _Database;
+    }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.ServerMetrics in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// ServerName
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("ServerName")]
+    public partial class ServerMetrics
+    {
+        /// <summary>
+        /// Create a new ServerMetrics object.
+        /// </summary>
+        /// <param name="serverName">Initial value of ServerName.</param>
+        /// <param name="numberOfFailedEvents">Initial value of NumberOfFailedEvents.</param>
+        /// <param name="numberOfLoginSuccessEvents">Initial value of NumberOfLoginSuccessEvents.</param>
+        /// <param name="numberOfLoginFailureEvents">Initial value of NumberOfLoginFailureEvents.</param>
+        /// <param name="numberOfTerminatedConnectionEvents">Initial value of NumberOfTerminatedConnectionEvents.</param>
+        /// <param name="numberOfThrottledEvents">Initial value of NumberOfThrottledEvents.</param>
+        /// <param name="numberOfDeadlockEvents">Initial value of NumberOfDeadlockEvents.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static ServerMetrics CreateServerMetrics(string serverName, long numberOfFailedEvents, long numberOfLoginSuccessEvents, long numberOfLoginFailureEvents, long numberOfTerminatedConnectionEvents, long numberOfThrottledEvents, long numberOfDeadlockEvents)
+        {
+            ServerMetrics serverMetrics = new ServerMetrics();
+            serverMetrics.ServerName = serverName;
+            serverMetrics.NumberOfFailedEvents = numberOfFailedEvents;
+            serverMetrics.NumberOfLoginSuccessEvents = numberOfLoginSuccessEvents;
+            serverMetrics.NumberOfLoginFailureEvents = numberOfLoginFailureEvents;
+            serverMetrics.NumberOfTerminatedConnectionEvents = numberOfTerminatedConnectionEvents;
+            serverMetrics.NumberOfThrottledEvents = numberOfThrottledEvents;
+            serverMetrics.NumberOfDeadlockEvents = numberOfDeadlockEvents;
+            return serverMetrics;
+        }
+        /// <summary>
+        /// There are no comments for Property ServerName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string ServerName
+        {
+            get
+            {
+                return this._ServerName;
+            }
+            set
+            {
+                this.OnServerNameChanging(value);
+                this._ServerName = value;
+                this.OnServerNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _ServerName;
+        partial void OnServerNameChanging(string value);
+        partial void OnServerNameChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfFailedEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfFailedEvents
+        {
+            get
+            {
+                return this._NumberOfFailedEvents;
+            }
+            set
+            {
+                this.OnNumberOfFailedEventsChanging(value);
+                this._NumberOfFailedEvents = value;
+                this.OnNumberOfFailedEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfFailedEvents;
+        partial void OnNumberOfFailedEventsChanging(long value);
+        partial void OnNumberOfFailedEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfLoginSuccessEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfLoginSuccessEvents
+        {
+            get
+            {
+                return this._NumberOfLoginSuccessEvents;
+            }
+            set
+            {
+                this.OnNumberOfLoginSuccessEventsChanging(value);
+                this._NumberOfLoginSuccessEvents = value;
+                this.OnNumberOfLoginSuccessEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfLoginSuccessEvents;
+        partial void OnNumberOfLoginSuccessEventsChanging(long value);
+        partial void OnNumberOfLoginSuccessEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfLoginFailureEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfLoginFailureEvents
+        {
+            get
+            {
+                return this._NumberOfLoginFailureEvents;
+            }
+            set
+            {
+                this.OnNumberOfLoginFailureEventsChanging(value);
+                this._NumberOfLoginFailureEvents = value;
+                this.OnNumberOfLoginFailureEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfLoginFailureEvents;
+        partial void OnNumberOfLoginFailureEventsChanging(long value);
+        partial void OnNumberOfLoginFailureEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfTerminatedConnectionEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfTerminatedConnectionEvents
+        {
+            get
+            {
+                return this._NumberOfTerminatedConnectionEvents;
+            }
+            set
+            {
+                this.OnNumberOfTerminatedConnectionEventsChanging(value);
+                this._NumberOfTerminatedConnectionEvents = value;
+                this.OnNumberOfTerminatedConnectionEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfTerminatedConnectionEvents;
+        partial void OnNumberOfTerminatedConnectionEventsChanging(long value);
+        partial void OnNumberOfTerminatedConnectionEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfThrottledEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfThrottledEvents
+        {
+            get
+            {
+                return this._NumberOfThrottledEvents;
+            }
+            set
+            {
+                this.OnNumberOfThrottledEventsChanging(value);
+                this._NumberOfThrottledEvents = value;
+                this.OnNumberOfThrottledEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfThrottledEvents;
+        partial void OnNumberOfThrottledEventsChanging(long value);
+        partial void OnNumberOfThrottledEventsChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfDeadlockEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public long NumberOfDeadlockEvents
+        {
+            get
+            {
+                return this._NumberOfDeadlockEvents;
+            }
+            set
+            {
+                this.OnNumberOfDeadlockEventsChanging(value);
+                this._NumberOfDeadlockEvents = value;
+                this.OnNumberOfDeadlockEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private long _NumberOfDeadlockEvents;
+        partial void OnNumberOfDeadlockEventsChanging(long value);
+        partial void OnNumberOfDeadlockEventsChanged();
+        /// <summary>
+        /// There are no comments for Server in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public Server Server
+        {
+            get
+            {
+                return this._Server;
+            }
+            set
+            {
+                this._Server = value;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private Server _Server;
+    }
+    /// <summary>
+    /// There are no comments for Microsoft.SqlServer.Management.Server.Domain.EventLog in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// EntityId
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("EntityId")]
+    public partial class EventLog
+    {
+        /// <summary>
+        /// Create a new EventLog object.
+        /// </summary>
+        /// <param name="entityId">Initial value of EntityId.</param>
+        /// <param name="startTimeUtc">Initial value of StartTimeUtc.</param>
+        /// <param name="intervalSizeInMinutes">Initial value of IntervalSizeInMinutes.</param>
+        /// <param name="eventSubtype">Initial value of EventSubtype.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static EventLog CreateEventLog(string entityId, global::System.DateTime startTimeUtc, int intervalSizeInMinutes, int eventSubtype)
+        {
+            EventLog eventLog = new EventLog();
+            eventLog.EntityId = entityId;
+            eventLog.StartTimeUtc = startTimeUtc;
+            eventLog.IntervalSizeInMinutes = intervalSizeInMinutes;
+            eventLog.EventSubtype = eventSubtype;
+            return eventLog;
+        }
+        /// <summary>
+        /// There are no comments for Property EntityId in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string EntityId
+        {
+            get
+            {
+                return this._EntityId;
+            }
+            set
+            {
+                this.OnEntityIdChanging(value);
+                this._EntityId = value;
+                this.OnEntityIdChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _EntityId;
+        partial void OnEntityIdChanging(string value);
+        partial void OnEntityIdChanged();
+        /// <summary>
+        /// There are no comments for Property DatabaseName in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string DatabaseName
+        {
+            get
+            {
+                return this._DatabaseName;
+            }
+            set
+            {
+                this.OnDatabaseNameChanging(value);
+                this._DatabaseName = value;
+                this.OnDatabaseNameChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _DatabaseName;
+        partial void OnDatabaseNameChanging(string value);
+        partial void OnDatabaseNameChanged();
+        /// <summary>
+        /// There are no comments for Property StartTimeUtc in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.DateTime StartTimeUtc
+        {
+            get
+            {
+                return this._StartTimeUtc;
+            }
+            set
+            {
+                this.OnStartTimeUtcChanging(value);
+                this._StartTimeUtc = value;
+                this.OnStartTimeUtcChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.DateTime _StartTimeUtc;
+        partial void OnStartTimeUtcChanging(global::System.DateTime value);
+        partial void OnStartTimeUtcChanged();
+        /// <summary>
+        /// There are no comments for Property IntervalSizeInMinutes in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int IntervalSizeInMinutes
+        {
+            get
+            {
+                return this._IntervalSizeInMinutes;
+            }
+            set
+            {
+                this.OnIntervalSizeInMinutesChanging(value);
+                this._IntervalSizeInMinutes = value;
+                this.OnIntervalSizeInMinutesChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _IntervalSizeInMinutes;
+        partial void OnIntervalSizeInMinutesChanging(int value);
+        partial void OnIntervalSizeInMinutesChanged();
+        /// <summary>
+        /// There are no comments for Property EventCategory in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string EventCategory
+        {
+            get
+            {
+                return this._EventCategory;
+            }
+            set
+            {
+                this.OnEventCategoryChanging(value);
+                this._EventCategory = value;
+                this.OnEventCategoryChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _EventCategory;
+        partial void OnEventCategoryChanging(string value);
+        partial void OnEventCategoryChanged();
+        /// <summary>
+        /// There are no comments for Property EventType in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string EventType
+        {
+            get
+            {
+                return this._EventType;
+            }
+            set
+            {
+                this.OnEventTypeChanging(value);
+                this._EventType = value;
+                this.OnEventTypeChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _EventType;
+        partial void OnEventTypeChanging(string value);
+        partial void OnEventTypeChanged();
+        /// <summary>
+        /// There are no comments for Property EventSubtype in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int EventSubtype
+        {
+            get
+            {
+                return this._EventSubtype;
+            }
+            set
+            {
+                this.OnEventSubtypeChanging(value);
+                this._EventSubtype = value;
+                this.OnEventSubtypeChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _EventSubtype;
+        partial void OnEventSubtypeChanging(int value);
+        partial void OnEventSubtypeChanged();
+        /// <summary>
+        /// There are no comments for Property EventSubtypeDescription in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string EventSubtypeDescription
+        {
+            get
+            {
+                return this._EventSubtypeDescription;
+            }
+            set
+            {
+                this.OnEventSubtypeDescriptionChanging(value);
+                this._EventSubtypeDescription = value;
+                this.OnEventSubtypeDescriptionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _EventSubtypeDescription;
+        partial void OnEventSubtypeDescriptionChanging(string value);
+        partial void OnEventSubtypeDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Property Severity in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<int> Severity
+        {
+            get
+            {
+                return this._Severity;
+            }
+            set
+            {
+                this.OnSeverityChanging(value);
+                this._Severity = value;
+                this.OnSeverityChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<int> _Severity;
+        partial void OnSeverityChanging(global::System.Nullable<int> value);
+        partial void OnSeverityChanged();
+        /// <summary>
+        /// There are no comments for Property NumberOfEvents in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Nullable<long> NumberOfEvents
+        {
+            get
+            {
+                return this._NumberOfEvents;
+            }
+            set
+            {
+                this.OnNumberOfEventsChanging(value);
+                this._NumberOfEvents = value;
+                this.OnNumberOfEventsChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Nullable<long> _NumberOfEvents;
+        partial void OnNumberOfEventsChanging(global::System.Nullable<long> value);
+        partial void OnNumberOfEventsChanged();
+        /// <summary>
+        /// There are no comments for Property Description in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Description
+        {
+            get
+            {
+                return this._Description;
+            }
+            set
+            {
+                this.OnDescriptionChanging(value);
+                this._Description = value;
+                this.OnDescriptionChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Description;
+        partial void OnDescriptionChanging(string value);
+        partial void OnDescriptionChanged();
+        /// <summary>
+        /// There are no comments for Property AdditionalData in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string AdditionalData
+        {
+            get
+            {
+                return this._AdditionalData;
+            }
+            set
+            {
+                this.OnAdditionalDataChanging(value);
+                this._AdditionalData = value;
+                this.OnAdditionalDataChanged();
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _AdditionalData;
+        partial void OnAdditionalDataChanging(string value);
+        partial void OnAdditionalDataChanged();
+    }
 }
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     public abstract partial class ServerContextInternal
     {
-        public readonly string metadataHash = "2D8FBE5BE6D8B2DCA1903ECF43F830A4FEB6A396";
+        public readonly string metadataHash = "0EF1ECCCC6D0C07A7ED134CA12C5E9C5DB2F8374";
     }
 }
