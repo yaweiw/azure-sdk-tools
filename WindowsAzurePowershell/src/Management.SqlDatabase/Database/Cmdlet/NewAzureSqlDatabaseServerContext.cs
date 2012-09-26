@@ -28,7 +28,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// <summary>
     /// A cmdlet to Connect to a SQL server administration data service.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None)]
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseServerContext", ConfirmImpact = ConfirmImpact.None,
+        DefaultParameterSetName = ServerNameWithSqlAuthParamSet)]
     public class NewAzureSqlDatabaseServerContext : PSCmdlet
     {
         #region ParameterSet Names
