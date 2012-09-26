@@ -224,6 +224,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing Windows Azure Sql Database &quot;{0}.{1}&quot;..
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseDescription {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing Windows Azure Sql Database server &quot;{0}&quot;..
         /// </summary>
         internal static string RemoveAzureSqlDatabaseServerDescription {
@@ -260,6 +269,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Windows Azure Sql Database &quot;{0}.{1}&quot;?.
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseWarning", resourceCulture);
+            }
+        }
+        
         ///   Looks up a localized string similar to Resetting administrator password for Windows Azure Sql Database server &quot;{0}&quot;..
         /// </summary>
         internal static string SetAzureSqlDatabaseServerAdminPasswordDescription {

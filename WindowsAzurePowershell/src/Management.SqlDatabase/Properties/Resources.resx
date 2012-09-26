@@ -187,6 +187,10 @@ Error Code: {0}</value>
     <value>Are you sure you want to create a new Windows Azure Sql Database?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="RemoveAzureSqlDatabaseDescription" xml:space="preserve">
+    <value>Removing Windows Azure Sql Database "{0}.{1}".</value>
+    <comment>Process workflow</comment>
+  </data>
   <data name="RemoveAzureSqlDatabaseServerDescription" xml:space="preserve">
     <value>Removing Windows Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
@@ -201,6 +205,10 @@ Error Code: {0}</value>
   </data>
   <data name="RemoveAzureSqlDatabaseServerWarning" xml:space="preserve">
     <value>Are you sure you want to remove the Windows Azure Sql Database server "{0}"?</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="RemoveAzureSqlDatabaseWarning" xml:space="preserve">
+    <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordDescription" xml:space="preserve">
