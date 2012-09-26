@@ -15,13 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
+    using System.Net;
     using System.Runtime.Serialization;
-    using System.Xml;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Stores information about a session of Http messages.
@@ -40,6 +35,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         /// request, and the second param is the actual request.
         /// </summary>
         public Action<HttpMessage, HttpMessage.Request> RequestValidator { get; set; }
+
+        /// <summary>
+        /// An action that allows response to be modified prior to sending it to the client.
+        /// </summary>
+        public Action<HttpMessage> ResponseModifier { get; set; }
 
         /// <summary>
         /// The real service's base Uri. If specifed the requests will be forwarded to a

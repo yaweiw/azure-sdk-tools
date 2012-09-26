@@ -60,5 +60,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             int? databaseMaxSize,
             string databaseCollation,
             DatabaseEdition databaseEdition);
+
+        /// <summary>
+        /// Removes the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to remove.</param>
+        void RemoveDatabase(string databaseName);
     }
 }

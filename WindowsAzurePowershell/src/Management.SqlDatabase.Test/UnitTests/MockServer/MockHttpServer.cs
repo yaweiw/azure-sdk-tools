@@ -469,6 +469,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 session.RequestValidator(recordedMessage, actualRequestInfo);
             }
 
+            if (session.ResponseModifier != null)
+            {
+                session.ResponseModifier(recordedMessage);
+            }
+
             ConstructListenerResponse(recordedMessage.ResponseInfo, baseUri, context.Response);
             context.Response.Close();
         }

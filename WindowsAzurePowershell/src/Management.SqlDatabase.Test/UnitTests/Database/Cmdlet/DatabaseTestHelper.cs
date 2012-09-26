@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
@@ -24,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         /// Helper function to validate headers for GetAccessToken request.
         /// </summary>
         public static void ValidateGetAccessTokenRequest(
-            HttpMessage expected, 
+            HttpMessage expected,
             HttpMessage.Request actual)
         {
             Assert.IsTrue(
@@ -86,6 +87,21 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 expected.RequestInfo.Headers["DataServiceVersion"],
                 actual.Headers["DataServiceVersion"],
                 "DataServiceVersion header does not match");
+        }
+
+        /// <summary>
+        /// Modifies the OData get responses to use the mock server's Uri.
+        /// </summary>
+        public static void FixODataResponseUri(
+            HttpMessage.Response response, 
+            Uri serviceUri, 
+            Uri mockServerUri)
+        {
+            if (serviceUri != null)
+            {
+                response.ResponseText =
+                    response.ResponseText.Replace(serviceUri.ToString(), mockServerUri.ToString());
+            }
         }
     }
 }

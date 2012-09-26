@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
+    using System.Globalization;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
@@ -66,6 +67,50 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            // Obtain the database name from the given parameters.
+            string databaseName = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+            {
+                databaseName = this.Database.Name;
+            }
+            else if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
+            {
+                databaseName = this.DatabaseName;
+            }
+
+            // Do nothing if force is not specified and user cancelled the operation
+            string actionDescription = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.RemoveAzureSqlDatabaseDescription,
+                this.Context.ServerName,
+                databaseName);
+            string actionWarning = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.RemoveAzureSqlDatabaseWarning,
+                this.Context.ServerName,
+                databaseName);
+            this.WriteVerbose(actionDescription);
+            if (!this.Force.IsPresent &&
+                !this.ShouldProcess(
+                actionDescription,
+                actionWarning, 
+                Resources.ShouldProcessCaption))
+            {
+                return;
+            }
+
+            try
+            {
+                // Remove the database with the specified name
+                this.Context.RemoveDatabase(databaseName);
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.Context.ClientRequestId,
+                    ex);
+            }
         }
     }
 }

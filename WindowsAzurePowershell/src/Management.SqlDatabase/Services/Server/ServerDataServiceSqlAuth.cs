@@ -361,6 +361,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             return database;
         }
 
+        /// <summary>
+        /// Removes the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to remove.</param>
+        public void RemoveDatabase(string databaseName)
+        {
+            // Find the database by name
+            Database database = GetDatabase(databaseName);
+
+            // Mark the object for delete and submit the changes
+            this.DeleteObject(database);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch
+            {
+                this.RevertChanges(database);
+                throw;
+            }
+        }
+
         #endregion
 
         /// <summary>
