@@ -211,6 +211,10 @@ Error Code: {0}</value>
     <value>Are you sure you want to remove the Windows Azure Sql Database "{0}.{1}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="SetAzureSqlDatabaseDescription" xml:space="preserve">
+    <value>Updating database "{1}" for Windows Azure Sql Database server "{0}".</value>
+    <comment>Process workflow</comment>
+  </data>
   <data name="SetAzureSqlDatabaseServerAdminPasswordDescription" xml:space="preserve">
     <value>Resetting administrator password for Windows Azure Sql Database server "{0}".</value>
     <comment>Process workflow</comment>
@@ -225,6 +229,10 @@ Error Code: {0}</value>
   </data>
   <data name="SetAzureSqlDatabaseServerFirewallRuleWarning" xml:space="preserve">
     <value>Are you sure you want to update the firewall rule "{0}" for Windows Azure Sql Database server "{1}"?</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="SetAzureSqlDatabaseWarning" xml:space="preserve">
+    <value>Are you sure you want to update database "{1}" for Windows Azure Sql Database server "{0}"?</value>
     <comment>Process workflow</comment>
   </data>
   <data name="ShouldProcessCaption" xml:space="preserve">

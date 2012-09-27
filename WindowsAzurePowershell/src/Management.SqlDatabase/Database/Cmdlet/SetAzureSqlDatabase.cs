@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
+    using System.Globalization;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(HelpMessage = "Do not confirm on the altering of the database")]
         public SwitchParameter Force { get; set; }
-        
+
         #endregion
 
         /// <summary>
@@ -90,6 +91,65 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         protected override void ProcessRecord()
         {
+            // Obtain the database name from the given parameters.
+            string databaseName = null;
+            if (this.MyInvocation.BoundParameters.ContainsKey("Database"))
+            {
+                databaseName = this.Database.Name;
+            }
+            else if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseName"))
+            {
+                databaseName = this.DatabaseName;
+            }
+
+            // Do nothing if force is not specified and user cancelled the operation
+            string actionDescription = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.SetAzureSqlDatabaseDescription,
+                this.Context.ServerName,
+                databaseName);
+            string actionWarning = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.SetAzureSqlDatabaseWarning,
+                this.Context.ServerName,
+                databaseName);
+            this.WriteVerbose(actionDescription);
+            if (!this.Force.IsPresent &&
+                !this.ShouldProcess(
+                    actionDescription,
+                    actionWarning,
+                    Resources.ShouldProcessCaption))
+            {
+                return;
+            }
+
+            try
+            {
+                int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
+                    (int?)this.MaxSizeGB : null;
+                DatabaseEdition? edition = this.MyInvocation.BoundParameters.ContainsKey("Edition") ?
+                    (DatabaseEdition?)this.Edition : null;
+
+                // Update the database with the specified name
+                Database database = this.Context.UpdateDatabase(
+                    databaseName,
+                    this.NewName,
+                    maxSizeGb,
+                    edition);
+
+                // If PassThru was specified, write back the updated object to the pipeline
+                if (this.PassThru.IsPresent)
+                {
+                    this.WriteObject(database);
+                }
+            }
+            catch (Exception ex)
+            {
+                SqlDatabaseExceptionHandler.WriteErrorDetails(
+                    this,
+                    this.Context.ClientRequestId,
+                    ex);
+            }
         }
     }
 }
