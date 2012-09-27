@@ -176,9 +176,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     CreateNewDeployment();
                 }
 
-                // Clean the used storage account from the uploaded packages.
-                CleanStorageAccount();
-
                 // Verify the deployment succeeded by checking that each of the
                 // roles are running
                 VerifyDeployment();
@@ -516,19 +513,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         }
 
         /// <summary>
-        /// Deletes all packages that presents in the deployment asscoiated container.
+        /// Removes the package after uploading it to the storage account
         /// </summary>
-        private void CleanStorageAccount()
+        private void RemovePackage()
         {
             Debug.Assert(
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
                 "StorageAccountName cannot be null or empty.");
 
-            RetryCall(subscription =>
-                AzureBlob.CleanContainer(
-                    CreateChannel(),
-                    _deploymentSettings.ServiceSettings.StorageAccountName,
-                    subscription));
+            if (!SkipUpload)
+            {
+
+                RetryCall(subscription =>
+                        AzureBlob.RemovePackageFromBlob(
+                            CreateChannel(),
+                            _deploymentSettings.ServiceSettings.StorageAccountName,
+                            subscription));
+            }
         }
 
         /// <summary>
