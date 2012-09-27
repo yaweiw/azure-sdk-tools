@@ -302,6 +302,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 throw;
             }
 
+            // Load the extra properties for this object.
+            database.LoadExtraProperties(this);
+
             return database;
         }
 
@@ -322,6 +325,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             finally
             {
                 this.MergeOption = tempOption;
+            }
+
+            // Load the extra properties for all objects.
+            foreach (Database database in allDatabases)
+            {
+                database.LoadExtraProperties(this);
             }
 
             return allDatabases;
@@ -357,6 +366,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             {
                 this.MergeOption = tempOption;
             }
+
+            // Load the extra properties for this object.
+            database.LoadExtraProperties(this);
 
             return database;
         }

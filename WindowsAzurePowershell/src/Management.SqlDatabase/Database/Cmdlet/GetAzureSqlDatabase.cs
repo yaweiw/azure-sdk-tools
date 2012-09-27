@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the server connection context.
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext Context { get; set; }
@@ -40,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the database object to refresh.
         /// </summary>
-        [Parameter(Mandatory = false, Position = 1, ParameterSetName = "ByInputObject",
+        [Parameter(Mandatory = true, Position = 1, ParameterSetName = "ByInputObject",
             ValueFromPipeline = true, HelpMessage = "The database object to refresh.")]
         [ValidateNotNull]
         public Database Database { get; set; }

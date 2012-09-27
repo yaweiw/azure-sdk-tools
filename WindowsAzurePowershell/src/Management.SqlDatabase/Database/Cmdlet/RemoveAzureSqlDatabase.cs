@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the server connection context.
         /// </summary>
         [Parameter(Mandatory = true, Position = 0,
+            ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
         public IServerDataServiceContext Context { get; set; }
