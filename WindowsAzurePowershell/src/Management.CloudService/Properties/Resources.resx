@@ -353,7 +353,7 @@
     <value>ServiceConfiguration.Local.cscfg</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.7</value>
+    <value>v1.8</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
     <value>v1.7</value>

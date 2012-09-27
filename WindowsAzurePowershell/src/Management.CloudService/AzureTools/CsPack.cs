@@ -96,6 +96,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
                     roles,
                     sites);
 
+                
                 // Run CsPack to generate the package
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
