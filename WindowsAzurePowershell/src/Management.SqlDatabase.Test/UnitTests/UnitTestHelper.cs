@@ -124,6 +124,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 
             foreach (string script in scripts)
             {
+                Console.Error.WriteLine(script);
                 powershell.AddScript(script);
             }
 

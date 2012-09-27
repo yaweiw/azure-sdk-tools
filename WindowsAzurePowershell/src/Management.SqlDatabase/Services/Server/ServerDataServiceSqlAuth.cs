@@ -362,6 +362,54 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
         }
 
         /// <summary>
+        /// Updates the property on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to update.</param>
+        /// <param name="newDatabaseName">
+        /// The new database name, or <c>null</c> to not update.
+        /// </param>
+        /// <param name="databaseMaxSize">
+        /// The new database max size, or <c>null</c> to not update.
+        /// </param>
+        /// <param name="databaseEdition">
+        /// The new database edition, or <c>null</c> to not update.
+        /// </param>
+        /// <returns>The updated database object.</returns>
+        public Database UpdateDatabase(
+            string databaseName,
+            string newDatabaseName,
+            int? databaseMaxSize,
+            DatabaseEdition? databaseEdition)
+        {
+            // Find the database by name
+            Database database = GetDatabase(databaseName);
+
+            // Update the name if specified
+            if (newDatabaseName != null)
+            {
+                database.Name = newDatabaseName;
+            }
+
+            // Update the max size and edition properties
+            database.MaxSizeGB = databaseMaxSize;
+            database.Edition = databaseEdition == null ? null : databaseEdition.ToString();
+
+            // Mark the database object for update and submit the changes
+            this.UpdateObject(database);
+            try
+            {
+                this.SaveChanges();
+            }
+            catch
+            {
+                this.RevertChanges(database);
+                throw;
+            }
+
+            return this.GetDatabase(database.Name);
+        }
+
+        /// <summary>
         /// Removes the database with the name <paramref name="databaseName"/>.
         /// </summary>
         /// <param name="databaseName">The database to remove.</param>

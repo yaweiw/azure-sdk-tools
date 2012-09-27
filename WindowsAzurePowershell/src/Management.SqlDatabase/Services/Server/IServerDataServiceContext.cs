@@ -62,6 +62,26 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             DatabaseEdition databaseEdition);
 
         /// <summary>
+        /// Updates the property on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The database to update.</param>
+        /// <param name="newDatabaseName">
+        /// The new database name, or <c>null</c> to not update.
+        /// </param>
+        /// <param name="databaseMaxSize">
+        /// The new database max size, or <c>null</c> to not update.
+        /// </param>
+        /// <param name="databaseEdition">
+        /// The new database edition, or <c>null</c> to not update.
+        /// </param>
+        /// <returns>The updated database object.</returns>
+        Database UpdateDatabase(
+            string databaseName,
+            string newDatabaseName,
+            int? databaseMaxSize,
+            DatabaseEdition? databaseEdition);
+
+        /// <summary>
         /// Removes the database with the name <paramref name="databaseName"/>.
         /// </summary>
         /// <param name="databaseName">The database to remove.</param>

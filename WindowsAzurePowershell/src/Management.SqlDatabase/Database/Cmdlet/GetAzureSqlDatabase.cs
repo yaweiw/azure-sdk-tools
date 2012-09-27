@@ -23,7 +23,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     /// <summary>
     /// Retrieves a list of Windows Azure SQL Databases in the given server context.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsCommon.Get, "AzureSqlDatabase", ConfirmImpact = ConfirmImpact.None,
+        DefaultParameterSetName = "ByName")]
     public class GetAzureSqlDatabase : PSCmdlet
     {
         #region Parameters
