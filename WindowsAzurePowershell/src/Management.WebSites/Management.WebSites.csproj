@@ -213,6 +213,9 @@
     <Compile Include="Services\WebEntities\WebSystemSummary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Microsoft.WindowsAzure.Management.Websites.dll-Help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Microsoft.WindowsAzure.Management.Websites.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
