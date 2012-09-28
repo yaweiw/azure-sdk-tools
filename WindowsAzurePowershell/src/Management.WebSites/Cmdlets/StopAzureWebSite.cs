@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Stops an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
-    public class StopAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the StopAzureWebsiteCommand class.
