@@ -104,6 +104,28 @@ namespace Microsoft.WindowsAzure.Management.Services
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
+            where T : class
+        {
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
+
+            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
+            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+            wb.Security.Mode = WebHttpSecurityMode.Transport;
+            
+            if (!string.IsNullOrEmpty(username))
+            {
+                factory.Credentials.UserName.UserName = username;
+            }
+            if (!string.IsNullOrEmpty(password))
+            {
+                factory.Credentials.UserName.Password = password;
+            }
+
+            return factory.CreateChannel();
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
         public static T CreateServiceManagementChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert)
             where T : class
         {

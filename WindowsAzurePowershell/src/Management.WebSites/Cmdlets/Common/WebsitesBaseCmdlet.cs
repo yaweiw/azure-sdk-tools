@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using Samples.WindowsAzure.ServiceManagement;
     using Services;
 
-    public abstract class WebsitesCmdletBase : CloudBaseCmdlet<IWebsitesServiceManagement>
+    public abstract class WebsitesBaseCmdlet : CloudBaseCmdlet<IWebsitesServiceManagement>
     {
         protected override Operation WaitForOperation(string opdesc)
         {
