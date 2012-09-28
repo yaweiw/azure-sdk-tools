@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Types>
   <Type>
-    <Name>Microsoft.WindowsAzure.Management.Websites.Services.Website</Name>
+    <Name>Microsoft.WindowsAzure.Management.Websites.Services.WebEntities.Site</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
