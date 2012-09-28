@@ -134,15 +134,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmdlets\Common\WebsiteContextCmdletBase.cs" />
-    <Compile Include="Cmdlets\Common\WebsitesCmdletBase.cs" />
+    <Compile Include="Cmdlets\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
+    <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
+    <Compile Include="Cmdlets\GetAzureWebsiteDeployment.cs" />
+    <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
+    <Compile Include="Cmdlets\Common\WebsiteContextBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\WebsitesBaseCmdlet.cs" />
     <Compile Include="Cmdlets\GetAzureWebsite.cs" />
     <Compile Include="Cmdlets\GetAzureWebsiteLocation.cs" />
     <Compile Include="Cmdlets\NewAzureWebsite.cs" />
     <Compile Include="Cmdlets\ShowAzurePortal.cs" />
+    <Compile Include="Services\Cache.cs" />
+    <Compile Include="Services\DeploymentEntities\DeployStatus.cs" />
+    <Compile Include="Services\DeploymentEntities\LogEntryType.cs" />
+    <Compile Include="Services\DeploymentEntities\LogEntry.cs" />
+    <Compile Include="Services\DeploymentsExtensionMethods.cs" />
+    <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
+    <Compile Include="Services\IDeploymentServiceManagement.cs" />
+    <Compile Include="Services\GeoEntities\GeoLocation.cs" />
+    <Compile Include="Services\GeoEntities\GeoRegion.cs" />
+    <Compile Include="Services\GeoEntities\Stamp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureWebsite.cs" />
-    <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
     <Compile Include="Cmdlets\StartAzureWebsite.cs" />
     <Compile Include="Cmdlets\StopAzureWebsite.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -153,7 +167,50 @@
     <Compile Include="Services\Git.cs" />
     <Compile Include="Services\GitWebsite.cs" />
     <Compile Include="Services\IWebsitesServiceManagement.cs" />
+    <Compile Include="Services\Repository.cs" />
     <Compile Include="Services\WebsitesExtensionMethods.cs" />
+    <Compile Include="Utilities\ApiConstants.cs" />
+    <Compile Include="Utilities\PIIValueAttribute.cs" />
+    <Compile Include="Utilities\UriElements.cs" />
+    <Compile Include="Services\WebEntities\AccessControlEntry.cs" />
+    <Compile Include="Services\WebEntities\AuditLog.cs" />
+    <Compile Include="Services\WebEntities\Certificate.cs" />
+    <Compile Include="Services\WebEntities\ConfigurationSettings.cs" />
+    <Compile Include="Services\WebEntities\ConnectionString.cs" />
+    <Compile Include="Services\WebEntities\ConnStringInfo.cs" />
+    <Compile Include="Services\WebEntities\Database.cs" />
+    <Compile Include="Services\WebEntities\ErrorEntity.cs" />
+    <Compile Include="Services\WebEntities\HandlerMapping.cs" />
+    <Compile Include="Services\WebEntities\HostingCredential.cs" />
+    <Compile Include="Services\WebEntities\HostNameSslState.cs" />
+    <Compile Include="Services\WebEntities\MetricDefinition.cs" />
+    <Compile Include="Services\WebEntities\MetricResponse.cs" />
+    <Compile Include="Services\WebEntities\MetricSet.cs" />
+    <Compile Include="Services\WebEntities\NameValuePair.cs" />
+    <Compile Include="Services\WebEntities\Offer.cs" />
+    <Compile Include="Services\WebEntities\PagedSet.cs" />
+    <Compile Include="Services\WebEntities\Permission.cs" />
+    <Compile Include="Services\WebEntities\PermissionScope.cs" />
+    <Compile Include="Services\WebEntities\PermissionScopePair.cs" />
+    <Compile Include="Services\WebEntities\Plan.cs" />
+    <Compile Include="Services\WebEntities\Policy.cs" />
+    <Compile Include="Services\WebEntities\PublishingCredential.cs" />
+    <Compile Include="Services\WebEntities\Role.cs" />
+    <Compile Include="Services\WebEntities\Server.cs" />
+    <Compile Include="Services\WebEntities\Site.cs" />
+    <Compile Include="Services\WebEntities\SiteConfig.cs" />
+    <Compile Include="Services\WebEntities\SiteProperties.cs" />
+    <Compile Include="Services\WebEntities\SiteRepositoryDev.cs" />
+    <Compile Include="Services\WebEntities\StampCapacity.cs" />
+    <Compile Include="Services\WebEntities\Subscription.cs" />
+    <Compile Include="Services\WebEntities\TraceMessage.cs" />
+    <Compile Include="Services\WebEntities\Usage.cs" />
+    <Compile Include="Services\WebEntities\User.cs" />
+    <Compile Include="Services\WebEntities\WebPlan.cs" />
+    <Compile Include="Services\WebEntities\WebQuota.cs" />
+    <Compile Include="Services\WebEntities\WebSpace.cs" />
+    <Compile Include="Services\WebEntities\WebSystem.cs" />
+    <Compile Include="Services\WebEntities\WebSystemSummary.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Microsoft.WindowsAzure.Management.Websites.Types.ps1xml">
@@ -162,6 +219,9 @@
     <Content Include="Microsoft.WindowsAzure.Management.Websites.format.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Scaffolding\Node\.gitignore">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="Resources\Scaffolding\Node\iisnode.yml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -178,6 +238,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

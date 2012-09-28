@@ -19,15 +19,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
+    using System.ServiceModel;
+    using System.Text.RegularExpressions;
     using Properties;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -91,7 +95,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!File.Exists(".gitignore"))
             {
                 // Scaffold gitignore
-                File.WriteAllText(".gitignore", Resources.GitIgnoreFileContent);
+                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
+                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/.gitignore"), ".gitignore");
             }
         }
 
@@ -119,7 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             // Get publishing users
             IList<string> users = null;
-            InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetPublishingUsers(s)); });
+            // InvokeInOperationContext(() => { users = RetryCall(s => Channel.GetSubscriptionPublishingUsers(s)); });
+            users = new List<string> { "andrerod" };
 
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
@@ -135,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             return users.First();
         }
 
-        internal string GetRepositoryUri(Website website)
+        internal string GetRepositoryUri(Site website)
         {
             if (website.SiteProperties.Properties.Any(kvp => kvp.Name.Equals("RepositoryUri")))
             {
@@ -148,7 +154,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         internal void CreateRepositoryAndAddRemote(string publishingUser, string webspace, string websiteName)
         {
             // Create website repository
-            InvokeInOperationContext(() => RetryCall(s => Channel.CreateWebsiteRepository(s, webspace, websiteName)));
+            InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
 
             // Get remote repos
             IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
@@ -159,14 +165,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             // Get website and from it the repository url
-            Website website = RetryCall(s => Channel.GetWebsite(s, webspace, websiteName, new List<string> { "repositoryuri", "publishingpassword", "publishingusername" }));
+            Site website = RetryCall(s => Channel.GetSite(s, webspace, websiteName, "repositoryuri,publishingpassword,publishingusername"));
             string repositoryUri = GetRepositoryUri(website);
 
             string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
-        internal override bool ExecuteCommand()
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        internal override void ExecuteCommand()
         {
             string publishingUser = null;
             if (Git)
@@ -174,59 +181,84 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 publishingUser = GetPublishingUser();
             }
 
-            WebspaceList webspaceList = RetryCall(s => Channel.GetWebspaces(s));
+            WebSpaces webspaceList = null;
+
+            InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
             if (webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);
-                SafeWriteObjectWithTimestamp(!Git
+                throw new Exception(!Git
                     ? error
                     : string.Format("{0}\n{1}", error, Resources.PortalInstructionsGit));
-
-                return false;
             }
 
-            string geoRegion = Location;
-            if (string.IsNullOrEmpty(geoRegion))
+            WebSpace webspace = null;
+            if (string.IsNullOrEmpty(Location))
             {
-                InvokeInOperationContext(() =>
+                // If no location was provided as a parameter, try to default it
+                webspace = webspaceList.FirstOrDefault();
+                if (webspace == null)
                 {
-                    // If no location was provided as a parameter, try to default it
-                    geoRegion = webspaceList.Select(webspace => webspace.Name).FirstOrDefault();
-                });
+                    // Use east us
+                    webspace = new WebSpace
+                    {
+                        Name = "eastuswebspace",
+                        GeoRegion = "East US",
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
             else
             {
-                InvokeInOperationContext(() =>
+                // Find the webspace that corresponds to the georegion
+                webspace = webspaceList.FirstOrDefault(w => w.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase));
+                if (webspace == null)
                 {
-                    // Find the webspace that corresponds to the geolocation
-                    geoRegion = webspaceList.Where(webspace => webspace.GeoRegion.Equals(Location, StringComparison.OrdinalIgnoreCase)).Select(webspace => webspace.Name).FirstOrDefault();
-                });   
+                    // If no webspace corresponding to the georegion was found, attempt to create it
+                    webspace = new WebSpace
+                    {
+                        Name = Regex.Replace(Location.ToLower(), " ", "") + "webspace",
+                        GeoRegion = Location,
+                        Subscription = CurrentSubscription.SubscriptionId,
+                        Plan = "VirtualDedicatedPlan"
+                    };
+                }
             }
 
-            if (string.IsNullOrEmpty(geoRegion))
+            SiteWithWebSpace website = new SiteWithWebSpace
             {
-                // Webspace webspace = new Webspace { GeoRegion = Location };
-                // RetryCall(s => Channel.NewWebspace(s, webspace));
-                geoRegion = Location;
+                Name = Name,
+                HostNames = new[] { Name + ".azurewebsites.net" },
+                WebSpace = webspace.Name,
+                WebSpaceToCreate = webspace
+            };
+
+            if (!string.IsNullOrEmpty(Hostname))
+            {
+                List<string> newHostNames = new List<string>(website.HostNames);
+                newHostNames.Add(Hostname);
+                website.HostNames = newHostNames.ToArray();
             }
 
-            InvokeInOperationContext(() =>
+            try
             {
-                Website website = new Website
-                                        {
-                                            Name = Name,
-                                            WebSpace = geoRegion,
-                                            HostNames = new List<string> { Name + ".azurewebsites.net" }
-                                        };
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSite(s, webspace.Name, website)));
 
-                if (!string.IsNullOrEmpty(Hostname))
+                // If operation succeeded try to update cache with new webspace if that's the case
+                if (webspaceList.FirstOrDefault(ws => ws.Name.Equals(webspace.Name)) == null)
                 {
-                    website.HostNames.Add(Hostname);
+                    Cache.AddWebSpace(CurrentSubscription.SubscriptionId, webspace);
                 }
 
-                RetryCall(s => Channel.NewWebsite(s, geoRegion, website));
-            });
+                Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+            }
+            catch (ProtocolException ex)
+            {
+                // Handle site creating indepently so that cmdlet is idempotent.
+                ProcessException(ex);
+            }
 
             if (Git)
             {
@@ -246,11 +278,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 CopyIisNodeWhenServerJsPresent();
-                UpdateLocalConfigWithSiteName(Name, Location);
-                CreateRepositoryAndAddRemote(publishingUser, geoRegion, Name);
+                UpdateLocalConfigWithSiteName(Name, webspace.Name);
+                CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
             }
-
-            return true;
         }
     }
 }

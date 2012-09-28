@@ -15,16 +15,19 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
+    using Management.Utilities;
     using Properties;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Shows an azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.Show, "AzureWebsite")]
-    public class ShowAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class ShowAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the ShowAzureWebsiteCommand class.
@@ -45,26 +48,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
             InvokeInOperationContext(() =>
             {
                 // Show website
-                Website websiteObject = RetryCall(s => Channel.GetWebsite(s, Name));
+                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
                 if (websiteObject == null)
                 {
                     throw new Exception(string.Format(Resources.InvalidWebsite, Name));
                 }
 
-                // Show configuration
-                WebsiteConfig websiteConfiguration = RetryCall(s => Channel.GetWebsiteConfiguration(s, websiteObject.WebSpace, websiteObject.Name));
-
-                // Output results
-                websiteConfiguration.Merge(websiteObject);
-                WriteObject(websiteConfiguration, false);
+                // Show website in the portal
+                General.LaunchWebPage("http://" + websiteObject.HostNames.First());
             });
-
-            return true;
         }
     }
 }

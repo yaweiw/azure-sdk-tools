@@ -14,12 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class RemoveAzureWebsiteTests
@@ -27,6 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -36,20 +41,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             // Setup
             bool deletedWebsite = false;
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
-            channel.GetWebsitesThunk = ar =>
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
             {
-                if (ar.Values["webspace"].Equals("webspace1"))
+                if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new WebsiteList(new[] { new Website { Name = "website1", WebSpace = "webspace1" } });
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
                 }
 
-                return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
+                return new Site { Name = "website2", WebSpace = "webspace2" };
             };
 
-            channel.DeleteWebsiteThunk = ar =>
+            channel.GetSitesThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                }
+
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+            };
+
+            channel.DeleteSiteThunk = ar =>
                                              {
-                                                 if (ar.Values["website"].Equals("website1"))
+                                                 if (ar.Values["name"].Equals("website1"))
                                                  {
                                                      deletedWebsite = true;
                                                  }
@@ -60,7 +75,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                Name = "website1"
+                Name = "website1",
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
             };
 
             // Delete existing website

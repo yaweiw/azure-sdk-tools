@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     {
 
         [TestMethod]
-        public void AddAzureNodeWebRoleProcess()
+        public void AddAzurePythonWebRoleProcess()
         {
             var pyInstall = AddAzureDjangoWebRoleCommand.FindPythonInterpreterPath();
             if (pyInstall == null)

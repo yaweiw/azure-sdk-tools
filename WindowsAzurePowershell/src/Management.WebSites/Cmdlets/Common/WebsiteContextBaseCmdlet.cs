@@ -16,10 +16,11 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 {
     using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Websites.Cmdlets.Common;
     using Websites.Services;
 
-    public abstract class WebsiteContextCmdletBase : WebsitesCmdletBase
+    public abstract class WebsiteContextBaseCmdlet : WebsitesBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
@@ -29,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
             set;
         }
 
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         protected override void ProcessRecord()
         {
             try

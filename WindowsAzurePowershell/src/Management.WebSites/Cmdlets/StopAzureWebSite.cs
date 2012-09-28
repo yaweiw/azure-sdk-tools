@@ -15,17 +15,17 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
-    using System.Collections.Generic;
     using System.Management.Automation;
     using Properties;
     using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
 
     /// <summary>
     /// Stops an azure website.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
-    public class StopAzureWebsiteCommand : WebsiteContextCmdletBase
+    public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         /// <summary>
         /// Initializes a new instance of the StopAzureWebsiteCommand class.
@@ -46,13 +46,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override bool ExecuteCommand()
+        internal override void ExecuteCommand()
         {
-            Website website = null;
+            Site website = null;
 
             InvokeInOperationContext(() =>
             {
-                website = RetryCall(s => Channel.GetWebsite(s, Name));
+                website = RetryCall(s => Channel.GetSite(s, Name, null));
             });
 
             if (website == null)
@@ -62,17 +62,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             InvokeInOperationContext(() =>
             {
-                Website websiteUpdate = new Website
+                Site websiteUpdate = new Site
                                         {
                                             Name = Name,
-                                            HostNames = new List<string> { Name + ".azurewebsites.net" },
+                                            HostNames = new [] { Name + ".azurewebsites.net" },
                                             State = "Stopped"
                                         };
 
-                RetryCall(s => Channel.UpdateWebsite(s, website.WebSpace, Name, websiteUpdate));
+                RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
             });
-
-            return true;
         }
     }
 }

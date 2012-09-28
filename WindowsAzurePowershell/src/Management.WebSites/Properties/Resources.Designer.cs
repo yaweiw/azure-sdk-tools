@@ -88,21 +88,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to node_modules
-        ///azure_error.
-        /// </summary>
-        internal static string GitIgnoreFileContent {
-            get {
-                return ResourceManager.GetString("GitIgnoreFileContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Git not found. Please install git and place it in your command line path..
         /// </summary>
         internal static string GitNotFound {
             get {
                 return ResourceManager.GetString("GitNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deployment with {0} does not exist.
+        /// </summary>
+        internal static string InvalidDeployment {
+            get {
+                return ResourceManager.GetString("InvalidDeployment", resourceCulture);
             }
         }
         
@@ -167,11 +166,29 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reploy deployment with {0} Id ?.
+        /// </summary>
+        internal static string RedeployCommit {
+            get {
+                return ResourceManager.GetString("RedeployCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove the website &quot;{0}&quot;.
         /// </summary>
         internal static string RemoveWebsiteWarning {
             get {
                 return ResourceManager.GetString("RemoveWebsiteWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repository is not setup.
+        /// </summary>
+        internal static string RepositoryNotSetup {
+            get {
+                return ResourceManager.GetString("RepositoryNotSetup", resourceCulture);
             }
         }
         

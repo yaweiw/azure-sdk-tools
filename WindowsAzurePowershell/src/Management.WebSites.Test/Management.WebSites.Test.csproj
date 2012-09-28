@@ -113,15 +113,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\Cmdlets\RestoreAzureWebsiteDeploymentTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\SaveAzureWebsiteLogTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteDeploymentTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StartAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StopAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\GetAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\NewAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\ShowAzurePortalTests.cs" />
     <Compile Include="UnitTests\Cmdlets\RemoveAzureWebSiteTests.cs" />
-    <Compile Include="UnitTests\Cmdlets\ShowAzureWebSiteTests.cs" />
     <Compile Include="UnitTests\Cmdlets\GetAzureWebsiteLocationTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\ShowAzureWebsiteTests.cs" />
+    <Compile Include="UnitTests\Services\CacheTests.cs" />
     <Compile Include="UnitTests\Services\GitTests.cs" />
+    <Compile Include="UnitTests\Utilities\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
   </ItemGroup>
   <ItemGroup>

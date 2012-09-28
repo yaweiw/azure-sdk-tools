@@ -14,13 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services;
+    using Websites.Services.WebEntities;
 
     [TestClass]
     public class GetAzureWebsiteTests
@@ -28,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
             Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -36,28 +41,31 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
-            channel.GetWebsitesThunk = ar =>
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSitesThunk = ar =>
                                            {
-                                               if (ar.Values["webspace"].Equals("webspace1"))
+                                               if (ar.Values["webspaceName"].Equals("webspace1"))
                                                {
-                                                   return new WebsiteList(new [] { new Website { Name = "website1", WebSpace = "webspace1" }});
+                                                   return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" }});
                                                }
 
-                                               return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
+                                               return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
                                            };
 
             // Test
             GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime()
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
             };
 
             getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website1") && ((Website)website).WebSpace.Equals("webspace1")));
-            Assert.IsTrue(((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Any(website => ((Website)website).Name.Equals("website2") && ((Website)website).WebSpace.Equals("webspace2")));
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            var sites = (IEnumerable<Site>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            Assert.IsNotNull(sites);
+            Assert.IsTrue(sites.Any(website => (website).Name.Equals("website1") && (website).WebSpace.Equals("webspace1")));
+            Assert.IsTrue(sites.Any(website => (website).Name.Equals("website2") && (website).WebSpace.Equals("webspace2")));
         }
 
         [TestMethod]
@@ -65,12 +73,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         {
             // Setup
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebspacesThunk = ar => new WebspaceList(new[] { new Webspace { Name = "webspace1" }, new Webspace { Name = "webspace2" } });
-            channel.GetWebsiteConfigurationThunk = ar =>
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
             {
-                if (ar.Values["website"].Equals("website1") && ar.Values["webspace"].Equals("webspace1"))
+                if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new WebsiteConfig
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                }
+
+                return new Site { Name = "website2", WebSpace = "webspace2" };
+            };
+
+            channel.GetSiteConfigThunk = ar =>
+            {
+                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new SiteConfig
                     {
                         PublishingUsername = "user1"
                     };
@@ -79,14 +97,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 return null;
             };
 
-            channel.GetWebsitesThunk = ar =>
+            channel.GetSitesThunk = ar =>
             {
-                if (ar.Values["webspace"].Equals("webspace1"))
+                if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new WebsiteList(new[] { new Website { Name = "website1", WebSpace = "webspace1" } });
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
                 }
 
-                return new WebsiteList(new[] { new Website { Name = "website2", WebSpace = "webspace2" } });
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
 
             // Test
@@ -94,17 +112,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" },
                 Name = "website1"
             };
 
             getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
 
-            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects.First() as WebsiteConfig;
+            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as Site;
+            var websiteConfig = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects[1] as SiteConfig;
             Assert.IsNotNull(website);
+            Assert.IsNotNull(websiteConfig);
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);
-            Assert.AreEqual("user1", website.PublishingUsername);
+            Assert.AreEqual("user1", websiteConfig.PublishingUsername);
         }
     }
 }
