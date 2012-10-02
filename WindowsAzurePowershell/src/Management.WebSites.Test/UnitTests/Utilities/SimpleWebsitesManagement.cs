@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         public Func<SimpleServiceManagementAsyncResult, Site> CreateSiteThunk { get; set; }
 
-        public IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, SiteWithWebSpace site, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, Site site, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionName"] = subscriptionName;
