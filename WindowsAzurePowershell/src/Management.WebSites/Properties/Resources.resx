@@ -153,6 +153,9 @@ Please follow these steps in the portal:
   <data name="MultiplePublishingUsernames" xml:space="preserve">
     <value>Multiple possible publishing users. Please specify one using the argument PublishingUsername.</value>
   </data>
+  <data name="NeedPublishingUsernames" xml:space="preserve">
+    <value>A publishing username is required. Please specify one using the argument PublishingUsername.</value>
+  </data>
   <data name="GitNotFound" xml:space="preserve">
     <value>Git not found. Please install git and place it in your command line path.</value>
   </data>
