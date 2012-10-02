@@ -12,17 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Management.Automation;
-using System.Net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Management.Automation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+
     [TestClass]
     public class RemoveAzureSqlDatabaseTests : TestBase
     {
@@ -65,18 +64,16 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             case 4:
                             case 5:
                             case 6:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
-                                break;
                             // Request 7-8: Remove database requests
                             case 7:
                             case 8:
                             case 9:
                             case 10:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
-                                break;
                             // Request 9: Get all database request
                             case 11:
-                                DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
                                 break;
                             default:
                                 //Assert.Fail("No more requests expected.");
@@ -87,23 +84,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 new Action<HttpMessage>(
                     (message) =>
                     {
-                        switch (message.Index)
-                        {
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 9:
-                            case 11:
-                                DatabaseTestHelper.FixODataResponseUri(
-                                    message.ResponseInfo, 
-                                    testSession.ServiceBaseUri, 
-                                    MockHttpServer.DefaultServerPrefixUri);
-                                break;
-                            default:
-                                break;
-                        }
+                        DatabaseTestHelper.FixODataResponseUri(
+                            message.ResponseInfo,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
                     });
 
             using (System.Management.Automation.PowerShell powershell =
