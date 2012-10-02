@@ -82,7 +82,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         case 10:
                         // Request 8: Get updated testdb2
                         case 11:
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
                             break;
                         default:
                             //Assert.Fail("No more requests expected.");
@@ -93,23 +95,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 new Action<HttpMessage>(
                     (message) =>
                     {
-                        switch (message.Index)
-                        {
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                            case 7:
-                            case 9:
-                            case 11:
-                                DatabaseTestHelper.FixODataResponseUri(
-                                    message.ResponseInfo,
-                                    testSession.ServiceBaseUri,
-                                    MockHttpServer.DefaultServerPrefixUri);
-                                break;
-                            default:
-                                break;
-                        }
+                        DatabaseTestHelper.FixODataResponseUri(
+                            message.ResponseInfo,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
                     });
 
             using (System.Management.Automation.PowerShell powershell =

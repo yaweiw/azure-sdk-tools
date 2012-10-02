@@ -12,23 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+
     [TestClass]
     public class GetAzureSqlDatabaseTests : TestBase
     {
@@ -76,7 +70,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         case 7:
                         case 8:
                         case 9:
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo, 
+                                actual);
                             break;
                         default:
                             Assert.Fail("No more requests expected.");
@@ -140,42 +136,28 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
-                    Assert.AreEqual(
-                        3,
-                        databases.Count,
-                        "Expecting three Database objects");
+                    // Expecting master, testdb1, testdb2
+                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
 
                     Assert.IsTrue(
                         database1.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database1Obj =
                         (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb1",
-                        database1Obj.Name,
-                        "Expected db name to be testdb1");
+                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
 
                     Assert.IsTrue(
                         database2.Single().BaseObject is Services.Server.Database,
                         "Expecting a Database object");
                     Services.Server.Database database2Obj =
                         (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb2",
-                        database2Obj.Name,
-                        "Expected db name to be testdb2");
+                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
                     Assert.AreEqual(
                         "Japanese_CI_AS",
                         database2Obj.CollationName,
                         "Expected collation to be Japanese_CI_AS");
-                    Assert.AreEqual(
-                        "Web",
-                        database2Obj.Edition,
-                        "Expected edition to be Web");
-                    Assert.AreEqual(
-                        5,
-                        database2Obj.MaxSizeGB,
-                        "Expected max size to be 5 GB");
+                    Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
+                    Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
                 }
             }
         }

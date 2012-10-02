@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         /// Helper function to validate headers for GetAccessToken request.
         /// </summary>
         public static void ValidateGetAccessTokenRequest(
-            HttpMessage expected,
+            HttpMessage.Request expected,
             HttpMessage.Request actual)
         {
             Assert.IsTrue(
@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 actual.Headers.Contains("sqlauthorization"),
                 "sqlauthorization header does not exist in the request");
             Assert.AreEqual(
-                expected.RequestInfo.Headers["sqlauthorization"],
+                expected.Headers["sqlauthorization"],
                 actual.Headers["sqlauthorization"],
                 "sqlauthorization header does not match");
             Assert.IsNull(
@@ -47,14 +47,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         /// Helper function to validate headers for Service request.
         /// </summary>
         public static void ValidateHeadersForServiceRequest(
-            HttpMessage expected,
+            HttpMessage.Request expected,
             HttpMessage.Request actual)
         {
             Assert.IsTrue(
                 actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
                 "AccessToken header does not exist in the request");
             Assert.AreEqual(
-                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
+                expected.Headers[DataServiceConstants.AccessTokenHeader],
                 actual.Headers[DataServiceConstants.AccessTokenHeader],
                 "AccessToken header does not match");
             Assert.IsTrue(
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 actual.Cookies.Contains(DataServiceConstants.AccessCookie),
                 "AccessCookie does not exist in the request");
             Assert.AreEqual(
-                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
+                expected.Cookies[DataServiceConstants.AccessCookie],
                 actual.Cookies[DataServiceConstants.AccessCookie],
                 "AccessCookie does not match");
         }
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         /// Helper function to validate headers for OData request.
         /// </summary>
         public static void ValidateHeadersForODataRequest(
-            HttpMessage expected,
+            HttpMessage.Request expected,
             HttpMessage.Request actual)
         {
             DatabaseTestHelper.ValidateHeadersForServiceRequest(expected, actual);
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 actual.Headers.Contains("DataServiceVersion"),
                 "DataServiceVersion header does not exist in the request");
             Assert.AreEqual(
-                expected.RequestInfo.Headers["DataServiceVersion"],
+                expected.Headers["DataServiceVersion"],
                 actual.Headers["DataServiceVersion"],
                 "DataServiceVersion header does not match");
         }
@@ -93,11 +93,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         /// Modifies the OData get responses to use the mock server's Uri.
         /// </summary>
         public static void FixODataResponseUri(
-            HttpMessage.Response response, 
-            Uri serviceUri, 
+            HttpMessage.Response response,
+            Uri serviceUri,
             Uri mockServerUri)
         {
-            if (serviceUri != null)
+            if (serviceUri != null &&
+                response.ResponseText.Contains("dataservices") &&
+                response.ResponseText.Contains("</entry>"))
             {
                 response.ResponseText =
                     response.ResponseText.Replace(serviceUri.ToString(), mockServerUri.ToString());

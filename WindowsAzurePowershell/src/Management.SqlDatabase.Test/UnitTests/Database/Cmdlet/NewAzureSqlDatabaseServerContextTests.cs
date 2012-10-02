@@ -122,18 +122,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         // Request 0-2: Create context with both ManageUrl and ServerName overriden
                         case 0:
                             // GetAccessToken call
-                            DatabaseTestHelper.ValidateGetAccessTokenRequest(expected, actual);
+                            DatabaseTestHelper.ValidateGetAccessTokenRequest(
+                                expected.RequestInfo, 
+                                actual);
                             break;
                         case 1:
                             // Get server call
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(expected, actual);
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo, 
+                                actual);
                             break;
                         case 2:
                             // $metadata call
                             Assert.IsTrue(
                                 actual.RequestUri.AbsoluteUri.EndsWith("$metadata"),
                                 "Incorrect Uri specified for $metadata");
-                            DatabaseTestHelper.ValidateHeadersForServiceRequest(expected, actual);
+                            DatabaseTestHelper.ValidateHeadersForServiceRequest(
+                                expected.RequestInfo, 
+                                actual);
                             break;
                         default:
                             Assert.Fail("No more requests expected.");

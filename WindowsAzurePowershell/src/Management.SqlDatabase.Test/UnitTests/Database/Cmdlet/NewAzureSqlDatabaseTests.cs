@@ -12,23 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.Cmdlet
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Linq;
+    using System.Management.Automation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
     {
