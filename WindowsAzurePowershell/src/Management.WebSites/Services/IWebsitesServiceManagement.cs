@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [Description("Adds a new site")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(UriTemplate = UriElements.WebSitesRoot, Method = "POST")]
-        IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, SiteWithWebSpace site, AsyncCallback callback, object state);
+        IAsyncResult BeginCreateSite(string subscriptionName, string webspaceName, Site site, AsyncCallback callback, object state);
         Site EndCreateSite(IAsyncResult asyncResult);
 
         [Description("Updates an existing site")]

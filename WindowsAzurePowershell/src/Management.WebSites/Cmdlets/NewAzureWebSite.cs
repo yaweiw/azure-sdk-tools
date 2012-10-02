@@ -227,12 +227,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
             }
 
-            SiteWithWebSpace website = new SiteWithWebSpace
+            Site website = new Site
             {
                 Name = Name,
                 HostNames = new[] { Name + ".azurewebsites.net" },
-                WebSpace = webspace.Name,
-                WebSpaceToCreate = webspace
+                WebSpace = webspace.Name
             };
 
             if (!string.IsNullOrEmpty(Hostname))
