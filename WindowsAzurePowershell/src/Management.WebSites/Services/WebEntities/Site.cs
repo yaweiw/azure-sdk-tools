@@ -37,12 +37,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         Limited = 1,
     }
 
-    public enum SiteMode
-    {
-        Limited = 0,
-        Basic = 1
-    }
-
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class Site
     {
