@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.Websites.Properties;
-using Microsoft.WindowsAzure.Management.Websites.Services;
-using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
-
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
+    using Properties;
+    using Services;
+    using Services.WebEntities;
     using WebSites.Cmdlets.Common;
     using System.Management.Automation;
     
