@@ -244,6 +244,39 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region UpdateSiteConfig
+
+        public Action<SimpleServiceManagementAsyncResult> UpdateSiteConfigThunk { get; set; }
+
+        public IAsyncResult BeginUpdateSiteConfig(string subscriptionName, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionName"] = subscriptionName;
+            result.Values["webspaceName"] = webspaceName;
+            result.Values["name"] = name;
+            result.Values["siteConfig"] = siteConfig;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndUpdateSiteConfig(IAsyncResult asyncResult)
+        {
+            if (UpdateSiteConfigThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                UpdateSiteConfigThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("UpdateSiteConfigThunk is not implemented!");
+            }
+        }
+
+        #endregion
+
         #region GetPublishingUsers
 
         public Func<SimpleServiceManagementAsyncResult, string[]> GetSubscriptionPublishingUsersThunk { get; set; }
@@ -381,16 +414,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
         }
 
         public void EndDeleteWebSpace(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginUpdateSiteConfig(string subscriptionName, string webspaceName, string name, SiteConfig siteConfig, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndUpdateSiteConfig(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

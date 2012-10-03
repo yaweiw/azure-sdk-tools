@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using Microsoft.WindowsAzure.Management.Websites.Properties;
 using Microsoft.WindowsAzure.Management.Websites.Services;
@@ -27,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite")]
-    public class SetAzureWebsite : WebsiteContextBaseCmdlet
+    public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
@@ -57,6 +58,29 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [ValidateNotNullOrEmpty]
         public bool? DetailedErrorLoggingEnabled { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Hostnames.")]
+        [ValidateNotNullOrEmpty]
+        public string[] HostNames { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the SetAzureWebsiteCommand class.
+        /// </summary>
+        public SetAzureWebsiteCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SetAzureWebsiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        public SetAzureWebsiteCommand(IWebsitesServiceManagement channel)
+        {
+            Channel = channel;
+        }
+
         internal override void ExecuteCommand()
         {
             Site website = null;
@@ -66,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 try
                 {
                     website = RetryCall(s => Channel.GetSite(s, Name, null));
-                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, Name, null));
+                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
                 }
                 catch (CommunicationException ex)
                 {
@@ -79,49 +103,63 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
-            SiteConfig websiteUpdate = new SiteConfig();
+            SiteConfig websiteConfigUpdate = new SiteConfig();
             
             bool changes = false;
             if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
             {
                 changes = true;
-                websiteUpdate.NumberOfWorkers = NumberOfWorkers;
+                websiteConfigUpdate.NumberOfWorkers = NumberOfWorkers;
             }
 
             if (DefaultDocuments != null && !DefaultDocuments.Equals(websiteConfig.DefaultDocuments))
             {
                 changes = true;
-                websiteUpdate.DefaultDocuments = DefaultDocuments;
+                websiteConfigUpdate.DefaultDocuments = DefaultDocuments;
             }
        
             if (NetFrameworkVersion != null && !NetFrameworkVersion.Equals(websiteConfig.NetFrameworkVersion))
             {
                 changes = true;
-                websiteUpdate.NetFrameworkVersion = NetFrameworkVersion;
+                websiteConfigUpdate.NetFrameworkVersion = NetFrameworkVersion;
             }
 
             if (PhpVersion != null && !PhpVersion.Equals(websiteConfig.PhpVersion))
             {
                 changes = true;
-                websiteUpdate.PhpVersion = PhpVersion;
+                websiteConfigUpdate.PhpVersion = PhpVersion;
             }
 
             if (RequestTracingEnabled != null && !RequestTracingEnabled.Equals(websiteConfig.RequestTracingEnabled))
             {
                 changes = true;
-                websiteUpdate.RequestTracingEnabled = RequestTracingEnabled;
+                websiteConfigUpdate.RequestTracingEnabled = RequestTracingEnabled;
             }
 
             if (HttpLoggingEnabled != null && !HttpLoggingEnabled.Equals(websiteConfig.HttpLoggingEnabled))
             {
                 changes = true;
-                websiteUpdate.HttpLoggingEnabled = HttpLoggingEnabled;
+                websiteConfigUpdate.HttpLoggingEnabled = HttpLoggingEnabled;
             }
 
             if (DetailedErrorLoggingEnabled != null && !DetailedErrorLoggingEnabled.Equals(websiteConfig.DetailedErrorLoggingEnabled))
             {
                 changes = true;
-                websiteUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
+                websiteConfigUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
+            }
+
+            bool siteChanges = false;
+            Site websiteUpdate = new Site
+            {
+                Name = Name,
+                HostNames = new[] { Name + ".azurewebsites.net" }
+            };
+            if (HostNames != null)
+            {
+                siteChanges = true;
+                List<string> newHostNames = new List<string> { Name + ".azurewebsites.net" };
+                newHostNames.AddRange(HostNames);
+                websiteUpdate.HostNames = newHostNames.ToArray();
             }
 
             if (changes)
@@ -130,7 +168,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     try
                     {
-                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteUpdate));
+                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate));
+                    }
+                    catch (CommunicationException ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
+                });
+            }
+
+            if (siteChanges)
+            {
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
                     }
                     catch (CommunicationException ex)
                     {
