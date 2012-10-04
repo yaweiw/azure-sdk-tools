@@ -899,7 +899,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.7.
+        ///   Looks up a localized string similar to v1.8.
         /// </summary>
         internal static string MaxSupportAzureSdkVersion {
             get {

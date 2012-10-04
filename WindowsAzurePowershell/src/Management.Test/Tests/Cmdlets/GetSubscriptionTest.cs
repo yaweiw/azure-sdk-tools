@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 null);
 
             var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
 
             // Test the get for all subscription (null name)
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 null);
 
             var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
 
             // Test the get for the current subscription
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 null);
 
             var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
 
             // Test the get for the current subscription

@@ -18,8 +18,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
     using System.Runtime.Serialization;
     using Utilities;
 
+    public interface ISiteConfig
+    {
+        int? NumberOfWorkers { get; set; }
+
+        string[] DefaultDocuments { get; set; }
+
+        string NetFrameworkVersion { get; set; }
+
+        string PhpVersion { get; set; }
+
+        bool? RequestTracingEnabled { get; set; }
+
+        bool? HttpLoggingEnabled { get; set; }
+
+        bool? DetailedErrorLoggingEnabled { get; set; }        
+    }
+
     [DataContract(Namespace = UriElements.ServiceNamespace)]
-    public class SiteConfig
+    public class SiteConfig : ISiteConfig
     {
         [DataMember(IsRequired = false)]
         public int? NumberOfWorkers { get; set; }

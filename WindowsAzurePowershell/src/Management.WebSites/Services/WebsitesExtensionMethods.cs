@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return proxy.EndGetSite(proxy.BeginGetSite(subscriptionName, webspaceName, name, propertiesToInclude, null, null));
         }
 
-        public static Site CreateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, SiteWithWebSpace site)
+        public static Site CreateSite(this IWebsitesServiceManagement proxy, string subscriptionName, string webspaceName, Site site)
         {
             return proxy.EndCreateSite(proxy.BeginCreateSite(subscriptionName, webspaceName, site, null, null));
         }

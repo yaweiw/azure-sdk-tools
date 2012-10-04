@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
+    using Model;
     using Stubs;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         public void SetupTest()
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureAppDir;
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 null);
 
             var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual(currentSubscription.SubscriptionName, "Windows Azure Sandbox 9-220");
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
 
             globalComponents.DeleteGlobalComponents();
@@ -58,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 null);
 
             var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual("Windows Azure Sandbox 9-220", currentSubscription.SubscriptionName);
+            Assert.AreEqual(Data.Subscription1, currentSubscription.SubscriptionName);
             Assert.IsTrue(currentSubscription.IsDefault);
         }
 
@@ -69,14 +70,22 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             importSubscriptionCommand.ImportSubscriptionProcess(
                 Data.ValidPublishSettings.First(),
                 null);
+            
+            var subscriptions = importSubscriptionCommand.GetSubscriptions(null);
+            
+            SubscriptionData currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(Data.Subscription1, currentSubscription.SubscriptionName);
+            Assert.IsTrue(currentSubscription.IsDefault);
+            
+            SubscriptionData newCurrentSubscription = subscriptions.Values.FirstOrDefault(s => !s.SubscriptionId.Equals(currentSubscription.SubscriptionId));
+            importSubscriptionCommand.SetCurrentSubscription(newCurrentSubscription);
 
             importSubscriptionCommand.ImportSubscriptionProcess(
                 Data.ValidPublishSettings.First(),
                 null);
 
-            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual("Windows Azure Sandbox 9-220", currentSubscription.SubscriptionName);
-            Assert.IsTrue(currentSubscription.IsDefault);
+            currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionId, newCurrentSubscription.SubscriptionId);
         }
     }
 }
