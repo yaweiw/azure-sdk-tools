@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Linq;
+
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
@@ -50,12 +52,21 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 if (subscription.IsDefault)
                 {
                     this.SafeWriteWarning(Resources.RemoveDefaultSubscription);
+                    // Change default to another one
+                    var newSubscriptionDefault = globalComponents.Subscriptions.Values.FirstOrDefault(s => !s.SubscriptionId.Equals(subscription.SubscriptionId));
+                    if (newSubscriptionDefault != null)
+                    {
+                        newSubscriptionDefault.IsDefault = true;
+                    }
                 }
 
                 // Warn the user if the removed subscription is the current one.
-                if (this.GetCurrentSubscription() == subscription)
+                if (this.GetCurrentSubscription().SubscriptionId.Equals(subscription.SubscriptionId))
                 {
                     this.SafeWriteWarning(Resources.RemoveCurrentSubscription);
+
+                    // Clear current subscription to another one
+                    this.ClearCurrentSubscription();
                 }
 
                 globalComponents.Subscriptions.Remove(subscriptionName);

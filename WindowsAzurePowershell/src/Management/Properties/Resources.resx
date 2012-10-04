@@ -178,7 +178,7 @@
     <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
   <data name="RemoveDefaultSubscription" xml:space="preserve">
-    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
+    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
   </data>
   <data name="ServiceNameExists" xml:space="preserve">
     <value>The provided service name {0} already exists, please pick another name</value>
@@ -238,7 +238,7 @@
     <value>You MUST specify a certificate. Call Set-AzureSubscription and Select-AzureSubscription first.</value>
   </data>
   <data name="InvalidDefaultSubscription" xml:space="preserve">
-    <value>No default subscription has been designated. Use Set-AzureSubscription &lt;subscriptionName&gt; -DefaultSubscription to set the default subscription.</value>
+    <value>No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription.</value>
   </data>
   <data name="InvalidSelectedSubscription" xml:space="preserve">
     <value>No subscription is currently selected. Use Select-Subscription to activate a subscription.</value>
