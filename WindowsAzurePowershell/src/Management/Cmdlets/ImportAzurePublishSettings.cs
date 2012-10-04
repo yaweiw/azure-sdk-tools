@@ -45,16 +45,20 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             // Set a current and default subscription if possible
             if (globalComponents.Subscriptions != null && globalComponents.Subscriptions.Count > 0)
             {
-                var currentDefaultSubscription =
-                    globalComponents.Subscriptions.Values.FirstOrDefault(subscription =>
-                                                                                subscription.IsDefault) ??
-                    globalComponents.Subscriptions.Values.First();
+                var currentDefaultSubscription = globalComponents.Subscriptions.Values.FirstOrDefault(subscription =>
+                                                                                                      subscription.IsDefault);
+                if (currentDefaultSubscription == null)
+                {
+                    // Set the default subscription as current
+                    currentDefaultSubscription = globalComponents.Subscriptions.Values.First();
+                    currentDefaultSubscription.IsDefault = true;
+                }
 
-                // Set the default subscription as current
-                currentDefaultSubscription.IsDefault = true;
+                if (this.GetCurrentSubscription() == null)
+                {
+                    this.SetCurrentSubscription(currentDefaultSubscription);
+                }
 
-                this.SetCurrentSubscription(currentDefaultSubscription);
-                
                 // Save subscriptions file to make sure publish settings subscriptions get merged
                 // into the subscriptions data file and the default subscription is updated.
                 globalComponents.SaveSubscriptions(subscriptionsDataFile);
