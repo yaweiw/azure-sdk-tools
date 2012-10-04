@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Model;
-
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
     using System.Linq;
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
+    using Model;
     using Stubs;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
