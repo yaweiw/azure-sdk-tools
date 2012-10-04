@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
+using Microsoft.WindowsAzure.Management.Model;
 
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
     using Extensions;
     using Properties;
@@ -61,7 +62,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 }
 
                 // Warn the user if the removed subscription is the current one.
-                if (this.GetCurrentSubscription().SubscriptionId.Equals(subscription.SubscriptionId))
+                SubscriptionData currentSubscription = this.GetCurrentSubscription();
+                if (currentSubscription != null && currentSubscription.SubscriptionId.Equals(subscription.SubscriptionId))
                 {
                     this.SafeWriteWarning(Resources.RemoveCurrentSubscription);
 
