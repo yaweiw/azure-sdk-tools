@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                                                                                                       subscription.IsDefault);
                 if (currentDefaultSubscription == null)
                 {
-                    // Set the default subscription as current
+                    // Sets the a new default subscription from the imported ones
                     currentDefaultSubscription = globalComponents.Subscriptions.Values.First();
                     currentDefaultSubscription.IsDefault = true;
                 }
