@@ -70,8 +70,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             importSubscriptionCommand.ImportSubscriptionProcess(
                 Data.ValidPublishSettings.First(),
                 null);
-
-            var subscriptions = importSubscriptionCommand.GetSubscriptions(Data.ValidPublishSettings.First());
+            
+            var subscriptions = importSubscriptionCommand.GetSubscriptions(null);
+            
             SubscriptionData currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
             Assert.AreEqual("Windows Azure Sandbox 9-220", currentSubscription.SubscriptionName);
             Assert.IsTrue(currentSubscription.IsDefault);
