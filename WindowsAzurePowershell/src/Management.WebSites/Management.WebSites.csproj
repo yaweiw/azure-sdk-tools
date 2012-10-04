@@ -138,6 +138,7 @@
     <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
     <Compile Include="Cmdlets\GetAzureWebsiteDeployment.cs" />
+    <Compile Include="Cmdlets\SetAzureWebsite.cs" />
     <Compile Include="Cmdlets\ShowAzureWebsite.cs" />
     <Compile Include="Cmdlets\Common\WebsiteContextBaseCmdlet.cs" />
     <Compile Include="Cmdlets\Common\WebsitesBaseCmdlet.cs" />
@@ -213,6 +214,9 @@
     <Compile Include="Services\WebEntities\WebSystemSummary.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Microsoft.WindowsAzure.Management.Websites.dll-Help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Microsoft.WindowsAzure.Management.Websites.Types.ps1xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
