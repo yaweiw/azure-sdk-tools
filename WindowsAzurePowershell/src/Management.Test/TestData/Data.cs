@@ -23,6 +23,8 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
 
     static class Data
     {
+        public static string Subscription1 = "Windows Azure Sandbox 9-220";
+
         public static List<string> ValidServiceName { get; private set; }
         public static List<string> ValidPublishSettings { get; private set; }
         public static List<string> ValidSubscriptionsData { get; private set; }
@@ -103,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
         {
             ValidSubscriptionName.Add("mysub1");
             ValidSubscriptionName.Add("mysub2");
-            ValidSubscriptionName.Add("Windows Azure Sandbox 9-220");
+            ValidSubscriptionName.Add(Data.Subscription1);
             ValidSubscriptionName.Add("TestSubscription1");
             ValidSubscriptionName.Add("TestSubscription2");
         }
