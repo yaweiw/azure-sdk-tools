@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Model;
+
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
     using System.Linq;
@@ -29,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         public void SetupTest()
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureAppDir;
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]
@@ -70,13 +72,20 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 Data.ValidPublishSettings.First(),
                 null);
 
+            var subscriptions = importSubscriptionCommand.GetSubscriptions(Data.ValidPublishSettings.First());
+            SubscriptionData currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual("Windows Azure Sandbox 9-220", currentSubscription.SubscriptionName);
+            Assert.IsTrue(currentSubscription.IsDefault);
+            
+            SubscriptionData newCurrentSubscription = subscriptions.Values.FirstOrDefault(s => !s.SubscriptionId.Equals(currentSubscription.SubscriptionId));
+            importSubscriptionCommand.SetCurrentSubscription(newCurrentSubscription);
+
             importSubscriptionCommand.ImportSubscriptionProcess(
                 Data.ValidPublishSettings.First(),
                 null);
 
-            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
-            Assert.AreEqual("Windows Azure Sandbox 9-220", currentSubscription.SubscriptionName);
-            Assert.IsTrue(currentSubscription.IsDefault);
+            currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionId, newCurrentSubscription.SubscriptionId);
         }
     }
 }
