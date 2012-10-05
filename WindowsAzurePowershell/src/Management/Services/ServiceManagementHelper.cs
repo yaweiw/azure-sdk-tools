@@ -258,6 +258,9 @@ namespace Microsoft.WindowsAzure.Management.Services
 
     public class ClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
+        public const string UserAgentHeaderName = "User-Agent";
+        public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.5";
+
         #region IClientMessageInspector Members
 
         public void AfterReceiveReply(ref Message reply, object correlationState) { }
@@ -269,6 +272,11 @@ namespace Microsoft.WindowsAzure.Management.Services
                 if (property.Headers[Constants.VersionHeaderName] == null)
                 {
                     property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20110601);
+                }
+
+                if (property.Headers[UserAgentHeaderName] == null)
+                {
+                    property.Headers.Add(UserAgentHeaderName, UserAgentHeaderContent);
                 }
             }
 
