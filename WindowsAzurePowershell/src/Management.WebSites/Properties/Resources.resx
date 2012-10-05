@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AzurePortalUrl" xml:space="preserve">
-    <value>http://go.microsoft.com/fwlink/?LinkId=254433</value>
+    <value>https://manage.windowsazure.com</value>
   </data>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>
@@ -145,7 +145,7 @@ Please follow these steps in the portal:
     <value>Confirm</value>
   </data>
   <data name="WebsiteSufixUrl" xml:space="preserve">
-    <value>#Workspaces/WebsiteExtension/Website/{0}/dashboard</value>
+    <value>Workspaces/WebsiteExtension/Website/{0}/dashboard/</value>
   </data>
   <data name="InvalidGitCredentials" xml:space="preserve">
     <value>Git credentials needs to be setup on the portal.</value>
@@ -179,6 +179,5 @@ Please follow these steps in the portal:
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
-    <comment> </comment>
   </data>
 </root>
