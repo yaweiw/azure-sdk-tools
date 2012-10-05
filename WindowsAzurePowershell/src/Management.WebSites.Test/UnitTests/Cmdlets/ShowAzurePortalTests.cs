@@ -34,7 +34,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void ProcessGetAzurePublishSettingsTest()
         {
-            new ShowAzurePortalCommand() { Name = null };
+            ShowAzurePortalCommand showAzurePortalCommand = new ShowAzurePortalCommand { Name = null };
+            showAzurePortalCommand.ProcessShowAzurePortal();
         }
 
         /// <summary>
