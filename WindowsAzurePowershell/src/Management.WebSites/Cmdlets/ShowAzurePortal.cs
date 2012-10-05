@@ -30,18 +30,27 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Realm of the account.")]
+        [ValidateNotNullOrEmpty]
+        public string Realm { get; set; }
+
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal void ProcessShowAzurePortal(string url, string webSiteName)
+        internal void ProcessShowAzurePortal()
         {
-            Validate.ValidateStringIsNullOrEmpty(url, "Azure portal url");
             Validate.ValidateInternetConnection();
 
-            if (!string.IsNullOrEmpty(webSiteName))
+            string uri = Resources.AzurePortalUrl;
+            if (!string.IsNullOrEmpty(Name))
             {
-                url += string.Format(Resources.WebsiteSufixUrl, webSiteName);
+                uri += string.Format(Resources.WebsiteSufixUrl, Name);
             }
 
-            General.LaunchWebPage(url);
+            if (Realm != null)
+            {
+                uri += string.Format("?whr={0}", Realm);
+            }
+
+            General.LaunchWebPage(uri);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -50,7 +59,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ProcessShowAzurePortal(Resources.AzurePortalUrl, Name);
+
+                ProcessShowAzurePortal();
             }
             catch (Exception ex)
             {
