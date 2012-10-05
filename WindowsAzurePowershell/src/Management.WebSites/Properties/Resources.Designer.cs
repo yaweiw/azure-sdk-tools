@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /#Workspaces/WebsiteExtension/Website/{0}/dashboard/.
+        ///   Looks up a localized string similar to Workspaces/WebsiteExtension/Website/{0}/dashboard/.
         /// </summary>
         internal static string WebsiteSufixUrl {
             get {
