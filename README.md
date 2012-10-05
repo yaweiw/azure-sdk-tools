@@ -85,7 +85,7 @@ For comprehensive documentation on the full set of Windows Azure cmdlets see
     <li>Create a folder inside your user's Documents folder and name it <strong>WindowsPowerShell</strong></li>
     <li>Inside that folder create a file called <strong>Microsoft.PowerShell_profile.ps1</strong></li>
     <li>Edit the file in a text editor and add the following contents<br/>
-    <pre>Import-Module<br/>PATH_TO_AZURE-SDK-TOOLS_CLONE\Package\Release\Microsoft.WindowsAzure.Management.psd1</pre></li>
+    <pre>Import-Module<br/>PATH_TO_AZURE-SDK-TOOLS_CLONE\Package\Release\Azure.psd1</pre></li>
     <li>After you build the commandlets project, you can then open a PowerShell window and you should be able to use the commandlets. Please note that if you want to rebuild the project, you have close the PowerShell window, and then reopen it.</li>
 </ol>
 
