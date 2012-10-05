@@ -39,18 +39,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             Validate.ValidateInternetConnection();
 
-            string uri = Resources.AzurePortalUrl;
+            UriBuilder uriBuilder = new UriBuilder(Resources.AzurePortalUrl);
             if (!string.IsNullOrEmpty(Name))
             {
-                uri += string.Format(Resources.WebsiteSufixUrl, Name);
+                uriBuilder.Fragment += string.Format(Resources.WebsiteSufixUrl, Name);
             }
 
             if (Realm != null)
             {
-                uri += string.Format("?whr={0}", Realm);
+                string queryToAppend = string.Format("whr={0}", Realm);
+                if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
+                {
+                    uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + queryToAppend;
+                }
+                else
+                {
+                    uriBuilder.Query = queryToAppend;
+                }
             }
 
-            General.LaunchWebPage(uri);
+            General.LaunchWebPage(uriBuilder.ToString());
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
