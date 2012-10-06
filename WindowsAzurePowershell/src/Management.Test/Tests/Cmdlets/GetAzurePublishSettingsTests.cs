@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using Management.Cmdlets;
     using Management.Properties;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     [TestClass]
     public class GetAzurePublishSettingsTests
@@ -25,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void GetAzurePublishSettingsProcessTest()
         {
-            new GetAzurePublishSettingsCommand().GetAzurePublishSettingsProcess(Resources.PublishSettingsUrl);
+            new GetAzurePublishSettingsCommand().GetAzurePublishSettingsProcess(General.PublishSettingsUrl);
         }
 
         /// <summary>
@@ -34,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void GetAzurePublishSettingsProcessTestFail()
         {
-            Assert.IsFalse(string.IsNullOrEmpty(Resources.PublishSettingsUrl));
+            Assert.IsFalse(string.IsNullOrEmpty(General.PublishSettingsUrl));
         }
 
         /// <summary>
