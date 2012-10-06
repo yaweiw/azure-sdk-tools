@@ -16,12 +16,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Collections.Generic;
+    using System.Management.Automation;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
-    using System.Management.Automation;
     
     /// <summary>
     /// Sets an azure website properties.
@@ -151,12 +152,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Site websiteUpdate = new Site
             {
                 Name = Name,
-                HostNames = new[] { Name + ".azurewebsites.net" }
+                HostNames = new[] { Name + General.AzureWebsiteHostNameSuffix }
             };
             if (HostNames != null)
             {
                 siteChanges = true;
-                List<string> newHostNames = new List<string> { Name + ".azurewebsites.net" };
+                List<string> newHostNames = new List<string> { Name + General.AzureWebsiteHostNameSuffix };
                 newHostNames.AddRange(HostNames);
                 websiteUpdate.HostNames = newHostNames.ToArray();
             }
