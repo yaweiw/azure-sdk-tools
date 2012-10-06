@@ -47,11 +47,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 base.ProcessRecord();
                 if (string.IsNullOrEmpty(Realm))
                 {
-                    GetAzurePublishSettingsProcess(Resources.PublishSettingsUrl);
+                    GetAzurePublishSettingsProcess(General.PublishSettingsUrl);
                 }
                 else
                 {
-                    GetAzurePublishSettingsProcess(string.Format(Resources.PublishSettingsUrlWithRealm, Realm)); 
+                    GetAzurePublishSettingsProcess(General.PublishSettingsUrlWithRealm(Realm)); 
                 }
             }
             catch (Exception ex)
