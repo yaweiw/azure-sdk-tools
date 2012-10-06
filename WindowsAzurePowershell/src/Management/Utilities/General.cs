@@ -330,7 +330,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         /// <returns>The full blob endpoint uri including the storage account name</returns>
         public static string BlobEndpointUri(string accountName)
         {
-            return string.Format(
+            return string.Format(CultureInfo.InvariantCulture,
                 TryGetEnvironmentVariable(Resources.BlobEndpointUriEnv, Resources.BlobEndpointUri),
                 accountName);
         }
