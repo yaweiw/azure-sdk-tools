@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AzurePortalUrl" xml:space="preserve">
-    <value>http://go.microsoft.com/fwlink/?LinkId=254433</value>
-  </data>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>
   </data>
@@ -179,6 +176,5 @@ Please follow these steps in the portal:
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
-    <comment> </comment>
   </data>
 </root>

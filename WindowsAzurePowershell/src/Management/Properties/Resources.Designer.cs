@@ -440,15 +440,6 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en&amp;whr={0}.
-        /// </summary>
-        internal static string PublishSettingsUrlWithRealm {
-            get {
-                return ResourceManager.GetString("PublishSettingsUrlWithRealm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription..
         /// </summary>
         internal static string RemoveCurrentSubscription {
