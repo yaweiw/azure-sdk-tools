@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             try
             {
                 base.ProcessRecord();
-                ProcessShowAzurePortal(Resources.AzurePortalUrl, Name);
+                ProcessShowAzurePortal(General.AzurePortalUrl, Name);
             }
             catch (Exception ex)
             {

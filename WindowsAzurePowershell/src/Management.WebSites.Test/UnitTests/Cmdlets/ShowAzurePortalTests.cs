@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.IO;
     using Management.Services;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
@@ -35,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void ProcessGetAzurePublishSettingsTest()
         {
-            new ShowAzurePortalCommand().ProcessShowAzurePortal(Resources.AzurePortalUrl, null);
+            new ShowAzurePortalCommand().ProcessShowAzurePortal(General.AzurePortalUrl, null);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void ProcessShowAzurePortalTestFail()
         {
-            Assert.IsFalse(string.IsNullOrEmpty(Resources.AzurePortalUrl));
+            Assert.IsFalse(string.IsNullOrEmpty(General.AzurePortalUrl));
         }
 
         /// <summary>
