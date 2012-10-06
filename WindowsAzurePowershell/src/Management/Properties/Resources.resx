@@ -260,7 +260,7 @@
     <value>AZURE_HOSTNAME_SUFFIX</value>
   </data>
   <data name="AzurePortalUrl" xml:space="preserve">
-    <value>http://go.microsoft.com/fwlink/?LinkId=254433</value>
+    <value>https://manage.windowsazure.com</value>
   </data>
   <data name="AzurePortalUrlEnv" xml:space="preserve">
     <value>AZURE_PORTAL_URL</value>

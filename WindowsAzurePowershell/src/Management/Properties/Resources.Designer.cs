@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://go.microsoft.com/fwlink/?LinkId=254433.
+        ///   Looks up a localized string similar to https://manage.windowsazure.com.
         /// </summary>
         internal static string AzurePortalUrl {
             get {
