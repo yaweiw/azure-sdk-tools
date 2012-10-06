@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
-    using System;
     using System.IO;
     using Management.Services;
     using Management.Test.Stubs;
@@ -36,7 +35,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void ProcessGetAzurePublishSettingsTest()
         {
-            new ShowAzurePortalCommand().ProcessShowAzurePortal(General.AzurePortalUrl, null);
+            ShowAzurePortalCommand showAzurePortalCommand = new ShowAzurePortalCommand { Name = null };
+            showAzurePortalCommand.ProcessShowAzurePortal();
         }
 
         /// <summary>
@@ -46,27 +46,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         public void ProcessShowAzurePortalTestFail()
         {
             Assert.IsFalse(string.IsNullOrEmpty(General.AzurePortalUrl));
-        }
-
-        /// <summary>
-        /// The url doesn't exist.
-        /// </summary>
-        [TestMethod]
-        public void ProcessShowAzurePortalTestEmptyDnsFail()
-        {
-            string emptyDns = string.Empty;
-            string expectedMsg = string.Format(Resources.InvalidOrEmptyArgumentMessage, "azure portal url");
-
-            try
-            {
-                new ShowAzurePortalCommand().ProcessShowAzurePortal(emptyDns, null);
-                Assert.Fail("No exception was thrown");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(ArgumentException));
-                Assert.IsTrue(string.Compare(expectedMsg, ex.Message, StringComparison.OrdinalIgnoreCase) == 0);
-            }
         }
     }
 }
