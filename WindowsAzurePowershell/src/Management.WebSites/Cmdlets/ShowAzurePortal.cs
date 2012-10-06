@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             Validate.ValidateInternetConnection();
 
-            UriBuilder uriBuilder = new UriBuilder(PortalUrl);
+            UriBuilder uriBuilder = new UriBuilder(General.AzurePortalUrl);
             if (!string.IsNullOrEmpty(Name))
             {
                 uriBuilder.Fragment += string.Format(Resources.WebsiteSufixUrl, Name);
@@ -59,11 +59,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             General.LaunchWebPage(uriBuilder.ToString());
-        }
-
-        protected string PortalUrl
-        {
-            get { return Resources.AzurePortalUrl; }
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
