@@ -256,4 +256,25 @@
     <value>Azure service management error
 {0}</value>
   </data>
+  <data name="AzureHostNameSuffix" xml:space="preserve">
+    <value>.azurewebsites.net</value>
+  </data>
+  <data name="AzureHostNameSuffixEnv" xml:space="preserve">
+    <value>AZURE_HOSTNAME_SUFFIX</value>
+  </data>
+  <data name="AzurePortalUrl" xml:space="preserve">
+    <value>http://go.microsoft.com/fwlink/?LinkId=254433</value>
+  </data>
+  <data name="AzurePortalUrlEnv" xml:space="preserve">
+    <value>AZURE_PORTAL_URL</value>
+  </data>
+  <data name="BlobEndpointUri" xml:space="preserve">
+    <value>https://{0}.blob.core.windows.net/</value>
+  </data>
+  <data name="BlobEndpointUriEnv" xml:space="preserve">
+    <value>AZURE_BLOBSTORAGE_TEMPLATE</value>
+  </data>
+  <data name="PublishSettingsUrlEnv" xml:space="preserve">
+    <value>AZURE_PUBLISHINGPROFILE_URL</value>
+  </data>
 </root>
