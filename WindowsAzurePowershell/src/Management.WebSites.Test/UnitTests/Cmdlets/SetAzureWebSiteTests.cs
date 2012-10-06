@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -69,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Site website = ar.Values["site"] as Site;
                 Assert.IsNotNull(website);
                 Assert.AreEqual(websiteName, website.Name);
-                Assert.IsTrue(website.HostNames.Any(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
+                Assert.IsTrue(website.HostNames.Any(hostname => hostname.Equals(websiteName + General.AzureWebsiteHostNameSuffix)));
                 Assert.IsNotNull(website.HostNames.Any(hostname => hostname.Equals("stuff.com")));
                 site.HostNames = website.HostNames;
                 updatedSite = true;
