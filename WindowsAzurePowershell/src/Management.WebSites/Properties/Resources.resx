@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AzurePortalUrl" xml:space="preserve">
-    <value>https://manage.windowsazure.com</value>
-  </data>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>
   </data>

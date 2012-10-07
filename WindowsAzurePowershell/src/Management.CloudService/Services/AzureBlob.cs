@@ -17,11 +17,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System;
     using System.Globalization;
     using System.IO;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using StorageClient;
 
     public static class AzureBlob
     {
-        public static readonly string BlobEndpointTemplate = "https://{0}.blob.core.windows.net/";
         private const string ContainerName = "azpsnode122011";
 
         public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath, BlobRequestOptions blobRequestOptions)
@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         /// <remarks>The uploaded file name will be guid</remarks>
         public static Uri UploadFile(string storageName, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
         {
-            var baseAddress = string.Format(CultureInfo.InvariantCulture, BlobEndpointTemplate, storageName);
+            string baseAddress = General.BlobEndpointUri(storageName);
             var credentials = new StorageCredentialsAccountAndKey(storageName, storageKey);
             var client = new CloudBlobClient(baseAddress, credentials);
             string blobName = Guid.NewGuid().ToString();
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         /// <param name="storageKey">Store access key</param>
         private static void RemoveFile(string storageName, string storageKey)
         {
-            var baseAddress = string.Format(CultureInfo.InvariantCulture, BlobEndpointTemplate, storageName);
+            string baseAddress = General.BlobEndpointUri(storageName);
             var credentials = new StorageCredentialsAccountAndKey(storageName, storageKey);
             var client = new CloudBlobClient(baseAddress, credentials);
 

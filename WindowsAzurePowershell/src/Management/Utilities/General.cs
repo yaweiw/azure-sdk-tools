@@ -31,6 +31,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
+        private static bool TryFindCertificatesInStore(string thumbprint,
+            System.Security.Cryptography.X509Certificates.StoreLocation location, out X509Certificate2Collection certificates)
+        {
+            X509Store store = new X509Store(StoreName.My, location);
+            store.Open(OpenFlags.ReadOnly);
+            certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
+            store.Close();
+
+            return certificates != null && certificates.Count > 0;
+        }
+
+        private static string TryGetEnvironmentVariable(string environmentVariableName, string defaultValue)
+        {
+            string value = Environment.GetEnvironmentVariable(environmentVariableName);
+            return (string.IsNullOrEmpty(value)) ? defaultValue : value;
+        }
+
         public static string GetAssemblyDirectory()
         {
             return Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -228,17 +245,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             store.Close();
         }
 
-        private static bool TryFindCertificatesInStore(string thumbprint, 
-            System.Security.Cryptography.X509Certificates.StoreLocation location, out X509Certificate2Collection certificates)
-        {
-            X509Store store = new X509Store(StoreName.My, location);
-            store.Open(OpenFlags.ReadOnly);
-            certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
-            store.Close();
-
-            return certificates != null && certificates.Count > 0;
-        }
-
         public static string BuildConnectionString(
             string defaultEndpointsProtocol,
             string accountName,
@@ -272,6 +278,61 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             }
 
             return connectionString.ToString();
+        }
+
+        /// <summary>
+        /// Gets the value of publish settings url from environment if set, otherwise returns the default value.
+        /// </summary>
+        public static string PublishSettingsUrl
+        {
+            get
+            {
+                return TryGetEnvironmentVariable(Resources.PublishSettingsUrlEnv, Resources.PublishSettingsUrl);
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of azure portal url from environment if set, otherwise returns the default value.
+        /// </summary>
+        public static string AzurePortalUrl
+        {
+            get
+            {
+                return TryGetEnvironmentVariable(Resources.AzurePortalUrlEnv, Resources.AzurePortalUrl);
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of azure host name suffix from environment if set, otherwise returns the default value.
+        /// </summary>
+        public static string AzureWebsiteHostNameSuffix
+        {
+            get
+            {
+                return TryGetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, Resources.AzureHostNameSuffix);
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of publish settings url with realm from environment if set, otherwise returns the default value.
+        /// </summary>
+        /// <param name="realm">Realm phrase</param>
+        /// <returns>The publish settings url with realm phrase</returns>
+        public static string PublishSettingsUrlWithRealm(string realm)
+        {
+            return PublishSettingsUrl + "&whr=" + realm;
+        }
+
+        /// <summary>
+        /// Gets the value of blob endpoint uri from environment if set, otherwise returns the default value.
+        /// </summary>
+        /// <param name="accountName">The storage account name</param>
+        /// <returns>The full blob endpoint uri including the storage account name</returns>
+        public static string BlobEndpointUri(string accountName)
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                TryGetEnvironmentVariable(Resources.BlobEndpointUriEnv, Resources.BlobEndpointUri),
+                accountName);
         }
     }
 }
