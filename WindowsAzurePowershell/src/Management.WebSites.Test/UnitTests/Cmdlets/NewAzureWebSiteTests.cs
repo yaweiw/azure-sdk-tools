@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -57,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                                               Site website = ar.Values["site"] as Site;
                                               Assert.IsNotNull(website);
                                               Assert.AreEqual(websiteName, website.Name);
-                                              Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + ".azurewebsites.net")));
+                                              Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + General.AzureWebsiteHostNameSuffix)));
                                               created = true;
                                               return website;
                                           };

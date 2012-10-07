@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -236,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Site website = new Site
             {
                 Name = Name,
-                HostNames = new[] { Name + ".azurewebsites.net" },
+                HostNames = new[] { Name + General.AzureWebsiteHostNameSuffix },
                 WebSpace = webspace.Name
             };
 

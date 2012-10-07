@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -75,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     Site websiteUpdate = new Site
                                             {
                                                 Name = Name,
-                                                HostNames = new [] { Name + ".azurewebsites.net" },
+                                                HostNames = new [] { Name + General.AzureWebsiteHostNameSuffix },
                                                 State = "Running"
                                             };
 

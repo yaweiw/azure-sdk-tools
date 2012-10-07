@@ -106,6 +106,7 @@
     <Compile Include="Tests\Cmdlets\SetSubscriptionTest.cs" />
     <Compile Include="Tests\Extensions\CmdletSubscriptionExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\CmdletExtensionsTest.cs" />
+    <Compile Include="Tests\GeneralTest.cs" />
     <Compile Include="Tests\Services\GlobalComponentsTests.cs" />
     <Compile Include="Tests\Services\GlobalPathInfoTest.cs" />
     <Compile Include="Tests\Services\SubscriptionsManagerTests.cs" />

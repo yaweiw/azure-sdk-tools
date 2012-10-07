@@ -207,9 +207,6 @@
   <data name="PublishSettingsUrl" xml:space="preserve">
     <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en</value>
   </data>
-  <data name="PublishSettingsUrlWithRealm" xml:space="preserve">
-    <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en&amp;whr={0}</value>
-  </data>
   <data name="DefaultAndCurrentSubscription" xml:space="preserve">
     <value>Setting: {0} as the default and current subscription. To view other subscriptions use Get-AzureSubscription</value>
   </data>
@@ -255,5 +252,26 @@
   <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
     <value>Azure service management error
 {0}</value>
+  </data>
+  <data name="AzureHostNameSuffix" xml:space="preserve">
+    <value>.azurewebsites.net</value>
+  </data>
+  <data name="AzureHostNameSuffixEnv" xml:space="preserve">
+    <value>AZURE_HOSTNAME_SUFFIX</value>
+  </data>
+  <data name="AzurePortalUrl" xml:space="preserve">
+    <value>https://manage.windowsazure.com</value>
+  </data>
+  <data name="AzurePortalUrlEnv" xml:space="preserve">
+    <value>AZURE_PORTAL_URL</value>
+  </data>
+  <data name="BlobEndpointUri" xml:space="preserve">
+    <value>https://{0}.blob.core.windows.net/</value>
+  </data>
+  <data name="BlobEndpointUriEnv" xml:space="preserve">
+    <value>AZURE_BLOBSTORAGE_TEMPLATE</value>
+  </data>
+  <data name="PublishSettingsUrlEnv" xml:space="preserve">
+    <value>AZURE_PUBLISHINGPROFILE_URL</value>
   </data>
 </root>
