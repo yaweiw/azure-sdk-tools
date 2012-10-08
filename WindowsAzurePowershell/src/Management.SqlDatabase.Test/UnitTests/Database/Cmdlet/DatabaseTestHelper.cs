@@ -21,6 +21,36 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
     public static class DatabaseTestHelper
     {
+        private static readonly HttpSessionCollection defaultSessionCollection =
+            HttpSessionCollection.Load("MockSessions.xml");
+
+        /// <summary>
+        /// Defines the service base Uri to use for common functions
+        /// </summary>
+        internal static Uri CommonServiceBaseUri
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public static HttpSessionCollection DefaultSessionCollection
+        {
+            get
+            {
+                return defaultSessionCollection;
+            }
+        }
+
+        public static void SaveDefaultSessionCollection()
+        {
+            lock (defaultSessionCollection)
+            {
+                defaultSessionCollection.Save("MockSessions.xml");
+            }
+        }
+
         /// <summary>
         /// Helper function to validate headers for GetAccessToken request.
         /// </summary>
@@ -53,10 +83,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             Assert.IsTrue(
                 actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
                 "AccessToken header does not exist in the request");
-            Assert.AreEqual(
-                expected.Headers[DataServiceConstants.AccessTokenHeader],
-                actual.Headers[DataServiceConstants.AccessTokenHeader],
-                "AccessToken header does not match");
             Assert.IsTrue(
                 actual.Headers.Contains("x-ms-client-session-id"),
                 "session-id header does not exist in the request");
@@ -66,10 +92,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             Assert.IsTrue(
                 actual.Cookies.Contains(DataServiceConstants.AccessCookie),
                 "AccessCookie does not exist in the request");
-            Assert.AreEqual(
-                expected.Cookies[DataServiceConstants.AccessCookie],
-                actual.Cookies[DataServiceConstants.AccessCookie],
-                "AccessCookie does not match");
         }
 
         /// <summary>
@@ -103,6 +125,25 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             {
                 response.ResponseText =
                     response.ResponseText.Replace(serviceUri.ToString(), mockServerUri.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Modifies the OData get request to use the real server's Uri.
+        /// </summary>
+        public static void FixODataRequestPayload(
+            HttpMessage.Request request,
+            Uri serviceUri,
+            Uri mockServerUri)
+        {
+            // Fix the $link Uris
+            if (serviceUri != null &&
+                request.RequestText != null &&
+                request.RequestText.Contains("dataservices") &&
+                request.RequestText.Contains("</uri>"))
+            {
+                request.RequestText =
+                    request.RequestText.Replace(mockServerUri.ToString(), serviceUri.ToString());
             }
         }
     }
