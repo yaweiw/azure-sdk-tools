@@ -31,6 +31,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
     public class GetAzureSubscriptionCommand : CloudBaseCmdlet<IServiceManagement>
     {
+        public GetAzureSubscriptionCommand()
+        {
+            this.SkipChannelInit = true;
+        }
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
@@ -152,10 +156,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             }
         }
 
-        protected override void ProcessRecord()
+        protected override void OnProcessRecord()
         {
-            SkipChannelInit = true;
-            base.ProcessRecord();
             GetSubscriptionProcess(ParameterSetName, SubscriptionName, this.ResolvePath(SubscriptionDataFile));
         }
     }
