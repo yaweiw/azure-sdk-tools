@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected virtual void OnProcessRecord()
         {
-
+            //Intentionally left blank.
         }
 
         /// <summary>
