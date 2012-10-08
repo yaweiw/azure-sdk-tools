@@ -30,18 +30,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase
     {
-        private HttpSessionCollection sessionCollection;
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            this.sessionCollection = HttpSessionCollection.Load("MockSessions.xml");
-        }
-
         [TestCleanup]
         public void CleanupTest()
         {
-            this.sessionCollection.Save("MockSessions.xml");
+            DatabaseTestHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
@@ -109,44 +101,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         [TestMethod]
         public void NewAzureSqlDatabaseServerContextWithSqlAuth()
         {
-            HttpSession testSession = this.sessionCollection.GetSession(
-                "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuth");
-            //testSession.ServiceBaseUri = new Uri("https://kvxv0mrmun.database.windows.net");
-            testSession.RequestValidator =
-                new Action<HttpMessage, HttpMessage.Request>(
-                (expected, actual) =>
-                {
-                    Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                    switch (expected.Index)
-                    {
-                        // Request 0-2: Create context with both ManageUrl and ServerName overriden
-                        case 0:
-                            // GetAccessToken call
-                            DatabaseTestHelper.ValidateGetAccessTokenRequest(
-                                expected.RequestInfo, 
-                                actual);
-                            break;
-                        case 1:
-                            // Get server call
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                expected.RequestInfo, 
-                                actual);
-                            break;
-                        case 2:
-                            // $metadata call
-                            Assert.IsTrue(
-                                actual.RequestUri.AbsoluteUri.EndsWith("$metadata"),
-                                "Incorrect Uri specified for $metadata");
-                            DatabaseTestHelper.ValidateHeadersForServiceRequest(
-                                expected.RequestInfo, 
-                                actual);
-                            break;
-                        default:
-                            Assert.Fail("No more requests expected.");
-                            break;
-                    }
-                });
+            // Create standard context with both ManageUrl and ServerName overridden
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+            }
 
+            // Create context with just ManageUrl and a derived servername
+            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName");
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
             {
@@ -155,7 +121,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
-                    // Create context with both ManageUrl and ServerName overriden
                     Collection<PSObject> serverContext;
                     using (new MockHttpServer(
                         exceptionManager,
@@ -166,7 +131,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                             string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ServerName kvxv0mrmun " +
                                 @"-ManageUrl {0} " +
                                 @"-Credential $credential",
                                 MockHttpServer.DefaultServerPrefixUri.AbsoluteUri),
@@ -174,36 +138,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     }
 
                     Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
-                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
                     powershell.Streams.ClearStreams();
 
                     PSObject contextPsObject = serverContext.Single();
-                    Assert.IsTrue(
-                        contextPsObject.BaseObject is ServerDataServiceSqlAuth,
-                        "Expecting a ServerDataServiceSqlAuth object");
-
-                    // Create context with just ManageUrl and a derived servername
-                    HttpSession testSessionWithDerivedName = this.sessionCollection.GetSession(
-                        "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthDerivedName");
-                    using (new MockHttpServer(
-                        exceptionManager,
-                        MockHttpServer.DefaultServerPrefixUri,
-                        testSessionWithDerivedName))
-                    {
-                        serverContext = powershell.InvokeBatchScript(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ManageUrl {0} " +
-                                @"-Credential $credential",
-                                MockHttpServer.DefaultServerPrefixUri.AbsoluteUri),
-                            @"$context");
-                    }
-
-                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
-                    powershell.Streams.ClearStreams();
-
-                    contextPsObject = serverContext.Single();
                     Assert.IsTrue(
                         contextPsObject.BaseObject is ServerDataServiceSqlAuth,
                         "Expecting a ServerDataServiceSqlAuth object");
@@ -214,7 +151,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         [TestMethod]
         public void NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases()
         {
-            HttpSession testSession = this.sessionCollection.GetSession(
+            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                 "UnitTests.NewAzureSqlDatabaseServerContextWithSqlAuthNegativeCases");
 
             using (System.Management.Automation.PowerShell powershell =
@@ -288,6 +225,113 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     powershell.Streams.ClearStreams();
                 }
             }
+        }
+
+        /// <summary>
+        /// Common helper method for other tests to create a context.
+        /// </summary>
+        /// <param name="contextVariable">The variable name that will hold the new context.</param>
+        public static void CreateServerContextSqlAuth(
+            System.Management.Automation.PowerShell powershell,
+            string contextVariable)
+        {
+            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                "UnitTest.Common.NewAzureSqlDatabaseServerContextWithSqlAuth");
+            testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+            testSession.RequestValidator =
+                new Action<HttpMessage, HttpMessage.Request>(
+                (expected, actual) =>
+                {
+                    Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                    Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                    switch (expected.Index)
+                    {
+                        // Request 0-2: Create context with both ManageUrl and ServerName overriden
+                        case 0:
+                            // GetAccessToken call
+                            DatabaseTestHelper.ValidateGetAccessTokenRequest(
+                                expected.RequestInfo,
+                                actual);
+                            break;
+                        case 1:
+                            // Get server call
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
+                            break;
+                        case 2:
+                            // $metadata call
+                            Assert.IsTrue(
+                                actual.RequestUri.AbsoluteUri.EndsWith("$metadata"),
+                                "Incorrect Uri specified for $metadata");
+                            DatabaseTestHelper.ValidateHeadersForServiceRequest(
+                                expected.RequestInfo,
+                                actual);
+                            Assert.AreEqual(
+                                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
+                                actual.Headers[DataServiceConstants.AccessTokenHeader],
+                                "AccessToken header does not match");
+                            Assert.AreEqual(
+                                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
+                                actual.Cookies[DataServiceConstants.AccessCookie],
+                                "AccessCookie does not match");
+                            break;
+                        default:
+                            Assert.Fail("No more requests expected.");
+                            break;
+                    }
+                });
+            testSession.ResponseModifier =
+                new Action<HttpMessage>(
+                    (message) =>
+                    {
+                        DatabaseTestHelper.FixODataResponseUri(
+                            message.ResponseInfo,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
+            testSession.RequestModifier =
+                new Action<HttpMessage.Request>(
+                    (request) =>
+                    {
+                        DatabaseTestHelper.FixODataRequestPayload(
+                            request,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
+
+            UnitTestHelper.ImportSqlDatabaseModule(powershell);
+            UnitTestHelper.CreateTestCredential(powershell);
+
+            Collection<PSObject> serverContext;
+            using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+            {
+                using (new MockHttpServer(
+                    exceptionManager,
+                    MockHttpServer.DefaultServerPrefixUri,
+                    testSession))
+                {
+                    serverContext = powershell.InvokeBatchScript(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            @"{1} = New-AzureSqlDatabaseServerContext " +
+                            @"-ServerName testserver " +
+                            @"-ManageUrl {0} " +
+                            @"-Credential $credential",
+                            MockHttpServer.DefaultServerPrefixUri.AbsoluteUri,
+                            contextVariable),
+                        contextVariable);
+                }
+            }
+
+            Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+            Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+            powershell.Streams.ClearStreams();
+
+            PSObject contextPsObject = serverContext.Single();
+            Assert.IsTrue(
+                contextPsObject.BaseObject is ServerDataServiceSqlAuth,
+                "Expecting a ServerDataServiceSqlAuth object");
         }
     }
 }
