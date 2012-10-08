@@ -27,26 +27,41 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class NewAzureSqlDatabaseTests : TestBase
     {
-        private HttpSessionCollection sessionCollection;
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            this.sessionCollection = HttpSessionCollection.Load("MockSessions.xml");
-        }
-
         [TestCleanup]
         public void CleanupTest()
         {
-            this.sessionCollection.Save("MockSessions.xml");
+            DatabaseTestHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
         public void NewAzureSqlDatabaseWithSqlAuth()
         {
-            HttpSession testSession = this.sessionCollection.GetSession(
-                "UnitTests.NewAzureSqlDatabaseWithSqlAuth");
-            //testSession.ServiceBaseUri = new Uri("https://kvxv0mrmun.database.windows.net");
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+                // Create 2 test databases
+                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
+                    powershell,
+                    "$context");
+            }
+        }
+
+        /// <summary>
+        /// Create $testdb1 and $testdb2 on the given context.
+        /// </summary>
+        /// <param name="powershell">The powershell instance containing the context.</param>
+        /// <param name="contextVariable">The variable name that holds the server context.</param>
+        public static void CreateTestDatabasesWithSqlAuth(
+            System.Management.Automation.PowerShell powershell,
+            string contextVariable)
+        {
+            HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                "UnitTest.Common.CreateTestDatabasesWithSqlAuth");
+            testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
             testSession.RequestValidator =
                 new Action<HttpMessage, HttpMessage.Request>(
                 (expected, actual) =>
@@ -55,129 +70,88 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
                     switch (expected.Index)
                     {
-                        // Request 0-2: Create context
+                        // Request 0-1: Create testdb1
+                        // Request 2-3: Create testdb2
                         case 0:
                         case 1:
                         case 2:
-                            break;
-                        // Request 3-4: Create testdb1
-                        // Request 5-6: Create testdb2
                         case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            Assert.IsTrue(
-                                actual.Headers.Contains(DataServiceConstants.AccessTokenHeader),
-                                "AccessToken header does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Headers[DataServiceConstants.AccessTokenHeader],
-                                actual.Headers[DataServiceConstants.AccessTokenHeader],
-                                "AccessToken header does not match");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-session-id"),
-                                "session-id header does not exist in the request");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("x-ms-client-request-id"),
-                                "request-id header does not exist in the request");
-                            Assert.IsTrue(
-                                actual.Cookies.Contains(DataServiceConstants.AccessCookie),
-                                "AccessCookie does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Cookies[DataServiceConstants.AccessCookie],
-                                actual.Cookies[DataServiceConstants.AccessCookie],
-                                "AccessCookie does not match");
-                            Assert.IsTrue(
-                                actual.Headers.Contains("DataServiceVersion"),
-                                "DataServiceVersion header does not exist in the request");
-                            Assert.AreEqual(
-                                expected.RequestInfo.Headers["DataServiceVersion"],
-                                actual.Headers["DataServiceVersion"],
-                                "DataServiceVersion header does not match");
+                            DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                expected.RequestInfo,
+                                actual);
                             break;
                         default:
                             Assert.Fail("No more requests expected.");
                             break;
                     }
                 });
-
-            using (System.Management.Automation.PowerShell powershell =
-                System.Management.Automation.PowerShell.Create())
-            {
-                UnitTestHelper.ImportSqlDatabaseModule(powershell);
-                UnitTestHelper.CreateTestCredential(powershell);
-
-                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
-                {
-                    // Create context with both ManageUrl and ServerName overriden
-                    Collection<PSObject> database1, database2;
-                    using (new MockHttpServer(
-                        exceptionManager,
-                        MockHttpServer.DefaultServerPrefixUri,
-                        testSession))
+            testSession.ResponseModifier =
+                new Action<HttpMessage>(
+                    (message) =>
                     {
-                        powershell.InvokeBatchScript(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ServerName kvxv0mrmun " +
-                                @"-ManageUrl {0} " +
-                                @"-Credential $credential",
-                                MockHttpServer.DefaultServerPrefixUri.AbsoluteUri));
-                        powershell.Streams.ClearStreams();
+                        DatabaseTestHelper.FixODataResponseUri(
+                            message.ResponseInfo,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
+            testSession.RequestModifier =
+                new Action<HttpMessage.Request>(
+                    (request) =>
+                    {
+                        DatabaseTestHelper.FixODataRequestPayload(
+                            request,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
 
-                        database1 = powershell.InvokeBatchScript(
-                            @"$db = New-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName testdb1 " +
-                            @"-Force",
-                            @"$db");
-                        database2 = powershell.InvokeBatchScript(
-                            @"$db = New-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName testdb2 " +
-                            @"-Collation Japanese_CI_AS " +
-                            @"-Edition Web " +
-                            @"-MaxSizeGB 5 " +
-                            @"-Force",
-                            @"$db");
-                    }
-
-                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
-                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
-                    powershell.Streams.ClearStreams();
-
-                    Assert.IsTrue(
-                        database1.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database database1Obj =
-                        (Services.Server.Database)database1.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb1",
-                        database1Obj.Name,
-                        "Expected db name to be testdb1");
-
-                    Assert.IsTrue(
-                        database2.Single().BaseObject is Services.Server.Database,
-                        "Expecting a Database object");
-                    Services.Server.Database database2Obj =
-                        (Services.Server.Database)database2.Single().BaseObject;
-                    Assert.AreEqual(
-                        "testdb2",
-                        database2Obj.Name,
-                        "Expected db name to be testdb2");
-                    Assert.AreEqual(
-                        "Japanese_CI_AS",
-                        database2Obj.CollationName,
-                        "Expected collation to be Japanese_CI_AS");
-                    Assert.AreEqual(
-                        "Web",
-                        database2Obj.Edition,
-                        "Expected edition to be Web");
-                    Assert.AreEqual(
-                        5,
-                        database2Obj.MaxSizeGB,
-                        "Expected max size to be 5 GB");
+            using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+            {
+                Collection<PSObject> database1, database2;
+                using (new MockHttpServer(
+                    exceptionManager,
+                    MockHttpServer.DefaultServerPrefixUri,
+                    testSession))
+                {
+                    database1 = powershell.InvokeBatchScript(
+                        @"$testdb1 = New-AzureSqlDatabase " +
+                        @"-Context $context " +
+                        @"-DatabaseName testdb1 " +
+                        @"-Force",
+                        @"$testdb1");
+                    database2 = powershell.InvokeBatchScript(
+                        @"$testdb2 = New-AzureSqlDatabase " +
+                        @"-Context $context " +
+                        @"-DatabaseName testdb2 " +
+                        @"-Collation Japanese_CI_AS " +
+                        @"-Edition Web " +
+                        @"-MaxSizeGB 5 " +
+                        @"-Force",
+                        @"$testdb2");
                 }
+
+                Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                powershell.Streams.ClearStreams();
+
+                Assert.IsTrue(
+                    database1.Single().BaseObject is Services.Server.Database,
+                    "Expecting a Database object");
+                Services.Server.Database database1Obj =
+                    (Services.Server.Database)database1.Single().BaseObject;
+                Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+
+                Assert.IsTrue(
+                    database2.Single().BaseObject is Services.Server.Database,
+                    "Expecting a Database object");
+                Services.Server.Database database2Obj =
+                    (Services.Server.Database)database2.Single().BaseObject;
+                Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                Assert.AreEqual(
+                    "Japanese_CI_AS",
+                    database2Obj.CollationName,
+                    "Expected collation to be Japanese_CI_AS");
+                Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
+                Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
             }
         }
     }
