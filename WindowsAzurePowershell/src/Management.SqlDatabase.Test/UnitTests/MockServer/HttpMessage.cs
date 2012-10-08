@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Runtime.Serialization;
@@ -64,6 +64,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
             public string Accept { get; set; }
 
             public ExtensionDataObject ExtensionData { get; set; }
+
+            /// <summary>
+            /// Do a deep copy clone of this object.
+            /// </summary>
+            /// <returns>A clone of this object.</returns>
+            public Request Clone()
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    DataContractSerializer serializer =
+                        new DataContractSerializer(typeof(Request));
+                    serializer.WriteObject(stream, this);
+                    stream.Position = 0;
+                    return (Request)serializer.ReadObject(stream);
+                }
+            }
         }
 
         [DataContract(Name = "ResponseInfo")]

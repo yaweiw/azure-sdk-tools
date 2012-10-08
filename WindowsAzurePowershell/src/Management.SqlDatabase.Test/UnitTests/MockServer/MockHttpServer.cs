@@ -187,17 +187,27 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         /// <param name="request">The request to mimic on the real service.</param>
         /// <param name="baseUri">The request's base Uri.</param>
         /// <param name="serviceBaseUri">The real service's base Uri.</param>
+        /// <param name="session">The object that stores request/response information.</param>
         /// <returns>An <see cref="HttpMessage"/> object containing the request/response.</returns>
         private static HttpMessage GetResponseInfoFromService(
             HttpListenerRequest request,
             Uri baseUri,
-            Uri serviceBaseUri)
+            Uri serviceBaseUri,
+            HttpSession session)
         {
-            // Construct the request to make to the real service
-            Uri serviceRequestUri = ChangeUriBase(request.Url, baseUri, serviceBaseUri);
+            // Construct the request to make
             HttpMessage message = new HttpMessage();
             message.RequestInfo = ConstructRequestInfo(request);
-            HttpWebResponse response = MakeServiceRequest(message.RequestInfo, serviceRequestUri);
+
+            // Clone the request and modify it for the real service
+            HttpMessage.Request requestToSend = message.RequestInfo.Clone();
+            requestToSend.RequestUri = ChangeUriBase(request.Url, baseUri, serviceBaseUri);
+            if (session.RequestModifier != null)
+            {
+                session.RequestModifier(requestToSend);
+            }
+
+            HttpWebResponse response = MakeServiceRequest(requestToSend);
             message.ResponseInfo = ConstructResponseInfo(serviceBaseUri, response);
             return message;
         }
@@ -331,10 +341,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         /// <param name="requestUri">The Uri to make the request to.</param>
         /// <returns>The response from the service.</returns>
         private static HttpWebResponse MakeServiceRequest(
-            HttpMessage.Request originalRequest,
-            Uri requestUri)
+            HttpMessage.Request originalRequest)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(requestUri);
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(
+                originalRequest.RequestUri);
 
             request.Method = originalRequest.Method;
 
@@ -457,7 +467,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 HttpMessage message = GetResponseInfoFromService(
                     context.Request,
                     baseUri,
-                    session.ServiceBaseUri);
+                    session.ServiceBaseUri,
+                    session);
                 session.Messages.RecordMessage(message);
             }
 
