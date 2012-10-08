@@ -317,949 +317,6 @@
     </Messages>
   </HttpSession>
   <HttpSession>
-    <Name>UnitTests.NewAzureSqlDatabaseWithSqlAuth</Name>
-    <Messages>
-      <HttpMessage>
-        <Index>0</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/GetAccessToken</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>sqlauthorization</Name>
-              <Value>Basic dGVzdHVzZXI6dGVzdHBAc3Mx</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept i:nil="true" />
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>32e6616f-f88b-4b7d-e13d-b9771f6085bc</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/xml; charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:39 GMT</Value>
-            </Header>
-            <Header>
-              <Name>Set-Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==; path=/v1/ManagementService.svc; expires=24-Sep-2012 11:12:40 GMT; httponly; secure</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri>v1/ManagementService.svc</RelativeUri>
-            </Cookie>
-          </Cookies>
-          <ResponseText>&lt;string xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==&lt;/string&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>1</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/Servers()?$top=1</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>cb80886e-74f4-40a5-aea9-d25cb0676de5-2012-09-25 18:11:33Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>acfa8829-75b7-4e2a-b694-6d25c7fae75d-2012-09-25 18:11:33Z</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept>application/atom+xml,application/xml</Accept>
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>cb80886e-74f4-40a5-aea9-d25cb0676de5</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/atom+xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Tue, 25 Sep 2012 18:11:31 GMT</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;feed xml:base="https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;title type="text"&gt;Servers&lt;/title&gt;
-  &lt;id&gt;https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Servers&lt;/id&gt;
-  &lt;updated&gt;2012-09-25T18:11:32Z&lt;/updated&gt;
-  &lt;link rel="self" title="Servers" href="Servers" /&gt;
-  &lt;entry&gt;
-    &lt;id&gt;https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Servers('kvxv0mrmun')&lt;/id&gt;
-    &lt;title type="text"&gt;&lt;/title&gt;
-    &lt;updated&gt;2012-09-25T18:11:32Z&lt;/updated&gt;
-    &lt;author&gt;
-      &lt;name /&gt;
-    &lt;/author&gt;
-    &lt;link rel="edit" title="Server" href="Servers('kvxv0mrmun')" /&gt;
-    &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Databases" type="application/atom+xml;type=feed" title="Databases" href="Servers('kvxv0mrmun')/Databases" /&gt;
-    &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/ServerMetrics" type="application/atom+xml;type=entry" title="ServerMetrics" href="Servers('kvxv0mrmun')/ServerMetrics" /&gt;
-    &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Server" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
-    &lt;content type="application/xml"&gt;
-      &lt;m:properties&gt;
-        &lt;d:Name&gt;kvxv0mrmun&lt;/d:Name&gt;
-      &lt;/m:properties&gt;
-    &lt;/content&gt;
-  &lt;/entry&gt;
-&lt;/feed&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>2</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/$metadata</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>669c7424-4315-46d1-91d2-c9edcdbf3ff6-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept i:nil="true" />
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:39 GMT</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"&gt;
-  &lt;edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0"&gt;
-    &lt;Schema Namespace="Microsoft.SqlServer.Management.Server.Domain" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2007/05/edm"&gt;
-      &lt;EntityType Name="Server"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="Name" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
-        &lt;NavigationProperty Name="Databases" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Server_Databases" ToRole="Database_Server" /&gt;
-        &lt;NavigationProperty Name="ServerMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server" FromRole="Server_ServerMetrics" ToRole="ServerMetrics_Server" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="Database"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="Id" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="Id" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="Name" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
-        &lt;Property Name="CollationName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="CreationDate" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="IsSystemObject" Type="Edm.Boolean" Nullable="false" /&gt;
-        &lt;Property Name="Status" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="IsFederationRoot" Type="Edm.Boolean" Nullable="true" /&gt;
-        &lt;Property Name="SizeMB" Type="Edm.Decimal" Nullable="false" /&gt;
-        &lt;Property Name="IsRecursiveTriggersOn" Type="Edm.Boolean" Nullable="true" /&gt;
-        &lt;Property Name="IsReadOnly" Type="Edm.Boolean" Nullable="false" /&gt;
-        &lt;NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server" FromRole="Database_Server" ToRole="Server_Databases" /&gt;
-        &lt;NavigationProperty Name="DatabaseMetrics" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseMetrics_DatabaseMetrics_Database" FromRole="Database_DatabaseMetrics" ToRole="DatabaseMetrics_Database" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="Operation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="ActionId" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="CompletedSteps" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="TotalSteps" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;NavigationProperty Name="OperationDetails" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="Operation_OperationDetails" ToRole="OperationDetail_Operation" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="OperationDetail"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="EntityId" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="ActionTypeName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="ActionStatusName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacDatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="CreatedBy" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DateCreated" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="DateModified" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="Comments" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Error" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="SequenceId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="EntityId" Type="Edm.String" Nullable="false" /&gt;
-        &lt;Property Name="ActionId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="DacObjectTypeName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;NavigationProperty Name="Operation" Relationship="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation" FromRole="OperationDetail_Operation" ToRole="Operation_OperationDetails" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="CreateDatabaseFromDacPacOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="OperationGuid" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Edition" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="MaxSizeGB" Type="Edm.Int32" Nullable="true" /&gt;
-        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="ExtractDacPacOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="OperationGuid" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacTypeName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Version" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Description" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="UpgradeDatabaseFromDacPacOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="OperationGuid" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
-        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
-        &lt;Property Name="OperationId" Type="Edm.Int32" Nullable="false" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="ViewDatabaseChangesOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="OperationGuid" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="ChangeResult" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="IsRegisteredDac" Type="Edm.Boolean" Nullable="false" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="ViewUpgradePlanOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="OperationGuid" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="OperationGuid" Type="Edm.Guid" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DacPac" Type="Edm.Binary" Nullable="true" /&gt;
-        &lt;Property Name="RollbackOnFailure" Type="Edm.Boolean" Nullable="true" /&gt;
-        &lt;Property Name="UpgradePlan" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="UpgradeScript" Type="Edm.String" Nullable="true" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="DatabaseCopy"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="EntityId" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="LocalDatabaseId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="DestinationServerName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="DestinationDatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="SourceServerName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="SourceDatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="IsContinuous" Type="Edm.Boolean" Nullable="false" /&gt;
-        &lt;Property Name="TextStartDate" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="TextModifyDate" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="PercentComplete" Type="Edm.Single" Nullable="true" /&gt;
-        &lt;Property Name="IsLocalDatabaseReplicationTarget" Type="Edm.Boolean" Nullable="false" /&gt;
-        &lt;Property Name="ReplicationState" Type="Edm.Byte" Nullable="false" /&gt;
-        &lt;Property Name="ReplicationStateDescription" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="IsInterlinkConnected" Type="Edm.Boolean" Nullable="false" /&gt;
-        &lt;Property Name="IsForcedTerminate" Type="Edm.Boolean" Nullable="true" /&gt;
-        &lt;Property Name="MaximumLag" Type="Edm.Int32" Nullable="true" /&gt;
-        &lt;Property Name="EntityId" Type="Edm.Guid" Nullable="false" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="DatabaseCopyValidationOperation"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="DatabaseName" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="false" /&gt;
-        &lt;Property Name="Action" Type="Edm.Int32" Nullable="false" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="FirewallRule"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="Name" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="Name" Type="Edm.String" Nullable="false" /&gt;
-        &lt;Property Name="StartIPAddress" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="EndIPAddress" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="CreateDate" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="ModifyDate" Type="Edm.DateTime" Nullable="false" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="DatabaseMetrics"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="DatabaseId" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="DatabaseId" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="NumberOfLoginSuccessEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfLoginFailureEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;NavigationProperty Name="Database" Relationship="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseMetrics_DatabaseMetrics_Database" FromRole="DatabaseMetrics_Database" ToRole="Database_DatabaseMetrics" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="ServerMetrics"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="ServerName" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="ServerName" Type="Edm.String" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfFailedEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfLoginSuccessEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfLoginFailureEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfTerminatedConnectionEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfThrottledEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;Property Name="NumberOfDeadlockEvents" Type="Edm.Int64" Nullable="false" /&gt;
-        &lt;NavigationProperty Name="Server" Relationship="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server" FromRole="ServerMetrics_Server" ToRole="Server_ServerMetrics" /&gt;
-      &lt;/EntityType&gt;
-      &lt;EntityType Name="EventLog"&gt;
-        &lt;Key&gt;
-          &lt;PropertyRef Name="EntityId" /&gt;
-        &lt;/Key&gt;
-        &lt;Property Name="EntityId" Type="Edm.String" Nullable="false" /&gt;
-        &lt;Property Name="DatabaseName" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="StartTimeUtc" Type="Edm.DateTime" Nullable="false" /&gt;
-        &lt;Property Name="IntervalSizeInMinutes" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="EventCategory" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="EventType" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="EventSubtype" Type="Edm.Int32" Nullable="false" /&gt;
-        &lt;Property Name="EventSubtypeDescription" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="Severity" Type="Edm.Int32" Nullable="true" /&gt;
-        &lt;Property Name="NumberOfEvents" Type="Edm.Int64" Nullable="true" /&gt;
-        &lt;Property Name="Description" Type="Edm.String" Nullable="true" /&gt;
-        &lt;Property Name="AdditionalData" Type="Edm.String" Nullable="true" /&gt;
-      &lt;/EntityType&gt;
-      &lt;Association Name="Server_Databases_Database_Server"&gt;
-        &lt;End Role="Server_Databases" Type="Microsoft.SqlServer.Management.Server.Domain.Server" Multiplicity="0..1" /&gt;
-        &lt;End Role="Database_Server" Type="Microsoft.SqlServer.Management.Server.Domain.Database" Multiplicity="*" /&gt;
-      &lt;/Association&gt;
-      &lt;Association Name="Server_ServerMetrics_ServerMetrics_Server"&gt;
-        &lt;End Role="Server_ServerMetrics" Type="Microsoft.SqlServer.Management.Server.Domain.Server" Multiplicity="0..1" /&gt;
-        &lt;End Role="ServerMetrics_Server" Type="Microsoft.SqlServer.Management.Server.Domain.ServerMetrics" Multiplicity="0..1" /&gt;
-      &lt;/Association&gt;
-      &lt;Association Name="Database_DatabaseMetrics_DatabaseMetrics_Database"&gt;
-        &lt;End Role="Database_DatabaseMetrics" Type="Microsoft.SqlServer.Management.Server.Domain.Database" Multiplicity="0..1" /&gt;
-        &lt;End Role="DatabaseMetrics_Database" Type="Microsoft.SqlServer.Management.Server.Domain.DatabaseMetrics" Multiplicity="0..1" /&gt;
-      &lt;/Association&gt;
-      &lt;Association Name="Operation_OperationDetails_OperationDetail_Operation"&gt;
-        &lt;End Role="Operation_OperationDetails" Type="Microsoft.SqlServer.Management.Server.Domain.Operation" Multiplicity="0..1" /&gt;
-        &lt;End Role="OperationDetail_Operation" Type="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" Multiplicity="*" /&gt;
-      &lt;/Association&gt;
-      &lt;EntityContainer Name="ServerContextInternal" m:IsDefaultEntityContainer="true"&gt;
-        &lt;EntitySet Name="Servers" EntityType="Microsoft.SqlServer.Management.Server.Domain.Server" /&gt;
-        &lt;EntitySet Name="Databases" EntityType="Microsoft.SqlServer.Management.Server.Domain.Database" /&gt;
-        &lt;EntitySet Name="Operations" EntityType="Microsoft.SqlServer.Management.Server.Domain.Operation" /&gt;
-        &lt;EntitySet Name="OperationDetails" EntityType="Microsoft.SqlServer.Management.Server.Domain.OperationDetail" /&gt;
-        &lt;EntitySet Name="CreateDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.CreateDatabaseFromDacPacOperation" /&gt;
-        &lt;EntitySet Name="ExtractDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ExtractDacPacOperation" /&gt;
-        &lt;EntitySet Name="UpgradeDatabaseFromDacPacOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.UpgradeDatabaseFromDacPacOperation" /&gt;
-        &lt;EntitySet Name="ViewDatabaseChangesOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewDatabaseChangesOperation" /&gt;
-        &lt;EntitySet Name="ViewUpgradePlanOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.ViewUpgradePlanOperation" /&gt;
-        &lt;EntitySet Name="DatabaseCopies" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseCopy" /&gt;
-        &lt;EntitySet Name="DatabaseCopyValidationOperations" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseCopyValidationOperation" /&gt;
-        &lt;EntitySet Name="FirewallRules" EntityType="Microsoft.SqlServer.Management.Server.Domain.FirewallRule" /&gt;
-        &lt;EntitySet Name="DatabaseMetrics" EntityType="Microsoft.SqlServer.Management.Server.Domain.DatabaseMetrics" /&gt;
-        &lt;EntitySet Name="ServerMetrics" EntityType="Microsoft.SqlServer.Management.Server.Domain.ServerMetrics" /&gt;
-        &lt;EntitySet Name="EventLogs" EntityType="Microsoft.SqlServer.Management.Server.Domain.EventLog" /&gt;
-        &lt;AssociationSet Name="ServerDatabase" Association="Microsoft.SqlServer.Management.Server.Domain.Server_Databases_Database_Server"&gt;
-          &lt;End Role="Server_Databases" EntitySet="Servers" /&gt;
-          &lt;End Role="Database_Server" EntitySet="Databases" /&gt;
-        &lt;/AssociationSet&gt;
-        &lt;AssociationSet Name="ServerServerMetrics" Association="Microsoft.SqlServer.Management.Server.Domain.Server_ServerMetrics_ServerMetrics_Server"&gt;
-          &lt;End Role="Server_ServerMetrics" EntitySet="Servers" /&gt;
-          &lt;End Role="ServerMetrics_Server" EntitySet="ServerMetrics" /&gt;
-        &lt;/AssociationSet&gt;
-        &lt;AssociationSet Name="DatabaseDatabaseMetrics" Association="Microsoft.SqlServer.Management.Server.Domain.Database_DatabaseMetrics_DatabaseMetrics_Database"&gt;
-          &lt;End Role="Database_DatabaseMetrics" EntitySet="Databases" /&gt;
-          &lt;End Role="DatabaseMetrics_Database" EntitySet="DatabaseMetrics" /&gt;
-        &lt;/AssociationSet&gt;
-        &lt;AssociationSet Name="OperationOperationDetail" Association="Microsoft.SqlServer.Management.Server.Domain.Operation_OperationDetails_OperationDetail_Operation"&gt;
-          &lt;End Role="Operation_OperationDetails" EntitySet="Operations" /&gt;
-          &lt;End Role="OperationDetail_Operation" EntitySet="OperationDetails" /&gt;
-        &lt;/AssociationSet&gt;
-      &lt;/EntityContainer&gt;
-    &lt;/Schema&gt;
-  &lt;/edmx:DataServices&gt;
-&lt;/edmx:Edmx&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>3</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases</RequestUri>
-          <Method>POST</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>MaxDataServiceVersion</Name>
-              <Value>2.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>3f6aa176-98cf-40f4-b583-61b58fb46e1f-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>Accept-Charset</Name>
-              <Value>UTF-8</Value>
-            </Header>
-            <Header>
-              <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;title /&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;updated&gt;2012-09-24T06:12:40.6290951Z&lt;/updated&gt;
-  &lt;id /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:CollationName m:null="true" /&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;0001-01-01T00:00:00&lt;/d:CreationDate&gt;
-      &lt;d:Edition m:null="true" /&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;0&lt;/d:Id&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32" m:null="true" /&gt;
-      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;0&lt;/d:SizeMB&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;0&lt;/d:Status&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</RequestText>
-          <ContentType>application/atom+xml</ContentType>
-          <Accept>application/atom+xml,application/xml</Accept>
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>Created</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/atom+xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:49 GMT</Value>
-            </Header>
-            <Header>
-              <Name>Location</Name>
-              <Value>https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Databases(4)</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xml:base="https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;id&gt;https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;
-  &lt;title type="text"&gt;&lt;/title&gt;
-  &lt;updated&gt;2012-09-24T06:12:50Z&lt;/updated&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;link rel="edit" title="Database" href="Databases(4)" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;
-  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;
-      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
-      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;
-      &lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-09-24T06:12:48.817&lt;/d:CreationDate&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1&lt;/d:SizeMB&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>4</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(4)</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>MaxDataServiceVersion</Name>
-              <Value>2.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>3f6aa176-98cf-40f4-b583-61b58fb46e1f-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>Accept-Charset</Name>
-              <Value>UTF-8</Value>
-            </Header>
-            <Header>
-              <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept>application/atom+xml,application/xml</Accept>
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/atom+xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:51 GMT</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xml:base="https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;id&gt;https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(4)&lt;/id&gt;
-  &lt;title type="text"&gt;&lt;/title&gt;
-  &lt;updated&gt;2012-09-24T06:12:51Z&lt;/updated&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;link rel="edit" title="Database" href="Databases(4)" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;
-  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;
-      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
-      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;
-      &lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-09-24T06:12:48.817&lt;/d:CreationDate&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;
-      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>5</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases</RequestUri>
-          <Method>POST</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>MaxDataServiceVersion</Name>
-              <Value>2.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>c26f6e18-356d-498a-9b97-16be3dbbc31f-2012-09-24 06:12:51Z</Value>
-            </Header>
-            <Header>
-              <Name>Accept-Charset</Name>
-              <Value>UTF-8</Value>
-            </Header>
-            <Header>
-              <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;title /&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;updated&gt;2012-09-24T06:12:51.2201541Z&lt;/updated&gt;
-  &lt;id /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;0001-01-01T00:00:00&lt;/d:CreationDate&gt;
-      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;0&lt;/d:Id&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
-      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;0&lt;/d:SizeMB&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;0&lt;/d:Status&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</RequestText>
-          <ContentType>application/atom+xml</ContentType>
-          <Accept>application/atom+xml,application/xml</Accept>
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>Created</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/atom+xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:51 GMT</Value>
-            </Header>
-            <Header>
-              <Name>Location</Name>
-              <Value>https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Databases(5)</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xml:base="https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;id&gt;https://testserver.database.windows.net/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;
-  &lt;title type="text"&gt;&lt;/title&gt;
-  &lt;updated&gt;2012-09-24T06:12:51Z&lt;/updated&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;link rel="edit" title="Database" href="Databases(5)" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;
-  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;
-      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
-      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
-      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-09-24T06:12:50.92&lt;/d:CreationDate&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1&lt;/d:SizeMB&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
-      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-      <HttpMessage>
-        <Index>6</Index>
-        <RequestInfo>
-          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(5)</RequestUri>
-          <Method>GET</Method>
-          <UserAgent>Windows Azure PowerShell</UserAgent>
-          <Headers>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>MaxDataServiceVersion</Name>
-              <Value>2.0;NetFx</Value>
-            </Header>
-            <Header>
-              <Name>AccessToken</Name>
-              <Value>aRHFx05qF1AYPIbbdTBqcw0ZHL1S5o44OfF2sqXojjj5eKCgNz6y7f30LzUx12NiwXQxG4Pdzf3XsI03VAtWcmUbRjIRKBqugpxmHlODkyFlA6eKVoF5srIE2MtJQJZsnScbZTCxwBPfOd3MFT5uiJpPVjdGcK0hWmwm2RZanSXXj4QT9yIQ1+SxfoAviXYgTQdPRtxwdJHR3q6RAyqoZe8Qp+uzEuD5aIM+2c0MTd1Txlc5XoWw6uFLKdipokP4aq+D65orgEWI6f2oZXNm+2gHqJK+iZih7Q9Bs0/ITUrn7HuHVSq0VsNudMin4PyUtbXhHffVuL6VBrDOz3y86ohpbr+1KCkglsgEgxQFMn+e/78WCQQDylZWxf+HLXYQTQWkm6oh7MgJH0SNrMCWurD4a+yZEZifZNAKk6Zyl2ujOtr1YE01jIPlp5wyMmKyM+vEwVG4j7HNi0si/fHtmnSEH8N2UnThMSP9wDYmEvHFJV6rMZ09XlYkjqjqFJKR4EMVf79NKHlPsA/JgaWpbltUa6G4/fe074bzmlmUG7bMLojKiMCz1y+IBhlcaLubJJ8PE+w/FdkFbIa9kC2KPRlhf/TdydzxfYqVsYwWX24nUw9cWjSlq2DLGxnzQkxmfXkNroSlGrNJXYPSDPPEzk6Q/0DwBRWKKC/9+itJg7dfFZE4YLX/1OUNEkXBLGqjOcnxXr15EzBL2ajCDNQS2JJxmyZoY5yIf9fqaxCRklC9YhhSSxCbOB47kUGuh7pf2CqH2qaOlXH1yLQykKSMlA==</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-session-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665-2012-09-24 06:12:40Z</Value>
-            </Header>
-            <Header>
-              <Name>x-ms-client-request-id</Name>
-              <Value>c26f6e18-356d-498a-9b97-16be3dbbc31f-2012-09-24 06:12:51Z</Value>
-            </Header>
-            <Header>
-              <Name>Accept-Charset</Name>
-              <Value>UTF-8</Value>
-            </Header>
-            <Header>
-              <Name>Cookie</Name>
-              <Value>.SQLSERVERMANAGEMENT=9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-            </Header>
-          </Headers>
-          <Cookies>
-            <Cookie>
-              <Name>.SQLSERVERMANAGEMENT</Name>
-              <Value>9DcNvGHHVOr/pTsNXSDZCQ==</Value>
-              <RelativeUri i:nil="true" />
-            </Cookie>
-          </Cookies>
-          <RequestText i:nil="true" />
-          <ContentType i:nil="true" />
-          <Accept>application/atom+xml,application/xml</Accept>
-        </RequestInfo>
-        <ResponseInfo>
-          <StatusCode>OK</StatusCode>
-          <Headers>
-            <Header>
-              <Name>x-ms-request-id</Name>
-              <Value>f2cd7a62-6571-4aec-b478-f3ef866fc665</Value>
-            </Header>
-            <Header>
-              <Name>DataServiceVersion</Name>
-              <Value>1.0;</Value>
-            </Header>
-            <Header>
-              <Name>X-Content-Type-Options</Name>
-              <Value>nosniff</Value>
-            </Header>
-            <Header>
-              <Name>Cache-Control</Name>
-              <Value>no-store,no-cache</Value>
-            </Header>
-            <Header>
-              <Name>Content-Type</Name>
-              <Value>application/atom+xml;charset=utf-8</Value>
-            </Header>
-            <Header>
-              <Name>Date</Name>
-              <Value>Mon, 24 Sep 2012 06:12:51 GMT</Value>
-            </Header>
-          </Headers>
-          <Cookies />
-          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
-&lt;entry xml:base="https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
-  &lt;id&gt;https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(5)&lt;/id&gt;
-  &lt;title type="text"&gt;&lt;/title&gt;
-  &lt;updated&gt;2012-09-24T06:12:51Z&lt;/updated&gt;
-  &lt;author&gt;
-    &lt;name /&gt;
-  &lt;/author&gt;
-  &lt;link rel="edit" title="Database" href="Databases(5)" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;
-  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;
-  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
-  &lt;content type="application/xml"&gt;
-    &lt;m:properties&gt;
-      &lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;
-      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
-      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
-      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
-      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
-      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-09-24T06:12:50.92&lt;/d:CreationDate&gt;
-      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
-      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
-      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
-      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;
-      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;
-      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
-    &lt;/m:properties&gt;
-  &lt;/content&gt;
-&lt;/entry&gt;</ResponseText>
-        </ResponseInfo>
-      </HttpMessage>
-    </Messages>
-  </HttpSession>
-  <HttpSession>
     <Name>UnitTests.GetAzureSqlDatabaseWithSqlAuth</Name>
     <Messages>
       <HttpMessage>
@@ -6022,6 +5079,495 @@
     &lt;/Schema&gt;
   &lt;/edmx:DataServices&gt;
 &lt;/edmx:Edmx&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.Common.CreateTestDatabasesWithSqlAuth</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>aGXjWlPHwbnEIF7xh4IAOlnzaj9fgX6ewJsAjdEykzm12qQ8ZCcEx3wRmU1gL9xAWhVSK5a+KHgqDU5MINBgIrtYzE+M+cE8UOygBdJ+B8w4ypr3YF/5b9Pnyk7C30K8Lqfj9HUEg3pZDDDSVDN3r+UN1YDAPQLZI0ylNfRzmSTmVKG2vSJHzZnORxneJyRJ0W9FQYmDbhnpno38fyM2i6q9PGgBA4uMJrZEAIUBp8c2Fo2YqLyp4xKmXukLax+DnKYQykcqUsC71ypgh7o8ZtLaRTPYtM5kCmNRWY6XA9wO3oNC3A09iJvaCuPVpPgCrj26ghTQFIhd1i2K0JzPrAhmFrrPgE2W8h9uwCoU7QtN8lVwMLqAHrEOfKRHzatsVU8Hr2JPNpcz806ecaIYFx6OkwAmfIUTcbBd+SjWwFAIDN2AxXrRnHXVN7yq6z+dfJNsB0jTQ6OPMKfYqwocenxLc3S5KZwMW6VlBucmeQsKRwi7eEfElvHm9ENthNKgLLUaCANeLwf/M15l4k6M1yDCvZ8ruwcw5ZCFXzJWVEf+HLiKXQNebMKBpLCgx/TL5z/FJFebecnHaE/luPFuWarzLFGXDg5VxI20F+7Jl8k0HrQx5kH76PCjGs7luxVAXcgyK8Kn2uD0Fll1yrPQOBMlQwTo8lyzu8W2xTV7GSyHNihZsmsWf7fG913Dr4Nft9qGykuDsqBgQ83Dh0UaYN3a7rCW+ZKHtt17OLcLX1L6+Nr/XA7bhp93isHiNS3zoi04f1qIIqVQVaYIY6i3hg==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dbeabbdc-3141-4083-b77c-9761fe998990-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=3Y4zVOxuQwnI3U6C86ChIw==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>3Y4zVOxuQwnI3U6C86ChIw==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;title /&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;updated&gt;2012-10-08T23:48:38.9032802Z&lt;/updated&gt;
+  &lt;id /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:CollationName m:null="true" /&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;0001-01-01T00:00:00&lt;/d:CreationDate&gt;
+      &lt;d:Edition m:null="true" /&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;0&lt;/d:Id&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;0&lt;/d:SizeMB&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;0&lt;/d:Status&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</RequestText>
+          <ContentType>application/atom+xml</ContentType>
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Mon, 08 Oct 2012 23:48:39 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Location</Name>
+              <Value>https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(4)</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xml:base="http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;
+  &lt;title type="text"&gt;&lt;/title&gt;
+  &lt;updated&gt;2012-10-08T23:48:40Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;link rel="edit" title="Database" href="Databases(4)" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;
+  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;
+      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
+      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;
+      &lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-10-08T23:48:40.3&lt;/d:CreationDate&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1&lt;/d:SizeMB&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>1</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(4)</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>aGXjWlPHwbnEIF7xh4IAOlnzaj9fgX6ewJsAjdEykzm12qQ8ZCcEx3wRmU1gL9xAWhVSK5a+KHgqDU5MINBgIrtYzE+M+cE8UOygBdJ+B8w4ypr3YF/5b9Pnyk7C30K8Lqfj9HUEg3pZDDDSVDN3r+UN1YDAPQLZI0ylNfRzmSTmVKG2vSJHzZnORxneJyRJ0W9FQYmDbhnpno38fyM2i6q9PGgBA4uMJrZEAIUBp8c2Fo2YqLyp4xKmXukLax+DnKYQykcqUsC71ypgh7o8ZtLaRTPYtM5kCmNRWY6XA9wO3oNC3A09iJvaCuPVpPgCrj26ghTQFIhd1i2K0JzPrAhmFrrPgE2W8h9uwCoU7QtN8lVwMLqAHrEOfKRHzatsVU8Hr2JPNpcz806ecaIYFx6OkwAmfIUTcbBd+SjWwFAIDN2AxXrRnHXVN7yq6z+dfJNsB0jTQ6OPMKfYqwocenxLc3S5KZwMW6VlBucmeQsKRwi7eEfElvHm9ENthNKgLLUaCANeLwf/M15l4k6M1yDCvZ8ruwcw5ZCFXzJWVEf+HLiKXQNebMKBpLCgx/TL5z/FJFebecnHaE/luPFuWarzLFGXDg5VxI20F+7Jl8k0HrQx5kH76PCjGs7luxVAXcgyK8Kn2uD0Fll1yrPQOBMlQwTo8lyzu8W2xTV7GSyHNihZsmsWf7fG913Dr4Nft9qGykuDsqBgQ83Dh0UaYN3a7rCW+ZKHtt17OLcLX1L6+Nr/XA7bhp93isHiNS3zoi04f1qIIqVQVaYIY6i3hg==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>dbeabbdc-3141-4083-b77c-9761fe998990-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=3Y4zVOxuQwnI3U6C86ChIw==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>3Y4zVOxuQwnI3U6C86ChIw==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Mon, 08 Oct 2012 23:48:40 GMT</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xml:base="http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(4)&lt;/id&gt;
+  &lt;title type="text"&gt;&lt;/title&gt;
+  &lt;updated&gt;2012-10-08T23:48:40Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;link rel="edit" title="Database" href="Databases(4)" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(4)/Server" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(4)/DatabaseMetrics" /&gt;
+  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;4&lt;/d:Id&gt;
+      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
+      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;1&lt;/d:MaxSizeGB&gt;
+      &lt;d:CollationName&gt;SQL_Latin1_General_CP1_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-10-08T23:48:40.3&lt;/d:CreationDate&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>2</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>aGXjWlPHwbnEIF7xh4IAOlnzaj9fgX6ewJsAjdEykzm12qQ8ZCcEx3wRmU1gL9xAWhVSK5a+KHgqDU5MINBgIrtYzE+M+cE8UOygBdJ+B8w4ypr3YF/5b9Pnyk7C30K8Lqfj9HUEg3pZDDDSVDN3r+UN1YDAPQLZI0ylNfRzmSTmVKG2vSJHzZnORxneJyRJ0W9FQYmDbhnpno38fyM2i6q9PGgBA4uMJrZEAIUBp8c2Fo2YqLyp4xKmXukLax+DnKYQykcqUsC71ypgh7o8ZtLaRTPYtM5kCmNRWY6XA9wO3oNC3A09iJvaCuPVpPgCrj26ghTQFIhd1i2K0JzPrAhmFrrPgE2W8h9uwCoU7QtN8lVwMLqAHrEOfKRHzatsVU8Hr2JPNpcz806ecaIYFx6OkwAmfIUTcbBd+SjWwFAIDN2AxXrRnHXVN7yq6z+dfJNsB0jTQ6OPMKfYqwocenxLc3S5KZwMW6VlBucmeQsKRwi7eEfElvHm9ENthNKgLLUaCANeLwf/M15l4k6M1yDCvZ8ruwcw5ZCFXzJWVEf+HLiKXQNebMKBpLCgx/TL5z/FJFebecnHaE/luPFuWarzLFGXDg5VxI20F+7Jl8k0HrQx5kH76PCjGs7luxVAXcgyK8Kn2uD0Fll1yrPQOBMlQwTo8lyzu8W2xTV7GSyHNihZsmsWf7fG913Dr4Nft9qGykuDsqBgQ83Dh0UaYN3a7rCW+ZKHtt17OLcLX1L6+Nr/XA7bhp93isHiNS3zoi04f1qIIqVQVaYIY6i3hg==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>8dc0a078-b1ee-4249-afa0-c08d86f57fd8-2012-10-08 23:48:40Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=3Y4zVOxuQwnI3U6C86ChIw==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>3Y4zVOxuQwnI3U6C86ChIw==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;title /&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;updated&gt;2012-10-08T23:48:40.7184617Z&lt;/updated&gt;
+  &lt;id /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;0001-01-01T00:00:00&lt;/d:CreationDate&gt;
+      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;0&lt;/d:Id&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
+      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;0&lt;/d:SizeMB&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;0&lt;/d:Status&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</RequestText>
+          <ContentType>application/atom+xml</ContentType>
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Created</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Mon, 08 Oct 2012 23:48:40 GMT</Value>
+            </Header>
+            <Header>
+              <Name>Location</Name>
+              <Value>https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases(5)</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xml:base="http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;
+  &lt;title type="text"&gt;&lt;/title&gt;
+  &lt;updated&gt;2012-10-08T23:48:41Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;link rel="edit" title="Database" href="Databases(5)" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;
+  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;
+      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
+      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
+      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-10-08T23:48:41.68&lt;/d:CreationDate&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1&lt;/d:SizeMB&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+      <HttpMessage>
+        <Index>3</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(5)</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>aGXjWlPHwbnEIF7xh4IAOlnzaj9fgX6ewJsAjdEykzm12qQ8ZCcEx3wRmU1gL9xAWhVSK5a+KHgqDU5MINBgIrtYzE+M+cE8UOygBdJ+B8w4ypr3YF/5b9Pnyk7C30K8Lqfj9HUEg3pZDDDSVDN3r+UN1YDAPQLZI0ylNfRzmSTmVKG2vSJHzZnORxneJyRJ0W9FQYmDbhnpno38fyM2i6q9PGgBA4uMJrZEAIUBp8c2Fo2YqLyp4xKmXukLax+DnKYQykcqUsC71ypgh7o8ZtLaRTPYtM5kCmNRWY6XA9wO3oNC3A09iJvaCuPVpPgCrj26ghTQFIhd1i2K0JzPrAhmFrrPgE2W8h9uwCoU7QtN8lVwMLqAHrEOfKRHzatsVU8Hr2JPNpcz806ecaIYFx6OkwAmfIUTcbBd+SjWwFAIDN2AxXrRnHXVN7yq6z+dfJNsB0jTQ6OPMKfYqwocenxLc3S5KZwMW6VlBucmeQsKRwi7eEfElvHm9ENthNKgLLUaCANeLwf/M15l4k6M1yDCvZ8ruwcw5ZCFXzJWVEf+HLiKXQNebMKBpLCgx/TL5z/FJFebecnHaE/luPFuWarzLFGXDg5VxI20F+7Jl8k0HrQx5kH76PCjGs7luxVAXcgyK8Kn2uD0Fll1yrPQOBMlQwTo8lyzu8W2xTV7GSyHNihZsmsWf7fG913Dr4Nft9qGykuDsqBgQ83Dh0UaYN3a7rCW+ZKHtt17OLcLX1L6+Nr/XA7bhp93isHiNS3zoi04f1qIIqVQVaYIY6i3hg==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f-2012-10-08 23:48:38Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>8dc0a078-b1ee-4249-afa0-c08d86f57fd8-2012-10-08 23:48:40Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=3Y4zVOxuQwnI3U6C86ChIw==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>3Y4zVOxuQwnI3U6C86ChIw==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>ef1140f7-7b53-40f4-8288-24516cf8980f</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Mon, 08 Oct 2012 23:48:41 GMT</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xml:base="http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases(5)&lt;/id&gt;
+  &lt;title type="text"&gt;&lt;/title&gt;
+  &lt;updated&gt;2012-10-08T23:48:41Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;link rel="edit" title="Database" href="Databases(5)" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/Server" type="application/atom+xml;type=entry" title="Server" href="Databases(5)/Server" /&gt;
+  &lt;link rel="http://schemas.microsoft.com/ado/2007/08/dataservices/related/DatabaseMetrics" type="application/atom+xml;type=entry" title="DatabaseMetrics" href="Databases(5)/DatabaseMetrics" /&gt;
+  &lt;category term="Microsoft.SqlServer.Management.Server.Domain.Database" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;5&lt;/d:Id&gt;
+      &lt;d:Name&gt;testdb2&lt;/d:Name&gt;
+      &lt;d:Edition&gt;Web&lt;/d:Edition&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32"&gt;5&lt;/d:MaxSizeGB&gt;
+      &lt;d:CollationName&gt;Japanese_CI_AS&lt;/d:CollationName&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;2012-10-08T23:48:41.68&lt;/d:CreationDate&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;1&lt;/d:Status&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean"&gt;false&lt;/d:IsFederationRoot&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;-1.00&lt;/d:SizeMB&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean"&gt;false&lt;/d:IsRecursiveTriggersOn&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</ResponseText>
         </ResponseInfo>
       </HttpMessage>
     </Messages>
