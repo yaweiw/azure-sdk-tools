@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Include xmlns="http://schemas.microsoft.com/wix/2006/wi" >
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
             <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="F64CB234-B11D-4EC4-A75E-08D771348B7E">
