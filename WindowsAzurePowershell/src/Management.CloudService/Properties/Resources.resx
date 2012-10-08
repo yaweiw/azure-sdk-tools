@@ -680,7 +680,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://phprtscu.blob.core.windows.net/php/runtimemanifest.xml</value>
+    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml</value>
   </data>
   <data name="NodeRuntimeValue" xml:space="preserve">
     <value>node</value>
@@ -715,8 +715,8 @@
   <data name="NodeVersionWarningText" xml:space="preserve">
     <value>Installing Node version {0} in Azure for Role '{1}' (the Node version locally installed is: {2})</value>
   </data>
-  <data name="PHPRuntimeVersion" xml:space="preserve">
-    <value>5.4</value>
+  <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
+    <value>5.4.0</value>
   </data>
   <data name="PHPVersionWarningText" xml:space="preserve">
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>
@@ -764,5 +764,8 @@
   </data>
   <data name="PackageJsonFileName" xml:space="preserve">
     <value>package.json</value>
+  </data>
+  <data name="RuntimeVersionPrimaryKey" xml:space="preserve">
+    <value>RUNTIMEVERSIONPRIMARYKEY</value>
   </data>
 </root>
