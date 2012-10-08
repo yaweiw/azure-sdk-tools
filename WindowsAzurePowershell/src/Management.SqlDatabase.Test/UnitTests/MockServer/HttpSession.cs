@@ -37,6 +37,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
         public Action<HttpMessage, HttpMessage.Request> RequestValidator { get; set; }
 
         /// <summary>
+        /// An action that allows request to be modified prior to sending it to the server.
+        /// </summary>
+        public Action<HttpMessage.Request> RequestModifier { get; set; }
+
+        /// <summary>
         /// An action that allows response to be modified prior to sending it to the client.
         /// </summary>
         public Action<HttpMessage> ResponseModifier { get; set; }
