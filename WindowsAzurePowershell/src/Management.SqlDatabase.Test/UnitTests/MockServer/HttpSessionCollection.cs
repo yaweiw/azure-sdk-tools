@@ -108,6 +108,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 this.Add(foundSession);
             }
 
+            // Reset the messages to start at the begining
+            foundSession.Messages.Reset();
+
             return foundSession;
         }
     }

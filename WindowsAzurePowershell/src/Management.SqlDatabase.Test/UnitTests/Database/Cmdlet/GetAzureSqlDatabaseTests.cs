@@ -26,65 +26,69 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     [TestClass]
     public class GetAzureSqlDatabaseTests : TestBase
     {
-        private HttpSessionCollection sessionCollection;
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            this.sessionCollection = HttpSessionCollection.Load("MockSessions.xml");
-        }
-
         [TestCleanup]
         public void CleanupTest()
         {
-            this.sessionCollection.Save("MockSessions.xml");
+            DatabaseTestHelper.SaveDefaultSessionCollection();
         }
 
         [TestMethod]
         public void GetAzureSqlDatabaseWithSqlAuth()
         {
-            HttpSession testSession = this.sessionCollection.GetSession(
-                "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
-            //testSession.ServiceBaseUri = new Uri("https://kvxv0mrmun.database.windows.net");
-            testSession.RequestValidator =
-                new Action<HttpMessage, HttpMessage.Request>(
-                (expected, actual) =>
-                {
-                    Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
-                    Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
-                    switch (expected.Index)
-                    {
-                        // Request 0-2: Create context
-                        case 0:
-                        case 1:
-                        case 2:
-                            break;
-                        // Request 3-4: Create testdb1
-                        // Request 5-6: Create testdb2
-                        case 3:
-                        case 4:
-                        case 5:
-                        case 6:
-                            break;
-                        // Request 7-9: Get database requests
-                        case 7:
-                        case 8:
-                        case 9:
-                            DatabaseTestHelper.ValidateHeadersForODataRequest(
-                                expected.RequestInfo, 
-                                actual);
-                            break;
-                        default:
-                            Assert.Fail("No more requests expected.");
-                            break;
-                    }
-                });
-
             using (System.Management.Automation.PowerShell powershell =
                 System.Management.Automation.PowerShell.Create())
             {
-                UnitTestHelper.ImportSqlDatabaseModule(powershell);
-                UnitTestHelper.CreateTestCredential(powershell);
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+                // Create 2 test databases
+                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
+                    powershell,
+                    "$context");
+
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
+                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-2: Get database requests
+                            case 0:
+                            case 1:
+                            case 2:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
+                testSession.ResponseModifier =
+                    new Action<HttpMessage>(
+                        (message) =>
+                        {
+                            DatabaseTestHelper.FixODataResponseUri(
+                                message.ResponseInfo,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+                testSession.RequestModifier =
+                    new Action<HttpMessage.Request>(
+                        (request) =>
+                        {
+                            DatabaseTestHelper.FixODataRequestPayload(
+                                request,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
@@ -95,30 +99,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                         MockHttpServer.DefaultServerPrefixUri,
                         testSession))
                     {
-                        powershell.InvokeBatchScript(
-                            string.Format(
-                                CultureInfo.InvariantCulture,
-                                @"$context = New-AzureSqlDatabaseServerContext " +
-                                @"-ServerName kvxv0mrmun " +
-                                @"-ManageUrl {0} " +
-                                @"-Credential $credential",
-                                MockHttpServer.DefaultServerPrefixUri.AbsoluteUri));
-                        powershell.Streams.ClearStreams();
-
-                        powershell.InvokeBatchScript(
-                            @"New-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName testdb1 " +
-                            @"-Force");
-                        powershell.InvokeBatchScript(
-                            @"New-AzureSqlDatabase " +
-                            @"-Context $context " +
-                            @"-DatabaseName testdb2 " +
-                            @"-Collation Japanese_CI_AS " +
-                            @"-Edition Web " +
-                            @"-MaxSizeGB 5 " +
-                            @"-Force");
-
                         databases = powershell.InvokeBatchScript(
                             @"Get-AzureSqlDatabase " +
                             @"-Context $context");
