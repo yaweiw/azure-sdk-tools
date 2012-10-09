@@ -1,3 +1,6 @@
+2012.10.08 Version 0.6.5
+ * Adding websites cmdlets
+
 2012.06.06 Version 0.6.0
  * Adding Powershell management cmdlets
  * Adding PHP Cmdlets
