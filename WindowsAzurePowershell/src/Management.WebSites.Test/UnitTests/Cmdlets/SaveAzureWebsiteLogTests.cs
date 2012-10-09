@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Name = "website1", 
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "SaveAzureWebsiteLogTests_SaveAzureWebsiteLogTest" }
             };
             
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
