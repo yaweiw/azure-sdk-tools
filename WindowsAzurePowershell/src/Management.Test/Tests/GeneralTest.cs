@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     [TestClass]
     public class GeneralTests
     {
-        private const string _publishSettingsUrl = "publish settings url";
+        private const string _publishSettingsUrl = "http://manage.windowsazure.com/";
         private const string _azureHostNameSuffix = "the suffix";
 
         [ClassInitialize]
@@ -46,8 +46,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         public static void ClassCleanup()
         {
             // Delete test environment variables
-            Environment.SetEnvironmentVariable(Resources.AzureHostNameSuffix, null);
-            Environment.SetEnvironmentVariable(Resources.PublishSettingsUrl, null);
+            Environment.SetEnvironmentVariable(Resources.AzureHostNameSuffixEnv, null);
+            Environment.SetEnvironmentVariable(Resources.PublishSettingsUrlEnv, null);
         }
 
         [TestMethod]
