@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "StopAzureWebSiteTests_ProcessStopWebsiteTest" }
             };
 
             stopAzureWebsiteCommand.ExecuteCommand();

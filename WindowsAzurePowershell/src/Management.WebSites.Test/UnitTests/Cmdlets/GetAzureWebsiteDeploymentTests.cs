@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Name = "website1",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebsiteDeploymentTests_GetAzureWebsiteDeploymentTest" }
             };
 
             getAzureWebsiteDeploymentCommand.ExecuteCommand();
@@ -127,7 +127,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 Details = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebsiteDeploymentTests_GetAzureWebsiteDeploymentLogsTest" }
             };
 
             getAzureWebsiteDeploymentCommand.ExecuteCommand();
