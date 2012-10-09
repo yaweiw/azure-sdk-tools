@@ -15,12 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Text;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// A mock server implementation for capturing and replaying Http Web Requests.
