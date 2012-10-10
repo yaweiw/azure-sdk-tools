@@ -27,6 +27,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
     public class RuntimePackageHelper
     {
+        private static Task GetRuntimeStartupTask(Startup roleStartup)
+        {
+            foreach (Task task in roleStartup.Task)
+            {
+                if (task.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine) || task.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine))
+                {
+                    return task;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Write out the test manifest file to a directory under the root
         /// </summary>
@@ -142,14 +155,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                webRole.Startup.Task[0].Environment = environment;
+                GetRuntimeStartupTask(webRole.Startup).Environment = environment;
                 return true;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                workerRole.Startup.Task[0].Environment = environment;
+                GetRuntimeStartupTask(workerRole.Startup).Environment = environment;
                 return true;
             }
 
@@ -191,13 +204,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                return webRole.Startup.Task[0].Environment;
+                return GetRuntimeStartupTask(webRole.Startup).Environment;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                return workerRole.Startup.Task[0].Environment;
+                return GetRuntimeStartupTask(workerRole.Startup).Environment;
             }
 
             return null;
