@@ -41,13 +41,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// Runtime identifier for the runtime to add. The Runtime parameter set takes rolename, runtime, and version
         /// </summary>
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
 
         /// <summary>
         /// The version of the runtime to install
         /// </summary>
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "Version", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
 
         /// <summary>
