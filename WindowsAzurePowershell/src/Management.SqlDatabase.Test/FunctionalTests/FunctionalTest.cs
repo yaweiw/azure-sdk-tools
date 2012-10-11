@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 
         [TestMethod]
         [TestCategory("Functional")]
+        [Ignore]
         public void ServerTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
