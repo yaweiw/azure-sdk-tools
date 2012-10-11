@@ -1939,7 +1939,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to setup_web.cmd &amp;gt; log.txt.
+        ///   Looks up a localized string similar to setup_web.cmd &gt; log.txt.
         /// </summary>
         internal static string WebRoleStartupTaskCommandLine {
             get {
@@ -1966,7 +1966,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to setup_worker.cmd &amp;gt; log.txt.
+        ///   Looks up a localized string similar to setup_worker.cmd &gt; log.txt.
         /// </summary>
         internal static string WorkerRoleStartupTaskCommandLine {
             get {

@@ -766,9 +766,9 @@
     <value>package.json</value>
   </data>
   <data name="WebRoleStartupTaskCommandLine" xml:space="preserve">
-    <value>setup_web.cmd &amp;gt; log.txt</value>
+    <value>setup_web.cmd &gt; log.txt</value>
   </data>
   <data name="WorkerRoleStartupTaskCommandLine" xml:space="preserve">
-    <value>setup_worker.cmd &amp;gt; log.txt</value>
+    <value>setup_worker.cmd &gt; log.txt</value>
   </data>
 </root>
