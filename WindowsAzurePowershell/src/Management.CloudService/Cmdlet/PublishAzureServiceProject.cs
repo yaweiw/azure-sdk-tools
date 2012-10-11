@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.ServiceModel;
+    using System.ServiceModel.Web;
     using System.Text;
     using System.Threading;
     using AzureTools;
@@ -755,11 +756,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Deployment deployment = new Deployment();
                 do
                 {
-                    deployment = RetryCall<Deployment>(subscription =>
-                        Channel.GetDeploymentBySlot(
-                            subscription,
-                            _hostedServiceName,
-                            _deploymentSettings.ServiceSettings.Slot));
+                    InvokeInOperationContext(() =>
+                    {
+                        WebOperationContext.Current.OutgoingRequest.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20110601);
+                        deployment = RetryCall<Deployment>(subscription =>
+                          Channel.GetDeploymentBySlot(
+                              subscription,
+                              _hostedServiceName,
+                              _deploymentSettings.ServiceSettings.Slot));
+                    });
 
                     // The goal of this loop is to output a message whenever the status of a role 
                     // instance CHANGES. To do that, we have to remember the last status of all role instances
