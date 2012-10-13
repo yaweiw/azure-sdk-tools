@@ -406,6 +406,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             database.MaxSizeGB = databaseMaxSize;
             database.Edition = databaseEdition == null ? null : databaseEdition.ToString();
 
+            database.IsRecursiveTriggersOn = null;
+
             // Mark the database object for update and submit the changes
             this.UpdateObject(database);
             try
