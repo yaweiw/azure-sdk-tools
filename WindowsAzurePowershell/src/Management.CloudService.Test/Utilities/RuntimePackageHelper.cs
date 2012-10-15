@@ -27,17 +27,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
     public class RuntimePackageHelper
     {
+        /// <summary>
+        /// Gets the runtime startup task regardless of its order in the startup tasks.
+        /// </summary>
+        /// <param name="roleStartup">The role startup tasks</param>
+        /// <returns>The runtime startup task</returns>
         private static Task GetRuntimeStartupTask(Startup roleStartup)
         {
-            foreach (Task task in roleStartup.Task)
-            {
-                if (task.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine) || task.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine))
-                {
-                    return task;
-                }
-            }
-
-            return null;
+            return roleStartup.Task.FirstOrDefault<Task>(t =>
+                t.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine)
+             || t.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine));
         }
 
         /// <summary>
