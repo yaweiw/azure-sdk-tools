@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommitId = "id2",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData {SubscriptionId = "fake"}
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "RestoreAzureWebsiteDeploymentTests_RestoreAzureWebsiteDeploymentTest2" }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommitId = "id1",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "RestoreAzureWebsiteDeploymentTests_RestoreAzureWebsiteDeploymentTest1" }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();

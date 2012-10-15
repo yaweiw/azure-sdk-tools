@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
         /// </summary>
         internal static string AddRoleMessageCreate {
             get {
@@ -1948,6 +1948,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to setup_web.cmd &gt; log.txt.
+        /// </summary>
+        internal static string WebRoleStartupTaskCommandLine {
+            get {
+                return ResourceManager.GetString("WebRoleStartupTaskCommandLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to WebRole.xml.
         /// </summary>
         internal static string WebRoleTemplateFileName {
@@ -1962,6 +1971,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string WorkerRole {
             get {
                 return ResourceManager.GetString("WorkerRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to setup_worker.cmd &gt; log.txt.
+        /// </summary>
+        internal static string WorkerRoleStartupTaskCommandLine {
+            get {
+                return ResourceManager.GetString("WorkerRoleStartupTaskCommandLine", resourceCulture);
             }
         }
         

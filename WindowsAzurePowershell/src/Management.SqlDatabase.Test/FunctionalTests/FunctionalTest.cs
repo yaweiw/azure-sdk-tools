@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 
         [TestMethod]
         [TestCategory("Functional")]
+        [Ignore]
         public void ServerTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
@@ -61,6 +62,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 
         [TestMethod]
         [TestCategory("Functional")]
+        [Ignore]
         public void FirewallTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
@@ -70,6 +72,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 
         [TestMethod]
         [TestCategory("Functional")]
+        [Ignore]
         public void ResetServerPassword()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
@@ -79,6 +82,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 
         [TestMethod]
         [TestCategory("Functional")]
+        [Ignore]
         public void OutputObjectFormatValidation()
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
