@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Management.Services
                 var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
                 if (property.Headers[Constants.VersionHeaderName] == null)
                 {
-                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20110601);
+                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20120301);
                 }
 
                 if (property.Headers[UserAgentHeaderName] == null)

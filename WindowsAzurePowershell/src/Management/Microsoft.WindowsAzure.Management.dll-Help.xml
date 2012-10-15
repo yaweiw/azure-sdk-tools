@@ -20,8 +20,32 @@
       </maml:para>
       <maml:para>Security Note: The file downloaded contains an encoded management certificate that serves as the credentials to administer your Windows Azure subscriptions and services. Store this file in a secure location or delete after use.</maml:para>
     </maml:description>
-    <command:syntax></command:syntax>
-    <command:parameters></command:parameters>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzurePublishSettingsFile</maml:name>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+          <maml:name>Realm</maml:name>
+          <maml:description>
+            <maml:para>The organization ID to use for federated authentication when displaying the Windows Azure Portal</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+        <maml:name>Realm</maml:name>
+        <maml:description>
+          <maml:para>The organization ID to use for federated authentication when displaying the Windows Azure Portal</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
     <command:inputTypes>
       <command:inputType>
         <dev:type>

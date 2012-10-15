@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 Location = webspaceName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "fake" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "NewAzureWebSiteTests_ProcessNewWebsiteTest" }
             };
 
             newAzureWebsiteCommand.ExecuteCommand();
