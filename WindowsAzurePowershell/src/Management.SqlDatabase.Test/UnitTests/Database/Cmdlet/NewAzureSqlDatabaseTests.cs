@@ -43,10 +43,105 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
                     "$context");
+            }
+        }
+
+        [TestMethod]
+        public void NewAzureSqlDatabaseWithSqlAuthDuplicateName()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Create 2 test databases
+                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Issue another create testdb1, causing a failure
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTest.NewAzureSqlDatabaseWithSqlAuthDuplicateName");
+                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-1: Create testdb1
+                            case 0:
+                            case 1:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
+                testSession.ResponseModifier =
+                    new Action<HttpMessage>(
+                        (message) =>
+                        {
+                            DatabaseTestHelper.FixODataResponseUri(
+                                message.ResponseInfo,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+                testSession.RequestModifier =
+                    new Action<HttpMessage.Request>(
+                        (request) =>
+                        {
+                            DatabaseTestHelper.FixODataRequestPayload(
+                                request,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    Services.Server.ServerDataServiceSqlAuth context;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        Collection<PSObject> ctxPsObject = powershell.InvokeBatchScript("$context");
+                        context =
+                            (Services.Server.ServerDataServiceSqlAuth)ctxPsObject.First().BaseObject;
+                        powershell.InvokeBatchScript(
+                            @"New-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb1 " +
+                            @"-Force");
+                    }
+                }
+
+                Assert.AreEqual(1, powershell.Streams.Error.Count, "Expecting errors");
+                Assert.AreEqual(2, powershell.Streams.Warning.Count, "Expecting tracing IDs");
+                Assert.AreEqual(
+                    "Database 'testdb1' already exists. Choose a different database name.",
+                    powershell.Streams.Error.First().Exception.Message,
+                    "Unexpected error message");
+                Assert.IsTrue(
+                    powershell.Streams.Warning.Any(w => w.Message.StartsWith("Client Session Id")),
+                    "Expecting Client Session Id");
+                Assert.IsTrue(
+                    powershell.Streams.Warning.Any(w => w.Message.StartsWith("Client Request Id")),
+                    "Expecting Client Request Id");
+                powershell.Streams.ClearStreams();
             }
         }
 

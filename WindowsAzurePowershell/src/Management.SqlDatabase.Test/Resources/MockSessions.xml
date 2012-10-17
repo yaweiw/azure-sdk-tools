@@ -2838,4 +2838,209 @@
       </HttpMessage>
     </Messages>
   </HttpSession>
+  <HttpSession>
+    <Name>UnitTest.NewAzureSqlDatabaseWithSqlAuthDuplicateName</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases</RequestUri>
+          <Method>POST</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>VzW/GACC2KQ1zhMz8nukxHR3IHcxlX6WWwXoMqsC7AyJUX2gdPp2f4YxIq1OTIOPZLxRMFhpTUZmM4Doar6sfzp3lnfM07FWd0mjoX674E0pOHi95kmjJzYhHkk/fthhOqlqx3/eW1pl3Maxia8/pZ6BG7AxGQAGDPdAqeLkU2trj9CRLY8VYyKL0SjN7kV7MYeJ8KZjRJYVfkhFWFdSsMWuXFoKOEzVnaTaxnZEGHNvgVa5t8aapIrfkuyyP56lLOOKFO1aXR65TCB+ku171dtsY8WlsSFzxXFLOSJZ3fwl1X6oU6VwzxIOC4lt410I4vsSoUviz3uJDGnvQclhImxFMdSqBIwnVo9G84liNMtKVgFjbX5JnkdcybwmCJ8Mgb7Lqa9pMq10168F7oh4YVysFyxslc9OFdvhEnqUVcK2MWtcJo4Wu4TjaaHGIEKM4zx6hg2VR+PZb1eowU4mzlj7pi0eE2VZDtIv9yFLoZPXSqOb7D8M2Q8Q9rEJbVvxAl5T/jRYLpVpyHHYrRPlACAF4wFDxHHuTOrASc8rsKCjgqRL0X3fgjXgJ01RpCHF6STS09eMwrgNEK+FCkKq4I6gEN13y8HMUEhN9x9fYdjCtxORaW1X9i6EnszL0oYB3NUW68IjNoOancXVVvJgAd2bNDhKNuF1Eo5IOIuu7RhqtpVIbpcq91wBq7Qrsb1jdy38y8K/Tgm76OiAq+g9ii/upU7mJOwP/kT9emZEb9KsGjRUD+UC2YLOn5qGvbn6aTwQFteGUGjglYUcSUoo8g==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>c7f6ab62-2786-45f4-9dd1-e30c03199cba-2012-10-17 18:37:06Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>718d21ee-7f5d-489c-af37-9f9a0667198d-2012-10-17 18:37:11Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=ikPNQFwLW4+OPOYY2NaWwQ==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>ikPNQFwLW4+OPOYY2NaWwQ==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;entry xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;title /&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;updated&gt;2012-10-17T18:37:11.9744645Z&lt;/updated&gt;
+  &lt;id /&gt;
+  &lt;content type="application/xml"&gt;
+    &lt;m:properties&gt;
+      &lt;d:CollationName m:null="true" /&gt;
+      &lt;d:CreationDate m:type="Edm.DateTime"&gt;0001-01-01T00:00:00&lt;/d:CreationDate&gt;
+      &lt;d:Edition m:null="true" /&gt;
+      &lt;d:Id m:type="Edm.Int32"&gt;0&lt;/d:Id&gt;
+      &lt;d:IsFederationRoot m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsReadOnly m:type="Edm.Boolean"&gt;false&lt;/d:IsReadOnly&gt;
+      &lt;d:IsRecursiveTriggersOn m:type="Edm.Boolean" m:null="true" /&gt;
+      &lt;d:IsSystemObject m:type="Edm.Boolean"&gt;false&lt;/d:IsSystemObject&gt;
+      &lt;d:MaxSizeGB m:type="Edm.Int32" m:null="true" /&gt;
+      &lt;d:Name&gt;testdb1&lt;/d:Name&gt;
+      &lt;d:SizeMB m:type="Edm.Decimal"&gt;0&lt;/d:SizeMB&gt;
+      &lt;d:Status m:type="Edm.Int32"&gt;0&lt;/d:Status&gt;
+    &lt;/m:properties&gt;
+  &lt;/content&gt;
+&lt;/entry&gt;</RequestText>
+          <ContentType>application/atom+xml</ContentType>
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>Conflict</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>c7f6ab62-2786-45f4-9dd1-e30c03199cba</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/xml</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 17 Oct 2012 18:37:22 GMT</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;error xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"&gt;
+  &lt;code&gt;Conflict:c7f6ab62-2786-45f4-9dd1-e30c03199cba[Microsoft.SqlServer.MessageId=1801,Microsoft.SqlServer.MessageSeverity=16,Microsoft.SqlServer.MessageText=Database 'testdb1' already exists. Choose a different database name.]&lt;/code&gt;
+  &lt;message xml:lang="en-US"&gt;Database 'testdb1' already exists. Choose a different database name.&lt;/message&gt;
+&lt;/error&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
+  <HttpSession>
+    <Name>UnitTests.GetAzureSqlDatabaseWithSqlAuthNonExistentDb</Name>
+    <Messages>
+      <HttpMessage>
+        <Index>0</Index>
+        <RequestInfo>
+          <RequestUri>http://localhost:12345/MockTestServer/v1/ManagementService.svc/Server2('testserver')/Databases()?$filter=Name%20eq%20'testdb3'&amp;$top=2</RequestUri>
+          <Method>GET</Method>
+          <UserAgent>Windows Azure PowerShell</UserAgent>
+          <Headers>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>MaxDataServiceVersion</Name>
+              <Value>2.0;NetFx</Value>
+            </Header>
+            <Header>
+              <Name>AccessToken</Name>
+              <Value>VPfLjouD2WYe+NGh0YpzrsxQ53514FoEyvY232zVXQuALW68bWdWw3Lxwjj+wUyVg6Azf0gTo3RSDKKn9mp5fqjyrjNi5lNECiYslalhdxWetlb/TV6Fa3ptXiOl/msf9d4yltRD7EKyY4CYRfpxqrk/V6ZdFY0DdktPL7hFd9FuN2012jPwMiu+KpidmrIyrsHr8Ui3yfXzNIbkKJXgjxqkcn0uCFdb2YBM0cBgLemtZYSfIusFqC7+CfN/WO3LD/CUCkGlwY3dMic8pqPWjwlsdE07HWwh5mfLOwQIsConYcwzmV7whrMBND5AXdgx7KR0GiBbFllpFLqC4W4sDGXE2HEBjkmJdnhzvdC8GW6qdeeKB0DHwBPyeESkT8A5yRc8C53CYi2FUPZYLu1BxG8imralpikEr/+j53RsSga8kofK0gtG5AimnFZH2GNhaJfYGxntNwVcvmWjfqEdzWlLo2EfJv9xu/ewQI2Oo4ee3w+CaDx/tjBaCG9f48phg87D+NMC3spcac8xE78qY5WKry5VIOvw9r0njeWIaQpjG8/GuSmuCF9TITjvW+b9Gs//IWXcPKoOpIx8k49PAfZxMwVXn34fHjZSMO/0jgX/i9eK8KFIO4ovco6PKMa5Pj4VwXJbww7TEUOVhdFMyPGVB4SLC/BCD0P9rCvFXuEK3HOq5r527/DsgxYibwgGd2I3quhhBk20PoiiGrJ3ALvR3mDmJmsERAlImSyNmbXaLlkdGOxQt5UBjIYwkaz7qCvuH91qvO3TES/Y3+DcGQ==</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-session-id</Name>
+              <Value>55b50c1b-5d63-47e9-83e5-92d1f178e1bd-2012-10-17 19:10:57Z</Value>
+            </Header>
+            <Header>
+              <Name>x-ms-client-request-id</Name>
+              <Value>2e5f11fc-2e21-4175-a476-e2ef16210529-2012-10-17 19:10:57Z</Value>
+            </Header>
+            <Header>
+              <Name>Accept-Charset</Name>
+              <Value>UTF-8</Value>
+            </Header>
+            <Header>
+              <Name>Cookie</Name>
+              <Value>.SQLSERVERMANAGEMENT=CSP6m7riv6aV95EFs8nD3w==</Value>
+            </Header>
+          </Headers>
+          <Cookies>
+            <Cookie>
+              <Name>.SQLSERVERMANAGEMENT</Name>
+              <Value>CSP6m7riv6aV95EFs8nD3w==</Value>
+              <RelativeUri i:nil="true" />
+            </Cookie>
+          </Cookies>
+          <RequestText i:nil="true" />
+          <ContentType i:nil="true" />
+          <Accept>application/atom+xml,application/xml</Accept>
+        </RequestInfo>
+        <ResponseInfo>
+          <StatusCode>OK</StatusCode>
+          <Headers>
+            <Header>
+              <Name>x-ms-request-id</Name>
+              <Value>55b50c1b-5d63-47e9-83e5-92d1f178e1bd</Value>
+            </Header>
+            <Header>
+              <Name>DataServiceVersion</Name>
+              <Value>1.0;</Value>
+            </Header>
+            <Header>
+              <Name>X-Content-Type-Options</Name>
+              <Value>nosniff</Value>
+            </Header>
+            <Header>
+              <Name>Cache-Control</Name>
+              <Value>no-store,no-cache</Value>
+            </Header>
+            <Header>
+              <Name>Content-Type</Name>
+              <Value>application/atom+xml;charset=utf-8</Value>
+            </Header>
+            <Header>
+              <Name>Date</Name>
+              <Value>Wed, 17 Oct 2012 19:10:57 GMT</Value>
+            </Header>
+          </Headers>
+          <Cookies />
+          <ResponseText>&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+&lt;feed xml:base="https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;title type="text"&gt;Databases&lt;/title&gt;
+  &lt;id&gt;https://kvxv0mrmun.database.windows.net/v1/ManagementService.svc/Server2('kvxv0mrmun')/Databases&lt;/id&gt;
+  &lt;updated&gt;2012-10-17T19:10:57Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name /&gt;
+  &lt;/author&gt;
+  &lt;link rel="self" title="Databases" href="Databases" /&gt;
+&lt;/feed&gt;</ResponseText>
+        </ResponseInfo>
+      </HttpMessage>
+    </Messages>
+  </HttpSession>
 </HttpSessionCollection>

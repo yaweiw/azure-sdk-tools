@@ -42,11 +42,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
                     powershell,
                     "$context");
+
                 // Create 2 test databases
                 NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
                     powershell,
                     "$context");
 
+                // Query the created test databases
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
                 testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
@@ -92,7 +94,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
-                    // Create context with both ManageUrl and ServerName overriden
                     Collection<PSObject> databases, database1, database2;
                     using (new MockHttpServer(
                         exceptionManager,
@@ -139,6 +140,91 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
                     Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
                 }
+            }
+        }
+
+        [TestMethod]
+        public void GetAzureSqlDatabaseWithSqlAuthNonExistentDb()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Query a non-existent test database
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.GetAzureSqlDatabaseWithSqlAuthNonExistentDb");
+                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-2: Get database requests
+                            case 0:
+                            case 1:
+                            case 2:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
+                testSession.ResponseModifier =
+                    new Action<HttpMessage>(
+                        (message) =>
+                        {
+                            DatabaseTestHelper.FixODataResponseUri(
+                                message.ResponseInfo,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+                testSession.RequestModifier =
+                    new Action<HttpMessage.Request>(
+                        (request) =>
+                        {
+                            DatabaseTestHelper.FixODataRequestPayload(
+                                request,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabase " +
+                            @"-Context $context " +
+                            @"-DatabaseName testdb3");
+                    }
+                }
+
+                Assert.AreEqual(1, powershell.Streams.Error.Count, "Expecting errors");
+                Assert.AreEqual(2, powershell.Streams.Warning.Count, "Expecting tracing IDs");
+                Assert.AreEqual(
+                    "Database 'testserver.testdb3' not found.",
+                    powershell.Streams.Error.First().Exception.Message,
+                    "Unexpected error message");
+                Assert.IsTrue(
+                    powershell.Streams.Warning.Any(w => w.Message.StartsWith("Client Session Id")),
+                    "Expecting Client Session Id");
+                Assert.IsTrue(
+                    powershell.Streams.Warning.Any(w => w.Message.StartsWith("Client Request Id")),
+                    "Expecting Client Request Id");
+                powershell.Streams.ClearStreams();
             }
         }
     }

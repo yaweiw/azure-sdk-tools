@@ -126,6 +126,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 response.ResponseText =
                     response.ResponseText.Replace(serviceUri.ToString(), mockServerUri.ToString());
             }
+
+            if (serviceUri != null &&
+                response.Headers.Contains("Location"))
+            {
+                response.Headers["Location"] = response.Headers["Location"].Replace(
+                    serviceUri.ToString(),
+                    mockServerUri.ToString());
+            }
         }
 
         /// <summary>
@@ -139,8 +147,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             // Fix the $link Uris
             if (serviceUri != null &&
                 request.RequestText != null &&
-                request.RequestText.Contains("dataservices") &&
-                request.RequestText.Contains("</uri>"))
+                request.RequestText.Contains("dataservices"))
             {
                 request.RequestText =
                     request.RequestText.Replace(mockServerUri.ToString(), serviceUri.ToString());
