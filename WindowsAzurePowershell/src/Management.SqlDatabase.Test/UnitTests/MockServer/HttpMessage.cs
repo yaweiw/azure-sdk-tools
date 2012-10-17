@@ -170,6 +170,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServe
                 {
                     return this.Where((h) => h.Name == name).Single().Value;
                 }
+                set
+                {
+                    this.Where((h) => h.Name == name).Single().Value = value;
+                }
             }
 
             public bool Contains(string name)

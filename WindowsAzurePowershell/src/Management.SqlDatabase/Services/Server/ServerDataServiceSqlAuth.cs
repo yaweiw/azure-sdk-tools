@@ -298,7 +298,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
             catch
             {
-                this.RevertChanges(database);
+                this.ClearTrackedEntity(database);
                 throw;
             }
 
