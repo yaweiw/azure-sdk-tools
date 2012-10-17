@@ -144,6 +144,113 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
         }
 
         [TestMethod]
+        public void GetAzureSqlDatabaseWithSqlAuthByPipe()
+        {
+            using (System.Management.Automation.PowerShell powershell =
+                System.Management.Automation.PowerShell.Create())
+            {
+                // Create a context
+                NewAzureSqlDatabaseServerContextTests.CreateServerContextSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Create 2 test databases
+                NewAzureSqlDatabaseTests.CreateTestDatabasesWithSqlAuth(
+                    powershell,
+                    "$context");
+
+                // Query the created test databases
+                HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
+                    "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
+                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                testSession.RequestValidator =
+                    new Action<HttpMessage, HttpMessage.Request>(
+                    (expected, actual) =>
+                    {
+                        Assert.AreEqual(expected.RequestInfo.Method, actual.Method);
+                        Assert.AreEqual(expected.RequestInfo.UserAgent, actual.UserAgent);
+                        switch (expected.Index)
+                        {
+                            // Request 0-2: Get database requests
+                            case 0:
+                            case 1:
+                            case 2:
+                                DatabaseTestHelper.ValidateHeadersForODataRequest(
+                                    expected.RequestInfo,
+                                    actual);
+                                break;
+                            default:
+                                Assert.Fail("No more requests expected.");
+                                break;
+                        }
+                    });
+                testSession.ResponseModifier =
+                    new Action<HttpMessage>(
+                        (message) =>
+                        {
+                            DatabaseTestHelper.FixODataResponseUri(
+                                message.ResponseInfo,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+                testSession.RequestModifier =
+                    new Action<HttpMessage.Request>(
+                        (request) =>
+                        {
+                            DatabaseTestHelper.FixODataRequestPayload(
+                                request,
+                                testSession.ServiceBaseUri,
+                                MockHttpServer.DefaultServerPrefixUri);
+                        });
+
+                using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
+                {
+                    Collection<PSObject> databases, database1, database2;
+                    using (new MockHttpServer(
+                        exceptionManager,
+                        MockHttpServer.DefaultServerPrefixUri,
+                        testSession))
+                    {
+                        databases = powershell.InvokeBatchScript(
+                            @"Get-AzureSqlDatabase " +
+                            @"-Context $context");
+                        database1 = powershell.InvokeBatchScript(
+                            @"$testdb1 | Get-AzureSqlDatabase");
+                        database2 = powershell.InvokeBatchScript(
+                            @"$testdb2 | Get-AzureSqlDatabase");
+                    }
+
+                    Assert.AreEqual(0, powershell.Streams.Error.Count, "Errors during run!");
+                    Assert.AreEqual(0, powershell.Streams.Warning.Count, "Warnings during run!");
+                    powershell.Streams.ClearStreams();
+
+                    // Expecting master, testdb1, testdb2
+                    Assert.AreEqual(3, databases.Count, "Expecting three Database objects");
+
+                    Assert.IsTrue(
+                        database1.Single().BaseObject is Services.Server.Database,
+                        "Expecting a Database object");
+                    Services.Server.Database database1Obj =
+                        (Services.Server.Database)database1.Single().BaseObject;
+                    Assert.AreEqual("testdb1", database1Obj.Name, "Expected db name to be testdb1");
+
+                    Assert.IsTrue(
+                        database2.Single().BaseObject is Services.Server.Database,
+                        "Expecting a Database object");
+                    Services.Server.Database database2Obj =
+                        (Services.Server.Database)database2.Single().BaseObject;
+                    Assert.AreEqual("testdb2", database2Obj.Name, "Expected db name to be testdb2");
+                    Assert.AreEqual(
+                        "Japanese_CI_AS",
+                        database2Obj.CollationName,
+                        "Expected collation to be Japanese_CI_AS");
+                    Assert.AreEqual("Web", database2Obj.Edition, "Expected edition to be Web");
+                    Assert.AreEqual(5, database2Obj.MaxSizeGB, "Expected max size to be 5 GB");
+                }
+            }
+        }
+
+        [TestMethod]
         public void GetAzureSqlDatabaseWithSqlAuthNonExistentDb()
         {
             using (System.Management.Automation.PowerShell powershell =
