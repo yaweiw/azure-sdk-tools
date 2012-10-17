@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 // Query the created test databases
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
-                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                     (expected, actual) =>
@@ -73,24 +73,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 break;
                         }
                     });
-                testSession.ResponseModifier =
-                    new Action<HttpMessage>(
-                        (message) =>
-                        {
-                            DatabaseTestHelper.FixODataResponseUri(
-                                message.ResponseInfo,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
-                testSession.RequestModifier =
-                    new Action<HttpMessage.Request>(
-                        (request) =>
-                        {
-                            DatabaseTestHelper.FixODataRequestPayload(
-                                request,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
@@ -162,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 // Query the created test databases
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuth");
-                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                     (expected, actual) =>
@@ -184,24 +166,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 break;
                         }
                     });
-                testSession.ResponseModifier =
-                    new Action<HttpMessage>(
-                        (message) =>
-                        {
-                            DatabaseTestHelper.FixODataResponseUri(
-                                message.ResponseInfo,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
-                testSession.RequestModifier =
-                    new Action<HttpMessage.Request>(
-                        (request) =>
-                        {
-                            DatabaseTestHelper.FixODataRequestPayload(
-                                request,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
@@ -264,7 +228,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                 // Query a non-existent test database
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTests.GetAzureSqlDatabaseWithSqlAuthNonExistentDb");
-                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                     (expected, actual) =>
@@ -286,24 +250,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 break;
                         }
                     });
-                testSession.ResponseModifier =
-                    new Action<HttpMessage>(
-                        (message) =>
-                        {
-                            DatabaseTestHelper.FixODataResponseUri(
-                                message.ResponseInfo,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
-                testSession.RequestModifier =
-                    new Action<HttpMessage.Request>(
-                        (request) =>
-                        {
-                            DatabaseTestHelper.FixODataRequestPayload(
-                                request,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {

@@ -21,6 +21,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
     public static class DatabaseTestHelper
     {
+        /// <summary>
+        /// The private singleton collection that stores all mock sessions
+        /// </summary>
         private static readonly HttpSessionCollection defaultSessionCollection =
             HttpSessionCollection.Load("MockSessions.xml");
 
@@ -35,6 +38,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// The singleton collection that stores all mock sessions
+        /// </summary>
         public static HttpSessionCollection DefaultSessionCollection
         {
             get
@@ -43,12 +49,42 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
             }
         }
 
+        /// <summary>
+        /// Save the default mock session collection to the test output directory.
+        /// </summary>
         public static void SaveDefaultSessionCollection()
         {
             lock (defaultSessionCollection)
             {
                 defaultSessionCollection.Save("MockSessions.xml");
             }
+        }
+
+        /// <summary>
+        /// Set the default mock session settings to modify request and responses.
+        /// </summary>
+        /// <param name="testSession"></param>
+        public static void SetDefaultTestSessionSettings(HttpSession testSession)
+        {
+            testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+            testSession.ResponseModifier =
+                new Action<HttpMessage>(
+                    (message) =>
+                    {
+                        DatabaseTestHelper.FixODataResponseUri(
+                            message.ResponseInfo,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
+            testSession.RequestModifier =
+                new Action<HttpMessage.Request>(
+                    (request) =>
+                    {
+                        DatabaseTestHelper.FixODataRequestPayload(
+                            request,
+                            testSession.ServiceBaseUri,
+                            MockHttpServer.DefaultServerPrefixUri);
+                    });
         }
 
         /// <summary>
