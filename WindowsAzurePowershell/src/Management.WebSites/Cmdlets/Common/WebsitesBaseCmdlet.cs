@@ -38,7 +38,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 
         internal abstract void ExecuteCommand();
 
-        protected void ProcessException(Exception ex)
+        protected string ProcessException(Exception ex)
+        {
+            return ProcessException(ex, true);
+        }
+
+        protected string ProcessException(Exception ex, bool showError)
         {
             if (ex.InnerException is WebException)
             {
@@ -50,34 +55,40 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                         XmlSerializer serializer = new XmlSerializer(typeof (ServiceError));
                         ServiceError serviceError = (ServiceError) serializer.Deserialize(streamReader);
 
+                        string message;
                         if (serviceError.MessageTemplate.Equals(Resources.WebsiteAlreadyExists))
                         {
-                            SafeWriteError(
-                                new Exception(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                            serviceError.Parameters.First())));
+                            message = string.Format(Resources.WebsiteAlreadyExistsReplacement,
+                                                            serviceError.Parameters.First());
                         }
                         else if (serviceError.MessageTemplate.Equals(Resources.CannotFind) &&
                                  serviceError.Parameters.First().Equals("WebSpace") ||
                                  serviceError.Parameters.First().Equals("GeoRegion"))
                         {
-                            SafeWriteError(
-                                new Exception(string.Format(Resources.CannotFind, "Location",
-                                                            serviceError.Parameters[1])));
+                            message = string.Format(Resources.CannotFind, "Location",
+                                                            serviceError.Parameters[1]);
                         }
                         else
                         {
+                            message = serviceError.Message;
+                        }
+
+                        if (showError)
+                        {
                             SafeWriteError(new Exception(serviceError.Message));
                         }
+
+                        return message;
                     }
                 }
-                else {
-                    SafeWriteError(ex);
-                }
             }
-            else
+
+            if (showError)
             {
                 SafeWriteError(ex);
             }
+
+            return ex.Message;
         }
 
         protected override void ProcessRecord()
