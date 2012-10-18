@@ -30,10 +30,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         private string serializedCert;
         private string serverLocation;
 
-        private const string ServerTestScript = "CreateGetDeleteServer.ps1";
-        private const string FirewallTestScript = "CreateGetDropFirewall.ps1";
-        private const string ResetPasswordScript = "ResetPassword.ps1";
-        private const string FormatValidationScript = "FormatValidation.ps1";
+        private const string ServerTestScript = @"Server\CreateGetDeleteServer.ps1";
+        private const string FirewallTestScript = @"Server\CreateGetDropFirewall.ps1";
+        private const string ResetPasswordScript = @"Server\ResetPassword.ps1";
+        private const string FormatValidationScript = @"Server\FormatValidation.ps1";
 
         [TestInitialize]
         public void Setup()
