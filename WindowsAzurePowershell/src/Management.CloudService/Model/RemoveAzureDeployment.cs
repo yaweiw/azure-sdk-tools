@@ -16,9 +16,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
-    using Cmdlet.Common;
     using Properties;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.
