@@ -36,7 +36,8 @@ Write-Output "`$serverLocation=$serverLocation"
 
 Try
 {
-    Init-TestEnvironment -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-TestEnvironment
+    Set-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
     $isTestPass = $False
     
     # Create Server

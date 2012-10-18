@@ -17,18 +17,6 @@
 
 function Init-TestEnvironment
 {
-    [CmdletBinding()]
-    Param
-    (
-        [Parameter(Mandatory=$true, Position=0)]
-        [ValidateNotNullOrEmpty()]
-        [String]
-        $SubscriptionID,
-        [Parameter(Mandatory=$true, Position=1)]
-        [ValidateNotNullOrEmpty()]
-        [String]
-        $SerializedCert
-    )
     $ConfirmPreference = "Medium"
     $DebugPreference = "Continue"
     $ErrorActionPreference = "Continue"
@@ -43,7 +31,22 @@ function Init-TestEnvironment
     {
         Import-Module .\Microsoft.WindowsAzure.Management.SqlDatabase.Test.psd1
     }
+}
 
+function Set-AzureSubscription
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $SubscriptionID,
+        [Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $SerializedCert
+    )
     # Deserialize the input certificate given in base 64 format.
     # Install it in the cert store.
     $storeName = [System.Security.Cryptography.X509Certificates.StoreName]
@@ -62,6 +65,33 @@ function Init-TestEnvironment
     $subName = "MySub" + $SubscriptionID
     Set-AzureSubscription -SubscriptionName $subName -SubscriptionId $SubscriptionID -Certificate $myCert
     Select-AzureSubscription -SubscriptionName $subName
+}
+
+function Get-ServerContextByManageUrlWithSqlAuth
+{
+	[CmdletBinding()]
+	param
+	(
+		[Parameter(Mandatory=$true, Position=0)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $ManageUrl,
+
+		[Parameter(Mandatory=$true, Position=1)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $UserName,
+
+		[Parameter(Mandatory=$true, Position=2)]
+        [ValidateNotNullOrEmpty()]
+        [String]
+        $Password
+	)
+    $securePassword = ConvertTo-SecureString $Password -AsPlainText -Force
+    $credential = New-Object System.Management.Automation.PSCredential ($UserName, $securePassword)
+    
+    $context = New-AzureSqlDatabaseServerContext -ManageUrl $ManageUrl -Credential $credential
+    return $context
 }
 
 function Assert 
@@ -213,6 +243,28 @@ function Drop-Server
         Write-Output "Dropping server $($server.ServerName) ..."
         Remove-AzureSqlDatabaseServer -ServerName $server.ServerName -Force
         Write-Output "Dropped server $($server.ServerName)"
+    }
+}
+
+function Drop-Database
+{
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Mandatory=$true, Position=0)]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.IServerDataServiceContext]
+        $Context,
+        [Parameter(Mandatory=$true, Position=1)]
+        [Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.Database]
+        $Database
+    )
+
+    if($Database)
+    {
+        # Drop Database
+        Write-Output "Dropping database $($Database.Name) ..."
+        Remove-AzureSqlDatabase -Context $context -InputObject $Database -Force
+        Write-Output "Dropped database $($Database.Name)"
     }
 }
 

@@ -101,8 +101,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FunctionalTests\DatabaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FunctionalTests\FunctionalTest.cs" />
+    <Compile Include="FunctionalTests\ServerTest.cs" />
     <Compile Include="UnitTests\AsyncExceptionManager.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\SetAzureSqlDatabaseTests.cs" />
     <Compile Include="UnitTests\Database\Cmdlet\DatabaseTestHelper.cs" />
@@ -132,10 +133,11 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="TestScripts\CommonFunctions.ps1" />
-    <None Include="TestScripts\CreateGetDeleteServer.ps1" />
-    <None Include="TestScripts\CreateGetDropFirewall.ps1" />
-    <None Include="TestScripts\FormatValidation.ps1" />
-    <None Include="TestScripts\ResetPassword.ps1" />
+    <None Include="TestScripts\Server\CreateGetDeleteServer.ps1" />
+    <None Include="TestScripts\Server\CreateGetDropFirewall.ps1" />
+    <None Include="TestScripts\Database\CreateDatabase.ps1" />
+    <None Include="TestScripts\Server\FormatValidation.ps1" />
+    <None Include="TestScripts\Server\ResetPassword.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
@@ -164,8 +166,9 @@
     <Content Include="Resources\MockSessions.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="TestScripts\ExpectedFormat.txt" />
+    <Content Include="TestScripts\Server\ExpectedFormat.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
