@@ -38,10 +38,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         internal const string FullyQualifiedServerNameWithSqlAuthParamSet = "ByFullyQualifiedServerNameWithSqlAuth";
         internal const string ManageUrlWithSqlAuthParamSet = "ByManageUrlWithSqlAuth";
 
-        internal const string ServerNameWithCertAuthParamSet = "ByServerNameWithCertAuth";
-        internal const string FullyQualifiedServerNameWithCertAuthParamSet = "ByFullyQualifiedServerNameWithCertAuth";
-        internal const string ManageUrlWithCertAuthParamSet = "ByManageUrlWithCertAuth";
-
         #endregion
 
         #region Parameters
@@ -52,14 +48,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ServerNameWithSqlAuthParamSet,
             HelpMessage = "The short server name")]
-        [Parameter(Mandatory = true, Position = 0, ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "The short server name")]
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
             ParameterSetName = ManageUrlWithSqlAuthParamSet,
-            HelpMessage = "The short server name")]
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true,
-            ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The short server name")]
         [ValidateNotNullOrEmpty]
         public string ServerName { get; set; }
@@ -69,8 +59,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = FullyQualifiedServerNameWithSqlAuthParamSet,
             HelpMessage = "The fully qualified server name")]
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "The fully qualified server name")]
         [ValidateNotNull]
         public string FullyQualifiedServerName { get; set; }
 
@@ -78,8 +66,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// Gets or sets the management <see cref="Uri"/>.
         /// </summary>
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = ManageUrlWithSqlAuthParamSet,
-            HelpMessage = "The full management Url for the server")]
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = ManageUrlWithCertAuthParamSet,
             HelpMessage = "The full management Url for the server")]
         [ValidateNotNullOrEmpty]
         public Uri ManageUrl { get; set; }
@@ -95,29 +81,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             HelpMessage = "The credentials for the server")]
         [ValidateNotNull]
         public PSCredential Credential { get; set; }
-
-        /// <summary>
-        /// Gets or sets the server credentials.
-        /// </summary>
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "Use subscription based certificate authentication to access the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "Use subscription based certificate authentication to access the server")]
-        [Parameter(Mandatory = true, Position = 1, ParameterSetName = ManageUrlWithCertAuthParamSet,
-            HelpMessage = "Use subscription based certificate authentication to access the server")]
-        public SwitchParameter UseSubscription { get; set; }
-
-        /// <summary>
-        /// Gets or sets the server credentials.
-        /// </summary>
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = FullyQualifiedServerNameWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [Parameter(Mandatory = false, Position = 2, ParameterSetName = ManageUrlWithCertAuthParamSet,
-            HelpMessage = "The subscription data to use, or uses the current subscription if not specified")]
-        [ValidateNotNull]
-        public SubscriptionData SubscriptionData { get; set; }
 
         #endregion
 
@@ -172,21 +135,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         }
 
         /// <summary>
-        /// Connect to a Azure Sql Server with the given ManagementService Uri using
-        /// certificate based authentication.
-        /// </summary>
-        /// <param name="serverName">The server name.</param>
-        /// <param name="subscriptionData">The subscription data used to authenticate.</param>
-        /// <returns>A new <see cref="ServerDataServiceSqlAuth"/> context,
-        /// or <c>null</c> if an error occurred.</returns>
-        internal IServerDataServiceContext GetServerDataServiceByCertAuth(
-            string serverName,
-            SubscriptionData subscriptionData)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Creates a new operation context based on the Cmdlet's parameter set and the manageUrl.
         /// </summary>
         /// <param name="serverName">The server name.</param>
@@ -207,14 +155,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                         serverName,
                         managementServiceUri,
                         credentials);
-                case ServerNameWithCertAuthParamSet:
-                case FullyQualifiedServerNameWithCertAuthParamSet:
-                case ManageUrlWithCertAuthParamSet:
-                    // Obtain the Server DataService Context by Certificate Authentication
-                    SubscriptionData subscriptionData = this.GetSubscriptionData();
-                    return this.GetServerDataServiceByCertAuth(
-                        serverName,
-                        subscriptionData);
                 default:
                     throw new InvalidOperationException(Resources.UnknownParameterSet);
             }
@@ -260,21 +200,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             switch (parameterSetName)
             {
                 case ServerNameWithSqlAuthParamSet:
-                case ServerNameWithCertAuthParamSet:
                     // Only the server name was specified, eg. 'server001'. Prepend the Uri schema
                     // and append the azure database DNS suffix.
                     return new Uri(
                         Uri.UriSchemeHttps + Uri.SchemeDelimiter +
                         this.ServerName + DataServiceConstants.AzureSqlDatabaseDnsSuffix);
                 case FullyQualifiedServerNameWithSqlAuthParamSet:
-                case FullyQualifiedServerNameWithCertAuthParamSet:
                     // The fully qualified server name was specified, 
                     // eg. 'server001.database.windows.net'. Prepend the Uri schema.
                     return new Uri(
                         Uri.UriSchemeHttps + Uri.SchemeDelimiter +
                         this.FullyQualifiedServerName);
                 case ManageUrlWithSqlAuthParamSet:
-                case ManageUrlWithCertAuthParamSet:
                     // The full ManageUrl was specified, 
                     // eg. 'https://server001.database.windows.net'. Return as is.
                     return this.ManageUrl;
@@ -318,24 +255,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             else
             {
                 throw new ArgumentException(Resources.CredentialNotSpecified);
-            }
-        }
-
-        /// <summary>
-        /// Obtain the SubscriptionData based on the Cmdlet's parameter set.
-        /// </summary>
-        /// <returns>The SubscriptionData based on the Cmdlet's parameter set.</returns>
-        private SubscriptionData GetSubscriptionData()
-        {
-            if (this.MyInvocation.BoundParameters.ContainsKey("SubscriptionData"))
-            {
-                // SubscriptionData is specified, return as is.
-                return this.SubscriptionData;
-            }
-            else
-            {
-                // SubscriptionData is not specified, use the current subscription.
-                return this.GetCurrentSubscription();
             }
         }
 
