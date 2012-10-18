@@ -72,11 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 SiteConfig websiteConfiguration = null;
-                InvokeInOperationContext(() =>
-                {
-                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
+                InvokeInOperationContext(() => { websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, websiteObject.WebSpace, websiteObject.Name)); });
 
                 // Add to cache
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
@@ -89,20 +85,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // Show websites
                 WebSpaces webspaces = null;
-                InvokeInOperationContext(() =>
-                {
-                    webspaces = RetryCall(s => Channel.GetWebSpaces(s));
-                    WaitForOperation(CommandRuntime.ToString());
-                });
+                InvokeInOperationContext(() => { webspaces = RetryCall(s => Channel.GetWebSpaces(s)); });
+
+                WaitForOperation(CommandRuntime.ToString());
 
                 List<Site> websites = new List<Site>();
                 foreach (var webspace in webspaces)
                 {
-                    InvokeInOperationContext(() =>
-                    {
-                        websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
-                        WaitForOperation(CommandRuntime.ToString());
-                    });
+                    websites.AddRange(RetryCall(s => Channel.GetSites(s, webspace.Name, "repositoryuri,publishingpassword,publishingusername")));
+                    WaitForOperation(CommandRuntime.ToString());
                 }
 
                 // Add to cache

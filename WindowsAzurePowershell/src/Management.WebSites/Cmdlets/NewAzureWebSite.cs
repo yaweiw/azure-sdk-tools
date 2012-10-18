@@ -263,16 +263,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             catch (ProtocolException ex)
             {
                 // Handle site creating indepently so that cmdlet is idempotent.
-                string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && Git)
-                {
-                    WriteWarning(message);
-                }
-                else
-                {
-                    SafeWriteError(new Exception(message));
-                }
+                ProcessException(ex);
             }
 
             if (Git)

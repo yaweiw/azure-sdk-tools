@@ -1,4 +1,4 @@
-# For security reasons, logging, dev errors, and debugging 
+﻿# For security reasons, logging, dev errors, and debugging 
 # should be disabled in production deployments:
 
 loggingEnabled: false

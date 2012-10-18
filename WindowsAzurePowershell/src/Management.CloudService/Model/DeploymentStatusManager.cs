@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Management.Services;
     using Properties;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Change deployment status to running or suspended.

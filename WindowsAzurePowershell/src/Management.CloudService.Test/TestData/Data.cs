@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using System.Text;
     using CloudService.Model;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     static class Data
     {
@@ -116,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             myStore.StorageServiceKeys.Secondary = "=w8uidjew4378891289";
             myStore.StorageServiceProperties = new StorageServiceProperties();
             myStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.NorthCentralUS];
-            myStore.StorageServiceProperties.Status = StorageAccountStatus.Created;
+            myStore.StorageServiceProperties.Status = StorageServiceStatus.Created;
             ValidStorageService.Add(myStore);
 
             StorageService testStore = new StorageService();
@@ -126,7 +127,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             testStore.StorageServiceKeys.Secondary = "==0--3210-//121313233290sd";
             testStore.StorageServiceProperties = new StorageServiceProperties();
             testStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.EastAsia];
-            testStore.StorageServiceProperties.Status = StorageAccountStatus.Creating;
+            testStore.StorageServiceProperties.Status = StorageServiceStatus.Creating;
             ValidStorageService.Add(testStore);
 
             StorageService MyCompanyStore = new StorageService();
@@ -136,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             MyCompanyStore.StorageServiceKeys.Secondary = "023432dfelfema1=";
             MyCompanyStore.StorageServiceProperties = new StorageServiceProperties();
             MyCompanyStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.NorthEurope];
-            MyCompanyStore.StorageServiceProperties.Status = StorageAccountStatus.ResolvingDns;
+            MyCompanyStore.StorageServiceProperties.Status = StorageServiceStatus.ResolvingDns;
             ValidStorageService.Add(MyCompanyStore);
         }
 
