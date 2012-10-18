@@ -48,13 +48,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ServerNameWithSqlAuthParamSet));
-            contextCmdlet.ServerName = "server0002";
-            Assert.AreEqual(
-                new Uri("https://server0002.database.windows.net"),
-                UnitTestHelper.InvokePrivate(
-                    contextCmdlet,
-                    "GetManageUrl",
-                    NewAzureSqlDatabaseServerContext.ServerNameWithCertAuthParamSet));
             contextCmdlet.FullyQualifiedServerName = "server0003.database.windows.net";
             Assert.AreEqual(
                 new Uri("https://server0003.database.windows.net"),
@@ -62,13 +55,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithSqlAuthParamSet));
-            contextCmdlet.FullyQualifiedServerName = "server0004.database.windows.net";
-            Assert.AreEqual(
-                new Uri("https://server0004.database.windows.net"),
-                UnitTestHelper.InvokePrivate(
-                    contextCmdlet,
-                    "GetManageUrl",
-                    NewAzureSqlDatabaseServerContext.FullyQualifiedServerNameWithCertAuthParamSet));
             contextCmdlet.ManageUrl = new Uri("https://server0005.database.windows.net");
             Assert.AreEqual(
                 new Uri("https://server0005.database.windows.net"),
@@ -76,13 +62,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                     contextCmdlet,
                     "GetManageUrl",
                     NewAzureSqlDatabaseServerContext.ManageUrlWithSqlAuthParamSet));
-            contextCmdlet.ManageUrl = new Uri("https://server0006.database.windows.net");
-            Assert.AreEqual(
-                new Uri("https://server0006.database.windows.net"),
-                UnitTestHelper.InvokePrivate(
-                    contextCmdlet,
-                    "GetManageUrl",
-                    NewAzureSqlDatabaseServerContext.ManageUrlWithCertAuthParamSet));
 
             try
             {
