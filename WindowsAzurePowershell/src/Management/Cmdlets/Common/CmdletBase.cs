@@ -119,11 +119,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        public virtual object GetDynamicParameters()
+       public virtual object GetDynamicParameters()
         {
             return null;
         }
-
         protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;
@@ -215,7 +214,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 Trace.WriteLine(errorRecord);
             }
         }
-
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
@@ -225,5 +223,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             Debug.Assert(ex != null, "ex cannot be null or empty.");
             SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
         }
+
     }
 }

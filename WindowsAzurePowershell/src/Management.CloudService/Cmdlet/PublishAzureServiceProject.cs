@@ -24,18 +24,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.ServiceModel;
-    using System.ServiceModel.Web;
     using System.Text;
     using System.Threading;
     using AzureTools;
     using Common;
     using Extensions;
     using Management.Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
     using Services;
     using StorageClient;
     using Utilities;
+    using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -591,7 +592,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             InvokeInOperationContext(() =>
             {
                 RetryCall(subscription =>
-                    Channel.CreateStorageAccount(subscription, storageServiceInput));
+                    Channel.CreateStorageService(subscription, storageServiceInput));
 
                 StorageService storageService = null;
                 do
@@ -599,7 +600,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     storageService = RetryCall<StorageService>(subscription =>
                         Channel.GetStorageService(subscription, storageServiceInput.ServiceName));
                 }
-                while (storageService.StorageServiceProperties.Status != StorageAccountStatus.Created);
+                while (storageService.StorageServiceProperties.Status != StorageServiceStatus.Created);
             });
         }
 
@@ -730,6 +731,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         subscription,
                         _hostedServiceName,
                         _deploymentSettings.ServiceSettings.Slot));
+                
+                // If a deployment has many roles to initialize, this
+                // thread must throttle requests so the Azure portal
+                // doesn't reply with a "too many requests" error
+                Thread.Sleep(int.Parse(Resources.StandardRetryDelayInMs));
             }
             while (deployment.Status != DeploymentStatus.Starting &&
                 deployment.Status != DeploymentStatus.Running);
@@ -756,15 +762,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Deployment deployment = new Deployment();
                 do
                 {
-                    InvokeInOperationContext(() =>
-                    {
-                        WebOperationContext.Current.OutgoingRequest.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20110601);
-                        deployment = RetryCall<Deployment>(subscription =>
-                          Channel.GetDeploymentBySlot(
-                              subscription,
-                              _hostedServiceName,
-                              _deploymentSettings.ServiceSettings.Slot));
-                    });
+                    deployment = RetryCall<Deployment>(subscription =>
+                        Channel.GetDeploymentBySlot(
+                            subscription,
+                            _hostedServiceName,
+                            _deploymentSettings.ServiceSettings.Slot));
 
                     // The goal of this loop is to output a message whenever the status of a role 
                     // instance CHANGES. To do that, we have to remember the last status of all role instances
@@ -772,9 +774,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     foreach (RoleInstance currentInstance in deployment.RoleInstanceList)
                     {
                         // We only care about these three statuses, ignore other intermediate statuses
-                        if (String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Busy) ||
-                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Ready) ||
-                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Initializing))
+                        if (String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.BusyRole) ||
+                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.ReadyRole) ||
+                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.CreatingRole))
                         {
                             bool createdOrChanged = false;
 
@@ -803,11 +805,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                 string statusResource;
                                 switch (currentInstance.InstanceStatus)
                                 {
-                                    case RoleInstanceStatus.Busy:
+                                    case RoleInstanceStatus.BusyRole:
                                         statusResource = Resources.PublishInstanceStatusBusy;
                                         break;
 
-                                    case RoleInstanceStatus.Ready:
+                                    case RoleInstanceStatus.ReadyRole:
                                         statusResource = Resources.PublishInstanceStatusReady;
                                         break;
 
@@ -829,7 +831,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     Thread.Sleep(int.Parse(Resources.StandardRetryDelayInMs));
                 }
                 while (deployment.RoleInstanceList.Any(
-                    r => r.InstanceStatus != RoleInstanceStatus.Ready));
+                    r => r.InstanceStatus != RoleInstanceStatus.ReadyRole));
 
                 if (CanGenerateUrlForDeploymentSlot())
                 {

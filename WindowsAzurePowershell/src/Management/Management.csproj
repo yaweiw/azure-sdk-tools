@@ -108,10 +108,12 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement">
+    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.Service">
+    <Reference Include="Microsoft.WindowsAzure.Management.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.Service.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -158,7 +160,6 @@
     </Compile>
     <Compile Include="Services\ISubscriptionsManager.cs" />
     <Compile Include="Services\ServiceConfiguration.cs" />
-    <Compile Include="Services\ServiceManagementHelper.cs" />
     <Compile Include="Services\SubscriptionsManager.cs" />
     <Compile Include="Cmdlets\Common\CmdletBase.cs">
       <SubType>Code</SubType>

@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Common;
     using Model;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances

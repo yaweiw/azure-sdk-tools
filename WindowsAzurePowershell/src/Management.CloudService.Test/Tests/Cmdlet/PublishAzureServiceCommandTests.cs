@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Properties;
     using Utilities;
     using Management.Test.Stubs;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
@@ -262,7 +263,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                         new RoleInstance[] { 
                             new RoleInstance() {
                                 InstanceName = "Role_IN_0",
-                                InstanceStatus = RoleInstanceStatus.Ready 
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -322,7 +323,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                         new RoleInstance[] { 
                             new RoleInstance() {
                                 InstanceName = "Role_IN_0",
-                                InstanceStatus = RoleInstanceStatus.Ready 
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -391,7 +392,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 bool storageCreated = false;
                 StorageService storageService = new StorageService()
                 {
-                    StorageServiceProperties = new StorageServiceProperties() { Status = StorageAccountStatus.Creating }
+                    StorageServiceProperties = new StorageServiceProperties() { Status = StorageServiceStatus.Creating }
                 };
                 Deployment deployment = new Deployment()
                 {
@@ -400,7 +401,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                         new RoleInstance[] { 
                             new RoleInstance() {
                                 InstanceName = "Role_IN_0",
-                                InstanceStatus = RoleInstanceStatus.Ready 
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
 
@@ -410,8 +411,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,
-                    () => { storageService.StorageServiceProperties.Status = StorageAccountStatus.Created; return storageService; });
-                channel.CreateStorageAccountThunk = ar => storageCreated = true;
+                    () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; return storageService; });
+                channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
@@ -444,7 +445,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsTrue(storageCreated);
                 Assert.IsTrue(createdHostedService);
                 Assert.IsTrue(createdOrUpdatedDeployment);
-                Assert.AreEqual(StorageAccountStatus.Created, storageService.StorageServiceProperties.Status);
+                Assert.AreEqual(StorageServiceStatus.Created, storageService.StorageServiceProperties.Status);
                 Assert.AreEqual(DeploymentStatus.Starting, deployment.Status);
                 Assert.AreEqual<string>(serviceName, service.ServiceName);
             }
@@ -482,7 +483,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                         new RoleInstance[] { 
                             new RoleInstance() {
                                 InstanceName = "Role_IN_0",
-                                InstanceStatus = RoleInstanceStatus.Ready 
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -536,7 +537,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                          new RoleInstance[] { 
                             new RoleInstance() {
                                 InstanceName = "Role_IN_0",
-                                InstanceStatus = RoleInstanceStatus.Ready 
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -590,7 +591,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     if (createdOrUpdatedDeployment)
                     {
                         Deployment deployment = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
-                        deployment.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.Ready } });
+                        deployment.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
                         return deployment;
                     }
                     else
