@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Management.Automation;
     using Cmdlet.Common;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
