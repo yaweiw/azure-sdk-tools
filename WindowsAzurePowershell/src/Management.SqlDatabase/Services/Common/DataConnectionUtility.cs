@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System;
     using System.Data.Services.Client;
     using System.IO;
+    using System.Linq;
     using System.Net;
     using System.Security.Cryptography;
     using System.Text;
@@ -27,6 +28,23 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     /// </summary>
     public static class DataConnectionUtility
     {
+        /// <summary>
+        /// An array of all relevant entity names in the metadata document.
+        /// </summary>
+        private static readonly string[] RelevantEntities =
+        {
+            "Server",
+            "Database"
+        };
+
+        /// <summary>
+        /// An array of all relevant associations in the metadata document.
+        /// </summary>
+        private static readonly string[] RelevantAssociations =
+        {
+            "Server_Databases_Database_Server"
+        };
+
         /// <summary>
         /// Gets the default management service <see cref="Uri"/> for the given manageUri.
         /// </summary>
@@ -116,6 +134,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
         /// <summary>
         /// Gets the hash for the metadata document.
         /// </summary>
+        /// <param name="metadata">The metadata document to calculate hash for.</param>
         /// <returns>The hex string representation of the metadata hash.</returns>
         public static string GetDocumentHash(XDocument metadata)
         {
@@ -126,6 +145,42 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
                 byte[] result = sha.ComputeHash(Encoding.UTF8.GetBytes(metadataString));
                 return BitConverter.ToString(result).Replace("-", string.Empty);
             }
+        }
+
+        /// <summary>
+        /// Filter a given metadata document to contain only relevant entities.
+        /// </summary>
+        /// <param name="metadata">The metadata document to calculate hash for.</param>
+        /// <returns>A filtered document containing only relevant entities.</returns>
+        public static XDocument FilterMetadataDocument(XDocument metadata)
+        {
+            // Clone the input metadata document.
+            XDocument filteredDoc = XDocument.Parse(metadata.ToString());
+
+            // Filter out the EntityContainer.
+            XElement entityContainer = filteredDoc.Root.Descendants()
+                .Where(n => n.Name.LocalName == "EntityContainer")
+                .SingleOrDefault();
+            if (entityContainer != null)
+            {
+                entityContainer.Remove();
+            }
+
+            // Remove any entities that's not relevant to the Cmdlets.
+            XElement[] entitiesToRemove = filteredDoc.Root.Descendants()
+                .Where(n => n.Name.LocalName == "EntityType")
+                .Where(n => !RelevantEntities.Contains(n.Attribute("Name").Value))
+                .ToArray();
+            XElement[] associationsToRemove = filteredDoc.Root.Descendants()
+                .Where(n => n.Name.LocalName == "Association")
+                .Where(n => !RelevantAssociations.Contains(n.Attribute("Name").Value))
+                .ToArray();
+            foreach (XElement elementToRemove in entitiesToRemove.Concat(associationsToRemove))
+            {
+                elementToRemove.Remove();
+            }
+
+            return filteredDoc;
         }
     }
 }

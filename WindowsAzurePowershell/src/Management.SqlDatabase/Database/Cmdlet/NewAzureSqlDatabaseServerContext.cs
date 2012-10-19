@@ -114,7 +114,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 
                 // Retrieve $metadata to verify model version compativility
                 XDocument metadata = context.RetrieveMetadata();
-                string metadataHash = DataConnectionUtility.GetDocumentHash(metadata);
+                XDocument filteredMetadata = DataConnectionUtility.FilterMetadataDocument(metadata);
+                string metadataHash = DataConnectionUtility.GetDocumentHash(filteredMetadata);
                 if (metadataHash != context.metadataHash)
                 {
                     this.WriteWarning(Resources.WarningModelOutOfDate);

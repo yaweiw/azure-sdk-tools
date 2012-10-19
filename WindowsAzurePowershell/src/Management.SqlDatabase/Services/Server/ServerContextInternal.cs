@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name: ServerContextInternal.cs
-// Generation date: 9/24/2012 4:06:44 PM
+// Generation date: 10/19/2012 1:58:42 PM
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     
@@ -3274,6 +3274,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     public abstract partial class ServerContextInternal
     {
-        public readonly string metadataHash = "0EF1ECCCC6D0C07A7ED134CA12C5E9C5DB2F8374";
+        public readonly string metadataHash = "3070BEE06139E0754E2F022E56E9798BF8A57F30";
     }
 }
