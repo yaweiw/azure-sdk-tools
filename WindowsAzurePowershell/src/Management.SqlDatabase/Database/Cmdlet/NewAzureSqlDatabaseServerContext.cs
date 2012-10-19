@@ -34,9 +34,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
     {
         #region ParameterSet Names
 
-        internal const string ServerNameWithSqlAuthParamSet = "ByServerNameWithSqlAuth";
-        internal const string FullyQualifiedServerNameWithSqlAuthParamSet = "ByFullyQualifiedServerNameWithSqlAuth";
-        internal const string ManageUrlWithSqlAuthParamSet = "ByManageUrlWithSqlAuth";
+        internal const string ServerNameWithSqlAuthParamSet =
+            "ByServerNameWithSqlAuth";
+        internal const string FullyQualifiedServerNameWithSqlAuthParamSet =
+            "ByFullyQualifiedServerNameWithSqlAuth";
+        internal const string ManageUrlWithSqlAuthParamSet =
+            "ByManageUrlWithSqlAuth";
 
         #endregion
 
