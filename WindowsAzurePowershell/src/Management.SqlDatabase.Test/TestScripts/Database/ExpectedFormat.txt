@@ -1,0 +1,65 @@
+ServerDataServiceSqlAuth
+
+WARNING: 5 columns do not fit into the display and were removed.
+
+SessionActivityId                    ClientSessionId                                           ClientRequestId                                           ServerName    Servers     
+-----------------                    ---------------                                           ---------------                                           ----------    -------     
+bfef7080-68bc-4406-8e22-5dbf5f0d3a9f be7b91e1-b0c2-4d17-b0d5-c820ed724253-2012-10-19 03:53:19Z 5248c98e-a536-456e-8e5c-273ef493871d-2012-10-19 03:53:20Z ravipalonebx1 {ravipaloneb
+                                                                                                                                                                       x1}         
+
+
+
+
+SessionActivityId                   : bfef7080-68bc-4406-8e22-5dbf5f0d3a9f
+ClientSessionId                     : be7b91e1-b0c2-4d17-b0d5-c820ed724253-2012-10-19 03:53:19Z
+ClientRequestId                     : 5248c98e-a536-456e-8e5c-273ef493871d-2012-10-19 03:53:20Z
+ServerName                          : ravipalonebx1
+Servers                             : {ravipalonebx1}
+Databases                           : {master, Northwind, test1, test2...}
+Operations                          : {}
+OperationDetails                    : {}
+CreateDatabaseFromDacPacOperations  : {}
+ExtractDacPacOperations             : {}
+UpgradeDatabaseFromDacPacOperations : {}
+ViewDatabaseChangesOperations       : {}
+ViewUpgradePlanOperations           : {}
+DatabaseCopies                      : {}
+DatabaseCopyValidationOperations    : {}
+FirewallRules                       : {AllowAll}
+DatabaseMetrics                     : {master, Northwind, test1, test2...}
+ServerMetrics                       : {ravipalonebx1}
+EventLogs                           : {master, master, master, master...}
+BaseUri                             : https://ravipalonebx1.dev.mscds.com/v1/ManagementService.svc/Server2('ravipalonebx1')
+Credentials                         : 
+MergeOption                         : PreserveChanges
+ApplyingChanges                     : False
+IgnoreMissingProperties             : True
+DataNamespace                       : http://schemas.microsoft.com/ado/2007/08/dataservices
+ResolveName                         : 
+ResolveType                         : 
+Timeout                             : 180
+TypeScheme                          : http://schemas.microsoft.com/ado/2007/08/dataservices/scheme
+UsePostTunneling                    : False
+Links                               : {}
+Entities                            : {Microsoft.SqlServer.Management.Server.Domain.Server, Microsoft.SqlServer.Management.Server.Domain.Database, Microsoft.SqlServer.Management.S
+                                      erver.Domain.Database, Microsoft.SqlServer.Management.Server.Domain.Database...}
+SaveChangesDefaultOptions           : None
+IgnoreResourceNotFoundException     : False
+metadataHash                        : 0EF1ECCCC6D0C07A7ED134CA12C5E9C5DB2F8374
+
+
+
+Database
+
+Name                   CollationName                Edition MaxSizeGB CreationDate         
+----                   -------------                ------- --------- ------------         
+testDeletedbfromcmdlet SQL_Latin1_General_CP1_CI_AS Web             1 10/18/2012 8:53:25 PM
+
+
+
+
+Name          : testDeletedbfromcmdlet
+CollationName : SQL_Latin1_General_CP1_CI_AS
+Edition       : Web
+MaxSizeGB     : 1
+CreationDate  : 10/18/2012 8:53:25 PM
