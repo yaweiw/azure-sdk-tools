@@ -133,6 +133,7 @@
     </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="TestScripts\CommonFunctions.ps1" />
+    <None Include="TestScripts\Database\CreateContext.ps1" />
     <None Include="TestScripts\Server\CreateGetDeleteServer.ps1" />
     <None Include="TestScripts\Server\CreateGetDropFirewall.ps1" />
     <None Include="TestScripts\Database\CreateDatabase.ps1" />

@@ -15,6 +15,7 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
 {
+    using System.Globalization;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
@@ -26,6 +27,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         private string password;
         private string manageUrl;
 
+        private const string CreateContextScript = @"Database\CreateContext.ps1";
         private const string CreateDatabaseScript = @"Database\CreateDatabase.ps1";
 
         [TestInitialize]
@@ -35,6 +37,22 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
             this.userName = root.Element("SqlAuthUserName").Value;
             this.password = root.Element("SqlAuthPassword").Value;
             this.manageUrl = root.Element("ManageUrl").Value;
+        }
+
+        [TestMethod]
+        [TestCategory("Functional")]
+        public void CreateContext()
+        {
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-ManageUrl \"{0}\" -UserName \"{1}\" -Password \"{2}\"",
+                this.manageUrl,
+                this.userName,
+                this.password);
+            bool testResult = PSScriptExecutor.ExecuteScript(
+                DatabaseTest.CreateContextScript,
+                arguments);
+            Assert.IsTrue(testResult);
         }
 
         [TestMethod]
