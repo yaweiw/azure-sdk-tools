@@ -42,7 +42,8 @@ if ($metadataDoc -eq $null)
 Write-Host "Updating checked-in model metadata at $metadataFile"
 $metadataDoc.Save($metadataFile)
 
-$metadataHash=[Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common.DataConnectionUtility]::GetDocumentHash($metadataDoc)
+$filteredDoc=[Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common.DataConnectionUtility]::FilterMetadataDocument($metadataDoc);
+$metadataHash=[Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common.DataConnectionUtility]::GetDocumentHash($filteredDoc)
 
 ######## Use DataSvcUtil to generate the model client class
 Write-Host "Generating model class file at $clientModelClassFile"
