@@ -30,39 +30,48 @@ Param
     [Parameter(Mandatory=$true, Position=3)]
     [ValidateNotNullOrEmpty()]
     [string]
-    $Password
+    $Password,
+    [Parameter(Mandatory=$true, Position=4)]
+    [ValidateNotNullOrEmpty()]
+    [String]
+    $OutputFile
 )
 
-Write-Output "`$DatabaseName=$Name"
+$IsTestPass = $False
+
+Write-Output "`$Name=$Name"
 Write-Output "`$ManageUrl=$ManageUrl"
 Write-Output "`$UserName=$UserName"
 Write-Output "`$Password=$Password"
+Write-Output "`$OutputFile=$OutputFile"
 . .\CommonFunctions.ps1
+
 
 Try
 {
 	Init-TestEnvironment
     $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
-
-    $IsTestPass = $False
-    
-    # Create Database with only required parameters
-    Write-Output "Creating Database ..."
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
-    Write-Output "Database $($database.Name) created"
-    # TODO Validate
     
-    # Create Database with all required parameters
-    # TODO
+    # write output object to output file
+    $context.GetType().Name >> $OutputFile
+    $context | ft -Wrap -AutoSize >> $OutputFile
+    $context | fl >> $OutputFile
+
+    $database.GetType().Name >> $OutputFile
+    $Database | ft -Wrap -AutoSize >> $OutputFile
+    $database | fl >> $OutputFile
     
-    $IsTestPass = $True
+    $isTestPass = $True
 }
 Finally
 {
     if($database)
     {
         # Drop Database
-        Drop-Database $Context $database
+        Drop-Databases $Context $Name
     }
-    Write-TestResult $IsTestPass
 }
+
+Write-TestResult $IsTestPass
+
