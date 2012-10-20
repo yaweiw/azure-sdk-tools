@@ -31,10 +31,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         private static string GetMaskedData(string fileName)
         {
             string mask = "xxxxxxxxxx";
-            // The code expects the first line of the file contains the list of dynamic data (such as servername, operation id) separated by comma.
+            // The code expects the first line of the file contains the list of dynamic data (such as servername#operation id) separated by #.
             // These dynamic data will be replaced with xxxxxxxxxx.
             string dynamicContentLine = File.ReadAllLines(fileName)[0];
-            string[] dynamicContents = dynamicContentLine.Split(',');
+            string[] dynamicContents = dynamicContentLine.Split('#');
             string data = File.ReadAllText(fileName);
 
             foreach (string dynamicContent in dynamicContents)

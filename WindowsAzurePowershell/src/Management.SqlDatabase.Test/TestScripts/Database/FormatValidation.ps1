@@ -53,9 +53,34 @@ Try
     $context = Get-ServerContextByManageUrlWithSqlAuth -ManageUrl $ManageUrl -UserName $UserName -Password $Password
     $database = New-AzureSqlDatabase -Context $context -DatabaseName $Name
     
+    $databases = $null
+    $count=0;
+    foreach($db in $context.Databases | select name)
+    {
+        $count=$count+1;
+        #format appends ... if the databases exceeds 4
+        if($count -gt 4)
+        {
+            $databases = $databases + "..."
+            break
+        }
+        if($databases)
+        {
+            $databases = $databases + ", " + $db.Name
+        }
+        else
+        {
+            $databases = $db.Name
+        }
+    }
+    $databases = "{" + $databases + "}"
+
+    # write the dynamic content in comma separated line
+    "$($context.ServerName)#$($context.SessionActivityId)#$($context.ClientSessionId)#$($context.ClientRequestId)#$databases#$($($database.CreationDate).ToString())"  > $OutputFile
+
+
     # write output object to output file
     $context.GetType().Name >> $OutputFile
-    $context | ft -Wrap -AutoSize >> $OutputFile
     $context | fl >> $OutputFile
 
     $database.GetType().Name >> $OutputFile
