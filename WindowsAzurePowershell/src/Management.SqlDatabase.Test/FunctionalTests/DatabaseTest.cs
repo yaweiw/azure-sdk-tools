@@ -64,7 +64,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void CreateDatabase()
         {
-            string arguments = string.Format("-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"", "testcreatedbfromcmdlet", this.manageUrl, this.userName, this.password);
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "testcreatedbfromcmdlet",
+                this.manageUrl,
+                this.userName,
+                this.password);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.CreateScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -73,7 +79,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void UpdateDatabase()
         {
-            string arguments = string.Format("-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"", "testupdatedbfromcmdlet", this.manageUrl, this.userName, this.password);
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "testupdatedbfromcmdlet",
+                this.manageUrl,
+                this.userName,
+                this.password);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.UpdateScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -82,7 +94,13 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         [TestCategory("Functional")]
         public void DeleteDatabase()
         {
-            string arguments = string.Format("-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"", "testDeletedbfromcmdlet", this.manageUrl, this.userName, this.password);
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\"",
+                "testDeletedbfromcmdlet",
+                this.manageUrl,
+                this.userName,
+                this.password);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.DeleteScript, arguments);
             Assert.IsTrue(testResult);
         }
@@ -92,7 +110,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
         public void OutputObjectFormatValidation()
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
-            string arguments = string.Format("-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" -OutputFile \"{4}\"", "testFormatdbfromcmdlet", this.manageUrl, this.userName, this.password, outputFile);
+            string arguments = string.Format(
+                CultureInfo.InvariantCulture,
+                "-Name \"{0}\" -ManageUrl \"{1}\" -UserName \"{2}\" -Password \"{3}\" -OutputFile \"{4}\"",
+                "testFormatdbfromcmdlet",
+                this.manageUrl,
+                this.userName,
+                this.password,
+                outputFile);
             bool testResult = PSScriptExecutor.ExecuteScript(DatabaseTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
 

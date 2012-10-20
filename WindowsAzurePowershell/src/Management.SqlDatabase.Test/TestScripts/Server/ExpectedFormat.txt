@@ -1,4 +1,4 @@
-<server_location>,<server_name>
+<server_location>#<server_name>
 SqlDatabaseServerContext
 
 ServerName Location         AdministratorLogin
