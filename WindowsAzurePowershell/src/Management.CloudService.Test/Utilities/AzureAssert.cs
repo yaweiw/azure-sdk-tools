@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using CloudService.Model;
     using CloudService.Properties;
@@ -23,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using ServiceDefinitionSchema;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
 
     internal static class AzureAssert
     {
@@ -222,6 +224,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                     Assert.IsTrue(roles[i].Equals(actual.Role[i]));
                 }
             }
+        }
+
+        public static void WorkerRoleImportsExists(Import expected, WorkerRole actual)
+        {
+            Assert.IsTrue(Array.Exists<Import>(actual.Imports, i => i.moduleName.Equals(expected.moduleName)));
+        }
+
+        public static void WorkerRoleLocalResourcesLocalStoreExists(LocalStore expected, WorkerRole actual)
+        {
+            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalResources.LocalStorage, l => l.name.Equals(expected.name) && l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
+        }
+
+        public static void RoleSettingsExist(ConfigConfigurationSetting expected, RoleSettings actual)
+        {
+            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual.ConfigurationSettings, c => c.name == expected.name && c.value == expected.value));
         }
     }
 }

@@ -75,6 +75,66 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
         }
 
+        /// <summary>
+        /// Gets the worker role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The worker role name</param>
+        /// <returns>The worker role object from service definition</returns>
+        public WorkerRole GetWorkerRole(string name)
+        {
+            try { return Definition.WorkerRole.First<WorkerRole>(r => r.name.Equals(name)); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Overrides existing worker role with a new worker role in the service definition.
+        /// </summary>
+        /// <param name="newWorkerRole">The new worker role object</param>
+        public void OverrideWorkerRole(WorkerRole newWorkerRole)
+        {
+            for (int i = 0; i < Definition.WorkerRole.Length; i++)
+            {
+                if (Definition.WorkerRole[i].name.Equals(newWorkerRole.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    Definition.WorkerRole[i] = newWorkerRole;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The role name</param>
+        /// <returns>The role object from cloud configuration</returns>
+        public RoleSettings GetRole(string name)
+        {
+            try { return CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(name)); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Overrides existing role settings with a new role in the service cloud configuration.
+        /// </summary>
+        /// <param name="newWorkerRole">The new role settings object</param>
+        public void OverrideRole(RoleSettings newRole)
+        {
+            OverrideConfigRole(CloudConfig, newRole);
+            OverrideConfigRole(LocalConfig, newRole);
+        }
+
+        private void OverrideConfigRole(ServiceConfiguration config, RoleSettings newRole)
+        {
+            for (int i = 0; i < config.Role.Length; i++)
+            {
+                if (config.Role[i].name.Equals(newRole.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    config.Role[i] = newRole;
+                    break;
+                }
+            }
+        }
+
         public int GetNextPort()
         {
             if (Definition.WebRole == null && Definition.WorkerRole == null)

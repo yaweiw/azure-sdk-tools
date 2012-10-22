@@ -1482,7 +1482,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema
 
         private int sizeInMBField;
 
-        private bool sizeInMBFieldSpecified;
+        //private bool sizeInMBFieldSpecified;
 
         private bool cleanOnRoleRecycleField;
 
@@ -1519,19 +1519,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema
             }
         }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sizeInMBSpecified
-        {
-            get
-            {
-                return this.sizeInMBFieldSpecified;
-            }
-            set
-            {
-                this.sizeInMBFieldSpecified = value;
-            }
-        }
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlIgnoreAttribute()]
+        //public bool sizeInMBSpecified
+        //{
+        //    get
+        //    {
+        //        return this.sizeInMBFieldSpecified;
+        //    }
+        //    set
+        //    {
+        //        this.sizeInMBFieldSpecified = value;
+        //    }
+        //}
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
