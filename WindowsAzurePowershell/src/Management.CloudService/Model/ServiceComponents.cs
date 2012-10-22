@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
     using Utilities;
+using System.Collections.Generic;
 
     public class ServiceComponents
     {
@@ -92,6 +93,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <param name="newWorkerRole">The new worker role object</param>
         public void OverrideWorkerRole(WorkerRole newWorkerRole)
         {
+            if (Definition.WorkerRole == null) { return; }
+
             for (int i = 0; i < Definition.WorkerRole.Length; i++)
             {
                 if (Definition.WorkerRole[i].name.Equals(newWorkerRole.name, StringComparison.OrdinalIgnoreCase))
@@ -109,8 +112,46 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <returns>The role object from cloud configuration</returns>
         public RoleSettings GetRole(string name)
         {
+            if (CloudConfig.Role == null) { return null; }
+
             try { return CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(name)); }
             catch { return null; }
+        }
+
+        /// <summary>
+        /// Gets all role settings that matches the given name.
+        /// </summary>
+        /// <param name="roleNames">Role names collection</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<RoleSettings> GetRoles(IEnumerable<string> roleNames)
+        {
+            if (CloudConfig.Role == null) { return null; }
+
+            return Array.FindAll<RoleSettings>(CloudConfig.Role, r => Array.Exists<string>(
+                roleNames.ToArray<string>(), s => s.Equals(r.name)));
+        }
+
+        /// <summary>
+        /// Gets all worker roles that matches given predicate.
+        /// </summary>
+        /// <param name="predicate">The matching predicate</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<WorkerRole> GetWorkerRoles(Predicate<WorkerRole> predicate)
+        {
+            return Array.FindAll<WorkerRole>(Definition.WorkerRole, predicate);
+        }
+
+        /// <summary>
+        /// Applied given action to all matching 
+        /// </summary>
+        /// <param name="roleNames"></param>
+        /// <param name="action"></param>
+        public void ForEachRoleSettings(Func<RoleSettings, bool> predicate, Action<RoleSettings> action)
+        {
+            if (CloudConfig.Role == null) { return; }
+
+            IEnumerable<RoleSettings> matchedRoles = CloudConfig.Role.Where<RoleSettings>(predicate);
+            matchedRoles.ForEach<RoleSettings>(action);
         }
 
         /// <summary>
