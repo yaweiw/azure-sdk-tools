@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty });
             cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty });
             cacheRoleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(cacheRoleSettings.ConfigurationSettings, cachingConfigSettings);
-            
+
             // Save changes
             azureService.Components.OverrideWorkerRole(cacheWorkerRole);
             azureService.Components.OverrideRole(cacheRoleSettings);
