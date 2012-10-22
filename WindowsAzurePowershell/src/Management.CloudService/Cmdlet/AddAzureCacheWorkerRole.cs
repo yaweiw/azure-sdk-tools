@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Fetch cache role information from service definition and service configuration files.
             AzureService azureService = new AzureService(rootPath, null);
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
-            RoleSettings cacheRoleSettings = azureService.Components.GetRole(nodeWorkerRole.Name);
+            RoleSettings cacheRoleSettings = azureService.Components.GetCloudConfigRole(nodeWorkerRole.Name);
 
             // Add caching module to the role imports
             cacheWorkerRole.Imports = General.ExtendArray<Import>(cacheWorkerRole.Imports, new Import { moduleName = Resources.CachingModuleName });
@@ -96,8 +96,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             cacheRoleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(cacheRoleSettings.ConfigurationSettings, cachingConfigSettings);
 
             // Save changes
-            azureService.Components.OverrideWorkerRole(cacheWorkerRole);
-            azureService.Components.OverrideRole(cacheRoleSettings);
             azureService.Components.Save(azureService.Paths);
 
             return message;
