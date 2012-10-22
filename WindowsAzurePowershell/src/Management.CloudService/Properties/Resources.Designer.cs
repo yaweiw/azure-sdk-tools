@@ -187,6 +187,69 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage.
+        /// </summary>
+        internal static string CachingCacheSizePercentageSettingName {
+            get {
+                return ResourceManager.GetString("CachingCacheSizePercentageSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString.
+        /// </summary>
+        internal static string CachingConfigStoreConnectionStringSettingName {
+            get {
+                return ResourceManager.GetString("CachingConfigStoreConnectionStringSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}.
+        /// </summary>
+        internal static string CachingConfigStoreConnectionStringSettingValue {
+            get {
+                return ResourceManager.GetString("CachingConfigStoreConnectionStringSettingValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.FileStore.
+        /// </summary>
+        internal static string CachingFileStoreName {
+            get {
+                return ResourceManager.GetString("CachingFileStoreName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.Loglevel.
+        /// </summary>
+        internal static string CachingLogLevelSettingName {
+            get {
+                return ResourceManager.GetString("CachingLogLevelSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Caching.
+        /// </summary>
+        internal static string CachingModuleName {
+            get {
+                return ResourceManager.GetString("CachingModuleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.NamedCaches.
+        /// </summary>
+        internal static string CachingNamedCacheSettingName {
+            get {
+                return ResourceManager.GetString("CachingNamedCacheSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deployment for service {0} with {1} slot doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindDeployment {
@@ -472,6 +535,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string DefaultPort {
             get {
                 return ResourceManager.GetString("DefaultPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1000.
+        /// </summary>
+        internal static string DefaultRoleCachingInMB {
+            get {
+                return ResourceManager.GetString("DefaultRoleCachingInMB", resourceCulture);
             }
         }
         

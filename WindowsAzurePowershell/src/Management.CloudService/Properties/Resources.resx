@@ -771,4 +771,28 @@
   <data name="WorkerRoleStartupTaskCommandLine" xml:space="preserve">
     <value>setup_worker.cmd &gt; log.txt</value>
   </data>
+  <data name="CachingFileStoreName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.FileStore</value>
+  </data>
+  <data name="CachingModuleName" xml:space="preserve">
+    <value>Caching</value>
+  </data>
+  <data name="DefaultRoleCachingInMB" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="CachingCacheSizePercentageSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage</value>
+  </data>
+  <data name="CachingConfigStoreConnectionStringSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString</value>
+  </data>
+  <data name="CachingConfigStoreConnectionStringSettingValue" xml:space="preserve">
+    <value>DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}</value>
+  </data>
+  <data name="CachingLogLevelSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.Loglevel</value>
+  </data>
+  <data name="CachingNamedCacheSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.NamedCaches</value>
+  </data>
 </root>
