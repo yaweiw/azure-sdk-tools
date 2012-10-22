@@ -41,24 +41,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
         public static string FindServiceRootDirectory(string path)
         {
-            //is the settings.json file present in the folder
-            var found = Directory.GetFiles(path, Resources.SettingsFileName).Length == 1;
+            // Is the csdef file present in the folder
+            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
+            
             if (found)
             {
                 return path; //return it
             }
 
-            //find the last slash
-            var slash = path.LastIndexOf('\\');
+            // Find the last slash
+            int slash = path.LastIndexOf('\\');
             if (slash > 0)
             {
-                //slash found trim off the last path
+                // Slash found trim off the last path
                 path = path.Substring(0, slash);
-                //recurse
+                
+                // Recurse
                 return FindServiceRootDirectory(path);
             }
 
-            //couldn't locate the service root, exit
+            // Couldn't locate the service root, exit
+
             return null;
         }
 
