@@ -110,7 +110,7 @@ using System.Collections.Generic;
         /// </summary>
         /// <param name="name">The role name</param>
         /// <returns>The role object from cloud configuration</returns>
-        public RoleSettings GetRole(string name)
+        public RoleSettings GetCloudConfigRole(string name)
         {
             if (CloudConfig.Role == null) { return null; }
 
@@ -152,28 +152,6 @@ using System.Collections.Generic;
 
             IEnumerable<RoleSettings> matchedRoles = CloudConfig.Role.Where<RoleSettings>(predicate);
             matchedRoles.ForEach<RoleSettings>(action);
-        }
-
-        /// <summary>
-        /// Overrides existing role settings with a new role in the service cloud configuration.
-        /// </summary>
-        /// <param name="newWorkerRole">The new role settings object</param>
-        public void OverrideRole(RoleSettings newRole)
-        {
-            OverrideConfigRole(CloudConfig, newRole);
-            OverrideConfigRole(LocalConfig, newRole);
-        }
-
-        private void OverrideConfigRole(ServiceConfiguration config, RoleSettings newRole)
-        {
-            for (int i = 0; i < config.Role.Length; i++)
-            {
-                if (config.Role[i].name.Equals(newRole.name, StringComparison.OrdinalIgnoreCase))
-                {
-                    config.Role[i] = newRole;
-                    break;
-                }
-            }
         }
 
         public int GetNextPort()

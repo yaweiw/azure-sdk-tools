@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 publishService.InitializeSettingsAndCreatePackage(servicePath);
 
                 AzureService azureService = new AzureService(servicePath, null);
-                RoleSettings cacheRole = azureService.Components.GetRole(cacheRoleName);
+                RoleSettings cacheRole = azureService.Components.GetCloudConfigRole(cacheRoleName);
                 AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { 
                     name = Resources.CachingConfigStoreConnectionStringSettingName, 
                     value = string.Format(Resources.CachingConfigStoreConnectionStringSettingValue, storageName, storageKey) }, cacheRole);

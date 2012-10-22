@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         internal static RoleSettings GetRole(string servicePath, string name)
         {
             AzureService service = new AzureService(servicePath, null);
-            return service.Components.GetRole(name);
+            return service.Components.GetCloudConfigRole(name);
         }
     }
 }
