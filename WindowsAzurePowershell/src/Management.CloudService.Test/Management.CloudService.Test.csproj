@@ -110,6 +110,7 @@
     <Compile Include="TestData\AzureServiceWrapper.cs" />
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
+    <Compile Include="Tests\Cmdlet\AddAzureCacheWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\CmdletBaseTests.cs" />
     <Compile Include="Tests\Cmdlet\GetAzureServiceProjectRuntimesTest.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureRuntimeTests.cs" />

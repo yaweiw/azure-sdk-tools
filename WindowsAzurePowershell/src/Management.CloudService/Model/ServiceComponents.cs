@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
     using Utilities;
+using System.Collections.Generic;
 
     public class ServiceComponents
     {
@@ -73,6 +74,84 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
             LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
+        }
+
+        /// <summary>
+        /// Gets the worker role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The worker role name</param>
+        /// <returns>The worker role object from service definition</returns>
+        public WorkerRole GetWorkerRole(string name)
+        {
+            try { return Definition.WorkerRole.First<WorkerRole>(r => r.name.Equals(name)); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Overrides existing worker role with a new worker role in the service definition.
+        /// </summary>
+        /// <param name="newWorkerRole">The new worker role object</param>
+        public void OverrideWorkerRole(WorkerRole newWorkerRole)
+        {
+            if (Definition.WorkerRole == null) { return; }
+
+            for (int i = 0; i < Definition.WorkerRole.Length; i++)
+            {
+                if (Definition.WorkerRole[i].name.Equals(newWorkerRole.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    Definition.WorkerRole[i] = newWorkerRole;
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The role name</param>
+        /// <returns>The role object from cloud configuration</returns>
+        public RoleSettings GetCloudConfigRole(string name)
+        {
+            if (CloudConfig.Role == null) { return null; }
+
+            try { return CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(name)); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Gets all role settings that matches the given name.
+        /// </summary>
+        /// <param name="roleNames">Role names collection</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<RoleSettings> GetRoles(IEnumerable<string> roleNames)
+        {
+            if (CloudConfig.Role == null) { return null; }
+
+            return Array.FindAll<RoleSettings>(CloudConfig.Role, r => Array.Exists<string>(
+                roleNames.ToArray<string>(), s => s.Equals(r.name)));
+        }
+
+        /// <summary>
+        /// Gets all worker roles that matches given predicate.
+        /// </summary>
+        /// <param name="predicate">The matching predicate</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<WorkerRole> GetWorkerRoles(Predicate<WorkerRole> predicate)
+        {
+            return Array.FindAll<WorkerRole>(Definition.WorkerRole, predicate);
+        }
+
+        /// <summary>
+        /// Applied given action to all matching 
+        /// </summary>
+        /// <param name="roleNames"></param>
+        /// <param name="action"></param>
+        public void ForEachRoleSettings(Func<RoleSettings, bool> predicate, Action<RoleSettings> action)
+        {
+            if (CloudConfig.Role == null) { return; }
+
+            IEnumerable<RoleSettings> matchedRoles = CloudConfig.Role.Where<RoleSettings>(predicate);
+            matchedRoles.ForEach<RoleSettings>(action);
         }
 
         public int GetNextPort()
