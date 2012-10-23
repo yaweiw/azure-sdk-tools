@@ -179,6 +179,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     {
                         runtimes.Add(Runtime.PHP);
                     }
+                    else if (string.Equals(runtimeSpec, Resources.CacheRuntimeValue, StringComparison.OrdinalIgnoreCase))
+                    {
+                        runtimes.Add(Runtime.Cache);
+                    }
                 }
             }
 
