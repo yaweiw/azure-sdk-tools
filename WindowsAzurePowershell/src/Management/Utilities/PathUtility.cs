@@ -61,7 +61,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             }
 
             // Couldn't locate the service root, exit
-
             return null;
         }
 
