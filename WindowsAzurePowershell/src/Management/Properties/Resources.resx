@@ -274,4 +274,7 @@
   <data name="PublishSettingsUrlEnv" xml:space="preserve">
     <value>AZURE_PUBLISHINGPROFILE_URL</value>
   </data>
+  <data name="ServiceDefinitionFileName" xml:space="preserve">
+    <value>ServiceDefinition.csdef</value>
+  </data>
 </root>
