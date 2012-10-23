@@ -21,16 +21,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System.Linq;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Management.Test.Tests.Utilities;
-    using Services;
-    using VisualStudio.TestTools.UnitTesting;
     using CloudService.Cmdlet;
     using CloudService.Model;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
-    using Utilities;
     using Management.Test.Stubs;
+    using Management.Test.Tests.Utilities;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
@@ -65,6 +66,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
                 newService.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Get the publishing process started by creating the package
                 PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
@@ -104,6 +107,48 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         }
 
         /// <summary>
+        /// Test a basic publish scenario.
+        ///</summary>
+        [TestMethod]
+        public void PublishAzureServiceWithCacheWorkerRoleTest()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                // Create a new channel to mock the calls to Azure and
+                // determine all of the results that we'll need.
+                SimpleServiceManagement channel = new SimpleServiceManagement();
+
+                // Create a new service that we're going to publish
+                string serviceName = "TEST_SERVICE_NAME";
+                string storageName = "testx5fservicex5fname";
+                string storageKey = "imba key";
+                string cacheRoleName = "cache_worker";
+                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
+                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                string servicePath = files.CreateDirectory(serviceName);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = storageName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = storageKey } };
+
+                // Add caching worker role
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+
+                // Get the publishing process started by creating the package
+                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
+                publishService.InitializeSettingsAndCreatePackage(servicePath);
+
+                AzureService azureService = new AzureService(servicePath, null);
+                RoleSettings cacheRole = azureService.Components.GetCloudConfigRole(cacheRoleName);
+                AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { 
+                    name = Resources.CachingConfigStoreConnectionStringSettingName, 
+                    value = string.Format(Resources.CachingConfigStoreConnectionStringSettingValue, storageName, storageKey) }, cacheRole);
+            }
+        }
+
+        /// <summary>
         /// Test a publish scenario with worker and web roles.
         ///</summary>
         [TestMethod]
@@ -131,6 +176,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
                 string workerRoleName = "NODE_WORKER_ROLE";
                 string workerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Get the publishing process started by creating the package
                 PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
@@ -187,6 +234,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
                 newService.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+
                 // Add web and worker roles
                 AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
                 string defaultWebRoleName = "WebRoleDefault";
@@ -644,6 +694,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
                 newService.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Add a web role
                 AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();

@@ -353,5 +353,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSch
                 this.valueField = value;
             }
         }
+
+        /// <summary>
+        /// The comparison is done for settings key only without the value.
+        /// </summary>
+        /// <param name="obj">The other settings object</param>
+        /// <returns>True if equals false if not</returns>
+        public override bool Equals(object obj)
+        {
+            ConfigurationSetting rightHandSide = (ConfigurationSetting)obj;
+            return this.name.Equals(rightHandSide.name);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
