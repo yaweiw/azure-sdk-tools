@@ -31,7 +31,7 @@
                 Not all node versions are availabel in the cloud
                 <Variable name="RUNTIMEVERSIONSECONDARYKEY" value="" />
           -->
-          <Variable name="RUNTIMEID" value="NODE;IISNODE" />
+          <Variable name="RUNTIMEID" value="node;iisnode" />
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>

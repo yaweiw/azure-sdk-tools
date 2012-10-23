@@ -28,18 +28,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     public class RuntimePackageHelper
     {
         /// <summary>
-        /// Gets the runtime startup task regardless of its order in the startup tasks.
-        /// </summary>
-        /// <param name="roleStartup">The role startup tasks</param>
-        /// <returns>The runtime startup task</returns>
-        private static Task GetRuntimeStartupTask(Startup roleStartup)
-        {
-            return roleStartup.Task.FirstOrDefault<Task>(t =>
-                t.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine)
-             || t.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine));
-        }
-
-        /// <summary>
         /// Write out the test manifest file to a directory under the root
         /// </summary>
         /// <param name="helper">The file system helper being used for the test</param>
@@ -154,14 +142,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                GetRuntimeStartupTask(webRole.Startup).Environment = environment;
+                CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment = environment;
                 return true;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                GetRuntimeStartupTask(workerRole.Startup).Environment = environment;
+                CloudRuntime.GetRuntimeStartupTask(workerRole.Startup).Environment = environment;
                 return true;
             }
 
@@ -203,13 +191,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                return GetRuntimeStartupTask(webRole.Startup).Environment;
+                return CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                return GetRuntimeStartupTask(workerRole.Startup).Environment;
+                return CloudRuntime.GetRuntimeStartupTask(workerRole.Startup).Environment;
             }
 
             return null;
