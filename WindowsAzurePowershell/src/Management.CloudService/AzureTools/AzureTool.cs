@@ -68,6 +68,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
                 AzureEmulatorDirectory = Path.Combine((string)emulatorPath, 
                     Resources.AzureEmulatorDirectory);
             }
+
+            // Removes the leading 'v'
+            AzureSdkVersion = AzureSdkVersion.Remove(0, 1);
+
+            // Add build version if it does not exist
+            if (AzureSdkVersion.Split('.').Length == 2)
+            {
+                AzureSdkVersion = AzureSdkVersion + ".0";
+            }
         }
     }
 }
