@@ -328,7 +328,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             ApplyScaffoldingChanges(package);
         }
 
-        protected abstract void ApplyScaffoldingChanges(CloudRuntimePackage package);
+        protected virtual void ApplyScaffoldingChanges(CloudRuntimePackage package)
+        {
+
+        }
 
         public abstract bool Match(CloudRuntimePackage runtime);
 
@@ -524,10 +527,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 return string.Format(Resources.CacheVersionWarningText, package.Version, this.RoleName,
                     this.Version);
-            }
-
-            protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
-            {
             }
         }
 
