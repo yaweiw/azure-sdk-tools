@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
+    using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
 
@@ -58,6 +60,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
         }
 
+        /// <summary>
+        /// Gets the runtime startup task regardless of its order in the startup tasks.
+        /// </summary>
+        /// <param name="roleStartup">The role startup tasks</param>
+        /// <returns>The runtime startup task</returns>
+        public static Task GetRuntimeStartupTask(Startup roleStartup)
+        {
+            return roleStartup.Task.FirstOrDefault<Task>(t =>
+                t.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine)
+             || t.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine));
+        }
+
         private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)
         {
             CloudRuntime runtime;
@@ -65,6 +79,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 case Runtime.Null:
                     runtime = new NullCloudRuntime();
+                    break;
+                case Runtime.Cache:
+                    runtime = new CacheCloudRuntime();
                     break;
                 case Runtime.PHP:
                     runtime = new PHPCloudRuntime();
@@ -119,6 +136,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 return Runtime.Node;
             }
+            else if (string.Equals(runtimeType, Resources.CacheRuntimeValue, StringComparison.OrdinalIgnoreCase))
+            {
+                return Runtime.Cache;
+            }
             else
             {
                 return Runtime.Null;
@@ -158,6 +179,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     {
                         runtimes.Add(Runtime.PHP);
                     }
+                    else if (string.Equals(runtimeSpec, Resources.CacheRuntimeValue, StringComparison.OrdinalIgnoreCase))
+                    {
+                        runtimes.Add(Runtime.Cache);
+                    }
                 }
             }
 
@@ -167,7 +192,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private static Dictionary<string, string> GetStartupEnvironment(WebRole webRole)
         {
             Dictionary<string, string> settings = new Dictionary<string, string>();
-            foreach (Variable variable in webRole.Startup.Task[0].Environment)
+            foreach (Variable variable in GetRuntimeStartupTask(webRole.Startup).Environment)
             {
                 settings[variable.name] = variable.value;
             }
@@ -178,7 +203,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private static Dictionary<string, string> GetStartupEnvironment(WorkerRole workerRole)
         {
             Dictionary<string, string> settings = new Dictionary<string, string>();
-            foreach (Variable variable in workerRole.Startup.Task[0].Environment)
+            foreach (Variable variable in GetRuntimeStartupTask(workerRole.Startup).Environment)
             {
                 settings[variable.name] = variable.value;
             }
@@ -252,22 +277,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private static void ApplyRoleXmlChanges(Dictionary<string, string> changes, WebRole webRole)
         {
-            webRole.Startup.Task[0].Environment = ApplySettingChanges(changes, webRole.Startup.Task[0].Environment);
+            GetRuntimeStartupTask(webRole.Startup).Environment = ApplySettingChanges(changes, GetRuntimeStartupTask(webRole.Startup).Environment);
         }
 
         private static void ApplyRoleXmlChanges(Dictionary<string, string> changes, WorkerRole workerRole)
         {
-            workerRole.Startup.Task[0].Environment = ApplySettingChanges(changes, workerRole.Startup.Task[0].Environment);
+            GetRuntimeStartupTask(workerRole.Startup).Environment = ApplySettingChanges(changes, GetRuntimeStartupTask(workerRole.Startup).Environment);
         }
 
         public static void ClearRuntime(WebRole role)
         {
-            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            ClearEnvironmentValue(GetRuntimeStartupTask(role.Startup).Environment, Resources.RuntimeUrlKey);
         }
 
         public static void ClearRuntime(WorkerRole role)
         {
-            ClearEnvironmentValue(role.Startup.Task[0].Environment, Resources.RuntimeUrlKey);
+            ClearEnvironmentValue(GetRuntimeStartupTask(role.Startup).Environment, Resources.RuntimeUrlKey);
         }
 
         static void ClearEnvironmentValue(Variable[] environment, string key)
@@ -303,7 +328,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             ApplyScaffoldingChanges(package);
         }
 
-        protected abstract void ApplyScaffoldingChanges(CloudRuntimePackage package);
+        protected virtual void ApplyScaffoldingChanges(CloudRuntimePackage package)
+        {
+
+        }
 
         public abstract bool Match(CloudRuntimePackage runtime);
 
@@ -476,6 +504,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
             {
+            }
+        }
+
+        private class CacheCloudRuntime : CloudRuntime
+        {
+            protected override void Configure(Dictionary<string, string> environment)
+            {
+                this.Runtime = Runtime.Cache;
+                if (string.IsNullOrEmpty(this.Version))
+                {
+                    this.Version = new AzureTool().AzureSdkVersion;
+                }
+            }
+
+            public override bool Match(CloudRuntimePackage runtime)
+            {
+                return this.Version.Equals(runtime.Version, StringComparison.OrdinalIgnoreCase);
+            }
+
+            protected override string GenerateWarningText(CloudRuntimePackage package)
+            {
+                return string.Format(Resources.CacheVersionWarningText, package.Version, this.RoleName,
+                    this.Version);
             }
         }
 

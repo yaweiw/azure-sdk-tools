@@ -14,7 +14,7 @@
                 Use this value to provide your own url for a role runtime self-extracting package 
                 <Variable name="RUNTIMEURLOVERRIDE" value=""/> 
           -->
-          <Variable name="RUNTIMEID" value="NODE" />
+          <Variable name="RUNTIMEID" value="node" />
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>

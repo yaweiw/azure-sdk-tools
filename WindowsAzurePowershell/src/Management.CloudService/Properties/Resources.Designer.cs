@@ -187,6 +187,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to cache.
+        /// </summary>
+        internal static string CacheRuntimeValue {
+            get {
+                return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.7.
+        /// </summary>
+        internal static string CacheRuntimeVersion {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing caching version {0} for Role &apos;{1}&apos; (the caching version locally installed is: {2}).
+        /// </summary>
+        internal static string CacheVersionWarningText {
+            get {
+                return ResourceManager.GetString("CacheVersionWarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deployment for service {0} with {1} slot doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindDeployment {
@@ -890,7 +917,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml.
+        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml.
         /// </summary>
         internal static string ManifestUri {
             get {
