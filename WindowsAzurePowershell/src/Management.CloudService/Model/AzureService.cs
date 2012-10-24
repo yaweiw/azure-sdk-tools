@@ -325,6 +325,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     {
                         desiredRuntime.ApplyRuntime(foundPackage, web);
                     }
+
+                    this.Components.Save(this.Paths);
                 }
 
                 this.Components.Save(this.Paths);

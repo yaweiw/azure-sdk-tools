@@ -1282,20 +1282,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 5.4.0.
+        /// </summary>
+        internal static string PHPDefaultRuntimeVersion {
+            get {
+                return ResourceManager.GetString("PHPDefaultRuntimeVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to php.
         /// </summary>
         internal static string PhpRuntimeValue {
             get {
                 return ResourceManager.GetString("PhpRuntimeValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 5.4.
-        /// </summary>
-        internal static string PHPRuntimeVersion {
-            get {
-                return ResourceManager.GetString("PHPRuntimeVersion", resourceCulture);
             }
         }
         
@@ -1755,6 +1755,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string RuntimeUrlKey {
             get {
                 return ResourceManager.GetString("RuntimeUrlKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RUNTIMEVERSIONPRIMARYKEY.
+        /// </summary>
+        internal static string RuntimeVersionPrimaryKey {
+            get {
+                return ResourceManager.GetString("RuntimeVersionPrimaryKey", resourceCulture);
             }
         }
         
