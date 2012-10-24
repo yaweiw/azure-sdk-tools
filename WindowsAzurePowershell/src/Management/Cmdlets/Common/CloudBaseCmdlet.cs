@@ -398,7 +398,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        protected void ExecuteClientActionInOCS<T>(object input, string operationDescription, Func<string, T> action, Func<string, Operation> waitOperation, Func<Operation, T, object> contextFactory) where T : class
+        protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
         {
             using (new OperationContextScope((IContextChannel)Channel))
             {
@@ -408,7 +408,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                     {
                         this.WriteVerboseOutputForObject(input);
                     }
-                    T result = this.RetryCall(action);
+                    TResult result = this.RetryCall(action);
                     Operation operation = waitOperation(operationDescription);
                     if (result != null)
                     {
