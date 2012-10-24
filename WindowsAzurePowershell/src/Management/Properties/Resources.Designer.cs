@@ -458,6 +458,15 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ServiceDefinition.csdef.
+        /// </summary>
+        internal static string ServiceDefinitionFileName {
+            get {
+                return ResourceManager.GetString("ServiceDefinitionFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The provided service name {0} already exists, please pick another name.
         /// </summary>
         internal static string ServiceNameExists {
