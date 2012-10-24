@@ -804,8 +804,8 @@
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
   </data>
-  <data name="MemcacheShimStartupCommand" xml:space="preserve">
-    <value>WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe</value>
+  <data name="CacheScaffolding" xml:space="preserve">
+    <value>Scaffolding\Cache</value>
   </data>
   <data name="MemcacheEndpointName" xml:space="preserve">
     <value>memcache_default</value>
@@ -834,5 +834,8 @@
   </data>
   <data name="WebCloudConfig" xml:space="preserve">
     <value>Web.cloud.config</value>
+  </data>
+  <data name="CacheStartupCommand" xml:space="preserve">
+    <value>setup_cache.cmd &gt; log.txt</value>
   </data>
 </root>

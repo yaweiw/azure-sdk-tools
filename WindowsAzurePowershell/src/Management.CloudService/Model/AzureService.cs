@@ -107,6 +107,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         }
 
         /// <summary>
+        /// Generates scaffolding for role.
+        /// </summary>
+        /// <param name="scaffolding">The relative scaffolding source path</param>
+        /// <param name="roleName">The role name</param>
+        /// <param name="parameters">The rule parameters</param>
+        public void GenerateScaffolding(string scaffolding, string roleName, Dictionary<string, object> parameters)
+        {
+            string scaffoldPath = Path.Combine(scaffoldingFolderPath, scaffolding);
+            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, roleName), parameters);
+        }
+
+        /// <summary>
         /// Creates a role name, ensuring it doesn't already exist.  If null is passed in, a number will be appended to the defaultRoleName.
         /// </summary>
         /// <param name="name"></param>
@@ -153,14 +165,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <summary>
         /// Adds the given role to both config files and the service def.
         /// </summary>
-        private void AddRoleCore(String Scaffolding, RoleInfo role, RoleType type)
+        private void AddRoleCore(string scaffolding, RoleInfo role, RoleType type)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
             parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
             parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+            string scaffoldingSource = Path.Combine(scaffolding, type.ToString());
 
-            string scaffoldPath = Path.Combine(Path.Combine(scaffoldingFolderPath, Scaffolding), type.ToString());
-            Scaffold.GenerateScaffolding(scaffoldPath, Path.Combine(Paths.RootPath, role.Name), parameters);
+            GenerateScaffolding(scaffoldingSource, role.Name, parameters);
         }
 
         private Dictionary<string, object> CreateDefaultParameters(RoleInfo role)

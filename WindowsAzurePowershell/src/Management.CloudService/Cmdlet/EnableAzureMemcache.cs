@@ -34,6 +34,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+    using System.Diagnostics;
+    using System.IO;
 
     /// <summary>
     /// Enables memcache for specific role.
@@ -96,10 +98,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     new AzureTool().AzureSdkVersion, rootPath);
                 
                 // Fetch web role information.
+                azureService = new AzureService(rootPath, null);
                 WebRole webRole = azureService.Components.GetWebRole(roleName);
+                
+                // Assert that cache runtime is added to the runtime startup.
+                Debug.Assert(Array.Exists<Variable>(CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment, 
+                    v => v.name.Equals(Resources.RuntimeTypeKey) && v.value.Contains(Resources.CacheRuntimeValue)));
+
+                // Generate cache caffolding for web role
+                azureService.GenerateScaffolding(Path.Combine(Resources.CacheScaffolding, RoleType.WebRole.ToString()), roleName, new Dictionary<string, object>());
 
                 // Add startup task to install memcache shim on the client side.
-                Task shimStartupTask = new Task { commandLine = Resources.MemcacheShimStartupCommand, executionContext = ExecutionContext.elevated };
+                Task shimStartupTask = new Task { commandLine = Resources.CacheStartupCommand, executionContext = ExecutionContext.elevated };
                 webRole.Startup.Task = General.ExtendArray<Task>(webRole.Startup.Task, shimStartupTask);
 
                 // Add default memcache internal endpoint.
@@ -115,7 +125,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 parameters[ScaffoldParams.RoleName] = cacheWorkerRoleName;
                 string autoDiscoveryConfig = Scaffold.ReplaceParameter(Resources.CacheAutoDiscoveryConfig, parameters);
 
-                webConfig.Element("configuration").Add(XElement.Parse(autoDiscoveryConfig).Nodes());
+                // Adding the auto-discovery is sensetive to the placement of the nodes. The first node which is <configSections>
+                // must be added at the first and the last node which is dataCacheClients must be added as last element.
+                XElement autoDiscoverXElement = XElement.Parse(autoDiscoveryConfig);
+                webConfig.Element("configuration").AddFirst(autoDiscoverXElement.FirstNode);
+                webConfig.Element("configuration").Add(autoDiscoverXElement.LastNode);
+                Debug.Assert(webConfig.Element("configuration").FirstNode.Ancestors("section").Attributes("name") != null);
+                Debug.Assert(webConfig.Element("configuration").LastNode.Ancestors("tracing").Attributes("sinkType") != null);
                 webConfig.Save(webConfigPath);
             }
             else

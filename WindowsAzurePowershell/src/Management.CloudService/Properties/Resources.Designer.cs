@@ -232,6 +232,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scaffolding\Cache.
+        /// </summary>
+        internal static string CacheScaffolding {
+            get {
+                return ResourceManager.GetString("CacheScaffolding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to setup_cache.cmd &gt; log.txt.
+        /// </summary>
+        internal static string CacheStartupCommand {
+            get {
+                return ResourceManager.GetString("CacheStartupCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installing caching version {0} for Role &apos;{1}&apos; (the caching version locally installed is: {2}).
         /// </summary>
         internal static string CacheVersionWarningText {
@@ -1057,15 +1075,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string MemcacheEndpointPort {
             get {
                 return ResourceManager.GetString("MemcacheEndpointPort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe.
-        /// </summary>
-        internal static string MemcacheShimStartupCommand {
-            get {
-                return ResourceManager.GetString("MemcacheShimStartupCommand", resourceCulture);
             }
         }
         
