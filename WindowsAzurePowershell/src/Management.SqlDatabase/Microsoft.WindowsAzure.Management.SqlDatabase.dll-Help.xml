@@ -23,7 +23,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -41,7 +41,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -59,7 +59,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified SQL Server Management Service.
+          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -141,7 +141,7 @@
 </maml:para>
           <maml:para>-----------
 </maml:para>
-          <maml:para>This example returns the database, "Database1", from the SQL Server Management Service specified by the connection $ctx.
+          <maml:para>This example returns the database, "Database1", from the Windows Azure SQL Database Server specified by the connection $ctx.
 </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -462,7 +462,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -552,7 +552,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified SQL Server Management Service.
+          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -696,7 +696,7 @@
 </maml:para>
           <maml:para>-----------
 </maml:para>
-          <maml:para>This example creates a new database with the name, "Database1", on the SQL Server Management Service specified by the connection $ctx.
+          <maml:para>This example creates a new database with the name, "Database1", on the Windows Azure SQL Database Server specified by the connection $ctx.
 </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -946,7 +946,7 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>Using the credentials provided, the New-AzureSqlDatabaseServerContext cmdlet creates a new connection context to the SQL Server. The server may be specified by name, by the fully-qualified name, or by URL.
+      <maml:para>Using the credentials provided, the New-AzureSqlDatabaseServerContext cmdlet creates a new connection context to the specified Windows Azure SQL Database Server. The server may be specified by name, by the fully-qualified name, or by URL.
 </maml:para>
     </maml:description>
     <command:syntax>
@@ -955,7 +955,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL server.</maml:para>
+            <maml:para>The name of the SQL Server.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -973,7 +973,7 @@
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
           <maml:name>FullyQualifiedServerName</maml:name>
           <maml:description>
-            <maml:para>The FQDN name for the SQL server.</maml:para>
+            <maml:para>The FQDN name for the SQL Server.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -1006,7 +1006,7 @@
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
           <maml:name>ServerName</maml:name>
           <maml:description>
-            <maml:para>The name of the SQL server.</maml:para>
+            <maml:para>The name of the SQL Server.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
@@ -1029,7 +1029,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>FullyQualifiedServerName</maml:name>
         <maml:description>
-          <maml:para>The FQDN name for the SQL server.</maml:para>
+          <maml:para>The FQDN name for the SQL Server.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1053,7 +1053,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>ServerName</maml:name>
         <maml:description>
-          <maml:para>The name of the SQL server.</maml:para>
+          <maml:para>The name of the SQL Server.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1112,7 +1112,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
 </maml:para>
           <maml:para>-----------
 </maml:para>
-          <maml:para>This example prompts the user for server administrator credentials, connects to the SQL service, "Service1", using those credentials, and creates a new database on that server.
+          <maml:para>This example prompts the user for server administrator credentials, connects to the SQL Server, "lpqd0zbr8y", using those credentials, and creates a new database on that server.
 </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -1403,7 +1403,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -1453,7 +1453,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -1503,7 +1503,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified SQL Server Management Service.
+          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -1630,7 +1630,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
 </maml:para>
           <maml:para>-----------
 </maml:para>
-          <maml:para>This example removes the database "Database1" on the SQL Server Management Service specified by the connection $ctx.
+          <maml:para>This example removes the database "Database1" on the Windows Azure SQL Database Server specified by the connection $ctx.
 </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -2080,7 +2080,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -2165,7 +2165,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
           <maml:name>Context</maml:name>
           <maml:description>
-            <maml:para>The connection context to the specified SQL Server Management Service.
+            <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -2250,7 +2250,7 @@ C:\PS&gt;$database1 = New-AzureSqlDatabase $ctx -DatabaseName "Database1" -MaxSi
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="1" aliases="">
         <maml:name>Context</maml:name>
         <maml:description>
-          <maml:para>The connection context to the specified SQL Server Management Service.
+          <maml:para>The connection context to the specified Windows Azure SQL Database Server.
 </maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">IServerDataServiceContext</command:parameterValue>
@@ -2425,7 +2425,7 @@ C:\PS&gt;Set-AzureSqlDatabase $ctx -Database $database1 -MaxSizeGB 20
 </maml:para>
           <maml:para>-----------
 </maml:para>
-          <maml:para>This example changes the current size of the database, "Database1", to 20 GB, on the SQL Server Management Service specified by the connection $ctx.
+          <maml:para>This example changes the current size of the database, "Database1", to 20 GB, on the Windows Azure SQL Database Server specified by the connection $ctx.
 </maml:para>
         </dev:remarks>
         <command:commandLines>
