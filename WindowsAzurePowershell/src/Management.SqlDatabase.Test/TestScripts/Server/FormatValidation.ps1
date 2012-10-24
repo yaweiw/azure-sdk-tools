@@ -42,7 +42,7 @@ Write-Output "`$OutputFile=$OutputFile"
 Try
 {
     Init-TestEnvironment
-    Set-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
     $isTestPass = $False
     
     # Get SqlDatabaseOperationContext format
