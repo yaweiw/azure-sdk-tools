@@ -57,9 +57,6 @@ using System.Collections.Generic;
             General.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
             General.SerializeXmlFile<ServiceConfiguration>(LocalConfig, paths.LocalConfiguration);
             Settings.Save(paths.Settings);
-
-            // Reload the components after saving their value.
-            this.LoadComponents(paths);
         }
 
         public void SetRoleInstances(string roleName, int instances)
