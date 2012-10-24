@@ -115,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -142,15 +143,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Cmdlet\RemoveAzureSqlDatabase.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
+    <Compile Include="Database\Cmdlet\NewAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
+    <Compile Include="Database\Cmdlet\NewAzureSqlDatabaseServerContext.cs" />
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
     <Compile Include="Model\SqlDatabaseServerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Database\Cmdlet\SetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
     <Compile Include="Services\ClientOutputMessageInspector.cs" />
+    <Compile Include="Services\Common\AccessTokenResult.cs" />
+    <Compile Include="Services\Common\DataServiceExtensions.cs" />
+    <Compile Include="Services\Common\DataConnectionUtility.cs" />
+    <Compile Include="Services\Common\DataServiceAccess.cs" />
+    <Compile Include="Services\Common\DataServiceBasicCredentials.cs" />
+    <Compile Include="Services\Common\DataServiceConnectionType.cs" />
+    <Compile Include="Services\Common\DataServiceConstants.cs" />
+    <Compile Include="Services\Common\SqlDatabaseExceptionHandler.cs" />
+    <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\ConfigurationConstants.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\DatabaseExtensions.cs" />
+    <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\ServerDataService.cs" />
+    <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
+    <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
+    <Compile Include="Services\Server\ServerContextInternal.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />
     <Compile Include="Services\ISqlDatabaseManagement.cs" />
     <Compile Include="Services\ISqlDatabaseManagementExternalApi.cs" />
@@ -168,6 +189,8 @@
     <Compile Include="Microsoft.WindowsAzure.Management.SqlDatabase.SnapIn.cs">
       <SubType>Component</SubType>
     </Compile>
+    <None Include="Services\Server\ServerDataService.csdl" />
+    <None Include="Services\Server\UpdateServerDataServiceMetadata.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
@@ -190,6 +213,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

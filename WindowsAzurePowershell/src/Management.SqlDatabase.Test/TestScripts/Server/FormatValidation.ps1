@@ -41,21 +41,24 @@ Write-Output "`$OutputFile=$OutputFile"
 
 Try
 {
-    Init-TestEnvironment -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-TestEnvironment
+    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
     $isTestPass = $False
     
     # Get SqlDatabaseOperationContext format
-    $SqlDatabaseOperationContext = New-AzureSqlDatabaseServer -AdministratorLogin "mylogin1" -AdministratorLoginPassword "Sql@zure1" -Location $serverLocation
+    $SqlDatabaseOperationContext = New-AzureSqlDatabaseServer -AdministratorLogin "mylogin1" `
+                                        -AdministratorLoginPassword "Sql@zure1" -Location $serverLocation
     $server = $SqlDatabaseOperationContext
     
     # Get SqlDatabaseServerContext format
     $SqlDatabaseServerContext = Get-AzureSqlDatabaseServer $server.ServerName
     
     # Get SqlDatabaseFirewallRuleContext format
-    $SqlDatabaseFirewallRuleContext = New-AzureSqlDatabaseServerFirewallRule $server.ServerName -RuleName "test" -StartIpAddress "1.0.0.0" -EndIpAddress "2.0.0.0"
+    $SqlDatabaseFirewallRuleContext = New-AzureSqlDatabaseServerFirewallRule $server.ServerName `
+                                        -RuleName "test" -StartIpAddress "1.0.0.0" -EndIpAddress "2.0.0.0"
     
     # write the dynamic content in comma separated line
-    "$ServerLocation,$($SqlDatabaseOperationContext.ServerName)"  > $OutputFile
+    "$ServerLocation#$($SqlDatabaseOperationContext.ServerName)"  > $OutputFile
     
     # write output object to output file
     $SqlDatabaseOperationContext.GetType().Name >> $OutputFile
