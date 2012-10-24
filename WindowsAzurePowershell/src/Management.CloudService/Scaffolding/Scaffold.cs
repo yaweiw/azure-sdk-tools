@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
             File.WriteAllText(path, contents);
         }
 
-        private static string ReplaceParameter(string text, Dictionary<string, object> parameters)
+        public static string ReplaceParameter(string text, Dictionary<string, object> parameters)
         {
             foreach (KeyValuePair<string, object> pair in parameters)
             {

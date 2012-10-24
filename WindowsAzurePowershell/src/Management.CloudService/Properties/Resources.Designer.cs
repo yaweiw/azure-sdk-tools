@@ -187,6 +187,60 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;configuration&gt;
+        ///  &lt;configSections&gt;
+        ///    &lt;section name=&quot;dataCacheClients&quot; type=&quot;Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core&quot; allowLocation=&quot;true&quot; 	allowDefinition=&quot;Everywhere&quot; /&gt;
+        ///  &lt;/configSections&gt;
+        ///  &lt;dataCacheClients&gt;
+        ///    &lt;tracing sinkType=&quot;DiagnosticSink&quot; traceLevel=&quot;Error&quot; /&gt;
+        ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
+        ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
+        ///    &lt;/dataCacheClient&gt;
+        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CacheAutoDiscoveryConfig {
+            get {
+                return ResourceManager.GetString("CacheAutoDiscoveryConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CacheRoleName.
+        /// </summary>
+        internal static string CacheRoleName {
+            get {
+                return ResourceManager.GetString("CacheRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to cache.
+        /// </summary>
+        internal static string CacheRuntimeValue {
+            get {
+                return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.7.
+        /// </summary>
+        internal static string CacheRuntimeVersion {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing caching version {0} for Role &apos;{1}&apos; (the caching version locally installed is: {2}).
+        /// </summary>
+        internal static string CacheVersionWarningText {
+            get {
+                return ResourceManager.GetString("CacheVersionWarningText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage.
         /// </summary>
         internal static string CachingCacheSizePercentageSettingName {
@@ -246,32 +300,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string CachingNamedCacheSettingName {
             get {
                 return ResourceManager.GetString("CachingNamedCacheSettingName", resourceCulture);
-            }
-        }
-        /// <summary>
-        ///   Looks up a localized string similar to cache.
-        /// </summary>
-        internal static string CacheRuntimeValue {
-            get {
-                return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1.7.
-        /// </summary>
-        internal static string CacheRuntimeVersion {
-            get {
-                return ResourceManager.GetString("CacheRuntimeVersion", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Installing caching version {0} for Role &apos;{1}&apos; (the caching version locally installed is: {2}).
-        /// </summary>
-        internal static string CacheVersionWarningText {
-            get {
-                return ResourceManager.GetString("CacheVersionWarningText", resourceCulture);
             }
         }
         
@@ -534,6 +562,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string CsRunUpdateDeploymentArg {
             get {
                 return ResourceManager.GetString("CsRunUpdateDeploymentArg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core.
+        /// </summary>
+        internal static string DataCacheClientsType {
+            get {
+                return ResourceManager.GetString("DataCacheClientsType", resourceCulture);
             }
         }
         
@@ -1002,6 +1039,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string MaxSupportAzureSdkVersion {
             get {
                 return ResourceManager.GetString("MaxSupportAzureSdkVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to memcache_default.
+        /// </summary>
+        internal static string MemcacheEndpointName {
+            get {
+                return ResourceManager.GetString("MemcacheEndpointName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 11211.
+        /// </summary>
+        internal static string MemcacheEndpointPort {
+            get {
+                return ResourceManager.GetString("MemcacheEndpointPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe.
+        /// </summary>
+        internal static string MemcacheShimStartupCommand {
+            get {
+                return ResourceManager.GetString("MemcacheShimStartupCommand", resourceCulture);
             }
         }
         
@@ -2015,6 +2079,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string WaitMessage {
             get {
                 return ResourceManager.GetString("WaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web.cloud.config.
+        /// </summary>
+        internal static string WebCloudConfig {
+            get {
+                return ResourceManager.GetString("WebCloudConfig", resourceCulture);
             }
         }
         
