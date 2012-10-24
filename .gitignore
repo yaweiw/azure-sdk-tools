@@ -8,5 +8,6 @@ TestResults
 *.user
 *.suo
 *.orig
+*.ncrunchsolution
 /Publish
 /Package
