@@ -38,7 +38,7 @@ Write-Output "`$serverLocation=$serverLocation"
 Try
 {
 	Init-TestEnvironment
-    Set-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
+    Init-AzureSubscription -subscriptionID $subscriptionID -SerializedCert $SerializedCert
     $loginName="mylogin1"
     $loginPassword="Sql@zure1"
     $isTestPass = $False

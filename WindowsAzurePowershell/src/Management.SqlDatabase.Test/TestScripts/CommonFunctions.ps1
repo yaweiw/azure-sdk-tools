@@ -33,7 +33,7 @@ function Init-TestEnvironment
     }
 }
 
-function Set-AzureSubscription
+function Init-AzureSubscription
 {
     [CmdletBinding()]
     Param
