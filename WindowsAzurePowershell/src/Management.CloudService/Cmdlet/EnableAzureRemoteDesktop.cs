@@ -31,6 +31,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using ServiceDefinitionSchema;
     using Services;
     using Utilities;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to

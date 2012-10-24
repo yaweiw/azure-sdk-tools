@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
 {
-    using Cmdlets.Common;
     using Model;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     public abstract class CloudCmdlet<T> : CloudBaseCmdlet<T>
         where T : class

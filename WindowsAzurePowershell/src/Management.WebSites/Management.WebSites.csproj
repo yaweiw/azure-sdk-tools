@@ -108,9 +108,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
-      <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
@@ -135,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\RestartAzureWebsite.cs" />
     <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
     <Compile Include="Cmdlets\GetAzureWebsiteDeployment.cs" />

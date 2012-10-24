@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities;
     using StorageClient;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     public static class AzureBlob
     {

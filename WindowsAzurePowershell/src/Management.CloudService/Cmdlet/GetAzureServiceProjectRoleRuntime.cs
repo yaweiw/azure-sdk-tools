@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Common;
     using Model;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud

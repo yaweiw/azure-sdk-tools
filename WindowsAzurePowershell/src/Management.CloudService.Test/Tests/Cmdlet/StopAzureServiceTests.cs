@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
     public class StopAzureServiceTests : TestBase
