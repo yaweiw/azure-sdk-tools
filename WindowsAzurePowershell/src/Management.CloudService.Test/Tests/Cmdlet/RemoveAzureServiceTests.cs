@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
     public class RemoveAzureServiceTests : TestBase

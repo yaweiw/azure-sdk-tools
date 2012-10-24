@@ -15,8 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.Management.Automation;
-    using Cmdlet.Common;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
 
     public class SetSettings : CloudCmdlet<IServiceManagement>
     {

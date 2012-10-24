@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
     using System.Management.Automation;
     using System.ServiceModel;
     using CloudService.Cmdlet.Common;
-    using CloudService.Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Properties;
     using Services;
 

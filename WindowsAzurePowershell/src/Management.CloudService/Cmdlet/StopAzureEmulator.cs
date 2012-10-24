@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Model;
     using Properties;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Runs the service in the emulator
