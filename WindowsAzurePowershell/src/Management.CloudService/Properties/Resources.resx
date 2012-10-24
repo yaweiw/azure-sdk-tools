@@ -804,4 +804,35 @@
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
   </data>
+  <data name="MemcacheShimStartupCommand" xml:space="preserve">
+    <value>WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe</value>
+  </data>
+  <data name="MemcacheEndpointName" xml:space="preserve">
+    <value>memcache_default</value>
+  </data>
+  <data name="MemcacheEndpointPort" xml:space="preserve">
+    <value>11211</value>
+  </data>
+  <data name="CacheRoleName" xml:space="preserve">
+    <value>CacheRoleName</value>
+  </data>
+  <data name="DataCacheClientsType" xml:space="preserve">
+    <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
+  </data>
+  <data name="CacheAutoDiscoveryConfig" xml:space="preserve">
+    <value>&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="dataCacheClients" type="Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core" allowLocation="true" 	allowDefinition="Everywhere" /&gt;
+  &lt;/configSections&gt;
+  &lt;dataCacheClients&gt;
+    &lt;tracing sinkType="DiagnosticSink" traceLevel="Error" /&gt;
+    &lt;dataCacheClient name="DefaultShimConfig" useLegacyProtocol="false"&gt;
+      &lt;autoDiscover isEnabled="true" identifier="$RoleName$" /&gt;
+    &lt;/dataCacheClient&gt;
+  &lt;/dataCacheClients&gt;
+&lt;/configuration&gt;</value>
+  </data>
+  <data name="WebCloudConfig" xml:space="preserve">
+    <value>Web.cloud.config</value>
+  </data>
 </root>

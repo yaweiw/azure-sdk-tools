@@ -50,13 +50,16 @@ using System.Collections.Generic;
 
         public void Save(ServicePathInfo paths)
         {
-            if (paths == null) throw new ArgumentNullException("paths");
             // Validate directory exists and it's valid
+            if (paths == null) throw new ArgumentNullException("paths");
 
             General.SerializeXmlFile<ServiceDefinition>(Definition, paths.Definition);
             General.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
             General.SerializeXmlFile<ServiceConfiguration>(LocalConfig, paths.LocalConfiguration);
             Settings.Save(paths.Settings);
+
+            // Reload the components after saving their value.
+            this.LoadComponents(paths);
         }
 
         public void SetRoleInstances(string roleName, int instances)
@@ -84,6 +87,17 @@ using System.Collections.Generic;
         public WorkerRole GetWorkerRole(string name)
         {
             try { return Definition.WorkerRole.First<WorkerRole>(r => r.name.Equals(name)); }
+            catch { return null; }
+        }
+
+        /// <summary>
+        /// Gets the web role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The web role name</param>
+        /// <returns>The web role object from service definition</returns>
+        public WebRole GetWebRole(string name)
+        {
+            try { return Definition.WebRole.First<WebRole>(r => r.name.Equals(name)); }
             catch { return null; }
         }
 
@@ -220,9 +234,10 @@ using System.Collections.Generic;
             else
             {
                 return
-                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName))) || (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName)))) &&
-                    CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName)) &&
-                    LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName));
+                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName, StringComparison.OrdinalIgnoreCase))) ||
+                   (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)))) &&
+                    CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)) &&
+                    LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
             }
         }
 

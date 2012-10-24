@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
+    <Compile Include="Cmdlet\EnableAzureMemcache.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
@@ -408,8 +409,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
