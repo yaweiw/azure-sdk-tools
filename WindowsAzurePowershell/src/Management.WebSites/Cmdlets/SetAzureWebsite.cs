@@ -102,13 +102,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         internal override void ExecuteCommand()
         {
             Site website = null;
-            SiteConfig websiteConfig = null;
+            FriendlySiteConfig websiteConfig = null;
             InvokeInOperationContext(() =>
             {
                 try
                 {
                     website = RetryCall(s => Channel.GetSite(s, Name, null));
-                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
+                    websiteConfig = new FriendlySiteConfig(RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name)));
                 }
                 catch (CommunicationException ex)
                 {
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 websiteConfigUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
             }
 
-            if (AppSettings != null)
+            if (AppSettings != null && !AppSettings.Equals(websiteConfig.AppSettings))
             {
                 changes = true;
                 websiteConfigUpdate.AppSettings = AppSettings;
