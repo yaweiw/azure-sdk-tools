@@ -1210,20 +1210,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 5.4.0.
+        /// </summary>
+        internal static string PHPDefaultRuntimeVersion {
+            get {
+                return ResourceManager.GetString("PHPDefaultRuntimeVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to php.
         /// </summary>
         internal static string PhpRuntimeValue {
             get {
                 return ResourceManager.GetString("PhpRuntimeValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 5.4.
-        /// </summary>
-        internal static string PHPRuntimeVersion {
-            get {
-                return ResourceManager.GetString("PHPRuntimeVersion", resourceCulture);
             }
         }
         
@@ -1687,6 +1687,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RUNTIMEVERSIONPRIMARYKEY.
+        /// </summary>
+        internal static string RuntimeVersionPrimaryKey {
+            get {
+                return ResourceManager.GetString("RuntimeVersionPrimaryKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to scaffold.xml.
         /// </summary>
         internal static string ScaffoldXml {
@@ -1863,6 +1872,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string SetRoleInstancesMessage {
             get {
                 return ResourceManager.GetString("SetRoleInstancesMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;Slot&quot;:&quot;&quot;,&quot;Location&quot;:&quot;&quot;,&quot;Subscription&quot;:&quot;&quot;,&quot;StorageAccountName&quot;:&quot;&quot;}.
+        /// </summary>
+        internal static string SettingsFileEmptyContent {
+            get {
+                return ResourceManager.GetString("SettingsFileEmptyContent", resourceCulture);
             }
         }
         

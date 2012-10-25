@@ -202,6 +202,10 @@
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+      <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Scaffolding\General\ServiceConfiguration.Local.cscfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -221,18 +225,6 @@
     <Content Include="Resources\Scaffolding\Node\WorkerRole\setup_worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.Deployment.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.UI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\WebpiCmdLine.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\index.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -248,22 +240,10 @@
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\index.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.Deployment.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.UI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\RoleSettings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\WebpiCmdLine.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
@@ -354,6 +334,9 @@
     <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -369,6 +352,9 @@
     <None Include="Resources\Scaffolding\PHP\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

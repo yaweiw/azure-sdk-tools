@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
+    using System.IO;
     using System.Collections.Generic;
     using System.Linq;
     using Properties;
@@ -40,7 +41,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Validate.ValidateFileFull(paths.CloudConfiguration, Resources.ServiceConfiguration);
             Validate.ValidateFileFull(paths.LocalConfiguration, Resources.ServiceConfiguration);
             Validate.ValidateFileFull(paths.Definition, Resources.ServiceDefinition);
-            Validate.ValidateFileFull(paths.Settings, Resources.ServiceSettings);
+
+            try
+            {
+                Validate.ValidateFileFull(paths.Settings, Resources.ServiceSettings);
+            }
+            catch (FileNotFoundException)
+            {
+                // Try recreating the settings file
+                File.WriteAllText(paths.Settings, Resources.SettingsFileEmptyContent);
+            }
 
             Definition = General.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
             CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
