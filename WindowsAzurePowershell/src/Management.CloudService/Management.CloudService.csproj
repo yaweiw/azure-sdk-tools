@@ -143,11 +143,13 @@
     <Compile Include="AzureTools\CsPack.cs" />
     <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
+    <Compile Include="Model\CachingStorageConnectionStringUpdater.cs" />
     <Compile Include="Model\CloudRuntime.cs" />
     <Compile Include="Model\CloudRuntimeApplicator.cs" />
     <Compile Include="Model\CloudRuntimeCollection.cs" />
     <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
+    <Compile Include="Model\IPublishListener.cs" />
     <Compile Include="Model\JavaScriptPackageHelpers.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
