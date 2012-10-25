@@ -205,29 +205,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CacheRoleName.
-        /// </summary>
-        internal static string CacheRoleName {
-            get {
-                return ResourceManager.GetString("CacheRoleName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to cache.
         /// </summary>
         internal static string CacheRuntimeValue {
             get {
                 return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to 1.7.
-        /// </summary>
-        internal static string CacheRuntimeVersion {
-            get {
-                return ResourceManager.GetString("CacheRuntimeVersion", resourceCulture);
             }
         }
         
@@ -706,6 +688,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword {
             get {
                 return ResourceManager.GetString("EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Memcache is enabled for role &quot;{0}&quot; using caching role &quot;{1}&quot;.
+        /// </summary>
+        internal static string EnableMemcacheMessage {
+            get {
+                return ResourceManager.GetString("EnableMemcacheMessage", resourceCulture);
             }
         }
         

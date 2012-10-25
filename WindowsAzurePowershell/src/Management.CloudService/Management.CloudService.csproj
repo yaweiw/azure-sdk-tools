@@ -336,40 +336,40 @@
     <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\Web.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
