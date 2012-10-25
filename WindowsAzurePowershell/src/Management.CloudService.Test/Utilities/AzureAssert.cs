@@ -233,12 +233,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public static void WorkerRoleLocalResourcesLocalStoreExists(LocalStore expected, WorkerRole actual)
         {
-            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalResources.LocalStorage, l => l.name.Equals(expected.name) && l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
+            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalResources.LocalStorage, l => l.name.Equals(expected.name) && 
+                l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
         }
 
         public static void RoleSettingsExist(ConfigConfigurationSetting expected, RoleSettings actual)
         {
-            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual.ConfigurationSettings, c => c.name == expected.name && c.value == expected.value));
+            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual.ConfigurationSettings, 
+                c => c.name == expected.name && c.value == expected.value));
+        }
+
+        public static void RuntimeExists(Task[] tasks, string runtimeValue)
+        {
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
+                e => e.value!= null && e.value.Contains(runtimeValue))));
+        }
+
+        public static void StartupTaskExists(Task[] tasks, string startupCommand)
+        {
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => t.commandLine == startupCommand));
+        }
+
+        public static void InternalEndpointExists(InternalEndpoint[] internalEndpoints, InternalEndpoint internalEndpoint)
+        {
+            Assert.IsTrue(Array.Exists<InternalEndpoint>(internalEndpoints, i => i.name == internalEndpoint.name && 
+                i.port == internalEndpoint.port && i.protocol == internalEndpoint.protocol));
         }
     }
 }
