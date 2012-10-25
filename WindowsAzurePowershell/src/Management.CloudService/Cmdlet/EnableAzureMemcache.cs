@@ -118,21 +118,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 webRole.Endpoints.InternalEndpoint = General.ExtendArray<InternalEndpoint>(webRole.Endpoints.InternalEndpoint, memcacheEndpoint);
 
                 // Adjust web.config to enable auto discovery for the caching role.
-                string webConfigPath = string.Format(@"{0}\{1}\{2}", azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
-                XDocument webConfig = XDocument.Load(webConfigPath);
-                
-                Dictionary<string, object> parameters = new Dictionary<string, object>();
-                parameters[ScaffoldParams.RoleName] = cacheWorkerRoleName;
-                string autoDiscoveryConfig = Scaffold.ReplaceParameter(Resources.CacheAutoDiscoveryConfig, parameters);
-
-                // Adding the auto-discovery is sensetive to the placement of the nodes. The first node which is <configSections>
-                // must be added at the first and the last node which is dataCacheClients must be added as last element.
-                XElement autoDiscoverXElement = XElement.Parse(autoDiscoveryConfig);
-                webConfig.Element("configuration").AddFirst(autoDiscoverXElement.FirstNode);
-                webConfig.Element("configuration").Add(autoDiscoverXElement.LastNode);
-                Debug.Assert(webConfig.Element("configuration").FirstNode.Ancestors("section").Attributes("name") != null);
-                Debug.Assert(webConfig.Element("configuration").LastNode.Ancestors("tracing").Attributes("sinkType") != null);
-                webConfig.Save(webConfigPath);
+                UpdateWebCloudConfig(roleName, cacheWorkerRoleName, azureService);
 
                 message = string.Format(Resources.EnableMemcacheMessage, roleName, cacheWorkerRoleName, Resources.MemcacheEndpointPort);
             }
@@ -145,6 +131,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             azureService.Components.Save(azureService.Paths);
 
             return message;
+        }
+
+        /// <summary>
+        /// Updates the web.cloud.config with to auto-discover the cache role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="cacheWorkerRoleName">The cache worker role name</param>
+        /// <param name="azureService">The azure service instance for the role</param>
+        private static void UpdateWebCloudConfig(string roleName, string cacheWorkerRoleName, AzureService azureService)
+        {
+            string webConfigPath = string.Format(@"{0}\{1}\{2}", azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
+            XDocument webConfig = XDocument.Load(webConfigPath);
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters[ScaffoldParams.RoleName] = cacheWorkerRoleName;
+            string autoDiscoveryConfig = Scaffold.ReplaceParameter(Resources.CacheAutoDiscoveryConfig, parameters);
+
+            // Adding the auto-discovery is sensetive to the placement of the nodes. The first node which is <configSections>
+            // must be added at the first and the last node which is dataCacheClients must be added as last element.
+            XElement autoDiscoverXElement = XElement.Parse(autoDiscoveryConfig);
+            webConfig.Element("configuration").AddFirst(autoDiscoverXElement.FirstNode);
+            webConfig.Element("configuration").Add(autoDiscoverXElement.LastNode);
+            Debug.Assert(webConfig.Element("configuration").FirstNode.Ancestors("section").Attributes("name") != null);
+            Debug.Assert(webConfig.Element("configuration").LastNode.Ancestors("tracing").Attributes("sinkType") != null);
+            webConfig.Save(webConfigPath);
         }
     }
 }
