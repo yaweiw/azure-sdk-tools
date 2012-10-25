@@ -715,8 +715,8 @@
   <data name="NodeVersionWarningText" xml:space="preserve">
     <value>Installing Node version {0} in Azure for Role '{1}' (the Node version locally installed is: {2})</value>
   </data>
-  <data name="PHPRuntimeVersion" xml:space="preserve">
-    <value>5.4</value>
+  <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
+    <value>5.4.0</value>
   </data>
   <data name="PHPVersionWarningText" xml:space="preserve">
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>
@@ -765,6 +765,9 @@
   <data name="PackageJsonFileName" xml:space="preserve">
     <value>package.json</value>
   </data>
+  <data name="RuntimeVersionPrimaryKey" xml:space="preserve">
+    <value>RUNTIMEVERSIONPRIMARYKEY</value>
+  </data>
   <data name="WebRoleStartupTaskCommandLine" xml:space="preserve">
     <value>setup_web.cmd &gt; log.txt</value>
   </data>
@@ -803,5 +806,8 @@
   </data>
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
+  </data>
+  <data name="SettingsFileEmptyContent" xml:space="preserve">
+    <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
   </data>
 </root>
