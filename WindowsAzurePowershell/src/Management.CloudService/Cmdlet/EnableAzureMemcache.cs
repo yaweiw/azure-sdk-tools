@@ -134,7 +134,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Debug.Assert(webConfig.Element("configuration").LastNode.Ancestors("tracing").Attributes("sinkType") != null);
                 webConfig.Save(webConfigPath);
 
-                message = string.Format(Resources.EnableMemcacheMessage, roleName, cacheWorkerRoleName);
+                message = string.Format(Resources.EnableMemcacheMessage, roleName, cacheWorkerRoleName, Resources.MemcacheEndpointPort);
             }
             else
             {

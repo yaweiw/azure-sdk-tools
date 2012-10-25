@@ -692,7 +692,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Memcache is enabled for role &quot;{0}&quot; using caching role &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Memcache is enabled for role &quot;{0}&quot; using cache role &quot;{1}&quot; to connect use server name is localhost_{0} with port {2}..
         /// </summary>
         internal static string EnableMemcacheMessage {
             get {
