@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
-
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
