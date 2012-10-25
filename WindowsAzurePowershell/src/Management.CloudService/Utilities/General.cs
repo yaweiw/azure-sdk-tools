@@ -407,6 +407,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
             return collection.Concat<T>(items).ToArray<T>();
         }
 
+        /// <summary>
+        /// Initializes given object if its set to null.
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="obj">The object to initialize</param>
+        /// <returns>Initialized object</returns>
         public static T InitializeIfNull<T>(T obj)
             where T : new()
         {
@@ -414,10 +420,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
             {
                 return new T();
             }
-            else
-            {
-                return obj;
-            }
+
+            return obj;
         }
     }
 }

@@ -361,8 +361,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSch
         /// <returns>True if equals false if not</returns>
         public override bool Equals(object obj)
         {
-            ConfigurationSetting rightHandSide = (ConfigurationSetting)obj;
-            return this.name.Equals(rightHandSide.name);
+            ConfigurationSetting rightHandSide = obj as ConfigurationSetting;
+            return this.name.Equals(rightHandSide.name, System.StringComparison.OrdinalIgnoreCase);
         }
 
         public override int GetHashCode()
