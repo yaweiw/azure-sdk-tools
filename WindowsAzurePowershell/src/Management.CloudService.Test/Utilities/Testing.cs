@@ -166,6 +166,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
 
         /// <summary>
+        /// Gets web role object from service definition.
+        /// </summary>
+        /// <param name="servicePath">The azure service root path</param>
+        /// <returns>The web role object</returns>
+        internal static WebRole GetWebRole(string servicePath, string name)
+        {
+            AzureService service = new AzureService(servicePath, null);
+            return service.Components.GetWebRole(name);
+        }
+
+        /// <summary>
         /// Gets the role settings object from cloud service configuration.
         /// </summary>
         /// <param name="servicePath">The azure service root path</param>
