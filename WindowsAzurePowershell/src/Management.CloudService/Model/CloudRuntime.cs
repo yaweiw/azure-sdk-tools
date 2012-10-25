@@ -485,9 +485,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             protected override void Configure(Dictionary<string, string> environment)
             {
                 this.Runtime = Runtime.PHP;
+
                 if (string.IsNullOrEmpty(this.Version))
                 {
-                    this.Version = Resources.PHPRuntimeVersion;
+                    string version = Resources.PHPDefaultRuntimeVersion;
+                    environment.TryGetValue(Resources.RuntimeVersionPrimaryKey, out version);
+                    this.Version = version;
                 }
             }
 
@@ -502,8 +505,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     this.Version);
             }
 
+            protected override bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
+            {
+                bool succeed = base.GetChanges(package, out changes);
+                changes[Resources.RuntimeVersionPrimaryKey] = package.Version;
+                return succeed;
+            }
+
             protected override void ApplyScaffoldingChanges(CloudRuntimePackage package)
             {
+                
             }
         }
 

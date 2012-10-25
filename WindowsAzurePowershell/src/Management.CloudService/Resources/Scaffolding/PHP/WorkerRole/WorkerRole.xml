@@ -10,10 +10,17 @@
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
           </Variable>
-          <Variable name="VERSION" value="5.3.13"/>
-          <Variable name="DATACENTER" value=""/>
+          <!-- 
+                Use this value to provide your own url for a role runtime self-extracting package 
+                <Variable name="RUNTIMEURLOVERRIDE" value=""/> 
+                
+                Use this value to specify a particular php version to install on the role
+                Not all php versions are available in the cloud
+                <Variable name="RUNTIMEVERSIONPRIMARYKEY" value="" />
+          -->
+          <Variable name="RUNTIMEVERSIONPRIMARYKEY" value="5.3.17" />
+          <Variable name="RUNTIMEID" value="PHP" />
           <Variable name="RUNTIMEURL" value=""/>
-          <Variable name="MANIFESTURL" value="http://azurertscu.blob.core.windows.net/php/runtimemanifest.xml"/>
 
           <Variable name="WORKER" value="true"/>
         </Environment>
