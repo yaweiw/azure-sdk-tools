@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public ServicePathInfo(string rootPath)
         {
-            Validate.ValidateStringIsNullOrEmpty(rootPath, "service root");
+            Validate.ValidateStringIsNullOrEmpty(rootPath, "service definition (*.csdef) file");
             Validate.ValidatePathName(rootPath, Resources.InvalidRootNameMessage);
 
             RootPath = rootPath;

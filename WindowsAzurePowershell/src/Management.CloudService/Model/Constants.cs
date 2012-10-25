@@ -99,6 +99,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         IISNode,
         Node,
         PHP,
+        Cache,
         Null
     }
 }
