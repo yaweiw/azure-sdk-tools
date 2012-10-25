@@ -1482,8 +1482,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema
 
         private int sizeInMBField;
 
-        private bool sizeInMBFieldSpecified;
-
         private bool cleanOnRoleRecycleField;
 
         public LocalStore()
@@ -1516,20 +1514,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema
             set
             {
                 this.sizeInMBField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
-        public bool sizeInMBSpecified
-        {
-            get
-            {
-                return this.sizeInMBFieldSpecified;
-            }
-            set
-            {
-                this.sizeInMBFieldSpecified = value;
             }
         }
 

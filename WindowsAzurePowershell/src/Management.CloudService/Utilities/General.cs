@@ -365,5 +365,63 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
         {
             return (sequence != null) ? sequence.Max(selector) : defaultValue;
         }
+
+        /// <summary>
+        /// Extends the array with one element.
+        /// </summary>
+        /// <typeparam name="T">The array type</typeparam>
+        /// <param name="collection">The array holding elements</param>
+        /// <param name="item">The item to add</param>
+        /// <returns>New array with added item</returns>
+        public static T[] ExtendArray<T>(IEnumerable<T> collection, T item)
+        {
+            if (collection == null)
+            {
+                collection = new T[0];
+            }
+
+            List<T> list = new List<T>(collection);
+            list.Add(item);
+            return list.ToArray<T>();
+        }
+
+        /// <summary>
+        /// Extends the array with another array
+        /// </summary>
+        /// <typeparam name="T">The array type</typeparam>
+        /// <param name="collection">The array holding elements</param>
+        /// <param name="items">The items to add</param>
+        /// <returns>New array with added items</returns>
+        public static T[] ExtendArray<T>(IEnumerable<T> collection, IEnumerable<T> items)
+        {
+            if (collection == null)
+            {
+                collection = new T[0];
+            }
+
+            if (items == null)
+            {
+                items = new T[0];
+            }
+
+            return collection.Concat<T>(items).ToArray<T>();
+        }
+
+        /// <summary>
+        /// Initializes given object if its set to null.
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="obj">The object to initialize</param>
+        /// <returns>Initialized object</returns>
+        public static T InitializeIfNull<T>(T obj)
+            where T : new()
+        {
+            if (obj == null)
+            {
+                return new T();
+            }
+
+            return obj;
+        }
     }
 }

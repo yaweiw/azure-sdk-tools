@@ -27,9 +27,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     {
         internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
+            RoleInfo workerRole;
+            return AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out workerRole);
+        }
+
+        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath, out RoleInfo workerRole)
+        {
             string result;
             AzureService service = new AzureService(rootPath, null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
             try
             {
                 service.ChangeRolePermissions(workerRole);
