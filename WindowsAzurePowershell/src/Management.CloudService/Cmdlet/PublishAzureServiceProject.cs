@@ -31,16 +31,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Extensions;
     using Management.Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using Model;
     using Properties;
     using Services;
     using StorageClient;
     using Utilities;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
     using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -52,6 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
+        private List<IPublishListener> _listeners;
 
         [Parameter(Mandatory = false)]
         [Alias("sn")]
@@ -118,6 +116,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public PublishAzureServiceProjectCommand(IServiceManagement channel)
         {
             Channel = channel;
+
+            _listeners = new List<IPublishListener>();
+            _listeners.Add(new CachingStorageConnectionStringUpdater());
         }
 
         /// <summary>
@@ -273,11 +274,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         defaultSettings.Location);
                 }
 
-                // Fetch storage service properties
-                StorageService storageService = RetryCall<StorageService>(subscription =>
-                        Channel.GetStorageKeys(subscription, defaultSettings.StorageAccountName));
-
-                UpdateCachingWorkerRolesConfigurationSettings(defaultSettings.StorageAccountName, storageService.StorageServiceKeys.Primary);
+                // Initiate call to all publish listeners.
+                this._listeners.ForEach<IPublishListener>(l => l.OnPublish(Channel, _azureService, defaultSettings, CurrentSubscription.SubscriptionId));
 
                 CreatePackage();
                 
@@ -292,24 +290,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
 
             return false;
-        }
-
-        private void UpdateCachingWorkerRolesConfigurationSettings(string name, string key)
-        {
-            ConfigConfigurationSetting connectionStringConfig = new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty };
-            _azureService.Components.ForEachRoleSettings(
-            r => Array.Exists<ConfigConfigurationSetting>(r.ConfigurationSettings, c => c.Equals(connectionStringConfig)),
-            delegate(RoleSettings r)
-            {
-                int index = Array.IndexOf<ConfigConfigurationSetting>(r.ConfigurationSettings, connectionStringConfig);
-                r.ConfigurationSettings[index] = new ConfigConfigurationSetting
-                {
-                    name = Resources.CachingConfigStoreConnectionStringSettingName,
-                    value = string.Format(Resources.CachingConfigStoreConnectionStringSettingValue, name, key)
-                };
-            });
-
-            _azureService.Components.Save(_azureService.Paths);
         }
 
         /// <summary>
@@ -519,9 +499,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage,
-                _deploymentSettings.ServiceSettings.StorageAccountName));
-
                 SafeWriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
 
                 if (!SkipUpload)
@@ -606,6 +583,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Label = ServiceManagementHelper.EncodeToBase64String(label),
                 Location = location
             };
+
+            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
