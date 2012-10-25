@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Utilities;
@@ -34,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 
         bool? DetailedErrorLoggingEnabled { get; set; }
 
-        List<NameValuePair> AppSettings { get; set; }
+        Hashtable AppSettings { get; set; }
 
         List<NameValuePair> Metadata { get; set; }
 
@@ -43,8 +44,133 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         HandlerMapping[] HandlerMappings { get; set; }
     }
 
+    public class FriendlySiteConfig : ISiteConfig
+    {
+        public SiteConfig SiteConfig { private set; get; }
+
+        public FriendlySiteConfig()
+        {
+            SiteConfig = new SiteConfig();
+        }
+
+        public FriendlySiteConfig(SiteConfig siteConfig)
+        {
+            SiteConfig = siteConfig;
+        }
+
+        public int? NumberOfWorkers
+        {
+            get { return SiteConfig.NumberOfWorkers; }
+            set { SiteConfig.NumberOfWorkers = value; }
+        }
+
+        public string[] DefaultDocuments
+        {
+            get { return SiteConfig.DefaultDocuments; }
+            set { SiteConfig.DefaultDocuments = value; }
+        }
+
+        public string NetFrameworkVersion
+        {
+            get { return SiteConfig.NetFrameworkVersion; }
+            set { SiteConfig.NetFrameworkVersion = value; }
+        }
+
+        public string PhpVersion
+        {
+            get { return SiteConfig.PhpVersion; }
+            set { SiteConfig.PhpVersion = value; }
+        }
+
+        public bool? RequestTracingEnabled
+        {
+            get { return SiteConfig.RequestTracingEnabled; }
+            set { SiteConfig.RequestTracingEnabled = value; }
+        }
+        public bool? HttpLoggingEnabled
+        {
+            get { return SiteConfig.HttpLoggingEnabled; }
+            set { SiteConfig.HttpLoggingEnabled = value; }
+        }
+
+        public bool? DetailedErrorLoggingEnabled
+        {
+            get { return SiteConfig.DetailedErrorLoggingEnabled; }
+            set { SiteConfig.DetailedErrorLoggingEnabled = value; }
+        }
+
+        public string PublishingUsername
+        {
+            get { return SiteConfig.PublishingUsername; }
+            set { SiteConfig.PublishingUsername = value; }
+        }
+
+        public string PublishingPassword
+        {
+            get { return SiteConfig.PublishingPassword; }
+            set { SiteConfig.PublishingPassword = value; }
+        }
+
+        public Hashtable AppSettings
+        {
+            get
+            {
+                if (SiteConfig.AppSettings != null)
+                {
+                    Hashtable appSettings = new Hashtable();
+                    foreach (var setting in SiteConfig.AppSettings)
+                    {
+                        appSettings[setting.Name] = setting.Value;
+                    }
+
+                    return appSettings;
+                }
+
+                return null;
+            }
+
+            set
+            {
+                if (value != null)
+                {
+                    SiteConfig.AppSettings = new List<NameValuePair>();
+                    foreach (var setting in value.Keys)
+                    {
+                        SiteConfig.AppSettings.Add(new NameValuePair
+                        {
+                            Name = (string)setting,
+                            Value = (string)value[setting]
+                        });
+                    }
+                }
+                else
+                {
+                    SiteConfig.AppSettings = null;
+                }
+            }
+        }
+        
+        public List<NameValuePair> Metadata
+        {
+            get { return SiteConfig.Metadata; }
+            set { SiteConfig.Metadata = value; }
+        }
+
+        public ConnStringPropertyBag ConnectionStrings
+        {
+            get { return SiteConfig.ConnectionStrings; }
+            set { SiteConfig.ConnectionStrings = value; }
+        }
+
+        public HandlerMapping[] HandlerMappings
+        {
+            get { return SiteConfig.HandlerMappings; }
+            set { SiteConfig.HandlerMappings = value; }
+        }
+    }
+
     [DataContract(Namespace = UriElements.ServiceNamespace)]
-    public class SiteConfig : ISiteConfig
+    public class SiteConfig
     {
         [DataMember(IsRequired = false)]
         public int? NumberOfWorkers { get; set; }
