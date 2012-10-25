@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
+    <Compile Include="Cmdlet\EnableAzureMemcache.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
@@ -204,6 +205,10 @@
   <ItemGroup>
     <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
       <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\General\ServiceConfiguration.Local.cscfg">
@@ -328,46 +333,49 @@
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\bin\setup_cache.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\Web.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -396,10 +404,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(ProjectDir)\MoveScaffolding.bat" "$(TargetDir)"</PostBuildEvent>
