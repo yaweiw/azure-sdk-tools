@@ -30,10 +30,10 @@
                 <File Id="fil189E2221C0ABD364C5D1DD5874571B7A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Service.dll" />
             </Component>
             <Component Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" Guid="EFEDC1C3-D3A1-4114-A30A-FFE65BB07218">
-                <File Id="fil4BDA9049E3A822953A7FFED6A8D739F3" KeyPath="yes" Source="$(var.sourceDir)\WindowsAzurePowershell\src\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll" />
+                <File Id="fil4BDA9049E3A822953A7FFED6A8D739F3" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll" />
             </Component>
             <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="6133B816-D6B0-451B-BE25-F2D4A304CF07">
-                <File Id="filE2144C8E5105E49D1525C9D7809B501B" KeyPath="yes" Source="$(var.sourceDir)\WindowsAzurePowershell\src\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml" />
+                <File Id="filE2144C8E5105E49D1525C9D7809B501B" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml" />
             </Component>
             <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="FB3DE21E-2DC2-4F3C-BF69-064A6F062CC9">
                 <File Id="filE738A7F4F746B6E5AB058142D57D7CE4" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll" />
