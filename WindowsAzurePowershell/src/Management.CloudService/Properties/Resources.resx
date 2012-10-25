@@ -680,7 +680,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml</value>
+    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml</value>
   </data>
   <data name="NodeRuntimeValue" xml:space="preserve">
     <value>node</value>
@@ -794,5 +794,14 @@
   </data>
   <data name="CachingNamedCacheSettingName" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Plugins.Caching.NamedCaches</value>
+  </data>
+  <data name="CacheRuntimeValue" xml:space="preserve">
+    <value>cache</value>
+  </data>
+  <data name="CacheRuntimeVersion" xml:space="preserve">
+    <value>1.7</value>
+  </data>
+  <data name="CacheVersionWarningText" xml:space="preserve">
+    <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
   </data>
 </root>
