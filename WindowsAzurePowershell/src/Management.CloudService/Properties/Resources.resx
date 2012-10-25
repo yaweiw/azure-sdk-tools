@@ -780,4 +780,7 @@
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
   </data>
+  <data name="SettingsFileEmptyContent" xml:space="preserve">
+    <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
+  </data>
 </root>
