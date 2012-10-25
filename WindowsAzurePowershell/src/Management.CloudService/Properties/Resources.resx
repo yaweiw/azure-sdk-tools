@@ -801,11 +801,42 @@
   <data name="CacheRuntimeValue" xml:space="preserve">
     <value>cache</value>
   </data>
-  <data name="CacheRuntimeVersion" xml:space="preserve">
-    <value>1.7</value>
-  </data>
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
+  </data>
+  <data name="CacheScaffolding" xml:space="preserve">
+    <value>Scaffolding\Cache</value>
+  </data>
+  <data name="MemcacheEndpointName" xml:space="preserve">
+    <value>memcache_default</value>
+  </data>
+  <data name="MemcacheEndpointPort" xml:space="preserve">
+    <value>11211</value>
+  </data>
+  <data name="DataCacheClientsType" xml:space="preserve">
+    <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
+  </data>
+  <data name="CacheAutoDiscoveryConfig" xml:space="preserve">
+    <value>&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="dataCacheClients" type="Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core" allowLocation="true" 	allowDefinition="Everywhere" /&gt;
+  &lt;/configSections&gt;
+  &lt;dataCacheClients&gt;
+    &lt;tracing sinkType="DiagnosticSink" traceLevel="Error" /&gt;
+    &lt;dataCacheClient name="DefaultShimConfig" useLegacyProtocol="false"&gt;
+      &lt;autoDiscover isEnabled="true" identifier="$RoleName$" /&gt;
+    &lt;/dataCacheClient&gt;
+  &lt;/dataCacheClients&gt;
+&lt;/configuration&gt;</value>
+  </data>
+  <data name="WebCloudConfig" xml:space="preserve">
+    <value>Web.cloud.config</value>
+  </data>
+  <data name="CacheStartupCommand" xml:space="preserve">
+    <value>setup_cache.cmd &gt; cache_log.txt</value>
+  </data>
+  <data name="EnableMemcacheMessage" xml:space="preserve">
+    <value>Memcache is enabled for role '{0}' using cache role '{1}' to connect use server name 'localhost_{0}' with port {2}.</value>
   </data>
   <data name="SettingsFileEmptyContent" xml:space="preserve">
     <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
