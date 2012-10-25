@@ -2147,6 +2147,12 @@ C:\PS&gt;			</maml:introduction>
             <maml:para>If specified, launch a browser window to view the application after it is deployed to Azure</maml:para>
           </maml:description>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
+          <maml:name>PackageOnly</maml:name>
+          <maml:description>
+            <maml:para>If specified, do not publish the service to Windows Azure, instead create a service package (.cspkg) file for the service, which can be deployed separately</maml:para>
+          </maml:description>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2221,6 +2227,17 @@ C:\PS&gt;			</maml:introduction>
         </dev:type>
         <dev:defaultValue>Off</dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>PackageOnly</maml:name>
+        <maml:description>
+          <maml:para>If specified, do not publish the service to Windows Azure, instead create a service package (.cspkg) file for the service, which can be deployed separately</maml:para>
+        </maml:description>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>Off</dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -2268,6 +2285,30 @@ C:\PS&gt;			</maml:introduction>
         <dev:code>Publish-AzureServiceProject</dev:code>
         <dev:remarks>
           <maml:para>Publishes the current service, using the current service settings and the current Azure publish profile</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Create Deployment Package --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Publish-AzureServiceProject -PackageOnly</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a deployment package (.cspkg) file in the service directory and does not publish to Windows Azure</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
