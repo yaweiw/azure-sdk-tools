@@ -133,6 +133,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Debug.Assert(webConfig.Element("configuration").FirstNode.Ancestors("section").Attributes("name") != null);
                 Debug.Assert(webConfig.Element("configuration").LastNode.Ancestors("tracing").Attributes("sinkType") != null);
                 webConfig.Save(webConfigPath);
+
+                message = string.Format(Resources.EnableMemcacheMessage, roleName, cacheWorkerRoleName);
             }
             else
             {

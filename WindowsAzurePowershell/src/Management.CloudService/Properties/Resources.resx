@@ -801,9 +801,6 @@
   <data name="CacheRuntimeValue" xml:space="preserve">
     <value>cache</value>
   </data>
-  <data name="CacheRuntimeVersion" xml:space="preserve">
-    <value>1.7</value>
-  </data>
   <data name="CacheVersionWarningText" xml:space="preserve">
     <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
   </data>
@@ -815,9 +812,6 @@
   </data>
   <data name="MemcacheEndpointPort" xml:space="preserve">
     <value>11211</value>
-  </data>
-  <data name="CacheRoleName" xml:space="preserve">
-    <value>CacheRoleName</value>
   </data>
   <data name="DataCacheClientsType" xml:space="preserve">
     <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
@@ -840,5 +834,8 @@
   </data>
   <data name="CacheStartupCommand" xml:space="preserve">
     <value>setup_cache.cmd &gt; log.txt</value>
+  </data>
+  <data name="EnableMemcacheMessage" xml:space="preserve">
+    <value>Memcache is enabled for role "{0}" using caching role "{1}"</value>
   </data>
 </root>
