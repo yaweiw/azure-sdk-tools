@@ -367,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSch
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return this.name.GetHashCode();
         }
     }
 }
