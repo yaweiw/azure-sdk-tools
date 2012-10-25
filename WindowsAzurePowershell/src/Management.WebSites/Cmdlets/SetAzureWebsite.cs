@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -61,6 +61,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Hostnames.")]
         [ValidateNotNullOrEmpty]
         public string[] HostNames { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The App Settings.")]
+        [ValidateNotNullOrEmpty]
+        public List<NameValuePair> AppSettings { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Metadata.")]
+        [ValidateNotNullOrEmpty]
+        public List<NameValuePair> Metadata { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Connection Strings.")]
+        [ValidateNotNullOrEmpty]
+        public ConnStringPropertyBag ConnectionStrings { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Handler Mappings.")]
+        [ValidateNotNullOrEmpty]
+        public HandlerMapping[] HandlerMappings { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
@@ -146,6 +162,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 changes = true;
                 websiteConfigUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
+            }
+
+            if (AppSettings != null && !AppSettings.Equals(websiteConfig.AppSettings))
+            {
+                changes = true;
+                websiteConfigUpdate.AppSettings = AppSettings;
+            }
+
+            if (Metadata != null && !Metadata.Equals(websiteConfig.Metadata))
+            {
+                changes = true;
+                websiteConfigUpdate.Metadata = Metadata;
+            }
+
+            if (ConnectionStrings != null && !ConnectionStrings.Equals(websiteConfig.ConnectionStrings))
+            {
+                changes = true;
+                websiteConfigUpdate.ConnectionStrings = ConnectionStrings;
+            }
+            
+            if (HandlerMappings != null && !HandlerMappings.Equals(websiteConfig.HandlerMappings))
+            {
+                changes = true;
+                websiteConfigUpdate.HandlerMappings = HandlerMappings;
             }
 
             bool siteChanges = false;
