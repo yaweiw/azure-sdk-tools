@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
 
     [TestClass]
-    public class AddAzureCacheWorkerRoleTests : TestBase
+    public class EnableAzureMemcacheTests : TestBase
     {
         [TestMethod]
         public void EnableAzureMemcacheProcess()
