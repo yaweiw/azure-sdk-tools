@@ -32,7 +32,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 
         bool? HttpLoggingEnabled { get; set; }
 
-        bool? DetailedErrorLoggingEnabled { get; set; }        
+        bool? DetailedErrorLoggingEnabled { get; set; }
+
+        List<NameValuePair> AppSettings { get; set; }
+
+        List<NameValuePair> Metadata { get; set; }
+
+        ConnStringPropertyBag ConnectionStrings { get; set; }
+
+        HandlerMapping[] HandlerMappings { get; set; }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
