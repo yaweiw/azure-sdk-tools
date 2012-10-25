@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service root"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
             }
         }
 
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is ArgumentException);
-                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service root"), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.InvalidOrEmptyArgumentMessage, "service definition (*.csdef) file"), ex.Message);
             }
         }
 

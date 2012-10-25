@@ -838,4 +838,7 @@
   <data name="EnableMemcacheMessage" xml:space="preserve">
     <value>Memcache is enabled for role "{0}" using caching role "{1}"</value>
   </data>
+  <data name="SettingsFileEmptyContent" xml:space="preserve">
+    <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
+  </data>
 </root>

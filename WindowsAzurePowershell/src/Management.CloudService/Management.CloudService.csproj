@@ -203,6 +203,10 @@
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+      <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
