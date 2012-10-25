@@ -1795,6 +1795,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {&quot;Slot&quot;:&quot;&quot;,&quot;Location&quot;:&quot;&quot;,&quot;Subscription&quot;:&quot;&quot;,&quot;StorageAccountName&quot;:&quot;&quot;}.
+        /// </summary>
+        internal static string SettingsFileEmptyContent {
+            get {
+                return ResourceManager.GetString("SettingsFileEmptyContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to deploymentSettings.json.
         /// </summary>
         internal static string SettingsFileName {
