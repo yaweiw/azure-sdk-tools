@@ -836,7 +836,7 @@
     <value>setup_cache.cmd &gt; log.txt</value>
   </data>
   <data name="EnableMemcacheMessage" xml:space="preserve">
-    <value>Memcache is enabled for role "{0}" using caching role "{1}"</value>
+    <value>Memcache is enabled for role "{0}" using cache role "{1}" to connect use server name is localhost_{0} with port {2}.</value>
   </data>
   <data name="SettingsFileEmptyContent" xml:space="preserve">
     <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
