@@ -131,6 +131,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
@@ -141,11 +142,13 @@
     <Compile Include="AzureTools\CsPack.cs" />
     <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
+    <Compile Include="Model\CachingStorageConnectionStringUpdater.cs" />
     <Compile Include="Model\CloudRuntime.cs" />
     <Compile Include="Model\CloudRuntimeApplicator.cs" />
     <Compile Include="Model\CloudRuntimeCollection.cs" />
     <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
+    <Compile Include="Model\IPublishListener.cs" />
     <Compile Include="Model\JavaScriptPackageHelpers.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
@@ -348,6 +351,7 @@
     </None>
     <None Include="Resources\Scaffolding\PHP\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

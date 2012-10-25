@@ -108,14 +108,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 
             try
             {
-                File.Delete(paths.Settings);
+                File.Delete(paths.Definition);
                 ServiceComponents components = new ServiceComponents(paths);
                 Assert.Fail("No exception was thrown");
             }
             catch (Exception ex)
             {
                 Assert.IsTrue(ex is FileNotFoundException);
-                Assert.AreEqual<string>(string.Format(Resources.PathDoesNotExistForElement, Resources.ServiceSettings, paths.Settings), ex.Message);
+                Assert.AreEqual<string>(string.Format(Resources.PathDoesNotExistForElement, Resources.ServiceDefinition, paths.Definition), ex.Message);
             }
         }
 

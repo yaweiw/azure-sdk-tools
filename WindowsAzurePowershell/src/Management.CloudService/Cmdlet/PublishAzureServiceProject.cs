@@ -36,6 +36,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Services;
     using StorageClient;
     using Utilities;
+    using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
     using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
@@ -48,6 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
+        private List<IPublishListener> _listeners;
 
         [Parameter(Mandatory = false)]
         [Alias("sn")]
@@ -114,6 +116,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public PublishAzureServiceProjectCommand(IServiceManagement channel)
         {
             Channel = channel;
+
+            _listeners = new List<IPublishListener>();
+            _listeners.Add(new CachingStorageConnectionStringUpdater());
         }
 
         /// <summary>
@@ -258,8 +263,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                     _hostedServiceName, CurrentSubscription.SubscriptionId));
 
-                CreatePackage();
+                // Caching worker roles require update to their service configuration settings with 
+                // the storage service credentials. Before creating the package verify that the storage
+                // service exists and fetch its credentials.
+                if (!StorageAccountExists(defaultSettings.StorageAccountName))
+                {
+                    CreateStorageAccount(
+                        defaultSettings.StorageAccountName,
+                        _hostedServiceName,
+                        defaultSettings.Location);
+                }
 
+                // Initiate call to all publish listeners.
+                this._listeners.ForEach<IPublishListener>(l => l.OnPublish(Channel, _azureService, defaultSettings, CurrentSubscription.SubscriptionId));
+
+                CreatePackage();
+                
                 _deploymentSettings = new DeploymentSettings(
                     defaultSettings,
                     _azureService.Paths.CloudPackage,
@@ -480,14 +499,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage,
-                _deploymentSettings.ServiceSettings.StorageAccountName));
-
-                if (!StorageAccountExists())
-                {
-                    CreateStorageAccount();
-                }
-
                 SafeWriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
 
                 if (!SkipUpload)
@@ -541,19 +552,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// A value indicating whether the service's storage account already
         /// exists.
         /// </returns>
-        private bool StorageAccountExists()
+        private bool StorageAccountExists(string name)
         {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-
             StorageService storageService = null;
             try
             {
                 storageService = RetryCall<StorageService>(subscription =>
-                    Channel.GetStorageService(
-                        subscription,
-                        _deploymentSettings.ServiceSettings.StorageAccountName));
+                    Channel.GetStorageService(subscription, name));
             }
             catch (EndpointNotFoundException)
             {
@@ -570,24 +575,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Create an Azure storage account that we can use to upload our
         /// package when creating and deploying a service.
         /// </summary>
-        private void CreateStorageAccount()
+        private void CreateStorageAccount(string name, string label, string location)
         {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.Label),
-                "Label cannot be null or empty.");
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
-                "Location cannot be null or empty.");
-
             CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
             {
-                ServiceName = _deploymentSettings.ServiceSettings.StorageAccountName,
-                Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
-                Location = _deploymentSettings.ServiceSettings.Location
+                ServiceName = name,
+                Label = ServiceManagementHelper.EncodeToBase64String(label),
+                Location = location
             };
+
+            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
@@ -731,7 +728,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         subscription,
                         _hostedServiceName,
                         _deploymentSettings.ServiceSettings.Slot));
-                
+
                 // If a deployment has many roles to initialize, this
                 // thread must throttle requests so the Azure portal
                 // doesn't reply with a "too many requests" error
@@ -863,7 +860,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
                     SelectMany(r => r.Certificates ?? new ServiceConfigurationSchema.Certificate[0]).Distinct())
                 {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                    if (uploadedCertificates == null || (uploadedCertificates.Count<ServiceManagementCertificate>(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
                         X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);
