@@ -95,8 +95,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             if (Definition.WorkerRole != null)
             {
-                try { return Definition.WorkerRole.First<WorkerRole>(r => r.name.Equals(name)); }
-                catch { return null; }
+                return Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => r.name.Equals(name));
             }
 
             return null;
@@ -111,8 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             if (CloudConfig.Role != null)
             {
-                try { return CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(name)); }
-                catch { return null; }
+                return CloudConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name));
             }
 
             return null;
@@ -131,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     roleNames.ToArray<string>(), s => s.Equals(r.name)));
             }
 
-            return null;
+            return Enumerable.Empty<RoleSettings>();
         }
 
         /// <summary>
