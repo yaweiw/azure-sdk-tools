@@ -833,7 +833,7 @@
     <value>Web.cloud.config</value>
   </data>
   <data name="CacheStartupCommand" xml:space="preserve">
-    <value>setup_cache.cmd &gt; log.txt</value>
+    <value>setup_cache.cmd &gt; cache_log.txt</value>
   </data>
   <data name="EnableMemcacheMessage" xml:space="preserve">
     <value>Memcache is enabled for role "{0}" using cache role "{1}" to connect use server name is localhost_{0} with port {2}.</value>

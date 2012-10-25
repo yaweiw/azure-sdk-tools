@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             if (Definition.WorkerRole != null)
             {
-                return Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => r.name.Equals(name));
+                return Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
             }
             
             return null;
@@ -110,8 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             if (Definition.WebRole != null)
             {
-                try { return Definition.WebRole.First<WebRole>(r => r.name.Equals(name)); }
-                catch { return null; }
+                return Definition.WebRole.FirstOrDefault<WebRole>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
             }
 
             return null;
@@ -126,7 +125,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             if (CloudConfig.Role != null)
             {
-                return CloudConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name));
+                return CloudConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The role name</param>
+        /// <returns>The role object from local configuration</returns>
+        public RoleSettings GetLocalConfigRole(string name)
+        {
+            if (LocalConfig.Role != null)
+            {
+                return LocalConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
             }
 
             return null;
@@ -142,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (CloudConfig.Role != null)
             {
                 return Array.FindAll<RoleSettings>(CloudConfig.Role, r => Array.Exists<string>(
-                    roleNames.ToArray<string>(), s => s.Equals(r.name)));
+                    roleNames.ToArray<string>(), s => s.Equals(r.name, StringComparison.OrdinalIgnoreCase)));
             }
 
             return Enumerable.Empty<RoleSettings>();
@@ -237,11 +251,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return false;
             else
             {
-                return
-                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName, StringComparison.OrdinalIgnoreCase))) ||
-                   (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)))) &&
-                    CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)) &&
-                    LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
+                return (GetWebRole(roleName) != null || GetWorkerRole(roleName) != null) && // exists in csdef
+                       GetCloudConfigRole(roleName) != null && GetLocalConfigRole(roleName) != null; // exists in local/cloud cscfg
             }
         }
 

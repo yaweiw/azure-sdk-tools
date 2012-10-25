@@ -223,7 +223,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to setup_cache.cmd &gt; log.txt.
+        ///   Looks up a localized string similar to setup_cache.cmd &gt; cache_log.txt.
         /// </summary>
         internal static string CacheStartupCommand {
             get {
