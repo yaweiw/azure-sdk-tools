@@ -187,6 +187,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Memcache is already enabled for web role &apos;{0}&apos;..
+        /// </summary>
+        internal static string CacheAlreadyEnabledMsg {
+            get {
+                return ResourceManager.GetString("CacheAlreadyEnabledMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;configuration&gt;
         ///  &lt;configSections&gt;
         ///    &lt;section name=&quot;dataCacheClients&quot; type=&quot;Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core&quot; allowLocation=&quot;true&quot; 	allowDefinition=&quot;Everywhere&quot; /&gt;
@@ -201,6 +210,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string CacheAutoDiscoveryConfig {
             get {
                 return ResourceManager.GetString("CacheAutoDiscoveryConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel.
+        /// </summary>
+        internal static string CacheClientDiagnosticLevelAssemblyName {
+            get {
+                return ResourceManager.GetString("CacheClientDiagnosticLevelAssemblyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DiagnosticStore.
+        /// </summary>
+        internal static string CacheDiagnosticStoreName {
+            get {
+                return ResourceManager.GetString("CacheDiagnosticStoreName", resourceCulture);
             }
         }
         
@@ -264,15 +291,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string CachingConfigStoreConnectionStringSettingValue {
             get {
                 return ResourceManager.GetString("CachingConfigStoreConnectionStringSettingValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.FileStore.
-        /// </summary>
-        internal static string CachingFileStoreName {
-            get {
-                return ResourceManager.GetString("CachingFileStoreName", resourceCulture);
             }
         }
         
@@ -390,6 +408,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string ChangeSettingsElementMessage {
             get {
                 return ResourceManager.GetString("ChangeSettingsElementMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel.
+        /// </summary>
+        internal static string ClientDiagnosticLevelName {
+            get {
+                return ResourceManager.GetString("ClientDiagnosticLevelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.
+        /// </summary>
+        internal static string ClientDiagnosticLevelValue {
+            get {
+                return ResourceManager.GetString("ClientDiagnosticLevelValue", resourceCulture);
             }
         }
         
@@ -1070,7 +1106,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to v1.7.
+        ///   Looks up a localized string similar to v1.8.
         /// </summary>
         internal static string MinSupportAzureSdkVersion {
             get {
