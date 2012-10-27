@@ -74,6 +74,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
             RoleSettings cacheRoleSettings = azureService.Components.GetCloudConfigRole(nodeWorkerRole.Name);
 
+            // Remove InputEndpoint
+            Array.Clear(cacheWorkerRole.Endpoints.InputEndpoint, 0, cacheWorkerRole.Endpoints.InputEndpoint.Length);
+
             // Add caching module to the role imports
             cacheWorkerRole.Imports = General.ExtendArray<Import>(cacheWorkerRole.Imports, new Import { moduleName = Resources.CachingModuleName });
 
