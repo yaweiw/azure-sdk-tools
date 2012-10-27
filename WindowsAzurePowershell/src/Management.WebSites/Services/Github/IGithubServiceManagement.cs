@@ -14,7 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
 {
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ServiceModel;
     using System.ServiceModel.Web;
@@ -28,10 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
     {
         [Description("Gets the members for an organization")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/members/")]
-        IAsyncResult BeginGetOrganizationMembers(string organization, AsyncCallback callback, object state);
-        WebSpaces EndGetOrganizationMembers(IAsyncResult asyncResult);
-
-
+        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/repos", ResponseFormat = WebMessageFormat.Json)]
+        IAsyncResult BeginGetRepositoriesFromUser(string user, AsyncCallback callback, object state);
+        IList<GithubRepository> EndGetRepositoriesFromUser(IAsyncResult asyncResult);
     }
 }
