@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -58,8 +58,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure git on web site and local folder.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure git on the web site and local folder.")]
         public SwitchParameter Git
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure github on the web site.")]
+        public SwitchParameter GitHub
         {
             get;
             set;
@@ -82,23 +89,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
-        }
-
-        internal bool IsGitWorkingTree()
-        {
-            return Services.Git.GetWorkingTree().Any(line => line.Equals(".git"));
-        }
-
-        internal void InitGitOnCurrentDirectory()
-        {
-            Services.Git.InitRepository();
-
-            if (!File.Exists(".gitignore"))
-            {
-                // Scaffold gitignore
-                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/.gitignore"), ".gitignore");
-            }
         }
 
         internal void CopyIisNodeWhenServerJsPresent()
@@ -182,6 +172,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
+            if (Git && GitHub)
+            {
+                throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
+            }
+
             string publishingUser = null;
             if (Git)
             {
@@ -286,14 +281,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     // Do nothing if session state is not present
                 }
 
+                LinkedRevisionControl linkedRevisionControl = LinkedRevisionControl.CreateClient("github");
+                linkedRevisionControl.Init();
+
+                /*
                 if (!IsGitWorkingTree())
                 {
                     // Init git in current directory
                     InitGitOnCurrentDirectory();
-                }
+                }*/
 
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, webspace.Name);
+                
                 CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
             }
         }
