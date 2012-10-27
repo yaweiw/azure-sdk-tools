@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using CloudService.Model;
     using CloudService.Properties;
@@ -25,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
 
     internal static class AzureAssert
     {
@@ -231,9 +231,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             Assert.IsTrue(Array.Exists<Import>(actual.Imports, i => i.moduleName.Equals(expected.moduleName)));
         }
 
-        public static void WorkerRoleLocalResourcesLocalStoreExists(LocalStore expected, WorkerRole actual)
+        public static void LocalResourcesLocalStoreExists(LocalStore expected, LocalResources actual)
         {
-            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalResources.LocalStorage, l => l.name.Equals(expected.name) && 
+            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalStorage, l => l.name.Equals(expected.name) && 
                 l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
         }
 
@@ -241,6 +241,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         {
             Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual.ConfigurationSettings, 
                 c => c.name == expected.name && c.value == expected.value));
+        }
+
+        public static void ConfigurationSettingExist(DefConfigurationSetting expected, DefConfigurationSetting[] actual)
+        {
+            Assert.IsTrue(Array.Exists<DefConfigurationSetting>(actual, c => c.name == expected.name));
         }
 
         public static void RuntimeExists(Task[] tasks, string runtimeValue)
