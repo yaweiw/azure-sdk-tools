@@ -18,25 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class GithubRepositoryOwner
-    {
-        [DataMember]
-        public string Url { get; set; }
-
-        [DataMember]
-        public string Login { get; set; }
-
-        [DataMember(Name = "avatar_url")]
-        public string AvatarUrl { get; set; }
-
-        [DataMember(Name = "gravatar_id")]
-        public string GravatarId { get; set; }
-
-        [DataMember]
-        public string Id { get; set; }
-    }
-
-    [DataContract]
     public class GithubRepository
     {
         [DataMember(Name = "clone_url")]
@@ -58,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public int OpenIssuesCount { get; set; }
 
         [DataMember(Name = "owner")]
-        public GithubRepositoryOwner Owner { get; set; }
+        public GithubOrg Owner { get; set; }
 
         [DataMember(Name = "full_name")]
         public string FullName { get; set; }

@@ -153,7 +153,9 @@
     <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
     <Compile Include="Services\GitClient.cs" />
     <Compile Include="Services\GithubClient.cs" />
+    <Compile Include="Services\Github\Entities\GithubOrg.cs" />
     <Compile Include="Services\Github\Entities\GithubRepository.cs" />
+    <Compile Include="Services\Github\Entities\GithubRepositoryHook.cs" />
     <Compile Include="Services\Github\GithubExtensionMethods.cs" />
     <Compile Include="Services\Github\IGithubServiceManagement.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />

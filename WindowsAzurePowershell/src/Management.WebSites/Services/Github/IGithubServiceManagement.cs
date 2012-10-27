@@ -28,10 +28,40 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
     [ServiceContract]
     public interface IGithubServiceManagement
     {
-        [Description("Gets the members for an organization")]
+        [Description("Gets the repositories for an user")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/repos", ResponseFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/repos")]
         IAsyncResult BeginGetRepositoriesFromUser(string user, AsyncCallback callback, object state);
         IList<GithubRepository> EndGetRepositoriesFromUser(IAsyncResult asyncResult);
+
+        [Description("Gets the repositories for an organization")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/repos")]
+        IAsyncResult BeginGetRepositoriesFromOrg(string organization, AsyncCallback callback, object state);
+        IList<GithubRepository> EndGetRepositoriesFromOrg(IAsyncResult asyncResult);
+
+        [Description("Gets the repository hooks")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "/repos/{owner}/{repository}/hooks")]
+        IAsyncResult BeginGetRepositoryHooks(string owner, string repository, AsyncCallback callback, object state);
+        IList<GithubRepositoryHook> EndGetRepositoryHooks(IAsyncResult asyncResult);
+
+        [Description("Creates a repository hook")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks")]
+        IAsyncResult BeginCreateRepositoryHook(string owner, string repository, GithubRepositoryHook hook, AsyncCallback callback, object state);
+        void EndCreateRepositoryHook(IAsyncResult asyncResult);
+
+        [Description("Updates a repository hook")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PATCH", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}")]
+        IAsyncResult BeginUpdateRepositoryHook(string owner, string repository, string id, GithubRepositoryHook hook, AsyncCallback callback, object state);
+        void EndUpdateRepositoryHook(IAsyncResult asyncResult);
+
+        [Description("Tests a repository hook")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}/test")]
+        IAsyncResult BeginTestRepositoryHook(string owner, string repository, string id, AsyncCallback callback, object state);
+        void EndTestRepositoryHook(IAsyncResult asyncResult);
     }
 }
