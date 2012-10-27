@@ -150,6 +150,10 @@
     <Compile Include="Services\DeploymentEntities\LogEntry.cs" />
     <Compile Include="Services\DeploymentsExtensionMethods.cs" />
     <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
+    <Compile Include="Services\GitClient.cs" />
+    <Compile Include="Services\GithubClient.cs" />
+    <Compile Include="Services\Github\GithubExtensionMethods.cs" />
+    <Compile Include="Services\Github\IGithubServiceManagement.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />
     <Compile Include="Services\GeoEntities\GeoLocation.cs" />
     <Compile Include="Services\GeoEntities\GeoRegion.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Services\Git.cs" />
     <Compile Include="Services\GitWebsite.cs" />
     <Compile Include="Services\IWebsitesServiceManagement.cs" />
+    <Compile Include="Services\LinkedRevisionControl.cs" />
     <Compile Include="Services\Repository.cs" />
     <Compile Include="Services\WebsitesExtensionMethods.cs" />
     <Compile Include="Utilities\ApiConstants.cs" />
