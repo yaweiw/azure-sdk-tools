@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\GithubBaseCmdlet.cs" />
     <Compile Include="Cmdlets\RestartAzureWebsite.cs" />
     <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
     <Compile Include="Services\GitClient.cs" />
     <Compile Include="Services\GithubClient.cs" />
+    <Compile Include="Services\Github\Entities\Organization.cs" />
     <Compile Include="Services\Github\GithubExtensionMethods.cs" />
     <Compile Include="Services\Github\IGithubServiceManagement.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />
