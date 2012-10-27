@@ -14,13 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
 {
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
+    using System.Collections.Generic;
     using WebEntities;
 
     public static class GithubExtensionMethods
     {
-        public static WebSpaces GetOrganizationMembers(this IGithubServiceManagement proxy, string organization)
+        public static IList<GithubRepository> GetRepositoriesFromUser(this IGithubServiceManagement proxy, string user)
         {
-            return proxy.EndGetOrganizationMembers(proxy.BeginGetOrganizationMembers(organization, null, null));
+            return proxy.EndGetRepositoriesFromUser(proxy.BeginGetRepositoriesFromUser(user, null, null));
         }
     }
 }

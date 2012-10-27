@@ -27,6 +27,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
 
     /// <summary>
     /// Creates a new azure website.
@@ -172,6 +174,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
+            base.ExecuteCommand();
+
+            IList<GithubRepository> repositories;
+            InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositoriesFromUser("andrerod"); });
+
+            /*
             if (Git && GitHub)
             {
                 throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
@@ -284,18 +292,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 LinkedRevisionControl linkedRevisionControl = LinkedRevisionControl.CreateClient("github");
                 linkedRevisionControl.Init();
 
-                /*
+                
                 if (!IsGitWorkingTree())
                 {
                     // Init git in current directory
                     InitGitOnCurrentDirectory();
-                }*/
+                }
 
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, webspace.Name);
                 
                 CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
             }
+    */
         }
     }
 }
