@@ -210,8 +210,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         internal void InitializeRemoteRepo(string webspace, string websiteName)
         {
-            // Create website repository
-            InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
+            try
+            {
+                // Create website repository
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
+            }
+            catch (Exception ex)
+            {
+                // Handle site creating indepently so that cmdlet is idempotent.
+                string message = ProcessException(ex, false);
+                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
+                                                 Name)) && Git)
+                {
+                    WriteWarning(message);
+                }
+                else
+                {
+                    SafeWriteError(new Exception(message));
+                }
+            }
         }
 
         internal void AddRemoteToLocalGitRepo(Site website)

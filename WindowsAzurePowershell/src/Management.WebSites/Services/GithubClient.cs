@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         private void CreateOrUpdateHook(string owner, string repository, Site website)
         {
-            string baseUri = website.GetProperty("repositoryUri");
+            string baseUri = website.GetProperty("repositoryuri");
             string publishingUsername = website.GetProperty("publishingusername");
             string publishingPassword = website.GetProperty("publishingpassword");
             UriBuilder newUri = new UriBuilder(baseUri);
