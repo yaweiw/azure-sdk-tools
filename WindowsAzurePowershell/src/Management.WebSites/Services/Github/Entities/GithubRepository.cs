@@ -18,9 +18,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     using System.Runtime.Serialization;
 
     [DataContract]
+    public class GithubPermissions
+    {
+        [DataMember(Name = "admin")]
+        public bool Admin { get; set; }
+
+        [DataMember(Name = "pull")]
+        public bool Pull { get; set; }
+
+        [DataMember(Name = "push")]
+        public bool Push { get; set; }
+    }
+
+    [DataContract]
     public class GithubRepository
     {
-        /*
         [DataMember(Name = "clone_url", IsRequired = false)]
         public string CloneUrl { get; set; }
 
@@ -38,10 +50,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
 
         [DataMember(Name = "open_issues_count", IsRequired = false)]
         public int OpenIssuesCount { get; set; }
-
+        
         [DataMember(Name = "owner", IsRequired = false)]
         public GithubOrganization Owner { get; set; }
-
+        
         [DataMember(Name = "full_name", IsRequired = false)]
         public string FullName { get; set; }
 
@@ -52,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public string MirrorUrl { get; set; }
 
         [DataMember(Name = "permissions", IsRequired = false)]
-        public string Permissions { get; set; }
+        public GithubPermissions Permissions { get; set; }
 
         [DataMember(Name = "created_at", IsRequired = false)]
         public string CreatedAt { get; set; }
@@ -110,6 +122,5 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
 
         [DataMember(Name = "html_url", IsRequired = false)]
         public string HtmlUrl { get; set; }
-        */
     }
 }

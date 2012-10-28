@@ -25,32 +25,32 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
             return proxy.EndCreateAuthorizationToken(proxy.BeginCreateAuthorizationToken(request, null, null));
         }
 
-        public static IList<GithubOrganization> GetOrganizations(this IGithubServiceManagement proxy)
+        public static List<GithubOrganization> GetOrganizations(this IGithubServiceManagement proxy)
         {
             return proxy.EndGetOrganizations(proxy.BeginGetOrganizations(null, null));
         }
 
-        public static IList<GithubOrganization> GetOrganizationsFromUser(this IGithubServiceManagement proxy, string user)
+        public static List<GithubOrganization> GetOrganizationsFromUser(this IGithubServiceManagement proxy, string user)
         {
             return proxy.EndGetOrganizationsFromUser(proxy.BeginGetOrganizationsFromUser(user, null, null));
         }
 
-        public static IList<GithubRepository> GetRepositories(this IGithubServiceManagement proxy)
+        public static List<GithubRepository> GetRepositories(this IGithubServiceManagement proxy)
         {
             return proxy.EndGetRepositories(proxy.BeginGetRepositories(null, null));
         }
 
-        public static IList<GithubRepository> GetRepositoriesFromUser(this IGithubServiceManagement proxy, string user)
+        public static List<GithubRepository> GetRepositoriesFromUser(this IGithubServiceManagement proxy, string user)
         {
             return proxy.EndGetRepositoriesFromUser(proxy.BeginGetRepositoriesFromUser(user, null, null));
         }
 
-        public static IList<GithubRepository> GetRepositoriesFromOrg(this IGithubServiceManagement proxy, string organization)
+        public static List<GithubRepository> GetRepositoriesFromOrg(this IGithubServiceManagement proxy, string organization)
         {
             return proxy.EndGetRepositoriesFromOrg(proxy.BeginGetRepositoriesFromOrg(organization, null, null));
         }
 
-        public static IList<GithubRepositoryHook> GetRepositoryHooks(this IGithubServiceManagement proxy, string owner, string repository)
+        public static List<GithubRepositoryHook> GetRepositoryHooks(this IGithubServiceManagement proxy, string owner, string repository)
         {
             return proxy.EndGetRepositoryHooks(proxy.BeginGetRepositoryHooks(owner, repository, null, null));
         }

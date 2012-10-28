@@ -50,14 +50,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         private IList<GithubRepository> GetRepositories()
         {
-            IList<GithubRepository> repositories = null;
+            List<GithubRepository> repositories = null;
             InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositories(); });
 
-            IList<GithubOrganization> organizations = null;
+            List<GithubOrganization> organizations = null;
             InvokeInGithubOperationContext(() => { organizations = GithubChannel.GetOrganizations(); });
 
+            List<GithubRepository> orgRepositories = new List<GithubRepository>();
+            foreach (var organization in organizations)
+            {
+                // GetRepositoriesFromOrg
+                List<GithubRepository> currentOrgRepositories = null;
+                InvokeInGithubOperationContext(() => { currentOrgRepositories = GithubChannel.GetRepositoriesFromOrg(organization.Login); });
+                orgRepositories.AddRange(currentOrgRepositories);
+            }
 
-
+            repositories.AddRange(orgRepositories);
             return repositories;
         }
 
