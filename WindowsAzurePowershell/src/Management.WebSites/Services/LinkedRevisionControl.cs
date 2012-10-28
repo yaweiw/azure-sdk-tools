@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
+    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using System;
     using System.IO;
     using System.Linq;
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         }
 
         public abstract void Init();
-        public abstract void Deploy();
+        public abstract void Deploy(Site siteData);
 
         internal bool IsGitWorkingTree()
         {

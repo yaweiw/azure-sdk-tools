@@ -14,6 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
+
     public class GitClient : LinkedRevisionControl
     {
         public GitClient(string invocationPath)
@@ -30,9 +32,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
         }
 
-        public override void Deploy()
+        public override void Deploy(Site website)
         {
-            throw new System.NotImplementedException();
+            // Do nothing
         }
     }
 }
