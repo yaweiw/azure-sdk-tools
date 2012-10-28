@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public class GithubClient : LinkedRevisionControl
     {
-        private GithubRepository LinkedRepository { get; set; }
+        private GithubRepository linkedRepository;
         private string username;
         private string password;
         private string repositoryFullName;
@@ -60,7 +60,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public GithubClient(IGithubCmdlet pscmdlet, string githubUsername, string githubPassword, string githubRepository)
         {
             this.pscmdlet = pscmdlet;
-            this.invocationPath = ((PSCmdlet)pscmdlet).MyInvocation.MyCommand.Module.Path;
+            if (this.pscmdlet.MyInvocation != null)
+            {
+                this.invocationPath = this.pscmdlet.MyInvocation.MyCommand.Module.Path;
+            }
+
             this.username = githubUsername;
             this.password = githubPassword;
             this.repositoryFullName = githubRepository;
@@ -78,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             // Ensure credentials
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                PSCredential cred = ((PSCmdlet)pscmdlet).Host.UI.PromptForCredential("Enter username/password",
+                PSCredential cred = this.pscmdlet.Host.UI.PromptForCredential("Enter username/password",
                                                      "", username, "");
                 username = cred.UserName;
                 password = cred.Password.ConvertToUnsecureString();
@@ -167,14 +171,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             IList<GithubRepository> repositories = GetRepositories();
             if (!string.IsNullOrEmpty(repositoryFullName))
             {
-                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName, StringComparison.InvariantCultureIgnoreCase));
+                linkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName, StringComparison.InvariantCultureIgnoreCase));
             }
             else
             {
                 var remoteUris = Git.GetRemoteUris();
                 if (remoteUris.Count == 1)
                 {
-                    LinkedRepository = repositories.FirstOrDefault(r => r.GitUrl.Equals(remoteUris.First(), StringComparison.InvariantCultureIgnoreCase));
+                    linkedRepository = repositories.FirstOrDefault(r => r.GitUrl.Equals(remoteUris.First(), StringComparison.InvariantCultureIgnoreCase));
                 }
                 else
                 {
@@ -183,7 +187,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 }
             }
 
-            if (LinkedRepository == null)
+            if (linkedRepository == null)
             {
                 Collection<ChoiceDescription> choices = new Collection<ChoiceDescription>(repositories.Select(item => new ChoiceDescription(item.FullName)).ToList<ChoiceDescription>());
                 var choice = ((PSCmdlet)pscmdlet).Host.UI.PromptForChoice(
@@ -193,13 +197,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                     0
                 );
 
-                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(choices[choice].Label));
+                linkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(choices[choice].Label));
             }
         }
 
         public override void Deploy(Site website)
         {
-            CreateOrUpdateHook(LinkedRepository.Owner.Login, LinkedRepository.Name, website);
+            CreateOrUpdateHook(linkedRepository.Owner.Login, linkedRepository.Name, website);
         }
 
         protected IGithubServiceManagement CreateGithubChannel()

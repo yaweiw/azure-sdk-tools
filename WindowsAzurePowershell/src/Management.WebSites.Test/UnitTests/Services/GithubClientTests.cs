@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 {
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Management.Automation.Host;
-    using System.Text;
+    using VisualStudio.TestTools.UnitTesting;
+    using Websites.Services;
 
-    public interface IGithubCmdlet
+    [TestClass]
+    public class GithubClientTests
     {
-        IGithubServiceManagement GithubChannel { get; set; }
-        bool ShareChannel { get; set; }
-        InvocationInfo MyInvocation { get; }
-        PSHost Host { get; }
+        [TestMethod]
+        public void TestGetRepositories()
+        {
+            
+        }
     }
 }

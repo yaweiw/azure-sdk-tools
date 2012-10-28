@@ -129,6 +129,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the NewAzureWebsiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="githubChannel">
+        /// Channel used for communication with the github APIs.
+        /// </param>
+        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel, IGithubServiceManagement githubChannel)
+        {
+            Channel = channel;
+            GithubChannel = githubChannel;
+        }
+
         internal void CopyIisNodeWhenServerJsPresent()
         {
             if (!File.Exists("iisnode.yml") && (File.Exists("server.js") || File.Exists("app.js")))
