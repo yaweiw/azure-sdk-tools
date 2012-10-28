@@ -29,12 +29,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using WebSites.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : GithubBaseCmdlet
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -74,6 +75,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github username.")]
+        [ValidateNotNullOrEmpty]
+        public string GithubUsername
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github password.")]
+        [ValidateNotNullOrEmpty]
+        public string GithubPassword
+        {
+            get;
+            set;
+        }
+
+        protected IGithubServiceManagement GithubChannel { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the NewAzureWebsiteCommand class.
         /// </summary>
@@ -91,6 +111,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
+        }
+
+        protected IGithubServiceManagement CreateGithubChannel()
+        {
+            // If ShareChannel is set by a unit test, use the same channel that
+            // was passed into out constructor.  This allows the test to submit
+            // a mock that we use for all network calls.
+            if (ShareChannel)
+            {
+                return GithubChannel;
+            }
+
+            return ServiceManagementHelper2.CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), GithubUsername, GithubPassword);
         }
 
         internal void CopyIisNodeWhenServerJsPresent()
@@ -177,7 +210,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
-            base.ExecuteCommand();
+            GithubChannel = CreateGithubChannel();
 
             if (Git && GitHub)
             {

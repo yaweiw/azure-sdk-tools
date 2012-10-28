@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public string Permissions { get; set; }
 
         [DataMember(Name = "created_at")]
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
 
         [DataMember(Name = "homepage")]
         public string Homepage { get; set; }
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public string OpenIssues { get; set; }
 
         [DataMember(Name = "pushed_at")]
-        public DateTime PushedAt { get; set; }
+        public string PushedAt { get; set; }
 
         [DataMember(Name = "forks")]
         public int Forks { get; set; }
@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public bool Fork { get; set; }
 
         [DataMember(Name = "updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public string UpdatedAt { get; set; }
 
         [DataMember(Name = "git_url")]
         public string GitUrl { get; set; }
