@@ -28,57 +28,63 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
     [ServiceContract]
     public interface IGithubServiceManagement
     {
+        [Description("Creates a new authorization")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "/authorizations", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        IAsyncResult BeginCreateAuthorizationToken(GithubAuthorizationRequest request, AsyncCallback callback, object state);
+        GithubAuthorization EndCreateAuthorizationToken(IAsyncResult asyncResult);
+
         [Description("Gets the organizations for the authenticated user")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/user/orgs")]
+        [WebInvoke(Method = "GET", UriTemplate = "/user/orgs", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetOrganizations(AsyncCallback callback, object state);
         IList<GithubOrganization> EndGetOrganizations(IAsyncResult asyncResult);
         
         [Description("Gets the organizations for an user")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/orgs")]
+        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/orgs", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetOrganizationsFromUser(string user, AsyncCallback callback, object state);
         IList<GithubOrganization> EndGetOrganizationsFromUser(IAsyncResult asyncResult);
 
         [Description("Gets the repositories for the authenticated user")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/user/repos")]
+        [WebInvoke(Method = "GET", UriTemplate = "/user/repos", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetRepositories(AsyncCallback callback, object state);
         IList<GithubRepository> EndGetRepositories(IAsyncResult asyncResult);
 
         [Description("Gets the repositories for an user")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/repos")]
+        [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/repos", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetRepositoriesFromUser(string user, AsyncCallback callback, object state);
         IList<GithubRepository> EndGetRepositoriesFromUser(IAsyncResult asyncResult);
 
         [Description("Gets the repositories for an organization")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/repos")]
+        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/repos", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetRepositoriesFromOrg(string organization, AsyncCallback callback, object state);
         IList<GithubRepository> EndGetRepositoriesFromOrg(IAsyncResult asyncResult);
 
         [Description("Gets the repository hooks")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/repos/{owner}/{repository}/hooks")]
+        [WebInvoke(Method = "GET", UriTemplate = "/repos/{owner}/{repository}/hooks", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetRepositoryHooks(string owner, string repository, AsyncCallback callback, object state);
         IList<GithubRepositoryHook> EndGetRepositoryHooks(IAsyncResult asyncResult);
 
         [Description("Creates a repository hook")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks")]
+        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginCreateRepositoryHook(string owner, string repository, GithubRepositoryHook hook, AsyncCallback callback, object state);
         void EndCreateRepositoryHook(IAsyncResult asyncResult);
 
         [Description("Updates a repository hook")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "PATCH", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}")]
+        [WebInvoke(Method = "PATCH", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginUpdateRepositoryHook(string owner, string repository, string id, GithubRepositoryHook hook, AsyncCallback callback, object state);
         void EndUpdateRepositoryHook(IAsyncResult asyncResult);
 
         [Description("Tests a repository hook")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}/test")]
+        [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}/test", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginTestRepositoryHook(string owner, string repository, string id, AsyncCallback callback, object state);
         void EndTestRepositoryHook(IAsyncResult asyncResult);
     }
