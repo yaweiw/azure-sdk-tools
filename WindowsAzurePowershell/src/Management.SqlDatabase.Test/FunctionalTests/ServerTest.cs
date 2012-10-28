@@ -12,28 +12,27 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
-    using System;
-    using System.IO;
+    using System;    using System.IO;
     using System.Xml.Linq;
-    using Firewall.Cmdlet;
-    using Management.Utilities;
-    using Utilities;
-    using VisualStudio.TestTools.UnitTesting;
-    using XmlSchema;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.XmlSchema;
 
     [TestClass]
-    public class FunctionalTest
+    public class ServerTest
     {
         private string subscriptionID;
         private string serializedCert;
         private string serverLocation;
 
-        private const string ServerTestScript = "CreateGetDeleteServer.ps1";
-        private const string FirewallTestScript = "CreateGetDropFirewall.ps1";
-        private const string ResetPasswordScript = "ResetPassword.ps1";
-        private const string FormatValidationScript = "FormatValidation.ps1";
+        private const string ServerTestScript = @"Server\CreateGetDeleteServer.ps1";
+        private const string FirewallTestScript = @"Server\CreateGetDropFirewall.ps1";
+        private const string ResetPasswordScript = @"Server\ResetPassword.ps1";
+        private const string FormatValidationScript = @"Server\FormatValidation.ps1";
 
         [TestInitialize]
         public void Setup()
@@ -53,10 +52,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         [TestMethod]
         [TestCategory("Functional")]
         [Ignore]
-        public void ServerTest()
-        {
-            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.ServerTestScript, arguments);
+        public void CreateGetDeleteServerTest()
+        {            string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
+            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ServerTestScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -66,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         public void FirewallTest()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.FirewallTestScript, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FirewallTestScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -76,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         public void ResetServerPassword()
         {
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\"", this.subscriptionID, this.serializedCert, this.serverLocation);
-            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.ResetPasswordScript, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.ResetPasswordScript, arguments);
             Assert.IsTrue(testResult);
         }
 
@@ -87,29 +85,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test
         {
             string outputFile = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid() + ".txt");
             string arguments = string.Format("-subscriptionID \"{0}\" -serializedCert \"{1}\" -serverLocation \"{2}\" -OutputFile \"{3}\"", this.subscriptionID, this.serializedCert, this.serverLocation, outputFile);
-            bool testResult = PSScriptExecutor.ExecuteScript(FunctionalTest.FormatValidationScript, arguments);
+            bool testResult = PSScriptExecutor.ExecuteScript(ServerTest.FormatValidationScript, arguments);
             Assert.IsTrue(testResult);
 
-            string actualFormat = GetMaskedData(outputFile);
-            Console.WriteLine(actualFormat);
-            string expectedFormat = GetMaskedData("ExpectedFormat.txt");
-            Assert.AreEqual(expectedFormat, actualFormat, "Format of output object didn't match");
+            OutputFormatValidator.ValidateOutputFormat(outputFile, @"Server\ExpectedFormat.txt");
         }
 
-        private string GetMaskedData(string fileName)
-        {
-            string mask = "xxxxxxxxxx";
-            // The code expects the first line of the file contains the list of dynamic data (such as servername, operation id) separated by comma.
-            // These dynamic data will be replaced with xxxxxxxxxx.
-            string dynamicContentLine = File.ReadAllLines(fileName)[0];
-            string[] dynamicContents = dynamicContentLine.Split(',');
-            string data = File.ReadAllText(fileName);
-
-            foreach (string dynamicContent in dynamicContents)
-            {
-                data = data.Replace(dynamicContent, mask);
-            }
-            return data;
-        }
     }
 }
