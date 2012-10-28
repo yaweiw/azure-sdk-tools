@@ -42,14 +42,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private void Authenticate()
         {
             EnsureCredentials();
-            
-            GithubAuthorization authorization;
-            InvokeInGithubOperationContext(() => { authorization = GithubChannel.CreateAuthorizationToken(new GithubAuthorizationRequest()); });
         }
 
         private void EnsureCredentials()
         {
-
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                throw new Exception("Invalid github credentials");
+            }
         }
 
         private IList<GithubRepository> GetRepositories()
