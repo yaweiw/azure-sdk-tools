@@ -91,9 +91,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 
         internal string GetProperty(string property)
         {
-            if (SiteProperties.Properties.Any(kvp => kvp.Name.Equals(property)))
+            if (SiteProperties.Properties.Any(kvp => kvp.Name.Equals(property, StringComparison.InvariantCultureIgnoreCase)))
             {
-                return SiteProperties.Properties.First(kvp => kvp.Name.Equals(property)).Value;
+                return SiteProperties.Properties.First(kvp => kvp.Name.Equals(property, StringComparison.InvariantCultureIgnoreCase)).Value;
             }
 
             return null;
