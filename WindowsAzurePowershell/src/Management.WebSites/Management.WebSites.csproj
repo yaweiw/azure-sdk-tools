@@ -152,6 +152,8 @@
     <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
     <Compile Include="Services\GitClient.cs" />
     <Compile Include="Services\GithubClient.cs" />
+    <Compile Include="Services\Github\Entities\GithubAuthorization.cs" />
+    <Compile Include="Services\Github\Entities\GithubAuthorizationRequest.cs" />
     <Compile Include="Services\Github\Entities\GithubOrganization.cs" />
     <Compile Include="Services\Github\Entities\GithubRepository.cs" />
     <Compile Include="Services\Github\Entities\GithubRepositoryHook.cs" />
