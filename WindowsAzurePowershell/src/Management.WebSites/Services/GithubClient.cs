@@ -20,8 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
+    using System.Management.Automation.Host;
     using System.Runtime.InteropServices;
     using System.Security;
     using System.ServiceModel;
@@ -166,6 +168,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             if (!string.IsNullOrEmpty(repositoryFullName))
             {
                 LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName));
+            }
+
+            if (LinkedRepository == null)
+            {
+                Collection<ChoiceDescription> choices = new Collection<ChoiceDescription>(repositories.Select(item => new ChoiceDescription(item.FullName)).ToList<ChoiceDescription>());
+                var choice = ((PSCmdlet)pscmdlet).Host.UI.PromptForChoice(
+                    "Choose a repository",
+                    "",
+                    choices,
+                    0
+                );
+
+                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(choices[choice].Label));
             }
         }
 
