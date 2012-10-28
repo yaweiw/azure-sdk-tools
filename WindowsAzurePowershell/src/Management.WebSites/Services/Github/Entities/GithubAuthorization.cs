@@ -18,30 +18,43 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class GithubRepositoryHook
+    public class GithubApp
     {
         [DataMember(Name = "url", IsRequired = false)]
         public string Url { get; set; }
 
-        [DataMember(Name = "updated_at", IsRequired = false)]
-        public string UpdatedAt { get; set; }
+        [DataMember(Name = "name", IsRequired = false)]
+        public string Name { get; set; }
+    }
+
+    [DataContract]
+    public class GithubAuthorization
+    {
+        [DataMember(Name = "id", IsRequired = false)]
+        public string Id { get; set; }
+
+        [DataMember(Name = "url", IsRequired = false)]
+        public string Url { get; set; }
+
+        [DataMember(Name = "scopes", IsRequired = false)]
+        public IList<string> Scopes { get; set; }
+
+        [DataMember(Name = "token", IsRequired = false)]
+        public string Token { get; set; }
+
+        [DataMember(Name = "app", IsRequired = false)]
+        public GithubApp App { get; set; }
+
+        [DataMember(Name = "note", IsRequired = false)]
+        public string Note { get; set; }
+
+        [DataMember(Name = "note_url", IsRequired = false)]
+        public string NoteUrl { get; set; }
 
         [DataMember(Name = "created_at", IsRequired = false)]
         public string CreatedAt { get; set; }
 
-        [DataMember(Name = "name", IsRequired = false)]
-        public string Name { get; set; }
-
-        [DataMember(Name = "events", IsRequired = false)]
-        public IList<string> Events { get; set; }
-
-        [DataMember(Name = "active", IsRequired = false)]
-        public bool Active { get; set; }
-
-        [DataMember(Name = "config", IsRequired = false)]
-        public IList<string> Config { get; set; }
-
-        [DataMember(Name = "id", IsRequired = false)]
-        public string Id { get; set; }
+        [DataMember(Name = "updated_at", IsRequired = false)]
+        public string UpdatedAt { get; set; }
     }
 }

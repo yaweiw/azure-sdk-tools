@@ -20,6 +20,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
 
     public static class GithubExtensionMethods
     {
+        public static GithubAuthorization CreateAuthorizationToken(this IGithubServiceManagement proxy, GithubAuthorizationRequest request)
+        {
+            return proxy.EndCreateAuthorizationToken(proxy.BeginCreateAuthorizationToken(request, null, null));
+        }
+
         public static IList<GithubOrganization> GetOrganizations(this IGithubServiceManagement proxy)
         {
             return proxy.EndGetOrganizations(proxy.BeginGetOrganizations(null, null));
