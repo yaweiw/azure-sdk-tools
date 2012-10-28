@@ -97,6 +97,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github repository.")]
+        [ValidateNotNullOrEmpty]
+        public string GithubRepository
+        {
+            get;
+            set;
+        }
+
         protected IGithubServiceManagement GithubChannel { get; set; }
 
         /// <summary>
@@ -200,23 +208,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             return users.First();
         }
 
-        internal string GetRepositoryUri(Site website)
-        {
-            if (website.SiteProperties.Properties.Any(kvp => kvp.Name.Equals("RepositoryUri")))
-            {
-                return website.SiteProperties.Properties.First(kvp => kvp.Name.Equals("RepositoryUri")).Value;
-            }
-
-            return null;
-        }
-
         internal void InitializeRemoteRepo(string webspace, string websiteName)
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
         }
 
-        internal void AddRemoteToLocalGitRepo(string publishingUser, string webspace, string websiteName)
+        internal void AddRemoteToLocalGitRepo(Site website)
         {
             // Get remote repos
             IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
@@ -226,11 +224,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Services.Git.RemoveRemoteRepository("azure");
             }
 
-            // Get website and from it the repository url
-            Site website = RetryCall(s => Channel.GetSite(s, webspace, websiteName, "repositoryuri,publishingpassword,publishingusername"));
-            string repositoryUri = GetRepositoryUri(website);
+            string repositoryUri = website.GetProperty("RepositoryUri");
 
-            string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
+            string uri = Services.Git.GetUri(repositoryUri, Name, website.GetProperty("publishingusername"));
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
@@ -354,7 +350,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 else if (GitHub)
                 {
                     GithubChannel = CreateGithubChannel();
-                    linkedRevisionControl = new GithubClient(MyInvocation.MyCommand.Module.Path, GithubChannel, GithubUsername, GithubPassword);
+                    linkedRevisionControl = new GithubClient(MyInvocation.MyCommand.Module.Path, GithubChannel, GithubUsername, GithubPassword, GithubRepository);
                 }
 
                 linkedRevisionControl.Init();
@@ -364,15 +360,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 InitializeRemoteRepo(webspace.Name, Name);
 
+                website = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (Git)
                 {
-                    AddRemoteToLocalGitRepo(publishingUser, webspace.Name, Name);
-                }
-                else if (GitHub)
-                {
+                    AddRemoteToLocalGitRepo(website);
                 }
 
-                linkedRevisionControl.Deploy();
+                linkedRevisionControl.Deploy(website);
             }
         }
     }

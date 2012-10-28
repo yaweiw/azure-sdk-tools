@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "POST", UriTemplate = "/repos/{owner}/{repository}/hooks", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginCreateRepositoryHook(string owner, string repository, GithubRepositoryHook hook, AsyncCallback callback, object state);
-        void EndCreateRepositoryHook(IAsyncResult asyncResult);
+        GithubRepositoryHook EndCreateRepositoryHook(IAsyncResult asyncResult);
 
         [Description("Updates a repository hook")]
         [OperationContract(AsyncPattern = true)]

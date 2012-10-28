@@ -18,30 +18,43 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class GithubRepositoryHook
+    public class GithubRepositoryHookConfig
     {
-        [DataMember(Name = "url", IsRequired = false)]
+        [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [DataMember(Name = "updated_at", IsRequired = false)]
+        [DataMember(Name = "insure_ssl")]
+        public string InsecureSsl { get; set; }
+
+        [DataMember(Name = "content_type")]
+        public string ContentType { get; set; }
+    }
+
+    [DataContract]
+    public class GithubRepositoryHook
+    {
+        [DataMember(Name = "url", IsRequired = false, EmitDefaultValue = false)]
+        public string Url { get; set; }
+
+        [DataMember(Name = "updated_at", IsRequired = false, EmitDefaultValue = false)]
         public string UpdatedAt { get; set; }
 
-        [DataMember(Name = "created_at", IsRequired = false)]
+        [DataMember(Name = "created_at", IsRequired = false, EmitDefaultValue = false)]
         public string CreatedAt { get; set; }
 
-        [DataMember(Name = "name", IsRequired = false)]
+        [DataMember(Name = "name", IsRequired = false, EmitDefaultValue = false)]
         public string Name { get; set; }
 
-        [DataMember(Name = "events", IsRequired = false)]
+        [DataMember(Name = "events", IsRequired = false, EmitDefaultValue = false)]
         public IList<string> Events { get; set; }
 
-        [DataMember(Name = "active", IsRequired = false)]
+        [DataMember(Name = "active", IsRequired = false, EmitDefaultValue = false)]
         public bool Active { get; set; }
 
-        [DataMember(Name = "config", IsRequired = false)]
-        public IList<string> Config { get; set; }
+        [DataMember(Name = "config", IsRequired = false, EmitDefaultValue = false)]
+        public GithubRepositoryHookConfig Config { get; set; }
 
-        [DataMember(Name = "id", IsRequired = false)]
+        [DataMember(Name = "id", IsRequired = false, EmitDefaultValue = false)]
         public string Id { get; set; }
     }
 }

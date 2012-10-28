@@ -16,8 +16,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
+    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.ServiceModel;
 
     public class GithubClient : LinkedRevisionControl
@@ -26,13 +28,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private GithubRepository LinkedRepository { get; set; }
         private string username;
         private string password;
+        private string repositoryFullName;
 
-        public GithubClient(string invocationPath, IGithubServiceManagement channel, string githubUsername, string githubPassword)
+        public GithubClient(string invocationPath, IGithubServiceManagement channel, string githubUsername, string githubPassword, string githubRepository)
             : base(invocationPath)
         {
             GithubChannel = channel;
             this.username = githubUsername;
             this.password = githubPassword;
+            this.repositoryFullName = githubRepository;
         }
 
         private void Authenticate()
@@ -69,29 +73,52 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return repositories;
         }
 
-        private void CreateOrUpdateHook()
+        private void CreateOrUpdateHook(string owner, string repository, Site website)
         {
-            throw new NotImplementedException();
-        }
+            string baseUri = website.GetProperty("repositoryUri");
+            string publishingUsername = website.GetProperty("publishingusername");
+            string publishingPassword = website.GetProperty("publishingpassword");
+            UriBuilder newUri = new UriBuilder(baseUri);
+            newUri.UserName = publishingUsername;
+            newUri.Password = publishingPassword;
+            newUri.Path = "/deploy";
 
-        private void CreateHook()
-        {
-            throw new NotImplementedException();
-        }
+            string deployUri = newUri.ToString();
 
-        private void UpdateHook()
-        {
-            throw new NotImplementedException();
-        }
+            List<GithubRepositoryHook> repositoryHooks = new List<GithubRepositoryHook>();
+            InvokeInGithubOperationContext(() => { repositoryHooks = GithubChannel.GetRepositoryHooks(owner, repository); });
 
-        private void TestHook()
-        {
-            throw new NotImplementedException();
-        }
+            var existingHook = repositoryHooks.FirstOrDefault(h => h.Name.Equals("web") && new Uri(h.Config.Url).Host.Equals(new Uri(deployUri).Host));
+            if (existingHook != null)
+            {
+                if (existingHook.Config.Url.Equals(newUri))
+                {
+                    existingHook.Config.Url = deployUri;
+                    InvokeInGithubOperationContext(() => { GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook); });
+                }
+                else
+                {
+                    throw new Exception("Link already established");
+                }
+            }
+            else
+            {
+                GithubRepositoryHook githubRepositoryHook = new GithubRepositoryHook()
+                {
+                    Name = "web",
+                    Active = true,
+                    Events = new List<string> { "push" },
+                    Config = new GithubRepositoryHookConfig
+                    {
+                        Url = deployUri,
+                        InsecureSsl = "1",
+                        ContentType = "form"
+                    }
+                };
 
-        private void GetHooks()
-        {
-            throw new NotImplementedException();
+                InvokeInGithubOperationContext(() => { githubRepositoryHook = GithubChannel.CreateRepositoryHook(owner, repository, githubRepositoryHook); });
+                InvokeInGithubOperationContext(() => { GithubChannel.TestRepositoryHook(owner, repository, githubRepositoryHook.Id); });
+            }  
         }
 
         public override void Init()
@@ -105,11 +132,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
 
             IList<GithubRepository> repositories = GetRepositories();
+            if (!string.IsNullOrEmpty(repositoryFullName))
+            {
+                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName));
+            }
         }
 
-        public override void Deploy()
+        public override void Deploy(Site website)
         {
-            throw new NotImplementedException();
+            CreateOrUpdateHook(LinkedRepository.Owner.Login, LinkedRepository.Name, website);
         }
 
         /// <summary>

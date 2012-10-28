@@ -55,9 +55,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
             return proxy.EndGetRepositoryHooks(proxy.BeginGetRepositoryHooks(owner, repository, null, null));
         }
 
-        public static void CreateRepositoryHook(this IGithubServiceManagement proxy, string owner, string repository, GithubRepositoryHook hook)
+        public static GithubRepositoryHook CreateRepositoryHook(this IGithubServiceManagement proxy, string owner, string repository, GithubRepositoryHook hook)
         {
-            proxy.EndCreateRepositoryHook(proxy.BeginCreateRepositoryHook(owner, repository, hook, null, null));
+            return proxy.EndCreateRepositoryHook(proxy.BeginCreateRepositoryHook(owner, repository, hook, null, null));
         }
 
         public static void UpdateRepositoryHook(this IGithubServiceManagement proxy, string owner, string repository, string id, GithubRepositoryHook hook)
