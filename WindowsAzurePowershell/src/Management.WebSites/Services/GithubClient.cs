@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             IList<GithubRepository> repositories = null;
             InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositories(); });
 
-            IList<GithubOrg> organizations = null;
+            IList<GithubOrganization> organizations = null;
             InvokeInGithubOperationContext(() => { organizations = GithubChannel.GetOrganizations(); });
 
 

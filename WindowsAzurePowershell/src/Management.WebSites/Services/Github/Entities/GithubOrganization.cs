@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     using System.Runtime.Serialization;
 
     [DataContract]
-    public class GithubOrg
+    public class GithubOrganization
     {
         [DataMember(Name = "url")]
         public string Url { get; set; }

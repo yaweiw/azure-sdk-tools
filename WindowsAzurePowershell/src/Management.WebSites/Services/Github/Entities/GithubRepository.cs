@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         public int OpenIssuesCount { get; set; }
 
         [DataMember(Name = "owner")]
-        public GithubOrg Owner { get; set; }
+        public GithubOrganization Owner { get; set; }
 
         [DataMember(Name = "full_name")]
         public string FullName { get; set; }

@@ -32,13 +32,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = "/user/orgs")]
         IAsyncResult BeginGetOrganizations(AsyncCallback callback, object state);
-        IList<GithubOrg> EndGetOrganizations(IAsyncResult asyncResult);
+        IList<GithubOrganization> EndGetOrganizations(IAsyncResult asyncResult);
         
         [Description("Gets the organizations for an user")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/orgs")]
         IAsyncResult BeginGetOrganizationsFromUser(string user, AsyncCallback callback, object state);
-        IList<GithubOrg> EndGetOrganizationsFromUser(IAsyncResult asyncResult);
+        IList<GithubOrganization> EndGetOrganizationsFromUser(IAsyncResult asyncResult);
 
         [Description("Gets the repositories for the authenticated user")]
         [OperationContract(AsyncPattern = true)]
