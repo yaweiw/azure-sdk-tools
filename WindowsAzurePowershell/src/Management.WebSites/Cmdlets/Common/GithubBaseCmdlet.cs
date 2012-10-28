@@ -58,26 +58,5 @@ namespace Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common
 
             return ServiceManagementHelper2.CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), GithubUsername, GithubPassword);
         }
-
-        /// <summary>
-        /// Invoke the given operation within an OperationContextScope if the
-        /// channel supports it.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        protected void InvokeInGithubOperationContext(Action action)
-        {
-            IContextChannel contextChannel = GithubChannel as IContextChannel;
-            if (contextChannel != null)
-            {
-                using (new OperationContextScope(contextChannel))
-                {
-                    action();
-                }
-            }
-            else
-            {
-                action();
-            }
-        }
     }
 }

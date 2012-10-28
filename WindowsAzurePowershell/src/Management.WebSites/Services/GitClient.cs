@@ -16,9 +16,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     public class GitClient : LinkedRevisionControl
     {
+        public GitClient(string invocationPath)
+            : base(invocationPath)
+        {
+        }
+
         public override void Init()
         {
-            throw new System.NotImplementedException();
+            if (!IsGitWorkingTree())
+            {
+                // Init git in current directory
+                InitGitOnCurrentDirectory();
+            }
         }
 
         public override void Deploy()

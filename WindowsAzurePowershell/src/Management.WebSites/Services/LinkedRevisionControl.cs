@@ -14,25 +14,31 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using System;
     using System.IO;
     using System.Linq;
 
     public abstract class LinkedRevisionControl
     {
+        private string invocationPath;
+
+        protected LinkedRevisionControl(string invocationPath)
+        {
+            this.invocationPath = invocationPath;
+        }
+
         public abstract void Init();
         public abstract void Deploy();
 
-        public static LinkedRevisionControl CreateClient(string client)
+        public static LinkedRevisionControl CreateClient(string invocationPath, IGithubServiceManagement githubChannel, string client)
         {
             switch(client)
             {
                 case "github":
-                    return null;
-                    break;
+                    return new GithubClient(invocationPath, githubChannel);
                 case "git":
-                    return null;
-                    break;  
+                    return new GitClient(invocationPath);
                 default:
                     throw new NotSupportedException();
             }
@@ -43,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return Git.GetWorkingTree().Any(line => line.Equals(".git"));
         }
 
-        internal void InitGitOnCurrentDirectory(string invocationPath)
+        internal void InitGitOnCurrentDirectory()
         {
             Git.InitRepository();
 

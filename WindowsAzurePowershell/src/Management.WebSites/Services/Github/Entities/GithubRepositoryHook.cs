@@ -23,13 +23,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [DataMember(Name = "url")]
+        [DataMember(Name = "updated_at")]
         public string UpdatedAt { get; set; }
 
-        [DataMember(Name = "url")]
+        [DataMember(Name = "created_at")]
         public string CreatedAt { get; set; }
 
-        [DataMember(Name = "url")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         [DataMember(Name = "events")]
