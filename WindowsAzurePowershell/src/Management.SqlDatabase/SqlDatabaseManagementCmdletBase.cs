@@ -14,13 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
-    using System.Globalization;
-    using System.Management.Automation;
     using System.ServiceModel;
-    using CloudService.Cmdlet.Common;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Properties;
-    using Services;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
+    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
@@ -59,25 +57,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
 
         protected override void WriteErrorDetails(CommunicationException exception)
         {
-            string requestId;
-            ErrorRecord errorRecord;
-            SqlDatabaseManagementHelper.RetrieveExceptionDetails(exception, out errorRecord, out requestId);
-
-            // Write the request Id as a warning
-            if (requestId != null)
-            {
-                // requestId was availiable from the server response, write that as warning to the console
-                WriteWarning(string.Format(CultureInfo.InvariantCulture, Resources.ExceptionRequestId, requestId));
-            }
-            else
-            {
-                // requestId was not availiable from the server response, write the client Ids that was sent
-                WriteWarning(string.Format(CultureInfo.InvariantCulture, Resources.ExceptionClientSessionId, SqlDatabaseManagementCmdletBase.clientSessionId));
-                WriteWarning(string.Format(CultureInfo.InvariantCulture, Resources.ExceptionClientRequestId, this.clientRequestId));
-            }
-
-            // Write the actual errorRecord containing the exception details
-            WriteError(errorRecord);
+            // Call the handler to parse and write error details.
+            SqlDatabaseExceptionHandler.WriteErrorDetails(this, this.clientRequestId, exception);
         }
     }
 }

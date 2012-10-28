@@ -61,12 +61,39 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Sql Authenticate Credential was not specified..
+        /// </summary>
+        internal static string CredentialNotSpecified {
+            get {
+                return ResourceManager.GetString("CredentialNotSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {1}
         ///Error Code: {0}.
         /// </summary>
         internal static string DatabaseManagementErrorFormat {
             get {
                 return ResourceManager.GetString("DatabaseManagementErrorFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database &apos;{0}.{1}&apos; not found..
+        /// </summary>
+        internal static string DatabaseNotFound {
+            get {
+                return ResourceManager.GetString("DatabaseNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while refreshing database..
+        /// </summary>
+        internal static string ErrorRefreshingDatabase {
+            get {
+                return ResourceManager.GetString("ErrorRefreshingDatabase", resourceCulture);
             }
         }
         
@@ -116,6 +143,42 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid authentication for &apos;{0}&apos;..
+        /// </summary>
+        internal static string InvalidAuthentication {
+            get {
+                return ResourceManager.GetString("InvalidAuthentication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid error object in the response..
+        /// </summary>
+        internal static string InvalidErrorInResponse {
+            get {
+                return ResourceManager.GetString("InvalidErrorInResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid exception message format..
+        /// </summary>
+        internal static string InvalidExceptionMessageFormat {
+            get {
+                return ResourceManager.GetString("InvalidExceptionMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database..
+        /// </summary>
+        internal static string NewAzureSqlDatabaseDescription {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Creating a new Windows Azure Sql Database server..
         /// </summary>
         internal static string NewAzureSqlDatabaseServerDescription {
@@ -148,6 +211,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         internal static string NewAzureSqlDatabaseServerWarning {
             get {
                 return ResourceManager.GetString("NewAzureSqlDatabaseServerWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to create a new Windows Azure Sql Database?.
+        /// </summary>
+        internal static string NewAzureSqlDatabaseWarning {
+            get {
+                return ResourceManager.GetString("NewAzureSqlDatabaseWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Windows Azure Sql Database &quot;{0}.{1}&quot;..
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseDescription {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseDescription", resourceCulture);
             }
         }
         
@@ -188,6 +269,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Windows Azure Sql Database &quot;{0}.{1}&quot;?.
+        /// </summary>
+        internal static string RemoveAzureSqlDatabaseWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlDatabaseWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating database &quot;{1}&quot; for Windows Azure Sql Database server &quot;{0}&quot;..
+        /// </summary>
+        internal static string SetAzureSqlDatabaseDescription {
+            get {
+                return ResourceManager.GetString("SetAzureSqlDatabaseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Resetting administrator password for Windows Azure Sql Database server &quot;{0}&quot;..
         /// </summary>
         internal static string SetAzureSqlDatabaseServerAdminPasswordDescription {
@@ -224,6 +323,15 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to update database &quot;{1}&quot; for Windows Azure Sql Database server &quot;{0}&quot;?.
+        /// </summary>
+        internal static string SetAzureSqlDatabaseWarning {
+            get {
+                return ResourceManager.GetString("SetAzureSqlDatabaseWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm.
         /// </summary>
         internal static string ShouldProcessCaption {
@@ -233,11 +341,47 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown ParameterSet specified..
+        /// </summary>
+        internal static string UnknownParameterSet {
+            get {
+                return ResourceManager.GetString("UnknownParameterSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} does not exist..
         /// </summary>
         internal static string UriDoesNotExist {
             get {
                 return ResourceManager.GetString("UriDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The client model does not match the server model. While the current set of Cmdlets may continue to work, it is recomended that you update to the latest version of Windows Azure PowerShell to ensure full compatibility..
+        /// </summary>
+        internal static string WarningModelOutOfDate {
+            get {
+                return ResourceManager.GetString("WarningModelOutOfDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The asyncResult object was not created by a preceding call of the BeginCreate method from the same control..
+        /// </summary>
+        internal static string WrongAsyncResultForCreate {
+            get {
+                return ResourceManager.GetString("WrongAsyncResultForCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The asyncResult object was not created by a preceding call of the BeginGetAccessToken method from the same control..
+        /// </summary>
+        internal static string WrongAsyncResultForGetAccessToken {
+            get {
+                return ResourceManager.GetString("WrongAsyncResultForGetAccessToken", resourceCulture);
             }
         }
     }
