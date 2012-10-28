@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     [DataContract]
     public class GithubOrg
     {
-        [DataMember]
+        [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "login")]
         public string Login { get; set; }
 
         [DataMember(Name = "avatar_url")]
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
         [DataMember(Name = "gravatar_id")]
         public string GravatarId { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "id")]
         public string Id { get; set; }
     }
 }

@@ -28,11 +28,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
     [ServiceContract]
     public interface IGithubServiceManagement
     {
+        [Description("Gets the organizations for the authenticated user")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "/user/orgs")]
+        IAsyncResult BeginGetOrganizations(AsyncCallback callback, object state);
+        IList<GithubOrg> EndGetOrganizations(IAsyncResult asyncResult);
+        
         [Description("Gets the organizations for an user")]
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = "/users/{user}/orgs")]
         IAsyncResult BeginGetOrganizationsFromUser(string user, AsyncCallback callback, object state);
         IList<GithubOrg> EndGetOrganizationsFromUser(IAsyncResult asyncResult);
+
+        [Description("Gets the repositories for the authenticated user")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "/user/repos")]
+        IAsyncResult BeginGetRepositories(AsyncCallback callback, object state);
+        IList<GithubRepository> EndGetRepositories(IAsyncResult asyncResult);
 
         [Description("Gets the repositories for an user")]
         [OperationContract(AsyncPattern = true)]

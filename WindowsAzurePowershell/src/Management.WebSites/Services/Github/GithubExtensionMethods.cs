@@ -20,9 +20,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
 
     public static class GithubExtensionMethods
     {
+        public static IList<GithubOrg> GetOrganizations(this IGithubServiceManagement proxy)
+        {
+            return proxy.EndGetOrganizations(proxy.BeginGetOrganizations(null, null));
+        }
+
         public static IList<GithubOrg> GetOrganizationsFromUser(this IGithubServiceManagement proxy, string user)
         {
             return proxy.EndGetOrganizationsFromUser(proxy.BeginGetOrganizationsFromUser(user, null, null));
+        }
+
+        public static IList<GithubRepository> GetRepositories(this IGithubServiceManagement proxy)
+        {
+            return proxy.EndGetRepositories(proxy.BeginGetRepositories(null, null));
         }
 
         public static IList<GithubRepository> GetRepositoriesFromUser(this IGithubServiceManagement proxy, string user)
