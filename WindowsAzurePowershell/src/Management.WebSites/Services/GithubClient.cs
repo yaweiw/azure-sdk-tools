@@ -23,11 +23,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     public class GithubClient : LinkedRevisionControl
     {
         protected IGithubServiceManagement GithubChannel { get; set; }
+        private GithubRepository LinkedRepository { get; set; }
+        private string username;
+        private string password;
 
-        public GithubClient(string invocationPath, IGithubServiceManagement channel)
+        public GithubClient(string invocationPath, IGithubServiceManagement channel, string githubUsername, string githubPassword)
             : base(invocationPath)
         {
             GithubChannel = channel;
+            this.username = githubUsername;
+            this.password = githubPassword;
         }
 
         private void Authenticate()
@@ -43,10 +48,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private IList<GithubRepository> GetRepositories()
         {
             IList<GithubRepository> repositories = null;
-            InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositoriesFromUser("andrerod"); });
+            InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositories(); });
 
             IList<GithubOrg> organizations = null;
-            InvokeInGithubOperationContext(() => { organizations = GithubChannel.GetOrganizationsFromUser("andrerod"); });
+            InvokeInGithubOperationContext(() => { organizations = GithubChannel.GetOrganizations(); });
 
 
 

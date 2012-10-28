@@ -210,8 +210,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
-            GithubChannel = CreateGithubChannel();
-
             if (Git && GitHub)
             {
                 throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
@@ -324,11 +322,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 LinkedRevisionControl linkedRevisionControl = null;
                 if (Git)
                 {
-                    linkedRevisionControl = LinkedRevisionControl.CreateClient(MyInvocation.MyCommand.Module.Path, GithubChannel, "git");
+                    linkedRevisionControl = new GitClient(MyInvocation.MyCommand.Module.Path);
                 }
                 else if (GitHub)
                 {
-                    linkedRevisionControl = LinkedRevisionControl.CreateClient(MyInvocation.MyCommand.Module.Path, GithubChannel, "github");
+                    GithubChannel = CreateGithubChannel();
+                    linkedRevisionControl = new GithubClient(MyInvocation.MyCommand.Module.Path, GithubChannel, GithubUsername, GithubPassword);
                 }
 
                 linkedRevisionControl.Init();

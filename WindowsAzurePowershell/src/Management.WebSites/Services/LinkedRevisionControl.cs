@@ -31,19 +31,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public abstract void Init();
         public abstract void Deploy();
 
-        public static LinkedRevisionControl CreateClient(string invocationPath, IGithubServiceManagement githubChannel, string client)
-        {
-            switch(client)
-            {
-                case "github":
-                    return new GithubClient(invocationPath, githubChannel);
-                case "git":
-                    return new GitClient(invocationPath);
-                default:
-                    throw new NotSupportedException();
-            }
-        }
-
         internal bool IsGitWorkingTree()
         {
             return Git.GetWorkingTree().Any(line => line.Equals(".git"));
