@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new AutHeaderInserter() { Username = username, Password = password });
+            factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
 
             WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
             wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
@@ -386,64 +386,5 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy(website);
             }
         }
-    }
-
-    public class AutHeaderInserter : IClientMessageInspector, IEndpointBehavior
-    {
-        public string Username
-        {
-            get;
-            set;
-        }
-
-        public string Password
-        {
-            get;
-            set;
-        }
-
-        #region IClientMessageInspector Members
-
-        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState)
-        {
-
-        }
-
-        //All our requests need to have the custom authorization headers
-        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, System.ServiceModel.IClientChannel channel)
-        {
-            //Get the HttpRequestMessage property from the message
-            var httpreq = request.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
-            byte[] authbytes = Encoding.ASCII.GetBytes(string.Concat(Username, ":", Password));
-            string base64 = Convert.ToBase64String(authbytes);
-            string authorization = string.Concat("Basic ", base64);
-
-            if (httpreq == null)
-            {
-                httpreq = new HttpRequestMessageProperty();
-                request.Properties.Add(HttpRequestMessageProperty.Name, httpreq);
-            }
-
-            httpreq.Headers["authorization"] = authorization;
-
-            return null;
-        }
-
-        #endregion
-
-        #region IEndpointBehavior Members
-
-        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
-
-        public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
-        {
-            clientRuntime.MessageInspectors.Add(this);
-        }
-
-        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }
-
-        public void Validate(ServiceEndpoint endpoint) { }
-
-        #endregion
     }
 }
