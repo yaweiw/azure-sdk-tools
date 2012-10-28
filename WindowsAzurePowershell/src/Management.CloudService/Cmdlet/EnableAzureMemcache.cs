@@ -152,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             switch (sdkVersion)
             {
-                case "1.8.0":
+                case SDKVersion.Version180:
                     Version180Configuration(azureService, webRole, cacheWorkerRole);
                     break;
 

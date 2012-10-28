@@ -61,6 +61,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         }
     }
 
+    public class SDKVersion
+    {
+        public const string Version180 = "1.8.0";
+    }
+
     public enum Location
     {
         NorthCentralUS,
