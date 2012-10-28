@@ -792,10 +792,7 @@
   <data name="CachingConfigStoreConnectionStringSettingValue" xml:space="preserve">
     <value>DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}</value>
   </data>
-  <data name="CachingLogLevelSettingName" xml:space="preserve">
-    <value>Microsoft.WindowsAzure.Plugins.Caching.Loglevel</value>
-  </data>
-  <data name="CachingNamedCacheSettingName" xml:space="preserve">
+  <data name="NamedCacheSettingName" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Plugins.Caching.NamedCaches</value>
   </data>
   <data name="CacheRuntimeValue" xml:space="preserve">
@@ -852,5 +849,14 @@
   </data>
   <data name="ClientDiagnosticLevelValue" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="DiagnosticLevelName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel</value>
+  </data>
+  <data name="DiagnosticLevelValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NamedCacheSettingValue" xml:space="preserve">
+    <value>{"caches":[{"name":"default","policy":{"eviction":{"type":0},"expiration":{"defaultTTL":10,"isExpirable":true,"type":1},"serverNotification":{"isEnabled":false}},"secondaries":0}]}</value>
   </data>
 </root>

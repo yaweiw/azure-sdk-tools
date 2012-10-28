@@ -237,15 +237,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
         }
 
-        public static void RoleSettingsExist(ConfigConfigurationSetting expected, RoleSettings actual)
-        {
-            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual.ConfigurationSettings, 
-                c => c.name == expected.name && c.value == expected.value));
-        }
-
         public static void ConfigurationSettingExist(DefConfigurationSetting expected, DefConfigurationSetting[] actual)
         {
             Assert.IsTrue(Array.Exists<DefConfigurationSetting>(actual, c => c.name == expected.name));
+        }
+
+        public static void ConfigurationSettingExist(ConfigConfigurationSetting expected, ConfigConfigurationSetting[] actual)
+        {
+            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual, c => c.name == expected.name));
         }
 
         public static void RuntimeExists(Task[] tasks, string runtimeValue)

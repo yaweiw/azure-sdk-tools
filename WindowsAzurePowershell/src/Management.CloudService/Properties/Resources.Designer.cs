@@ -295,29 +295,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.Loglevel.
-        /// </summary>
-        internal static string CachingLogLevelSettingName {
-            get {
-                return ResourceManager.GetString("CachingLogLevelSettingName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Caching.
         /// </summary>
         internal static string CachingModuleName {
             get {
                 return ResourceManager.GetString("CachingModuleName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.NamedCaches.
-        /// </summary>
-        internal static string CachingNamedCacheSettingName {
-            get {
-                return ResourceManager.GetString("CachingNamedCacheSettingName", resourceCulture);
             }
         }
         
@@ -679,6 +661,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string DeploymentRemovedMessage {
             get {
                 return ResourceManager.GetString("DeploymentRemovedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel.
+        /// </summary>
+        internal static string DiagnosticLevelName {
+            get {
+                return ResourceManager.GetString("DiagnosticLevelName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.
+        /// </summary>
+        internal static string DiagnosticLevelValue {
+            get {
+                return ResourceManager.GetString("DiagnosticLevelValue", resourceCulture);
             }
         }
         
@@ -1120,6 +1120,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string MissingPythonPreReq {
             get {
                 return ResourceManager.GetString("MissingPythonPreReq", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft.WindowsAzure.Plugins.Caching.NamedCaches.
+        /// </summary>
+        internal static string NamedCacheSettingName {
+            get {
+                return ResourceManager.GetString("NamedCacheSettingName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {&quot;caches&quot;:[{&quot;name&quot;:&quot;default&quot;,&quot;policy&quot;:{&quot;eviction&quot;:{&quot;type&quot;:0},&quot;expiration&quot;:{&quot;defaultTTL&quot;:10,&quot;isExpirable&quot;:true,&quot;type&quot;:1},&quot;serverNotification&quot;:{&quot;isEnabled&quot;:false}},&quot;secondaries&quot;:0}]}.
+        /// </summary>
+        internal static string NamedCacheSettingValue {
+            get {
+                return ResourceManager.GetString("NamedCacheSettingValue", resourceCulture);
             }
         }
         
