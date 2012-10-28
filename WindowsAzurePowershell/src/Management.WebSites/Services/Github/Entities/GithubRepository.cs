@@ -20,94 +20,94 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     [DataContract]
     public class GithubRepository
     {
-        [DataMember(Name = "clone_url")]
+        [DataMember(Name = "clone_url", IsRequired = false)]
         public string CloneUrl { get; set; }
 
-        [DataMember(Name = "forks_count")]
+        [DataMember(Name = "forks_count", IsRequired = false)]
         public int ForksCount { get; set; }
 
-        [DataMember(Name = "url")]
+        [DataMember(Name = "url", IsRequired = false)]
         public string Url { get; set; }
 
-        [DataMember(Name = "watchers")]
+        [DataMember(Name = "watchers", IsRequired = false)]
         public int Watchers { get; set; }
 
-        [DataMember(Name = "has_issues")]
+        [DataMember(Name = "has_issues", IsRequired = false)]
         public bool HasIssues { get; set; }
 
-        [DataMember(Name = "open_issues_count")]
+        [DataMember(Name = "open_issues_count", IsRequired = false)]
         public int OpenIssuesCount { get; set; }
 
-        [DataMember(Name = "owner")]
+        [DataMember(Name = "owner", IsRequired = false)]
         public GithubOrganization Owner { get; set; }
 
-        [DataMember(Name = "full_name")]
+        [DataMember(Name = "full_name", IsRequired = false)]
         public string FullName { get; set; }
 
-        [DataMember(Name = "has_wiki")]
+        [DataMember(Name = "has_wiki", IsRequired = false)]
         public bool HasWiki { get; set; }
 
-        [DataMember(Name = "mirror_url")]
+        [DataMember(Name = "mirror_url", IsRequired = false)]
         public string MirrorUrl { get; set; }
 
-        [DataMember(Name = "permissions")]
+        [DataMember(Name = "permissions", IsRequired = false)]
         public string Permissions { get; set; }
 
-        [DataMember(Name = "created_at")]
+        [DataMember(Name = "created_at", IsRequired = false)]
         public string CreatedAt { get; set; }
 
-        [DataMember(Name = "homepage")]
+        [DataMember(Name = "homepage", IsRequired = false)]
         public string Homepage { get; set; }
 
-        [DataMember(Name = "svn_url")]
+        [DataMember(Name = "svn_url", IsRequired = false)]
         public string SvnUrl { get; set; }
 
-        [DataMember(Name = "open_issues")]
+        [DataMember(Name = "open_issues", IsRequired = false)]
         public string OpenIssues { get; set; }
 
-        [DataMember(Name = "pushed_at")]
+        [DataMember(Name = "pushed_at", IsRequired = false)]
         public string PushedAt { get; set; }
 
-        [DataMember(Name = "forks")]
+        [DataMember(Name = "forks", IsRequired = false)]
         public int Forks { get; set; }
 
-        [DataMember(Name = "description")]
+        [DataMember(Name = "description", IsRequired = false)]
         public string Description { get; set; }
 
-        [DataMember(Name = "ssh_url")]
+        [DataMember(Name = "ssh_url", IsRequired = false)]
         public string SshUrl { get; set; }
 
-        [DataMember(Name = "size")]
+        [DataMember(Name = "size", IsRequired = false)]
         public int Size { get; set; }
 
-        [DataMember(Name = "fork")]
+        [DataMember(Name = "fork", IsRequired = false)]
         public bool Fork { get; set; }
 
-        [DataMember(Name = "updated_at")]
+        [DataMember(Name = "updated_at", IsRequired = false)]
         public string UpdatedAt { get; set; }
 
-        [DataMember(Name = "git_url")]
+        [DataMember(Name = "git_url", IsRequired = false)]
         public string GitUrl { get; set; }
 
-        [DataMember(Name = "name")]
+        [DataMember(Name = "name", IsRequired = false)]
         public string Name { get; set; }
 
-        [DataMember(Name = "has_downloads")]
+        [DataMember(Name = "has_downloads", IsRequired = false)]
         public string HasDownloads { get; set; }
 
-        [DataMember(Name = "private")]
+        [DataMember(Name = "private", IsRequired = false)]
         public bool Private { get; set; }
 
-        [DataMember(Name = "id")]
+        [DataMember(Name = "id", IsRequired = false)]
         public string Id { get; set; }
 
-        [DataMember(Name = "watchers_count")]
+        [DataMember(Name = "watchers_count", IsRequired = false)]
         public string WatchersCount { get; set; }
 
-        [DataMember(Name = "language")]
+        [DataMember(Name = "language", IsRequired = false)]
         public string Language { get; set; }
 
-        [DataMember(Name = "html_url")]
+        [DataMember(Name = "html_url", IsRequired = false)]
         public string HtmlUrl { get; set; }
     }
 }

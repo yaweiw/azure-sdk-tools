@@ -38,10 +38,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private void Authenticate()
         {
             EnsureCredentials();
-            /*
+            
             GithubAuthorization authorization;
-            InvokeInGithubOperationContext(() => { authorization = GithubChannel.CreateAuthorizationToken(new GithubAuthorizationRequest() { Scopes = new List<string> { "public_repo" } }); });
-        */
+            InvokeInGithubOperationContext(() => { authorization = GithubChannel.CreateAuthorizationToken(new GithubAuthorizationRequest()); });
         }
 
         private void EnsureCredentials()
