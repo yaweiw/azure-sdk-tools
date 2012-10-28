@@ -150,11 +150,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             return null;
         }
 
-        internal void CreateRepositoryAndAddRemote(string publishingUser, string webspace, string websiteName)
+        internal void InitializeRemoteRepo(string webspace, string websiteName)
         {
             // Create website repository
             InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
+        }
 
+        internal void AddRemoteToLocalGitRepo(string publishingUser, string webspace, string websiteName)
+        {
             // Get remote repos
             IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
             if (remoteRepositories.Any(repository => repository.Equals("azure")))
@@ -176,10 +179,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             base.ExecuteCommand();
 
-            IList<GithubRepository> repositories;
-            InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositoriesFromUser("andrerod"); });
-
-            /*
             if (Git && GitHub)
             {
                 throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
@@ -278,7 +277,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
             }
 
-            if (Git)
+            if (Git || GitHub)
             {
                 try
                 {
@@ -289,22 +288,33 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     // Do nothing if session state is not present
                 }
 
-                LinkedRevisionControl linkedRevisionControl = LinkedRevisionControl.CreateClient("github");
-                linkedRevisionControl.Init();
-
-                
-                if (!IsGitWorkingTree())
+                LinkedRevisionControl linkedRevisionControl = null;
+                if (Git)
                 {
-                    // Init git in current directory
-                    InitGitOnCurrentDirectory();
+                    linkedRevisionControl = LinkedRevisionControl.CreateClient(MyInvocation.MyCommand.Module.Path, GithubChannel, "git");
+                }
+                else if (GitHub)
+                {
+                    linkedRevisionControl = LinkedRevisionControl.CreateClient(MyInvocation.MyCommand.Module.Path, GithubChannel, "github");
                 }
 
+                linkedRevisionControl.Init();
+ 
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, webspace.Name);
-                
-                CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
+
+                InitializeRemoteRepo(webspace.Name, Name);
+
+                if (Git)
+                {
+                    AddRemoteToLocalGitRepo(publishingUser, webspace.Name, Name);
+                }
+                else if (GitHub)
+                {
+                }
+
+                linkedRevisionControl.Deploy();
             }
-    */
         }
     }
 }

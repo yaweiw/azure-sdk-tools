@@ -14,25 +14,43 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
     using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
 
     public class GithubClient : LinkedRevisionControl
     {
+        protected IGithubServiceManagement GithubChannel { get; set; }
+
+        public GithubClient(string invocationPath, IGithubServiceManagement channel)
+            : base(invocationPath)
+        {
+            GithubChannel = channel;
+        }
+
         private void Authenticate()
         {
             EnsureCredentials();
-
-            throw new NotImplementedException();
         }
 
         private void EnsureCredentials()
         {
-            throw new NotImplementedException();
+
         }
 
-        private void GetRepositories()
+        private IList<GithubRepository> GetRepositories()
         {
-            throw new NotImplementedException();
+            IList<GithubRepository> repositories = null;
+            InvokeInGithubOperationContext(() => { repositories = GithubChannel.GetRepositoriesFromUser("andrerod"); });
+
+            IList<GithubOrg> organizations = null;
+            InvokeInGithubOperationContext(() => { organizations = GithubChannel.GetOrganizationsFromUser("andrerod"); });
+
+
+
+            return repositories;
         }
 
         private void CreateOrUpdateHook()
@@ -62,12 +80,41 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public override void Init()
         {
-            throw new NotImplementedException();
+            Authenticate();
+
+            if (!IsGitWorkingTree())
+            {
+                // Init git in current directory
+                InitGitOnCurrentDirectory();
+            }
+
+            IList<GithubRepository> repositories = GetRepositories();
         }
 
         public override void Deploy()
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Invoke the given operation within an OperationContextScope if the
+        /// channel supports it.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void InvokeInGithubOperationContext(Action action)
+        {
+            IContextChannel contextChannel = GithubChannel as IContextChannel;
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    action();
+                }
+            }
+            else
+            {
+                action();
+            }
         }
     }
 }
