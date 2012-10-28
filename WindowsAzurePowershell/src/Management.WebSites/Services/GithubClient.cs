@@ -69,6 +69,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private void Authenticate()
         {
             EnsureCredentials();
+
+            pscmdlet.GithubChannel = CreateGithubChannel();
         }
 
         private void EnsureCredentials()
@@ -81,8 +83,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 username = cred.UserName;
                 password = cred.Password.ConvertToUnsecureString();
             }
-
-            pscmdlet.GithubChannel = CreateGithubChannel();
         }
 
         private IList<GithubRepository> GetRepositories()
