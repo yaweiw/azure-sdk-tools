@@ -157,6 +157,7 @@
     <Compile Include="Services\Github\Entities\GithubOrganization.cs" />
     <Compile Include="Services\Github\Entities\GithubRepository.cs" />
     <Compile Include="Services\Github\Entities\GithubRepositoryHook.cs" />
+    <Compile Include="Services\Github\GithubAuthHeaderInserter.cs" />
     <Compile Include="Services\Github\GithubExtensionMethods.cs" />
     <Compile Include="Services\Github\IGithubServiceManagement.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />
