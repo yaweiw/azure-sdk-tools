@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\IGithubCmdlet.cs" />
     <Compile Include="Cmdlets\RestartAzureWebsite.cs" />
     <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />

@@ -35,12 +35,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.Text;
+    using System.Security;
+    using System.Runtime.InteropServices;
+    using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -105,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
-        protected IGithubServiceManagement GithubChannel { get; set; }
+        public IGithubServiceManagement GithubChannel { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the NewAzureWebsiteCommand class.
@@ -124,41 +127,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public NewAzureWebsiteCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
-        }
-
-        protected IGithubServiceManagement CreateGithubChannel()
-        {
-            // If ShareChannel is set by a unit test, use the same channel that
-            // was passed into out constructor.  This allows the test to submit
-            // a mock that we use for all network calls.
-            if (ShareChannel)
-            {
-                return GithubChannel;
-            }
-
-            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), GithubUsername, GithubPassword);
-        }
-
-        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
-            where T : class
-        {
-            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
-
-            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
-            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
-            wb.Security.Mode = WebHttpSecurityMode.Transport;
-
-            if (!string.IsNullOrEmpty(username))
-            {
-                factory.Credentials.UserName.UserName = username;
-            }
-            if (!string.IsNullOrEmpty(password))
-            {
-                factory.Credentials.UserName.Password = password;
-            }
-
-            return factory.CreateChannel();
         }
 
         internal void CopyIisNodeWhenServerJsPresent()
@@ -362,12 +330,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 LinkedRevisionControl linkedRevisionControl = null;
                 if (Git)
                 {
-                    linkedRevisionControl = new GitClient(MyInvocation.MyCommand.Module.Path);
+                    linkedRevisionControl = new GitClient(this);
                 }
                 else if (GitHub)
                 {
-                    GithubChannel = CreateGithubChannel();
-                    linkedRevisionControl = new GithubClient(MyInvocation.MyCommand.Module.Path, GithubChannel, GithubUsername, GithubPassword, GithubRepository);
+                    linkedRevisionControl = new GithubClient(this, GithubUsername, GithubPassword, GithubRepository);
                 }
 
                 linkedRevisionControl.Init();

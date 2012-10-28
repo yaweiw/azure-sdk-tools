@@ -22,13 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public abstract class LinkedRevisionControl
     {
-        private string invocationPath;
-
-        protected LinkedRevisionControl(string invocationPath)
-        {
-            this.invocationPath = invocationPath;
-        }
-
+        protected string invocationPath;
         public abstract void Init();
         public abstract void Deploy(Site siteData);
 
