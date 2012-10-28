@@ -167,7 +167,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             IList<GithubRepository> repositories = GetRepositories();
             if (!string.IsNullOrEmpty(repositoryFullName))
             {
-                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName));
+                LinkedRepository = repositories.FirstOrDefault(r => r.FullName.Equals(repositoryFullName, StringComparison.InvariantCultureIgnoreCase));
+            }
+            else
+            {
+                var remoteUris = Git.GetRemoteUris();
+                if (remoteUris.Count == 1)
+                {
+                    LinkedRepository = repositories.FirstOrDefault(r => r.GitUrl.Equals(remoteUris.First(), StringComparison.InvariantCultureIgnoreCase));
+                }
+                else
+                {
+                    // filter repositories to reduce prompt options
+                    repositories = repositories.Where(r => remoteUris.Any(u => u.Equals(r.GitUrl, StringComparison.InvariantCultureIgnoreCase))).ToList<GithubRepository>();
+                }
             }
 
             if (LinkedRepository == null)
