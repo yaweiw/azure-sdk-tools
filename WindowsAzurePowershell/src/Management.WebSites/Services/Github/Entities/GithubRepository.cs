@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     [DataContract]
     public class GithubRepository
     {
+        /*
         [DataMember(Name = "clone_url", IsRequired = false)]
         public string CloneUrl { get; set; }
 
@@ -109,5 +110,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
 
         [DataMember(Name = "html_url", IsRequired = false)]
         public string HtmlUrl { get; set; }
+        */
     }
 }
