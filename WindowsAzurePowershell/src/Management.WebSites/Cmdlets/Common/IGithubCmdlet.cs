@@ -12,30 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Websites.Services
+namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
-    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
-    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
-    public class GitClient : LinkedRevisionControl
+    public interface IGithubCmdlet
     {
-        public GitClient(PSCmdlet pscmdlet)
-        {
-            this.invocationPath = pscmdlet.MyInvocation.MyCommand.Module.Path;
-        }
-
-        public override void Init()
-        {
-            if (!IsGitWorkingTree())
-            {
-                // Init git in current directory
-                InitGitOnCurrentDirectory();
-            }
-        }
-
-        public override void Deploy(Site website)
-        {
-            // Do nothing
-        }
+        IGithubServiceManagement GithubChannel { get; set; }
+        bool ShareChannel { get; set; }
     }
 }
