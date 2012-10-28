@@ -20,13 +20,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     [DataContract]
     public class GithubAuthorizationRequest
     {
-        [DataMember(Name = "scopes", IsRequired = false)]
+        [DataMember(Name = "scopes", IsRequired = false, EmitDefaultValue = false)]
         public IList<string> Scopes { get; set; }
 
-        [DataMember(Name = "note", IsRequired = false)]
+        [DataMember(Name = "note", IsRequired = false, EmitDefaultValue = false)]
         public string Note { get; set; }
 
-        [DataMember(Name = "note_url", IsRequired = false)]
+        [DataMember(Name = "note_url", IsRequired = false, EmitDefaultValue = false)]
         public string NoteUrl { get; set; }
     }
 }
