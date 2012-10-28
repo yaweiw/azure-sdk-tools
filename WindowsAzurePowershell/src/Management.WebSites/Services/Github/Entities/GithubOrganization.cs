@@ -19,19 +19,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     [DataContract]
     public class GithubOrganization
     {
-        [DataMember(Name = "url")]
+        [DataMember(Name = "url", IsRequired = false)]
         public string Url { get; set; }
 
-        [DataMember(Name = "login")]
+        [DataMember(Name = "login", IsRequired = false)]
         public string Login { get; set; }
 
-        [DataMember(Name = "avatar_url")]
+        [DataMember(Name = "avatar_url", IsRequired = false)]
         public string AvatarUrl { get; set; }
 
-        [DataMember(Name = "gravatar_id")]
+        [DataMember(Name = "gravatar_id", IsRequired = false)]
         public string GravatarId { get; set; }
 
-        [DataMember(Name = "id")]
+        [DataMember(Name = "id", IsRequired = false)]
         public string Id { get; set; }
     }
 }

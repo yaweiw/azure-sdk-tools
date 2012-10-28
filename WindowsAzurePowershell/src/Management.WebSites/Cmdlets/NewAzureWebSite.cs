@@ -30,6 +30,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using System.ServiceModel.Web;
+    using System.ServiceModel.Dispatcher;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.Text;
 
     /// <summary>
     /// Creates a new azure website.
@@ -123,7 +128,29 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 return GithubChannel;
             }
 
-            return ServiceManagementHelper2.CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), GithubUsername, GithubPassword);
+            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), GithubUsername, GithubPassword);
+        }
+
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
+            where T : class
+        {
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
+            factory.Endpoint.Behaviors.Add(new AutHeaderInserter() { Username = username, Password = password });
+
+            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
+            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+            wb.Security.Mode = WebHttpSecurityMode.Transport;
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                factory.Credentials.UserName.UserName = username;
+            }
+            if (!string.IsNullOrEmpty(password))
+            {
+                factory.Credentials.UserName.Password = password;
+            }
+
+            return factory.CreateChannel();
         }
 
         internal void CopyIisNodeWhenServerJsPresent()
@@ -348,5 +375,64 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy();
             }
         }
+    }
+
+    public class AutHeaderInserter : IClientMessageInspector, IEndpointBehavior
+    {
+        public string Username
+        {
+            get;
+            set;
+        }
+
+        public string Password
+        {
+            get;
+            set;
+        }
+
+        #region IClientMessageInspector Members
+
+        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState)
+        {
+
+        }
+
+        //All our requests need to have the custom authorization headers
+        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, System.ServiceModel.IClientChannel channel)
+        {
+            //Get the HttpRequestMessage property from the message
+            var httpreq = request.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
+            byte[] authbytes = Encoding.ASCII.GetBytes(string.Concat(Username, ":", Password));
+            string base64 = Convert.ToBase64String(authbytes);
+            string authorization = string.Concat("Basic ", base64);
+
+            if (httpreq == null)
+            {
+                httpreq = new HttpRequestMessageProperty();
+                request.Properties.Add(HttpRequestMessageProperty.Name, httpreq);
+            }
+
+            httpreq.Headers["authorization"] = authorization;
+
+            return null;
+        }
+
+        #endregion
+
+        #region IEndpointBehavior Members
+
+        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
+
+        public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
+        {
+            clientRuntime.MessageInspectors.Add(this);
+        }
+
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }
+
+        public void Validate(ServiceEndpoint endpoint) { }
+
+        #endregion
     }
 }
