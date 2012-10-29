@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
     }
 
     [DataContract]
-    public class GithubRepository
+    public class GithubRepository : IComparable
     {
         [DataMember(Name = "clone_url", IsRequired = false)]
         public string CloneUrl { get; set; }
@@ -122,5 +122,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities
 
         [DataMember(Name = "html_url", IsRequired = false)]
         public string HtmlUrl { get; set; }
+
+        public int CompareTo(object obj)
+        {
+            return String.Compare(Name, ((GithubRepository) obj).Name, StringComparison.InvariantCultureIgnoreCase);
+        }
     }
 }
