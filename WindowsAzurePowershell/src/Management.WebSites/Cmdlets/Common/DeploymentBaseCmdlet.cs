@@ -16,12 +16,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
     using System.ServiceModel;
-    using Management.Services;
     using Properties;
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Samples.WindowsAzure.ServiceManagement;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {
