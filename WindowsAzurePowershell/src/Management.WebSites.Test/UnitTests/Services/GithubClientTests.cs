@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             CmdletAccessor cmdletAccessor = new CmdletAccessor();
             cmdletAccessor.GithubChannel = channel;
             
-            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null);
             var repositories = githubClientAccessor.GetRepositoriesAccessor();
 
             Assert.AreEqual(3, repositories.Count);
@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             CmdletAccessor cmdletAccessor = new CmdletAccessor();
             cmdletAccessor.GithubChannel = channel;
 
-            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null);
             
             try
             {
@@ -230,7 +230,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             CmdletAccessor cmdletAccessor = new CmdletAccessor();
             cmdletAccessor.GithubChannel = channel;
 
-            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null);
             githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
             Assert.IsNotNull(createdHook);
             Assert.IsTrue(tested);
@@ -239,8 +239,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 
     internal class GithubClientAccessor : GithubClient
     {
-        public GithubClientAccessor(IGithubCmdlet pscmdlet, string githubUsername, string githubPassword, string githubRepository)
-            : base (pscmdlet, githubUsername, githubPassword, githubRepository)
+        public GithubClientAccessor(IGithubCmdlet pscmdlet, PSCredential githubCredentials, string githubRepository)
+            : base (pscmdlet, githubCredentials, githubRepository)
         {
         }
 

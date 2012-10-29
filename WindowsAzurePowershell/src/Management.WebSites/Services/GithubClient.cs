@@ -53,12 +53,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     public class GithubClient : LinkedRevisionControl
     {
         protected GithubRepository LinkedRepository;
-        protected string Username;
-        protected string Password;
+        protected PSCredential Credentials;
         protected string RepositoryFullName;
         protected IGithubCmdlet Pscmdlet;
 
-        public GithubClient(IGithubCmdlet pscmdlet, string githubUsername, string githubPassword, string githubRepository)
+        public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
         {
             Pscmdlet = pscmdlet;
             if (Pscmdlet.MyInvocation != null)
@@ -66,8 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 invocationPath = Pscmdlet.MyInvocation.MyCommand.Module.Path;
             }
 
-            Username = githubUsername;
-            Password = githubPassword;
+            Credentials = credentials;
             RepositoryFullName = githubRepository;
         }
 
@@ -81,17 +79,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         private void EnsureCredentials()
         {
             // Ensure credentials
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            if (Credentials == null)
             {
-                PSCredential cred = Pscmdlet.Host.UI.PromptForCredential("Enter username/password",
-                                                     "", Username, "");
-                if (cred == null || string.IsNullOrEmpty(cred.UserName) || cred.Password == null)
+                Credentials = Pscmdlet.Host.UI.PromptForCredential("Enter username/password",
+                                                     "", "", "");
+                if (Credentials == null || string.IsNullOrEmpty(Credentials.UserName) || Credentials.Password == null)
                 {
                     throw new Exception("Invalid credentials");
                 }
-
-                Username = cred.UserName;
-                Password = cred.Password.ConvertToUnsecureString();
             }
         }
 
@@ -232,7 +227,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 return Pscmdlet.GithubChannel;
             }
 
-            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), Username, Password);
+            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
         }
 
         public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
