@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             CmdletAccessor cmdletAccessor = new CmdletAccessor();
             cmdletAccessor.GithubChannel = channel;
 
-            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null);
             githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
             Assert.IsNotNull(createdHook);
             Assert.IsTrue(tested);
