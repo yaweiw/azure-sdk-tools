@@ -74,6 +74,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        public static IList<string> GetRemoteUris()
+        {
+            var remoteUrisLines = ExecuteGitProcess("remote -v").Split('\n');
+            List<string> remoteUris = new List<string>();
+
+            foreach (string remoteUriLine in remoteUrisLines)
+            {
+                if (remoteUriLine.Length > 0)
+                {
+                    string uri = remoteUriLine.Split('\t')[1].Split(' ')[0];
+                    remoteUris.Add(uri);
+                }
+            }
+
+            return remoteUris.Distinct().ToList();
+        }
+            
+        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         public static string GetUri(string repositoryUri, string siteName, string auth)
         {
             UriBuilder uriBuilder = new UriBuilder(repositoryUri)

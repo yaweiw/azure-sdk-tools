@@ -115,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
@@ -132,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\DeploymentBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\IGithubCmdlet.cs" />
     <Compile Include="Cmdlets\RestartAzureWebsite.cs" />
     <Compile Include="Cmdlets\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Cmdlets\SaveAzureWebsiteLog.cs" />
@@ -150,6 +152,16 @@
     <Compile Include="Services\DeploymentEntities\LogEntry.cs" />
     <Compile Include="Services\DeploymentsExtensionMethods.cs" />
     <Compile Include="Services\DeploymentEntities\DeployResult.cs" />
+    <Compile Include="Services\GitClient.cs" />
+    <Compile Include="Services\GithubClient.cs" />
+    <Compile Include="Services\Github\Entities\GithubAuthorization.cs" />
+    <Compile Include="Services\Github\Entities\GithubAuthorizationRequest.cs" />
+    <Compile Include="Services\Github\Entities\GithubOrganization.cs" />
+    <Compile Include="Services\Github\Entities\GithubRepository.cs" />
+    <Compile Include="Services\Github\Entities\GithubRepositoryHook.cs" />
+    <Compile Include="Services\Github\GithubAuthHeaderInserter.cs" />
+    <Compile Include="Services\Github\GithubExtensionMethods.cs" />
+    <Compile Include="Services\Github\IGithubServiceManagement.cs" />
     <Compile Include="Services\IDeploymentServiceManagement.cs" />
     <Compile Include="Services\GeoEntities\GeoLocation.cs" />
     <Compile Include="Services\GeoEntities\GeoRegion.cs" />
@@ -166,6 +178,7 @@
     <Compile Include="Services\Git.cs" />
     <Compile Include="Services\GitWebsite.cs" />
     <Compile Include="Services\IWebsitesServiceManagement.cs" />
+    <Compile Include="Services\LinkedRevisionControl.cs" />
     <Compile Include="Services\Repository.cs" />
     <Compile Include="Services\WebsitesExtensionMethods.cs" />
     <Compile Include="Utilities\ApiConstants.cs" />
