@@ -27,17 +27,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using System.ServiceModel.Web;
-    using System.ServiceModel.Dispatcher;
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
-    using System.Text;
-    using System.Security;
-    using System.Runtime.InteropServices;
-    using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
+    using Services.Github;
+    using Common;
 
     /// <summary>
     /// Creates a new azure website.
@@ -218,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             string repositoryUri = website.GetProperty("RepositoryUri");
 
-            string uri = Services.Git.GetUri(repositoryUri, Name, website.GetProperty("publishingusername"));
+            string uri = Services.Git.GetUri(repositoryUri, Name, PublishingUsername);
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
@@ -230,10 +221,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
             }
 
-            string publishingUser = null;
             if (Git)
             {
-                publishingUser = GetPublishingUser();
+                PublishingUsername = GetPublishingUser();
             }
 
             WebSpaces webspaceList = null;
@@ -313,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 // Handle site creating indepently so that cmdlet is idempotent.
                 string message = ProcessException(ex, false);
                 if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && Git)
+                                                 Name)) && (Git || GitHub))
                 {
                     WriteWarning(message);
                 }

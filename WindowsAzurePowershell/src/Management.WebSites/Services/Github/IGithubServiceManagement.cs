@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
 
         [Description("Gets the repositories for an organization")]
         [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/repos", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
+        [WebInvoke(Method = "GET", UriTemplate = "/orgs/{organization}/repos?sort=updated&desc=desc", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginGetRepositoriesFromOrg(string organization, AsyncCallback callback, object state);
         List<GithubRepository> EndGetRepositoriesFromOrg(IAsyncResult asyncResult);
 
