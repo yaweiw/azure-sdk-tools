@@ -84,17 +84,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         }
 
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github username.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github credentials.")]
         [ValidateNotNullOrEmpty]
-        public string GithubUsername
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github password.")]
-        [ValidateNotNullOrEmpty]
-        public string GithubPassword
+        public PSCredential GithubCredentials
         {
             get;
             set;
@@ -349,7 +341,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else if (GitHub)
                 {
-                    linkedRevisionControl = new GithubClient(this, GithubUsername, GithubPassword, GithubRepository);
+                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
                 }
 
                 linkedRevisionControl.Init();
