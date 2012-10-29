@@ -14,13 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Services.Github;
     using System.Management.Automation;
     using System.Management.Automation.Host;
-    using System.Text;
 
     public interface IGithubCmdlet
     {

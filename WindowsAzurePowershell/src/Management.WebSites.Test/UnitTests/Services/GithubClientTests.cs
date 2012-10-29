@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 {
-    using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
-    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
-    using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
+    using Websites.Cmdlets.Common;
+    using Websites.Services.Github;
+    using Websites.Services.Github.Entities;
+    using Websites.Services.WebEntities;
+    using Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -44,7 +44,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
                 {
                     return new List<GithubRepository> { new GithubRepository { Name = "org1repo1" } };
                 }
-                else if (ar.Values["organization"].Equals("org2"))
+                
+                if (ar.Values["organization"].Equals("org2"))
                 {
                     return new List<GithubRepository> { new GithubRepository { Name = "org2repo1" } };
                 }
