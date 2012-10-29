@@ -88,23 +88,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 return string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName);
             }
 
+            // Verify role to enable cache exists
+            if (!azureService.Components.RoleExists(roleName))
+            {
+                return string.Format(Resources.RoleNotFoundMessage, roleName);
+            }
+
             WebRole webRole = azureService.Components.GetWebRole(roleName);
 
-            if (webRole != null)
+            // Verift role to enable cache is web role
+            if (webRole == null)
             {
-                if (!IsCacheEnabled(webRole))
-                {
-                    EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
-                }
-                else
-                {
-                    message = string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
-                }
+                return string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName);
             }
-            else
+
+            // Verify that caching is not enabled for the role
+            if (IsCacheEnabled(webRole))
             {
-                message = string.Format(Resources.RoleNotFoundMessage, roleName);
+                return string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
             }
+
+            EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
             return message;
         }
