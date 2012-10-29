@@ -15,10 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
@@ -62,6 +63,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [ValidateNotNullOrEmpty]
         public string[] HostNames { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A string for the App Settings.")]
+        [ValidateNotNullOrEmpty]
+        public Hashtable AppSettings { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Metadata.")]
+        [ValidateNotNullOrEmpty]
+        public List<NameValuePair> Metadata { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Connection Strings.")]
+        [ValidateNotNullOrEmpty]
+        public ConnStringPropertyBag ConnectionStrings { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Handler Mappings.")]
+        [ValidateNotNullOrEmpty]
+        public HandlerMapping[] HandlerMappings { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
         /// </summary>
@@ -84,13 +101,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         internal override void ExecuteCommand()
         {
             Site website = null;
-            SiteConfig websiteConfig = null;
+            FriendlySiteConfig websiteConfig = null;
             InvokeInOperationContext(() =>
             {
                 try
                 {
                     website = RetryCall(s => Channel.GetSite(s, Name, null));
-                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
+                    websiteConfig = new FriendlySiteConfig(RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name)));
                 }
                 catch (CommunicationException ex)
                 {
@@ -103,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
-            SiteConfig websiteConfigUpdate = new SiteConfig();
+            FriendlySiteConfig websiteConfigUpdate = new FriendlySiteConfig();
             
             bool changes = false;
             if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
@@ -148,6 +165,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 websiteConfigUpdate.DetailedErrorLoggingEnabled = DetailedErrorLoggingEnabled;
             }
 
+            if (AppSettings != null && !AppSettings.Equals(websiteConfig.AppSettings))
+            {
+                changes = true;
+                websiteConfigUpdate.AppSettings = AppSettings;
+            }
+
+            if (Metadata != null && !Metadata.Equals(websiteConfig.Metadata))
+            {
+                changes = true;
+                websiteConfigUpdate.Metadata = Metadata;
+            }
+
+            if (ConnectionStrings != null && !ConnectionStrings.Equals(websiteConfig.ConnectionStrings))
+            {
+                changes = true;
+                websiteConfigUpdate.ConnectionStrings = ConnectionStrings;
+            }
+            
+            if (HandlerMappings != null && !HandlerMappings.Equals(websiteConfig.HandlerMappings))
+            {
+                changes = true;
+                websiteConfigUpdate.HandlerMappings = HandlerMappings;
+            }
+
             bool siteChanges = false;
             Site websiteUpdate = new Site
             {
@@ -168,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     try
                     {
-                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate));
+                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate.SiteConfig));
                     }
                     catch (CommunicationException ex)
                     {
