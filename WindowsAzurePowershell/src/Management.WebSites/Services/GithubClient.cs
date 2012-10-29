@@ -51,11 +51,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public class GithubClient : LinkedRevisionControl
     {
-        private GithubRepository linkedRepository;
-        private string username;
-        private string password;
-        private string repositoryFullName;
-        private IGithubCmdlet pscmdlet;
+        protected GithubRepository linkedRepository;
+        protected string username;
+        protected string password;
+        protected string repositoryFullName;
+        protected IGithubCmdlet pscmdlet;
 
         public GithubClient(IGithubCmdlet pscmdlet, string githubUsername, string githubPassword, string githubRepository)
         {
@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
         }
 
-        private IList<GithubRepository> GetRepositories()
+        protected IList<GithubRepository> GetRepositories()
         {
             List<GithubRepository> repositories = null;
             InvokeInGithubOperationContext(() => { repositories = pscmdlet.GithubChannel.GetRepositories(); });
