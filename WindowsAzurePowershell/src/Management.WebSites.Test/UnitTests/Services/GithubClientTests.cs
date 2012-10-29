@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
     using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
+    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
     using System;
     using System.Collections.Generic;
@@ -39,11 +40,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             channel.GetOrganizationsThunk = ar => new List<GithubOrganization> { new GithubOrganization { Login = "org1" }, new GithubOrganization { Login = "org2" } };
             channel.GetRepositoriesFromOrgThunk = ar => 
             {
-                if (ar.Values["organization"] == "org1")
+                if (ar.Values["organization"].Equals("org1"))
                 {
                     return new List<GithubRepository> { new GithubRepository { Name = "org1repo1" } };
                 }
-                else if (ar.Values["organization"] == "org2")
+                else if (ar.Values["organization"].Equals("org2"))
                 {
                     return new List<GithubRepository> { new GithubRepository { Name = "org2repo1" } };
                 }
@@ -65,41 +66,53 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             Assert.IsNotNull(repositories.FirstOrDefault(r => r.Name.Equals("org2repo1")));
         }
 
+        [TestMethod]
         public void TestCreateOrUpdateHook()
         {
-            /*
             // Setup
             SimpleGithubManagement channel = new SimpleGithubManagement();
 
-            channel.GetRepositoriesThunk = ar => new List<GithubRepository> { new GithubRepository { Name = "userrepo1" } };
-            channel.GetOrganizationsThunk = ar => new List<GithubOrganization> { new GithubOrganization { Login = "org1" }, new GithubOrganization { Login = "org2" } };
-            channel.GetRepositoriesFromOrgThunk = ar =>
+            channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook> { new GithubRepositoryHook { Name = "web", Config = new GithubRepositoryHookConfig { Url = "https://$username:password@mynewsite999.scm.azurewebsites.net:443/deploy" } } };
+
+            Site website = new Site
             {
-                if (ar.Values["organization"] == "org1")
+                SiteProperties = new SiteProperties
                 {
-                    return new List<GithubRepository> { new GithubRepository { Name = "org1repo1" } };
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair 
+                        {
+                            Name = "RepositoryUri",
+                            Value = "https://mynewsite999.scm.azurewebsites.net:443"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingUsername",
+                            Value = "$username"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingPassword",
+                            Value = "password"
+                        }
+                    }
                 }
-                else if (ar.Values["organization"] == "org2")
-                {
-                    return new List<GithubRepository> { new GithubRepository { Name = "org2repo1" } };
-                }
-
-                return new List<GithubRepository> { new GithubRepository { Name = "other" } };
             };
-
 
             // Test
             CmdletAccessor cmdletAccessor = new CmdletAccessor();
             cmdletAccessor.GithubChannel = channel;
 
             GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
-            var repositories = githubClientAccessor.GetRepositoriesAccessor();
-
-            Assert.AreEqual(3, repositories.Count);
-            Assert.IsNotNull(repositories.FirstOrDefault(r => r.Name.Equals("userrepo1")));
-            Assert.IsNotNull(repositories.FirstOrDefault(r => r.Name.Equals("org1repo1")));
-            Assert.IsNotNull(repositories.FirstOrDefault(r => r.Name.Equals("org2repo1")));
-             */
+            try
+            {
+                githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
+                Assert.Fail();
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("Link already established", e.Message);
+            }
         }
     }
 
@@ -113,6 +126,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
         public IList<GithubRepository> GetRepositoriesAccessor()
         {
             return GetRepositories();
+        }
+
+        public void CreateOrUpdateHookAccessor(string owner, string repository, Site website)
+        {
+            CreateOrUpdateHookAccessor(owner, repository, website);
         }
     }
 

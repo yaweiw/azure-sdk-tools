@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Websites.Properties;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
     using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
@@ -137,10 +138,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 {
                     existingHook.Config.Url = deployUri;
                     InvokeInGithubOperationContext(() => { pscmdlet.GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook); });
+                    InvokeInGithubOperationContext(() => { pscmdlet.GithubChannel.TestRepositoryHook(owner, repository, existingHook.Id); });
                 }
                 else
                 {
-                    throw new Exception("Link already established");
+                    throw new Exception(Resources.LinkAlreadyEstablished);
                 }
             }
             else

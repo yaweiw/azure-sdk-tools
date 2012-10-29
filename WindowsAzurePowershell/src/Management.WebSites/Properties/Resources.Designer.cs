@@ -124,6 +124,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Link already established.
+        /// </summary>
+        internal static string LinkAlreadyEstablished {
+            get {
+                return ResourceManager.GetString("LinkAlreadyEstablished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multiple possible publishing users. Please specify one using the argument PublishingUsername..
         /// </summary>
         internal static string MultiplePublishingUsernames {
