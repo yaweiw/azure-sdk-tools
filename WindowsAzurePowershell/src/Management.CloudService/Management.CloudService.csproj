@@ -132,7 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
-    <Compile Include="Cmdlet\EnableAzureMemcache.cs" />
+    <Compile Include="Cmdlet\EnableAzureMemcacheRole.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
