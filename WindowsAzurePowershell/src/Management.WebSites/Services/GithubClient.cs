@@ -106,8 +106,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 orgRepositories.AddRange(currentOrgRepositories);
             }
 
+            repositories.Sort();
+            orgRepositories.Sort();
             repositories.AddRange(orgRepositories);
-            return repositories;
+            return repositories.Where(r => r.Private == false).ToList();
         }
 
         protected void CreateOrUpdateHook(string owner, string repository, Site website)
