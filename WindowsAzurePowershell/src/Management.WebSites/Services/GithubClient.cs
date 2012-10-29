@@ -84,6 +84,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             {
                 PSCredential cred = this.pscmdlet.Host.UI.PromptForCredential("Enter username/password",
                                                      "", username, "");
+                if (cred == null || string.IsNullOrEmpty(cred.UserName) || cred.Password == null)
+                {
+                    throw new Exception("Invalid credentials");
+                }
+
                 username = cred.UserName;
                 password = cred.Password.ConvertToUnsecureString();
             }
@@ -158,6 +163,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }  
         }
 
+        private bool RepositoryMatchUri(GithubRepository githubRepository, string remoteUri)
+        {
+            UriBuilder uri = new UriBuilder(remoteUri);
+            uri.UserName = null;
+            uri.Password = null;
+            string cleanUri = uri.ToString();
+
+            return new UriBuilder(githubRepository.CloneUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase)
+                || new UriBuilder(githubRepository.HtmlUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase)
+                || new UriBuilder(githubRepository.GitUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         public override void Init()
         {
             Authenticate();
@@ -178,12 +195,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 var remoteUris = Git.GetRemoteUris();
                 if (remoteUris.Count == 1)
                 {
-                    linkedRepository = repositories.FirstOrDefault(r => r.GitUrl.Equals(remoteUris.First(), StringComparison.InvariantCultureIgnoreCase));
+                    linkedRepository = repositories.FirstOrDefault(r => RepositoryMatchUri(r, remoteUris.First()));
                 }
-                else
+                else if (remoteUris.Count > 0)
                 {
                     // filter repositories to reduce prompt options
-                    repositories = repositories.Where(r => remoteUris.Any(u => u.Equals(r.GitUrl, StringComparison.InvariantCultureIgnoreCase))).ToList<GithubRepository>();
+                    repositories = repositories.Where(r => remoteUris.Any(u => RepositoryMatchUri(r, u))).ToList<GithubRepository>();
                 }
             }
 

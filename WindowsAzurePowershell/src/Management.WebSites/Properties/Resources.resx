@@ -177,4 +177,7 @@ Please follow these steps in the portal:
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
   </data>
+  <data name="WebsiteRepositoryAlreadyExists" xml:space="preserve">
+    <value>Site {0} already has repository created for it.</value>
+  </data>
 </root>

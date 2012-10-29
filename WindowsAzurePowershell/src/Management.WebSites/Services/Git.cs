@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         public static IList<string> GetRemoteUris()
         {
-            var remoteUrisLines = ExecuteGitProcess("git remote -v").Split('\n');
+            var remoteUrisLines = ExecuteGitProcess("remote -v").Split('\n');
             List<string> remoteUris = new List<string>();
 
             foreach (string remoteUriLine in remoteUrisLines)
