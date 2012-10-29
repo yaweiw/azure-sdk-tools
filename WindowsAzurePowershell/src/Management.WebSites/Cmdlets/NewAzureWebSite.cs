@@ -202,8 +202,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 // Handle site creating indepently so that cmdlet is idempotent.
                 string message = ProcessException(ex, false);
-                if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && Git)
+                if (message.Equals(string.Format(Resources.WebsiteRepositoryAlreadyExists,
+                                                 Name)))
                 {
                     WriteWarning(message);
                 }
