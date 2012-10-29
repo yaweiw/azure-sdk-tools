@@ -17,12 +17,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using System.IO;
     using CloudService.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
 
     [TestClass]
     public class EnableAzureMemcacheTests : TestBase
@@ -42,15 +43,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 new EnableAzureMemcacheCommand().EnableAzureMemcacheProcess(webRoleName, cacheRoleName, servicePath);
 
                 WebRole webRole = Testing.GetWebRole(servicePath, webRoleName);
+                RoleSettings roleSettings = Testing.GetRole(servicePath, webRoleName);
 
                 AzureAssert.RuntimeExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
                 AzureAssert.StartupTaskExists(webRole.Startup.Task, Resources.CacheStartupCommand);
                 
-                AzureAssert.InternalEndpointExists(webRole.Endpoints.InternalEndpoint, new InternalEndpoint { name = Resources.MemcacheEndpointName, protocol = InternalProtocol.tcp, 
-                FixedPort = new Port[] { new Port { port = ushort.Parse(Resources.MemcacheEndpointPort) } } });
+                AzureAssert.InternalEndpointExists(webRole.Endpoints.InternalEndpoint, 
+                    new InternalEndpoint { name = Resources.MemcacheEndpointName, protocol = InternalProtocol.tcp, port = Resources.MemcacheEndpointPort});
+
+                LocalStore localStore = new LocalStore
+                {
+                    name = Resources.CacheDiagnosticStoreName,
+                    cleanOnRoleRecycle = false
+                };
                 
+                AzureAssert.LocalResourcesLocalStoreExists(localStore, webRole.LocalResources);
+
+                DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
+                AzureAssert.ConfigurationSettingExist(diagnosticLevel, webRole.ConfigurationSettings);
+
+                ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
+                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, roleSettings.ConfigurationSettings);
+
                 string webConfigPath = string.Format(@"{0}\{1}\{2}", servicePath, webRoleName, Resources.WebCloudConfig);
                 string webCloudConfig = File.ReadAllText(webConfigPath);
                 Assert.IsTrue(webCloudConfig.Contains("configSections"));

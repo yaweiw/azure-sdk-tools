@@ -356,7 +356,7 @@
     <value>v1.8</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.7</value>
+    <value>v1.8</value>
   </data>
   <data name="NewServiceCreatedMessage" xml:space="preserve">
     <value>Service has been created at {0}</value>
@@ -774,8 +774,8 @@
   <data name="WorkerRoleStartupTaskCommandLine" xml:space="preserve">
     <value>setup_worker.cmd &gt; log.txt</value>
   </data>
-  <data name="CachingFileStoreName" xml:space="preserve">
-    <value>Microsoft.WindowsAzure.Plugins.Caching.FileStore</value>
+  <data name="CacheDiagnosticStoreName" xml:space="preserve">
+    <value>DiagnosticStore</value>
   </data>
   <data name="CachingModuleName" xml:space="preserve">
     <value>Caching</value>
@@ -792,10 +792,7 @@
   <data name="CachingConfigStoreConnectionStringSettingValue" xml:space="preserve">
     <value>DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}</value>
   </data>
-  <data name="CachingLogLevelSettingName" xml:space="preserve">
-    <value>Microsoft.WindowsAzure.Plugins.Caching.Loglevel</value>
-  </data>
-  <data name="CachingNamedCacheSettingName" xml:space="preserve">
+  <data name="NamedCacheSettingName" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Plugins.Caching.NamedCaches</value>
   </data>
   <data name="CacheRuntimeValue" xml:space="preserve">
@@ -840,5 +837,26 @@
   </data>
   <data name="SettingsFileEmptyContent" xml:space="preserve">
     <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
+  </data>
+  <data name="CacheAlreadyEnabledMsg" xml:space="preserve">
+    <value>Memcache is already enabled for web role '{0}'.</value>
+  </data>
+  <data name="CacheClientDiagnosticLevelAssemblyName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
+  </data>
+  <data name="ClientDiagnosticLevelName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
+  </data>
+  <data name="ClientDiagnosticLevelValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DiagnosticLevelName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel</value>
+  </data>
+  <data name="DiagnosticLevelValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NamedCacheSettingValue" xml:space="preserve">
+    <value>{"caches":[{"name":"default","policy":{"eviction":{"type":0},"expiration":{"defaultTTL":10,"isExpirable":true,"type":1},"serverNotification":{"isEnabled":false}},"secondaries":0}]}</value>
   </data>
 </root>
