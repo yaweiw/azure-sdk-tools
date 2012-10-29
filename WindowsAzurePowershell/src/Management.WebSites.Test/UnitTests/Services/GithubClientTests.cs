@@ -115,7 +115,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             }
         }
 
-
         [TestMethod]
         public void TestCreateOrUpdateHookCreate()
         {
@@ -157,6 +156,69 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
                         {
                             Name = "PublishingUsername",
                             Value = "$username"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingPassword",
+                            Value = "password"
+                        }
+                    }
+                }
+            };
+
+            // Test
+            CmdletAccessor cmdletAccessor = new CmdletAccessor();
+            cmdletAccessor.GithubChannel = channel;
+
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
+            Assert.IsNotNull(createdHook);
+            Assert.IsTrue(tested);
+        }
+
+        [TestMethod]
+        public void TestCreateOrUpdateHookUpdate()
+        {
+            // Setup
+            SimpleGithubManagement channel = new SimpleGithubManagement();
+
+            GithubRepositoryHook createdHook = null;
+            bool tested = false;
+
+            channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook> { new GithubRepositoryHook { Name = "web", Config = new GithubRepositoryHookConfig { Url = "https://$username:password@mynewsite999.scm.azurewebsites.net:443/deploy" } } };
+
+            channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook>();
+            channel.UpdateRepositoryHookThunk = ar =>
+            {
+                createdHook = ar.Values["hook"] as GithubRepositoryHook;
+                createdHook.Id = "id";
+                return createdHook;
+            };
+
+            channel.TestRepositoryHookThunk = ar =>
+            {
+                var githubRepositoryHook = ar.Values["hook"] as GithubRepositoryHook;
+                if (githubRepositoryHook.Id.Equals("id"))
+                {
+                    tested = true;
+                }
+            };
+
+            Site website = new Site
+            {
+                SiteProperties = new SiteProperties
+                {
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair 
+                        {
+                            Name = "RepositoryUri",
+                            Value = "https://mynewsite999.scm.azurewebsites.net:443"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingUsername",
+                            Value = "$usernamenew"
                         },
                         new NameValuePair 
                         {
