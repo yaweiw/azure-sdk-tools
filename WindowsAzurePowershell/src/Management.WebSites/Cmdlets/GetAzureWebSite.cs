@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 // Output results
                 WriteObject(websiteObject, false);
-                WriteObject(websiteConfiguration, false);
+                WriteObject(new FriendlySiteConfig(websiteConfiguration), false);
             }
             else
             {
