@@ -135,6 +135,140 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
+        #region GetRepositoryHooks
+
+        public Func<SimpleServiceManagementAsyncResult, List<GithubRepositoryHook>> GetRepositoryHooksThunk { get; set; }
+
+        public IAsyncResult BeginGetRepositoryHooks(string owner, string repository, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["owner"] = owner;
+            result.Values["repository"] = repository;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public List<GithubRepositoryHook> EndGetRepositoryHooks(IAsyncResult asyncResult)
+        {
+            if (GetRepositoryHooksThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return GetRepositoryHooksThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetRepositoryHooksThunk is not implemented!");
+            }
+
+            return default(List<GithubRepositoryHook>);
+        }
+
+        #endregion
+
+        #region CreatedRepositoryHook
+
+        public Func<SimpleServiceManagementAsyncResult, GithubRepositoryHook> CreateRepositoryHookThunk { get; set; }
+
+        public IAsyncResult BeginCreateRepositoryHook(string owner, string repository, GithubRepositoryHook hook, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["owner"] = owner;
+            result.Values["repository"] = repository;
+            result.Values["hook"] = hook;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public GithubRepositoryHook EndCreateRepositoryHook(IAsyncResult asyncResult)
+        {
+            if (CreateRepositoryHookThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return CreateRepositoryHookThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("CreateRepositoryHookThunk is not implemented!");
+            }
+
+            return default(GithubRepositoryHook);
+        }
+
+        #endregion
+
+        #region UpdateRepositoryHook
+
+        public Func<SimpleServiceManagementAsyncResult, GithubRepositoryHook> UpdateRepositoryHookThunk { get; set; }
+
+        public IAsyncResult BeginUpdateRepositoryHook(string owner, string repository, string id, GithubRepositoryHook hook, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["owner"] = owner;
+            result.Values["repository"] = repository;
+            result.Values["id"] = id;
+            result.Values["hook"] = hook;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public GithubRepositoryHook EndUpdateRepositoryHook(IAsyncResult asyncResult)
+        {
+            if (UpdateRepositoryHookThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                return UpdateRepositoryHookThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("UpdateRepositoryHookThunk is not implemented!");
+            }
+
+            return default(GithubRepositoryHook);
+        }
+
+        #endregion
+
+        #region TestRepositoryHook
+
+        public Action<SimpleServiceManagementAsyncResult> TestRepositoryHookThunk { get; set; }
+
+        public IAsyncResult BeginTestRepositoryHook(string owner, string repository, string id, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["owner"] = owner;
+            result.Values["repository"] = repository;
+            result.Values["id"] = id;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            return result;
+        }
+
+        public void EndTestRepositoryHook(IAsyncResult asyncResult)
+        {
+            if (TestRepositoryHookThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleDeploymentServiceManagementAsyncResult!");
+
+                TestRepositoryHookThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("TestRepositoryHookThunk is not implemented!");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         public IAsyncResult BeginCreateAuthorizationToken(GithubAuthorizationRequest request, AsyncCallback callback, object state)
@@ -163,46 +297,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
         }
 
         public List<GithubRepository> EndGetRepositoriesFromUser(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginGetRepositoryHooks(string owner, string repository, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<GithubRepositoryHook> EndGetRepositoryHooks(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginCreateRepositoryHook(string owner, string repository, GithubRepositoryHook hook, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public GithubRepositoryHook EndCreateRepositoryHook(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginUpdateRepositoryHook(string owner, string repository, string id, GithubRepositoryHook hook, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndUpdateRepositoryHook(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginTestRepositoryHook(string owner, string repository, string id, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EndTestRepositoryHook(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
