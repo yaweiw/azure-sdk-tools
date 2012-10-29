@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return repositories;
         }
 
-        private void CreateOrUpdateHook(string owner, string repository, Site website)
+        protected void CreateOrUpdateHook(string owner, string repository, Site website)
         {
             string baseUri = website.GetProperty("repositoryuri");
             string publishingUsername = website.GetProperty("publishingusername");
@@ -134,11 +134,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             var existingHook = repositoryHooks.FirstOrDefault(h => h.Name.Equals("web") && new Uri(h.Config.Url).Host.Equals(new Uri(deployUri).Host));
             if (existingHook != null)
             {
-                if (existingHook.Config.Url.Equals(newUri))
+                if (!existingHook.Config.Url.Equals(newUri.ToString(), StringComparison.InvariantCultureIgnoreCase))
                 {
                     existingHook.Config.Url = deployUri;
-                    InvokeInGithubOperationContext(() => { pscmdlet.GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook); });
-                    InvokeInGithubOperationContext(() => { pscmdlet.GithubChannel.TestRepositoryHook(owner, repository, existingHook.Id); });
+                    InvokeInGithubOperationContext(() => pscmdlet.GithubChannel.UpdateRepositoryHook(owner, repository, existingHook.Id, existingHook));
+                    InvokeInGithubOperationContext(() => pscmdlet.GithubChannel.TestRepositoryHook(owner, repository, existingHook.Id));
                 }
                 else
                 {
