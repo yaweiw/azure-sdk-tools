@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Enables memcache for specific role.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "AzureMemcache")]
-    public class EnableAzureMemcacheCommand : CloudCmdlet<IServiceManagement>
+    public class EnableAzureMemcacheRoleCommand : CloudCmdlet<IServiceManagement>
     {
         /// <summary>
         /// The role name to edit.
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             try
             {
                 base.ProcessRecord();
-                string result = EnableAzureMemcacheProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
+                string result = EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
                 SafeWriteObject(result);
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The root path of the services</param>
         /// <returns>The resulted message</returns>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public string EnableAzureMemcacheProcess(string roleName, string cacheWorkerRoleName, string rootPath)
+        public string EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
         {
             string message = string.Empty;
             AzureService azureService = new AzureService(rootPath, null);

@@ -26,10 +26,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
 
     [TestClass]
-    public class EnableAzureMemcacheTests : TestBase
+    public class EnableAzureMemcacheRoleTests : TestBase
     {
         [TestMethod]
-        public void EnableAzureMemcacheProcess()
+        public void EnableAzureMemcacheRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
                 new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
                 new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
-                new EnableAzureMemcacheCommand().EnableAzureMemcacheProcess(webRoleName, cacheRoleName, servicePath);
+                new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
 
                 WebRole webRole = Testing.GetWebRole(servicePath, webRoleName);
                 RoleSettings roleSettings = Testing.GetRole(servicePath, webRoleName);
