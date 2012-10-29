@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
         }
 
         [TestMethod]
-        public void TestCreateOrUpdateHook()
+        public void TestCreateOrUpdateHookAlreadyExists()
         {
             // Setup
             SimpleGithubManagement channel = new SimpleGithubManagement();
@@ -113,6 +113,68 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             {
                 Assert.AreEqual("Link already established", e.Message);
             }
+        }
+
+
+        [TestMethod]
+        public void TestCreateOrUpdateHookCreate()
+        {
+            // Setup
+            SimpleGithubManagement channel = new SimpleGithubManagement();
+
+            GithubRepositoryHook createdHook = null;
+            bool tested = false;
+
+            channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook>();
+            channel.CreateRepositoryHookThunk = ar =>
+            {
+                createdHook = ar.Values["hook"] as GithubRepositoryHook;
+                createdHook.Id = "id";
+                return createdHook;
+            };
+
+            channel.TestRepositoryHookThunk = ar =>
+            {
+                var githubRepositoryHook = ar.Values["hook"] as GithubRepositoryHook;
+                if (githubRepositoryHook.Id.Equals("id"))
+                {
+                    tested = true;
+                }
+            };
+
+            Site website = new Site
+            {
+                SiteProperties = new SiteProperties
+                {
+                    Properties = new List<NameValuePair>
+                    {
+                        new NameValuePair 
+                        {
+                            Name = "RepositoryUri",
+                            Value = "https://mynewsite999.scm.azurewebsites.net:443"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingUsername",
+                            Value = "$username"
+                        },
+                        new NameValuePair 
+                        {
+                            Name = "PublishingPassword",
+                            Value = "password"
+                        }
+                    }
+                }
+            };
+
+            // Test
+            CmdletAccessor cmdletAccessor = new CmdletAccessor();
+            cmdletAccessor.GithubChannel = channel;
+
+            GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
+            Assert.IsNotNull(createdHook);
+            Assert.IsTrue(tested);
         }
     }
 
