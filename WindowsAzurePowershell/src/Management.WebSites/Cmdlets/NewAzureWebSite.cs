@@ -27,12 +27,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Services;
     using Services.WebEntities;
     using WebSites.Cmdlets.Common;
+    using Services.Github;
+    using Common;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureWebsite")]
-    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet
+    public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
         [ValidateNotNullOrEmpty]
@@ -58,12 +60,38 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure git on web site and local folder.")]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure git on the web site and local folder.")]
         public SwitchParameter Git
         {
             get;
             set;
         }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Configure github on the web site.")]
+        public SwitchParameter GitHub
+        {
+            get;
+            set;
+        }
+
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github credentials.")]
+        [ValidateNotNullOrEmpty]
+        public PSCredential GithubCredentials
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github repository.")]
+        [ValidateNotNullOrEmpty]
+        public string GithubRepository
+        {
+            get;
+            set;
+        }
+
+        public IGithubServiceManagement GithubChannel { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the NewAzureWebsiteCommand class.
@@ -84,21 +112,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal bool IsGitWorkingTree()
+        /// <summary>
+        /// Initializes a new instance of the NewAzureWebsiteCommand class.
+        /// </summary>
+        /// <param name="channel">
+        /// Channel used for communication with Azure's service management APIs.
+        /// </param>
+        /// <param name="githubChannel">
+        /// Channel used for communication with the github APIs.
+        /// </param>
+        public NewAzureWebsiteCommand(IWebsitesServiceManagement channel, IGithubServiceManagement githubChannel)
         {
-            return Services.Git.GetWorkingTree().Any(line => line.Equals(".git"));
-        }
-
-        internal void InitGitOnCurrentDirectory()
-        {
-            Services.Git.InitRepository();
-
-            if (!File.Exists(".gitignore"))
-            {
-                // Scaffold gitignore
-                string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/.gitignore"), ".gitignore");
-            }
+            Channel = channel;
+            GithubChannel = githubChannel;
         }
 
         internal void CopyIisNodeWhenServerJsPresent()
@@ -148,21 +174,31 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             return users.First();
         }
 
-        internal string GetRepositoryUri(Site website)
+        internal void InitializeRemoteRepo(string webspace, string websiteName)
         {
-            if (website.SiteProperties.Properties.Any(kvp => kvp.Name.Equals("RepositoryUri")))
+            try
             {
-                return website.SiteProperties.Properties.First(kvp => kvp.Name.Equals("RepositoryUri")).Value;
+                // Create website repository
+                InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
             }
-
-            return null;
+            catch (Exception ex)
+            {
+                // Handle site creating indepently so that cmdlet is idempotent.
+                string message = ProcessException(ex, false);
+                if (message.Equals(string.Format(Resources.WebsiteRepositoryAlreadyExists,
+                                                 Name)))
+                {
+                    WriteWarning(message);
+                }
+                else
+                {
+                    SafeWriteError(new Exception(message));
+                }
+            }
         }
 
-        internal void CreateRepositoryAndAddRemote(string publishingUser, string webspace, string websiteName)
+        internal void AddRemoteToLocalGitRepo(Site website)
         {
-            // Create website repository
-            InvokeInOperationContext(() => RetryCall(s => Channel.CreateSiteRepository(s, webspace, websiteName)));
-
             // Get remote repos
             IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
             if (remoteRepositories.Any(repository => repository.Equals("azure")))
@@ -171,21 +207,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Services.Git.RemoveRemoteRepository("azure");
             }
 
-            // Get website and from it the repository url
-            Site website = RetryCall(s => Channel.GetSite(s, webspace, websiteName, "repositoryuri,publishingpassword,publishingusername"));
-            string repositoryUri = GetRepositoryUri(website);
+            string repositoryUri = website.GetProperty("RepositoryUri");
 
-            string uri = Services.Git.GetUri(repositoryUri, Name, publishingUser);
+            string uri = Services.Git.GetUri(repositoryUri, Name, PublishingUsername);
             Services.Git.AddRemoteRepository("azure", uri);
         }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal override void ExecuteCommand()
         {
-            string publishingUser = null;
+            if (Git && GitHub)
+            {
+                throw new Exception("Please run the command with either -Git or -GitHub options. Not both.");
+            }
+
             if (Git)
             {
-                publishingUser = GetPublishingUser();
+                PublishingUsername = GetPublishingUser();
             }
 
             WebSpaces webspaceList = null;
@@ -265,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 // Handle site creating indepently so that cmdlet is idempotent.
                 string message = ProcessException(ex, false);
                 if (message.Equals(string.Format(Resources.WebsiteAlreadyExistsReplacement,
-                                                 Name)) && Git)
+                                                 Name)) && (Git || GitHub))
                 {
                     WriteWarning(message);
                 }
@@ -275,7 +313,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
             }
 
-            if (Git)
+            if (Git || GitHub)
             {
                 try
                 {
@@ -286,15 +324,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     // Do nothing if session state is not present
                 }
 
-                if (!IsGitWorkingTree())
+                LinkedRevisionControl linkedRevisionControl = null;
+                if (Git)
                 {
-                    // Init git in current directory
-                    InitGitOnCurrentDirectory();
+                    linkedRevisionControl = new GitClient(this);
+                }
+                else if (GitHub)
+                {
+                    linkedRevisionControl = new GithubClient(this, GithubCredentials, GithubRepository);
                 }
 
+                linkedRevisionControl.Init();
+ 
                 CopyIisNodeWhenServerJsPresent();
                 UpdateLocalConfigWithSiteName(Name, webspace.Name);
-                CreateRepositoryAndAddRemote(publishingUser, webspace.Name, Name);
+
+                InitializeRemoteRepo(webspace.Name, Name);
+
+                website = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
+                if (Git)
+                {
+                    AddRemoteToLocalGitRepo(website);
+                }
+
+                linkedRevisionControl.Deploy(website);
             }
         }
     }

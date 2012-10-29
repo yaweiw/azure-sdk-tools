@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using Utilities;
 
@@ -87,6 +88,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 
         [DataMember(IsRequired = false)]
         public HostNameSslStates HostNameSslStates { get; set; }
+
+        internal string GetProperty(string property)
+        {
+            if (SiteProperties.Properties.Any(kvp => kvp.Name.Equals(property, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return SiteProperties.Properties.First(kvp => kvp.Name.Equals(property, StringComparison.InvariantCultureIgnoreCase)).Value;
+            }
+
+            return null;
+        }
     }
 
     [DataContract(Namespace = UriElements.ServiceNamespace, Name = "Site")]
