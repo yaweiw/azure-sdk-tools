@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "PATCH", UriTemplate = "/repos/{owner}/{repository}/hooks/{id}", ResponseFormat = WebMessageFormat.Json, RequestFormat = WebMessageFormat.Json)]
         IAsyncResult BeginUpdateRepositoryHook(string owner, string repository, string id, GithubRepositoryHook hook, AsyncCallback callback, object state);
-        void EndUpdateRepositoryHook(IAsyncResult asyncResult);
+        GithubRepositoryHook EndUpdateRepositoryHook(IAsyncResult asyncResult);
 
         [Description("Tests a repository hook")]
         [OperationContract(AsyncPattern = true)]
