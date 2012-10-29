@@ -130,6 +130,7 @@
     <Compile Include="UnitTests\Services\GitTests.cs" />
     <Compile Include="UnitTests\Services\GithubClientTests.cs" />
     <Compile Include="UnitTests\Utilities\SimpleDeploymentServiceManagement.cs" />
+    <Compile Include="UnitTests\Utilities\SimpleGithubManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
   </ItemGroup>
   <ItemGroup>
