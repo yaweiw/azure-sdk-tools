@@ -73,5 +73,122 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
             }
         }
+
+        /// <summary>
+        /// Verify that enabling cache with non-existing cache worker role will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessCacheRoleDoesNotExistFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string cacheRoleName = "WorkerRole";
+                string webRoleName = "WebRole";
+                string expected = string.Format(Resources.RoleNotFoundMessage, cacheRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Verify that enabling cache with non-existing role to enable on will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessRoleDoesNotExistFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string cacheRoleName = "WorkerRole";
+                string webRoleName = "WebRole";
+                string expected = string.Format(Resources.RoleNotFoundMessage, webRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Verify that enabling cache using same cache worker role on role with cache will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessAlreadyEnabledFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string cacheRoleName = "WorkerRole";
+                string webRoleName = "WebRole";
+                string expected = string.Format(Resources.CacheAlreadyEnabledMsg, webRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+                
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Verify that enabling cache using different cache worker role on role with cache will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessAlreadyEnabledNewCacheRoleFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string cacheRoleName = "WorkerRole";
+                string newCacheRoleName = "NewCacheWorkerRole";
+                string webRoleName = "WebRole";
+                string expected = string.Format(Resources.CacheAlreadyEnabledMsg, webRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(newCacheRoleName, 1, servicePath);
+
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Verify that enabling cache on worker role will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessOnWorkerRoleWillFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string cacheRoleName = "WorkerRole";
+                string workerRoleName = "WebRole";
+                string expected = string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, workerRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
+                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(workerRoleName, cacheRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
     }
 }
