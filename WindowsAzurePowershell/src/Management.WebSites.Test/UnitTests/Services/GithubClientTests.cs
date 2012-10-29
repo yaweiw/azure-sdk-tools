@@ -104,6 +104,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             cmdletAccessor.GithubChannel = channel;
 
             GithubClientAccessor githubClientAccessor = new GithubClientAccessor(cmdletAccessor, null, null, null);
+            
             try
             {
                 githubClientAccessor.CreateOrUpdateHookAccessor("owner", "repository", website);
@@ -134,8 +135,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 
             channel.TestRepositoryHookThunk = ar =>
             {
-                var githubRepositoryHook = ar.Values["hook"] as GithubRepositoryHook;
-                if (githubRepositoryHook.Id.Equals("id"))
+                if (ar.Values["id"].Equals("id"))
                 {
                     tested = true;
                 }
@@ -186,8 +186,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
             bool tested = false;
 
             channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook> { new GithubRepositoryHook { Name = "web", Config = new GithubRepositoryHookConfig { Url = "https://$username:password@mynewsite999.scm.azurewebsites.net:443/deploy" } } };
-
-            channel.GetRepositoryHooksThunk = ar => new List<GithubRepositoryHook>();
             channel.UpdateRepositoryHookThunk = ar =>
             {
                 createdHook = ar.Values["hook"] as GithubRepositoryHook;
@@ -197,8 +195,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 
             channel.TestRepositoryHookThunk = ar =>
             {
-                var githubRepositoryHook = ar.Values["hook"] as GithubRepositoryHook;
-                if (githubRepositoryHook.Id.Equals("id"))
+                if (ar.Values["id"].Equals("id"))
                 {
                     tested = true;
                 }
@@ -254,7 +251,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 
         public void CreateOrUpdateHookAccessor(string owner, string repository, Site website)
         {
-            CreateOrUpdateHookAccessor(owner, repository, website);
+            CreateOrUpdateHook(owner, repository, website);
         }
     }
 
