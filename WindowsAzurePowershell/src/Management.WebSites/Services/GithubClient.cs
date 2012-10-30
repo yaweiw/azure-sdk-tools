@@ -29,9 +29,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.Security;
     using System.ServiceModel;
     using System.ServiceModel.Web;
+    using System.Security.Permissions;
 
     public static class SecureStringExtensionMethods
     {
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)
@@ -235,23 +237,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
             where T : class
         {
-            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
-
-            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
-            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
-            wb.Security.Mode = WebHttpSecurityMode.Transport;
-            wb.MaxReceivedMessageSize = 10000000;
-            if (!string.IsNullOrEmpty(username))
+            using (WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri))
             {
-                factory.Credentials.UserName.UserName = username;
-            }
-            if (!string.IsNullOrEmpty(password))
-            {
-                factory.Credentials.UserName.Password = password;
-            }
+                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
 
-            return factory.CreateChannel();
+                WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
+                wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                wb.Security.Mode = WebHttpSecurityMode.Transport;
+                wb.MaxReceivedMessageSize = 10000000;
+                if (!string.IsNullOrEmpty(username))
+                {
+                    factory.Credentials.UserName.UserName = username;
+                }
+                if (!string.IsNullOrEmpty(password))
+                {
+                    factory.Credentials.UserName.Password = password;
+                }
+
+                return factory.CreateChannel();
+            }
         }
 
         /// <summary>
