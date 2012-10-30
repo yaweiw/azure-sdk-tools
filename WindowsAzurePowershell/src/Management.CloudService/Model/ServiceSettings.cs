@@ -295,7 +295,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, get random location from "North Central US" or "South Central US"
             //
-            int randomLocation = General.GetRandomFromTwo((int)Model.Location.NorthCentralUS, (int)Model.Location.SouthCentralUS);
+            int randomLocation = General.GetRandomFromTwo((int)Model.Location.WestUS, (int)Model.Location.EastUS);
             return ArgumentConstants.Locations[(Location)randomLocation];
         }
 
