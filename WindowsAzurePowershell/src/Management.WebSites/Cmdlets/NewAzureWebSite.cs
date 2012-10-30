@@ -74,7 +74,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             set;
         }
 
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The github credentials.")]
         [ValidateNotNullOrEmpty]
         public PSCredential GithubCredentials
@@ -272,11 +271,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
             }
 
-            Site website = new Site
+            SiteWithWebSpace website = new SiteWithWebSpace
             {
                 Name = Name,
                 HostNames = new[] { Name + General.AzureWebsiteHostNameSuffix },
-                WebSpace = webspace.Name
+                WebSpace = webspace.Name,
+                WebSpaceToCreate = webspace
             };
 
             if (!string.IsNullOrEmpty(Hostname))
@@ -341,13 +341,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 InitializeRemoteRepo(webspace.Name, Name);
 
-                website = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
+                Site updatedWebsite = RetryCall(s => Channel.GetSite(s, webspace.Name, Name, "repositoryuri,publishingpassword,publishingusername"));
                 if (Git)
                 {
-                    AddRemoteToLocalGitRepo(website);
+                    AddRemoteToLocalGitRepo(updatedWebsite);
                 }
 
-                linkedRevisionControl.Deploy(website);
+                linkedRevisionControl.Deploy(updatedWebsite);
             }
         }
     }
