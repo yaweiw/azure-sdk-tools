@@ -862,4 +862,7 @@
   <data name="EnableMemcacheOnWorkerRoleErrorMsg" xml:space="preserve">
     <value>Enable-AzureMemcacheRole is supported for web roles only. Verify that '{0}' is a web role.</value>
   </data>
+  <data name="NotCacheWorkerRole" xml:space="preserve">
+    <value>'{0}' must be a cache worker role. Verify that it has proper cache worker role configuration.</value>
+  </data>
 </root>

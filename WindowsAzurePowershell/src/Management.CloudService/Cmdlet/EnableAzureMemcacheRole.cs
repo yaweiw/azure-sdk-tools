@@ -88,7 +88,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 return string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName);
             }
 
-            // Verify role to enable cache exists
+            WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(cacheWorkerRoleName);
+
+            // Verify that the cache worker role has proper caching configuration.
+            if (!IsCacheWorkerRole(cacheWorkerRole))
+            {
+                return string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName);
+            }
+
+            // Verify role to enable cache on exists
             if (!azureService.Components.RoleExists(roleName))
             {
                 return string.Format(Resources.RoleNotFoundMessage, roleName);
@@ -108,6 +116,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 return string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
             }
 
+            // All validations passed, enable caching.
             EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
             return message;
@@ -255,6 +264,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (webRole.Endpoints.InternalEndpoint != null)
             {
                 return Array.Exists<InternalEndpoint>(webRole.Endpoints.InternalEndpoint, i => i.name == Resources.MemcacheEndpointName);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the worker role is configured as caching worker role.
+        /// </summary>
+        /// <param name="workerRole">The worker role object</param>
+        /// <returns>True if its caching worker role, false if not</returns>
+        private bool IsCacheWorkerRole(WorkerRole workerRole)
+        {
+            if (workerRole.Imports != null)
+            {
+                return Array.Exists<Import>(workerRole.Imports, i => i.moduleName == Resources.CachingModuleName);
             }
 
             return false;
