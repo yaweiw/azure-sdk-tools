@@ -14,9 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    using Microsoft.WindowsAzure.Management.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
-    using System;
+    using WebEntities;
     using System.IO;
     using System.Linq;
 
