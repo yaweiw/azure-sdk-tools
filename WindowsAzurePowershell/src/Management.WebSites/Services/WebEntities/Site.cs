@@ -38,8 +38,28 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         Limited = 1,
     }
 
+    public interface ISite
+    {
+        string Name { get; set; }
+        string State { get; set; }
+        string[] HostNames { get; set; }
+        string WebSpace { get; set; }
+        Uri SelfLink { get; set; }
+        string RepositorySiteName { get; set; }
+        string Owner { get; set; }
+        UsageState UsageState { get; set; }
+        bool? Enabled { get; set; }
+        bool? AdminEnabled { get; set; }
+        string[] EnabledHostNames { get; set; }
+        SiteProperties SiteProperties { get; set; }
+        SiteAvailabilityState AvailabilityState { get; set; }
+        Certificate[] SSLCertificates { get; set; }
+        string SiteMode { get; set; }
+        HostNameSslStates HostNameSslStates { get; set; }
+    }
+
     [DataContract(Namespace = UriElements.ServiceNamespace)]
-    public class Site
+    public class Site : ISite
     {
         [DataMember(IsRequired = false)]
         public string Name { get; set; }
