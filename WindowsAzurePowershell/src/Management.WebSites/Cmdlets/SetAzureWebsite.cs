@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public int? NumberOfWorkers { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Default Documents.")]
-        [ValidateNotNullOrEmpty]
         public string[] DefaultDocuments { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = ".NET framework version.")]
@@ -64,19 +63,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public string[] HostNames { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A string for the App Settings.")]
-        [ValidateNotNullOrEmpty]
         public Hashtable AppSettings { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Metadata.")]
-        [ValidateNotNullOrEmpty]
         public List<NameValuePair> Metadata { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Connection Strings.")]
-        [ValidateNotNullOrEmpty]
         public ConnStringPropertyBag ConnectionStrings { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Handler Mappings.")]
-        [ValidateNotNullOrEmpty]
         public HandlerMapping[] HandlerMappings { get; set; }
 
         /// <summary>
