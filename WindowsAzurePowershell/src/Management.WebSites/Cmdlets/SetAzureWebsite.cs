@@ -36,7 +36,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public int? NumberOfWorkers { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Default Documents.")]
-        [ValidateNotNullOrEmpty]
         public string[] DefaultDocuments { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = ".NET framework version.")]
@@ -64,20 +63,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public string[] HostNames { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A string for the App Settings.")]
-        [ValidateNotNullOrEmpty]
         public Hashtable AppSettings { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Metadata.")]
-        [ValidateNotNullOrEmpty]
         public List<NameValuePair> Metadata { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Connection Strings.")]
-        [ValidateNotNullOrEmpty]
         public ConnStringPropertyBag ConnectionStrings { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The Handler Mappings.")]
-        [ValidateNotNullOrEmpty]
         public HandlerMapping[] HandlerMappings { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A previous site configuration.")]
+        public SiteWithConfig SiteWithConfig { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
@@ -101,13 +99,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         internal override void ExecuteCommand()
         {
             Site website = null;
-            FriendlySiteConfig websiteConfig = null;
+            SiteConfig websiteConfig = null;
             InvokeInOperationContext(() =>
             {
                 try
                 {
                     website = RetryCall(s => Channel.GetSite(s, Name, null));
-                    websiteConfig = new FriendlySiteConfig(RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name)));
+                    websiteConfig = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, Name));
                 }
                 catch (CommunicationException ex)
                 {
@@ -120,9 +118,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 throw new Exception(string.Format(Resources.InvalidWebsite, Name));
             }
 
-            FriendlySiteConfig websiteConfigUpdate = new FriendlySiteConfig();
-            
             bool changes = false;
+            SiteWithConfig websiteConfigUpdate = new SiteWithConfig();
+            if (SiteWithConfig != null)
+            {
+                websiteConfigUpdate = SiteWithConfig;
+                changes = true;
+            }
+            
             if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
             {
                 changes = true;
@@ -209,7 +212,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     try
                     {
-                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate.SiteConfig));
+                        RetryCall(s => Channel.UpdateSiteConfig(s, website.WebSpace, Name, websiteConfigUpdate.GetSiteConfig()));
                     }
                     catch (CommunicationException ex)
                     {
