@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
@@ -44,18 +45,31 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         HandlerMapping[] HandlerMappings { get; set; }
     }
 
-    public class FriendlySiteConfig : ISiteConfig
+    public class SiteWithConfig : ISite, ISiteConfig
     {
-        public SiteConfig SiteConfig { private set; get; }
+        private Site Site { get; set; }
+        private SiteConfig SiteConfig { set; get; }
 
-        public FriendlySiteConfig()
+        public SiteWithConfig()
         {
+            Site = new Site();
             SiteConfig = new SiteConfig();
         }
 
-        public FriendlySiteConfig(SiteConfig siteConfig)
+        public SiteWithConfig(Site site, SiteConfig siteConfig)
         {
+            Site = site;
             SiteConfig = siteConfig;
+        }
+
+        public SiteConfig GetSiteConfig()
+        {
+            return SiteConfig;
+        }
+
+        public Site GetSite()
+        {
+            return Site;
         }
 
         public int? NumberOfWorkers
@@ -166,6 +180,102 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         {
             get { return SiteConfig.HandlerMappings; }
             set { SiteConfig.HandlerMappings = value; }
+        }
+
+        public string Name
+        {
+            get { return Site.Name; }
+            set { Site.Name = value; }
+        }
+
+        public string State
+        {
+            get { return Site.State; }
+            set { Site.State = value; }
+        }
+
+        public string[] HostNames
+        {
+            get { return Site.HostNames; }
+            set { Site.HostNames = value; }
+        }
+
+        public string WebSpace
+        {
+            get { return Site.WebSpace; }
+            set { Site.WebSpace = value; }
+        }
+
+        public Uri SelfLink
+        {
+            get { return Site.SelfLink; }
+            set { Site.SelfLink = value; }
+        }
+
+        public string RepositorySiteName
+        {
+            get { return Site.RepositorySiteName; }
+            set { Site.RepositorySiteName = value; }
+        }
+
+        public string Owner
+        {
+            get { return Site.Owner; }
+            set { Site.Owner = value; }
+        }
+
+        public UsageState UsageState
+        {
+            get { return Site.UsageState; }
+            set { Site.UsageState = value; }
+        }
+
+        public bool? Enabled
+        {
+            get { return Site.Enabled; }
+            set { Site.Enabled = value; }
+        }
+
+        public bool? AdminEnabled
+        {
+            get { return Site.AdminEnabled; }
+            set { Site.AdminEnabled = value; }
+        }
+
+        public string[] EnabledHostNames
+        {
+            get { return Site.EnabledHostNames; }
+            set { Site.EnabledHostNames = value; }
+        }
+
+        public SiteProperties SiteProperties
+        {
+            get { return Site.SiteProperties; }
+            set { Site.SiteProperties = value; }
+        }
+
+        public SiteAvailabilityState AvailabilityState
+        {
+            get { return Site.AvailabilityState; }
+            set { Site.AvailabilityState = value; }
+        }
+
+        public Certificate[] SSLCertificates
+        {
+            get { return Site.SSLCertificates; }
+            set { Site.SSLCertificates = value; }
+        }
+
+        public string SiteMode
+        {
+            get { return Site.SiteMode; }
+            set { Site.SiteMode = value; }
+        }
+
+        public HostNameSslStates HostNameSslStates
+        {
+            get { return Site.HostNameSslStates; }
+            set { Site.HostNameSslStates = value; }
         }
     }
 
