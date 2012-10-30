@@ -737,6 +737,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enable-AzureMemcacheRole is supported for web roles only. Verify that &apos;{0}&apos; is a web role..
+        /// </summary>
+        internal static string EnableMemcacheOnWorkerRoleErrorMsg {
+            get {
+                return ResourceManager.GetString("EnableMemcacheOnWorkerRoleErrorMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Certificate.
         /// </summary>
         internal static string EnableRemoteDesktop_FriendlyCertificateName {
@@ -1237,6 +1246,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string NoInternetConnection {
             get {
                 return ResourceManager.GetString("NoInternetConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; must be a cache worker role. Verify that it has proper cache worker role configuration..
+        /// </summary>
+        internal static string NotCacheWorkerRole {
+            get {
+                return ResourceManager.GetString("NotCacheWorkerRole", resourceCulture);
             }
         }
         

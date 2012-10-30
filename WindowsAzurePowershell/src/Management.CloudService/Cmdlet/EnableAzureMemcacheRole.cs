@@ -37,8 +37,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Enables memcache for specific role.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcache")]
-    public class EnableAzureMemcacheCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
+    public class EnableAzureMemcacheRoleCommand : CloudCmdlet<IServiceManagement>
     {
         /// <summary>
         /// The role name to edit.
@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             try
             {
                 base.ProcessRecord();
-                string result = EnableAzureMemcacheProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
+                string result = EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
                 SafeWriteObject(result);
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The root path of the services</param>
         /// <returns>The resulted message</returns>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public string EnableAzureMemcacheProcess(string roleName, string cacheWorkerRoleName, string rootPath)
+        public string EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
         {
             string message = string.Empty;
             AzureService azureService = new AzureService(rootPath, null);
@@ -88,23 +88,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 return string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName);
             }
 
+            WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(cacheWorkerRoleName);
+
+            // Verify that the cache worker role has proper caching configuration.
+            if (!IsCacheWorkerRole(cacheWorkerRole))
+            {
+                return string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName);
+            }
+
+            // Verify role to enable cache on exists
+            if (!azureService.Components.RoleExists(roleName))
+            {
+                return string.Format(Resources.RoleNotFoundMessage, roleName);
+            }
+
             WebRole webRole = azureService.Components.GetWebRole(roleName);
 
-            if (webRole != null)
+            // Verift role to enable cache is web role
+            if (webRole == null)
             {
-                if (!IsCacheEnabled(webRole))
-                {
-                    EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
-                }
-                else
-                {
-                    message = string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
-                }
+                return string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName);
             }
-            else
+
+            // Verify that caching is not enabled for the role
+            if (IsCacheEnabled(webRole))
             {
-                message = string.Format(Resources.RoleNotFoundMessage, roleName);
+                return string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
             }
+
+            // All validations passed, enable caching.
+            EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
             return message;
         }
@@ -251,6 +264,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (webRole.Endpoints.InternalEndpoint != null)
             {
                 return Array.Exists<InternalEndpoint>(webRole.Endpoints.InternalEndpoint, i => i.name == Resources.MemcacheEndpointName);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the worker role is configured as caching worker role.
+        /// </summary>
+        /// <param name="workerRole">The worker role object</param>
+        /// <returns>True if its caching worker role, false if not</returns>
+        private bool IsCacheWorkerRole(WorkerRole workerRole)
+        {
+            if (workerRole.Imports != null)
+            {
+                return Array.Exists<Import>(workerRole.Imports, i => i.moduleName == Resources.CachingModuleName);
             }
 
             return false;

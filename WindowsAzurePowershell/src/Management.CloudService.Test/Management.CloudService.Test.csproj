@@ -112,7 +112,7 @@
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
     <Compile Include="Tests\Cmdlet\AddAzureCacheWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\CmdletBaseTests.cs" />
-    <Compile Include="Tests\Cmdlet\EnableAzureMemcacheTests.cs" />
+    <Compile Include="Tests\Cmdlet\EnableAzureMemcacheRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\GetAzureServiceProjectRuntimesTest.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureRuntimeTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureServiceProjectTests.cs" />
