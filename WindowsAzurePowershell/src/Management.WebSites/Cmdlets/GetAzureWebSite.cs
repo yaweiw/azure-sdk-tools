@@ -82,8 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
                 // Output results
-                WriteObject(websiteObject, false);
-                WriteObject(new FriendlySiteConfig(websiteConfiguration), false);
+                WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration), false);
             }
             else
             {
