@@ -190,5 +190,28 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.AreEqual<string>(expected, actual);
             }
         }
+
+        /// <summary>
+        /// Verify that enabling cache using non-cache worker role will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessUsingNonCacheWorkerRole()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string servicePath = Path.Combine(files.RootPath, serviceName);
+                string workerRoleName = "WorkerRole";
+                string webRoleName = "WebRole";
+                string expected = string.Format(Resources.NotCacheWorkerRole, workerRoleName);
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
+                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
+
+                string actual = new EnableAzureMemcacheRoleCommand().EnableAzureMemcacheRoleProcess(webRoleName, workerRoleName, servicePath);
+
+                Assert.AreEqual<string>(expected, actual);
+            }
+        }
     }
 }

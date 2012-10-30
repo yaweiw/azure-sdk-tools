@@ -1250,6 +1250,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; must be a cache worker role. Verify that it has proper cache worker role configuration..
+        /// </summary>
+        internal static string NotCacheWorkerRole {
+            get {
+                return ResourceManager.GetString("NotCacheWorkerRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} could not be null or empty.
         /// </summary>
         internal static string NullObjectMessage {
