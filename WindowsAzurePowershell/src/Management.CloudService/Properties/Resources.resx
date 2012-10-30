@@ -632,7 +632,7 @@
     <value> (x86)</value>
   </data>
   <data name="PHPScaffolding" xml:space="preserve">
-    <value>Scaffolding/PHP</value>
+    <value>Scaffolding\PHP</value>
   </data>
   <data name="PHPScaffoldingResources" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Management.CloudService.ScaffoldingResources.PHP</value>

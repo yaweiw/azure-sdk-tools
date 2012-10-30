@@ -205,7 +205,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
+        ///  &lt;/da [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CacheAutoDiscoveryConfig {
             get {
@@ -1363,7 +1363,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Scaffolding/PHP.
+        ///   Looks up a localized string similar to Scaffolding\PHP.
         /// </summary>
         internal static string PHPScaffolding {
             get {
