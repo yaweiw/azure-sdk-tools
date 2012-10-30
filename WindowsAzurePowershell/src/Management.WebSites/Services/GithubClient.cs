@@ -241,7 +241,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
             wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
             wb.Security.Mode = WebHttpSecurityMode.Transport;
-
+            wb.MaxReceivedMessageSize = 10000000;
             if (!string.IsNullOrEmpty(username))
             {
                 factory.Credentials.UserName.UserName = username;
