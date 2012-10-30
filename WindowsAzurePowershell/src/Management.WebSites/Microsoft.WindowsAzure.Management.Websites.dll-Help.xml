@@ -484,6 +484,26 @@ West US
 					<maml:para>Set up a local git repository and link it to the website.  If specified, this will set up a git repository in the local directory and add a remote named 'azure' that links to the website in Windows Azure.</maml:para>
 				</maml:description>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>GitHub</maml:name>
+				<maml:description>
+					<maml:para>If enabled, link this website with an existing Github repository.  Commits to the Giuthub repository will be pushed to the website in Windows Azure.</maml:para>
+				</maml:description>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>GithubCredentials</maml:name>
+				<maml:description>
+					<maml:para>The username and password credentials used to connect to Github</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >PSCredential</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>GithubRepository</maml:name>
+				<maml:description>
+					<maml:para>The full name of the Github repository to link to this website.  For example, myaccount/myrepo</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
 				<maml:name>Name</maml:name>
 				<maml:description>
@@ -537,6 +557,41 @@ West US
 			</maml:description>
 			<dev:type>
 				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>GitHub</maml:name>
+			<maml:description>
+				<maml:para>If enabled, link this website with an existing Github repository.  Commits to the Giuthub repository will be pushed to the website in Windows Azure.</maml:para>
+			</maml:description>
+			<dev:type>
+				<maml:name>SwitchParameter</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>GithubCredentials</maml:name>
+			<maml:description>
+				<maml:para>The username and password credentials used to connect to Github</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+			<dev:type>
+				<maml:name>PSCredential</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>GithubRepository</maml:name>
+			<maml:description>
+				<maml:para>The full name of the Github repository to link to this website.  For example, myaccount/myrepo</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -613,13 +668,13 @@ C:\PS&gt;			</maml:introduction>
 		</command:example>
 		<command:example>
 			<maml:title>
---------------  NewAzureWebsite mySite Hostname &quot;mysite.mydomain.com&quot; --------------			</maml:title>
+--------------  Create website with Github integration --------------			</maml:title>
 			<maml:introduction>
 				<maml:para>C:\PS&gt;</maml:para>
 C:\PS&gt;			</maml:introduction>
-  			<dev:code></dev:code>
+  			<dev:code>New-AzureWebsite mysite -Github -GithubRepository myaccount/myrepo</dev:code>
   			<dev:remarks>
-				<maml:para>Create a new website and add an alternate hostname &quot;mysite.mydomain.com&quot;</maml:para>
+				<maml:para>Create a new website linked to the Github repository myaccount/myrepo.  Commits to the Github repository will be pushed to the website in Windows Azure</maml:para>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
 				<maml:para>
@@ -672,18 +727,6 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>WhatIf</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			</command:parameter>
-			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-				<maml:name>Confirm</maml:name>
-				<maml:description>
-					<maml:para></maml:para>
-				</maml:description>
-			</command:parameter>
 		</command:syntaxItem>
 	</command:syntax>
 	<command:parameters>
@@ -706,28 +749,6 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>WhatIf</maml:name>
-			<maml:description>
-				<maml:para></maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Confirm</maml:name>
-			<maml:description>
-				<maml:para></maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -835,6 +856,106 @@ C:\PS&gt;			</maml:introduction>
 <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
 <!--Generated by Help Cmdlet Editor-->
 	<command:details>
+		<command:name>Restart-AzureWebsite</command:name>
+		<maml:description>
+			<maml:para>Stop and then restart the specified Azure website</maml:para>
+		</maml:description>
+		<maml:copyright>
+           <maml:para />
+		<!--Add copy right info here.-->
+		</maml:copyright>
+		<command:verb>Restart</command:verb>
+		<command:noun>AzureWebsite</command:noun>
+		<!--Add Dev version info here.-->
+		<dev:version />
+	</command:details>
+	<maml:description>
+	<!--This is the Description section-->
+		<maml:para>Stop and then restart the specified Azure website</maml:para>
+	</maml:description>
+	<command:syntax>		<command:syntaxItem>
+			<maml:name>Restart-AzureWebsite</maml:name>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+				<maml:name>Name</maml:name>
+				<maml:description>
+					<maml:para>The name of the Azure website to restart</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+			</command:parameter>
+		</command:syntaxItem>
+	</command:syntax>
+	<command:parameters>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+			<maml:name>Name</maml:name>
+			<maml:description>
+				<maml:para>The name of the Azure website to restart</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+			<dev:type>
+				<maml:name>String</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+	</command:parameters>
+	<command:inputTypes>
+		<command:inputType>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri/>
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:inputType>
+	</command:inputTypes>
+	<command:returnValues>
+		<command:returnValue>
+			<dev:type>
+				<maml:name></maml:name>
+				<maml:uri />
+				<maml:description>
+					<maml:para></maml:para>
+				</maml:description>
+			</dev:type>
+			<maml:description></maml:description>
+		</command:returnValue>
+	</command:returnValues>
+	<command:terminatingErrors>
+	</command:terminatingErrors>
+	<command:nonTerminatingErrors>
+	</command:nonTerminatingErrors>
+	<maml:alertSet>
+		<maml:title></maml:title>
+		<maml:alert>
+			<maml:para></maml:para>
+		</maml:alert>
+	</maml:alertSet>
+	<command:examples>
+	</command:examples>
+	<maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText>New-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+		<maml:navigationLink>
+			<maml:linkText>Get-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+		<maml:navigationLink>
+			<maml:linkText>Start-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+		<maml:navigationLink>
+			<maml:linkText>Remove-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
+</command:command>
+<command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+<!--Generated by Help Cmdlet Editor-->
+	<command:details>
 		<command:name>Restore-AzureWebsiteDeployment</command:name>
 		<maml:description>
 			<maml:para>Redeploy a previous deployment for an Azure website</maml:para>
@@ -920,28 +1041,6 @@ C:\PS&gt;			</maml:introduction>
 			<command:parameterValue required="true" variableLength="false">String</command:parameterValue>
 			<dev:type>
 				<maml:name>String</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>WhatIf</maml:name>
-			<maml:description>
-				<maml:para></maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
-				<maml:uri/>
-			</dev:type>
-			<dev:defaultValue></dev:defaultValue>
-		</command:parameter>
-		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-			<maml:name>Confirm</maml:name>
-			<maml:description>
-				<maml:para></maml:para>
-			</maml:description>
-			<dev:type>
-				<maml:name>SwitchParameter</maml:name>
 				<maml:uri/>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
@@ -1223,6 +1322,41 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "true" >String[]</command:parameterValue>
 			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>AppSettings</maml:name>
+				<maml:description>
+					<maml:para>The environment variables that will be used by the website</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >Hashtable</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>Metadata</maml:name>
+				<maml:description>
+					<maml:para>The Metadata for the website</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >NameValuePair</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>ConnectionStrings</maml:name>
+				<maml:description>
+					<maml:para>The connection strings used by the website</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >ConnStringPropertyBag</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+				<maml:name>HandlerMappings</maml:name>
+				<maml:description>
+					<maml:para>The Handler Mappings used by the website</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "true" >HandlerMapping[]</command:parameterValue>
+			</command:parameter>
+			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
+				<maml:name>SiteWithConfig</maml:name>
+				<maml:description>
+					<maml:para>The configuration used by the website</maml:para>
+				</maml:description>
+			<command:parameterValue required="true" variableLength = "false" >SiteWithConfig</command:parameterValue>
+			</command:parameter>
 			<command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
 				<maml:name>Name</maml:name>
 				<maml:description>
@@ -1329,6 +1463,66 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>AppSettings</maml:name>
+			<maml:description>
+				<maml:para>The environment variables that will be used by the website</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">Hashtable</command:parameterValue>
+			<dev:type>
+				<maml:name>Hashtable</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>Metadata</maml:name>
+			<maml:description>
+				<maml:para>The Metadata for the website</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">NameValuePair</command:parameterValue>
+			<dev:type>
+				<maml:name>NameValuePair</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>ConnectionStrings</maml:name>
+			<maml:description>
+				<maml:para>The connection strings used by the website</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">ConnStringPropertyBag</command:parameterValue>
+			<dev:type>
+				<maml:name>ConnStringPropertyBag</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+			<maml:name>HandlerMappings</maml:name>
+			<maml:description>
+				<maml:para>The Handler Mappings used by the website</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="true">HandlerMapping[]</command:parameterValue>
+			<dev:type>
+				<maml:name>HandlerMapping[]</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+			<maml:name>SiteWithConfig</maml:name>
+			<maml:description>
+				<maml:para>The configuration used by the website</maml:para>
+			</maml:description>
+			<command:parameterValue required="true" variableLength="false">SiteWithConfig</command:parameterValue>
+			<dev:type>
+				<maml:name>SiteWithConfig</maml:name>
+				<maml:uri/>
+			</dev:type>
+			<dev:defaultValue></dev:defaultValue>
+		</command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
 			<maml:name>Name</maml:name>
 			<maml:description>
@@ -1386,6 +1580,31 @@ C:\PS&gt;			</maml:introduction>
   			<dev:code>Set-AzureWebsite -HttpLoggingEnabled 1</dev:code>
   			<dev:remarks>
 				<maml:para>Enable http logging</maml:para>
+				<maml:para></maml:para>
+				<maml:para></maml:para>
+				<maml:para>
+				</maml:para>
+				<maml:para></maml:para>
+  			</dev:remarks>
+			<command:commandLines>
+				<command:commandLine>
+					<command:commandText>
+					</command:commandText>
+				</command:commandLine>
+			</command:commandLines>
+		</command:example>
+		<command:example>
+			<maml:title>
+--------------  Set storage credentials --------------			</maml:title>
+			<maml:introduction>
+				<maml:para>C:\PS&gt;</maml:para>
+C:\PS&gt;			</maml:introduction>
+  			<dev:code>$settings = New-Object Hashtable
+$settings[&quot;AZURE_STORAGE_ACCOUNT&quot;] = myaccountname
+$settings[&quot;AZURE_STORAGE_ACCESS_KEY&quot;] = myaccesskey
+Set-AzureWebsite -AppSettings $settings myWebsite</dev:code>
+  			<dev:remarks>
+				<maml:para>Sets up environment variables for AZURE_STORAGE_ACCOUNT and AZURE_STORAGE_ACCESS_KEY in the website myWebsite</maml:para>
 				<maml:para></maml:para>
 				<maml:para></maml:para>
 				<maml:para>
@@ -1722,11 +1941,11 @@ C:\PS&gt;			</maml:introduction>
 			<maml:linkText>Stop-AzureWebsite</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
-    <maml:navigationLink>
-      <maml:linkText>Restart-AzureWebsite</maml:linkText>
-      <maml:uri/>
-    </maml:navigationLink>
-    <maml:navigationLink>
+		<maml:navigationLink>
+			<maml:linkText>Restart-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+		<maml:navigationLink>
 			<maml:linkText>Remove-AzureWebsite</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
@@ -1830,11 +2049,11 @@ C:\PS&gt;			</maml:introduction>
 			<maml:linkText>Remove-AzureWebsite</maml:linkText>
 			<maml:uri/>
 		</maml:navigationLink>
-    <maml:navigationLink>
-      <maml:linkText>Restart-AzureWebsite</maml:linkText>
-      <maml:uri/>
-    </maml:navigationLink>
-  </maml:relatedLinks>
+		<maml:navigationLink>
+			<maml:linkText>Restart-AzureWebsite</maml:linkText>
+			<maml:uri/>
+		</maml:navigationLink>
+	</maml:relatedLinks>
 </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <!--Generated by Help Cmdlet Editor-->
