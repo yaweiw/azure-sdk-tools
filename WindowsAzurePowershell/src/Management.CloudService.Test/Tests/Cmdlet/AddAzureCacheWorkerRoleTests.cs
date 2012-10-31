@@ -40,14 +40,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 RoleSettings cacheRoleSettings = Testing.GetRole(servicePath, roleName);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
+
                 AzureAssert.WorkerRoleImportsExists(new Import { moduleName = Resources.CachingModuleName }, cacheWorkerRole);
-                AzureAssert.WorkerRoleLocalResourcesLocalStoreExists(
-                    new LocalStore { name = Resources.CachingFileStoreName, sizeInMB = int.Parse(Resources.DefaultRoleCachingInMB), cleanOnRoleRecycle = false },
-                    cacheWorkerRole);
-                AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { name = Resources.CachingNamedCacheSettingName, value = string.Empty }, cacheRoleSettings);
-                AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { name = Resources.CachingLogLevelSettingName, value = string.Empty }, cacheRoleSettings);
-                AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty }, cacheRoleSettings);
-                AzureAssert.RoleSettingsExist(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty }, cacheRoleSettings);
+
+                AzureAssert.LocalResourcesLocalStoreExists(new LocalStore { name = Resources.CacheDiagnosticStoreName, cleanOnRoleRecycle = false }, 
+                    cacheWorkerRole.LocalResources);
+
+                Assert.IsNull(cacheWorkerRole.Endpoints.InputEndpoint);
+
+                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.NamedCacheSettingName, value = Resources.NamedCacheSettingValue }, cacheRoleSettings.ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.DiagnosticLevelName, value = Resources.DiagnosticLevelValue }, cacheRoleSettings.ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
             }
         }
     }

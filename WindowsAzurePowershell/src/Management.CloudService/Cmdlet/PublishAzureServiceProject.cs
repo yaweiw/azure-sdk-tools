@@ -331,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
             if (definition.WebRole != null)
             {
-                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole.Where(role => role.Startup != null))
+                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     CloudRuntime.ClearRuntime(role);
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
@@ -356,7 +356,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (definition.WorkerRole != null)
             {
-                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null))
+                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
                     CloudRuntime.ClearRuntime(role);

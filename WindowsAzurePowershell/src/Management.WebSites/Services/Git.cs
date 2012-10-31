@@ -25,55 +25,55 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public static class Git
     {
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static string GetConfigurationValue(string name)
         {
             return ExecuteGitProcess(string.Format("config --get {0}", name)).Split('\n').FirstOrDefault();
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static void SetConfigurationValue(string name, string value)
         {
             ExecuteGitProcess(string.Format("config {0} {1}", name, value));
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static void ClearConfigurationValue(string name)
         {
             ExecuteGitProcess(string.Format("config --unset {0}", name));
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static IList<string> GetRemoteRepositories()
         {
             return ExecuteGitProcess("remote").Split('\n');
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static void AddRemoteRepository(string name, string url)
         {
             ExecuteGitProcess(string.Format("remote add {0} {1}", name, url));
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static void RemoveRemoteRepository(string name)
         {
             ExecuteGitProcess(string.Format("remote rm {0}", name));
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static void InitRepository()
         {
             ExecuteGitProcess("init");
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static IList<string> GetWorkingTree()
         {
             return ExecuteGitProcess("rev-parse --git-dir").Split('\n');
         }
 
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static IList<string> GetRemoteUris()
         {
             var remoteUrisLines = ExecuteGitProcess("remote -v").Split('\n');
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return remoteUris.Distinct().ToList();
         }
             
-        [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
+        [EnvironmentPermission(SecurityAction.Demand, Unrestricted = true)]
         public static string GetUri(string repositoryUri, string siteName, string auth)
         {
             UriBuilder uriBuilder = new UriBuilder(repositoryUri)

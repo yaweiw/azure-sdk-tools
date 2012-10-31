@@ -2,490 +2,260 @@
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
-            <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="64149DC9-56B5-42B5-88F3-20ED5490EB3B">
+            <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="8ABAE4FD-FC75-47D9-A08A-ADF5AE4B1065">
                 <File Id="filF638140167895CBAE7E04BC99BF304B2" KeyPath="yes" Source="$(var.sourceDir)\Azure.psd1" />
             </Component>
-            <Component Id="cmp3DCAF3083D0E02E22982344922ACDC9E" Guid="04E254D4-B2E0-4F06-84C3-D9188C24E705">
+            <Component Id="cmp3DCAF3083D0E02E22982344922ACDC9E" Guid="E9005B3D-6487-4A4C-8C9E-537527A5E2B5">
                 <File Id="fil5AFB9CDC0EE257E4EFF522D23671D731" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Samples.WindowsAzure.ServiceManagement.dll" />
             </Component>
-            <Component Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" Guid="F1602B5F-E914-4849-B303-81C463CDE237">
+            <Component Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" Guid="943E6E57-FCE3-4B62-A408-B9931A76813D">
                 <File Id="fil80496A1F6A5C6F946FBD5A7D5D2E27E6" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.dll" />
             </Component>
-            <Component Id="cmp21AD45C8184EE9697743031D64B90DBF" Guid="6D015CA3-AF00-42A7-A000-BF7B5A73C340">
+            <Component Id="cmp21AD45C8184EE9697743031D64B90DBF" Guid="D2455349-2FD4-44FD-BA73-013F14B02FCD">
                 <File Id="fil4BE90D0F9524C3DD7C64B3A16B097A97" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml" />
             </Component>
-            <Component Id="cmpAB116347707E4A261FBF12AE730D30C5" Guid="F346E1C6-DB5F-4274-926C-E740B53975E8">
+            <Component Id="cmpAB116347707E4A261FBF12AE730D30C5" Guid="B5F2D116-EFD2-4EA1-83DC-B68D4BEC70E0">
                 <File Id="fil5765F68BBE8414A48D917083295701FF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.pdb" />
             </Component>
-            <Component Id="cmp082C06C47DE9A08EDDF28D7AE24FC342" Guid="6340D299-BF0A-462B-AD27-CA55694D67A0">
+            <Component Id="cmp082C06C47DE9A08EDDF28D7AE24FC342" Guid="9D177374-1C2A-42A7-A075-5A0208780088">
                 <File Id="filC20D9B69A74477863D2BFC943620B983" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.dll" />
             </Component>
-            <Component Id="cmp05E2B3FE92481D52F6A84BD7C1B6711C" Guid="8A853692-5227-4CBC-8A73-D8DAADC899B4">
+            <Component Id="cmp05E2B3FE92481D52F6A84BD7C1B6711C" Guid="4EEC185D-A2ED-4901-B3CA-B4CE68979083">
                 <File Id="filC76C641F413124FB4ECD5DF9E1AAE415" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.dll-Help.xml" />
             </Component>
-            <Component Id="cmpAB556F505B51DAB88F3F158B7FF50263" Guid="E079C88F-98CE-405B-8755-DD34DBE5EC39">
+            <Component Id="cmpAB556F505B51DAB88F3F158B7FF50263" Guid="9F9557B0-169C-404A-B87E-104BAD7B8840">
                 <File Id="fil41AB56A0AA56DEC0BB1F1CDC8C66DCDA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.pdb" />
             </Component>
-            <Component Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" Guid="2D599DF4-DDF8-4C36-BE77-C2C69D4B3488">
+            <Component Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" Guid="010EDB63-930E-4640-9227-E7358A10AFC1">
                 <File Id="fil189E2221C0ABD364C5D1DD5874571B7A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Service.dll" />
             </Component>
-            <Component Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" Guid="EFEDC1C3-D3A1-4114-A30A-FFE65BB07218">
+            <Component Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" Guid="5A2A2A0B-47A4-4735-BB5D-1B641F50E26C">
                 <File Id="fil4BDA9049E3A822953A7FFED6A8D739F3" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll" />
             </Component>
-            <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="6133B816-D6B0-451B-BE25-F2D4A304CF07">
+            <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="92B7EB10-DCD8-4820-BDB1-3D5EA7F091E0">
                 <File Id="filE2144C8E5105E49D1525C9D7809B501B" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml" />
             </Component>
-            <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="FB3DE21E-2DC2-4F3C-BF69-064A6F062CC9">
+            <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="4F8593B6-9AD7-42C3-AA18-2CA144A36545">
                 <File Id="filE738A7F4F746B6E5AB058142D57D7CE4" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll" />
             </Component>
-            <Component Id="cmp3696789E7171F8B704380E6E1C7DA50A" Guid="1B4E4D68-3A69-40AE-8874-E5C121CDEAE5">
+            <Component Id="cmp3696789E7171F8B704380E6E1C7DA50A" Guid="504AA139-7042-4492-8379-3A63E45E87F7">
                 <File Id="fil61F4420EB48D4B42646487EEA06EF3C7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
             </Component>
-            <Component Id="cmp082481E2AF0AB70140050A5AEAE69D8F" Guid="371D6403-B68A-421C-9C5C-70B937AFBE4E">
+            <Component Id="cmp082481E2AF0AB70140050A5AEAE69D8F" Guid="0B31D4C3-E6E6-4D33-9022-62FE4AAC1C91">
                 <File Id="filE91096563D86CCE16337E7B635C6FD64" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.pdb" />
             </Component>
-            <Component Id="cmpFD4153753AE97B3AE21830330751F9A9" Guid="4F674B9C-18F0-4988-B854-02B9E203D48F">
+            <Component Id="cmpFD4153753AE97B3AE21830330751F9A9" Guid="DAB79E46-BD2E-45C1-A051-AA1EAD9DC5C3">
                 <File Id="filC0D79281164D0CB5EE2C2D8F1B1F9231" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
             </Component>
-            <Component Id="cmp34BDEE00E00AA1F769C3A6C84C90A7B9" Guid="22AFEADD-6B71-4407-AB37-61F260791374">
+            <Component Id="cmp34BDEE00E00AA1F769C3A6C84C90A7B9" Guid="E464C782-6B8A-44E9-956B-8A5DE3CB62DE">
                 <File Id="fil38A5CA45A027F5E87AC2DDFF346328DB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.dll" />
             </Component>
-            <Component Id="cmp48D4B34FCDE3547BE20A30015CFB1AC3" Guid="6329A97F-2EB3-489C-909B-DD83DD4E9D16">
+            <Component Id="cmp48D4B34FCDE3547BE20A30015CFB1AC3" Guid="C5AAA586-F6FA-45E4-BF9A-EBE36CBA8FE1">
                 <File Id="fil69478395FEA74019D6C50993FEC9BFC7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml" />
             </Component>
-            <Component Id="cmp67A94F9EC409E4B73DA4B46E2A7E1285" Guid="2F1BF2F8-88C0-48CB-A308-85AC8860ACAB">
+            <Component Id="cmp67A94F9EC409E4B73DA4B46E2A7E1285" Guid="3C54F551-C037-4DE4-993B-9F6574A155A7">
                 <File Id="filEE9B44FAF50DD25717D374AD1F7E84D6" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.format.ps1xml" />
             </Component>
-            <Component Id="cmp1B6FF7421275B77BECFC4C6CB0785222" Guid="218B8BF7-0500-469C-83C6-E4BA415716C2">
+            <Component Id="cmp1B6FF7421275B77BECFC4C6CB0785222" Guid="5EBBB8BC-F9DD-472E-9E8E-EECF1E613856">
                 <File Id="fil75AACEB1D4E4636C4F78A9A6C11C9A67" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.pdb" />
             </Component>
-            <Component Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" Guid="F9C05256-ED2C-4F65-8A07-83FF7CAD5776">
+            <Component Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" Guid="F468B961-38E7-4D2E-AFEC-21CBBFB3D71B">
                 <File Id="fil04D11E84A0426DE01A6043C925392346" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.Types.ps1xml" />
             </Component>
-            <Component Id="cmpF275B2621CA54C32ACCA236605DC9B69" Guid="ED2991AA-61B1-4D74-BDF9-C31698EFEDA8">
+            <Component Id="cmpF275B2621CA54C32ACCA236605DC9B69" Guid="FDC8D37E-EBF8-4FA4-BAF1-810FC5513C99">
                 <File Id="fil9EFB50E4C7783DD621FA9DED027C980C" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.StorageClient.dll" />
             </Component>
             <Directory Id="dir37B8CF51910542AE339D0D096AC93955" Name="Resources">
                 <Directory Id="dir0BD948643E8C5081647DB08884989A17" Name="Scaffolding">
+                    <Directory Id="dirDEE05881828C1C52DDE1F4445521AE59" Name="Cache">
+                        <Directory Id="dirF17B1CE4354285CAC588D46E24BE1403" Name="WebRole">
+                            <Component Id="cmp20C2DFD1EACC92899D56C022BD04DEA7" Guid="30CB098B-CE1C-4F07-B3FD-FA2903A61A92">
+                                <File Id="fil8B43C4F1B9EA5432D97E3BC33E4FE167" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Cache\WebRole\Scaffold.xml" />
+                            </Component>
+                            <Directory Id="dir5E6FA704E678A8566DCD349C8CCB41F3" Name="bin">
+                                <Component Id="cmp12BA0DF5894D15DD60B6BFA01F2F0FF4" Guid="BEFAB238-F7F4-42EC-A9D5-A1CFA8D511D1">
+                                    <File Id="fil88876D98540F2867288AF1583444043C" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Cache\WebRole\bin\setup_cache.cmd" />
+                                </Component>
+                            </Directory>
+                        </Directory>
+                    </Directory>
                     <Directory Id="dir78389734292844C6D88F56B6799F8B52" Name="General">
-                        <Component Id="cmp5C438B434BB06C70547F54B1CB3C51F6" Guid="1F217D02-730C-4768-875C-889673E9DD32">
+                        <Component Id="cmp5C438B434BB06C70547F54B1CB3C51F6" Guid="A721BB7D-A9B3-4F81-9944-AE294518EED7">
                             <File Id="fil269F42C4DD1A1CA684EEBE4F7341B85A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\General\deploymentSettings.json" />
                         </Component>
-                        <Component Id="cmp9DCE4FC86F99B3B85C576A4F4AF85D1C" Guid="61A9EDA8-81C9-4FCB-84D9-BD36BDE8B26D">
+                        <Component Id="cmp9DCE4FC86F99B3B85C576A4F4AF85D1C" Guid="2C1312D0-0C5E-45FD-95A1-2F947F51786A">
                             <File Id="fil2A62DB8F48A269030AA23867C0DB8C5A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\General\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp4BF136C929C2FA6FC3529F5BE8F2CC6C" Guid="195352DF-A4BC-4B86-8AD6-2AC89ED79F4D">
+                        <Component Id="cmp4BF136C929C2FA6FC3529F5BE8F2CC6C" Guid="FBF007DC-C256-40C5-9446-456EF059C34D">
                             <File Id="fil94BAEA94DA6B9E3B15BC8163B19ECE78" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\General\ServiceConfiguration.Cloud.cscfg" />
                         </Component>
-                        <Component Id="cmp97BEBC4EFFD760EAA7B28EF80F32E5A5" Guid="ED3C9EF7-EBF6-4D69-9F87-99E0E7D8B573">
+                        <Component Id="cmp97BEBC4EFFD760EAA7B28EF80F32E5A5" Guid="D0BE0502-6E7D-48BF-9CDA-09DD70688F74">
                             <File Id="fil27DF464CDB66C813544FE3F992935096" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\General\ServiceConfiguration.Local.cscfg" />
                         </Component>
-                        <Component Id="cmpDF83A549A120538B7AAF6B77CEBADC63" Guid="B681784C-5AA1-464C-9896-B5568AEF4751">
+                        <Component Id="cmpDF83A549A120538B7AAF6B77CEBADC63" Guid="C99B8DC6-9DEB-4DDD-BA47-121B6BCA827A">
                             <File Id="fil2E120EADEC3CD18D52B9106EEBE1C649" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\General\ServiceDefinition.csdef" />
                         </Component>
                     </Directory>
                     <Directory Id="dir7330EE2A3A0DE70155B6B02FD772913C" Name="Node">
-                        <Component Id="cmp2515ABA0C98349D8A51ADBF51DF216B1" Guid="A602CB77-3FC7-4888-ABB8-A21F895D6A0C">
-                            <File Id="fil1225612E4B3B0AA51B3B125B3AF1970F" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\.gitignore" />
-                        </Component>
-                        <Component Id="cmpF3E73812E29BD91D54A7EACB52DA72B7" Guid="F282CC41-8274-4049-803F-1CB44887409E">
-                            <File Id="filE7EC10BB301AB8BC93F67CE6497C89E8" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\iisnode.yml" />
-                        </Component>
                         <Directory Id="dir29C7E7EC753BC3BC07DC8A443949CCA9" Name="WebRole">
-                            <Component Id="cmpA9E7A8ACA0E12C847946ABF3DF8C1904" Guid="ED931050-2EDB-457B-9DB3-6BFE5C719965">
+                            <Component Id="cmpA9E7A8ACA0E12C847946ABF3DF8C1904" Guid="1253EE52-674A-424A-8825-A2455E0E871A">
                                 <File Id="fil1D2E3BA189612FAC5BDC86EC839E2C61" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp30C920130F0DC826FA230646DE9EB6F5" Guid="AB5D15CF-960E-432E-83D3-8B6767EB66C0">
+                            <Component Id="cmp30C920130F0DC826FA230646DE9EB6F5" Guid="2DCC9ADB-D8FF-4194-AFAA-8CD69BFFA206">
                                 <File Id="filEE4B35CEB1283E8A24C67E322A4823F9" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp9C935A5015C1B0EF14899180F4B33DF6" Guid="34483F87-5099-4EA4-9A0A-A228AAD633B7">
+                            <Component Id="cmp9C935A5015C1B0EF14899180F4B33DF6" Guid="8F3061C9-0E89-4521-8A79-45CFF6EA62E9">
                                 <File Id="filE534B1D3E50AA3D9411AA6C00872DA58" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\server.js" />
                             </Component>
-                            <Component Id="cmpC565A33AE774813372572EC5B77D0F92" Guid="A44315EE-2BCD-420A-BC9F-3A778BEE1867">
+                            <Component Id="cmpC565A33AE774813372572EC5B77D0F92" Guid="DD9E3A77-8621-40DA-BB60-411577160471">
                                 <File Id="filFA22F93EDB023CB9869024868140A015" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\Web.cloud.config" />
                             </Component>
-                            <Component Id="cmp9F4E2B87D08E28231B212AFB5FB591D8" Guid="41FAFC29-708F-4E8F-A21F-A78DB8CC0E67">
+                            <Component Id="cmp9F4E2B87D08E28231B212AFB5FB591D8" Guid="FA1AE71D-B7DB-49B6-8EA8-077C3B39FBA4">
                                 <File Id="filD2D4F56A9782B14464D72A358CCDFB77" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmpBA5D6DBC548D484ACF64C0574BA318ED" Guid="A69262EF-FE23-441D-9CA2-272658C7A49B">
+                            <Component Id="cmpBA5D6DBC548D484ACF64C0574BA318ED" Guid="451DC2BC-CA1C-492C-A9D9-1B92C5C1545F">
                                 <File Id="fil7B6E5B08D0FF2222EBCC6E0A2E8C2A5D" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\WebRole.xml" />
                             </Component>
                             <Directory Id="dirF5A9EAA205A1E2E7FAB87DA2ADB023A9" Name="bin">
-                                <Component Id="cmp531CF4686B2DEB3E0D6423003CB73037" Guid="DA6A81D2-8414-4B7F-B7B5-C0BD4EED3355">
+                                <Component Id="cmp531CF4686B2DEB3E0D6423003CB73037" Guid="E3E56979-4183-4E31-9100-73BF6E5C8CC3">
                                     <File Id="filF66964BEDF9A015C2B832E5D32D524BC" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1" />
                                 </Component>
-                                <Component Id="cmpC489FBFFE354708067C64C94347FA8CC" Guid="509A77F5-513C-4607-AE5C-4507587A1610">
+                                <Component Id="cmpC489FBFFE354708067C64C94347FA8CC" Guid="6C273FC5-7E3F-493A-B9C9-D87121EBC7F9">
                                     <File Id="fil7E70BDC6B22A67F334CF682ED819CEEA" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\bin\download.ps1" />
                                 </Component>
-                                <Component Id="cmpCE47EE86638BD500B400DF06BEF2EBDE" Guid="E6A16CB5-C75A-4C30-B2A3-43FCC27BD4BE">
+                                <Component Id="cmpCE47EE86638BD500B400DF06BEF2EBDE" Guid="3962206B-A864-4BA8-8C22-2E91D242EFE2">
                                     <File Id="filF404F282932E5871B24BD1D38EEA89E0" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WebRole\bin\setup_web.cmd" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dir0F60E5B79F1A7FFCF27AEC79BDF3955B" Name="WorkerRole">
-                            <Component Id="cmpC5CDAEAA931BDA195727EE8116007373" Guid="735CD20F-2990-4853-8EC4-5427CC7A520D">
+                            <Component Id="cmpC5CDAEAA931BDA195727EE8116007373" Guid="369C3F23-C0DA-48A5-9AEE-999B230EC4AB">
                                 <File Id="fil7CCEBB179A8AF27DCE72FFAB922F1B53" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\download.ps1" />
                             </Component>
-                            <Component Id="cmp446DA97B536360421672817262EC3D5B" Guid="56A7F418-8B50-4350-A86C-F5EB11BD838A">
+                            <Component Id="cmp446DA97B536360421672817262EC3D5B" Guid="2A3FDAD8-7BD2-49A3-975D-EE71F30829E9">
                                 <File Id="filC9E5966AA423FA6C1EEE160B99A088C3" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\node.cmd" />
                             </Component>
-                            <Component Id="cmp0548217F64B524EE7FE4ACB7F0601A31" Guid="9EDC3A86-BF5C-49DB-B2B2-5C0FF8C52D86">
+                            <Component Id="cmp0548217F64B524EE7FE4ACB7F0601A31" Guid="67F18BD7-3307-43F1-A6F3-169EF6A010FB">
                                 <File Id="fil1F9C6AD56EFD387882663E2795D73000" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp185A21F3617446F28540B7AEB3D5394A" Guid="0DBB1D55-64C7-43EA-8BB5-363FC4ACA7DA">
+                            <Component Id="cmp185A21F3617446F28540B7AEB3D5394A" Guid="03869B15-D365-4BAD-8C92-F85E8F2DC6F9">
                                 <File Id="fil1D12004D5A0CD624592260C643854FB0" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp3322586FB185CB762BEE382D385752DF" Guid="7AA977B9-0DB0-418D-A0CB-0DC909DA92E6">
+                            <Component Id="cmp3322586FB185CB762BEE382D385752DF" Guid="A8501188-7B90-4A07-A98E-7F42201F0199">
                                 <File Id="fil4CEC3CDA9C3BA45DAEB35DF0CAB2B727" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\server.js" />
                             </Component>
-                            <Component Id="cmp2EA607623CF565C6D349B3D01F476A18" Guid="B5567DD2-49AC-4D17-877F-ACAA68AB6BDC">
+                            <Component Id="cmp2EA607623CF565C6D349B3D01F476A18" Guid="1DAFB866-6613-46AE-95D3-0B4047D8F75F">
                                 <File Id="fil00113FBA87EED7F50F69BECD43541326" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\setup_worker.cmd" />
                             </Component>
-                            <Component Id="cmpEA050C67490B32C89A3534763E0FAEA5" Guid="84D1702C-3E7F-4934-8E21-29399FB4C512">
+                            <Component Id="cmpEA050C67490B32C89A3534763E0FAEA5" Guid="DBE80967-3EC8-4AFA-84AF-EA47F9C594C1">
                                 <File Id="fil1AD3C619B43A42DA6367510DE937A77B" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Node\WorkerRole\WorkerRole.xml" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dir301B23D0233CB5654130DBBE966A62F7" Name="PHP">
                         <Directory Id="dir338BF88BB446CD5C0BFDCADDEA67D3AE" Name="WebRole">
-                            <Component Id="cmp414A7B8C3A2DBA08C40C8383EF919D65" Guid="F019D479-3138-4C38-A436-FD831C68FAEB">
+                            <Component Id="cmp414A7B8C3A2DBA08C40C8383EF919D65" Guid="8EC379A3-5469-40CF-86D5-311773C106F9">
                                 <File Id="fil52AB54F36B7213DE3E880D7161E06E46" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\index.php" />
                             </Component>
-                            <Component Id="cmp524F28E0D47FC503D8664EAF82FBF534" Guid="B87256FB-8669-444E-B371-58C750C695BB">
+                            <Component Id="cmp524F28E0D47FC503D8664EAF82FBF534" Guid="3925D75A-534D-41CB-8B2D-1A85C3EC29C6">
                                 <File Id="filE183D163DC5E77AD826B2A765A030B1A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmpA3C02A291776E4157D6999BF9BC6EDDE" Guid="2A74969B-7D97-47EE-A36A-47537BCC9E19">
+                            <Component Id="cmpA3C02A291776E4157D6999BF9BC6EDDE" Guid="F1E088C0-8175-48F1-97AC-39A32B07780F">
                                 <File Id="fil7821D4D202F27D5DDCC188C2AEEC1AFA" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp03970BCB13DC8BEEBB360A567DD284BE" Guid="A00A9D57-707A-43F3-9D18-868A0A51AD9A">
+                            <Component Id="cmp03970BCB13DC8BEEBB360A567DD284BE" Guid="8FC63D57-BFD6-47A2-8D6E-DC027DA827D7">
                                 <File Id="fil1D74DC0B5125DD65D9CB160FB6AC73FB" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\web.cloud.config" />
                             </Component>
-                            <Component Id="cmp335D71C6FB396F03E7F2ABF60463CF4C" Guid="50E66108-4561-4130-9028-3B4D907C83F8">
+                            <Component Id="cmp335D71C6FB396F03E7F2ABF60463CF4C" Guid="973EE956-4F9D-4737-A750-1431F9A604A0">
                                 <File Id="fil7E482A87DE551DA04B3211049165A28B" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmp8F943D6525893672AD1C1F2DC0008982" Guid="B07B9EE7-D349-4335-95A9-3C2CFEB4BE07">
+                            <Component Id="cmp8F943D6525893672AD1C1F2DC0008982" Guid="59EEACF6-37BB-4736-9EB4-0EC00A832275">
                                 <File Id="fil82F400345FB5C755BAD05BBAA2C5B1F1" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\WebRole.xml" />
                             </Component>
                             <Directory Id="dir93BC61A6280A15087F0378D499008F00" Name="bin">
-                                <Component Id="cmp9893F3C389E0880AAA3BC47E5D835C9D" Guid="C2021CEC-8A3C-4407-B3C7-6313E15D58FC">
-                                    <File Id="fil2E366B355728BE470BA4E138B9D32599" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.Deployment.dll" />
+                                <Component Id="cmp0FE31B95E343DCF9BA260F436C0EC716" Guid="A8CE29E2-A9D4-4D6B-9FE5-3990690BAA7D">
+                                    <File Id="fil102358007581A2DE3483BD3BD85695DF" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\download.ps1" />
                                 </Component>
-                                <Component Id="cmp80B77C960B73EEE6B2A10D7610612ECF" Guid="89D700F8-353C-491A-9F7E-EC447FD3AEE2">
-                                    <File Id="fil002A42411FC3C36B75339C9B3679243B" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.dll" />
-                                </Component>
-                                <Component Id="cmpA473B36A6570108F8B465726EAA557DF" Guid="68B7BF0B-4003-4311-89BA-851ABB0A9660">
-                                    <File Id="fil90F47DE7BC990F566DE948E8E5A547B6" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.UI.dll" />
-                                </Component>
-                                <Component Id="cmpB245762D3574C66B5AD42F0A1F452170" Guid="E1E76245-463E-41C3-9396-0988569A905B">
+                                <Component Id="cmpB245762D3574C66B5AD42F0A1F452170" Guid="6323A90A-99E1-455B-897B-666A025FD102">
                                     <File Id="fil40C77FA8C7A5E1597469907CB20719CE" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\setup.cmd" />
                                 </Component>
-                                <Component Id="cmp2737B9CAA49FBF4E681A7A0A72998CF7" Guid="2FE68CFD-0D92-4379-BBC3-8685FB8F438E">
+                                <Component Id="cmp2737B9CAA49FBF4E681A7A0A72998CF7" Guid="58E01104-6279-4101-8F19-8945C60019BF">
                                     <File Id="filEB65F6CECEAE7A34DD56FDB73FE65E2A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\setup.ps1" />
                                 </Component>
-                                <Component Id="cmp847DF577E6CD9B87FCB9C74EF6317D1F" Guid="816A95EE-452C-4A5C-9694-6300E2D4AC69">
+                                <Component Id="cmp847DF577E6CD9B87FCB9C74EF6317D1F" Guid="8C033661-0A4D-4F90-AF5E-1D7816928211">
                                     <File Id="fil4EA994B335ED9F9B82B02E1F2706510A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd" />
-                                </Component>
-                                <Component Id="cmpB202F7FE0636A4BA547955C3BDF74BD6" Guid="1E0BF1DA-3815-4E75-BB63-8B1B59970422">
-                                    <Class Id="{016F4C30-8DC9-3A90-9C47-E637161DF45E}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" />
-                                    </Class>
-                                    <Class Id="{5193DC89-1F06-3BE4-A380-19CA36FF8928}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" />
-                                    </Class>
-                                    <Class Id="{570A526C-CF8B-3722-993D-F9CDDDF174FA}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" />
-                                    </Class>
-                                    <Class Id="{7AD73191-D928-346D-9F69-C4D958A769CB}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" />
-                                    </Class>
-                                    <Class Id="{7CAB16A6-440F-37B1-B4E4-A2745C920179}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" />
-                                    </Class>
-                                    <Class Id="{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" />
-                                    </Class>
-                                    <Class Id="{A7A46FBB-AF9E-365B-8878-731C32F02B2F}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" />
-                                    </Class>
-                                    <Class Id="{C7E063D0-EA10-3DFC-98E4-CB8026650998}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                        <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" />
-                                    </Class>
-                                    <File Id="fil32E92115EEAE449DFD0F852AC84F6255" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WebRole\bin\WebpiCmdLine.exe" />
-                                    <ProgId Id="Record" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.Verbosity" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+CommandLineOptions" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+ListOptions" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                    <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
                                 </Component>
                             </Directory>
                         </Directory>
                         <Directory Id="dir9DCBFED0B4C1CF3006E258BA7BCF893E" Name="WorkerRole">
-                            <Component Id="cmpCC5CF6422274AB5E9BB011F51A72B68F" Guid="D2AC10D1-C36E-4E18-9BB1-3B41C324BE1B">
+                            <Component Id="cmp3852AC6F7598FBDB4B73EF91308CFD92" Guid="483BFBB0-132F-4C23-98E2-31CA43686A3F">
+                                <File Id="fil0C43C4ABBB6B18E4F185904C9302727A" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\download.ps1" />
+                            </Component>
+                            <Component Id="cmpCC5CF6422274AB5E9BB011F51A72B68F" Guid="6E452E8B-07C6-421C-8FF0-3293C24332DC">
                                 <File Id="filE91CFDA6B662BD16155DB14749719EEB" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\index.php" />
                             </Component>
-                            <Component Id="cmpE02C2BA30B22080E968390A9B344BE3B" Guid="A37D02D2-A916-483F-845D-8EBF2DE59DD1">
-                                <File Id="fil287535A1D21F0D643620FA14DEDB070D" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.Deployment.dll" />
-                            </Component>
-                            <Component Id="cmp32DC0ABECE45730FD9BAF8E6F5C1CEAE" Guid="2778347A-F966-45D7-B026-827C6716CC66">
-                                <File Id="filA57F2EAA3546AA1873BE2BBE2682A614" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.dll" />
-                            </Component>
-                            <Component Id="cmp0B267154CC16AE1720F4C83977CC698D" Guid="8D29EE80-C76A-44F2-8ABF-DD06FBB6BF0E">
-                                <File Id="fil6C3712298F3AE4BC1A7E42C78CB78DCD" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.UI.dll" />
-                            </Component>
-                            <Component Id="cmpCDE0CE0D822C6DB1AC34493D136D8DCF" Guid="443411D2-F48B-408F-97F9-8E4B87564482">
+                            <Component Id="cmpCDE0CE0D822C6DB1AC34493D136D8DCF" Guid="9A50E012-49A2-45C7-860F-DBE2D15A5096">
                                 <File Id="fil605AB5BAB5E8D534D9047AE3899A902F" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd" />
                             </Component>
-                            <Component Id="cmpCCFFFB9EC0FD8B2C5101CD22A21A08F5" Guid="B21630DC-769A-49BE-891B-50672889D706">
+                            <Component Id="cmpCCFFFB9EC0FD8B2C5101CD22A21A08F5" Guid="E8BE7874-4B2A-44F3-B74F-D1ADA0F36A0C">
                                 <File Id="filA06A46144B0D4D30F58E4A76D0B854C9" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp291354AF85D39994EEAF2F84F6C3E11C" Guid="F0B4F465-69DB-4255-B1F2-81D356C7E13B">
+                            <Component Id="cmp291354AF85D39994EEAF2F84F6C3E11C" Guid="DB07789C-267D-471A-97A1-C56FF30A72AA">
                                 <File Id="fil4E14FC3F3BF391BEC02E63308971A5B0" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmpA77D1E22ED56A371C438871F16132072" Guid="E5FA061A-2101-4874-9ED4-E9584B38CB4C">
+                            <Component Id="cmpA77D1E22ED56A371C438871F16132072" Guid="34DB3052-DBEE-4968-AB01-F133FE4AF50B">
                                 <File Id="fil0164F36CCDE5EFF9640B2C10D39E892C" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\setup.cmd" />
                             </Component>
-                            <Component Id="cmp157C0A05BB3A154929F4A5A36C1A1E88" Guid="20DBE89B-5D32-452F-8876-FD31BC56C066">
+                            <Component Id="cmp157C0A05BB3A154929F4A5A36C1A1E88" Guid="4C6C17CD-18EA-44D5-94EE-1B80FD4651CF">
                                 <File Id="filD2F06F702A92DE89708C1F1D7B0792BE" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\setup.ps1" />
                             </Component>
-                            <Component Id="cmp86957BD0FA6882F3F7C00826F158D969" Guid="F9BCEC99-027E-4F5E-8885-575F60D32598">
+                            <Component Id="cmp86957BD0FA6882F3F7C00826F158D969" Guid="C281F46B-9E77-454B-9DA7-B2D7D4D67844">
                                 <File Id="fil37081243EDC0F6F10D125926D190087D" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd" />
                             </Component>
-                            <Component Id="cmp378D442B4B12D5422D64D4BB2C946BAB" Guid="DA4F656D-0B0B-4DA8-9C2E-E1BABA90F037">
-                                <Class Id="{016F4C30-8DC9-3A90-9C47-E637161DF45E}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" />
-                                </Class>
-                                <Class Id="{5193DC89-1F06-3BE4-A380-19CA36FF8928}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" />
-                                </Class>
-                                <Class Id="{570A526C-CF8B-3722-993D-F9CDDDF174FA}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" />
-                                </Class>
-                                <Class Id="{7AD73191-D928-346D-9F69-C4D958A769CB}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" />
-                                </Class>
-                                <Class Id="{7CAB16A6-440F-37B1-B4E4-A2745C920179}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" />
-                                </Class>
-                                <Class Id="{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" />
-                                </Class>
-                                <Class Id="{A7A46FBB-AF9E-365B-8878-731C32F02B2F}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" />
-                                </Class>
-                                <Class Id="{C7E063D0-EA10-3DFC-98E4-CB8026650998}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" />
-                                </Class>
-                                <File Id="fil21E8B2DA6EC82DDCF88C915B94D74D20" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\WebpiCmdLine.exe" />
-                                <ProgId Id="Record" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.Verbosity" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+CommandLineOptions" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+ListOptions" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            </Component>
-                            <Component Id="cmpB6B9238E3608137A0EA874220AF7B105" Guid="E3E76C0B-B1A7-47CF-BBA5-9A1E1692CDB2">
+                            <Component Id="cmpB6B9238E3608137A0EA874220AF7B105" Guid="CBC4C5E3-C04C-4115-827E-A372971ADD80">
                                 <File Id="filF826186CEC0DFC867F39AF7AA77BE980" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dir6435EF03C29A3151EBC17FB24E43781C" Name="Python">
                         <Directory Id="dir9C38EB41E9A657B04DCEABEDEF39C801" Name="WebRole">
-                            <Component Id="cmp1B6016AD1390E9AE3DBB196BBC13468E" Guid="CEF7201B-9171-45DD-9215-51ED68C74D75">
+                            <Component Id="cmp1B6016AD1390E9AE3DBB196BBC13468E" Guid="D8A8344D-144C-4E97-A534-AF25029F26B4">
                                 <File Id="filBBABD846E4DCEF350311C99DC7D56482" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\AzureSetup.cfg" />
                             </Component>
-                            <Component Id="cmp5C704E4D028BACF99ED3BCF7948F4EDE" Guid="F0A44E4F-706D-4D92-A562-D9F4CBE4E059">
+                            <Component Id="cmp5C704E4D028BACF99ED3BCF7948F4EDE" Guid="88043E04-80F5-4075-80C2-7654A61B837B">
                                 <File Id="fil979B890E2174144A9BDBA3C57B2B0358" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content" />
                             </Component>
-                            <Component Id="cmpA06ACA3FD0426DC47B9919EBBCEBFE92" Guid="3229352D-84AD-44D5-8216-6AF5DD148C5A">
+                            <Component Id="cmpA06ACA3FD0426DC47B9919EBBCEBFE92" Guid="9F6BF53E-BD4D-4222-B5F2-0C1D9CAF426C">
                                 <File Id="filE83F4705F397E7C77091784B3011D053" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content" />
                             </Component>
-                            <Component Id="cmpAB13B3B89753F4EFC7D45F0EB2B2BA58" Guid="A2E72C83-FD38-4F1E-906F-7DEBDF7C5F1F">
+                            <Component Id="cmpAB13B3B89753F4EFC7D45F0EB2B2BA58" Guid="DE4AB29D-B32D-4CD7-8FB6-1935DFF63188">
                                 <File Id="fil7162EE68300318543598E42220B6840D" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content" />
                             </Component>
-                            <Component Id="cmp2B72B07B22F014C9E8927023DBF09E76" Guid="ADD5ED02-A0F6-4E9E-8839-4F2221A9C870">
+                            <Component Id="cmp2B72B07B22F014C9E8927023DBF09E76" Guid="8A22356D-6B9E-4E5D-AFA8-16E377A2844E">
                                 <File Id="fil4E2900F961D5FEC3886D19EB1F4EA4AF" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content" />
                             </Component>
-                            <Component Id="cmp82AA8DBF788A0E619C1655F96FA1DA75" Guid="19594FBD-5A0E-4AF3-9F1A-E069AE9EABD0">
+                            <Component Id="cmp82AA8DBF788A0E619C1655F96FA1DA75" Guid="04E504C9-4C7F-43B5-B1A0-8A9997EDCF84">
                                 <File Id="fil9D2DC855D2D069F810D8044409E7B539" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content" />
                             </Component>
-                            <Component Id="cmp0352FDD1A7B4D32C036B3B13C1B6BEE4" Guid="3E64251D-42A3-4500-9DF5-CFB0BD1BBC55">
+                            <Component Id="cmp0352FDD1A7B4D32C036B3B13C1B6BEE4" Guid="F385F0AA-6D64-49F4-938B-CEB729EEC3A5">
                                 <File Id="filB70A6B2697FA43FBD7B6249A122CA6BF" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\RoleSettings.xml" />
                             </Component>
-                            <Component Id="cmp3A2F7C59E4FBC397DB9C2672ED0E7FDC" Guid="C705BB51-610C-4C1F-9F27-5B62199C33BF">
+                            <Component Id="cmp3A2F7C59E4FBC397DB9C2672ED0E7FDC" Guid="025F97F4-9096-4B3E-9202-CF1EB099053D">
                                 <File Id="filC6648E2BBB76EAD274290E2C75F6E6BE" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Scaffold.xml" />
                             </Component>
-                            <Component Id="cmp25497D3745A5B164BFECFC9E0467ABDA" Guid="544764E2-A426-4317-8FB5-D03965E16BC0">
+                            <Component Id="cmp25497D3745A5B164BFECFC9E0467ABDA" Guid="124B9A31-1902-4E72-B5FB-476F327042E4">
                                 <File Id="fil1284FCF64BF8179F28AA3C2C29C44E0D" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\web.cloud.config" />
                             </Component>
-                            <Component Id="cmpA7977B055281249319EAEFBD0BF0AD1C" Guid="B43B1A54-A421-4E6D-9305-3A16DE29850C">
+                            <Component Id="cmpA7977B055281249319EAEFBD0BF0AD1C" Guid="08BEF0B9-C6E1-4EDD-BF0D-3609C0F38DB8">
                                 <File Id="fil3BD80A59C27EDD4C4B6D2EB3000CB090" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\Web.config" />
                             </Component>
-                            <Component Id="cmpA5A71BC54B7D0A4F7EAFD322940C5968" Guid="94A4FF6D-3DE9-4441-8524-1F1FCADACBC6">
+                            <Component Id="cmpA5A71BC54B7D0A4F7EAFD322940C5968" Guid="FBC3341E-551A-49B3-8762-FE2F04FEF4E6">
                                 <File Id="fil599CCF61B5082FB1F98618162277D72F" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\WebPICmdLine.exe.content" />
                             </Component>
-                            <Component Id="cmpB7369DC1B36619FCE0932CA79520839C" Guid="51223E55-67CB-4CB7-A62C-258CCB8A04FA">
+                            <Component Id="cmpB7369DC1B36619FCE0932CA79520839C" Guid="A543BA18-0595-436B-BBBB-DC22A1A4EDF5">
                                 <File Id="fil5B5E5832AD76465ECD4509D7200D8EC3" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\WebRole.xml" />
                             </Component>
-                            <Component Id="cmp10A8421256F40CFFB91317A2EB69D3A4" Guid="0D1CBC2E-2DF0-4FC0-93A8-55D2E58F63AD">
+                            <Component Id="cmp10A8421256F40CFFB91317A2EB69D3A4" Guid="AD308CE6-52AA-4E45-9F06-750625918386">
                                 <File Id="filA3B791018A675ADBA68AAC37173CC3CD" KeyPath="yes" Source="$(var.sourceDir)\Resources\Scaffolding\Python\WebRole\wfastcgi.py" />
                             </Component>
                         </Directory>
@@ -493,425 +263,201 @@
                 </Directory>
             </Directory>
             <Directory Id="dir73FAF5E42B856722148ED0B4A31EE073" Name="Scaffolding">
+                <Directory Id="dir2AEC1F37264509BFC6B46BD0D043D639" Name="Cache">
+                    <Directory Id="dir314CDA84974892C96374C440B1F557F3" Name="WebRole">
+                        <Component Id="cmpDC72B41F5B487349A102F3EAF5ADA829" Guid="212861E7-8248-4753-A763-27869DBD9C77">
+                            <File Id="filB75D299D06402D30B18F682DF2BC207B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WebRole\Scaffold.xml" />
+                        </Component>
+                        <Directory Id="dir3097B9947D3869B3EBB86B5E1A25905E" Name="bin">
+                            <Component Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" Guid="F24E5C63-395C-415D-B5EF-3995231DB52D">
+                                <File Id="fil146728E35FAF42CAEDA732A092F25FE2" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WebRole\bin\setup_cache.cmd" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
                 <Directory Id="dirBC6943AE80F57E2744AD11C4E0953222" Name="General">
-                    <Component Id="cmpBB6322A06009BF5D4E29F9E158119827" Guid="5ABFA3C4-05BE-496F-839F-410E9907F9D0">
+                    <Component Id="cmpBB6322A06009BF5D4E29F9E158119827" Guid="B72630A9-FAD1-4822-A51B-5DE32E9087C8">
                         <File Id="filBA8822D0EDE558D5A437D355E4A741D8" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\deploymentSettings.json" />
                     </Component>
-                    <Component Id="cmp35CF39A5B078B1B50ACD530DFB951C62" Guid="3933DE4D-18D0-40BE-B1BB-1107C22D2A4B">
+                    <Component Id="cmp35CF39A5B078B1B50ACD530DFB951C62" Guid="38277C4A-2104-49FA-A81D-DCD62E873377">
                         <File Id="fil84A6A595CDA3967D2346B19C759E3281" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\Scaffold.xml" />
                     </Component>
-                    <Component Id="cmp99670C65F7B3B72CFED86C3E8383FBAF" Guid="313080C2-74F8-49CC-80A5-A0D1EF7B3FBF">
+                    <Component Id="cmp99670C65F7B3B72CFED86C3E8383FBAF" Guid="ECEA1FE1-E28A-485D-8CB6-3FBAABAD5EF5">
                         <File Id="fil70016C66A61227C1058BE7FBB2F0E746" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceConfiguration.Cloud.cscfg" />
                     </Component>
-                    <Component Id="cmpBA0EE6A653142E09B3B088209049A114" Guid="88EC2371-F46C-4689-99C5-9E0A9E49B21C">
+                    <Component Id="cmpBA0EE6A653142E09B3B088209049A114" Guid="9980E353-18ED-40CE-92BE-55C134AB4B01">
                         <File Id="filE1D239AF10646B5870453B9D6C4C37EE" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceConfiguration.Local.cscfg" />
                     </Component>
-                    <Component Id="cmpEA2D5CF27BACE3DF258A78EBC0927EF0" Guid="24A160E5-DB1E-4DCD-A49E-E5D9F77D0473">
+                    <Component Id="cmpEA2D5CF27BACE3DF258A78EBC0927EF0" Guid="75AE301A-99C6-429B-9DE6-99DE5443F469">
                         <File Id="fil1AA7C4213AAACD893AEE1DE6B7B6671A" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceDefinition.csdef" />
                     </Component>
                 </Directory>
                 <Directory Id="dirB0CF252259251123DE2797F7AD742842" Name="Node">
-                    <Component Id="cmp5C1A912FC445CD55EBE798F16AD72378" Guid="34F0A49B-B40F-4BF4-B029-5FB83EDEB0FC">
+                    <Component Id="cmp5C1A912FC445CD55EBE798F16AD72378" Guid="5A51F5C2-95A0-4873-A763-25765FB9F31E">
                         <File Id="fil98A4AA9CFA96A35B0CCBBEC032AC1521" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\.gitignore" />
                     </Component>
-                    <Component Id="cmp064C23DFF14DE9DB25F5946AA24332EB" Guid="B14A6A19-34EC-4828-BC21-7EB185B7B150">
+                    <Component Id="cmp064C23DFF14DE9DB25F5946AA24332EB" Guid="6AA36A22-F84F-431C-8499-C72B4E46E6D5">
                         <File Id="fil171D5B4B84EC2734B67E5809F8B0D8C1" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\iisnode.yml" />
                     </Component>
                     <Directory Id="dir43095D156B5219A5C173FDA372B42BD5" Name="WebRole">
-                        <Component Id="cmpF01174F004BAF6D7890EFB8D4CF97AF7" Guid="79128BB3-7149-4931-AAFF-DD60D5C8E382">
+                        <Component Id="cmpF01174F004BAF6D7890EFB8D4CF97AF7" Guid="9C6CD676-9B99-489E-B626-967D5AD06BC2">
                             <File Id="fil27F9A17247E8716793C76E2C7805B15E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp16CDA7475F401638D0D9752CCCAD49EE" Guid="DB96673F-78FB-4D7A-960F-BC66AD4A2A80">
+                        <Component Id="cmp16CDA7475F401638D0D9752CCCAD49EE" Guid="CF7E2F77-FC48-4900-A2EF-748399BCC52B">
                             <File Id="fil1FFBEA35FF6467400281078974ACC109" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpA12A72432917C4878A5CCBC3AD90DC8D" Guid="91B3AE11-7B5B-4076-88F6-F77DDEB06F58">
+                        <Component Id="cmpA12A72432917C4878A5CCBC3AD90DC8D" Guid="21DBF026-E1F6-4849-849D-F13EA03156AC">
                             <File Id="filE9FC01257DA3FC50375B3A0F56F6A618" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\server.js" />
                         </Component>
-                        <Component Id="cmpC4026103FD2F9533196E1F7769150767" Guid="E978B9D5-9F7F-4D88-9295-FAD7F75BCAC9">
+                        <Component Id="cmpC4026103FD2F9533196E1F7769150767" Guid="12BA9605-230F-4A83-BD1F-82E8707350FF">
                             <File Id="fil41472ADD754118240A71B94FDB00C84C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Web.cloud.config" />
                         </Component>
-                        <Component Id="cmpEEA756450285B97FF6B64E38861638D1" Guid="5C317A18-BDFA-46EA-AB9F-44F45E651745">
+                        <Component Id="cmpEEA756450285B97FF6B64E38861638D1" Guid="0360C1AD-5305-45A5-8F6A-8544B5ABC8E1">
                             <File Id="fil46F027FDFDA8CB986EE146B4E384EBCE" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmp7476F311530EBA4C97AA57E5C1534D48" Guid="5AF6A74C-5872-4287-ABEE-55D4ED5DED67">
+                        <Component Id="cmp7476F311530EBA4C97AA57E5C1534D48" Guid="BA5A86CF-325B-4E19-B8B4-4CAC632BDDF9">
                             <File Id="filD34B8286D04C8745FE9931A026EEF205" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dir03414EA0481755308ED902FBD2E19AD8" Name="bin">
-                            <Component Id="cmpFC4E5E5BC00A6B00EFCE44355B7DB973" Guid="81693EF2-F97B-47B9-AB18-6FD04F03DFE9">
+                            <Component Id="cmpFC4E5E5BC00A6B00EFCE44355B7DB973" Guid="502EBFF2-3D86-44CD-B7A8-241D348AB7AE">
                                 <File Id="fil96208AED0FE9470167BCA8628999FDB8" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1" />
                             </Component>
-                            <Component Id="cmp5796D408E2A2A9045A9CA57EC6C2187A" Guid="2A823D11-B1D9-44A8-9F3F-7C11D54B87BB">
+                            <Component Id="cmp5796D408E2A2A9045A9CA57EC6C2187A" Guid="F4A6C30F-A947-4833-AD02-23853FFE402F">
                                 <File Id="filC4AA572A830DC20C450408475FA76EB5" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\download.ps1" />
                             </Component>
-                            <Component Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" Guid="D5F23B2E-FBA6-476F-B909-7080F47FF412">
+                            <Component Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" Guid="CE4A5A18-F8B1-478F-8DF5-1EA29F7DC7C0">
                                 <File Id="fil27330BED0B156663E0E165164F5A32CD" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\setup_web.cmd" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirDE832161068F0182CB5E8A2889E3F7E4" Name="WorkerRole">
-                        <Component Id="cmp9E3F07A7A55B0BD225F48CBF7436F38E" Guid="9930674A-0D5A-4306-8F22-3BAFE403C02C">
+                        <Component Id="cmp9E3F07A7A55B0BD225F48CBF7436F38E" Guid="D80DD612-3F4F-43B5-87C8-C6226C59F7E2">
                             <File Id="filAA4930E05D3CCA3D7376A91704AC372E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\download.ps1" />
                         </Component>
-                        <Component Id="cmpA9234898498FEF64CFA955AA20F320F6" Guid="EFAA1C3F-5D0C-4776-8EAF-927CC00EBE72">
+                        <Component Id="cmpA9234898498FEF64CFA955AA20F320F6" Guid="14D5B635-02DF-417C-841E-EEC0E85F39B9">
                             <File Id="fil221466FED7D18AF30EE32998CB1534BC" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\node.cmd" />
                         </Component>
-                        <Component Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" Guid="5E16B4B3-C6E1-4E95-8569-74389386B958">
+                        <Component Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" Guid="69666DFA-335F-4E2D-B407-33530E18E199">
                             <File Id="fil01D0C0602FCE3E2AA724B3ABA873B96B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp2E2E443812AF8D09459725287BEC6C67" Guid="BE6DF410-0B3D-46A0-8165-D730D9DFDBC8">
+                        <Component Id="cmp2E2E443812AF8D09459725287BEC6C67" Guid="48797168-14E2-4B02-B0CF-F34701B858E0">
                             <File Id="filF27DA55F26AC5C41143B946FEB924EA6" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp69636D04700ADD1568CE090EED6FFD49" Guid="F2FC2397-34A4-4305-A21C-B04DA3384ED0">
+                        <Component Id="cmp69636D04700ADD1568CE090EED6FFD49" Guid="600393A0-8DF9-4C4F-B459-FCA2CE25E88B">
                             <File Id="filE3FA0AA84D7F64616E68E3B6CA120C25" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\server.js" />
                         </Component>
-                        <Component Id="cmp1542FD17AC76205D2AE6662327C44254" Guid="B0CFD074-B8D0-4EE6-94A8-DEDF3DE5FBB3">
+                        <Component Id="cmp1542FD17AC76205D2AE6662327C44254" Guid="45C27028-114B-4DEE-80E6-753DE913C7B9">
                             <File Id="fil5816E9D7A308F836E4889E9F33538C20" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\setup_worker.cmd" />
                         </Component>
-                        <Component Id="cmpC7F63EEC2E9BC78B733E22B3C5CE9815" Guid="8BDB0754-6893-4250-82ED-3386A51D1337">
+                        <Component Id="cmpC7F63EEC2E9BC78B733E22B3C5CE9815" Guid="B8736B10-D85F-4129-8B6F-0097BB7ECBE0">
                             <File Id="fil6B64B669E8165049894479E08491D582" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\WorkerRole.xml" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dir1E9554EBFFAE7E4912D94B79CF935209" Name="PHP">
                     <Directory Id="dir786EB1AF7BA6EC5A321FEE87F0E09AB6" Name="WebRole">
-                        <Component Id="cmp255086101A7D83443B01183D0784746F" Guid="1A7C6401-16A9-4813-960D-09F5E4C580FD">
+                        <Component Id="cmp255086101A7D83443B01183D0784746F" Guid="E5B3AD05-1DDE-4AFC-B340-45AFAB389375">
                             <File Id="fil40D95BC0120898BB1FDB87472B3C1D85" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\index.php" />
                         </Component>
-                        <Component Id="cmp15B5D03B1893B04979F28A7B4CBE78C2" Guid="B66EF78B-065B-4A37-A028-79D94B2055D6">
+                        <Component Id="cmp15B5D03B1893B04979F28A7B4CBE78C2" Guid="02C34D1E-F7DA-4109-BE3A-CE8AD1B4596A">
                             <File Id="fil1B3AF4DD5DA456B3E1500DC1481A7E91" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp8D880DD7428432ADB632806B204E0388" Guid="2F37ACC0-8A8B-44D3-BC73-7F534BC6D830">
+                        <Component Id="cmp8D880DD7428432ADB632806B204E0388" Guid="FAAB33B2-73A8-4C2D-BA14-A6E417702D5B">
                             <File Id="filA59DCB8C35F8242065275DFC2A33D4D3" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp554AB78310EF2D643154E1DE1D777277" Guid="1645B376-F3F6-47CD-945B-E1234CE2D707">
+                        <Component Id="cmp554AB78310EF2D643154E1DE1D777277" Guid="0E6E0D0E-C1B0-4885-8861-719FC8D73A3B">
                             <File Id="filF1FA03C1F3DEA374EB67E9DFB0E99DDF" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\web.cloud.config" />
                         </Component>
-                        <Component Id="cmpD56C98E0CC07D35623BE50D99311EB38" Guid="B1A954B5-B433-4A84-BBB7-13766BCCBB94">
+                        <Component Id="cmpD56C98E0CC07D35623BE50D99311EB38" Guid="7A223088-2E62-43A8-89B5-E3C2AA27766D">
                             <File Id="fil754EAF5D3CBAFC939D03A0F2EEC94F61" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmpFF141E11B47A60B7007BAA08623DE1C9" Guid="2101C9AC-15DA-4D1C-86BF-C3542D1EE4BE">
+                        <Component Id="cmpFF141E11B47A60B7007BAA08623DE1C9" Guid="18E5DD68-CC05-44AA-8622-5C7DC0298AC0">
                             <File Id="filDFB0886A09A2AB777AD967C1587ECDEF" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dirCAAF9E899A31DB4281E5F433DB5BBFA8" Name="bin">
-                            <Component Id="cmp99082F14A5FF0D6335F75D33931DFBF6" Guid="BCD691D1-CA31-453C-91AF-33180536EB6C">
-                                <File Id="filC2CE9BCAE79FBA3D50DEF67842C705E9" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\Microsoft.Web.Deployment.dll" />
+                            <Component Id="cmp6007576E1D8F61048906A2D232D57E17" Guid="4B9C4DFA-ADDB-4486-BC0E-45DC17958593">
+                                <File Id="filB89F5C54B78ED7265B8A5A61386B0008" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\download.ps1" />
                             </Component>
-                            <Component Id="cmp390CEE9EB325ADC5F5ACB3FDA8B6B8CB" Guid="909BACCF-3C0E-480F-B16F-8B8B2B02C2FC">
-                                <File Id="fil084CD475E8465D7586A13857350DE8DC" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.dll" />
-                            </Component>
-                            <Component Id="cmp7C261DCC83ABD7C50B40ED3863976D0A" Guid="76C6C68F-E6C2-46F2-962E-C494450D6244">
-                                <File Id="filBB31A41A654C7224FAB31CE0758EF72C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.UI.dll" />
-                            </Component>
-                            <Component Id="cmp1E8B3802E587BB42B35F1BF3F7615192" Guid="30F481F6-14ED-4E41-AE7B-A78E008A5B1C">
+                            <Component Id="cmp1E8B3802E587BB42B35F1BF3F7615192" Guid="01BD2282-B456-4482-A847-A0336C7C6655">
                                 <File Id="fil5FFC74D6D8121E08470FB531B666F6BA" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup.cmd" />
                             </Component>
-                            <Component Id="cmpD1250ABB0264C2E5C7ADB8BD9EAA54EC" Guid="D9C4C2DC-BA46-4A0F-90F5-5EACA001D613">
+                            <Component Id="cmpD1250ABB0264C2E5C7ADB8BD9EAA54EC" Guid="C0165774-D244-4A8D-8E14-F2009629B5BC">
                                 <File Id="filA73DBF81D3F173889FE76DBDCED3F2D7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup.ps1" />
                             </Component>
-                            <Component Id="cmpF3057234429604F23CDA73369EC2A79D" Guid="BAAE95F6-1916-48E3-8DCC-C2F7BF2A8051">
+                            <Component Id="cmpF3057234429604F23CDA73369EC2A79D" Guid="DA149BCC-4AC5-48F4-B7E8-9BE295EC076B">
                                 <File Id="fil2103D11ED0F3CB456542181F9A1CED63" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup_web.cmd" />
-                            </Component>
-                            <Component Id="cmp1707FEEBF3559D560E327FE1555F6095" Guid="8E077B2F-BBF8-4DD3-8112-E48402D87C8E">
-                                <Class Id="{016F4C30-8DC9-3A90-9C47-E637161DF45E}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" />
-                                </Class>
-                                <Class Id="{5193DC89-1F06-3BE4-A380-19CA36FF8928}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" />
-                                </Class>
-                                <Class Id="{570A526C-CF8B-3722-993D-F9CDDDF174FA}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" />
-                                </Class>
-                                <Class Id="{7AD73191-D928-346D-9F69-C4D958A769CB}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" />
-                                </Class>
-                                <Class Id="{7CAB16A6-440F-37B1-B4E4-A2745C920179}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" />
-                                </Class>
-                                <Class Id="{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" />
-                                </Class>
-                                <Class Id="{A7A46FBB-AF9E-365B-8878-731C32F02B2F}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" />
-                                </Class>
-                                <Class Id="{C7E063D0-EA10-3DFC-98E4-CB8026650998}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                    <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" />
-                                </Class>
-                                <File Id="filFE1FCC35ED7EB1A9BEDCE383657723BD" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\WebpiCmdLine.exe" />
-                                <ProgId Id="Record" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.Verbosity" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+CommandLineOptions" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+ListOptions" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                                <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirB6374108512F148FC22B53EABAF30AC0" Name="WorkerRole">
-                        <Component Id="cmp2C3584E4367F5B84EDA5128AC9809709" Guid="3F07E444-7A37-4D83-B0DA-261505384287">
+                        <Component Id="cmpCBE2DAAABC191D4FD6DC63D77E28B74E" Guid="6D9DEA8A-941D-47C9-8DE9-DEF36169B613">
+                            <File Id="fil153A25658FB147190F4564CDD6B04DE0" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\download.ps1" />
+                        </Component>
+                        <Component Id="cmp2C3584E4367F5B84EDA5128AC9809709" Guid="0465708E-5DD0-4E53-B2D4-1E03D1A43873">
                             <File Id="fil6025500CCA8E6F686AFD157E5B1B3FD6" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\index.php" />
                         </Component>
-                        <Component Id="cmpD5AF58E11AFCDA736414E79E4BAB3332" Guid="E32199DF-4823-4E91-80B3-7428CC2E3393">
-                            <File Id="filCAA3122CC763AA655F1AC5D8828DA9D7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\Microsoft.Web.Deployment.dll" />
-                        </Component>
-                        <Component Id="cmp7BCC0D8C174803CF742AA84595BAB78F" Guid="2D4B3FD4-9424-49B5-826D-9B44C361D1F4">
-                            <File Id="filE6475FDC60136A91952D3B96D11726E4" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.dll" />
-                        </Component>
-                        <Component Id="cmp7B49AFC2443B766DDF9D321EB12C1F59" Guid="F2831F7B-5F0A-48F7-A91A-DFC0DB3072EF">
-                            <File Id="fil466B6F42EBE81EC5E49F4B458D6AD96F" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.UI.dll" />
-                        </Component>
-                        <Component Id="cmp52C9B42EEC9DDEED734ACEE505BBEB8C" Guid="90BFADDB-348C-46F5-BFDB-AB007A73F4B1">
+                        <Component Id="cmp52C9B42EEC9DDEED734ACEE505BBEB8C" Guid="BC6110F2-CE16-4941-A772-66CE7F395597">
                             <File Id="filB7DECEC2E97857459EA37A5281E35D36" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\php_entry.cmd" />
                         </Component>
-                        <Component Id="cmp2701CAA573700B51D8A8B38CDA70A606" Guid="AAD868EF-9C0C-4BA9-8533-ADC011443ADA">
+                        <Component Id="cmp2701CAA573700B51D8A8B38CDA70A606" Guid="2EF47AD3-9FC2-4630-B047-0BE8F01196AC">
                             <File Id="filA3A1F4034FB62055105C9E49B737CD66" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp7F95790A7A94029681C629E3384306F2" Guid="3D3F51A2-FC63-4D8F-847E-6CC4785C7FDD">
+                        <Component Id="cmp7F95790A7A94029681C629E3384306F2" Guid="0C17E759-1173-46CF-B14D-28D856A629D7">
                             <File Id="fil9370A470E0CB2FD7C6B2A2E591D0E93C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpAC04106E4A3214F75B988609CF000B7E" Guid="8F62D6C2-6198-4A18-B917-137EB9153E50">
+                        <Component Id="cmpAC04106E4A3214F75B988609CF000B7E" Guid="6ED6E82E-6CAC-46FF-9B3E-DAD2BB72DA84">
                             <File Id="filE1609EA6CA97FFB78BC08E4F1C644797" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup.cmd" />
                         </Component>
-                        <Component Id="cmp4CE1EEE77FBDED058A3CE9C2D0C9832F" Guid="C0DF6432-B4C7-4AD7-88FE-86561DFCBB5E">
+                        <Component Id="cmp4CE1EEE77FBDED058A3CE9C2D0C9832F" Guid="12CE22F7-A54D-4F3A-9122-6E0E43C15DAF">
                             <File Id="fil194E0233C7D3F696BC2337B8AF00365B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup.ps1" />
                         </Component>
-                        <Component Id="cmp7B510F8B2CEFB2A4AE9BB2F86D6B18C3" Guid="6876CE30-963C-4FB7-A303-F9615BBB422B">
+                        <Component Id="cmp7B510F8B2CEFB2A4AE9BB2F86D6B18C3" Guid="DD9DABDD-9D99-4FF1-A899-0E957BEFC210">
                             <File Id="fil4EF4A78EE7F1DEFFCE5A212CF2AC9A04" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup_worker.cmd" />
                         </Component>
-                        <Component Id="cmp815A6B12764C51CDDAC58C1B6556D264" Guid="6E01FEB4-85C0-4923-B180-845C35EBA9D0">
-                            <Class Id="{016F4C30-8DC9-3A90-9C47-E637161DF45E}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Description="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" />
-                            </Class>
-                            <Class Id="{5193DC89-1F06-3BE4-A380-19CA36FF8928}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" />
-                            </Class>
-                            <Class Id="{570A526C-CF8B-3722-993D-F9CDDDF174FA}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Description="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" />
-                            </Class>
-                            <Class Id="{7AD73191-D928-346D-9F69-C4D958A769CB}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" />
-                            </Class>
-                            <Class Id="{7CAB16A6-440F-37B1-B4E4-A2745C920179}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Description="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" />
-                            </Class>
-                            <Class Id="{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Description="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" />
-                            </Class>
-                            <Class Id="{A7A46FBB-AF9E-365B-8878-731C32F02B2F}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Description="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" />
-                            </Class>
-                            <Class Id="{C7E063D0-EA10-3DFC-98E4-CB8026650998}" Context="InprocServer32" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" ThreadingModel="both" ForeignServer="mscoree.dll">
-                                <ProgId Id="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Description="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" />
-                            </Class>
-                            <File Id="filB99487E73A8B7D841B22F79927511884" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\WebpiCmdLine.exe" />
-                            <ProgId Id="Record" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.LogHelper" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{016F4C30-8DC9-3A90-9C47-E637161DF45E}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductProfile" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{5193DC89-1F06-3BE4-A380-19CA36FF8928}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.ProductInstaller" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{570A526C-CF8B-3722-993D-F9CDDDF174FA}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState+ProductComparer" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7AD73191-D928-346D-9F69-C4D958A769CB}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.WebpiCommandLine" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7CAB16A6-440F-37B1-B4E4-A2745C920179}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineUtility" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{7FEE19C7-FD5D-3DAD-94BA-2E54A450CBED}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PlatformState" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{A7A46FBB-AF9E-365B-8878-731C32F02B2F}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\Implemented Categories\{62C8FE65-4EBB-45e7-B440-6E39B2CDBF29}" Value="" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.PerformanceManager" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="CLSID\{C7E063D0-EA10-3DFC-98E4-CB8026650998}\InprocServer32" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.Verbosity" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{0DE09B80-F462-39AA-84BF-5A4037E02DDF}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+CommandLineOptions" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{CE9F495E-1D7D-3B64-A5F8-213AA994B43F}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Class" Value="Microsoft.Web.PlatformInstaller.CommandLine.CommandLineHelper+ListOptions" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="Assembly" Value="WebpiCmdLine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
-                            <RegistryValue Root="HKCR" Key="Record\{D40F3047-E4E4-39DB-B60D-85DFF1559460}\0.0.0.0" Name="CodeBase" Value="file:///[#fil32E92115EEAE449DFD0F852AC84F6255]" Type="string" Action="write" />
-                        </Component>
-                        <Component Id="cmp600270AE3BE73756A1B9F641BF167798" Guid="46553FB8-9A21-4307-8595-1E5A13DD0B61">
+                        <Component Id="cmp600270AE3BE73756A1B9F641BF167798" Guid="041365C5-ED82-44C5-95AF-CE4F2AE2CC66">
                             <File Id="filF694D644C509F680AC0B5851B152593C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\WorkerRole.xml" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dirD01AE45F605FE690038A015E8AC8A7AD" Name="Python">
                     <Directory Id="dir4BA12A75F8C2150C6C15AF2587A2990F" Name="WebRole">
-                        <Component Id="cmp3C06B5F86E305572D896E9C63AC5669C" Guid="72559375-B68A-4698-9225-4E02850F2F03">
+                        <Component Id="cmp3C06B5F86E305572D896E9C63AC5669C" Guid="E3ED5B05-61C1-4595-9030-42077FCCD210">
                             <File Id="fil0EE1908EF44CA8530C44F64F872E5A88" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\AzureSetup.cfg" />
                         </Component>
-                        <Component Id="cmp0A225B11FD92AEE1024918A862621935" Guid="E27EBA31-8A06-4D64-A402-FF02D87EA680">
+                        <Component Id="cmp0A225B11FD92AEE1024918A862621935" Guid="64374B87-86B7-4CD5-A8AC-700C89ACD0FC">
                             <File Id="fil5A6589E0837F0FCED3E6CA6539B39074" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content" />
                         </Component>
-                        <Component Id="cmp526FC526E22A87D61F5D4B64C9C07E15" Guid="12A18CB1-49D2-45E9-8B97-6B71A80D73EE">
+                        <Component Id="cmp526FC526E22A87D61F5D4B64C9C07E15" Guid="4608452C-8CC5-462B-9E47-F4A04549B1B6">
                             <File Id="fil7B1DC594511E01B90B66656DFE144BC9" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content" />
                         </Component>
-                        <Component Id="cmp6215A79CA3A498D2A9A6DCCEE34B1018" Guid="81CBB666-67CA-458F-AD18-75495B48C1BB">
+                        <Component Id="cmp6215A79CA3A498D2A9A6DCCEE34B1018" Guid="9A7F728E-3334-498D-9983-F069DBEE7D6D">
                             <File Id="fil867EE6C6ADF634B5412C58F04584E273" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content" />
                         </Component>
-                        <Component Id="cmpE8F0D64135FAF512A9B704A127A0F69B" Guid="518CFBE1-B0D7-4505-973E-C2036D6E5231">
+                        <Component Id="cmpE8F0D64135FAF512A9B704A127A0F69B" Guid="D764A006-A123-44E9-881F-A40457E52ED2">
                             <File Id="filDFCF4DE3E7B9B66086FD99963C41153E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content" />
                         </Component>
-                        <Component Id="cmpB172993D8670B4C6B32C923F1E78DABE" Guid="C71DC8E2-217E-4F35-8A97-A384892C2153">
+                        <Component Id="cmpB172993D8670B4C6B32C923F1E78DABE" Guid="346CE730-5237-4660-AF72-CA88ACF68C4C">
                             <File Id="filA68DB4A8157D03F608D4C04E47B3AFCA" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content" />
                         </Component>
-                        <Component Id="cmp8D1140578A026B8FC64ECEEF549E38D8" Guid="8BE65218-A887-4CA8-A11C-D2D8B5AB5765">
+                        <Component Id="cmp8D1140578A026B8FC64ECEEF549E38D8" Guid="78E0B13F-B311-4E8F-9AA2-8FBFA3FF95E2">
                             <File Id="fil3CC5217FEC7B1537C96C6C0F5B6A18F7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp51C296D03B6BAA6CED41512BE5F52073" Guid="FFEF6C0F-C5EE-43B6-BE34-C2C473E3DB1C">
+                        <Component Id="cmp51C296D03B6BAA6CED41512BE5F52073" Guid="65C67174-09B2-44D8-918C-F15410482151">
                             <File Id="fil31F4D581FC2A9862B794B00323F44356" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpD36FD0E6F87C17387851437A1D9CFBBD" Guid="57003B6D-C848-4C75-9600-709F3E933737">
+                        <Component Id="cmpD36FD0E6F87C17387851437A1D9CFBBD" Guid="E2E87C2D-A5E4-4910-BF63-2F5CC1A06078">
                             <File Id="fil60EF8526AC26EFC7E43D4B3C3929034F" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\web.cloud.config" />
                         </Component>
-                        <Component Id="cmp0600DE07D95BEC04E43D93B9DFB56029" Guid="B469A378-079E-4084-B307-73A42290AD82">
+                        <Component Id="cmp0600DE07D95BEC04E43D93B9DFB56029" Guid="5F55FFCA-1760-41A0-A8F3-E6202242FCE9">
                             <File Id="fil95DFDBD35BAE57B01DD80306642D8AF7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmp21B4D7613134B6E8FCAD158844C590B5" Guid="4C58A1DF-4064-4F3F-A9B5-3223E74AFD90">
+                        <Component Id="cmp21B4D7613134B6E8FCAD158844C590B5" Guid="F0DDA71E-504E-432D-B530-6E2E5E888819">
                             <File Id="filE9B8C035753D4ADAA33A42EDFB09A985" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\WebPICmdLine.exe.content" />
                         </Component>
-                        <Component Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" Guid="EF1747F3-0BD0-4204-A157-9495A1C5C41F">
+                        <Component Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" Guid="137E0A19-CB10-484C-BB78-A09D32268ECD">
                             <File Id="filC4C4FEC5CAADF19ABDDA63A3A3B1218E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\WebRole.xml" />
                         </Component>
-                        <Component Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" Guid="D30C8C73-1DEE-4DAF-9C9C-D9364C3CF49D">
+                        <Component Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" Guid="86A538EA-BA83-47E8-89CA-669A770A01D3">
                             <File Id="filFC67A2C42191EF90B307093051E7C32D" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\wfastcgi.py" />
                         </Component>
                     </Directory>
@@ -942,13 +488,13 @@
             <ComponentRef Id="cmp1B6FF7421275B77BECFC4C6CB0785222" />
             <ComponentRef Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" />
             <ComponentRef Id="cmpF275B2621CA54C32ACCA236605DC9B69" />
+            <ComponentRef Id="cmp20C2DFD1EACC92899D56C022BD04DEA7" />
+            <ComponentRef Id="cmp12BA0DF5894D15DD60B6BFA01F2F0FF4" />
             <ComponentRef Id="cmp5C438B434BB06C70547F54B1CB3C51F6" />
             <ComponentRef Id="cmp9DCE4FC86F99B3B85C576A4F4AF85D1C" />
             <ComponentRef Id="cmp4BF136C929C2FA6FC3529F5BE8F2CC6C" />
             <ComponentRef Id="cmp97BEBC4EFFD760EAA7B28EF80F32E5A5" />
             <ComponentRef Id="cmpDF83A549A120538B7AAF6B77CEBADC63" />
-            <ComponentRef Id="cmp2515ABA0C98349D8A51ADBF51DF216B1" />
-            <ComponentRef Id="cmpF3E73812E29BD91D54A7EACB52DA72B7" />
             <ComponentRef Id="cmpA9E7A8ACA0E12C847946ABF3DF8C1904" />
             <ComponentRef Id="cmp30C920130F0DC826FA230646DE9EB6F5" />
             <ComponentRef Id="cmp9C935A5015C1B0EF14899180F4B33DF6" />
@@ -971,24 +517,18 @@
             <ComponentRef Id="cmp03970BCB13DC8BEEBB360A567DD284BE" />
             <ComponentRef Id="cmp335D71C6FB396F03E7F2ABF60463CF4C" />
             <ComponentRef Id="cmp8F943D6525893672AD1C1F2DC0008982" />
-            <ComponentRef Id="cmp9893F3C389E0880AAA3BC47E5D835C9D" />
-            <ComponentRef Id="cmp80B77C960B73EEE6B2A10D7610612ECF" />
-            <ComponentRef Id="cmpA473B36A6570108F8B465726EAA557DF" />
+            <ComponentRef Id="cmp0FE31B95E343DCF9BA260F436C0EC716" />
             <ComponentRef Id="cmpB245762D3574C66B5AD42F0A1F452170" />
             <ComponentRef Id="cmp2737B9CAA49FBF4E681A7A0A72998CF7" />
             <ComponentRef Id="cmp847DF577E6CD9B87FCB9C74EF6317D1F" />
-            <ComponentRef Id="cmpB202F7FE0636A4BA547955C3BDF74BD6" />
+            <ComponentRef Id="cmp3852AC6F7598FBDB4B73EF91308CFD92" />
             <ComponentRef Id="cmpCC5CF6422274AB5E9BB011F51A72B68F" />
-            <ComponentRef Id="cmpE02C2BA30B22080E968390A9B344BE3B" />
-            <ComponentRef Id="cmp32DC0ABECE45730FD9BAF8E6F5C1CEAE" />
-            <ComponentRef Id="cmp0B267154CC16AE1720F4C83977CC698D" />
             <ComponentRef Id="cmpCDE0CE0D822C6DB1AC34493D136D8DCF" />
             <ComponentRef Id="cmpCCFFFB9EC0FD8B2C5101CD22A21A08F5" />
             <ComponentRef Id="cmp291354AF85D39994EEAF2F84F6C3E11C" />
             <ComponentRef Id="cmpA77D1E22ED56A371C438871F16132072" />
             <ComponentRef Id="cmp157C0A05BB3A154929F4A5A36C1A1E88" />
             <ComponentRef Id="cmp86957BD0FA6882F3F7C00826F158D969" />
-            <ComponentRef Id="cmp378D442B4B12D5422D64D4BB2C946BAB" />
             <ComponentRef Id="cmpB6B9238E3608137A0EA874220AF7B105" />
             <ComponentRef Id="cmp1B6016AD1390E9AE3DBB196BBC13468E" />
             <ComponentRef Id="cmp5C704E4D028BACF99ED3BCF7948F4EDE" />
@@ -1003,6 +543,8 @@
             <ComponentRef Id="cmpA5A71BC54B7D0A4F7EAFD322940C5968" />
             <ComponentRef Id="cmpB7369DC1B36619FCE0932CA79520839C" />
             <ComponentRef Id="cmp10A8421256F40CFFB91317A2EB69D3A4" />
+            <ComponentRef Id="cmpDC72B41F5B487349A102F3EAF5ADA829" />
+            <ComponentRef Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" />
             <ComponentRef Id="cmpBB6322A06009BF5D4E29F9E158119827" />
             <ComponentRef Id="cmp35CF39A5B078B1B50ACD530DFB951C62" />
             <ComponentRef Id="cmp99670C65F7B3B72CFED86C3E8383FBAF" />
@@ -1032,24 +574,18 @@
             <ComponentRef Id="cmp554AB78310EF2D643154E1DE1D777277" />
             <ComponentRef Id="cmpD56C98E0CC07D35623BE50D99311EB38" />
             <ComponentRef Id="cmpFF141E11B47A60B7007BAA08623DE1C9" />
-            <ComponentRef Id="cmp99082F14A5FF0D6335F75D33931DFBF6" />
-            <ComponentRef Id="cmp390CEE9EB325ADC5F5ACB3FDA8B6B8CB" />
-            <ComponentRef Id="cmp7C261DCC83ABD7C50B40ED3863976D0A" />
+            <ComponentRef Id="cmp6007576E1D8F61048906A2D232D57E17" />
             <ComponentRef Id="cmp1E8B3802E587BB42B35F1BF3F7615192" />
             <ComponentRef Id="cmpD1250ABB0264C2E5C7ADB8BD9EAA54EC" />
             <ComponentRef Id="cmpF3057234429604F23CDA73369EC2A79D" />
-            <ComponentRef Id="cmp1707FEEBF3559D560E327FE1555F6095" />
+            <ComponentRef Id="cmpCBE2DAAABC191D4FD6DC63D77E28B74E" />
             <ComponentRef Id="cmp2C3584E4367F5B84EDA5128AC9809709" />
-            <ComponentRef Id="cmpD5AF58E11AFCDA736414E79E4BAB3332" />
-            <ComponentRef Id="cmp7BCC0D8C174803CF742AA84595BAB78F" />
-            <ComponentRef Id="cmp7B49AFC2443B766DDF9D321EB12C1F59" />
             <ComponentRef Id="cmp52C9B42EEC9DDEED734ACEE505BBEB8C" />
             <ComponentRef Id="cmp2701CAA573700B51D8A8B38CDA70A606" />
             <ComponentRef Id="cmp7F95790A7A94029681C629E3384306F2" />
             <ComponentRef Id="cmpAC04106E4A3214F75B988609CF000B7E" />
             <ComponentRef Id="cmp4CE1EEE77FBDED058A3CE9C2D0C9832F" />
             <ComponentRef Id="cmp7B510F8B2CEFB2A4AE9BB2F86D6B18C3" />
-            <ComponentRef Id="cmp815A6B12764C51CDDAC58C1B6556D264" />
             <ComponentRef Id="cmp600270AE3BE73756A1B9F641BF167798" />
             <ComponentRef Id="cmp3C06B5F86E305572D896E9C63AC5669C" />
             <ComponentRef Id="cmp0A225B11FD92AEE1024918A862621935" />
