@@ -108,6 +108,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
@@ -132,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
-    <Compile Include="Cmdlet\EnableAzureMemcache.cs" />
+    <Compile Include="Cmdlet\EnableAzureMemcacheRole.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">

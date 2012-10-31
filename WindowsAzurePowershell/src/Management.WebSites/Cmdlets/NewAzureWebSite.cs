@@ -131,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (!File.Exists("iisnode.yml") && (File.Exists("server.js") || File.Exists("app.js")))
             {
                 string cmdletPath = Directory.GetParent(MyInvocation.MyCommand.Module.Path).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Resources/Scaffolding/Node/iisnode.yml"), "iisnode.yml");
+                File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/iisnode.yml"), "iisnode.yml");
             }
         }
 
