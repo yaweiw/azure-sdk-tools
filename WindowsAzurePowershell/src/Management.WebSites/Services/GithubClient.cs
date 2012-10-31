@@ -54,6 +54,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public class GithubClient : LinkedRevisionControl
     {
+        private static Dictionary<string, WebChannelFactory<IGithubServiceManagement>> _factories =
+            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>(); 
+
         protected GithubRepository LinkedRepository;
         protected PSCredential Credentials;
         protected string RepositoryFullName;
@@ -61,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
         {
-            Factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
+            _factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
             Pscmdlet = pscmdlet;
             if (Pscmdlet.MyInvocation != null)
             {
@@ -235,15 +238,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             return CreateServiceManagementChannel(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
         }
 
-        public static Dictionary<string, WebChannelFactory<IGithubServiceManagement>> Factories =
-            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>(); 
-
         public static IGithubServiceManagement CreateServiceManagementChannel(Uri remoteUri, string username, string password)
         {
             WebChannelFactory<IGithubServiceManagement> factory;
-            if (Factories.ContainsKey(remoteUri.ToString()))
+            if (_factories.ContainsKey(remoteUri.ToString()))
             {
-                factory = Factories[remoteUri.ToString()];
+                factory = _factories[remoteUri.ToString()];
             }
             else
             {
@@ -264,7 +264,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                     factory.Credentials.UserName.Password = password;
                 }
 
-                Factories[remoteUri.ToString()] = factory;
+                _factories[remoteUri.ToString()] = factory;
             }
 
             return factory.CreateChannel();
@@ -293,7 +293,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public override void Dispose()
         {
-            foreach (var factory in Factories.Values)
+            foreach (var factory in _factories.Values)
             {
                 factory.Close();
             }
