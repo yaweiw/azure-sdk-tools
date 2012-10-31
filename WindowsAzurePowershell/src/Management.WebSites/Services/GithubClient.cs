@@ -59,6 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
         {
+            Factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
             Pscmdlet = pscmdlet;
             if (Pscmdlet.MyInvocation != null)
             {
@@ -229,26 +230,38 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 return Pscmdlet.GithubChannel;
             }
 
-            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
+            return CreateServiceManagementChannel(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
         }
 
-        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
-            where T : class
+        public static Dictionary<string, WebChannelFactory<IGithubServiceManagement>> Factories =
+            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>(); 
+
+        public static IGithubServiceManagement CreateServiceManagementChannel(Uri remoteUri, string username, string password)
         {
-            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
-
-            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
-            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
-            wb.Security.Mode = WebHttpSecurityMode.Transport;
-
-            if (!string.IsNullOrEmpty(username))
+            WebChannelFactory<IGithubServiceManagement> factory;
+            if (Factories.ContainsKey(remoteUri.ToString()))
             {
-                factory.Credentials.UserName.UserName = username;
+                factory = Factories[remoteUri.ToString()];
             }
-            if (!string.IsNullOrEmpty(password))
+            else
             {
-                factory.Credentials.UserName.Password = password;
+                factory = new WebChannelFactory<IGithubServiceManagement>(remoteUri);
+                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() {Username = username, Password = password});
+
+                WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
+                wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+                wb.Security.Mode = WebHttpSecurityMode.Transport;
+
+                if (!string.IsNullOrEmpty(username))
+                {
+                    factory.Credentials.UserName.UserName = username;
+                }
+                if (!string.IsNullOrEmpty(password))
+                {
+                    factory.Credentials.UserName.Password = password;
+                }
+
+                Factories[remoteUri.ToString()] = factory;
             }
 
             return factory.CreateChannel();
@@ -272,6 +285,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             else
             {
                 action();
+            }
+        }
+
+        public override void Dispose()
+        {
+            foreach (var factory in Factories.Values)
+            {
+                factory.Close();
             }
         }
     }
