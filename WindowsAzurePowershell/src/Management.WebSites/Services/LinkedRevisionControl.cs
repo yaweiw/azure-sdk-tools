@@ -17,8 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using WebEntities;
     using System.IO;
     using System.Linq;
+    using System;
 
-    public abstract class LinkedRevisionControl
+    public abstract class LinkedRevisionControl : IDisposable
     {
         protected string invocationPath;
         public abstract void Init();
@@ -40,5 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/.gitignore"), ".gitignore");
             }
         }
+
+        public abstract void Dispose();
     }
 }
