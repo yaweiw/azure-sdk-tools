@@ -28,16 +28,16 @@ exit /b 0
 icacls %RoleRoot%\approot /grant "Everyone":F /T
 
 :: Detect PHP Runtime Path
-:: where php-cgi.exe > tmpFile
-:: set /p phprt= < tmpFile
-:: del tmpFile
-:: if DEFINED phprt goto setup_iis
-:: SET phprt=%ProgramFiles%\PHP\v5.3\php-cgi.exe
-:: if DEFINED ProgramFiles(x86) SET phprt=%ProgramFiles(x86)%\PHP\v5.3\php-cgi.exe
+where php-cgi.exe > tmpFile
+set /p phprt= < tmpFile
+del tmpFile
+if DEFINED phprt goto setup_iis
+SET phprt=%ProgramFiles%\PHP\v5.3\php-cgi.exe
+if DEFINED ProgramFiles(x86) SET phprt=%ProgramFiles(x86)%\PHP\v5.3\php-cgi.exe
 
 :setup_iis
-:: %appcmd% set config -section:system.webServer/fastCgi /+"[fullPath='%phprt%',arguments='',maxInstances='4',idleTimeout='300',activityTimeout='30',requestTimeout='90',queueLength='1000',instanceMaxRequests='200',protocol='NamedPipe',flushNamedPipe='False',rapidFailsPerMinute='10']" /commit:apphost
-:: %appcmd% set config -section:system.webServer/handlers /+"[name='PHP-FastCGI',path='*.php',modules='FastCgiModule',verb='*', scriptProcessor='%phprt%']" /commit:apphost
+%appcmd% set config -section:system.webServer/fastCgi /+"[fullPath='%phprt%',arguments='',maxInstances='4',idleTimeout='300',activityTimeout='30',requestTimeout='90',queueLength='1000',instanceMaxRequests='200',protocol='NamedPipe',flushNamedPipe='False',rapidFailsPerMinute='10']" /commit:apphost
+%appcmd% set config -section:system.webServer/handlers /+"[name='PHP-FastCGI',path='*.php',modules='FastCgiModule',verb='*', scriptProcessor='%phprt%']" /commit:apphost
 
 exit /b 0
 
