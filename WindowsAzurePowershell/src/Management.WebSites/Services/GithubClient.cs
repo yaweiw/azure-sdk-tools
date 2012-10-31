@@ -29,9 +29,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.Security;
     using System.ServiceModel;
     using System.ServiceModel.Web;
+    using System.Security.Permissions;
 
     public static class SecureStringExtensionMethods
     {
+        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public static string ConvertToUnsecureString(this SecureString securePassword)
         {
             if (securePassword == null)
