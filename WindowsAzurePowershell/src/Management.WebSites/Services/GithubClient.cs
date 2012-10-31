@@ -54,6 +54,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public class GithubClient : LinkedRevisionControl
     {
+        private static Dictionary<string, WebChannelFactory<IGithubServiceManagement>> _factories =
+            new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>(); 
+
         protected GithubRepository LinkedRepository;
         protected PSCredential Credentials;
         protected string RepositoryFullName;
@@ -61,6 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
         {
+            _factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
             Pscmdlet = pscmdlet;
             if (Pscmdlet.MyInvocation != null)
             {
@@ -231,20 +235,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                 return Pscmdlet.GithubChannel;
             }
 
-            return CreateServiceManagementChannel<IGithubServiceManagement>(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
+            return CreateServiceManagementChannel(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
         }
 
-        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
-            where T : class
+        public static IGithubServiceManagement CreateServiceManagementChannel(Uri remoteUri, string username, string password)
         {
-            using (WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri))
+            WebChannelFactory<IGithubServiceManagement> factory;
+            if (_factories.ContainsKey(remoteUri.ToString()))
             {
-                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() { Username = username, Password = password });
+                factory = _factories[remoteUri.ToString()];
+            }
+            else
+            {
+                factory = new WebChannelFactory<IGithubServiceManagement>(remoteUri);
+                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() {Username = username, Password = password});
 
                 WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
                 wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
                 wb.Security.Mode = WebHttpSecurityMode.Transport;
                 wb.MaxReceivedMessageSize = 10000000;
+
                 if (!string.IsNullOrEmpty(username))
                 {
                     factory.Credentials.UserName.UserName = username;
@@ -254,8 +264,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                     factory.Credentials.UserName.Password = password;
                 }
 
-                return factory.CreateChannel();
+                _factories[remoteUri.ToString()] = factory;
             }
+
+            return factory.CreateChannel();
         }
 
         /// <summary>
@@ -276,6 +288,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             else
             {
                 action();
+            }
+        }
+
+        public override void Dispose()
+        {
+            foreach (var factory in _factories.Values)
+            {
+                factory.Close();
             }
         }
     }
