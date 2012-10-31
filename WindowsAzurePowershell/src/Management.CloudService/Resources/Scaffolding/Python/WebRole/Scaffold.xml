@@ -5,6 +5,7 @@
   <ScaffoldFile Path="Microsoft.Web.PlatformInstaller.UI.dll.content" TargetPath="bin\Microsoft.Web.PlatformInstaller.UI.dll" />
   <ScaffoldFile Path="Microsoft.PythonTools.WebRole.dll.content" TargetPath="bin\Microsoft.PythonTools.WebRole.dll" />
   <ScaffoldFile Path="Microsoft.PythonTools.AzureSetup.exe.content" TargetPath="bin\Microsoft.PythonTools.AzureSetup.exe" />
+  <ScaffoldFile Path="Microsoft.PythonTools.AzureSetup.exe.config" TargetPath="bin\Microsoft.PythonTools.AzureSetup.exe.config" />
 
   <ScaffoldFile Path="wfastcgi.py" TargetPath="bin\wfastcgi.py" />
   <ScaffoldFile Path="AzureSetup.cfg" TargetPath="bin\AzureSetup.cfg">
