@@ -43,9 +43,9 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -59,9 +59,9 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup>
@@ -81,8 +81,8 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
@@ -95,15 +95,19 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
@@ -111,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -138,15 +143,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Cmdlet\RemoveAzureSqlDatabase.cs" />
+    <Compile Include="Database\Cmdlet\GetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\GetAzureSqlDatabaseServer.cs" />
+    <Compile Include="Database\Cmdlet\NewAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\NewAzureSqlDatabaseServer.cs" />
+    <Compile Include="Database\Cmdlet\NewAzureSqlDatabaseServerContext.cs" />
     <Compile Include="Server\Cmdlet\RemoveAzureSqlDatabaseServer.cs" />
     <Compile Include="Model\SqlDatabaseServerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Database\Cmdlet\SetAzureSqlDatabase.cs" />
     <Compile Include="Server\Cmdlet\SetAzureSqlDatabaseServer.cs" />
     <Compile Include="Services\ClientOutputMessageInspector.cs" />
+    <Compile Include="Services\Common\AccessTokenResult.cs" />
+    <Compile Include="Services\Common\DataServiceExtensions.cs" />
+    <Compile Include="Services\Common\DataConnectionUtility.cs" />
+    <Compile Include="Services\Common\DataServiceAccess.cs" />
+    <Compile Include="Services\Common\DataServiceBasicCredentials.cs" />
+    <Compile Include="Services\Common\DataServiceConnectionType.cs" />
+    <Compile Include="Services\Common\DataServiceConstants.cs" />
+    <Compile Include="Services\Common\SqlDatabaseExceptionHandler.cs" />
+    <Compile Include="Services\Common\ManagementServiceExceptionInfo.cs" />
     <Compile Include="Services\ConfigurationConstants.cs" />
     <Compile Include="Services\Constants.cs" />
+    <Compile Include="Services\Server\DatabaseExtensions.cs" />
+    <Compile Include="Services\Server\IServerDataServiceContext.cs" />
+    <Compile Include="Services\Server\ServerDataService.cs" />
+    <Compile Include="Services\Server\ServerDataServiceEnums.cs" />
+    <Compile Include="Services\Server\ServerDataServiceSqlAuth.cs" />
+    <Compile Include="Services\Server\ServerContextInternal.cs" />
     <Compile Include="Services\ServiceResourceError.cs" />
     <Compile Include="Services\ISqlDatabaseManagement.cs" />
     <Compile Include="Services\ISqlDatabaseManagementExternalApi.cs" />
@@ -164,6 +189,8 @@
     <Compile Include="Microsoft.WindowsAzure.Management.SqlDatabase.SnapIn.cs">
       <SubType>Component</SubType>
     </Compile>
+    <None Include="Services\Server\ServerDataService.csdl" />
+    <None Include="Services\Server\UpdateServerDataServiceMetadata.ps1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
@@ -186,6 +213,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

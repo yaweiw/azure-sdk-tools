@@ -12,17 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
+    using System;
+    using CloudService.Model;
+    using Extensions;
+    using Management.Services;
+    using Management.Test.Stubs;
+    using TestData;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class ServiceSettingsTests : TestBase
     {
@@ -82,6 +82,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 
                 settings = ServiceSettings.LoadDefault(null, null, null, null, null, "MyCustomServiceIsWayTooooooooooooooooooooooooLong", null, out serviceName);
                 Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageAccountName);
+            }
+        }
+
+        /// <summary>
+        /// Verify if the location of the storage account is West US or East US in case that no user provided locations.
+        /// </summary>
+        [TestMethod]
+        public void GetDefaultLocationWithWithRandomLocation()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string serviceName = null;
+
+                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
+                Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[Location.WestUS]) || 
+                    settings.Location.Equals(ArgumentConstants.Locations[Location.EastUS]));
+                
             }
         }
     }

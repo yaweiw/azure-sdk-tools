@@ -14,18 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using System.Linq;
     using System;
+    using System.Linq;
     using System.Management.Automation;
-    using Services;
+    using Cmdlet.Common;
     using Management.Services;
-    using WAPPSCmdlet;
     using Properties;
+    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Change deployment status to running or suspended.
     /// </summary>
-    public class DeploymentStatusManager : DeploymentServiceManagementCmdletBase
+    public class DeploymentStatusManager : CloudCmdlet<IServiceManagement>
     {
         public DeploymentStatusManager() { }
 

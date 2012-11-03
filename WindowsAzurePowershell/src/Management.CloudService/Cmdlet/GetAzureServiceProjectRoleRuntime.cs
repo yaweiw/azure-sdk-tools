@@ -17,14 +17,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using Common;
     using Model;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime")]
-    public class GetAzureServiceProjectRoleRuntimeCommand : DeploymentServiceManagementCmdletBase
+    public class GetAzureServiceProjectRoleRuntimeCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }

@@ -12,19 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using System.Reflection;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using System.IO;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System;
+    using System.IO;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Properties;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using Utilities;
+
     public class ServiceComponents
     {
         public ServiceDefinition Definition { get; private set; }
@@ -43,7 +41,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Validate.ValidateFileFull(paths.CloudConfiguration, Resources.ServiceConfiguration);
             Validate.ValidateFileFull(paths.LocalConfiguration, Resources.ServiceConfiguration);
             Validate.ValidateFileFull(paths.Definition, Resources.ServiceDefinition);
-            Validate.ValidateFileFull(paths.Settings, Resources.ServiceSettings);
+
+            try
+            {
+                Validate.ValidateFileFull(paths.Settings, Resources.ServiceSettings);
+            }
+            catch (FileNotFoundException)
+            {
+                // Try recreating the settings file
+                File.WriteAllText(paths.Settings, Resources.SettingsFileEmptyContent);
+            }
 
             Definition = General.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
             CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
@@ -53,8 +60,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public void Save(ServicePathInfo paths)
         {
-            if (paths == null) throw new ArgumentNullException("paths");
             // Validate directory exists and it's valid
+            if (paths == null) throw new ArgumentNullException("paths");
 
             General.SerializeXmlFile<ServiceDefinition>(Definition, paths.Definition);
             General.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
@@ -77,6 +84,106 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
             LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
+        }
+
+        /// <summary>
+        /// Gets the worker role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The worker role name</param>
+        /// <returns>The worker role object from service definition</returns>
+        public WorkerRole GetWorkerRole(string name)
+        {
+            if (Definition.WorkerRole != null)
+            {
+                return Definition.WorkerRole.FirstOrDefault<WorkerRole>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+            
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the web role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The web role name</param>
+        /// <returns>The web role object from service definition</returns>
+        public WebRole GetWebRole(string name)
+        {
+            if (Definition.WebRole != null)
+            {
+                return Definition.WebRole.FirstOrDefault<WebRole>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The role name</param>
+        /// <returns>The role object from cloud configuration</returns>
+        public RoleSettings GetCloudConfigRole(string name)
+        {
+            if (CloudConfig.Role != null)
+            {
+                return CloudConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the role if exists otherwise return null.
+        /// </summary>
+        /// <param name="name">The role name</param>
+        /// <returns>The role object from local configuration</returns>
+        public RoleSettings GetLocalConfigRole(string name)
+        {
+            if (LocalConfig.Role != null)
+            {
+                return LocalConfig.Role.FirstOrDefault<RoleSettings>(r => r.name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets all role settings that matches the given name.
+        /// </summary>
+        /// <param name="roleNames">Role names collection</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<RoleSettings> GetRoles(IEnumerable<string> roleNames)
+        {
+            if (CloudConfig.Role != null)
+            {
+                return Array.FindAll<RoleSettings>(CloudConfig.Role, r => Array.Exists<string>(
+                    roleNames.ToArray<string>(), s => s.Equals(r.name, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            return Enumerable.Empty<RoleSettings>();
+        }
+
+        /// <summary>
+        /// Gets all worker roles that matches given predicate.
+        /// </summary>
+        /// <param name="predicate">The matching predicate</param>
+        /// <returns>Matched items</returns>
+        public IEnumerable<WorkerRole> GetWorkerRoles(Predicate<WorkerRole> predicate)
+        {
+            return Array.FindAll<WorkerRole>(Definition.WorkerRole, predicate);
+        }
+
+        /// <summary>
+        /// Applied given action to all matching 
+        /// </summary>
+        /// <param name="roleNames"></param>
+        /// <param name="action"></param>
+        public void ForEachRoleSettings(Func<RoleSettings, bool> predicate, Action<RoleSettings> action)
+        {
+            if (CloudConfig.Role != null)
+            {
+                IEnumerable<RoleSettings> matchedRoles = CloudConfig.Role.Where<RoleSettings>(predicate);
+                matchedRoles.ForEach<RoleSettings>(action);
+            }
         }
 
         public int GetNextPort()
@@ -144,10 +251,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return false;
             else
             {
-                return
-                   ((Definition.WebRole != null && Definition.WebRole.Any<WebRole>(wr => wr.name.Equals(roleName))) || (Definition.WorkerRole != null && Definition.WorkerRole.Any<WorkerRole>(wr => wr.name.Equals(roleName)))) &&
-                    CloudConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName)) &&
-                    LocalConfig.Role.Any<RoleSettings>(rs => rs.name.Equals(roleName));
+                return (GetWebRole(roleName) != null || GetWorkerRole(roleName) != null) && // exists in csdef
+                       GetCloudConfigRole(roleName) != null && GetLocalConfigRole(roleName) != null; // exists in local/cloud cscfg
             }
         }
 

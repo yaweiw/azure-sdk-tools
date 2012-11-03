@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Win32;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Model;
     using Properties;
+    using Utilities;
+    using Win32;
 
     /// <summary>
     /// Create scaffolding for a new Python Django web role, change cscfg file and csdef to include the added web role

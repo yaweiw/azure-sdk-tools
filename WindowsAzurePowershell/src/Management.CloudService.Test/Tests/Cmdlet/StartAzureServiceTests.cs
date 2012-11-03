@@ -12,15 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using CloudService.Cmdlet;
+    using CloudService.Model;
+    using Management.Test.Stubs;
+    using Services;
+    using TestData;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
     [TestClass]
     public class StartAzureServiceTests : TestBase
     {

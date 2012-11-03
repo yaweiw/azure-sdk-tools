@@ -11,9 +11,15 @@ echo OK
 echo Configuring powershell permissions
 powershell -c "set-executionpolicy unrestricted"
 
-setup.cmd
-
+echo Copying web.cloud.config to web.config...
+copy /y ..\Web.cloud.config ..\Web.config
 if %ERRORLEVEL% neq 0 goto error
+echo OK
+
+echo Downloading and installing runtime components
+powershell .\download.ps1 '%RUNTIMEURL%' '%RUNTIMEURLOVERRIDE%'
+if %ERRORLEVEL% neq 0 goto error
+
 echo SUCCESS
 exit /b 0
 

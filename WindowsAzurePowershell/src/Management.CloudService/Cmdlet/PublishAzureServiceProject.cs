@@ -27,24 +27,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Text;
     using System.Threading;
     using AzureTools;
+    using Common;
     using Extensions;
     using Management.Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
     using Services;
+    using StorageClient;
     using Utilities;
-    using WAPPSCmdlet;
+    using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
+    using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true)]
-    public class PublishAzureServiceProjectCommand : DeploymentServiceManagementCmdletBase
+    public class PublishAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
+        private List<IPublishListener> _listeners;
 
         [Parameter(Mandatory = false)]
         [Alias("sn")]
@@ -78,6 +83,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public SwitchParameter PackageOnly { get; set; }
 
         [Parameter(Mandatory = false)]
+        public int? TimeoutSeconds { get; set; }
+
+        [Parameter(Mandatory = false)]
         public SwitchParameter Force
         {
             get { return force; }
@@ -108,6 +116,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public PublishAzureServiceProjectCommand(IServiceManagement channel)
         {
             Channel = channel;
+
+            _listeners = new List<IPublishListener>();
+            _listeners.Add(new CachingStorageConnectionStringUpdater());
         }
 
         /// <summary>
@@ -153,8 +164,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
             {
-
-
                 if (ServiceExists())
                 {
                     var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
@@ -254,8 +263,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                     _hostedServiceName, CurrentSubscription.SubscriptionId));
 
-                CreatePackage();
+                // Caching worker roles require update to their service configuration settings with 
+                // the storage service credentials. Before creating the package verify that the storage
+                // service exists and fetch its credentials.
+                if (!StorageAccountExists(defaultSettings.StorageAccountName))
+                {
+                    CreateStorageAccount(
+                        defaultSettings.StorageAccountName,
+                        _hostedServiceName,
+                        defaultSettings.Location);
+                }
 
+                // Initiate call to all publish listeners.
+                this._listeners.ForEach<IPublishListener>(l => l.OnPublish(Channel, _azureService, defaultSettings, CurrentSubscription.SubscriptionId));
+
+                CreatePackage();
+                
                 _deploymentSettings = new DeploymentSettings(
                     defaultSettings,
                     _azureService.Paths.CloudPackage,
@@ -308,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
             if (definition.WebRole != null)
             {
-                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole)
+                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     CloudRuntime.ClearRuntime(role);
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
@@ -333,7 +356,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (definition.WorkerRole != null)
             {
-                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole)
+                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
                     CloudRuntime.ClearRuntime(role);
@@ -476,24 +499,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage,
-                _deploymentSettings.ServiceSettings.StorageAccountName));
-
-                if (!StorageAccountExists())
-                {
-                    CreateStorageAccount();
-                }
-
                 SafeWriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
 
                 if (!SkipUpload)
                 {
-                    packageUri = RetryCall<Uri>(subscription =>
+                    BlobRequestOptions blobRequestOptions = null;
+                    if (TimeoutSeconds != null)
+                    {
+                        blobRequestOptions = new BlobRequestOptions { Timeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
+                    }
+
+                    packageUri = RetryCall(subscription =>
                         AzureBlob.UploadPackageToBlob(
                             CreateChannel(),
                             _deploymentSettings.ServiceSettings.StorageAccountName,
                             subscription,
-                            this.ResolvePath(packagePath)));
+                            this.ResolvePath(packagePath),
+                            blobRequestOptions));
                 }
                 else
                 {
@@ -530,19 +552,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// A value indicating whether the service's storage account already
         /// exists.
         /// </returns>
-        private bool StorageAccountExists()
+        private bool StorageAccountExists(string name)
         {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-
             StorageService storageService = null;
             try
             {
                 storageService = RetryCall<StorageService>(subscription =>
-                    Channel.GetStorageService(
-                        subscription,
-                        _deploymentSettings.ServiceSettings.StorageAccountName));
+                    Channel.GetStorageService(subscription, name));
             }
             catch (EndpointNotFoundException)
             {
@@ -559,29 +575,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Create an Azure storage account that we can use to upload our
         /// package when creating and deploying a service.
         /// </summary>
-        private void CreateStorageAccount()
+        private void CreateStorageAccount(string name, string label, string location)
         {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.Label),
-                "Label cannot be null or empty.");
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
-                "Location cannot be null or empty.");
-
             CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
             {
-                ServiceName = _deploymentSettings.ServiceSettings.StorageAccountName,
-                Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
-                Location = _deploymentSettings.ServiceSettings.Location
+                ServiceName = name,
+                Label = ServiceManagementHelper.EncodeToBase64String(label),
+                Location = location
             };
+
+            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
                 RetryCall(subscription =>
-                    Channel.CreateStorageAccount(subscription, storageServiceInput));
+                    Channel.CreateStorageService(subscription, storageServiceInput));
 
                 StorageService storageService = null;
                 do
@@ -589,7 +597,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     storageService = RetryCall<StorageService>(subscription =>
                         Channel.GetStorageService(subscription, storageServiceInput.ServiceName));
                 }
-                while (storageService.StorageServiceProperties.Status != StorageAccountStatus.Created);
+                while (storageService.StorageServiceProperties.Status != StorageServiceStatus.Created);
             });
         }
 
@@ -693,10 +701,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             do
             {
                 Thread.Sleep(TimeSpan.FromMilliseconds(500));
-                certificates = RetryCall<CertificateList>(subscription =>
+                certificates = RetryCall(subscription =>
                     Channel.ListCertificates(subscription, _hostedServiceName));
             }
-            while (certificates == null || certificates.Count<Certificate>(c => c.Thumbprint.Equals(
+            while (certificates == null || certificates.Count(c => c.Thumbprint.Equals(
                 certificate.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1);
         }
 
@@ -720,6 +728,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         subscription,
                         _hostedServiceName,
                         _deploymentSettings.ServiceSettings.Slot));
+
+                // If a deployment has many roles to initialize, this
+                // thread must throttle requests so the Azure portal
+                // doesn't reply with a "too many requests" error
+                Thread.Sleep(int.Parse(Resources.StandardRetryDelayInMs));
             }
             while (deployment.Status != DeploymentStatus.Starting &&
                 deployment.Status != DeploymentStatus.Running);
@@ -758,9 +771,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     foreach (RoleInstance currentInstance in deployment.RoleInstanceList)
                     {
                         // We only care about these three statuses, ignore other intermediate statuses
-                        if (String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Busy) ||
-                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Ready) ||
-                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.Initializing))
+                        if (String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.BusyRole) ||
+                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.ReadyRole) ||
+                            String.Equals(currentInstance.InstanceStatus, RoleInstanceStatus.CreatingRole))
                         {
                             bool createdOrChanged = false;
 
@@ -789,11 +802,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                 string statusResource;
                                 switch (currentInstance.InstanceStatus)
                                 {
-                                    case RoleInstanceStatus.Busy:
+                                    case RoleInstanceStatus.BusyRole:
                                         statusResource = Resources.PublishInstanceStatusBusy;
                                         break;
 
-                                    case RoleInstanceStatus.Ready:
+                                    case RoleInstanceStatus.ReadyRole:
                                         statusResource = Resources.PublishInstanceStatusReady;
                                         break;
 
@@ -815,7 +828,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     Thread.Sleep(int.Parse(Resources.StandardRetryDelayInMs));
                 }
                 while (deployment.RoleInstanceList.Any(
-                    r => r.InstanceStatus != RoleInstanceStatus.Ready));
+                    r => r.InstanceStatus != RoleInstanceStatus.ReadyRole));
 
                 if (CanGenerateUrlForDeploymentSlot())
                 {
@@ -847,7 +860,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
                     SelectMany(r => r.Certificates ?? new ServiceConfigurationSchema.Certificate[0]).Distinct())
                 {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count<Certificate>(c => c.Thumbprint.Equals(
+                    if (uploadedCertificates == null || (uploadedCertificates.Count<ServiceManagementCertificate>(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
                         X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);

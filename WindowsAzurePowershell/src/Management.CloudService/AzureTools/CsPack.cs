@@ -12,19 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Security.Permissions;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Security.Permissions;
+    using Model;
+    using Properties;
+    using ServiceDefinitionSchema;
+    using Utilities;
+
     /// <summary>
     /// Package services for deployment to Azure.
     /// </summary>

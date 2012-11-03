@@ -43,9 +43,9 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -59,9 +59,9 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <PropertyGroup>
@@ -81,8 +81,8 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
@@ -95,16 +95,21 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -130,6 +135,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
+    <Compile Include="Cmdlet\EnableAzureMemcacheRole.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProject.cs" />
     <Compile Include="Microsoft.WindowsAzure.Management.CloudServiceSnapIn.cs">
@@ -140,12 +147,13 @@
     <Compile Include="AzureTools\CsPack.cs" />
     <Compile Include="Cmdlet\DisableAzureRemoteDesktop.cs" />
     <Compile Include="Cmdlet\EnableAzureRemoteDesktop.cs" />
-    <Compile Include="Model\AzureServiceManagementException.cs" />
+    <Compile Include="Model\CachingStorageConnectionStringUpdater.cs" />
     <Compile Include="Model\CloudRuntime.cs" />
     <Compile Include="Model\CloudRuntimeApplicator.cs" />
     <Compile Include="Model\CloudRuntimeCollection.cs" />
     <Compile Include="Model\CloudRuntimePackage.cs" />
     <Compile Include="Model\GetDeploymentStatus.cs" />
+    <Compile Include="Model\IPublishListener.cs" />
     <Compile Include="Model\JavaScriptPackageHelpers.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
@@ -179,38 +187,16 @@
     <Compile Include="Scaffolding\Scaffold.cs" />
     <Compile Include="Scaffolding\ScaffoldFile.cs" />
     <Compile Include="Scaffolding\ScaffoldParams.cs" />
-    <Compile Include="Services\Certificates.cs" />
-    <Compile Include="Services\CloudCmdlet.cs" />
+    <Compile Include="Cmdlet\Common\CloudCmdlet.cs" />
     <Compile Include="Cmdlet\NewAzureServiceProject.cs" />
-    <Compile Include="Services\DeploymentServiceManagementCmdletBase.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\PublishAzureServiceProject.cs" />
-    <Compile Include="Services\AffinityGroup.cs" />
     <Compile Include="Services\AzureBlob.cs" />
-    <Compile Include="Services\CertificateConfiguration.cs" />
     <Compile Include="Services\CmdLetExtensions.cs" />
-    <Compile Include="Services\Constants.cs" />
-    <Compile Include="Services\Deployment.cs" />
-    <Compile Include="Services\DeploymentInfoContext.cs" />
-    <Compile Include="Services\HostedServices.cs" />
     <Compile Include="Services\InnerDataServiceException.cs" />
-    <Compile Include="Services\IServiceManagementExternalApi.cs" />
-    <Compile Include="Services\ManagementOperationContext.cs" />
-    <Compile Include="Services\ManagementOperationContext2.cs" />
-    <Compile Include="Services\OperatingSystem.cs" />
-    <Compile Include="Services\OperationTracking.cs" />
-    <Compile Include="Services\RoleConfiguration.cs" />
-    <Compile Include="Services\RoleInstance.cs" />
-    <Compile Include="Services\ServiceConfigurationConstants.cs" />
-    <Compile Include="Services\ServiceManagementError.cs" />
-    <Compile Include="Services\ServiceManagementHelper.cs" />
-    <Compile Include="Services\StorageService1.cs" />
-    <Compile Include="Services\StorageService2.cs" />
     <Compile Include="Services\Utility.cs" />
     <Compile Include="AzureTools\CsRun.cs" />
-    <Compile Include="Utilities\IMessageWriter.cs" />
-    <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
@@ -221,6 +207,14 @@
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+      <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Scaffolding\General\ServiceConfiguration.Local.cscfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -240,18 +234,6 @@
     <Content Include="Resources\Scaffolding\Node\WorkerRole\setup_worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.Deployment.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\Microsoft.Web.PlatformInstaller.UI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\WebpiCmdLine.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\index.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -267,22 +249,10 @@
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\index.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.Deployment.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\Microsoft.Web.PlatformInstaller.UI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\RoleSettings.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\WebpiCmdLine.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
@@ -362,8 +332,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MoveScaffolding.bat" />
     <None Include="MSSharedLibKey.snk" />
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\Cache\WebRole\bin\setup_cache.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1">
@@ -372,33 +346,40 @@
     <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\setup_web.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WebRole\Web.config">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\web.cloud.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Scaffolding\PHP\WorkerRole\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -417,7 +398,7 @@
     <Content Include="Resources\Scaffolding\Python\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
+    <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -430,10 +411,11 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(ProjectDir)\MoveScaffolding.bat" "$(TargetDir)"</PostBuildEvent>

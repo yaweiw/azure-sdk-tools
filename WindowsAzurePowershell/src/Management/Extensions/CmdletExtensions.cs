@@ -14,14 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Extensions
 {
+    using System;
+    using System.Data.Services.Client;
+    using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Management.Automation;
     using System.Runtime.Serialization;
     using System.Xml;
-    using System.Diagnostics.CodeAnalysis;
-    using System;
-    using System.Diagnostics;
-    using System.Data.Services.Client;
     using System.Xml.Linq;
     using Model;
 
@@ -134,7 +134,8 @@ namespace Microsoft.WindowsAzure.Management.Extensions
                 var message = dscException.Message;
                 try
                 {
-                    XNamespace ns = "http://schemas.microsoft.com/ado/2007/08/dataservices/metadata";
+                    XNamespace ns = "http://schemas.microsoft.com/ado/2007/08/dataservices/" +
+                                    "metadata";
                     XDocument doc = XDocument.Parse(message);
                     if (doc.Root != null)
                     {

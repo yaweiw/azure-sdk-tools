@@ -12,16 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using System.IO;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System.IO;
+    using Properties;
+    using Utilities;
+
     public class ServicePathInfo
     {
         public string Definition { get; private set; }
@@ -34,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public ServicePathInfo(string rootPath)
         {
-            Validate.ValidateStringIsNullOrEmpty(rootPath, "service root");
+            Validate.ValidateStringIsNullOrEmpty(rootPath, "service definition (*.csdef) file");
             Validate.ValidatePathName(rootPath, Resources.InvalidRootNameMessage);
 
             RootPath = rootPath;

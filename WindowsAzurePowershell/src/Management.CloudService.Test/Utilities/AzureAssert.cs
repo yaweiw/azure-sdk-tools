@@ -12,21 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.PublishSettingsSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Services;
-using ServiceConfiguration = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ServiceConfiguration;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
+    using System;
+    using System.IO;
+    using CloudService.Model;
+    using CloudService.Properties;
+    using Scaffolding;
+    using ServiceConfigurationSchema;
+    using ServiceDefinitionSchema;
+    using TestData;
+    using VisualStudio.TestTools.UnitTesting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
+
     internal static class AzureAssert
     {
         public static void AreEqualServiceSettings(ServiceSettings expected, ServiceSettings actual)
@@ -225,6 +224,44 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                     Assert.IsTrue(roles[i].Equals(actual.Role[i]));
                 }
             }
+        }
+
+        public static void WorkerRoleImportsExists(Import expected, WorkerRole actual)
+        {
+            Assert.IsTrue(Array.Exists<Import>(actual.Imports, i => i.moduleName.Equals(expected.moduleName)));
+        }
+
+        public static void LocalResourcesLocalStoreExists(LocalStore expected, LocalResources actual)
+        {
+            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalStorage, l => l.name.Equals(expected.name) && 
+                l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
+        }
+
+        public static void ConfigurationSettingExist(DefConfigurationSetting expected, DefConfigurationSetting[] actual)
+        {
+            Assert.IsTrue(Array.Exists<DefConfigurationSetting>(actual, c => c.name == expected.name));
+        }
+
+        public static void ConfigurationSettingExist(ConfigConfigurationSetting expected, ConfigConfigurationSetting[] actual)
+        {
+            Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual, c => c.name == expected.name));
+        }
+
+        public static void RuntimeExists(Task[] tasks, string runtimeValue)
+        {
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
+                e => e.value!= null && e.value.Contains(runtimeValue))));
+        }
+
+        public static void StartupTaskExists(Task[] tasks, string startupCommand)
+        {
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => t.commandLine == startupCommand));
+        }
+
+        public static void InternalEndpointExists(InternalEndpoint[] internalEndpoints, InternalEndpoint internalEndpoint)
+        {
+            Assert.IsTrue(Array.Exists<InternalEndpoint>(internalEndpoints, i => i.name == internalEndpoint.name && 
+                i.port == internalEndpoint.port && i.protocol == internalEndpoint.protocol));
         }
     }
 }

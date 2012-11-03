@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.WindowsAzure.Management.CloudService.dll'
+ModuleToProcess = '.\Microsoft.WindowsAzure.Management.dll'
 
 # Version number of this module.
 ModuleVersion = '1.0'
@@ -58,17 +58,21 @@ ScriptsToProcess = @()
 
 # Type files (.ps1xml) to be loaded when importing this module
 TypesToProcess = @(
-	'Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml' `
+	'Microsoft.WindowsAzure.Management.Websites.Types.ps1xml',
+	'Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml'
 )
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = @()
+FormatsToProcess = @(
+	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml'
+)
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.WindowsAzure.Management.dll',
-				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll',
+NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
-				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll'
+				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll',
+				'.\Microsoft.WindowsAzure.Management.Websites.dll',
+				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
@@ -88,6 +92,7 @@ ModuleList = @()
 # List of all files packaged with this module
 FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml',
+			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml'
 			
 

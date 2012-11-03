@@ -19,17 +19,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
+    using Common;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
     [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
-    public class DisableAzureServiceProjectRemoteDesktopCommand : DeploymentServiceManagementCmdletBase
+    public class DisableAzureServiceProjectRemoteDesktopCommand : CloudCmdlet<IServiceManagement>
     {
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void ProcessRecord()

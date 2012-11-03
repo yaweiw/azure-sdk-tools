@@ -15,14 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
+    using System.IO;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Extensions;
     using Model;
     using Properties;
-    using System.IO;
-    using Services;
     using Service;
+    using Services;
 
     /// <summary>
     /// Sets an azure subscription.
