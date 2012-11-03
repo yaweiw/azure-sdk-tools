@@ -104,5 +104,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     public class Constants
     {
         public const string CurrentSubscriptionEnvironmentVariable = "_wappsCmdletsCurrentSubscription";
+
+        public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";
     }
 }

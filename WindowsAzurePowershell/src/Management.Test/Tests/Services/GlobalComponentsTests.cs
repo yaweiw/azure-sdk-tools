@@ -12,22 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Cmdlets;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Properties;
-using Microsoft.WindowsAzure.Management.Services;
-using Microsoft.WindowsAzure.Management.Test.Stubs;
-using Microsoft.WindowsAzure.Management.Test.TestData;
-using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-using Microsoft.WindowsAzure.Management.Utilities;
-using Microsoft.WindowsAzure.Management.XmlSchema;
-
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using Management.Cmdlets;
+    using Management.Extensions;
+    using Management.Properties;
+    using Management.Services;
+    using Management.Utilities;
+    using Stubs;
+    using TestData;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+    using XmlSchema;
+
     [TestClass]
     public class GlobalComponentsTests
     {

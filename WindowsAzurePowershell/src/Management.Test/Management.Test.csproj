@@ -106,12 +106,15 @@
     <Compile Include="Tests\Cmdlets\SetSubscriptionTest.cs" />
     <Compile Include="Tests\Extensions\CmdletSubscriptionExtensionsTest.cs" />
     <Compile Include="Tests\Extensions\CmdletExtensionsTest.cs" />
+    <Compile Include="Tests\GeneralTest.cs" />
     <Compile Include="Tests\Services\GlobalComponentsTests.cs" />
     <Compile Include="Tests\Services\GlobalPathInfoTest.cs" />
     <Compile Include="Tests\Services\SubscriptionsManagerTests.cs" />
     <Compile Include="TestData\Data.cs" />
     <Compile Include="Tests\Utilities\AzureAssert.cs" />
+    <Compile Include="Tests\Utilities\MockCommandRuntime.cs" />
     <Compile Include="Tests\Utilities\RemoveAzurePublishSettings.cs" />
+    <Compile Include="Tests\Utilities\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Tests\Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>

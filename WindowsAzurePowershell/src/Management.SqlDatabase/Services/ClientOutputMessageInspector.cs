@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 {
-    using System;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;

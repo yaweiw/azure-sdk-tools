@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddRoleMessageCreate" xml:space="preserve">
-    <value>Role has been created at {0}\{1}.</value>
+    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’.</value>
   </data>
   <data name="AddRoleMessageInsufficientPermissions" xml:space="preserve">
     <value>Unable to set role permissions. Please give the 'Network Service' user 'Read &amp; execute' and 'Modify' permissions to the role folder, or run PowerShell as an Administrator</value>
@@ -155,10 +155,6 @@
   </data>
   <data name="AzureSdkVersionNotSupported" xml:space="preserve">
     <value>The installed Azure SDK version is not supported. Make sure you version is between {0} and {1} inclusive</value>
-  </data>
-  <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
-    <value>Azure service management error
-{0}</value>
   </data>
   <data name="CannotFindDeployment" xml:space="preserve">
     <value>Deployment for service {0} with {1} slot doesn't exist</value>
@@ -357,10 +353,10 @@
     <value>ServiceConfiguration.Local.cscfg</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.7</value>
+    <value>v1.8</value>
   </data>
   <data name="MinSupportAzureSdkVersion" xml:space="preserve">
-    <value>v1.7</value>
+    <value>v1.8</value>
   </data>
   <data name="NewServiceCreatedMessage" xml:space="preserve">
     <value>Service has been created at {0}</value>
@@ -636,7 +632,7 @@
     <value> (x86)</value>
   </data>
   <data name="PHPScaffolding" xml:space="preserve">
-    <value>Scaffolding/PHP</value>
+    <value>Scaffolding\PHP</value>
   </data>
   <data name="PHPScaffoldingResources" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Management.CloudService.ScaffoldingResources.PHP</value>
@@ -684,7 +680,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest.xml</value>
+    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml</value>
   </data>
   <data name="NodeRuntimeValue" xml:space="preserve">
     <value>node</value>
@@ -719,8 +715,8 @@
   <data name="NodeVersionWarningText" xml:space="preserve">
     <value>Installing Node version {0} in Azure for Role '{1}' (the Node version locally installed is: {2})</value>
   </data>
-  <data name="PHPRuntimeVersion" xml:space="preserve">
-    <value>5.4</value>
+  <data name="PHPDefaultRuntimeVersion" xml:space="preserve">
+    <value>5.4.0</value>
   </data>
   <data name="PHPVersionWarningText" xml:space="preserve">
     <value>Installing PHP version {0} for Role '{1}' (the PHP version locally installed is: {2})</value>
@@ -768,5 +764,105 @@
   </data>
   <data name="PackageJsonFileName" xml:space="preserve">
     <value>package.json</value>
+  </data>
+  <data name="RuntimeVersionPrimaryKey" xml:space="preserve">
+    <value>RUNTIMEVERSIONPRIMARYKEY</value>
+  </data>
+  <data name="WebRoleStartupTaskCommandLine" xml:space="preserve">
+    <value>setup_web.cmd &gt; log.txt</value>
+  </data>
+  <data name="WorkerRoleStartupTaskCommandLine" xml:space="preserve">
+    <value>setup_worker.cmd &gt; log.txt</value>
+  </data>
+  <data name="CacheDiagnosticStoreName" xml:space="preserve">
+    <value>DiagnosticStore</value>
+  </data>
+  <data name="CachingModuleName" xml:space="preserve">
+    <value>Caching</value>
+  </data>
+  <data name="DefaultRoleCachingInMB" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="CachingCacheSizePercentageSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.CacheSizePercentage</value>
+  </data>
+  <data name="CachingConfigStoreConnectionStringSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ConfigStoreConnectionString</value>
+  </data>
+  <data name="CachingConfigStoreConnectionStringSettingValue" xml:space="preserve">
+    <value>DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}</value>
+  </data>
+  <data name="NamedCacheSettingName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.NamedCaches</value>
+  </data>
+  <data name="CacheRuntimeValue" xml:space="preserve">
+    <value>cache</value>
+  </data>
+  <data name="CacheVersionWarningText" xml:space="preserve">
+    <value>Installing caching version {0} for Role '{1}' (the caching version locally installed is: {2})</value>
+  </data>
+  <data name="CacheScaffolding" xml:space="preserve">
+    <value>Scaffolding\Cache</value>
+  </data>
+  <data name="MemcacheEndpointName" xml:space="preserve">
+    <value>memcache_default</value>
+  </data>
+  <data name="MemcacheEndpointPort" xml:space="preserve">
+    <value>11211</value>
+  </data>
+  <data name="DataCacheClientsType" xml:space="preserve">
+    <value>Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core</value>
+  </data>
+  <data name="CacheAutoDiscoveryConfig" xml:space="preserve">
+    <value>&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="dataCacheClients" type="Microsoft.ApplicationServer.Caching.DataCacheClientsSection, Microsoft.ApplicationServer.Caching.Core" allowLocation="true" 	allowDefinition="Everywhere" /&gt;
+  &lt;/configSections&gt;
+  &lt;dataCacheClients&gt;
+    &lt;tracing sinkType="DiagnosticSink" traceLevel="Error" /&gt;
+    &lt;dataCacheClient name="DefaultShimConfig" useLegacyProtocol="false"&gt;
+      &lt;autoDiscover isEnabled="true" identifier="$RoleName$" /&gt;
+    &lt;/dataCacheClient&gt;
+  &lt;/dataCacheClients&gt;
+&lt;/configuration&gt;</value>
+  </data>
+  <data name="WebCloudConfig" xml:space="preserve">
+    <value>Web.cloud.config</value>
+  </data>
+  <data name="CacheStartupCommand" xml:space="preserve">
+    <value>setup_cache.cmd &gt; cache_log.txt</value>
+  </data>
+  <data name="EnableMemcacheMessage" xml:space="preserve">
+    <value>Memcache is enabled for role '{0}' using cache role '{1}' to connect use server name 'localhost_{0}' with port {2}.</value>
+  </data>
+  <data name="SettingsFileEmptyContent" xml:space="preserve">
+    <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
+  </data>
+  <data name="CacheAlreadyEnabledMsg" xml:space="preserve">
+    <value>Memcache is already enabled for web role '{0}'.</value>
+  </data>
+  <data name="CacheClientDiagnosticLevelAssemblyName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
+  </data>
+  <data name="ClientDiagnosticLevelName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
+  </data>
+  <data name="ClientDiagnosticLevelValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="DiagnosticLevelName" xml:space="preserve">
+    <value>Microsoft.WindowsAzure.Plugins.Caching.DiagnosticLevel</value>
+  </data>
+  <data name="DiagnosticLevelValue" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NamedCacheSettingValue" xml:space="preserve">
+    <value>{"caches":[{"name":"default","policy":{"eviction":{"type":0},"expiration":{"defaultTTL":10,"isExpirable":true,"type":1},"serverNotification":{"isEnabled":false}},"secondaries":0}]}</value>
+  </data>
+  <data name="EnableMemcacheOnWorkerRoleErrorMsg" xml:space="preserve">
+    <value>Enable-AzureMemcacheRole is supported for web roles only. Verify that '{0}' is a web role.</value>
+  </data>
+  <data name="NotCacheWorkerRole" xml:space="preserve">
+    <value>'{0}' must be a cache worker role. Verify that it has proper cache worker role configuration.</value>
   </data>
 </root>

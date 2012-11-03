@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
 {
     using System;
-    using System.IO;
     using System.Runtime.Serialization;
+    using System.Text;
     using System.Xml;
 
     /// <summary>
@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         /// <param name="result">When the method returns, contains the deserialized <see cref="ServiceResourceError"/> object,
         /// if the conversion succeeded, or <c>null</c>, if the conversion failed.</param>
         /// <returns><c>true</c> if the input parameter is successfully converted; otherwise, <c>false</c>.</returns>
-        public static bool TryParse(Stream input, out ServiceResourceError result)
+        public static bool TryParse(string input, out ServiceResourceError result)
         {
             result = null;
 
@@ -53,10 +53,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
             // Deserialize the stream using DataContractSerializer.
             try
             {
-                XmlDictionaryReader xmlReader = XmlDictionaryReader.CreateTextReader(input, new XmlDictionaryReaderQuotas());
-                DataContractSerializer serializer = new DataContractSerializer(typeof(ServiceResourceError));
-                result = (ServiceResourceError)serializer.ReadObject(xmlReader, true);
-                return true;
+                using (XmlDictionaryReader xmlReader = XmlDictionaryReader.CreateTextReader(
+                    Encoding.UTF8.GetBytes(input),
+                    new XmlDictionaryReaderQuotas()))
+                {
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(ServiceResourceError));
+                    result = (ServiceResourceError)serializer.ReadObject(xmlReader, true);
+                    return true;
+                }
             }
             catch (Exception)
             {

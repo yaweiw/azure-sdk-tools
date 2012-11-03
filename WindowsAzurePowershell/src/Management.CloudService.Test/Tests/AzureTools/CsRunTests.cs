@@ -12,12 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.CloudService;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
 {
+    using CloudService.AzureTools;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class CsRunTests : TestBase
     {

@@ -12,16 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Management.Automation;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System.Management.Automation;
+    using Cmdlet.Common;
+    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
     /// <summary>
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
-    public abstract class AddRole : DeploymentServiceManagementCmdletBase
+    public abstract class AddRole : CloudCmdlet<IServiceManagement>
     {
         int instanceCount;
 

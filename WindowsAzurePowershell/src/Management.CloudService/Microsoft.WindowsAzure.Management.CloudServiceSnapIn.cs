@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace AzureDeploymentCmdlets
+namespace Microsoft.WindowsAzure.Management.CloudService
 {
     using System.ComponentModel;
     using System.Management.Automation;

@@ -12,19 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System;
+    using Cmdlets.Common;
+    using Management.Utilities;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class CmdletBaseTests
     {
@@ -39,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
     }
 
-    public class FakeCmdlet : CloudCmdlet<IServiceManagement>
+    public class FakeCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
         public FakeCmdlet(IMessageWriter writer) : base(writer)
         {

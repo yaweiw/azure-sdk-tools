@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Node.Cmdlet
 {
+    using System.IO;
+    using CloudService.Cmdlet;
+    using CloudService.Node.Cmdlet;
+    using CloudService.Properties;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class AddAzureNodeWebRoleTests : TestBase
     {

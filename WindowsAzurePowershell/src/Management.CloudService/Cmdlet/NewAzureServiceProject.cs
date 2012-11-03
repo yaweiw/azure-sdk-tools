@@ -17,16 +17,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.IO;
     using System.Management.Automation;
+    using Common;
     using Model;
     using Properties;
     using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureServiceProject")]
-    public class NewAzureServiceProjectCommand : DeploymentServiceManagementCmdletBase
+    public class NewAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the node.js project")]
         public string ServiceName { get; set; }

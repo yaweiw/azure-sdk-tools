@@ -12,73 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.ServiceModel;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using System.Collections.Generic;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.ServiceModel.Channels;
-
-namespace Microsoft.WindowsAzure.Management.CloudService.Test
+namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
-    /// <summary>
-    /// Simple IAsyncResult implementation that can be used to cache all the
-    /// parameters to the BeginFoo call and then passed to the FooThunk
-    /// property that's invoked by EndFoo (thereby providing the test's
-    /// implementation of FooThunk with as much of the state as it wants).
-    /// </summary>
-    public class SimpleServiceManagementAsyncResult : IAsyncResult
-    {
-        /// <summary>
-        /// Gets a dictionary of state specific to a given call.
-        /// </summary>
-        public Dictionary<string, object> Values { get; private set; }
-        
-        /// <summary>
-        /// Initializes a new instance of the
-        /// SimpleServiceManagementAsyncResult class.
-        /// </summary>
-        public SimpleServiceManagementAsyncResult()
-        {
-            Values = new Dictionary<string, object>();
-        }
-        
-        /// <summary>
-        /// Gets the state specific to a given call.
-        /// </summary>
-        public object AsyncState
-        {
-            get { return Values; }
-        }
-        
-        /// <summary>
-        /// Gets an AsyncWaitHandle.  This is not implemented and will always
-        /// throw.
-        /// </summary>
-        public WaitHandle AsyncWaitHandle
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the async call completed
-        /// synchronousy.  It always returns true.
-        /// </summary>
-        public bool CompletedSynchronously
-        {
-            get { return true; }
-        }
-        
-        /// <summary>
-        /// Gets a value indicating whether the async call has completed.  It
-        /// always returns true.
-        /// </summary>
-        public bool IsCompleted
-        {
-            get { return true; }
-        }
-    }
+    using System;
+    using Management.Test.Tests.Utilities;
+    using Services;
+    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Simple implementation of teh IServiceManagement interface that can be
@@ -1125,10 +1065,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
         #endregion RegenerateStorageServiceKeys
 
-        #region CreateStorageAccount
-        public Action<SimpleServiceManagementAsyncResult> CreateStorageAccountThunk { get; set; }
+        #region CreateStorageService
+        public Action<SimpleServiceManagementAsyncResult> CreateStorageServiceThunk { get; set; }
 
-        public IAsyncResult BeginCreateStorageAccount(string subscriptionId, CreateStorageServiceInput createStorageServiceInput, AsyncCallback callback, object state)
+        public IAsyncResult BeginCreateStorageService(string subscriptionId, CreateStorageServiceInput createStorageServiceInput, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -1138,80 +1078,80 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             return result;
         }
 
-        public void EndCreateStorageAccount(IAsyncResult asyncResult)
+        public void EndCreateStorageService(IAsyncResult asyncResult)
         {
-            if (CreateStorageAccountThunk != null)
+            if (CreateStorageServiceThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                CreateStorageAccountThunk(result);
+                CreateStorageServiceThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("CreateStorageAccountThunk is not implemented!");
+                throw new NotImplementedException("CreateStorageServiceThunk is not implemented!");
             }
         }
-        #endregion CreateStorageAccount
+        #endregion CreateStorageService
 
-        #region DeleteStorageAccount
-        public Action<SimpleServiceManagementAsyncResult> DeleteStorageAccountThunk { get; set; }
+        #region DeleteStorageService
+        public Action<SimpleServiceManagementAsyncResult> DeleteStorageServiceThunk { get; set; }
 
-        public IAsyncResult BeginDeleteStorageAccount(string subscriptionId, string storageAccountName, AsyncCallback callback, object state)
+        public IAsyncResult BeginDeleteStorageService(string subscriptionId, string StorageServiceName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
-            result.Values["storageAccountName"] = storageAccountName;
+            result.Values["StorageServiceName"] = StorageServiceName;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndDeleteStorageAccount(IAsyncResult asyncResult)
+        public void EndDeleteStorageService(IAsyncResult asyncResult)
         {
-            if (DeleteStorageAccountThunk != null)
+            if (DeleteStorageServiceThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                DeleteStorageAccountThunk(result);
+                DeleteStorageServiceThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("DeleteStorageAccountThunk is not implemented!");
+                throw new NotImplementedException("DeleteStorageServiceThunk is not implemented!");
             }
         }
-        #endregion DeleteStorageAccount
+        #endregion DeleteStorageService
 
-        #region UpdateStorageAccount
-        public Action<SimpleServiceManagementAsyncResult> UpdateStorageAccountThunk { get; set; }
+        #region UpdateStorageService
+        public Action<SimpleServiceManagementAsyncResult> UpdateStorageServiceThunk { get; set; }
 
-        public IAsyncResult BeginUpdateStorageAccount(string subscriptionId, string storageAccountName, UpdateStorageServiceInput updateStorageServiceInput, AsyncCallback callback, object state)
+        public IAsyncResult BeginUpdateStorageService(string subscriptionId, string StorageServiceName, UpdateStorageServiceInput updateStorageServiceInput, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
-            result.Values["storageAccountName"] = storageAccountName;
+            result.Values["StorageServiceName"] = StorageServiceName;
             result.Values["updateStorageServiceInput"] = updateStorageServiceInput;
             result.Values["callback"] = callback;
             result.Values["state"] = state;
             return result;
         }
 
-        public void EndUpdateStorageAccount(IAsyncResult asyncResult)
+        public void EndUpdateStorageService(IAsyncResult asyncResult)
         {
-            if (UpdateStorageAccountThunk != null)
+            if (UpdateStorageServiceThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                UpdateStorageAccountThunk(result);
+                UpdateStorageServiceThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
-                throw new NotImplementedException("UpdateStorageAccountThunk is not implemented!");
+                throw new NotImplementedException("UpdateStorageServiceThunk is not implemented!");
             }
         }
-        #endregion UpdateStorageAccount
+        #endregion UpdateStorageService
 
         #region ListAffinityGroups
         public Func<SimpleServiceManagementAsyncResult, AffinityGroupList> ListAffinityGroupsThunk { get; set; }
@@ -1306,6 +1246,525 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         #endregion CreateHostedService
 
         #endregion Autogenerated Thunks
+
+        public IAsyncResult BeginCreateAffinityGroup(string subscriptionId, CreateAffinityGroupInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndCreateAffinityGroup(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteAffinityGroup(string subscriptionId, string affinityGroupName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteAffinityGroup(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateAffinityGroup(string subscriptionId, string affinityGroupName, UpdateAffinityGroupInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateAffinityGroup(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetCertificate(string subscriptionId, string serviceName, string thumbprintalgorithm, string thumbprint_in_hex, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Certificate EndGetCertificate(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteCertificate(string subscriptionId, string serviceName, string thumbprintalgorithm, string thumbprint_in_hex, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteCertificate(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCreateDeployment(string subscriptionId, string serviceName, Deployment deployment, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndCreateDeployment(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginResumeDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndResumeDeploymentUpdateOrUpgrade(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginResumeDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndResumeDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSuspendDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSuspendDeploymentUpdateOrUpgrade(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSuspendDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSuspendDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRollbackDeploymentUpdateOrUpgrade(string subscriptionId, string serviceName, string deploymentName, RollbackUpdateOrUpgradeInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRollbackDeploymentUpdateOrUpgrade(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginRollbackDeploymentUpdateOrUpgradeBySlot(string subscriptionId, string serviceName, string deploymentSlot, RollbackUpdateOrUpgradeInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndRollbackDeploymentUpdateOrUpgradeBySlot(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetPackage(string subscriptionId, string serviceName, string deploymentName, string containerUri, bool overwriteExisting, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndGetPackage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetPackageBySlot(string subscriptionId, string serviceName, string deploymentSlot, string containerUri, bool overwriteExisting, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndGetPackageBySlot(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListDisks(string subscriptionID, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DiskList EndListDisks(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCreateDisk(string subscriptionID, Disk disk, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Disk EndCreateDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetDisk(string subscriptionID, string diskName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Disk EndGetDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateDisk(string subscriptionID, string diskName, Disk disk, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Disk EndUpdateDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteDisk(string subscriptionID, string diskName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginAddRole(string subscriptionID, string serviceName, string deploymentName, Role role, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndAddRole(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetRole(string subscriptionID, string serviceName, string deploymentName, string roleName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Role EndGetRole(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateRole(string subscriptionID, string serviceName, string deploymentName, string roleName, Role role, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateRole(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteRole(string subscriptionID, string serviceName, string deploymentName, string roleName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteRole(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginAddDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, DataVirtualHardDisk dataDisk, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndAddDataDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, DataVirtualHardDisk dataDisk, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUpdateDataDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DataVirtualHardDisk EndGetDataDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteDataDisk(string subscriptionID, string serviceName, string deploymentName, string roleName, string lun, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteDataDisk(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginExecuteRoleOperation(string subscriptionID, string serviceName, string deploymentName, string roleInstanceName, RoleOperation roleOperation, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndExecuteRoleOperation(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDownloadRDPFile(string subscriptionID, string serviceName, string deploymentName, string instanceName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.IO.Stream EndDownloadRDPFile(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginIsDNSAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AvailabilityResponse EndIsDNSAvailable(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginPrepareImageUpload(string subscriptionId, string imageName, PrepareImageUploadInput input, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndPrepareImageUpload(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetImageReference(string subscriptionID, string imageName, string expiry, string permission, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MachineImageReference EndGetImageReference(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCommitImageUpload(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndCommitImageUpload(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListImages(string subscriptionID, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MachineImageList EndListImages(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetImageProperties(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MachineImage EndGetImageProperties(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetImageProperties(string subscriptionID, string imageName, SetMachineImagePropertiesInput imageProperties, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetImageProperties(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetParentImage(string subscriptionID, string imageName, SetParentImageInput parentImageInput, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetParentImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetNetworkConfiguration(string subscriptionId, System.IO.Stream networkConfiguration, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetNetworkConfiguration(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetNetworkConfiguration(string subscriptionId, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.IO.Stream EndGetNetworkConfiguration(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListVirtualNetworkSites(string subscriptionId, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public VirtualNetworkSiteList EndListVirtualNetworkSites(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetVirtualNetworkGatewayConfiguration(string subscriptionId, string virtualnetworkId, VirtualNetworkGatewayConfiguration gatewayConfiguration, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetVirtualNetworkGatewayConfiguration(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListOSImages(string subscriptionID, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImageList EndListOSImages(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginCreateOSImage(string subscriptionID, OSImage image, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImage EndCreateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImage EndGetOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUpdateOSImage(string subscriptionID, string imageName, OSImage image, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImage EndUpdateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginIsStorageServiceAvailable(string subscriptionID, string serviceName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetAzureWebsites(string subscriptionId, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndGetAzureWebsites(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetSubscription(string subscriptionID, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Subscription EndGetSubscription(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginListSubscriptionOperations(string subscriptionID, string startTime, string endTime, string objectIdFilter, string operationResultFilter, string continuationToken, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public SubscriptionOperationCollection EndListSubscriptionOperations(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginProcessMessage(System.ServiceModel.Channels.Message request, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.ServiceModel.Channels.Message EndProcessMessage(IAsyncResult result)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-

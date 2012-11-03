@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Model;
+    using Properties;
 
     /// <summary>
     /// Create scaffolding for a new node worker role, change cscfg file and csdef to include the added worker role
@@ -27,9 +27,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     {
         internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
+            RoleInfo workerRole;
+            return AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out workerRole);
+        }
+
+        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath, out RoleInfo workerRole)
+        {
             string result;
             AzureService service = new AzureService(rootPath, null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
             try
             {
                 service.ChangeRolePermissions(workerRole);

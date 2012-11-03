@@ -12,18 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using System.IO;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
 {
+    using System.IO;
+    using CloudService.Model;
+    using CloudService.Properties;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class CsPackTests : TestBase
     {

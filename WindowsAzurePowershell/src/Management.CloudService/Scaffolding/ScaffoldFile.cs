@@ -12,13 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an individual scaffolding file to copy and/or transform.
     /// </summary>

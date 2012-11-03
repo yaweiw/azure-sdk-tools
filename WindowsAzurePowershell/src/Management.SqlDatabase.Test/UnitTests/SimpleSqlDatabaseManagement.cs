@@ -12,14 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Test;
-using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-
-namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTest
+namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
 {
+    using System;
+    using System.Xml;
+    using Management.Test.Tests.Utilities;
+    using Services;
+    using VisualStudio.TestTools.UnitTesting;
+
     /// <summary>
     /// Simple implementation of the <see cref="ISqlDatabaseManagement"/> interface that can be
     /// used for mocking basic interactions without involving Azure directly.

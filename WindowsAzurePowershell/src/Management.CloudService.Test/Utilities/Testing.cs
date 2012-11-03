@@ -12,14 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Diagnostics;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
     /// </summary>
@@ -40,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             where T : Exception
         {
             Debug.Assert(action != null);
-            
+
             try
             {
                 action();
@@ -78,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 Assert.AreEqual<string>(ex.Message, expectedMessage);
             }
         }
-        
+
         /// <summary>
         /// Ensure an action throws a specific type of Exception.
         /// </summary>
@@ -94,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         {
             Debug.Assert(action != null);
             Debug.Assert(verification != null);
-            
+
             try
             {
                 action();
@@ -106,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 verification(ex as T);
             }
         }
-        
+
         /// <summary>
         /// Get the path to a file included in the test project as something to
         /// be copied on Deployment (see Local.testsettings > Deployment for
@@ -149,6 +152,39 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                     pair.Value(path);
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets worker role object from service definition.
+        /// </summary>
+        /// <param name="servicePath">The azure service root path</param>
+        /// <returns>The worker role object</returns>
+        internal static WorkerRole GetWorkerRole(string servicePath, string name)
+        {
+            AzureService service = new AzureService(servicePath, null);
+            return service.Components.GetWorkerRole(name);
+        }
+
+        /// <summary>
+        /// Gets web role object from service definition.
+        /// </summary>
+        /// <param name="servicePath">The azure service root path</param>
+        /// <returns>The web role object</returns>
+        internal static WebRole GetWebRole(string servicePath, string name)
+        {
+            AzureService service = new AzureService(servicePath, null);
+            return service.Components.GetWebRole(name);
+        }
+
+        /// <summary>
+        /// Gets the role settings object from cloud service configuration.
+        /// </summary>
+        /// <param name="servicePath">The azure service root path</param>
+        /// <returns>The role settings object</returns>
+        internal static RoleSettings GetRole(string servicePath, string name)
+        {
+            AzureService service = new AzureService(servicePath, null);
+            return service.Components.GetCloudConfigRole(name);
         }
     }
 }

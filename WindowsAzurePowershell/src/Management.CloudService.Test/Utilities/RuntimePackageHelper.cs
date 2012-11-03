@@ -142,14 +142,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                webRole.Startup.Task[0].Environment = environment;
+                CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment = environment;
                 return true;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                workerRole.Startup.Task[0].Environment = environment;
+                CloudRuntime.GetRuntimeStartupTask(workerRole.Startup).Environment = environment;
                 return true;
             }
 
@@ -191,13 +191,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             WebRole webRole;
             if (TryGetWebRole(definition, roleName, out webRole))
             {
-                return webRole.Startup.Task[0].Environment;
+                return CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment;
             }
 
             WorkerRole workerRole;
             if (TryGetWorkerRole(definition, roleName, out workerRole))
             {
-                return workerRole.Startup.Task[0].Environment;
+                return CloudRuntime.GetRuntimeStartupTask(workerRole.Startup).Environment;
             }
 
             return null;

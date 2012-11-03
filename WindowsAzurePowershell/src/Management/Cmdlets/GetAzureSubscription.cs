@@ -15,22 +15,26 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
-    using System.Management.Automation;
-    using System.Linq;
-    using System.ServiceModel;
     using System.Collections.Generic;
-    using Samples.WindowsAzure.ServiceManagement;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.ServiceModel;
     using Common;
     using Extensions;
     using Model;
     using Properties;
+    using Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Gets details about subscriptions.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
-    public class GetAzureSubscriptionCommand : ServiceManagementCmdletBase
+    public class GetAzureSubscriptionCommand : CloudBaseCmdlet<IServiceManagement>
     {
+        public GetAzureSubscriptionCommand()
+        {
+            this.SkipChannelInit = true;
+        }
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
@@ -152,10 +156,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             }
         }
 
-        protected override void ProcessRecord()
+        protected override void OnProcessRecord()
         {
-            SkipChannelInit = true;
-            base.ProcessRecord();
             GetSubscriptionProcess(ParameterSetName, SubscriptionName, this.ResolvePath(SubscriptionDataFile));
         }
     }

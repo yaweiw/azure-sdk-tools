@@ -178,7 +178,7 @@
     <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
   <data name="RemoveDefaultSubscription" xml:space="preserve">
-    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
+    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
   </data>
   <data name="ServiceNameExists" xml:space="preserve">
     <value>The provided service name {0} already exists, please pick another name</value>
@@ -235,7 +235,7 @@
     <value>You MUST specify a certificate. Call Set-AzureSubscription and Select-AzureSubscription first.</value>
   </data>
   <data name="InvalidDefaultSubscription" xml:space="preserve">
-    <value>No default subscription has been designated. Use Set-AzureSubscription &lt;subscriptionName&gt; -DefaultSubscription to set the default subscription.</value>
+    <value>No default subscription has been designated. Use Set-AzureSubscription -DefaultSubscription &lt;subscriptionName&gt; to set the default subscription.</value>
   </data>
   <data name="InvalidSelectedSubscription" xml:space="preserve">
     <value>No subscription is currently selected. Use Select-Subscription to activate a subscription.</value>
@@ -248,5 +248,33 @@
   </data>
   <data name="InvalidEndpoint" xml:space="preserve">
     <value>Invalid service endpoint.</value>
+  </data>
+  <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
+    <value>Azure service management error
+{0}</value>
+  </data>
+  <data name="AzureHostNameSuffix" xml:space="preserve">
+    <value>.azurewebsites.net</value>
+  </data>
+  <data name="AzureHostNameSuffixEnv" xml:space="preserve">
+    <value>AZURE_HOSTNAME_SUFFIX</value>
+  </data>
+  <data name="AzurePortalUrl" xml:space="preserve">
+    <value>https://manage.windowsazure.com</value>
+  </data>
+  <data name="AzurePortalUrlEnv" xml:space="preserve">
+    <value>AZURE_PORTAL_URL</value>
+  </data>
+  <data name="BlobEndpointUri" xml:space="preserve">
+    <value>https://{0}.blob.core.windows.net/</value>
+  </data>
+  <data name="BlobEndpointUriEnv" xml:space="preserve">
+    <value>AZURE_BLOBSTORAGE_TEMPLATE</value>
+  </data>
+  <data name="PublishSettingsUrlEnv" xml:space="preserve">
+    <value>AZURE_PUBLISHINGPROFILE_URL</value>
+  </data>
+  <data name="ServiceDefinitionFileName" xml:space="preserve">
+    <value>ServiceDefinition.csdef</value>
   </data>
 </root>

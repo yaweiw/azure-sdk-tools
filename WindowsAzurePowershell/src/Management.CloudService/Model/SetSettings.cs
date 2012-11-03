@@ -12,18 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Management.Automation;
-using Microsoft.WindowsAzure.Management.CloudService.Services;
-using Microsoft.WindowsAzure.Management.CloudService.WAPPSCmdlet;
-using Microsoft.WindowsAzure.Management.Services;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    public class SetSettings : DeploymentServiceManagementCmdletBase
+    using System.Management.Automation;
+    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+
+    public class SetSettings : CloudCmdlet<IServiceManagement>
     {
         // Uncomment this to enable global set for settings
         //[Parameter(Position = 1, Mandatory = false)]
@@ -32,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         internal string GetServiceSettingsPath(bool global)
         {
-            return new AzureService(base.GetServiceRootPath(), null).Paths.Settings;
+            return new AzureService(GetServiceRootPath(), null).Paths.Settings;
         }
     }
 }

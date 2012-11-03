@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Model
 {
     using System;
     using System.Security.Cryptography.X509Certificates;
-    using Samples.WindowsAzure.ServiceManagement;
     using System.ServiceModel;
+    using Samples.WindowsAzure.ServiceManagement;
     using Utilities;
 
     public class SubscriptionData
