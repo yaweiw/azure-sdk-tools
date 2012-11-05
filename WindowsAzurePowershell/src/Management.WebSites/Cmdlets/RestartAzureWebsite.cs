@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.WindowsAzure.Management.WebSites.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Websites.Services;
     using Microsoft.WindowsAzure.Management.Websites.Properties;

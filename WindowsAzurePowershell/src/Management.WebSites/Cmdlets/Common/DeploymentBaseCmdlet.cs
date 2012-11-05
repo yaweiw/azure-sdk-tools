@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using Properties;
     using Services;
     using Services.WebEntities;
-    using WebSites.Cmdlets.Common;
+    using Websites.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
