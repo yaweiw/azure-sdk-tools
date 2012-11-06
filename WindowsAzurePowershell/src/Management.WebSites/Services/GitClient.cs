@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using WebEntities;
