@@ -26,9 +26,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Properties;
     using Services;
     using Services.WebEntities;
-    using Websites.Cmdlets.Common;
-    using Services.Github;
     using Common;
+    using Services.Github;
 
     /// <summary>
     /// Creates a new azure website.

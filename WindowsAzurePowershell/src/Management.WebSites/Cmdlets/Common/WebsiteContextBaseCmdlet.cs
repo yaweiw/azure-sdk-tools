@@ -17,8 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Websites.Cmdlets.Common;
-    using Websites.Services;
+    using Services;
 
     public abstract class WebsiteContextBaseCmdlet : WebsitesBaseCmdlet
     {
