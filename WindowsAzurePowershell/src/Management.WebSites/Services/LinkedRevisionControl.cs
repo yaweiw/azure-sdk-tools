@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
     public abstract class LinkedRevisionControl : IDisposable
     {
-        protected string invocationPath;
+        protected string InvocationPath;
         public abstract void Init();
         public abstract void Deploy(Site siteData);
 
@@ -37,11 +37,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             if (!File.Exists(".gitignore"))
             {
                 // Scaffold gitignore
-                string cmdletPath = Directory.GetParent(invocationPath).FullName;
+                string cmdletPath = Directory.GetParent(InvocationPath).FullName;
                 File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/.gitignore"), ".gitignore");
             }
         }
 
-        public abstract void Dispose();
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+        }
     }
 }
