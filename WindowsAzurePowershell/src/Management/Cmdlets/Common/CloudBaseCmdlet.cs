@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using Samples.WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Utilities;
-    using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
+    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase<T>
         where T : class
@@ -128,27 +128,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected virtual void OnProcessRecord()
         {
             //Intentionally left blank.
-        }
-
-        /// <summary>
-        /// Invoke the given operation within an OperationContextScope if the
-        /// channel supports it.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        protected void InvokeInOperationContext(Action action)
-        {
-            IContextChannel contextChannel = Channel as IContextChannel;
-            if (contextChannel != null)
-            {
-                using (new OperationContextScope(contextChannel))
-                {
-                    action();
-                }
-            }
-            else
-            {
-                action();
-            }
         }
 
         /// <summary>
@@ -352,13 +331,36 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
             return operation;
         }
+
+        /// <summary>
+        /// Invoke the given operation within an OperationContextScope if the
+        /// channel supports it.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void InvokeInOperationContext(Action action)
+        {
+            IContextChannel contextChannel = Channel as IContextChannel;
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    action();
+                }
+            }
+            else
+            {
+                action();
+            }
+        }
+
         protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
         {
             if (input != null)
             {
                 this.WriteVerboseOutputForObject(input);
             }
-            this.RetryCall(action);
+
+            RetryCall(action);
             Operation operation = waitOperation(operationDescription);
             var context = new ManagementOperationContext
             {
@@ -372,82 +374,110 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            if (input != null)
             {
-                try
-                {
-                    if (input != null)
-                    {
-                        this.WriteVerboseOutputForObject(input);
-                    }
-                    this.RetryCall(action);
-                    Operation operation = waitOperation(operationDescription);
-                    var context = new ManagementOperationContext
-                    {
-                        OperationDescription = operationDescription,
-                        OperationId = operation.OperationTrackingId,
-                        OperationStatus = operation.Status
-                    };
+                this.WriteVerboseOutputForObject(input);
+            }
 
-                    WriteObject(context, true);
-                }
-                catch (CommunicationException ex)
+            IContextChannel contextChannel = Channel as IContextChannel;
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
                 {
-                    this.WriteErrorDetails(ex);
+                    try
+                    {
+                        RetryCall(action);
+                        Operation operation = waitOperation(operationDescription);
+                        var context = new ManagementOperationContext
+                        {
+                            OperationDescription = operationDescription,
+                            OperationId = operation.OperationTrackingId,
+                            OperationStatus = operation.Status
+                        };
+
+                        WriteObject(context, true);
+                    }
+                    catch (CommunicationException ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
                 }
+            }
+            else
+            {
+                RetryCall(action);
             }
         }
 
         protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            if (input != null)
             {
-                try
+                this.WriteVerboseOutputForObject(input);
+            }
+
+            IContextChannel contextChannel = Channel as IContextChannel;
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
                 {
-                    if (input != null)
+                    try
                     {
-                        this.WriteVerboseOutputForObject(input);
+                        TResult result = RetryCall(action);
+                        Operation operation = waitOperation(operationDescription);
+                        if (result != null)
+                        {
+                            object context = contextFactory(operation, result);
+                            WriteObject(context, true);
+                        }
                     }
-                    TResult result = this.RetryCall(action);
-                    Operation operation = waitOperation(operationDescription);
-                    if (result != null)
+                    catch (CommunicationException ex)
                     {
-                        object context = contextFactory(operation, result);
-                        WriteObject(context, true);
+                        WriteErrorDetails(ex);
                     }
                 }
-                catch (CommunicationException ex)
-                {
-                    this.WriteErrorDetails(ex);
-                }
+            }
+            else
+            {
+                RetryCall(action);
             }
         }
 
         protected TResult ExecuteClientGetAction<TResult, TChannelResult>(Func<string, TChannelResult> channelCall, Func<TChannelResult, TResult> resultFactory, out Operation operation)
         {
             operation = null;
-            try
+
+            IContextChannel contextChannel = Channel as IContextChannel;
+            if (contextChannel != null)
             {
-                using (new OperationContextScope((IContextChannel)Channel))
+                try
                 {
-                    var deployment = this.RetryCall(channelCall);
+                    using (new OperationContextScope(contextChannel))
+                    {
+                        var deployment = RetryCall(channelCall);
 
-                    operation = WaitForOperation(CommandRuntime.ToString());
+                        operation = WaitForOperation(CommandRuntime.ToString());
 
-                    return resultFactory(deployment);
+                        return resultFactory(deployment);
+                    }
+                }
+                catch (CommunicationException ex)
+                {
+                    if (ex is EndpointNotFoundException && !IsVerbose())
+                    {
+                        return default(TResult);
+                    }
+
+                    WriteErrorDetails(ex);
                 }
             }
-            catch (CommunicationException ex)
+            else
             {
-                if (ex is EndpointNotFoundException && !IsVerbose())
-                {
-                    return default(TResult);
-                }
-
-                this.WriteErrorDetails(ex);
+                var deployment = RetryCall(channelCall);
+                return resultFactory(deployment);
             }
+
             return default(TResult);
         }
-
     }
 }
