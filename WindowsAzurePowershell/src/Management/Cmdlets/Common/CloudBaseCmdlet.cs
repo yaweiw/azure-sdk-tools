@@ -439,7 +439,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
             else
             {
-                RetryCall(action);
+                TResult result = RetryCall(action);
+                if (result != null)
+                {
+                    WriteObject(result, true);
+                }
             }
         }
 
