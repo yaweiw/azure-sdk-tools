@@ -225,9 +225,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             WebSpaces webspaceList = null;
-
             InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
-            if (webspaceList.Count == 0)
+            if (Git && webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);
