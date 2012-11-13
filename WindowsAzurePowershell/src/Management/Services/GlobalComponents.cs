@@ -95,8 +95,12 @@ namespace Microsoft.WindowsAzure.Management.Services
             Validate.ValidateFileExtention(publishSettingsPath, Resources.PublishSettingsFileExtention);
 
             PublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsPath, string.Format(Resources.InvalidPublishSettingsSchema, publishSettingsPath));
-            Certificate = new X509Certificate2(Convert.FromBase64String(PublishSettings.Items[0].ManagementCertificate), string.Empty);
-            PublishSettings.Items[0].ManagementCertificate = Certificate.Thumbprint;
+            if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+            {
+                Certificate = new X509Certificate2(Convert.FromBase64String(PublishSettings.Items.First().ManagementCertificate), string.Empty);
+                PublishSettings.Items.First().ManagementCertificate = Certificate.Thumbprint;
+            }
+            
             SubscriptionManager = SubscriptionsManager.Import(subscriptionsDataFile, PublishSettings, Certificate);
             ServiceConfiguration = new ServiceConfiguration
             {
@@ -117,9 +121,13 @@ namespace Microsoft.WindowsAzure.Management.Services
 
             var publishDataProfile = new PublishDataPublishProfile
             {
-                ManagementCertificate = certificate.Thumbprint,
                 Url = ServiceConfiguration.endpoint
             };
+
+            if (Certificate != null)
+            {
+                publishDataProfile.ManagementCertificate = certificate.Thumbprint;
+            }
 
             if (SubscriptionManager.Subscriptions != null &&
                 SubscriptionManager.Subscriptions.Count > 0)
@@ -146,7 +154,11 @@ namespace Microsoft.WindowsAzure.Management.Services
             Validate.ValidateFileExists(GlobalPaths.PublishSettingsFile, string.Format(Resources.PathDoesNotExistForElement, Resources.PublishSettingsFileName, GlobalPaths.PublishSettingsFile));
 
             PublishSettings = General.DeserializeXmlFile<PublishData>(GlobalPaths.PublishSettingsFile);
-            Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
+            if (!string.IsNullOrEmpty(PublishSettings.Items.First().ManagementCertificate))
+            {
+                Certificate = General.GetCertificateFromStore(PublishSettings.Items.First().ManagementCertificate);
+            }
+
             SubscriptionManager = SubscriptionsManager.Import(GlobalPaths.SubscriptionsDataFile);
             ServiceConfiguration = new JavaScriptSerializer().Deserialize<ServiceConfiguration>(File.ReadAllText(GlobalPaths.ServiceConfigurationFile));
             var defaultSubscription = SubscriptionManager.Subscriptions.Values.FirstOrDefault(subscription => 
@@ -170,9 +182,10 @@ namespace Microsoft.WindowsAzure.Management.Services
 
             // Save certificate in the store
             //
-            General.AddCertificateToStore(Certificate);
-
-            // TODO: Save certificate in the file system
+            if (Certificate != null)
+            {
+                General.AddCertificateToStore(Certificate);
+            }
 
             // Save service configuration
             //

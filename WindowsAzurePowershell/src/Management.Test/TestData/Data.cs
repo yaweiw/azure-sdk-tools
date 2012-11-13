@@ -24,9 +24,11 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
     static class Data
     {
         public static string Subscription1 = "Windows Azure Sandbox 9-220";
+        public static string SampleSubscription1 = "Sample Subscription 1";
 
         public static List<string> ValidServiceName { get; private set; }
         public static List<string> ValidPublishSettings { get; private set; }
+        public static List<string> ValidPublishSettings2 { get; private set; }
         public static List<string> ValidSubscriptionsData { get; private set; }
         public static List<string> ValidSubscriptionName { get; private set; }
         public static List<string> ValidServiceRootName { get; private set; }
@@ -47,6 +49,9 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
 
             ValidPublishSettings = new List<string>();
             InitializeValidPublishSettingsData();
+
+            ValidPublishSettings2 = new List<string>();
+            InitializeValidPublishSettings2Data();
 
             ValidSubscriptionsData = new List<string>();
             InitializeValidSubscriptionsData();
@@ -89,6 +94,11 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
         private static void InitializeValidPublishSettingsData()
         {
             ValidPublishSettings.Add(Testing.GetTestResourcePath("ValidProfile.PublishSettings"));
+        }
+
+        private static void InitializeValidPublishSettings2Data()
+        {
+            ValidPublishSettings2.Add(Testing.GetTestResourcePath("ValidProfile2.PublishSettings"));
         }
 
         private static void InitializeValidSubscriptionsData()
