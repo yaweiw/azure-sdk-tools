@@ -70,6 +70,8 @@ namespace Microsoft.WindowsAzure.Management.XmlSchema
 
         private string managementCertificateField;
 
+        private string SchemaVersionField;
+        
         /// <remarks/>
         [XmlElement("Subscription", Form = System.Xml.Schema.XmlSchemaForm.Unqualified)]
         public PublishDataPublishProfileSubscription[] Subscription
@@ -125,6 +127,20 @@ namespace Microsoft.WindowsAzure.Management.XmlSchema
                 this.managementCertificateField = value;
             }
         }
+
+        /// <remarks/>
+        [XmlAttribute()]
+        public string SchemaVersion
+        {
+            get
+            {
+                return this.SchemaVersionField;
+            }
+            set
+            {
+                this.SchemaVersionField = value;
+            }
+        }
     }
 
     /// <remarks/>
@@ -139,6 +155,10 @@ namespace Microsoft.WindowsAzure.Management.XmlSchema
         private string idField;
 
         private string nameField;
+
+        private string serviceManagementUrlField;
+
+        private string managementCertificateField;
 
         /// <remarks/>
         [XmlAttribute()]
@@ -165,6 +185,34 @@ namespace Microsoft.WindowsAzure.Management.XmlSchema
             set
             {
                 this.nameField = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlAttribute()]
+        public string ServiceManagementUrl
+        {
+            get
+            {
+                return this.serviceManagementUrlField;
+            }
+            set
+            {
+                this.serviceManagementUrlField = value;
+            }
+        }
+
+        /// <remarks/>
+        [XmlAttribute()]
+        public string ManagementCertificate
+        {
+            get
+            {
+                return this.managementCertificateField;
+            }
+            set
+            {
+                this.managementCertificateField = value;
             }
         }
     }
