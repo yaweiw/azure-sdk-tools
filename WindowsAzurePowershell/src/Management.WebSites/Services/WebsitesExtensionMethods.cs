@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
         {
             WebSpaces webSpaces = Cache.GetWebSpaces(subscriptionName);
-            if (webSpaces != null)
+            if (webSpaces != null && webSpaces.Count > 0)
             {
                 return webSpaces;
             }
