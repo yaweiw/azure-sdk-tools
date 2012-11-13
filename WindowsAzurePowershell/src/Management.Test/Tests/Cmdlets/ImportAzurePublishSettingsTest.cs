@@ -63,6 +63,22 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             Assert.IsTrue(currentSubscription.IsDefault);
         }
 
+
+        [TestMethod]
+        public void TestImportSubscriptionPublishSettingsSecondVersionOnlyProcess()
+        {
+            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
+            importSubscriptionCommand.ImportSubscriptionProcess(
+                Data.ValidPublishSettings2.First(),
+                null);
+
+            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            Assert.AreEqual(Data.SampleSubscription1, currentSubscription.SubscriptionName);
+            Assert.AreEqual("https://newmanagement.core.windows.net/", currentSubscription.ServiceEndpoint);
+            Assert.IsNotNull(currentSubscription.Certificate);
+            Assert.IsTrue(currentSubscription.IsDefault);
+        }
+
         [TestMethod]
         public void TestImportSubscriptionPublishSettingsOnlyMultipleTimesProcess()
         {
