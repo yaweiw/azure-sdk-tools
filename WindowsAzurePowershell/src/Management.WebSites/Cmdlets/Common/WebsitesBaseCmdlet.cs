@@ -62,8 +62,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                                                             serviceError.Parameters.First());
                         }
                         else if (serviceError.MessageTemplate.Equals(Resources.CannotFind) &&
-                                 "WebSpace".Equals(serviceError.Parameters.FirstOrDefault()) ||
-                                 "GeoRegion".Equals(serviceError.Parameters.FirstOrDefault()))
+                                 ("WebSpace".Equals(serviceError.Parameters.FirstOrDefault()) ||
+                                 "GeoRegion".Equals(serviceError.Parameters.FirstOrDefault())))
                         {
                             message = string.Format(Resources.CannotFind, "Location",
                                                             serviceError.Parameters[1]);
