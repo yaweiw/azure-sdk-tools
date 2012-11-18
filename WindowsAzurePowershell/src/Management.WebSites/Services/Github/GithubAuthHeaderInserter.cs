@@ -62,13 +62,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
             return null;
         }
 
-        public static string GetDomain(string username)
-        {
-            string s = username;
-            int stop = s.IndexOf("\\");
-            return (stop > -1) ? s.Substring(0, stop) : string.Empty;
-        }
-
         public static string GetLogin(string username)
         {
             string s = username;
