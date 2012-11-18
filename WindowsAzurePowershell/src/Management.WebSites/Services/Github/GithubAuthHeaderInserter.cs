@@ -46,7 +46,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
         {
             //Get the HttpRequestMessage property from the message
             var httpreq = request.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
-            byte[] authbytes = Encoding.ASCII.GetBytes(string.Concat(Username, ":", Password));
+            string username = GetLogin(Username);
+            byte[] authbytes = Encoding.ASCII.GetBytes(string.Concat(username, ":", Password));
             string base64 = Convert.ToBase64String(authbytes);
             string authorization = string.Concat("Basic ", base64);
 
@@ -59,6 +60,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.Github
             httpreq.Headers["authorization"] = authorization;
 
             return null;
+        }
+
+        public static string GetDomain(string username)
+        {
+            string s = username;
+            int stop = s.IndexOf("\\");
+            return (stop > -1) ? s.Substring(0, stop) : string.Empty;
+        }
+
+        public static string GetLogin(string username)
+        {
+            string s = username;
+            int stop = s.IndexOf("\\");
+            return (stop > -1) ? s.Substring(stop + 1, s.Length - stop - 1) : username;
         }
 
         #endregion
