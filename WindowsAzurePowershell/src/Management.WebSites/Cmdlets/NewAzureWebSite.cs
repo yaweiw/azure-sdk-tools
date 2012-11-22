@@ -26,9 +26,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Properties;
     using Services;
     using Services.WebEntities;
-    using WebSites.Cmdlets.Common;
-    using Services.Github;
     using Common;
+    using Services.Github;
 
     /// <summary>
     /// Creates a new azure website.
@@ -226,9 +225,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             WebSpaces webspaceList = null;
-
             InvokeInOperationContext(() => { webspaceList = RetryCall(s => Channel.GetWebSpacesWithCache(s)); });
-            if (webspaceList.Count == 0)
+            if (Git && webspaceList.Count == 0)
             {
                 // If location is still empty or null, give portal instructions.
                 string error = string.Format(Resources.PortalInstructions, Name);

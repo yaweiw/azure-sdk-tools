@@ -117,15 +117,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(2, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
 
-            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as Site;
-            var websiteConfig = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects[1] as SiteConfig;
+            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as SiteWithConfig;
             Assert.IsNotNull(website);
-            Assert.IsNotNull(websiteConfig);
+            Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);
-            Assert.AreEqual("user1", websiteConfig.PublishingUsername);
+            Assert.AreEqual("user1", website.PublishingUsername);
         }
     }
 }

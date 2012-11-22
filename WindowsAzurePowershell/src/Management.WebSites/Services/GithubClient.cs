@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             Pscmdlet = pscmdlet;
             if (Pscmdlet.MyInvocation != null)
             {
-                invocationPath = Pscmdlet.MyInvocation.MyCommand.Module.Path;
+                InvocationPath = Pscmdlet.MyInvocation.MyCommand.Module.Path;
             }
 
             Credentials = credentials;
@@ -169,12 +169,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
 
         private bool RepositoryMatchUri(GithubRepository githubRepository, string remoteUri)
         {
-            UriBuilder uri = new UriBuilder(remoteUri) { UserName = null, Password = null };
-            string cleanUri = uri.ToString();
+            string cleanUri;
+            try
+            {
+                UriBuilder uri = new UriBuilder(remoteUri) {UserName = null, Password = null};
+                cleanUri = uri.ToString();
+            }
+            catch
+            {
+                // Fail gracefully to handle ssh scenario
+                cleanUri = remoteUri;
+            }
 
             return new UriBuilder(githubRepository.CloneUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase)
                 || new UriBuilder(githubRepository.HtmlUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase)
-                || new UriBuilder(githubRepository.GitUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase);
+                || new UriBuilder(githubRepository.GitUrl).ToString().Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase)
+                || githubRepository.SshUrl.Equals(cleanUri, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public override void Init()
@@ -248,7 +258,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             else
             {
                 factory = new WebChannelFactory<IGithubServiceManagement>(remoteUri);
-                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter() {Username = username, Password = password});
+                factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter {Username = username, Password = password});
 
                 WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
                 wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
@@ -291,11 +301,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            foreach (var factory in _factories.Values)
+            if (disposing)
             {
-                factory.Close();
+                foreach (var factory in _factories.Values)
+                {
+                    factory.Close();
+                }
             }
         }
     }
