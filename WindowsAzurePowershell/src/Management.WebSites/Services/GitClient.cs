@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     {
         public GitClient(PSCmdlet pscmdlet)
         {
-            invocationPath = pscmdlet.MyInvocation.MyCommand.Module.Path;
+            InvocationPath = pscmdlet.MyInvocation.MyCommand.Module.Path;
         }
 
         public override void Init()
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             // Do nothing
         }
 
-        public override void Dispose()
+        protected override void Dispose(bool disposing)
         {
             // Do nothing
         }
