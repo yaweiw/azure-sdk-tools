@@ -41,8 +41,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Create scaffolding structure
             //
             newService = new AzureService(parentDirectory, serviceName, null);
+
+            PSObject outputObject = new PSObject();
+            outputObject.Properties.Add(new PSNoteProperty("Name", newService.ServiceName));
+            outputObject.Properties.Add(new PSNoteProperty("Path", newService.Paths.RootPath));
+            outputObject.TypeNames.Add(newService.GetType().FullName);
             
             message = string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath);
+
+            WriteVerbose(message);
+
+            WriteObject(outputObject);
 
             return message;
         }
@@ -60,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 // Set current directory to the root of the new service
                 //
                 SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
-                SafeWriteObject(result);
+                //SafeWriteObject(result);
             }
             catch (Exception ex)
             {
