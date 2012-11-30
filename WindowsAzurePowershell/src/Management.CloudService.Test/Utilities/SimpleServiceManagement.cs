@@ -1827,5 +1827,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             return serviceBusNamespase;
         }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusRegionList> ListServiceBusRegionsThunk { get; set; }
+        public IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusRegionList EndListServiceBusRegions(IAsyncResult asyncResult)
+        {
+            ServiceBusRegionList serviceBusNamespase = new ServiceBusRegionList();
+
+            if (ListServiceBusRegionsThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = ListServiceBusRegionsThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ListServiceBusRegionsThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
     }
 }
