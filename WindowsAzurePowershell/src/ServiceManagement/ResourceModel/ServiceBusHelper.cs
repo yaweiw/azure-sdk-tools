@@ -59,11 +59,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
         {
             return originalFormatter.SerializeRequest(messageVersion, parameters);
-            //string body = "<foo>bar</foo>";
-            //message msg1 = originalformatter.serializerequest(messageversion, parameters);
-            //message msg = message.createmessage(messageversion, null, new ServiceBusBodyWriter(body));
-            //msg.headers.copyheadersfrom(msg1);
-            //msg.properties.copyproperties(msg1.properties);
         }
     }
 
