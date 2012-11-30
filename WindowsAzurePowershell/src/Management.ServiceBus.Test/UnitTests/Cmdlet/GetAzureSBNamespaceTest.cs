@@ -27,20 +27,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
+        SimpleServiceManagement channel;
+        FakeWriter writer;
+        GetAzureSBNamespaceCommand cmdlet;
+
         [TestInitialize]
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            channel = new SimpleServiceManagement();
+            writer = new FakeWriter();
+            cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
         }
 
         [TestMethod]
-        public void GetAzureSBNamesapceSuccessfull()
+        public void GetAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string name = "test";
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Name = name, Writer = writer };
+            cmdlet.Name = name;
             Namespace expected = new Namespace { Name = name };
             channel.GetNamespaceThunk = gn => { return expected; };
 
@@ -53,13 +58,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         }
 
         [TestMethod]
-        public void GetAzureSBNamesapceWithNotExistingNameFail()
+        public void GetAzureSBNamespaceWithNotExistingNameFail()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string expected = Resources.ServiceBusNamespaceMissingMessage;
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Name = "not exiting name", Writer = writer };
+            cmdlet.Name = "not existing name";
             channel.GetNamespaceThunk = gn => {  throw new Exception("Internal Server Error"); };
 
             // Test
@@ -74,11 +77,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void ListNamespacesSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string name1 = "test1";
             string name2 = "test2";
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
             NamespaceList expected = new NamespaceList();
             expected.Add(new Namespace { Name = name1 });
             expected.Add(new Namespace { Name = name2 });
