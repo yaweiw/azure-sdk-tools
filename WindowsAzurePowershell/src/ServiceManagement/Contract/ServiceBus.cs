@@ -43,6 +43,16 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         IAsyncResult BeginListNamespaces(string subscriptionId, AsyncCallback callback, object state);
 
         NamespaceList EndListNamespaces(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Gets service bus namespaces associated with a subscription.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [ListServiceBusRegionsBehavior]
+        [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/regions")]
+        IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state);
+
+        ServiceBusRegionList EndListServiceBusRegions(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceManagementExtensionMethods
@@ -55,6 +65,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         public static NamespaceList ListNamespaces(this IServiceManagement proxy, string subscriptionId)
         {
             return proxy.EndListNamespaces(proxy.BeginListNamespaces(subscriptionId, null, null));
+        }
+
+        public static ServiceBusRegionList ListServiceBusRegions(this IServiceManagement proxy, string subscriptionId)
+        {
+            return proxy.EndListServiceBusRegions(proxy.BeginListServiceBusRegions(subscriptionId, null, null));
         }
     }
 }
