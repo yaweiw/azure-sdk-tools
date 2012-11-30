@@ -1766,5 +1766,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         {
             throw new NotImplementedException();
         }
+
+        public IAsyncResult BeginGetNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            
+            return result;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, Namespace> GetNamespaceThunk { get; set; }
+        public Namespace EndGetNamespace(IAsyncResult asyncResult)
+        {
+            Namespace serviceBusNamespase = new Namespace();
+
+            if (GetNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = GetNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetNamespaceThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
     }
 }

@@ -45,6 +45,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             set;
         }
 
+        public IMessageWriter Writer { get { return writer; } set { writer = value; } }
+
         protected T Channel
         {
             get;
@@ -166,6 +168,16 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
+        protected void WriteOutputObject(object sendToPipeline)
+        {
+            SafeWriteObjectInternal(sendToPipeline);
+
+            if (writer != null)
+            {
+                writer.WriteObject(sendToPipeline);
+            }
+        }
+
         protected void SafeWriteObjectWithTimestamp(string message, params object[] args)
         {
             SafeWriteObject(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
@@ -212,6 +224,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             else
             {
                 Trace.WriteLine(errorRecord);
+            }
+
+            if (writer != null)
+            {
+                writer.WriteError(errorRecord);
             }
         }
         /// <summary>

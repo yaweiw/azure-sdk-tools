@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright 2011 Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,23 +12,31 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
+    using System;
     using System.Collections.Generic;
-using System.Management.Automation;
+    using System.Runtime.Serialization;
 
-    public interface IMessageWriter
+    /// <summary>
+    /// Represents single service bus namespace
+    /// </summary>
+    public class Namespace
     {
-        List<string> Messages { get; }
+        public string Name { get; set; }
 
-        List<object> OutputChannel { get; }
+        public string Region { get; set; }
 
-        List<ErrorRecord> ErrorChannel { get; }
-        
-        void Write(string message);
+        public string DefaultKey { get; set; }
 
-        void WriteObject(object obj);
+        public string Status { get; set; }
 
-        void WriteError(ErrorRecord error);
+        public string CreatedAt { get; set; }
+
+        public Uri AcsManagementEndpoint { get; set; }
+
+        public Uri ServiceBusEndpoint { get; set; }
+
+        public string ConnectionString { get; set; }
     }
 }
