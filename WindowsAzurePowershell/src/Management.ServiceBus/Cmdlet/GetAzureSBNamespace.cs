@@ -53,13 +53,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// </summary>
         /// <param name="name">The namespace name</param>
         /// <returns>The namespace instance</returns>
-        internal Namespace GetNamespaceProcess(string name)
+        internal Namespace GetNamespaceProcess(string subscriptionId, string name)
         {
             Namespace serviceBusNamespace = null;
 
             try
             {
-                serviceBusNamespace = Channel.GetNamespace(CurrentSubscription.SubscriptionId, name);
+                serviceBusNamespace = Channel.GetNamespace(subscriptionId, name);
                 WriteOutputObject(serviceBusNamespace);
             }
             catch (Exception ex)
@@ -77,9 +77,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// Gets a list of all namespaces associated with a subscription.
         /// </summary>
         /// <returns>The namespace list</returns>
-        internal NamespaceList ListNamespacesProcess()
+        internal NamespaceList ListNamespacesProcess(string subscriptionId)
         {
-            NamespaceList namespaces = Channel.ListNamespaces(CurrentSubscription.SubscriptionId);
+            NamespaceList namespaces = Channel.ListNamespaces(subscriptionId);
             WriteOutputObject(namespaces);
 
             return namespaces;
@@ -94,11 +94,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 
             if (string.IsNullOrEmpty(Name))
             {
-                ListNamespacesProcess();
+                ListNamespacesProcess(CurrentSubscription.SubscriptionId);
             }
             else
             {
-                GetNamespaceProcess(Name);
+                GetNamespaceProcess(CurrentSubscription.SubscriptionId, Name);
             }
         }
     }
