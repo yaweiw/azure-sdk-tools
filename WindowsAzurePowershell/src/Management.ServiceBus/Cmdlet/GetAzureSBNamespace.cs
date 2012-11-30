@@ -15,13 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System;
-    using System.IO;
     using System.Management.Automation;
-    using System.Linq;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
@@ -52,14 +49,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         }
 
         /// <summary>
-        /// Gets service bus namespace by it's name.
+        /// Gets service bus namespace by it's name or lists all namespaces if name is empty.
         /// </summary>
         /// <param name="name">The namespace name</param>
         /// <returns>The namespace instance</returns>
         internal Namespace GetAzureSBNamespaceProcess(string name)
         {
-            Namespace serviceBusNamespace = Channel.GetNamespace(CurrentSubscription.SubscriptionId, name);
-            WriteOutputObject(serviceBusNamespace);
+            Namespace serviceBusNamespace = null;
+
+            try
+            {
+                serviceBusNamespace = Channel.GetNamespace(CurrentSubscription.SubscriptionId, name);
+                WriteOutputObject(serviceBusNamespace);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals("Internal Server Error"))
+                {
+                    SafeWriteError(new Exception(Resources.ServiceBusNamespaceMissingMessage, ex.InnerException));
+                }
+            }
 
             return serviceBusNamespace;
         }

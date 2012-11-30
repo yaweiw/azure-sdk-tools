@@ -14,14 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using System;
     using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
@@ -57,19 +58,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
             FakeWriter writer = new FakeWriter();
-            string errorMessage = "Internal Server Error";
+            string expected = Resources.ServiceBusNamespaceMissingMessage;
             GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Name = "not exiting name", Writer = writer };
-            channel.GetNamespaceThunk = gn => { 
-                writer.WriteError(new ErrorRecord(new Exception(errorMessage), null, ErrorCategory.CloseError, null));
-                return null;
-            };
+            channel.GetNamespaceThunk = gn => {  throw new Exception("Internal Server Error"); };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
             ErrorRecord error = writer.ErrorChannel[0] as ErrorRecord;
-            Assert.AreEqual<string>(errorMessage, error.Exception.Message);
+            Assert.AreEqual<string>(expected, error.Exception.Message);
         }
     }
 }
