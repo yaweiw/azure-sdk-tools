@@ -69,5 +69,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             ErrorRecord error = writer.ErrorChannel[0] as ErrorRecord;
             Assert.AreEqual<string>(expected, error.Exception.Message);
         }
+
+        [TestMethod]
+        public void ListNamespacesSuccessfull()
+        {
+            // Setup
+            SimpleServiceManagement channel = new SimpleServiceManagement();
+            FakeWriter writer = new FakeWriter();
+            string name1 = "test1";
+            string name2 = "test2";
+            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
+            NamespaceList expected = new NamespaceList();
+            expected.Add(new Namespace { Name = name1 });
+            expected.Add(new Namespace { Name = name2 });
+            channel.ListNamespacesThunk = gn => { return expected; };
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            NamespaceList actual = writer.OutputChannel[0] as NamespaceList;
+            Assert.AreEqual<int>(expected.Count, actual.Count);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual<string>(expected[i].Name, actual[i].Name);
+            }
+        }
     }
 }

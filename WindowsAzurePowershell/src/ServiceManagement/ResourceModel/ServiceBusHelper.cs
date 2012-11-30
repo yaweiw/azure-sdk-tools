@@ -39,21 +39,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public object DeserializeReply(Message message, object[] parameters)
         {
-            Namespace serviceBusNamespace = new Namespace();
-            string XNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
-
             XDocument response = XDocument.Parse(message.ToString());
-            XElement element = response.Descendants(XName.Get("NamespaceDescription", XNamespace)).First<XElement>();
-            serviceBusNamespace.Name = element.Element(XName.Get("Name", XNamespace)).Value;
-            serviceBusNamespace.Region = element.Element(XName.Get("Region", XNamespace)).Value;
-            serviceBusNamespace.DefaultKey = element.Element(XName.Get("DefaultKey", XNamespace)).Value;
-            serviceBusNamespace.Status = element.Element(XName.Get("Status", XNamespace)).Value;
-            serviceBusNamespace.CreatedAt = element.Element(XName.Get("CreatedAt", XNamespace)).Value;
-            serviceBusNamespace.AcsManagementEndpoint = new Uri(element.Element(XName.Get("AcsManagementEndpoint", XNamespace)).Value);
-            serviceBusNamespace.ServiceBusEndpoint = new Uri(element.Element(XName.Get("ServiceBusEndpoint", XNamespace)).Value);
-            serviceBusNamespace.ConnectionString = element.Element(XName.Get("ConnectionString", XNamespace)).Value;
-            
-            return serviceBusNamespace;
+            string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
+            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace)).First<XElement>();
+
+            return Namespace.Create(namespaceDescription);
         }
 
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
@@ -72,6 +62,59 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
             clientOperation.Formatter = new GetNamespaceFormatter(clientOperation.Formatter);
+        }
+
+        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Validate(OperationDescription operationDescription)
+        {
+
+        }
+    }
+
+    public class ListNamespacesFormatter : IClientMessageFormatter
+    {
+        private IClientMessageFormatter originalFormatter;
+
+        public ListNamespacesFormatter(IClientMessageFormatter originalFormatter)
+        {
+            this.originalFormatter = originalFormatter;
+        }
+
+        public object DeserializeReply(Message message, object[] parameters)
+        {
+            XDocument response = XDocument.Parse(message.ToString());
+            string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
+            NamespaceList namespaces = new NamespaceList();
+            IEnumerable<XElement> subscriptionNamespaces = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace));
+
+            foreach (XElement namespaceDescription in subscriptionNamespaces)
+            {
+                namespaces.Add(Namespace.Create(namespaceDescription));
+            }
+
+            return namespaces;
+        }
+
+        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
+        {
+            return originalFormatter.SerializeRequest(messageVersion, parameters);
+        }
+    }
+
+    public class ListNamespacesBehaviorAttribute : Attribute, IOperationBehavior
+    {
+        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
+        {
+            // Do nothing.
+        }
+
+        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
+        {
+            clientOperation.Formatter = new ListNamespacesFormatter(clientOperation.Formatter);
         }
 
         public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)

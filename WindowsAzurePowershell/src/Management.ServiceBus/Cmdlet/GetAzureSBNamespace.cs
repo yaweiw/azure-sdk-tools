@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     [Cmdlet(VerbsCommon.Get, "AzureSBNamespace")]
     public class GetAzureSBNamespaceCommand : CloudCmdlet<IServiceManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// </summary>
         /// <param name="name">The namespace name</param>
         /// <returns>The namespace instance</returns>
-        internal Namespace GetAzureSBNamespaceProcess(string name)
+        internal Namespace GetNamespaceProcess(string name)
         {
             Namespace serviceBusNamespace = null;
 
@@ -74,12 +74,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         }
 
         /// <summary>
+        /// Gets a list of all namespaces associated with a subscription.
+        /// </summary>
+        /// <returns>The namespace list</returns>
+        internal NamespaceList ListNamespacesProcess()
+        {
+            NamespaceList namespaces = Channel.ListNamespaces(CurrentSubscription.SubscriptionId);
+            WriteOutputObject(namespaces);
+
+            return namespaces;
+        }
+
+        /// <summary>
         /// Executes the cmdlet.
         /// </summary>
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            GetAzureSBNamespaceProcess(Name);
+
+            if (string.IsNullOrEmpty(Name))
+            {
+                ListNamespacesProcess();
+            }
+            else
+            {
+                GetNamespaceProcess(Name);
+            }
         }
     }
 }
