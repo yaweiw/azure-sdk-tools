@@ -53,6 +53,16 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state);
 
         ServiceBusRegionList EndListServiceBusRegions(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Creates a new service bus namespace.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [CreateServiceBusNamespaceBehavior]
+        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
+        IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state);
+
+        ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceManagementExtensionMethods
@@ -70,6 +80,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         public static ServiceBusRegionList ListServiceBusRegions(this IServiceManagement proxy, string subscriptionId)
         {
             return proxy.EndListServiceBusRegions(proxy.BeginListServiceBusRegions(subscriptionId, null, null));
+        }
+
+        public static ServiceBusNamespace CreateServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, ServiceBusNamespace namespaceDescription, string name)
+        {
+            return proxy.EndCreateServiceBusNamespace(proxy.BeginCreateServiceBusNamespace(subscriptionId, namespaceDescription, name, null, null));
         }
     }
 }

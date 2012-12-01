@@ -182,4 +182,70 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         }
     }
+
+    public class CreateServiceBusNamespaceFormatter : IClientMessageFormatter
+    {
+        private IClientMessageFormatter originalFormatter;
+
+        public CreateServiceBusNamespaceFormatter(IClientMessageFormatter originalFormatter)
+        {
+            this.originalFormatter = originalFormatter;
+        }
+
+        public object DeserializeReply(Message message, object[] parameters)
+        {
+            XDocument response = XDocument.Parse(message.ToString());
+            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace)).First<XElement>();
+
+            return ServiceBusNamespace.Create(namespaceDescription);
+        }
+
+        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
+        {
+            ServiceBusNamespace namespaceDescription = parameters[1] as ServiceBusNamespace;
+            string body = CreateRequestBody(namespaceDescription);
+            Message originalMessage = originalFormatter.SerializeRequest(messageVersion, parameters);
+            Message updatedMessage = Message.CreateMessage(messageVersion, null, new ServiceBusBodyWriter(body));
+            updatedMessage.Headers.CopyHeadersFrom(originalMessage);
+            updatedMessage.Properties.CopyProperties(originalMessage.Properties);
+            HttpRequestMessageProperty property = updatedMessage.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
+            property.Headers.Add("Content-Type", "application/xml");
+            property.Headers.Add("type", "entry");
+            property.Headers.Add("charset", "utf-8");
+
+            return updatedMessage;
+        }
+
+        private string CreateRequestBody(ServiceBusNamespace namespaceDescription)
+        {
+            return new XDocument(
+                new XElement(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace),
+                    new XElement(XName.Get("Name", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Name),
+                    new XElement(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Region)
+                    )).ToString();
+        }
+    }
+
+    public class CreateServiceBusNamespaceBehaviorAttribute : Attribute, IOperationBehavior
+    {
+        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
+        {
+            // Do nothing.
+        }
+
+        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
+        {
+            clientOperation.Formatter = new CreateServiceBusNamespaceFormatter(clientOperation.Formatter);
+        }
+
+        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Validate(OperationDescription operationDescription)
+        {
+
+        }
+    }
 }

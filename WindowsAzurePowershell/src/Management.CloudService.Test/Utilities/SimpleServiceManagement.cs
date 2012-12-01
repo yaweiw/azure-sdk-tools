@@ -1857,5 +1857,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             return serviceBusNamespase;
         }
+
+
+        public IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
