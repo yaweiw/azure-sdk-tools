@@ -16,34 +16,43 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml.Linq;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using System.Runtime.Serialization;
+using System.Xml.Linq;
 
     /// <summary>
     /// List of service bus namespaces.
     /// </summary>
-    public class NamespaceList : List<Namespace>
+    public class ServiceBusNamespaceList : List<ServiceBusNamespace>
     {
-        
+        public ServiceBusNamespaceList()
+        {
+
+        }
+
+        public ServiceBusNamespaceList(IEnumerable<ServiceBusNamespace> namespaces) : base(namespaces)
+        {
+
+        }
     }
 
     /// <summary>
     /// Represents single service bus namespace
     /// </summary>
-    public class Namespace
+    public class ServiceBusNamespace
     {
-        public static Namespace Create(XElement namespaceDescription)
+        public static ServiceBusNamespace Create(XElement namespaceDescription)
         {
-            Namespace serviceBusNamespace = new Namespace();
+            ServiceBusNamespace serviceBusNamespace = new ServiceBusNamespace();
+            string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
 
-            serviceBusNamespace.Name = namespaceDescription.Element(XName.Get("Name", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.Region = namespaceDescription.Element(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.DefaultKey = namespaceDescription.Element(XName.Get("DefaultKey", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.Status = namespaceDescription.Element(XName.Get("Status", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.CreatedAt = namespaceDescription.Element(XName.Get("CreatedAt", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.AcsManagementEndpoint = new Uri(namespaceDescription.Element(XName.Get("AcsManagementEndpoint", ServiceBusConstants.ServiceBusXNamespace)).Value);
-            serviceBusNamespace.ServiceBusEndpoint = new Uri(namespaceDescription.Element(XName.Get("ServiceBusEndpoint", ServiceBusConstants.ServiceBusXNamespace)).Value);
-            serviceBusNamespace.ConnectionString = namespaceDescription.Element(XName.Get("ConnectionString", ServiceBusConstants.ServiceBusXNamespace)).Value;
+            serviceBusNamespace.Name = namespaceDescription.Element(XName.Get("Name", serviceBusXNamespace)).Value;
+            serviceBusNamespace.Region = namespaceDescription.Element(XName.Get("Region", serviceBusXNamespace)).Value;
+            serviceBusNamespace.DefaultKey = namespaceDescription.Element(XName.Get("DefaultKey", serviceBusXNamespace)).Value;
+            serviceBusNamespace.Status = namespaceDescription.Element(XName.Get("Status", serviceBusXNamespace)).Value;
+            serviceBusNamespace.CreatedAt = namespaceDescription.Element(XName.Get("CreatedAt", serviceBusXNamespace)).Value;
+            serviceBusNamespace.AcsManagementEndpoint = new Uri(namespaceDescription.Element(XName.Get("AcsManagementEndpoint", serviceBusXNamespace)).Value);
+            serviceBusNamespace.ServiceBusEndpoint = new Uri(namespaceDescription.Element(XName.Get("ServiceBusEndpoint", serviceBusXNamespace)).Value);
+            serviceBusNamespace.ConnectionString = namespaceDescription.Element(XName.Get("ConnectionString", serviceBusXNamespace)).Value;
 
             return serviceBusNamespace;
         }
