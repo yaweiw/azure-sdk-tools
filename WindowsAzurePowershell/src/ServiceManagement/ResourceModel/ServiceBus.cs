@@ -22,14 +22,14 @@ using System.Xml.Linq;
     /// <summary>
     /// List of service bus namespaces.
     /// </summary>
-    public class NamespaceList : List<Namespace>
+    public class ServiceBusNamespaceList : List<ServiceBusNamespace>
     {
-        public NamespaceList()
+        public ServiceBusNamespaceList()
         {
 
         }
 
-        public NamespaceList(IEnumerable<Namespace> namespaces) : base(namespaces)
+        public ServiceBusNamespaceList(IEnumerable<ServiceBusNamespace> namespaces) : base(namespaces)
         {
 
         }
@@ -38,11 +38,11 @@ using System.Xml.Linq;
     /// <summary>
     /// Represents single service bus namespace
     /// </summary>
-    public class Namespace
+    public class ServiceBusNamespace
     {
-        public static Namespace Create(XElement namespaceDescription)
+        public static ServiceBusNamespace Create(XElement namespaceDescription)
         {
-            Namespace serviceBusNamespace = new Namespace();
+            ServiceBusNamespace serviceBusNamespace = new ServiceBusNamespace();
             string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
 
             serviceBusNamespace.Name = namespaceDescription.Element(XName.Get("Name", serviceBusXNamespace)).Value;

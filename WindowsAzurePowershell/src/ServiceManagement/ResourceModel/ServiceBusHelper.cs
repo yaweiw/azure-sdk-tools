@@ -28,11 +28,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class GetNamespaceFormatter : IClientMessageFormatter
+    public class GetServiceBusNamespaceFormatter : IClientMessageFormatter
     {
         private IClientMessageFormatter originalFormatter;
 
-        public GetNamespaceFormatter(IClientMessageFormatter originalFormatter)
+        public GetServiceBusNamespaceFormatter(IClientMessageFormatter originalFormatter)
         {
             this.originalFormatter = originalFormatter;
         }
@@ -43,7 +43,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
             string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
             XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace)).First<XElement>();
 
-            return Namespace.Create(namespaceDescription);
+            return ServiceBusNamespace.Create(namespaceDescription);
         }
 
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
@@ -52,7 +52,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class GetNamespaceBehaviorAttribute : Attribute, IOperationBehavior
+    public class GetServiceBusNamespaceBehaviorAttribute : Attribute, IOperationBehavior
     {
         public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
         {
@@ -61,7 +61,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
-            clientOperation.Formatter = new GetNamespaceFormatter(clientOperation.Formatter);
+            clientOperation.Formatter = new GetServiceBusNamespaceFormatter(clientOperation.Formatter);
         }
 
         public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
@@ -75,11 +75,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ListNamespacesFormatter : IClientMessageFormatter
+    public class ListServiceBusNamespacesFormatter : IClientMessageFormatter
     {
         private IClientMessageFormatter originalFormatter;
 
-        public ListNamespacesFormatter(IClientMessageFormatter originalFormatter)
+        public ListServiceBusNamespacesFormatter(IClientMessageFormatter originalFormatter)
         {
             this.originalFormatter = originalFormatter;
         }
@@ -88,12 +88,12 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         {
             XDocument response = XDocument.Parse(message.ToString());
             string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
-            NamespaceList namespaces = new NamespaceList();
+            ServiceBusNamespaceList namespaces = new ServiceBusNamespaceList();
             IEnumerable<XElement> subscriptionNamespaces = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace));
 
             foreach (XElement namespaceDescription in subscriptionNamespaces)
             {
-                namespaces.Add(Namespace.Create(namespaceDescription));
+                namespaces.Add(ServiceBusNamespace.Create(namespaceDescription));
             }
 
             return namespaces;
@@ -105,7 +105,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ListNamespacesBehaviorAttribute : Attribute, IOperationBehavior
+    public class ListServiceBusNamespacesBehaviorAttribute : Attribute, IOperationBehavior
     {
         public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
         {
@@ -114,7 +114,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
-            clientOperation.Formatter = new ListNamespacesFormatter(clientOperation.Formatter);
+            clientOperation.Formatter = new ListServiceBusNamespacesFormatter(clientOperation.Formatter);
         }
 
         public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
