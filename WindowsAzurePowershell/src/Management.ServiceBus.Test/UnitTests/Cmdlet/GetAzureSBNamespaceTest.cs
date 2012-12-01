@@ -27,39 +27,42 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
+        SimpleServiceManagement channel;
+        FakeWriter writer;
+        GetAzureSBNamespaceCommand cmdlet;
+
         [TestInitialize]
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            channel = new SimpleServiceManagement();
+            writer = new FakeWriter();
+            cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
         }
 
         [TestMethod]
-        public void GetAzureSBNamesapceSuccessfull()
+        public void GetAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string name = "test";
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Name = name, Writer = writer };
-            Namespace expected = new Namespace { Name = name };
+            cmdlet.Name = name;
+            ServiceBusNamespace expected = new ServiceBusNamespace { Name = name };
             channel.GetNamespaceThunk = gn => { return expected; };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            Namespace actual = writer.OutputChannel[0] as Namespace;
+            ServiceBusNamespace actual = writer.OutputChannel[0] as ServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
         }
 
         [TestMethod]
-        public void GetAzureSBNamesapceWithNotExistingNameFail()
+        public void GetAzureSBNamespaceWithNotExistingNameFail()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string expected = Resources.ServiceBusNamespaceMissingMessage;
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Name = "not exiting name", Writer = writer };
+            cmdlet.Name = "not existing name";
             channel.GetNamespaceThunk = gn => {  throw new Exception("Internal Server Error"); };
 
             // Test
@@ -74,21 +77,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void ListNamespacesSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
             string name1 = "test1";
             string name2 = "test2";
-            GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
-            NamespaceList expected = new NamespaceList();
-            expected.Add(new Namespace { Name = name1 });
-            expected.Add(new Namespace { Name = name2 });
+            ServiceBusNamespaceList expected = new ServiceBusNamespaceList();
+            expected.Add(new ServiceBusNamespace { Name = name1 });
+            expected.Add(new ServiceBusNamespace { Name = name2 });
             channel.ListNamespacesThunk = gn => { return expected; };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            NamespaceList actual = writer.OutputChannel[0] as NamespaceList;
+            ServiceBusNamespaceList actual = writer.OutputChannel[0] as ServiceBusNamespaceList;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {
