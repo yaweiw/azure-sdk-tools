@@ -28,33 +28,33 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets a service bus namespace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [GetNamespaceBehavior]
+        [GetServiceBusNamespaceBehavior]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
-        IAsyncResult BeginGetNamespace(string subscriptionId, string name, AsyncCallback callback, object state);
+        IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state);
 
-        Namespace EndGetNamespace(IAsyncResult asyncResult);
+        ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult);
 
         /// <summary>
         /// Gets service bus namespaces associated with a subscription.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ListNamespacesBehavior]
+        [ListServiceBusNamespacesBehavior]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces")]
-        IAsyncResult BeginListNamespaces(string subscriptionId, AsyncCallback callback, object state);
+        IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state);
 
-        NamespaceList EndListNamespaces(IAsyncResult asyncResult);
+        ServiceBusNamespaceList EndListServiceBusNamespaces(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceManagementExtensionMethods
     {
-        public static Namespace GetNamespace(this IServiceManagement proxy, string subscriptionId, string name)
+        public static ServiceBusNamespace GetServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, string name)
         {
-            return proxy.EndGetNamespace(proxy.BeginGetNamespace(subscriptionId, name, null, null));
+            return proxy.EndGetServiceBusNamespace(proxy.BeginGetServiceBusNamespace(subscriptionId, name, null, null));
         }
 
-        public static NamespaceList ListNamespaces(this IServiceManagement proxy, string subscriptionId)
+        public static ServiceBusNamespaceList ListServiceBusNamespaces(this IServiceManagement proxy, string subscriptionId)
         {
-            return proxy.EndListNamespaces(proxy.BeginListNamespaces(subscriptionId, null, null));
+            return proxy.EndListServiceBusNamespaces(proxy.BeginListServiceBusNamespaces(subscriptionId, null, null));
         }
     }
 }

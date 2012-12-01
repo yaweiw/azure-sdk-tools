@@ -1767,7 +1767,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginGetNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        public IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -1778,10 +1778,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return result;
         }
 
-        public Func<SimpleServiceManagementAsyncResult, Namespace> GetNamespaceThunk { get; set; }
-        public Namespace EndGetNamespace(IAsyncResult asyncResult)
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> GetNamespaceThunk { get; set; }
+        public ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult)
         {
-            Namespace serviceBusNamespase = new Namespace();
+            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
 
             if (GetNamespaceThunk != null)
             {
@@ -1798,8 +1798,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return serviceBusNamespase;
         }
 
-        public Func<SimpleServiceManagementAsyncResult, NamespaceList> ListNamespacesThunk { get; set; }
-        public IAsyncResult BeginListNamespaces(string subscriptionId, AsyncCallback callback, object state)
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceList> ListNamespacesThunk { get; set; }
+        public IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
             result.Values["subscriptionId"] = subscriptionId;
@@ -1809,9 +1809,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return result;
         }
 
-        public NamespaceList EndListNamespaces(IAsyncResult asyncResult)
+        public ServiceBusNamespaceList EndListServiceBusNamespaces(IAsyncResult asyncResult)
         {
-            NamespaceList serviceBusNamespase = new NamespaceList();
+            ServiceBusNamespaceList serviceBusNamespase = new ServiceBusNamespaceList();
 
             if (ListNamespacesThunk != null)
             {
