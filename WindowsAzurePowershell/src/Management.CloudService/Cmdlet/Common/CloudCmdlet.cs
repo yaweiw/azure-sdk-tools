@@ -16,6 +16,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
 {
     using Model;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using System;
+    using System.Management.Automation;
 
     public abstract class CloudCmdlet<T> : CloudBaseCmdlet<T>
         where T : class
@@ -35,6 +37,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
             }
 
             return serviceSettings;
+        }
+
+        public virtual void ExecuteCmdlet()
+        {
+            // Do nothing.
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCmdlet();
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+            }
         }
     }
 }

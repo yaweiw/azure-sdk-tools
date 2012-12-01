@@ -1766,5 +1766,66 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         {
             throw new NotImplementedException();
         }
+
+        public IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            
+            return result;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> GetNamespaceThunk { get; set; }
+        public ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+
+            if (GetNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = GetNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetNamespaceThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceList> ListNamespacesThunk { get; set; }
+        public IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusNamespaceList EndListServiceBusNamespaces(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespaceList serviceBusNamespase = new ServiceBusNamespaceList();
+
+            if (ListNamespacesThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = ListNamespacesThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ListNamespacesThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
     }
 }

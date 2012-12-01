@@ -16,12 +16,14 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.ServiceModel;
     using System.ServiceModel.Security;
     using System.Threading;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
     using Model;
     using Properties;
     using Samples.WindowsAzure.ServiceManagement;
@@ -76,6 +78,19 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected CloudBaseCmdlet(IMessageWriter writer)
             : base(writer)
         {
+        }
+
+        /// <summary>
+        /// Sets the current subscription to the passed subscription name. If null, no changes.
+        /// </summary>
+        /// <param name="subscriptionName">The subscription name</param>
+        public void SetCurrentSubscription(string subscriptionName)
+        {
+            if (!string.IsNullOrEmpty(subscriptionName))
+            {
+                GlobalComponents globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
+                CurrentSubscription = globalComponents.Subscriptions.Values.First(sub => sub.SubscriptionName == subscriptionName);
+            }
         }
 
         protected void InitChannelCurrentSubscription()
