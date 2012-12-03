@@ -14,6 +14,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
     public class ServiceBusConstants
     {
         public const string ServiceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
+        public const string AtomNamespaceName = "http://www.w3.org/2005/Atom";
+        public const string DataServicesNamespaceName = "http://www.w3.org/2001/XMLSchema-instance";
     }
 
     public class ServiceBusBodyWriter : BodyWriter
@@ -219,11 +221,14 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         private string CreateRequestBody(ServiceBusNamespace namespaceDescription)
         {
             return new XDocument(
-                new XElement(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace),
-                    new XElement(XName.Get("Name", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Name),
-                    new XElement(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Region)
-                    )).ToString();
-        }
+                new XElement(XName.Get("entry", ServiceBusConstants.AtomNamespaceName),
+                    new XElement(XName.Get("content", ServiceBusConstants.AtomNamespaceName),
+                            new XAttribute("type", "application/xml"),
+                    new XElement(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace),
+                        new XAttribute(XName.Get("i", XNamespace.Xmlns.NamespaceName), ServiceBusConstants.DataServicesNamespaceName),
+                        new XElement(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Region)
+                        )))).ToString();
+            }
     }
 
     public class CreateServiceBusNamespaceBehaviorAttribute : Attribute, IOperationBehavior
