@@ -16,6 +16,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public const string ServiceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
         public const string AtomNamespaceName = "http://www.w3.org/2005/Atom";
         public const string DataServicesNamespaceName = "http://www.w3.org/2001/XMLSchema-instance";
+        public const string NamespaceNamePattern = "^[a-zA-Z][a-zA-Z0-9-]*$";
     }
 
     public class ServiceBusBodyWriter : BodyWriter

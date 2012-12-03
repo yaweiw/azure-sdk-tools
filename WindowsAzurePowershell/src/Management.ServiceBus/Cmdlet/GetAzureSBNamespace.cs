@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.ServiceBusNamespaceMissingMessage, ex.InnerException));
+                    SafeWriteError(new Exception(Resources.ServiceBusNamespaceMissingMessage));
                 }
             }
 
