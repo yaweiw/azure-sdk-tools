@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Creates new service bus namespace.
@@ -61,9 +62,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <returns>The created service bus namespace</returns>
         internal ServiceBusNamespace NewServiceBusNamespaceProcess(string subscriptionId, string name, string region)
         {
-            ServiceBusNamespace namespaceDescription = new ServiceBusNamespace { Name = name, Region = region };
-            namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
-            WriteOutputObject(namespaceDescription);
+            ServiceBusNamespace namespaceDescription = null;
+
+            try
+            {
+                if (Regex.IsMatch(name, Resources.NamespacePattern))
+                {
+                    namespaceDescription = new ServiceBusNamespace { Name = name, Region = region };
+                    namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
+                    WriteOutputObject(namespaceDescription);
+                }
+                else
+                {
+                    SafeWriteError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals(Resources.InternalServerErrorMessage))
+                {
+                    SafeWriteError(new Exception(Resources.NewNamespaceErrorMessage, ex.InnerException));
+                }
+            }
 
             return namespaceDescription;
         }
