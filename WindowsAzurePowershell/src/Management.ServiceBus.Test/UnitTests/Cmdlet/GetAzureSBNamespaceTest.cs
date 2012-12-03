@@ -63,13 +63,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             // Setup
             string expected = Resources.ServiceBusNamespaceMissingMessage;
             cmdlet.Name = "not existing name";
-            channel.GetNamespaceThunk = gn => {  throw new Exception("Internal Server Error"); };
+            channel.GetNamespaceThunk = gn => {  throw new Exception(Resources.InternalServerErrorMessage); };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord error = writer.ErrorChannel[0] as ErrorRecord;
+            ErrorRecord error = writer.ErrorChannel[0];
             Assert.AreEqual<string>(expected, error.Exception.Message);
         }
 

@@ -61,6 +61,33 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error.
+        /// </summary>
+        internal static string InternalServerErrorMessage {
+            get {
+                return ResourceManager.GetString("InternalServerErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided name &quot;{0}&quot; does not match the service bus namespace naming rules..
+        /// </summary>
+        internal static string InvalidNamespaceName {
+            get {
+                return ResourceManager.GetString("InvalidNamespaceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
+        /// </summary>
+        internal static string NewNamespaceErrorMessage {
+            get {
+                return ResourceManager.GetString("NewNamespaceErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error. This could happen due to an incorrect/missing namespace.
         /// </summary>
         internal static string ServiceBusNamespaceMissingMessage {
