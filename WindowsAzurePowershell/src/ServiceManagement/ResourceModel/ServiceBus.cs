@@ -16,8 +16,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-using System.Xml.Linq;
+    using System.Xml.Linq;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
 
     /// <summary>
     /// List of service bus namespaces.
@@ -72,5 +72,33 @@ using System.Xml.Linq;
         public Uri ServiceBusEndpoint { get; set; }
 
         public string ConnectionString { get; set; }
+    }
+
+    /// <summary>
+    /// List of service bus regions.
+    /// </summary>
+    public class ServiceBusRegionList : List<ServiceBusRegion>
+    {
+
+    }
+
+    /// <summary>
+    /// Represents service bus region entry.
+    /// </summary>
+    public class ServiceBusRegion
+    {
+        public static ServiceBusRegion Create(XElement namespaceDescription)
+        {
+            ServiceBusRegion regions = new ServiceBusRegion();
+
+            regions.Code = namespaceDescription.Element(XName.Get("Code", ServiceBusConstants.ServiceBusXNamespace)).Value;
+            regions.FullName = namespaceDescription.Element(XName.Get("FullName", ServiceBusConstants.ServiceBusXNamespace)).Value;
+
+            return regions;
+        }
+
+        public string Code { get; set; }
+
+        public string FullName { get; set; }
     }
 }
