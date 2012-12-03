@@ -11,7 +11,12 @@ using System.Xml.Linq;
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 {
-    class ServiceBusBodyWriter : BodyWriter
+    public class ServiceBusConstants
+    {
+        public const string ServiceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
+    }
+
+    public class ServiceBusBodyWriter : BodyWriter
     {
         string body;
 
@@ -40,8 +45,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public object DeserializeReply(Message message, object[] parameters)
         {
             XDocument response = XDocument.Parse(message.ToString());
-            string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
-            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace)).First<XElement>();
+            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace)).First<XElement>();
 
             return ServiceBusNamespace.Create(namespaceDescription);
         }
@@ -87,9 +91,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public object DeserializeReply(Message message, object[] parameters)
         {
             XDocument response = XDocument.Parse(message.ToString());
-            string serviceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
             ServiceBusNamespaceList namespaces = new ServiceBusNamespaceList();
-            IEnumerable<XElement> subscriptionNamespaces = response.Descendants(XName.Get("NamespaceDescription", serviceBusXNamespace));
+            IEnumerable<XElement> subscriptionNamespaces = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace));
 
             foreach (XElement namespaceDescription in subscriptionNamespaces)
             {
@@ -115,6 +118,58 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
             clientOperation.Formatter = new ListServiceBusNamespacesFormatter(clientOperation.Formatter);
+        }
+
+        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Validate(OperationDescription operationDescription)
+        {
+
+        }
+    }
+
+    public class ListServiceBusRegionsFormatter : IClientMessageFormatter
+    {
+        private IClientMessageFormatter originalFormatter;
+
+        public ListServiceBusRegionsFormatter(IClientMessageFormatter originalFormatter)
+        {
+            this.originalFormatter = originalFormatter;
+        }
+
+        public object DeserializeReply(Message message, object[] parameters)
+        {
+            XDocument response = XDocument.Parse(message.ToString());
+            ServiceBusRegionList regions = new ServiceBusRegionList();
+            IEnumerable<XElement> subscriptionRegions = response.Descendants(XName.Get("RegionCodeDescription", ServiceBusConstants.ServiceBusXNamespace));
+
+            foreach (XElement regionDescription in subscriptionRegions)
+            {
+                regions.Add(ServiceBusRegion.Create(regionDescription));
+            }
+
+            return regions;
+        }
+
+        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
+        {
+            return originalFormatter.SerializeRequest(messageVersion, parameters);
+        }
+    }
+
+    public class ListServiceBusRegionsBehaviorAttribute : Attribute, IOperationBehavior
+    {
+        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
+        {
+            // Do nothing.
+        }
+
+        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
+        {
+            clientOperation.Formatter = new ListServiceBusRegionsFormatter(clientOperation.Formatter);
         }
 
         public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
