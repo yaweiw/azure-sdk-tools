@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="InternalServerErrorMessage" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
+  <data name="InvalidNamespaceName" xml:space="preserve">
+    <value>The provided name "{0}" does not match the service bus namespace naming rules.</value>
+  </data>
+  <data name="NewNamespaceErrorMessage" xml:space="preserve">
+    <value>Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names.</value>
+  </data>
   <data name="ServiceBusNamespaceMissingMessage" xml:space="preserve">
     <value>Internal Server Error. This could happen due to an incorrect/missing namespace</value>
   </data>

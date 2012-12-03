@@ -1857,5 +1857,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             return serviceBusNamespase;
         }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> CreateServiceBusNamespaceThunk { get; set; }
+        public IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["namespaceDescription"] = namespaceDescription;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+
+            if (CreateServiceBusNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = CreateServiceBusNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("CreateServiceBusNamespaceThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
     }
 }
