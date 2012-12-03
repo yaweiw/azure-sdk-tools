@@ -16,11 +16,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Creates new service bus namespace.
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 
             try
             {
-                if (Regex.IsMatch(name, Resources.NamespacePattern))
+                if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
                     namespaceDescription = new ServiceBusNamespace { Name = name, Region = region };
                     namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.NewNamespaceErrorMessage, ex.InnerException));
+                    SafeWriteError(new Exception(Resources.NewNamespaceErrorMessage));
                 }
             }
 

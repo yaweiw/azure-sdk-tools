@@ -101,12 +101,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected virtual void WriteErrorDetails(CommunicationException exception)
         {
             ServiceManagementError error;
-
+            ErrorRecord errorRecord = null;
+            
             string operationId;
             SMErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
             if (error == null)
             {
-                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+                errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);
             }
             else
             {
@@ -117,14 +118,25 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                     error.Message,
                     operationId);
 
-                WriteError(new ErrorRecord(new CommunicationException(errorDetails), string.Empty, ErrorCategory.CloseError, null));
+                errorRecord = new ErrorRecord(new CommunicationException(errorDetails), string.Empty, ErrorCategory.CloseError, null);
+            }
+
+            if (CommandRuntime != null)
+            {
+                WriteError(errorRecord);
+            }
+
+            if (writer != null)
+            {
+                writer.WriteError(errorRecord);
             }
         }
 
-       public virtual object GetDynamicParameters()
+        public virtual object GetDynamicParameters()
         {
             return null;
         }
+
         protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;

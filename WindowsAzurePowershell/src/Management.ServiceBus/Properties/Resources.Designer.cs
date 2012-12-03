@@ -79,15 +79,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ^[a-zA-Z][a-zA-Z0-9-]*$.
-        /// </summary>
-        internal static string NamespacePattern {
-            get {
-                return ResourceManager.GetString("NamespacePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
         /// </summary>
         internal static string NewNamespaceErrorMessage {

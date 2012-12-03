@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
 {
-    using Model;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using System;
-    using System.Management.Automation;
+    using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Model;
 
     public abstract class CloudCmdlet<T> : CloudBaseCmdlet<T>
         where T : class
@@ -51,9 +51,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common
                 base.ProcessRecord();
                 ExecuteCmdlet();
             }
+            catch (CommunicationException ex)
+            {
+                WriteErrorDetails(ex);
+            }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                SafeWriteError(ex);
             }
         }
     }
