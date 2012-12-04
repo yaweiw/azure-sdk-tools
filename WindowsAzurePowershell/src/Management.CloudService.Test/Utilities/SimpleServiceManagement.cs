@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
+    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
-    using Services;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Simple implementation of teh IServiceManagement interface that can be
@@ -1798,7 +1798,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return serviceBusNamespase;
         }
 
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceList> ListNamespacesThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusNamespace>> ListNamespacesThunk { get; set; }
         public IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -1809,9 +1809,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return result;
         }
 
-        public ServiceBusNamespaceList EndListServiceBusNamespaces(IAsyncResult asyncResult)
+        public List<ServiceBusNamespace> EndListServiceBusNamespaces(IAsyncResult asyncResult)
         {
-            ServiceBusNamespaceList serviceBusNamespase = new ServiceBusNamespaceList();
+            List<ServiceBusNamespace> serviceBusNamespase = new List<ServiceBusNamespace>();
 
             if (ListNamespacesThunk != null)
             {
@@ -1828,7 +1828,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return serviceBusNamespase;
         }
 
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusRegionList> ListServiceBusRegionsThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusRegion>> ListServiceBusRegionsThunk { get; set; }
         public IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -1839,9 +1839,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return result;
         }
 
-        public ServiceBusRegionList EndListServiceBusRegions(IAsyncResult asyncResult)
+        public List<ServiceBusRegion> EndListServiceBusRegions(IAsyncResult asyncResult)
         {
-            ServiceBusRegionList serviceBusNamespase = new ServiceBusRegionList();
+            List<ServiceBusRegion> serviceBusNamespase = new List<ServiceBusRegion>();
 
             if (ListServiceBusRegionsThunk != null)
             {

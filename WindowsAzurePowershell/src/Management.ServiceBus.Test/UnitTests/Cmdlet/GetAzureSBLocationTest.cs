@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
+    using System.Collections.Generic;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             FakeWriter writer = new FakeWriter();
             string name = "test";
             GetAzureSBLocationCommand cmdlet = new GetAzureSBLocationCommand(channel) { Writer = writer };
-            ServiceBusRegionList expected = new ServiceBusRegionList();
+            List<ServiceBusRegion> expected = new List<ServiceBusRegion>();
             expected.Add(new ServiceBusRegion { Code = name, FullName = name });
             channel.ListServiceBusRegionsThunk = gn => { return expected; };
 
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusRegionList actual = writer.OutputChannel[0] as ServiceBusRegionList;
+            List<ServiceBusRegion> actual = writer.OutputChannel[0] as List<ServiceBusRegion>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
 
             for (int i = 0; i < expected.Count; i++)

@@ -14,95 +14,70 @@
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
-    using System;
     using System.Collections.Generic;
     using System.Xml.Linq;
+    using System.Xml.Serialization;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
 
     /// <summary>
-    /// List of service bus namespaces.
+    /// Represents service bus namespace
     /// </summary>
-    public class ServiceBusNamespaceList : List<ServiceBusNamespace>
-    {
-        public ServiceBusNamespaceList()
-        {
-
-        }
-
-        public ServiceBusNamespaceList(IEnumerable<ServiceBusNamespace> namespaces) : base(namespaces)
-        {
-
-        }
-    }
-
-    /// <summary>
-    /// Represents single service bus namespace
-    /// </summary>
+    [XmlRoot("NamespaceDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
     public class ServiceBusNamespace
     {
-        public static ServiceBusNamespace Create(XElement namespaceDescription)
-        {
-            ServiceBusNamespace serviceBusNamespace = new ServiceBusNamespace();
-
-            serviceBusNamespace.Name = namespaceDescription.Element(XName.Get("Name", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.Region = namespaceDescription.Element(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.DefaultKey = namespaceDescription.Element(XName.Get("DefaultKey", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.Status = namespaceDescription.Element(XName.Get("Status", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.CreatedAt = namespaceDescription.Element(XName.Get("CreatedAt", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            serviceBusNamespace.AcsManagementEndpoint = new Uri(namespaceDescription.Element(XName.Get("AcsManagementEndpoint", ServiceBusConstants.ServiceBusXNamespace)).Value);
-            serviceBusNamespace.ServiceBusEndpoint = new Uri(namespaceDescription.Element(XName.Get("ServiceBusEndpoint", ServiceBusConstants.ServiceBusXNamespace)).Value);
-            serviceBusNamespace.ConnectionString = namespaceDescription.Element(XName.Get("ConnectionString", ServiceBusConstants.ServiceBusXNamespace)).Value;
-
-            return serviceBusNamespace;
-        }
-
+        [XmlElement(Namespace=ServiceBusConstants.ServiceBusXNamespace)]
         public string Name { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Region { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string DefaultKey { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Status { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string CreatedAt { get; set; }
 
-        public Uri AcsManagementEndpoint { get; set; }
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
+        public string AcsManagementEndpoint { get; set; }
 
-        public Uri ServiceBusEndpoint { get; set; }
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
+        public string ServiceBusEndpoint { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string ConnectionString { get; set; }
 
         public override bool Equals(object obj)
         {
             ServiceBusNamespace lhs = obj as ServiceBusNamespace;
 
-            return this.Name.Equals(lhs.Name) &&
-                this.Region.Equals(lhs.Region) &&
-                this.DefaultKey.Equals(lhs.DefaultKey) &&
-                this.Status.Equals(lhs.Status) &&
-                this.CreatedAt.Equals(lhs.CreatedAt) &&
-                this.AcsManagementEndpoint.Equals(lhs.AcsManagementEndpoint) &&
-                this.ServiceBusEndpoint.Equals(lhs.ServiceBusEndpoint) &&
-                this.ConnectionString.Equals(lhs.ConnectionString);
+            if (string.IsNullOrEmpty(Name))
+            {
+                return false;
+            }
+
+            return this.Name.Equals(lhs.Name) && this.Region.Equals(lhs.Region);
         }
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode();
+            if (string.IsNullOrEmpty(Name))
+            {
+                return base.GetHashCode();
+            }
+            else
+            {
+                return this.Name.GetHashCode() ^ this.Region.GetHashCode();
+            }
         }
-    }
-
-    /// <summary>
-    /// List of service bus regions.
-    /// </summary>
-    public class ServiceBusRegionList : List<ServiceBusRegion>
-    {
-
     }
 
     /// <summary>
     /// Represents service bus region entry.
     /// </summary>
+    [XmlRoot("RegionCodeDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
     public class ServiceBusRegion
     {
         public static ServiceBusRegion Create(XElement namespaceDescription)
@@ -115,8 +90,10 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             return regions;
         }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Code { get; set; }
 
+        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string FullName { get; set; }
     }
 }

@@ -15,6 +15,7 @@
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
     using System;
+    using System.Collections.Generic;
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
@@ -28,7 +29,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets a service bus namespace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [GetServiceBusNamespaceBehavior]
+        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
         IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state);
 
@@ -38,27 +39,27 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets service bus namespaces associated with a subscription.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ListServiceBusNamespacesBehavior]
+        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces")]
         IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state);
 
-        ServiceBusNamespaceList EndListServiceBusNamespaces(IAsyncResult asyncResult);
+        List<ServiceBusNamespace> EndListServiceBusNamespaces(IAsyncResult asyncResult);
 
         /// <summary>
-        /// Gets service bus namespaces associated with a subscription.
+        /// Gets service bus regions associated with a subscription.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ListServiceBusRegionsBehavior]
+        [ODataBehavior(typeof(ODataFormatter<ServiceBusRegion>))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/regions")]
         IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state);
 
-        ServiceBusRegionList EndListServiceBusRegions(IAsyncResult asyncResult);
+        List<ServiceBusRegion> EndListServiceBusRegions(IAsyncResult asyncResult);
 
         /// <summary>
         /// Creates a new service bus namespace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [CreateServiceBusNamespaceBehavior]
+        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
         [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
         IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state);
 
@@ -72,12 +73,12 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             return proxy.EndGetServiceBusNamespace(proxy.BeginGetServiceBusNamespace(subscriptionId, name, null, null));
         }
 
-        public static ServiceBusNamespaceList ListServiceBusNamespaces(this IServiceManagement proxy, string subscriptionId)
+        public static List<ServiceBusNamespace> ListServiceBusNamespaces(this IServiceManagement proxy, string subscriptionId)
         {
             return proxy.EndListServiceBusNamespaces(proxy.BeginListServiceBusNamespaces(subscriptionId, null, null));
         }
 
-        public static ServiceBusRegionList ListServiceBusRegions(this IServiceManagement proxy, string subscriptionId)
+        public static List<ServiceBusRegion> ListServiceBusRegions(this IServiceManagement proxy, string subscriptionId)
         {
             return proxy.EndListServiceBusRegions(proxy.BeginListServiceBusRegions(subscriptionId, null, null));
         }

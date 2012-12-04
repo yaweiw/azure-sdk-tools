@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test;
@@ -79,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             // Setup
             string name1 = "test1";
             string name2 = "test2";
-            ServiceBusNamespaceList expected = new ServiceBusNamespaceList();
+            List<ServiceBusNamespace> expected = new List<ServiceBusNamespace>();
             expected.Add(new ServiceBusNamespace { Name = name1 });
             expected.Add(new ServiceBusNamespace { Name = name2 });
             channel.ListNamespacesThunk = gn => { return expected; };
@@ -88,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespaceList actual = writer.OutputChannel[0] as ServiceBusNamespaceList;
+            List<ServiceBusNamespace> actual = writer.OutputChannel[0] as List<ServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {
