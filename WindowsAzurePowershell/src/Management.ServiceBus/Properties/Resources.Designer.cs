@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
+        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name is already used or due to an incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
         /// </summary>
         internal static string NewNamespaceErrorMessage {
             get {
