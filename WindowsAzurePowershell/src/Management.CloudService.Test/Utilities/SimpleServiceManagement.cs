@@ -1889,5 +1889,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             return serviceBusNamespase;
         }
+
+        public Action<SimpleServiceManagementAsyncResult> DeleteServiceBusNamespaceThunk { get; set; }
+        public IAsyncResult BeginDeleteServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public void EndDeleteServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            if (DeleteServiceBusNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                DeleteServiceBusNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeleteServiceBusNamespaceThunk is not implemented!");
+            }
+        }
     }
 }

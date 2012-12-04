@@ -88,6 +88,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription..
+        /// </summary>
+        internal static string RemoveNamespaceErrorMessage {
+            get {
+                return ResourceManager.GetString("RemoveNamespaceErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting &quot;{0}&quot; namespace....
+        /// </summary>
+        internal static string RemovingNamespaceMessage {
+            get {
+                return ResourceManager.GetString("RemovingNamespaceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Internal Server Error. This could happen due to an incorrect/missing namespace.
         /// </summary>
         internal static string ServiceBusNamespaceMissingMessage {
