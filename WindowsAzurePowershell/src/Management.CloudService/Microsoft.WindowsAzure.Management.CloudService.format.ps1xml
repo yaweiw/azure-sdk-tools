@@ -6,28 +6,22 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.CloudService.Model.AzureService</TypeName>
       </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-            <Width>50</Width>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Width>260</Width>
-          </TableColumnHeader>
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <PropertyName>Name</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
-                <PropertyName>Path</PropertyName>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>ServiceName</Label>
+                <PropertyName>ServiceName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>RootPath</Label>
+                <PropertyName>RootPath</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
   </ViewDefinitions>
 </Configuration>
