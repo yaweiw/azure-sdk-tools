@@ -26,11 +26,14 @@ using System.Management.Automation;
 
         private List<ErrorRecord> errorChannel;
 
+        private List<string> verboseChannel;
+
         public FakeWriter()
         {
             messages = new List<string>();
             outputChannel = new List<object>();
             errorChannel = new List<ErrorRecord>();
+            verboseChannel = new List<string>();
         }
 
         public List<string> Messages { get { return messages; }}
@@ -38,6 +41,8 @@ using System.Management.Automation;
         public List<object> OutputChannel { get { return outputChannel; } }
 
         public List<ErrorRecord> ErrorChannel { get { return errorChannel; } }
+
+        public List<string> VerboseChannel { get { return verboseChannel; } }
 
         public void Write(string message)
         {
@@ -52,6 +57,11 @@ using System.Management.Automation;
         public void WriteError(ErrorRecord error)
         {
             errorChannel.Add(error);
+        }
+
+        public void WriteVerbose(string message)
+        {
+            verboseChannel.Add(message);
         }
     }
 }

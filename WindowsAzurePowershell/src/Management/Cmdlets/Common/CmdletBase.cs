@@ -253,5 +253,30 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
         }
 
+        /// <summary>
+        /// Wrap the base Cmdlet's WriteVerbose call so that it will not throw
+        /// a NotSupportedException when called without a CommandRuntime (i.e.,
+        /// when not called from within Powershell) and uses a writer object if
+        /// it's not set to null.
+        /// </summary>
+        /// <param name="errorRecord">The message to write.</param>
+        protected void SafeWriteVerbose(string message)
+        {
+            Debug.Assert(message != null, "message cannot be null.");
+
+            if (CommandRuntime != null)
+            {
+                WriteVerbose(message);
+            }
+            else
+            {
+                Trace.WriteLine(message);
+            }
+
+            if (writer != null)
+            {
+                writer.WriteVerbose(message);
+            }
+        }
     }
 }
