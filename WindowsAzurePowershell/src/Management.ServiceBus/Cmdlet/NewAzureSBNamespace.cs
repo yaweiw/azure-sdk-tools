@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
-                    namespaceDescription = new ServiceBusNamespace { Name = name, Region = region };
+                    namespaceDescription = new ServiceBusNamespace { Region = region };
                     namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
                     WriteOutputObject(namespaceDescription);
                 }

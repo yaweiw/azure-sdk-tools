@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System;
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
@@ -77,9 +78,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// Gets a list of all namespaces associated with a subscription.
         /// </summary>
         /// <returns>The namespace list</returns>
-        internal ServiceBusNamespaceList ListNamespacesProcess(string subscriptionId)
+        internal List<ServiceBusNamespace> ListNamespacesProcess(string subscriptionId)
         {
-            ServiceBusNamespaceList namespaces = Channel.ListServiceBusNamespaces(subscriptionId);
+            List<ServiceBusNamespace> namespaces = Channel.ListServiceBusNamespaces(subscriptionId);
             WriteOutputObject(namespaces);
 
             return namespaces;
