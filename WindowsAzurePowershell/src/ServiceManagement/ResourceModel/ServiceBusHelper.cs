@@ -1,29 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel.Dispatcher;
-using System.ServiceModel.Channels;
-using System.Xml;
-using System.IO;
-using System.ServiceModel.Description;
-using System.Xml.Linq;
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright 2011 Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.ServiceModel.Dispatcher;
+    using System.ServiceModel.Channels;
+    using System.Xml;
+    using System.IO;
+    using System.ServiceModel.Description;
+    using System.Xml.Linq;
+    using System.Reflection;
+    using System.Xml.Serialization;
+
     public class ServiceBusConstants
     {
         public const string ServiceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
         public const string AtomNamespaceName = "http://www.w3.org/2005/Atom";
-        public const string DataServicesNamespaceName = "http://www.w3.org/2001/XMLSchema-instance";
         public const string NamespaceNamePattern = "^[a-zA-Z][a-zA-Z0-9-]*$";
     }
 
-    public class ServiceBusBodyWriter : BodyWriter
+    public class ODataBodyWriter : BodyWriter
     {
         string body;
 
-        public ServiceBusBodyWriter(string body)
+        public ODataBodyWriter(string body)
             : base(true)
         {
             this.body = body;
@@ -36,11 +51,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class GetServiceBusNamespaceFormatter : IClientMessageFormatter
+    public class ODataFormatter<T> : IClientMessageFormatter where T : class, new()
     {
         private IClientMessageFormatter originalFormatter;
 
-        public GetServiceBusNamespaceFormatter(IClientMessageFormatter originalFormatter)
+        public ODataFormatter(IClientMessageFormatter originalFormatter)
         {
             this.originalFormatter = originalFormatter;
         }
@@ -48,192 +63,81 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public object DeserializeReply(Message message, object[] parameters)
         {
             XDocument response = XDocument.Parse(message.ToString());
-            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace)).First<XElement>();
+            List<T> results = new List<T>();
+            IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
 
-            return ServiceBusNamespace.Create(namespaceDescription);
-        }
-
-        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
-        {
-            return originalFormatter.SerializeRequest(messageVersion, parameters);
-        }
-    }
-
-    public class GetServiceBusNamespaceBehaviorAttribute : Attribute, IOperationBehavior
-    {
-        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
-        {
-            // Do nothing.
-        }
-
-        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
-        {
-            clientOperation.Formatter = new GetServiceBusNamespaceFormatter(clientOperation.Formatter);
-        }
-
-        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Validate(OperationDescription operationDescription)
-        {
-
-        }
-    }
-
-    public class ListServiceBusNamespacesFormatter : IClientMessageFormatter
-    {
-        private IClientMessageFormatter originalFormatter;
-
-        public ListServiceBusNamespacesFormatter(IClientMessageFormatter originalFormatter)
-        {
-            this.originalFormatter = originalFormatter;
-        }
-
-        public object DeserializeReply(Message message, object[] parameters)
-        {
-            XDocument response = XDocument.Parse(message.ToString());
-            ServiceBusNamespaceList namespaces = new ServiceBusNamespaceList();
-            IEnumerable<XElement> subscriptionNamespaces = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace));
-
-            foreach (XElement namespaceDescription in subscriptionNamespaces)
+            foreach (XElement content in contents)
             {
-                namespaces.Add(ServiceBusNamespace.Create(namespaceDescription));
+                XElement data = content.Elements().First<XElement>();
+                results.Add((T)serializer.Deserialize(new StringReader(data.ToString())));
             }
 
-            return namespaces;
-        }
-
-        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
-        {
-            return originalFormatter.SerializeRequest(messageVersion, parameters);
-        }
-    }
-
-    public class ListServiceBusNamespacesBehaviorAttribute : Attribute, IOperationBehavior
-    {
-        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
-        {
-            // Do nothing.
-        }
-
-        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
-        {
-            clientOperation.Formatter = new ListServiceBusNamespacesFormatter(clientOperation.Formatter);
-        }
-
-        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Validate(OperationDescription operationDescription)
-        {
-
-        }
-    }
-
-    public class ListServiceBusRegionsFormatter : IClientMessageFormatter
-    {
-        private IClientMessageFormatter originalFormatter;
-
-        public ListServiceBusRegionsFormatter(IClientMessageFormatter originalFormatter)
-        {
-            this.originalFormatter = originalFormatter;
-        }
-
-        public object DeserializeReply(Message message, object[] parameters)
-        {
-            XDocument response = XDocument.Parse(message.ToString());
-            ServiceBusRegionList regions = new ServiceBusRegionList();
-            IEnumerable<XElement> subscriptionRegions = response.Descendants(XName.Get("RegionCodeDescription", ServiceBusConstants.ServiceBusXNamespace));
-
-            foreach (XElement regionDescription in subscriptionRegions)
+            if (response.Root.Name == XName.Get("feed", ServiceBusConstants.AtomNamespaceName))
             {
-                regions.Add(ServiceBusRegion.Create(regionDescription));
+                List<T> collection = new List<T>();
+                collection.AddRange(results);
+                return collection;
             }
-
-            return regions;
+            else
+            {
+                return results[0];
+            }
         }
 
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
         {
-            return originalFormatter.SerializeRequest(messageVersion, parameters);
-        }
-    }
-
-    public class ListServiceBusRegionsBehaviorAttribute : Attribute, IOperationBehavior
-    {
-        public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
-        {
-            // Do nothing.
-        }
-
-        public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
-        {
-            clientOperation.Formatter = new ListServiceBusRegionsFormatter(clientOperation.Formatter);
-        }
-
-        public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Validate(OperationDescription operationDescription)
-        {
-
-        }
-    }
-
-    public class CreateServiceBusNamespaceFormatter : IClientMessageFormatter
-    {
-        private IClientMessageFormatter originalFormatter;
-
-        public CreateServiceBusNamespaceFormatter(IClientMessageFormatter originalFormatter)
-        {
-            this.originalFormatter = originalFormatter;
-        }
-
-        public object DeserializeReply(Message message, object[] parameters)
-        {
-            XDocument response = XDocument.Parse(message.ToString());
-            XElement namespaceDescription = response.Descendants(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace)).First<XElement>();
-
-            return ServiceBusNamespace.Create(namespaceDescription);
-        }
-
-        public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
-        {
-            ServiceBusNamespace namespaceDescription = parameters[1] as ServiceBusNamespace;
-            string body = CreateRequestBody(namespaceDescription);
+            T data = null;
+            string body = string.Empty;
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
             Message originalMessage = originalFormatter.SerializeRequest(messageVersion, parameters);
-            Message updatedMessage = Message.CreateMessage(messageVersion, null, new ServiceBusBodyWriter(body));
-            updatedMessage.Headers.CopyHeadersFrom(originalMessage);
-            updatedMessage.Properties.CopyProperties(originalMessage.Properties);
-            HttpRequestMessageProperty property = updatedMessage.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
-            property.Headers.Add("Content-Type", "application/xml");
-            property.Headers.Add("type", "entry");
-            property.Headers.Add("charset", "utf-8");
 
-            return updatedMessage;
-        }
+            foreach (object parameter in parameters)
+            {
+                if (parameter is T)
+                {
+                    data = parameter as T;
+                    break;
+                }
+            }
 
-        private string CreateRequestBody(ServiceBusNamespace namespaceDescription)
-        {
-            return new XDocument(
+            if (data == null)
+            {
+                return originalMessage;
+            }
+
+            using (StringWriter bodyWriter = new StringWriter())
+            {
+                serializer.Serialize(bodyWriter, data);
+                body = bodyWriter.ToString();
+            }
+
+            body = new XDocument(
                 new XElement(XName.Get("entry", ServiceBusConstants.AtomNamespaceName),
                     new XElement(XName.Get("content", ServiceBusConstants.AtomNamespaceName),
                             new XAttribute("type", "application/xml"),
-                    new XElement(XName.Get("NamespaceDescription", ServiceBusConstants.ServiceBusXNamespace),
-                        new XAttribute(XName.Get("i", XNamespace.Xmlns.NamespaceName), ServiceBusConstants.DataServicesNamespaceName),
-                        new XElement(XName.Get("Region", ServiceBusConstants.ServiceBusXNamespace), namespaceDescription.Region)
-                        )))).ToString();
-            }
+                            XDocument.Parse(body).Root))).ToString();
+            Message finalMessage = Message.CreateMessage(messageVersion, null, new ODataBodyWriter(body));
+            finalMessage.Headers.CopyHeadersFrom(originalMessage);
+            finalMessage.Properties.CopyProperties(originalMessage.Properties);
+            HttpRequestMessageProperty property = finalMessage.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
+            property.Headers.Add("content-type", "application/xml");
+            property.Headers.Add("type", "entry");
+            property.Headers.Add("charset", "utf-8");
+
+            return finalMessage;
+        }
     }
 
-    public class CreateServiceBusNamespaceBehaviorAttribute : Attribute, IOperationBehavior
+    public class ODataBehaviorAttribute : Attribute, IOperationBehavior
     {
+        private Type dataContractType;
+
+        public ODataBehaviorAttribute(Type formatterType)
+        {
+            this.dataContractType = formatterType;
+        }
+
         public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
         {
             // Do nothing.
@@ -241,7 +145,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
-            clientOperation.Formatter = new CreateServiceBusNamespaceFormatter(clientOperation.Formatter);
+            Type genericFormatterType = typeof(ODataFormatter<>);
+            Type formatterType = genericFormatterType.MakeGenericType(new Type[] { dataContractType });
+            ConstructorInfo ctor = formatterType.GetConstructor(new Type[] { typeof(IClientMessageFormatter) });
+            IClientMessageFormatter newFormatter = ctor.Invoke(new object[] { clientOperation.Formatter }) as IClientMessageFormatter;
+            clientOperation.Formatter = newFormatter;
         }
 
         public void ApplyDispatchBehavior(OperationDescription operationDescription, DispatchOperation dispatchOperation)
