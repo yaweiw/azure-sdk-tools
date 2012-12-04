@@ -124,7 +124,7 @@
     <value>The provided name "{0}" does not match the service bus namespace naming rules.</value>
   </data>
   <data name="NewNamespaceErrorMessage" xml:space="preserve">
-    <value>Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names.</value>
+    <value>Internal Server Error. This could happen because the namespace name is already used or due to an incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names.</value>
   </data>
   <data name="RemoveNamespaceErrorMessage" xml:space="preserve">
     <value>Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription.</value>
