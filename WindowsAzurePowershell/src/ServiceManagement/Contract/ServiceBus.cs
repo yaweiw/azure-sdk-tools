@@ -29,7 +29,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets a service bus namespace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
+        [ODataBehavior(typeof(ServiceBusNamespace))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
         IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state);
 
@@ -39,7 +39,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets service bus namespaces associated with a subscription.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
+        [ODataBehavior(typeof(ServiceBusNamespace))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/namespaces")]
         IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state);
 
@@ -49,7 +49,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Gets service bus regions associated with a subscription.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ODataBehavior(typeof(ODataFormatter<ServiceBusRegion>))]
+        [ODataBehavior(typeof(ServiceBusRegion))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/regions")]
         IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state);
 
@@ -59,7 +59,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Creates a new service bus namespace.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ODataBehavior(typeof(ODataFormatter<ServiceBusNamespace>))]
+        [ODataBehavior(typeof(ServiceBusNamespace))]
         [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
         IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state);
 
