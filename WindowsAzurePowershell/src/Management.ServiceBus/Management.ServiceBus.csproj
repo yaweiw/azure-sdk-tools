@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlet\RemoveAzureSBNamespace.cs" />
     <Compile Include="Cmdlet\NewAzureSBNamespace.cs" />
     <Compile Include="Cmdlet\GetAzureSBLocation.cs" />
     <Compile Include="Cmdlet\GetAzureSBNamespace.cs" />
