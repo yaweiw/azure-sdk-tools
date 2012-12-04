@@ -79,11 +79,29 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name already used or duo to incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
+        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace name is already used or due to an incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names..
         /// </summary>
         internal static string NewNamespaceErrorMessage {
             get {
                 return ResourceManager.GetString("NewNamespaceErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription..
+        /// </summary>
+        internal static string RemoveNamespaceErrorMessage {
+            get {
+                return ResourceManager.GetString("RemoveNamespaceErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting &quot;{0}&quot; namespace....
+        /// </summary>
+        internal static string RemovingNamespaceMessage {
+            get {
+                return ResourceManager.GetString("RemovingNamespaceMessage", resourceCulture);
             }
         }
         

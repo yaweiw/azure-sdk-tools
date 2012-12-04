@@ -64,6 +64,15 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state);
 
         ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Deletes a service bus namespace.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = @"{subscriptionId}/services/servicebus/namespaces/{name}")]
+        IAsyncResult BeginDeleteServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state);
+
+        void EndDeleteServiceBusNamespace(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceManagementExtensionMethods
@@ -86,6 +95,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         public static ServiceBusNamespace CreateServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, ServiceBusNamespace namespaceDescription, string name)
         {
             return proxy.EndCreateServiceBusNamespace(proxy.BeginCreateServiceBusNamespace(subscriptionId, namespaceDescription, name, null, null));
+        }
+
+        public static void DeleteServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, string name)
+        {
+            proxy.EndDeleteServiceBusNamespace(proxy.BeginDeleteServiceBusNamespace(subscriptionId, name, null, null));
         }
     }
 }
