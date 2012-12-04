@@ -25,28 +25,20 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     [XmlRoot("NamespaceDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
     public class ServiceBusNamespace
     {
-        [XmlElement(Namespace=ServiceBusConstants.ServiceBusXNamespace)]
         public string Name { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Region { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string DefaultKey { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Status { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string CreatedAt { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string AcsManagementEndpoint { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string ServiceBusEndpoint { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string ConnectionString { get; set; }
 
         public override bool Equals(object obj)
@@ -90,10 +82,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             return regions;
         }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string Code { get; set; }
 
-        [XmlElement(Namespace = ServiceBusConstants.ServiceBusXNamespace)]
         public string FullName { get; set; }
     }
 }
