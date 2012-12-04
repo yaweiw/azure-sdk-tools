@@ -131,11 +131,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
     public class ODataBehaviorAttribute : Attribute, IOperationBehavior
     {
-        private Type formatterType;
+        private Type dataContractType;
 
         public ODataBehaviorAttribute(Type formatterType)
         {
-            this.formatterType = formatterType;
+            this.dataContractType = formatterType;
         }
 
         public void AddBindingParameters(OperationDescription operationDescription, BindingParameterCollection bindingParameters)
@@ -145,6 +145,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
+            Type genericFormatterType = typeof(ODataFormatter<>);
+            Type formatterType = genericFormatterType.MakeGenericType(new Type[] { dataContractType });
             ConstructorInfo ctor = formatterType.GetConstructor(new Type[] { typeof(IClientMessageFormatter) });
             IClientMessageFormatter newFormatter = ctor.Invoke(new object[] { clientOperation.Formatter }) as IClientMessageFormatter;
             clientOperation.Formatter = newFormatter;
