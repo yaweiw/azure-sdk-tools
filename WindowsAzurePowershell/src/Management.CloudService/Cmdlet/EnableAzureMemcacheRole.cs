@@ -80,8 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Verify cache worker role exists
             if (!azureService.Components.RoleExists(cacheWorkerRoleName))
             {
-                SafeWriteError(string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName));
-                return null;
+                throw new Exception(string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName));
             }
 
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(cacheWorkerRoleName);
@@ -89,15 +88,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Verify that the cache worker role has proper caching configuration.
             if (!IsCacheWorkerRole(cacheWorkerRole))
             {
-                SafeWriteError(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
-                return null;
+                throw new Exception(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
             }
 
             // Verify role to enable cache on exists
             if (!azureService.Components.RoleExists(roleName))
             {
-                SafeWriteError(string.Format(Resources.RoleNotFoundMessage, roleName));
-                return null;
+                throw new Exception(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
             WebRole webRole = azureService.Components.GetWebRole(roleName);
@@ -105,15 +102,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Verift role to enable cache is web role
             if (webRole == null)
             {
-                SafeWriteError(string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName));
-                return null;
+                throw new Exception(string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName));
             }
 
             // Verify that caching is not enabled for the role
             if (IsCacheEnabled(webRole))
             {
-                SafeWriteError(string.Format(Resources.CacheAlreadyEnabledMsg, roleName));
-                return null;
+                throw new Exception(string.Format(Resources.CacheAlreadyEnabledMsg, roleName));
             }
 
             // All validations passed, enable caching.
