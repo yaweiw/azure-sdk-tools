@@ -30,42 +30,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.New, "AzureServiceProject")]
     public class NewAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the node.js project")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the cloud project")]
         public string ServiceName { get; set; }
 
-        internal string NewAzureServiceProcess(string parentDirectory, string serviceName)
+        internal AzureService NewAzureServiceProcess(string parentDirectory, string serviceName)
         {
-            string message;
-            AzureService newService;
-
             // Create scaffolding structure
             //
-            newService = new AzureService(parentDirectory, serviceName, null);
-            
-            message = string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath);
+            AzureService newService = new AzureService(parentDirectory, serviceName, null);
 
-            return message;
+            SafeWriteOutputPSObject(
+                newService.GetType().FullName,
+                Parameters.ServiceName, newService.ServiceName,
+                Parameters.RootPath, newService.Paths.RootPath
+                );
+
+            SafeWriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
+
+            return newService;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                
-                // Create new service
-                //
-                string result = NewAzureServiceProcess(CurrentPath(), ServiceName);
-                // Set current directory to the root of the new service
-                //
-                SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ExecuteCmdlet();
+
+            SkipChannelInit = true;
+            NewAzureServiceProcess(CurrentPath(), ServiceName);
+            SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
         }
     }
 }
