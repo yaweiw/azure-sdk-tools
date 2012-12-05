@@ -255,16 +255,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         }
 
         /// <summary>
-        /// Write an error message for a given error message.
-        /// </summary>
-        /// <param name="ex">The error message.</param>
-        protected void SafeWriteError(string errorMessage)
-        {
-            Debug.Assert(!string.IsNullOrEmpty(errorMessage), "errorMessage cannot be null or empty.");
-            SafeWriteError(new ErrorRecord(new Exception(errorMessage), string.Empty, ErrorCategory.CloseError, null));
-        }
-
-        /// <summary>
         /// Wrap the base Cmdlet's WriteVerbose call so that it will not throw
         /// a NotSupportedException when called without a CommandRuntime (i.e.,
         /// when not called from within Powershell) and uses a writer object if
