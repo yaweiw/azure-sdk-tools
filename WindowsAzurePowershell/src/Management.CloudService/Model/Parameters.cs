@@ -10,5 +10,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public const string ServiceName = "ServiceName";
 
         public const string RootPath = "RootPath";
+
+        public const string CacheWorkerRoleName = "CacheWorkerRoleName";
+     
+        public const string Instances = "Instances";
     }
 }
