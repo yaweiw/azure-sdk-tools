@@ -243,6 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 writer.WriteError(errorRecord);
             }
         }
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
@@ -251,6 +252,16 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             Debug.Assert(ex != null, "ex cannot be null or empty.");
             SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+        }
+
+        /// <summary>
+        /// Write an error message for a given error message.
+        /// </summary>
+        /// <param name="ex">The error message.</param>
+        protected void SafeWriteError(string errorMessage)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(errorMessage), "errorMessage cannot be null or empty.");
+            SafeWriteError(new ErrorRecord(new Exception(errorMessage), string.Empty, ErrorCategory.CloseError, null));
         }
 
         /// <summary>
