@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+  <ViewDefinitions>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.CloudService.Model.AzureService</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.CloudService.Model.AzureService</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>ServiceName</Label>
+                <PropertyName>ServiceName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>RootPath</Label>
+                <PropertyName>RootPath</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+  </ViewDefinitions>
+</Configuration>

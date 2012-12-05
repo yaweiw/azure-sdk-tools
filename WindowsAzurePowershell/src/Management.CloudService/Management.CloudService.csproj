@@ -151,6 +151,7 @@
     <Compile Include="Model\GetDeploymentStatus.cs" />
     <Compile Include="Model\IPublishListener.cs" />
     <Compile Include="Model\JavaScriptPackageHelpers.cs" />
+    <Compile Include="Model\Parameters.cs" />
     <Compile Include="Model\RemoveAzureDeployment.cs" />
     <Compile Include="Cmdlet\RemoveAzureService.cs" />
     <Compile Include="Cmdlet\StartAzureService.cs" />
@@ -328,6 +329,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Microsoft.WindowsAzure.Management.CloudService.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="MoveScaffolding.bat" />
     <None Include="MSSharedLibKey.snk" />
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
