@@ -46,6 +46,36 @@
       </ListControl>
     </View>
     <View>
+      <Name>Microsoft.WindowsAzure.Management.CloudService.Model.ServiceSettings</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.CloudService.Model.ServiceSettings</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>Slot</Label>
+                <PropertyName>Slot</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Location</Label>
+                <PropertyName>Location</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Subscription</Label>
+                <PropertyName>Subscription</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>StorageAccountName</Label>
+                <PropertyName>StorageAccountName</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
       <Name>Microsoft.WindowsAzure.Management.CloudService.Model.CloudRuntimePackage</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.CloudService.Model.CloudRuntimePackage</TypeName>
