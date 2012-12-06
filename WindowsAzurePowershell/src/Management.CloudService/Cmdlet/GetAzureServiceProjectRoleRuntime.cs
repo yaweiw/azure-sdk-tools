@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Common;
-    using Model;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Model;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud
@@ -38,29 +37,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="runtimeType">The runtime type to filter by</param>
         /// <param name="rootPath">The path to the service in question</param>
         /// <param name="manifest">The path to the manifest file, if null, the default cloud manifest is used (test hook)</param>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void GetAzureRuntimesProcess(string runtimeType, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
             CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
-            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
-                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)), true);
+            WriteOutputObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
+                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>());
         }
 
-        /// <summary>
-        /// Do work on Pipeline objects
-        /// </summary>
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
-        }
+            base.ExecuteCmdlet();
+            SkipChannelInit = true;
+            this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
+        }        
     }
 }
