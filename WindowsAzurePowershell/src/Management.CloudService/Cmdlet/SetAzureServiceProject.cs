@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public string Subscription { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public void SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
+        public ServiceSettings SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
         {
             ServiceSettings settings = ServiceSettings.Load(settingsPath);
             if (newLocation != null)
@@ -64,6 +64,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 settings.Save(settingsPath);
             }
+
+            WriteOutputObject(settings);
+
+            return settings;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
