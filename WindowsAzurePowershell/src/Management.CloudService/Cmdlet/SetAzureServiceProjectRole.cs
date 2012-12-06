@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Common;
-    using Model;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Model;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
@@ -72,6 +72,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The path to the service containing the role</param>
         /// <param name="manifest">The manifest containing available runtimes, defaults to the cloud manifest
         /// mainly used a s a test hook</param>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
@@ -81,24 +82,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// Do pipeline processing
         /// </summary>
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void  ExecuteCmdlet()
         {
-            try
+            base.ExecuteCmdlet();
+            SkipChannelInit = true;
+            if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
             {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
-                {
-                    this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
-                }
-                else
-                {
-                    this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
-                }
+                this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
             }
-            catch (Exception ex)
+            else
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
             }
         }
     }
