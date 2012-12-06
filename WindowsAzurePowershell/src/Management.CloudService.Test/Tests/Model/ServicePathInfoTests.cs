@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServicePathInfoTestInvalidRootPathFail()
         {
-            foreach (string invalidDirectoryName in Data.InvalidServiceRootName)
+            foreach (string invalidDirectoryName in Data.InvalidServiceRootNames)
             {
                 try
                 {
