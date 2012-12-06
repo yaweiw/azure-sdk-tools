@@ -243,6 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 writer.WriteError(errorRecord);
             }
         }
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
