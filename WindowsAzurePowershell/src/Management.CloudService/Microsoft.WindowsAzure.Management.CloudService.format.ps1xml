@@ -23,5 +23,27 @@
         </ListEntries>
       </ListControl>
     </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.WorkerRole</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.WorkerRole</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>CacheWorkerRoleName</Label>
+                <PropertyName>CacheWorkerRoleName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Instances</Label>
+                <PropertyName>Instances</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>

@@ -27,22 +27,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115
         // Add invalid deployment name data
-        public static List<string> ValidServiceName { get; private set; }
-        public static List<string> ValidSubscriptionName { get; private set; }
-        public static List<string> ValidServiceRootName { get; private set; }
-        public static List<string> ValidDeploymentName { get; private set; }
-        public static List<string> ValidStorageName { get; private set; }
+        public static List<string> ValidServiceNames { get; private set; }
+        public static List<string> ValidSubscriptionNames { get; private set; }
+        public static List<string> ValidServiceRootNames { get; private set; }
+        public static List<string> ValidDeploymentNames { get; private set; }
+        public static List<string> ValidStorageNames { get; private set; }
         public static List<string> ValidPublishSettings { get; private set; }
-        public static List<string> ValidRoleName { get; private set; }
+        public static List<string> ValidRoleNames { get; private set; }
         public static List<int> ValidRoleInstances { get; private set; }
-        public static List<string> InvalidServiceRootName { get; private set; }
-        public static List<string> InvalidLocation { get; private set; }
-        public static List<string> InvalidSlot { get; private set; }
+        public static List<string> InvalidServiceRootNames { get; private set; }
+        public static List<string> InvalidLocations { get; private set; }
+        public static List<string> InvalidSlots { get; private set; }
         public static List<string> InvalidPublishSettings { get; private set; }
-        public static List<string> InvalidServiceName { get; private set; }
-        public static List<string> InvalidRoleName { get; private set; }
-        public static List<string> InvalidFileName { get; private set; }
-        public static List<string> InvalidPath { get; private set; }
+        public static List<string> InvalidServiceNames { get; private set; }
+        public static List<string> InvalidRoleNames { get; private set; }
+        public static List<string> InvalidFileNames { get; private set; }
+        public static List<string> InvalidPaths { get; private set; }
         public static List<int> InvalidRoleInstances { get; private set; }
         public static StorageServiceList ValidStorageService { get; private set; }
         public static string AzureSdkAppDir { get; private set; }
@@ -53,22 +53,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), Management.Properties.Resources.AzureDirectory);
             TestResultDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
-            ValidServiceName = new List<string>();
+            ValidServiceNames = new List<string>();
             InitializeValidServiceNameData();
 
-            ValidSubscriptionName = new List<string>();
+            ValidSubscriptionNames = new List<string>();
             InitializeValidSubscriptionNameData();
 
-            ValidServiceRootName = new List<string>();
+            ValidServiceRootNames = new List<string>();
             InitializeValidServiceRootNameData();
 
-            ValidDeploymentName = new List<string>();
+            ValidDeploymentNames = new List<string>();
             InitializeValidDeploymentNameData();
 
-            ValidStorageName = new List<string>();
+            ValidStorageNames = new List<string>();
             InitializeValidStorageNameData();
 
-            InvalidServiceRootName = new List<string>();
+            InvalidServiceRootNames = new List<string>();
             InitializeInvalidServiceRootNameData();
 
             ValidPublishSettings = new List<string>();
@@ -77,19 +77,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             InvalidPublishSettings = new List<string>();
             InitializeInvalidPublishSettingsData();
 
-            InvalidLocation = new List<string>();
+            InvalidLocations = new List<string>();
             InitializeInvalidLocationData();
 
-            InvalidSlot = new List<string>();
+            InvalidSlots = new List<string>();
             InitializeInvalidSlotData();
 
-            InvalidServiceName = new List<string>();
+            InvalidServiceNames = new List<string>();
             InitializeInvalidServiceNameData();
 
-            ValidRoleName = new List<string>();
+            ValidRoleNames = new List<string>();
             InitializeValidRoleNameData();
 
-            InvalidRoleName = new List<string>();
+            InvalidRoleNames = new List<string>();
             InitializeInvalidRoleNameData();
 
             ValidRoleInstances = new List<int>();
@@ -98,10 +98,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             InvalidRoleInstances = new List<int>();
             InitializeInvalidRoleInstancesData();
 
-            InvalidFileName = new List<string>();
+            InvalidFileNames = new List<string>();
             InitializeInvalidFileNameData();
 
-            InvalidPath = new List<string>();
+            InvalidPaths = new List<string>();
             InitializeInvalidPathData();
 
             ValidStorageService = new StorageServiceList();
@@ -143,9 +143,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
         private static void InitializeInvalidPathData()
         {
-            foreach (string invalidFolderName in InvalidServiceRootName)
+            foreach (string invalidFolderName in InvalidServiceRootNames)
             {
-                InvalidPath.Add(string.Format("{0}\\{1}", Directory.GetCurrentDirectory(), invalidFolderName));
+                InvalidPaths.Add(string.Format("{0}\\{1}", Directory.GetCurrentDirectory(), invalidFolderName));
             }
         }
 
@@ -164,10 +164,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
                 {
                     continue;
                 }
-                j %= ValidServiceRootName.Count - 1;
-                StringBuilder invalidFile = new StringBuilder(ValidServiceRootName[j]);
+                j %= ValidServiceRootNames.Count - 1;
+                StringBuilder invalidFile = new StringBuilder(ValidServiceRootNames[j]);
                 invalidFile[invalidFile.Length / 2] = invalidFileNameChars[i];
-                InvalidFileName.Add(invalidFile.ToString());
+                InvalidFileNames.Add(invalidFile.ToString());
             }
         }
 
@@ -189,38 +189,38 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
         private static void InitializeInvalidRoleNameData()
         {
-            InvalidRoleName.AddRange(InvalidServiceRootName);
+            InvalidRoleNames.AddRange(InvalidServiceRootNames);
         }
 
         private static void InitializeValidRoleNameData()
         {
-            ValidRoleName.Add("WebRole1");
-            ValidRoleName.Add("MyWebRole");
-            ValidRoleName.Add("WorkerRole");
-            ValidRoleName.Add("Node_WebRole");
+            ValidRoleNames.Add("WebRole1");
+            ValidRoleNames.Add("MyWebRole");
+            ValidRoleNames.Add("WorkerRole");
+            ValidRoleNames.Add("Node_WebRole");
         }
 
         private static void InitializeInvalidSlotData()
         {
-            InvalidSlot.Add(string.Empty);
-            InvalidSlot.Add(null);
-            InvalidSlot.Add("Praduction");
-            InvalidSlot.Add("Pddqdww");
-            InvalidSlot.Add("Stagging");
-            InvalidSlot.Add("Sagiang");
+            InvalidSlots.Add(string.Empty);
+            InvalidSlots.Add(null);
+            InvalidSlots.Add("Praduction");
+            InvalidSlots.Add("Pddqdww");
+            InvalidSlots.Add("Stagging");
+            InvalidSlots.Add("Sagiang");
         }
 
         private static void InitializeInvalidLocationData()
         {
-            InvalidLocation.Add(string.Empty);
-            InvalidLocation.Add(null);
-            InvalidLocation.Add("My Home");
-            InvalidLocation.Add("AnywhereUS");
-            InvalidLocation.Add("USA");
-            InvalidLocation.Add("Microsoft");
-            InvalidLocation.Add("Near");
-            InvalidLocation.Add("Anywhere Africa");
-            InvalidLocation.Add("Anywhhere US");
+            InvalidLocations.Add(string.Empty);
+            InvalidLocations.Add(null);
+            InvalidLocations.Add("My Home");
+            InvalidLocations.Add("AnywhereUS");
+            InvalidLocations.Add("USA");
+            InvalidLocations.Add("Microsoft");
+            InvalidLocations.Add("Near");
+            InvalidLocations.Add("Anywhere Africa");
+            InvalidLocations.Add("Anywhhere US");
         }
 
         private static void InitializeInvalidPublishSettingsData()
@@ -242,75 +242,75 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
             for (int i = 0, j = 0; i < invalidPathNameChars.Length; i++)
 			{
-                StringBuilder invalidPath = new StringBuilder(ValidServiceRootName[j]);
+                StringBuilder invalidPath = new StringBuilder(ValidServiceRootNames[j]);
                 invalidPath[invalidPath.Length / 2] = invalidPathNameChars[i];
-                j %= ValidServiceRootName.Count;
-                InvalidServiceRootName.Add(invalidPath.ToString());
+                j %= ValidServiceRootNames.Count;
+                InvalidServiceRootNames.Add(invalidPath.ToString());
 			}
         }
 
         private static void InitializeValidStorageNameData()
         {
-            ValidStorageName.AddRange(ValidServiceName);
+            ValidStorageNames.AddRange(ValidServiceNames);
         }
 
         private static void InitializeValidDeploymentNameData()
         {
-            ValidDeploymentName.Add("MyDeployment");
-            ValidDeploymentName.Add("Storage deployment");
-            ValidDeploymentName.Add("_deployment name");
-            ValidDeploymentName.Add("deploy service1");
+            ValidDeploymentNames.Add("MyDeployment");
+            ValidDeploymentNames.Add("Storage deployment");
+            ValidDeploymentNames.Add("_deployment name");
+            ValidDeploymentNames.Add("deploy service1");
         }
 
         private static void InitializeValidSubscriptionNameData()
         {
-            ValidSubscriptionName.Add("Windows Azure Sandbox 9-220");
-            ValidSubscriptionName.Add("_MySubscription");
-            ValidSubscriptionName.Add("This is my subscription");
-            ValidSubscriptionName.Add("Windows Azure Sandbox 284-1232");
+            ValidSubscriptionNames.Add("Windows Azure Sandbox 9-220");
+            ValidSubscriptionNames.Add("_MySubscription");
+            ValidSubscriptionNames.Add("This is my subscription");
+            ValidSubscriptionNames.Add("Windows Azure Sandbox 284-1232");
         }
 
         private static void InitializeValidServiceNameData()
         {
-            ValidServiceName.Add("HelloNode");
-            ValidServiceName.Add("node.jsservice");
-            ValidServiceName.Add("node_js_service");
-            ValidServiceName.Add("node-js-service");
-            ValidServiceName.Add("node-js-service123");
-            ValidServiceName.Add("123node-js-service123");
-            ValidServiceName.Add("123node-js2service");
+            ValidServiceNames.Add("HelloNode");
+            ValidServiceNames.Add("node.jsservice");
+            ValidServiceNames.Add("node_js_service");
+            ValidServiceNames.Add("node-js-service");
+            ValidServiceNames.Add("node-js-service123");
+            ValidServiceNames.Add("123node-js-service123");
+            ValidServiceNames.Add("123node-js2service");
         }
 
         private static void InitializeInvalidServiceNameData()
         {
-            InvalidServiceName.Add("Hello\\Node");
-            InvalidServiceName.Add("Hello/Node");
-            InvalidServiceName.Add("Node App Sample");
-            InvalidServiceName.Add("My$app");
-            InvalidServiceName.Add("My@app");
-            InvalidServiceName.Add("My#app");
-            InvalidServiceName.Add("My%app");
-            InvalidServiceName.Add("My^app");
-            InvalidServiceName.Add("My&app");
-            InvalidServiceName.Add("My*app");
-            InvalidServiceName.Add("My+app");
-            InvalidServiceName.Add("My=app");
-            InvalidServiceName.Add("My{app");
-            InvalidServiceName.Add("My}app");
-            InvalidServiceName.Add("My(app");
-            InvalidServiceName.Add("My)app");
-            InvalidServiceName.Add("My[app");
-            InvalidServiceName.Add("My]app");
-            InvalidServiceName.Add("My|app");
-            InvalidServiceName.Add("-MyDomain");
-            InvalidServiceName.Add("MyDomain-");
-            InvalidServiceName.Add("-MyDomain-");
-            InvalidServiceName.Add(new string('a', 64));
+            InvalidServiceNames.Add("Hello\\Node");
+            InvalidServiceNames.Add("Hello/Node");
+            InvalidServiceNames.Add("Node App Sample");
+            InvalidServiceNames.Add("My$app");
+            InvalidServiceNames.Add("My@app");
+            InvalidServiceNames.Add("My#app");
+            InvalidServiceNames.Add("My%app");
+            InvalidServiceNames.Add("My^app");
+            InvalidServiceNames.Add("My&app");
+            InvalidServiceNames.Add("My*app");
+            InvalidServiceNames.Add("My+app");
+            InvalidServiceNames.Add("My=app");
+            InvalidServiceNames.Add("My{app");
+            InvalidServiceNames.Add("My}app");
+            InvalidServiceNames.Add("My(app");
+            InvalidServiceNames.Add("My)app");
+            InvalidServiceNames.Add("My[app");
+            InvalidServiceNames.Add("My]app");
+            InvalidServiceNames.Add("My|app");
+            InvalidServiceNames.Add("-MyDomain");
+            InvalidServiceNames.Add("MyDomain-");
+            InvalidServiceNames.Add("-MyDomain-");
+            InvalidServiceNames.Add(new string('a', 64));
         }
 
         private static void InitializeValidServiceRootNameData()
         {
-            ValidServiceRootName.AddRange(ValidServiceName);
+            ValidServiceRootNames.AddRange(ValidServiceNames);
         }        
     }
 }
