@@ -49,18 +49,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public SecureString Password { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                base.ProcessRecord();
-                EnableRemoteDesktop();
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(ex);
-            }
+            base.ExecuteCmdlet();
+
+            AzureTool.Validate();
+            EnableRemoteDesktop();
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
