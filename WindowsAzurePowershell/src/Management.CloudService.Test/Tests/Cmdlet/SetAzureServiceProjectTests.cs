@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
-            foreach (string item in Data.ValidSubscriptionName)
+            foreach (string item in Data.ValidSubscriptionNames)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {
