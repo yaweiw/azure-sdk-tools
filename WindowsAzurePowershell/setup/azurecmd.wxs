@@ -77,7 +77,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell commandlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -Command &quot;cd 'C:\'; Get-ChildItem '[PowerShellFolder]*.psd1' | ForEach-Object {Import-Module $_}&quot;"
+                  Arguments="-NoExit -Command &quot;cd 'C:\'; Get-ChildItem '[PowerShellFolder]*.psd1' | ForEach-Object {Import-Module $_}; $VerbosePreference=\&quot;Continue\&quot;&quot;"
                   />
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
