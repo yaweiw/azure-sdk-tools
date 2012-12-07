@@ -72,18 +72,20 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     [XmlRoot("RegionCodeDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
     public class ServiceBusRegion
     {
-        public static ServiceBusRegion Create(XElement namespaceDescription)
-        {
-            ServiceBusRegion regions = new ServiceBusRegion();
-
-            regions.Code = namespaceDescription.Element(XName.Get("Code", ServiceBusConstants.ServiceBusXNamespace)).Value;
-            regions.FullName = namespaceDescription.Element(XName.Get("FullName", ServiceBusConstants.ServiceBusXNamespace)).Value;
-
-            return regions;
-        }
-
         public string Code { get; set; }
 
         public string FullName { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            ServiceBusRegion rhs = obj as ServiceBusRegion;
+
+            return this.Code.Equals(rhs.Code);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Code.GetHashCode();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// The name is a compromise for something that pops up easily in
     /// intellisense when using MSTest.
     /// </remarks>
-    internal static class Testing
+    public static class Testing
     {
         /// <summary>
         /// Ensure an action throws a specific type of Exception.
