@@ -123,6 +123,9 @@
   <data name="InvalidNamespaceName" xml:space="preserve">
     <value>The provided name "{0}" does not match the service bus namespace naming rules.</value>
   </data>
+  <data name="InvalidServiceBusLocation" xml:space="preserve">
+    <value>The provided location "{0}" does not exist in the available locations use Get-AzureSBLocation for listing available locations.</value>
+  </data>
   <data name="NewNamespaceErrorMessage" xml:space="preserve">
     <value>Internal Server Error. This could happen because the namespace name is already used or due to an incorrect location name. Use Get-AzureSBLocation cmdlet to list valid names.</value>
   </data>
