@@ -64,24 +64,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         {
             ServiceBusNamespace namespaceDescription = null;
 
+            if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
+            }
+
+            if (!Channel.ListServiceBusRegions(subscriptionId).Contains(new ServiceBusRegion { Code = region }))
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidServiceBusLocation, region), "Location");
+            }
+
             try
             {
-                if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
-                {
-                    namespaceDescription = new ServiceBusNamespace { Region = region };
-                    namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
-                    WriteOutputObject(namespaceDescription);
-                }
-                else
-                {
-                    SafeWriteError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
-                }
+                namespaceDescription = new ServiceBusNamespace { Region = region };
+                namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
+                WriteOutputObject(namespaceDescription);
             }
             catch (Exception ex)
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.NewNamespaceErrorMessage));
+                    throw new Exception(Resources.NewNamespaceErrorMessage);
                 }
             }
 
