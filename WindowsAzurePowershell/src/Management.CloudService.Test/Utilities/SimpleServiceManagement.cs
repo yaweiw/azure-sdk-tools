@@ -1537,14 +1537,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
+        public Func<SimpleServiceManagementAsyncResult, AvailabilityResponse> IsDNSAvailableThunk { get; set; }
         public IAsyncResult BeginIsDNSAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
         }
 
         public AvailabilityResponse EndIsDNSAvailable(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            AvailabilityResponse availabilityResponse = new AvailabilityResponse();
+
+            if (IsDNSAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsDNSAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsDNSAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
         }
 
         public IAsyncResult BeginPrepareImageUpload(string subscriptionId, string imageName, PrepareImageUploadInput input, AsyncCallback callback, object state)
@@ -1717,9 +1738,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginIsStorageServiceAvailable(string subscriptionID, string serviceName, AsyncCallback callback, object state)
+        public Func<SimpleServiceManagementAsyncResult, AvailabilityResponse> IsStorageServiceAvailableThunk { get; set; }
+        public IAsyncResult BeginIsStorageServiceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult)
+        {
+            AvailabilityResponse availabilityResponse = new AvailabilityResponse();
+
+            if (IsStorageServiceAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsStorageServiceAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsStorageServiceAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
         }
 
         public IAsyncResult BeginGetAzureWebsites(string subscriptionId, AsyncCallback callback, object state)
@@ -1728,11 +1775,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         public void EndGetAzureWebsites(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
