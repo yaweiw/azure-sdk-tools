@@ -88,4 +88,22 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             return this.Code.GetHashCode();
         }
     }
+
+    [XmlRoot("NamespaceAvailability", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
+    public class ServiceBusNamespaceAvailabiliyResponse
+    {
+        public bool Result { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            ServiceBusNamespaceAvailabiliyResponse rhs = obj as ServiceBusNamespaceAvailabiliyResponse;
+
+            return this.Result.Equals(rhs.Result);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Result.GetHashCode();
+        }
+    }
 }

@@ -44,8 +44,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             set;
         }
 
+        [Parameter(Position = 0, Mandatory = true, ParameterSetName = "ServiceBusNamespace", HelpMessage = "Test for a service bus namespace name.")]
+        public SwitchParameter ServiceBusNamespace
+        {
+            get;
+            set;
+        }
+
         [Parameter(Position = 1, ParameterSetName = "Service", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Cloud service name.")]
         [Parameter(Position = 1, ParameterSetName = "Storage", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Storage account name.")]
+        [Parameter(Position = 1, ParameterSetName = "ServiceBusNamespace", Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Service bus namespace name.")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -53,14 +61,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             set;
         }
 
-        public void IsDNSAvailable(string name)
+        public AvailabilityResponse IsDNSAvailable(string subscriptionId, string name)
         {
-            ExecuteClientActionInOCS(null, "IsDNSAvailable", s => Channel.IsDNSAvailable(s, name), WaitForOperation, (op, response) => !response.Result);
+            AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
+
+            WriteOutputObject(result.Result);
+
+            return result;
         }
 
-        public void IsStorageServiceAvailable(string name)
+        public AvailabilityResponse IsStorageServiceAvailable(string subscriptionId, string name)
         {
-            ExecuteClientActionInOCS(null, "IsStorageServiceAvailable", s => Channel.IsStorageServiceAvailable(s, Name), WaitForOperation, (op, response) => !response.Result);
+            AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
+            
+            WriteOutputObject(!result.Result);
+
+            return result;
+        }
+
+        public ServiceBusNamespaceAvailabiliyResponse IsServiceBusNamespaceAvailable(string subscriptionId, string name)
+        {
+            ServiceBusNamespaceAvailabiliyResponse result = Channel.IsServiceBusNamespaceAvailable(subscriptionId, name);
+            
+            // Toggle the result to align with other name tests.
+            WriteOutputObject(!result.Result);
+
+            return result;
         }
 
         public override void  ExecuteCmdlet()
@@ -69,11 +95,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (Service.IsPresent)
             {
-                IsDNSAvailable(Name);
+                IsDNSAvailable(CurrentSubscription.SubscriptionId, Name);
+            }
+            else if (Storage.IsPresent)
+            {
+                IsStorageServiceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
             else
             {
-                IsStorageServiceAvailable(Name);
+                IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
         }
     }
