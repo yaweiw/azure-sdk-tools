@@ -1958,5 +1958,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 throw new NotImplementedException("DeleteServiceBusNamespaceThunk is not implemented!");
             }
         }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceAvailabiliyResponse> IsServiceBusNamespaceAvailableThunk { get; set; }
+        public IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespaceAvailabiliyResponse availabilityResponse = new ServiceBusNamespaceAvailabiliyResponse();
+
+            if (IsServiceBusNamespaceAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsServiceBusNamespaceAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsServiceBusNamespaceAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
+        }
     }
 }
