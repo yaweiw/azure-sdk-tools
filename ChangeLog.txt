@@ -1,3 +1,8 @@
+2012.11.21 Version 0.6.8
+ * Multiple bugfixes
+ * Added dedicated cache role support
+ * Added github support
+
 2012.10.08 Version 0.6.5
  * Adding websites cmdlets
 

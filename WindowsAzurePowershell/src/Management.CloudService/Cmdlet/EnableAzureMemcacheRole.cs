@@ -45,6 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [Alias("rn")]
+        [ValidateNotNullOrEmpty]
         public string RoleName { get; set; }
 
         /// <summary>
@@ -52,21 +53,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
         [Alias("cn")]
+        [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(ex);
-            }
+            base.ExecuteCmdlet();
+
+            SkipChannelInit = true;
+            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
         }
 
         /// <summary>
@@ -77,15 +73,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The root path of the services</param>
         /// <returns>The resulted message</returns>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public string EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
+        public WebRole EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
         {
-            string message = string.Empty;
             AzureService azureService = new AzureService(rootPath, null);
 
             // Verify cache worker role exists
             if (!azureService.Components.RoleExists(cacheWorkerRoleName))
             {
-                return string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName);
+                throw new Exception(string.Format(Resources.RoleNotFoundMessage, cacheWorkerRoleName));
             }
 
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(cacheWorkerRoleName);
@@ -93,13 +88,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Verify that the cache worker role has proper caching configuration.
             if (!IsCacheWorkerRole(cacheWorkerRole))
             {
-                return string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName);
+                throw new Exception(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
             }
 
             // Verify role to enable cache on exists
             if (!azureService.Components.RoleExists(roleName))
             {
-                return string.Format(Resources.RoleNotFoundMessage, roleName);
+                throw new Exception(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
             WebRole webRole = azureService.Components.GetWebRole(roleName);
@@ -107,19 +102,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Verift role to enable cache is web role
             if (webRole == null)
             {
-                return string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName);
+                throw new Exception(string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName));
             }
 
             // Verify that caching is not enabled for the role
             if (IsCacheEnabled(webRole))
             {
-                return string.Format(Resources.CacheAlreadyEnabledMsg, roleName);
+                throw new Exception(string.Format(Resources.CacheAlreadyEnabledMsg, roleName));
             }
 
             // All validations passed, enable caching.
+            string message = string.Empty;
             EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
-            return message;
+            SafeWriteVerbose(message);
+
+            return azureService.Components.GetWebRole(roleName);
         }
 
         /// <summary>

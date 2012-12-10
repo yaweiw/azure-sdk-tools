@@ -16,21 +16,52 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System.Collections.Generic;
     using Management.Utilities;
+using System.Management.Automation;
 
     public class FakeWriter : IMessageWriter
     {
-        private List<string> messages; 
+        private List<string> messages;
+
+        private List<object> outputChannel;
+
+        private List<ErrorRecord> errorChannel;
+
+        private List<string> verboseChannel;
 
         public FakeWriter()
         {
-            messages=new List<string>();    
+            messages = new List<string>();
+            outputChannel = new List<object>();
+            errorChannel = new List<ErrorRecord>();
+            verboseChannel = new List<string>();
         }
 
         public List<string> Messages { get { return messages; }}
 
+        public List<object> OutputChannel { get { return outputChannel; } }
+
+        public List<ErrorRecord> ErrorChannel { get { return errorChannel; } }
+
+        public List<string> VerboseChannel { get { return verboseChannel; } }
+
         public void Write(string message)
         {
             Messages.Add(message);
+        }
+
+        public void WriteObject(object obj)
+        {
+            outputChannel.Add(obj);
+        }
+
+        public void WriteError(ErrorRecord error)
+        {
+            errorChannel.Add(error);
+        }
+
+        public void WriteVerbose(string message)
+        {
+            verboseChannel.Add(message);
         }
     }
 }
