@@ -104,10 +104,6 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Samples.WindowsAzure.ServiceManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Samples.WindowsAzure.ServiceManagement.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
@@ -246,6 +242,10 @@
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
+      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
+      <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -54,16 +54,39 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         {
             Site = new Site();
             SiteConfig = new SiteConfig();
+            AppSettings = new Hashtable();
         }
 
         public SiteWithConfig(Site site, SiteConfig siteConfig)
         {
             Site = site;
             SiteConfig = siteConfig;
+            AppSettings = new Hashtable();
+            
+            if (SiteConfig.AppSettings != null)
+            {
+                foreach (var setting in SiteConfig.AppSettings)
+                {
+                    AppSettings[setting.Name] = setting.Value;
+                }
+            }
         }
 
         public SiteConfig GetSiteConfig()
         {
+            if (AppSettings != null)
+            {
+                SiteConfig.AppSettings = new List<NameValuePair>();
+                foreach (var setting in AppSettings.Keys)
+                {
+                    SiteConfig.AppSettings.Add(new NameValuePair
+                    {
+                        Name = (string)setting,
+                        Value = (string)AppSettings[setting]
+                    });
+                }
+            }
+
             return SiteConfig;
         }
 
@@ -125,44 +148,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
             set { SiteConfig.PublishingPassword = value; }
         }
 
-        public Hashtable AppSettings
-        {
-            get
-            {
-                if (SiteConfig.AppSettings != null)
-                {
-                    Hashtable appSettings = new Hashtable();
-                    foreach (var setting in SiteConfig.AppSettings)
-                    {
-                        appSettings[setting.Name] = setting.Value;
-                    }
-
-                    return appSettings;
-                }
-
-                return null;
-            }
-
-            set
-            {
-                if (value != null)
-                {
-                    SiteConfig.AppSettings = new List<NameValuePair>();
-                    foreach (var setting in value.Keys)
-                    {
-                        SiteConfig.AppSettings.Add(new NameValuePair
-                        {
-                            Name = (string)setting,
-                            Value = (string)value[setting]
-                        });
-                    }
-                }
-                else
-                {
-                    SiteConfig.AppSettings = null;
-                }
-            }
-        }
+        public Hashtable AppSettings { get; set; }
         
         public List<NameValuePair> Metadata
         {

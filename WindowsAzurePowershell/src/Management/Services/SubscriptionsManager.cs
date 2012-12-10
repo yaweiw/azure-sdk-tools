@@ -62,8 +62,23 @@ namespace Microsoft.WindowsAzure.Management.Services
                         : new SubscriptionData { SubscriptionName = subscription.Name };
 
                     subscriptionData.SubscriptionId = subscription.Id;
-                    subscriptionData.Certificate = certificate;
-                    subscriptionData.ServiceEndpoint = publishSettings.Items.Single().Url;
+                    if (!string.IsNullOrEmpty(subscription.ManagementCertificate))
+                    {
+                        subscriptionData.Certificate = new X509Certificate2(Convert.FromBase64String(subscription.ManagementCertificate), string.Empty);
+                    }
+                    else
+                    {
+                        subscriptionData.Certificate = certificate;
+                    }
+
+                    if (!string.IsNullOrEmpty(subscription.ServiceManagementUrl))
+                    {
+                        subscriptionData.ServiceEndpoint = subscription.ServiceManagementUrl;
+                    }
+                    else
+                    {
+                        subscriptionData.ServiceEndpoint = publishSettings.Items.Single().Url;
+                    }
 
                     subscriptionsManager.Subscriptions[subscriptionData.SubscriptionName] = subscriptionData;
                 }
@@ -94,6 +109,10 @@ namespace Microsoft.WindowsAzure.Management.Services
 
                         if (subscription.Certificate != null)
                         {
+                            // Make sure certificate is in store
+                            General.AddCertificateToStore(subscription.Certificate);
+                            
+                            // Save the thumbprint for the certificate
                             subscriptionsSubscription.Thumbprint = subscription.Certificate.Thumbprint;
                         }
 

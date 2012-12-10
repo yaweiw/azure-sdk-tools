@@ -14,22 +14,64 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using System.IO;
+    using System;
 
     [TestClass]
     public class NewAzureServiceTests : TestBase
     {
-        public void NewAzureServiceProcessTest()
+        FakeWriter writer;
+        NewAzureServiceProjectCommand cmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
         {
-            string serviceName = "AzureService";
+            writer = new FakeWriter();
+            cmdlet = new NewAzureServiceProjectCommand();
+            cmdlet.Writer = writer;
+        }
+
+        [TestMethod]
+        public void NewAzureServiceSuccessfull()
+        {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, serviceName);
+                // Setup
+                string expectedName = "test";
+                string expectedRootPath = Path.Combine(files.RootPath, expectedName);
+                string expectedServiceCreatedMessage = string.Format(Resources.NewServiceCreatedMessage, expectedRootPath);
+                cmdlet.ServiceName = expectedName;
 
-                AzureAssert.AzureServiceExists(files.RootPath, Resources.GeneralScaffolding, serviceName);
+                // Test
+                cmdlet.NewAzureServiceProcess(files.RootPath, expectedName);
+
+                // Assert
+                PSObject actualPSObject = writer.OutputChannel[0] as PSObject;
+                string actualServiceCreatedMessage = writer.VerboseChannel[0];
+                
+                Assert.AreEqual<string>(expectedName, actualPSObject.Members[Parameters.ServiceName].Value.ToString());
+                Assert.AreEqual<string>(expectedRootPath, actualPSObject.Members[Parameters.RootPath].Value.ToString());
+                Assert.AreEqual<string>(expectedServiceCreatedMessage, actualServiceCreatedMessage);
+                AzureAssert.AzureServiceExists(expectedRootPath, Resources.GeneralScaffolding, expectedName);
+            }
+        }
+
+        [TestMethod]
+        public void NewAzureServiceWithInvalidNames()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                foreach (string name in TestData.Data.InvalidServiceNames)
+                {
+                    cmdlet.ServiceName = name;
+                    Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet());
+                }
             }
         }
     }

@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
+    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
-    using Services;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Simple implementation of teh IServiceManagement interface that can be
@@ -1537,14 +1537,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
+        public Func<SimpleServiceManagementAsyncResult, AvailabilityResponse> IsDNSAvailableThunk { get; set; }
         public IAsyncResult BeginIsDNSAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
         }
 
         public AvailabilityResponse EndIsDNSAvailable(IAsyncResult asyncResult)
         {
-            throw new NotImplementedException();
+            AvailabilityResponse availabilityResponse = new AvailabilityResponse();
+
+            if (IsDNSAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsDNSAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsDNSAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
         }
 
         public IAsyncResult BeginPrepareImageUpload(string subscriptionId, string imageName, PrepareImageUploadInput input, AsyncCallback callback, object state)
@@ -1717,9 +1738,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginIsStorageServiceAvailable(string subscriptionID, string serviceName, AsyncCallback callback, object state)
+        public Func<SimpleServiceManagementAsyncResult, AvailabilityResponse> IsStorageServiceAvailableThunk { get; set; }
+        public IAsyncResult BeginIsStorageServiceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
-            throw new NotImplementedException();
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult)
+        {
+            AvailabilityResponse availabilityResponse = new AvailabilityResponse();
+
+            if (IsStorageServiceAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsStorageServiceAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsStorageServiceAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
         }
 
         public IAsyncResult BeginGetAzureWebsites(string subscriptionId, AsyncCallback callback, object state)
@@ -1728,11 +1775,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         public void EndGetAzureWebsites(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public AvailabilityResponse EndIsStorageServiceAvailable(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }
@@ -1765,6 +1807,187 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public System.ServiceModel.Channels.Message EndProcessMessage(IAsyncResult result)
         {
             throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+            
+            return result;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> GetNamespaceThunk { get; set; }
+        public ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+
+            if (GetNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = GetNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("GetNamespaceThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusNamespace>> ListNamespacesThunk { get; set; }
+        public IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public List<ServiceBusNamespace> EndListServiceBusNamespaces(IAsyncResult asyncResult)
+        {
+            List<ServiceBusNamespace> serviceBusNamespase = new List<ServiceBusNamespace>();
+
+            if (ListNamespacesThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = ListNamespacesThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ListNamespacesThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusRegion>> ListServiceBusRegionsThunk { get; set; }
+        public IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public List<ServiceBusRegion> EndListServiceBusRegions(IAsyncResult asyncResult)
+        {
+            List<ServiceBusRegion> serviceBusNamespase = new List<ServiceBusRegion>();
+
+            if (ListServiceBusRegionsThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = ListServiceBusRegionsThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("ListServiceBusRegionsThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> CreateServiceBusNamespaceThunk { get; set; }
+        public IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["namespaceDescription"] = namespaceDescription;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+
+            if (CreateServiceBusNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                serviceBusNamespase = CreateServiceBusNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("CreateServiceBusNamespaceThunk is not implemented!");
+            }
+
+            return serviceBusNamespase;
+        }
+
+        public Action<SimpleServiceManagementAsyncResult> DeleteServiceBusNamespaceThunk { get; set; }
+        public IAsyncResult BeginDeleteServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["name"] = name;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public void EndDeleteServiceBusNamespace(IAsyncResult asyncResult)
+        {
+            if (DeleteServiceBusNamespaceThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                DeleteServiceBusNamespaceThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("DeleteServiceBusNamespaceThunk is not implemented!");
+            }
+        }
+
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceAvailabiliyResponse> IsServiceBusNamespaceAvailableThunk { get; set; }
+        public IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
+        {
+            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
+            result.Values["subscriptionId"] = subscriptionId;
+            result.Values["serviceName"] = serviceName;
+            result.Values["callback"] = callback;
+            result.Values["state"] = state;
+
+            return result;
+        }
+
+        public ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult)
+        {
+            ServiceBusNamespaceAvailabiliyResponse availabilityResponse = new ServiceBusNamespaceAvailabiliyResponse();
+
+            if (IsServiceBusNamespaceAvailableThunk != null)
+            {
+                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
+                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
+
+                availabilityResponse = IsServiceBusNamespaceAvailableThunk(result);
+            }
+            else if (ThrowsIfNotImplemented)
+            {
+                throw new NotImplementedException("IsServiceBusNamespaceAvailableThunk is not implemented!");
+            }
+
+            return availabilityResponse;
         }
     }
 }

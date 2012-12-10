@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
             }
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
+                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsFalse(statusUpdated);
                 Assert.AreEqual<string>(expectedMessage, resultMessage);
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
+                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsFalse(statusUpdated);
                 Assert.AreEqual<string>(expectedMessage, resultMessage);
@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
+                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsFalse(statusUpdated);
                 Assert.AreEqual<string>(expectedMessage, resultMessage);
