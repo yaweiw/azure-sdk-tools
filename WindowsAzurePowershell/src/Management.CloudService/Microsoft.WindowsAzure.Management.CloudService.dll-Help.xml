@@ -2883,7 +2883,7 @@ C:\PS&gt;			</maml:introduction>
     <dev:version />
   </command:details>
   <maml:description>
-    <maml:para>The Test-AzureName tests whether a Windows Azure cloud service name, storage service name, service bus namespace name is in use. If the name is in use, the cmdlet returns $True. If the name is not being used, it returns $False. You can test for a cloud service name, a storage service name or a service bus namespace name. </maml:para>
+    <maml:para>The Test-AzureName tests whether a Windows Azure cloud service name, storage service name, service bus namespace name is in use. If the name is in use, the cmdlet returns $True. If the name is not being used, it returns $False. </maml:para>
   </maml:description>
   <command:syntax>
     <command:syntaxItem>
