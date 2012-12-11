@@ -1,3 +1,10 @@
+2012.12.12 Version 0.6.9
+ * Added Service Bus namespace management cmdlets
+ * Added VHD uploader cmdlet for Persistent VMs
+ * Improved message reporting and piping for couple scaffolding cmdlets
+ * Fixed PHP customization functionality for modifying php.ini and installing custom extensions
+ * Verbose option is enabled by default when using Windows Azure PowerShell shortcut
+
 2012.11.21 Version 0.6.8
  * Multiple bugfixes
  * Added dedicated cache role support
