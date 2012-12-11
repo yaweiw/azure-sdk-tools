@@ -48,20 +48,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
-            Assert.IsTrue(actual.Result);
+            bool actual = (bool)writer.OutputChannel[0];
+            Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureServiceNameNotAvailable()
+        public void TestAzureServiceNameIsNotAvailable()
         {
             string name = "test";
             channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
-            Assert.IsFalse(actual.Result);
+            bool actual = (bool)writer.OutputChannel[0];
+            Assert.IsFalse(actual);
         }
 
         [TestMethod]
@@ -72,20 +72,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
-            Assert.IsTrue(actual.Result);
+            bool actual = (bool)writer.OutputChannel[0];
+            Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureStorageNameNotAvailable()
+        public void TestAzureStorageNameIsNotAvailable()
         {
             string name = "test";
             channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
-            Assert.IsFalse(actual.Result);
+            bool actual = (bool)writer.OutputChannel[0];
+            Assert.IsFalse(actual);
         }
 
         [TestMethod]
@@ -96,24 +96,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
+            bool actual = (bool)writer.OutputChannel[0];
 
-            // The service bus availability is toggled so if Result is false that means namespace is not used.
-            Assert.IsFalse(actual.Result);
+            Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureServiceBusNamespaceNotAvailable()
+        public void TestAzureServiceBusNamespaceIsNotAvailable()
         {
             string name = "test";
             channel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = false }; };
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            AvailabilityResponse actual = writer.OutputChannel[0] as AvailabilityResponse;
+            bool actual = (bool)writer.OutputChannel[0];
             
-            // The service bus availability is toggled so if Result is true that means namespace is already used.
-            Assert.IsTrue(actual.Result);
+            Assert.IsFalse(actual);
         }
     }
 }
