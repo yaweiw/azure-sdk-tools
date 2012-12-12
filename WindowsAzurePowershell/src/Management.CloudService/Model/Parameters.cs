@@ -14,5 +14,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public const string CacheWorkerRoleName = "CacheWorkerRoleName";
      
         public const string Instances = "Instances";
+
+        public const string RoleName = "RoleName";
     }
 }
