@@ -56,12 +56,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
 
+        public EnableAzureMemcacheRoleCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-
-            SkipChannelInit = true;
             EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
         }
 
