@@ -33,6 +33,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
     public class DisableAzureServiceProjectRemoteDesktopCommand : CloudCmdlet<IServiceManagement>
     {
+        public DisableAzureServiceProjectRemoteDesktopCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
