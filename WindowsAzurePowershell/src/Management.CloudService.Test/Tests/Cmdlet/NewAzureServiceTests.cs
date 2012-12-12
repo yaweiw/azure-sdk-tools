@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                foreach (string name in TestData.Data.InvalidServiceName)
+                foreach (string name in TestData.Data.InvalidServiceNames)
                 {
                     cmdlet.ServiceName = name;
                     Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet());

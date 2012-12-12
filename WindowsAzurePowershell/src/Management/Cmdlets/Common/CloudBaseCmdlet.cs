@@ -428,7 +428,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (input != null)
             {
-                this.WriteVerboseOutputForObject(input);
+                this.SafeWriteVerboseOutputForObject(input, Writer);
             }
 
             IContextChannel contextChannel = Channel as IContextChannel;
@@ -443,7 +443,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         if (result != null)
                         {
                             object context = contextFactory(operation, result);
-                            WriteObject(context, true);
+                            WriteOutputObject(context);
                         }
                     }
                     catch (CommunicationException ex)
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 TResult result = RetryCall(action);
                 if (result != null)
                 {
-                    WriteObject(result, true);
+                    WriteOutputObject(result);
                 }
             }
         }

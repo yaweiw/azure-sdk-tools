@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string servicePath = Path.Combine(files.RootPath, "AzureService");
                 new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
 
-                foreach (string invalidName in TestData.Data.InvalidRoleName)
+                foreach (string invalidName in TestData.Data.InvalidRoleNames)
                 {
                     Testing.AssertThrows<ArgumentException>(() => cmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, servicePath));
                 }
