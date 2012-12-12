@@ -10,9 +10,9 @@ For documentation on how to build and deploy applications to Windows Azure pleas
 
 # Cmdlets Features
 
-*. Type ```help azure``` to get the full list of all the cmdlets.
-*. Type ```help node-dev``` to get the list of all Node.js development related cmdlets.
-*. Type ```help php-dev``` to get the list of all PHP development related cmdlets.
+* Type ```help azure``` to get the full list of all the cmdlets.
+* Type ```help node-dev``` to get the list of all Node.js development related cmdlets.
+* Type ```help php-dev``` to get the list of all PHP development related cmdlets.
 
 # Getting Started
 
@@ -70,9 +70,7 @@ To get the source code of the SDK via git just type:
 
 4. You are now ready to publish to the cloud service. Go ahead and register for a Windows Azure account and make sure you have your credentials handy.
 
-5. Get your account's publish settings and save them to a file by typing
-
-   ```Get-AzurePublishSettingsFile```
+5. Get your account's publish settings and save them to a file by typing ```Get-AzurePublishSettingsFile```
 
 6. Now import the settings
 
