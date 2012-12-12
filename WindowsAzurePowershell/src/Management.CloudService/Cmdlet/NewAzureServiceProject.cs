@@ -33,6 +33,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
+        public NewAzureServiceProjectCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         internal AzureService NewAzureServiceProcess(string parentDirectory, string serviceName)
         {
             // Create scaffolding structure
@@ -55,7 +60,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             base.ExecuteCmdlet();
 
-            SkipChannelInit = true;
             NewAzureServiceProcess(CurrentPath(), ServiceName);
             SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
         }

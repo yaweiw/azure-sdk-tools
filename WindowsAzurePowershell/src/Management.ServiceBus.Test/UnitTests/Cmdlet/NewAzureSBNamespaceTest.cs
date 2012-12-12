@@ -14,7 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
-    using System.Management.Automation;
+    using System;
+    using System.Collections.Generic;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
@@ -22,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using VisualStudio.TestTools.UnitTesting;
-    using System;
 
     [TestClass]
     public class NewAzureSBNamespaceTests : TestBase
@@ -40,10 +40,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             SimpleServiceManagement channel = new SimpleServiceManagement();
             FakeWriter writer = new FakeWriter();
             string name = "test";
-            string location = "location";
+            string location = "West US";
             NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
             ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
             channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
+            channel.ListServiceBusRegionsThunk = lsbr => 
+            {
+                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
+                list.Add(new ServiceBusRegion { Code = location });
+                return list;
+            };
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -62,15 +68,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             foreach (string invalidName in invalidNames)
             {
                 FakeWriter writer = new FakeWriter();
-                NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand() { Name = invalidName, Location = "location", Writer = writer };
-                ArgumentException expected = new ArgumentException(string.Format(Resources.InvalidNamespaceName, invalidName), "Name");
+                NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand() { Name = invalidName, Location = "West US", Writer = writer };
+                string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
 
-                // Test
-                cmdlet.ExecuteCmdlet();
-
-                // Assert
-                ErrorRecord actual = writer.ErrorChannel[0];
-                Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
+                Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
             }
         }
 
@@ -81,17 +82,38 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             SimpleServiceManagement channel = new SimpleServiceManagement();
             FakeWriter writer = new FakeWriter();
             string name = "test";
-            string location = "location";
+            string location = "West US";
             NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
+            channel.CreateServiceBusNamespaceThunk = csbns => { throw new Exception(Resources.InternalServerErrorMessage); };
+            channel.ListServiceBusRegionsThunk = lsbr =>
+            {
+                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
+                list.Add(new ServiceBusRegion { Code = location });
+                return list;
+            };
             string expected = Resources.NewNamespaceErrorMessage;
-            channel.CreateServiceBusNamespaceThunk = csbn => { throw new Exception(Resources.InternalServerErrorMessage); };
 
-            // Test
-            cmdlet.ExecuteCmdlet();
+            Testing.AssertThrows<Exception>(() => cmdlet.ExecuteCmdlet(), expected);
+        }
 
-            // Assert
-            ErrorRecord actual = writer.ErrorChannel[0];
-            Assert.AreEqual<string>(expected, actual.Exception.Message);
+        [TestMethod]
+        public void NewAzureSBNamespaceWithInvalidLocation()
+        {
+            // Setup
+            SimpleServiceManagement channel = new SimpleServiceManagement();
+            FakeWriter writer = new FakeWriter();
+            string name = "test";
+            string location = "Invalid location";
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
+            channel.ListServiceBusRegionsThunk = lsbr =>
+            {
+                List<ServiceBusRegion> list = new List<ServiceBusRegion>();
+                list.Add(new ServiceBusRegion { Code = "West US" });
+                return list;
+            };
+            string expected = string.Format("{0}\r\nParameter name: Location", string.Format(Resources.InvalidServiceBusLocation, location));
+
+            Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
         }
     }
 }
