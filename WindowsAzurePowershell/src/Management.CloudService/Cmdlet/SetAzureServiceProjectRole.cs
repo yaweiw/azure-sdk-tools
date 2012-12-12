@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Common;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
@@ -57,10 +58,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="roleName">The name of the role to update</param>
         /// <param name="instances">The new number of instances for the role</param>
         /// <param name="rootPath">The root path to the service containing the role</param>
-        public void SetAzureInstancesProcess(string roleName, int instances, string rootPath)
+        public RoleSettings SetAzureInstancesProcess(string roleName, int instances, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
             service.SetRoleInstances(service.Paths, roleName, instances);
+
+            SafeWriteOutputPSObject(service.GetType().FullName, Parameters.RoleName, roleName);
+
+            return service.Components.GetCloudConfigRole(roleName);
         }
 
         /// <summary>
@@ -73,15 +78,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="manifest">The manifest containing available runtimes, defaults to the cloud manifest
         /// mainly used a s a test hook</param>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
+        public RoleSettings SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
+
+            SafeWriteOutputPSObject(service.GetType().FullName, Parameters.RoleName, roleName);
+
+            return service.Components.GetCloudConfigRole(roleName);
         }
 
-        /// <summary>
-        /// Do pipeline processing
-        /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
