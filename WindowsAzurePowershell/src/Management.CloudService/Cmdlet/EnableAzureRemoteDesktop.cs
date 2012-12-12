@@ -48,6 +48,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
+        public EnableAzureServiceProjectRemoteDesktopCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
