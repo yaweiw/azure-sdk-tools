@@ -10,9 +10,49 @@ For documentation on how to build and deploy applications to Windows Azure pleas
 
 # Cmdlets Features
 
-* Type ```help azure``` to get the full list of all the cmdlets.
-* Type ```help node-dev``` to get the list of all Node.js development related cmdlets.
-* Type ```help php-dev``` to get the list of all PHP development related cmdlets.
+* Account
+  * Get and import Azure publish settings
+* Subscription
+  * Manage Azure subscription
+  * Manage AffinityGroup
+* Website
+  * Manage website, such as CRUD, start and stop.
+  * Save log
+* Cloud service
+  * Create scaffolding for cloud service and role. Role support includes Node.js, PHP, Django and Cache.
+  * Manage cloud service and role, such as CRUD, start and stop.
+  * Enable/Disable remote desktop.
+  * Start/Stop Azure emulator.
+  * Manage certificate.
+  * Storage
+  	* Manage storage account and access key.
+  * SQL Azure
+    * CRUD support for database server, database and firewall rule
+  * Service Bus
+    * Manage service bus namespace
+* VM
+  * Manage VM, such as CRUD, import/export and start/stop/restart.
+  * Manage VM image, such as CRUD.
+  * Manage disk, such as CRUD.
+  * Manage VM endpoint, such as CRUD.
+  * Get/Set VM sub net.
+  * Manage certificate and SSH key.
+* Deployment
+  * Manage deployment, such as CRUD, move, upgrade and restore.
+  * Get/Create DNS settings of a deployment.
+* VNet
+  * Manage virtual network config, connection and gateway.
+* Utility
+  * Test whether a name is avaiable. Currently support cloud service name, storage account name and service bus namespace name.
+  * Get the list of geo locations supported by Azure.
+  * Get the list of OS supported by Azure.
+  * Direct you to Azure portal.
+
+For detail descriptions and examples of the cmdlets, type
+* ```help azure``` to get all the cmdlets.
+* ```help node-dev``` to get all Node.js development related cmdlets.
+* ```help php-dev``` to get all PHP development related cmdlets.
+* ```get-help <cmdlet name>``` to get the details of a specific cmdlet.
 
 # Getting Started
 
