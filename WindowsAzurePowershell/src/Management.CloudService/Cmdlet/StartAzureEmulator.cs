@@ -36,6 +36,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
+        public StartAzureEmulatorCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public AzureService StartAzureEmulatorProcess(string rootPath)
         {
