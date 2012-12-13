@@ -30,59 +30,43 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator")]
-    public class StartAzureEmulatorCommand : CmdletBase<IServiceManagement>
+    public class StartAzureEmulatorCommand : CloudCmdlet<IServiceManagement>
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public string StartAzureEmulatorProcess(string rootPath)
+        public AzureService StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
             string standardError;
 
             StringBuilder message = new StringBuilder();
             AzureService service = new AzureService(rootPath ,null);
-            SafeWriteObject(string.Format(Resources.CreatingPackageMessage, "local"));
+            
+            SafeWriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
             service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
-            SafeWriteObject(Resources.StartingEmulator);
+            
+            SafeWriteVerbose(Resources.StartingEmulator);
             service.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
-            SafeWriteObject(standardOutput);
-            SafeWriteObject(Resources.StartedEmulator);
-            return message.ToString();
+            
+            SafeWriteVerbose(standardOutput);
+            SafeWriteVerbose(Resources.StartedEmulator);
+            SafeWriteOutputPSObject(
+                service.GetType().FullName,
+                Parameters.ServiceName, service.ServiceName,
+                Parameters.RootPath, service.Paths.RootPath);
+
+            return service;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            AzureTool.Validate();
             base.ExecuteCmdlet();
-            SkipChannelInit = true;
-            if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
-            {
-                this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
-            }
-            else
-            {
-                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
-            }
-        }
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                AzureTool.Validate();
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = StartAzureEmulatorProcess(base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            StartAzureEmulatorProcess(base.GetServiceRootPath());
         }
     }
 }
