@@ -12,16 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-using System.Management.Automation;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System.IO;
+    using System.Management.Automation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+
     [TestClass]
     public class SetAzureRuntimeTests : TestBase
     {
@@ -68,12 +69,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 service.AddWebRole(Resources.NodeScaffolding);
                 string roleName = "WebRole1";
                 
-                cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
-                cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, roleSettings1.name);
+                Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
         }
 
@@ -89,12 +92,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWebRole(Resources.NodeScaffolding);
                 string roleName = "WebRole1";
-                cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
-                cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, roleSettings1.name);
+                Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
         }
 
@@ -110,12 +115,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Resources.NodeScaffolding);
-                cmdlet.SetAzureRuntimesProcess(roleName, "noide", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
-                cmdlet.SetAzureRuntimesProcess(roleName, "iisnoide", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "noide", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnoide", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
                 Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, roleSettings1.name);
+                Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
         }
     }
