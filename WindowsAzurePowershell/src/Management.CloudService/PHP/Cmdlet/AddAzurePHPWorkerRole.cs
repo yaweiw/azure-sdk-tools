@@ -23,9 +23,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     /// Create scaffolding for a new PHP worker role, change cscfg file and csdef to include the added worker role
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole")]
-    public class AddAzureNodeWorkerRoleCommand : AddRole
+    public class AddAzurePHPWorkerRoleCommand : AddRole
     {
-        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        internal string AddAzurePHPWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
             string result;
             AzureService service = new AzureService(rootPath, null);
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
             {
                 SkipChannelInit = true;
                 base.ProcessRecord();
-                string result = AddAzureNodeWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
+                string result = AddAzurePHPWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
                 SafeWriteObject(result);
             }
             catch (Exception ex)
