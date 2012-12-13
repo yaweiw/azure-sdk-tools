@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     /// Create scaffolding for a new PHP worker role, change cscfg file and csdef to include the added worker role
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole")]
-    public class AddAzureNodeWorkerRoleCommand : AddRole
+    public class AddAzurePHPWorkerRoleCommand : AddRole
     {
         internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
