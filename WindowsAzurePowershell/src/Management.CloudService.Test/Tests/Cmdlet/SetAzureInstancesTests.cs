@@ -12,18 +12,33 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
-using Microsoft.WindowsAzure.Management.CloudService.Model;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+
     [TestClass]
     public class SetAzureInstancesTests : TestBase
     {
         private const string serviceName = "AzureService";
+
+        private FakeWriter writer;
+
+        private SetAzureServiceProjectRoleCommand cmdlet;
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            writer = new FakeWriter();
+            cmdlet = new SetAzureServiceProjectRoleCommand();
+            cmdlet.Writer = writer;
+        }
 
         [TestMethod]
         public void SetAzureInstancesProcessTestsNode()
@@ -33,12 +48,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
+                string roleName = "WebRole1";
                 service.AddWebRole(Resources.NodeScaffolding);
-                new SetAzureServiceProjectRoleCommand().SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
+                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
+                Assert.AreEqual<string>(roleName, roleSettings.name);
+
             }
         }
 
@@ -51,12 +71,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
+                string roleName = "WebRole1";
                 service.AddWebRole(Resources.PHPScaffolding);
-                new SetAzureServiceProjectRoleCommand().SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
+                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
+                Assert.AreEqual<string>(roleName, roleSettings.name);
             }
         }
 
