@@ -54,6 +54,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            base.ExecuteCmdlet();
+            SkipChannelInit = true;
+            if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
+            {
+                this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
+            }
+            else
+            {
+                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
+            }
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         protected override void ProcessRecord()
         {
             try
