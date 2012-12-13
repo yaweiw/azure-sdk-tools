@@ -52,6 +52,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
 
+        public SetAzureServiceProjectRoleCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         /// <summary>
         /// The code to run if setting azure instances
         /// </summary>
