@@ -13,6 +13,11 @@
     <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
     <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
     <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
+    
+    <ScaffoldingReleaseSourceDir>.\Package\Release\Resources</ScaffoldingReleaseSourceDir>
+    <ScaffoldingReleaseDestinationDir>.\Package\Release</ScaffoldingReleaseDestinationDir>
+    <ScaffoldingDebugSourceDir>.\Package\Debug\Resources</ScaffoldingDebugSourceDir>
+    <ScaffoldingDebugDestinationDir>.\Package\Debug</ScaffoldingDebugDestinationDir>
 
 	<TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>	
@@ -166,4 +171,34 @@
   <Target
     Name="Full"
     DependsOnTargets="Clean;Build;Publish;Test" />
+
+  <!-- Build the Cmdlets in ReleaseSigned configuration -->
+  <Target Name="BuildReleaseSigned">
+    <Message Importance="high" Text="Building Cmdlets..." />
+    <MSBuild
+      Projects="@(CmdletSln)"
+      Targets="Build"
+      Properties="Configuration=ReleaseSigned"
+      ContinueOnError="true" />
+    <CreateItem Include="$(ScaffoldingReleaseSourceDir)\**\*.*">
+      <Output TaskParameter="Include" ItemName="Scaffolding" />
+    </CreateItem>
+    <Copy SourceFiles="@(Scaffolding)"
+    			DestinationFiles="@(Scaffolding->'$(ScaffoldingReleaseDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!-- Build the Cmdlets in Debug configuration -->
+  <Target Name="BuildDebug">
+    <Message Importance="high" Text="Building Cmdlets..." />
+    <MSBuild
+      Projects="@(CmdletSln)"
+      Targets="Build"
+      Properties="Configuration=Debug"
+      ContinueOnError="true" />
+    <CreateItem Include="$(ScaffoldingDebugSourceDir)\**\*.*">
+      <Output TaskParameter="Include" ItemName="Scaffolding" />
+    </CreateItem>
+    <Copy SourceFiles="@(Scaffolding)"
+    			DestinationFiles="@(Scaffolding->'$(ScaffoldingDebugDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
 </Project>
