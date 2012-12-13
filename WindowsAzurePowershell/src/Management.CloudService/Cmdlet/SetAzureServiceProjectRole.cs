@@ -97,7 +97,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void  ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            SkipChannelInit = true;
             if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
             {
                 this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
