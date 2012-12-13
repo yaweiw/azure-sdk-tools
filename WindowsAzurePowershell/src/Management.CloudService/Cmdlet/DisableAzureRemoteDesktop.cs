@@ -41,9 +41,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            AzureTool.Validate();
             base.ExecuteCmdlet();
 
-            AzureTool.Validate();
             DisableRemoteDesktop();
         }
 
