@@ -24,12 +24,12 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Enable/Disable remote desktop.
   * Start/Stop Azure emulator.
   * Manage certificate.
-  * Storage
-  	* Manage storage account and access key.
-  * SQL Azure
-    * CRUD support for database server, database and firewall rule
-  * Service Bus
-    * Manage service bus namespace
+* Storage
+  * Manage storage account and access key.
+* SQL Azure
+  * CRUD support for database server, database and firewall rule
+* Service Bus
+  * Manage service bus namespaces.
 * VM
   * Manage VM, such as CRUD, import/export and start/stop/restart.
   * Manage VM image, such as CRUD.
