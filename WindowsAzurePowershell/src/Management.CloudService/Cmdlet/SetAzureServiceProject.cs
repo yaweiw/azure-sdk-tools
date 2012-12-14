@@ -14,29 +14,35 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Model;
 
     /// <summary>
-    /// Configure the default location for deploying. Stores the new location in settings.json
+    /// Adjusts the service configuration.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceProject")]
     public class SetAzureServiceProjectCommand : SetSettings
     {
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Slot { set; get; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Storage { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Subscription { get; set; }
 
-        public void SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
+        public SetAzureServiceProjectCommand()
+        {
+            SkipChannelInit = true;
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public ServiceSettings SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
         {
             ServiceSettings settings = ServiceSettings.Load(settingsPath);
             if (newLocation != null)
@@ -63,25 +69,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 settings.Save(settingsPath);
             }
+
+            WriteOutputObject(settings);
+
+            return settings;
         }
 
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                this.SetAzureServiceProjectProcess(
-                    Location,
-                    Slot,
-                    Storage,
-                    Subscription,
-                    base.GetServiceSettingsPath(false));
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            base.ExecuteCmdlet();
+            this.SetAzureServiceProjectProcess(
+                Location,
+                Slot,
+                Storage,
+                Subscription,
+                base.GetServiceSettingsPath(false));
         }
     }
 }

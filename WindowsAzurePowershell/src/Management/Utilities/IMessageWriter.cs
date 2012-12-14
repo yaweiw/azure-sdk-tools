@@ -15,10 +15,24 @@
 namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System.Collections.Generic;
+using System.Management.Automation;
 
     public interface IMessageWriter
     {
         List<string> Messages { get; }
+
+        List<object> OutputChannel { get; }
+
+        List<ErrorRecord> ErrorChannel { get; }
+
+        List<string> VerboseChannel { get; }
+        
         void Write(string message);
+
+        void WriteObject(object obj);
+
+        void WriteError(ErrorRecord error);
+
+        void WriteVerbose(string message);
     }
 }
