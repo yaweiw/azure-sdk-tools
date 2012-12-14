@@ -2873,7 +2873,7 @@ C:\PS&gt;			</maml:introduction>
   <command:details>
     <command:name>Test-AzureName</command:name>
     <maml:description>
-      <maml:para>Tests whether a Windows Azure service or storage name is already in use.</maml:para>
+      <maml:para>Tests whether a Windows Azure cloud service name, storage service name or service bus namespace name is already in use.</maml:para>
     </maml:description>
     <maml:copyright>
       <maml:para />
@@ -2883,7 +2883,7 @@ C:\PS&gt;			</maml:introduction>
     <dev:version />
   </command:details>
   <maml:description>
-    <maml:para>The Test-AzureName tests whether a Windows Azure service name or storage name is in use. If the name is in use, the cmdlet returns $True. If the name is not being used, it returns $False. You can test for a service name or a storage name. </maml:para>
+    <maml:para>The Test-AzureName tests whether a Windows Azure cloud service name, storage service name, service bus namespace name is in use. If the name is in use, the cmdlet returns $True. If the name is not being used, it returns $False. </maml:para>
   </maml:description>
   <command:syntax>
     <command:syntaxItem>
@@ -2891,14 +2891,14 @@ C:\PS&gt;			</maml:introduction>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>Service</maml:name>
         <maml:description>
-          <maml:para>Specifies to test for an existing service account.</maml:para>
+          <maml:para>Specifies to test for an existing cloud service.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
         <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the service or storage account to test.</maml:para>
+          <maml:para>Specifies the name of the cloud service to test.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
       </command:parameter>
@@ -2908,14 +2908,31 @@ C:\PS&gt;			</maml:introduction>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
         <maml:name>Storage</maml:name>
         <maml:description>
-          <maml:para>Specifies to test for an existing storage account.</maml:para>
+          <maml:para>Specifies to test for an existing storage service.</maml:para>
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
         <maml:name>Name</maml:name>
         <maml:description>
-          <maml:para>Specifies the name of the service or storage account to test.</maml:para>
+          <maml:para>Specifies the name of the storage account to test.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+      </command:parameter>
+    </command:syntaxItem>
+    <command:syntaxItem>
+      <maml:name>Test-AzureName</maml:name>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+        <maml:name>ServiceBusNamespace</maml:name>
+        <maml:description>
+          <maml:para>Specifies to test for an existing service bus namespace.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the service bus namespace to test.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
       </command:parameter>
@@ -3003,7 +3020,7 @@ C:\PS&gt;			</maml:introduction>
         C:\PS&gt;Test-AzureName –Service "MyNameService1"
       </dev:code>
       <dev:remarks>
-        <maml:para>This command tests to see if the "MyNameService1" is an existing Windows Azure service name. </maml:para>
+        <maml:para>This command tests to see if the "MyNameService1" is an existing Windows Azure cloud service name. </maml:para>
       </dev:remarks>
       <command:commandLines>
         <command:commandLine>
@@ -3022,7 +3039,26 @@ C:\PS&gt;			</maml:introduction>
         C:\PS&gt;Test-AzureName –Storage "mystorename1"
       </dev:code>
       <dev:remarks>
-        <maml:para>This command tests to see if the "mystorename1" is an existing Windows Azure storage account name. </maml:para>
+        <maml:para>This command tests to see if the "mystorename1" is an existing Windows Azure storage service name. </maml:para>
+      </dev:remarks>
+      <command:commandLines>
+        <command:commandLine>
+          <command:commandText />
+        </command:commandLine>
+      </command:commandLines>
+    </command:example>
+    <command:example>
+      <maml:title>
+        --------------  Example 3 --------------
+      </maml:title>
+      <maml:introduction>
+        <maml:para></maml:para>
+      </maml:introduction>
+      <dev:code>
+        C:\PS&gt;Test-AzureName –ServiceBusNamespace "mynamespace"
+      </dev:code>
+      <dev:remarks>
+        <maml:para>This command tests to see if the "mynamespace" is an existing Windows Azure service bus namespace name. </maml:para>
       </dev:remarks>
       <command:commandLines>
         <command:commandLine>

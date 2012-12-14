@@ -30,6 +30,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
 
+        public GetAzureServiceProjectRoleRuntimeCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         /// <summary>
         /// Retrieve the runtimes from the given manifest, or from the default cloud location, if none given.
         /// The manifest parameter is mainly a testing hook.
@@ -50,7 +55,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            SkipChannelInit = true;
             this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
         }        
     }
