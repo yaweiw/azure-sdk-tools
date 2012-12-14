@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Extensions
     using System.Runtime.Serialization;
     using System.Xml;
     using System.Xml.Linq;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
 
     public static class CmdletExtensions
@@ -54,6 +55,44 @@ namespace Microsoft.WindowsAzure.Management.Extensions
             deserializedobj = deserializedobj.Replace("d2p1:", string.Empty);
             powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
             powerShellCmdlet.WriteVerbose(deserializedobj);
+        }
+
+        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
+        public static void SafeWriteVerboseOutputForObject(this PSCmdlet powerShellCmdlet, object obj, IMessageWriter messageWriter)
+        {
+            bool verbose = powerShellCmdlet.MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)powerShellCmdlet.MyInvocation.BoundParameters["Verbose"]).ToBool();
+            if (verbose == false)
+            {
+                return;
+            }
+
+            string deserializedobj;
+            var serializer = new DataContractSerializer(obj.GetType());
+
+            using (var backing = new StringWriter())
+            {
+                using (var writer = new XmlTextWriter(backing))
+                {
+                    writer.Formatting = Formatting.Indented;
+
+                    serializer.WriteObject(writer, obj);
+                    deserializedobj = backing.ToString();
+                }
+            }
+
+            deserializedobj = deserializedobj.Replace("/d2p1:", string.Empty);
+            deserializedobj = deserializedobj.Replace("d2p1:", string.Empty);
+
+            if (powerShellCmdlet.CommandRuntime != null)
+            {
+                powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
+                powerShellCmdlet.WriteVerbose(deserializedobj);
+            }
+
+            if (messageWriter != null)
+            {
+                powerShellCmdlet.WriteVerbose(deserializedobj);
+            }
         }
 
         public static void SafeWriteObject(this PSCmdlet psCmdlet, object sendToPipeline)

@@ -48,19 +48,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public EnableAzureServiceProjectRemoteDesktopCommand()
         {
-            try
-            {
-                AzureTool.Validate();
-                base.ProcessRecord();
-                EnableRemoteDesktop();
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(ex);
-            }
+            SkipChannelInit = true;
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            base.ExecuteCmdlet();
+
+            AzureTool.Validate();
+            EnableRemoteDesktop();
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

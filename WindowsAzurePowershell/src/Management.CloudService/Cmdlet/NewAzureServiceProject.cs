@@ -14,14 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.IO;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Common;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
@@ -30,42 +29,39 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.New, "AzureServiceProject")]
     public class NewAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the node.js project")]
+        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the cloud project")]
+        [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
 
-        internal string NewAzureServiceProcess(string parentDirectory, string serviceName)
+        public NewAzureServiceProjectCommand()
         {
-            string message;
-            AzureService newService;
-
-            // Create scaffolding structure
-            //
-            newService = new AzureService(parentDirectory, serviceName, null);
-            
-            message = string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath);
-
-            return message;
+            SkipChannelInit = true;
         }
 
-        protected override void ProcessRecord()
+        internal AzureService NewAzureServiceProcess(string parentDirectory, string serviceName)
         {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                
-                // Create new service
-                //
-                string result = NewAzureServiceProcess(CurrentPath(), ServiceName);
-                // Set current directory to the root of the new service
-                //
-                SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            // Create scaffolding structure
+            //
+            AzureService newService = new AzureService(parentDirectory, serviceName, null);
+
+            SafeWriteOutputPSObject(
+                newService.GetType().FullName,
+                Parameters.ServiceName, newService.ServiceName,
+                Parameters.RootPath, newService.Paths.RootPath
+                );
+
+            SafeWriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
+
+            return newService;
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            base.ExecuteCmdlet();
+
+            NewAzureServiceProcess(CurrentPath(), ServiceName);
+            SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
         }
     }
 }

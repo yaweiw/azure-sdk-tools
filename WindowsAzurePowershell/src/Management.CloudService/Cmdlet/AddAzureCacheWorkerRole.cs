@@ -39,19 +39,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
     public class AddAzureCacheWorkerRoleCommand : AddRole
     {
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public AddAzureCacheWorkerRoleCommand()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = AddAzureCacheWorkerRoleProcess(base.Name, base.Instances, base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(ex);
-            }
+            SkipChannelInit = true;
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            base.ExecuteCmdlet();
+            AddAzureCacheWorkerRoleProcess(base.Name, base.Instances, base.GetServiceRootPath());
         }
 
         private AzureService CachingConfigurationFactoryMethod(string rootPath, RoleInfo cacheWorkerRole, string sdkVersion)
@@ -73,21 +70,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="workerRoleName">The cache worker role name</param>
         /// <param name="instances">The instance count</param>
         /// <param name="rootPath">The service root path</param>
-        /// <returns>The resulted message</returns>
+        /// <returns>The added cache worker role</returns>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public string AddAzureCacheWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        public WorkerRole AddAzureCacheWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
             RoleInfo nodeWorkerRole;
 
-            // Create node worker role.
-            string message = new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out nodeWorkerRole);
-
+            // Create cache worker role.
+            new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out nodeWorkerRole);
             AzureService azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
-
-            // Save changes
             azureService.Components.Save(azureService.Paths);
+            WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
 
-            return message;
+            // Write output
+            SafeWriteOutputPSObject(
+                cacheWorkerRole.GetType().FullName,
+                Parameters.CacheWorkerRoleName, nodeWorkerRole.Name,
+                Parameters.Instances, nodeWorkerRole.InstanceCount
+                );
+
+            return azureService.Components.GetWorkerRole(workerRoleName);
         }
 
         /// <summary>
