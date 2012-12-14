@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AzureService service = new AzureService(rootPath, null);
             service.SetRoleInstances(service.Paths, roleName, instances);
 
-            SafeWriteOutputPSObject(service.GetType().FullName, Parameters.RoleName, roleName);
+            SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
 
             return service.Components.GetCloudConfigRole(roleName);
         }
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AzureService service = new AzureService(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
 
-            SafeWriteOutputPSObject(service.GetType().FullName, Parameters.RoleName, roleName);
+            SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
 
             return service.Components.GetCloudConfigRole(roleName);
         }

@@ -105,5 +105,23 @@
         </ListEntries>
       </ListControl>
     </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.RoleSettings</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.RoleSettings</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>RoleName</Label>
+                <PropertyName>RoleName</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>
