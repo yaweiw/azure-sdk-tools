@@ -443,7 +443,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         if (result != null)
                         {
                             object context = contextFactory(operation, result);
-                            WriteOutputObject(context);
+                            WriteObject(context, true);
                         }
                     }
                     catch (CommunicationException ex)
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 TResult result = RetryCall(action);
                 if (result != null)
                 {
-                    WriteOutputObject(result);
+                    WriteObject(result, true);
                 }
             }
         }
