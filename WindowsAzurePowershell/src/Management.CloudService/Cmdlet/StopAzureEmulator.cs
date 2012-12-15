@@ -34,34 +34,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
+        public StopAzureEmulatorCommand()
+        {
+            SkipChannelInit = true;
+        }
+
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public string StopAzureEmulatorProcess()
+        public void StopAzureEmulatorProcess()
         {
             string standardOutput;
             string standardError;
 
             AzureService service = new AzureService();
-            SafeWriteObject(Resources.StopEmulatorMessage);
+            SafeWriteVerbose(Resources.StopEmulatorMessage);
             service.StopEmulator(out standardOutput, out standardError);
-            SafeWriteObject(Resources.StoppedEmulatorMessage);
-            return null;
+            
+            SafeWriteVerbose(Resources.StoppedEmulatorMessage);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = this.StopAzureEmulatorProcess();
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AzureTool.Validate();
+            base.ExecuteCmdlet();
+            StopAzureEmulatorProcess();
         }
     }
 }
