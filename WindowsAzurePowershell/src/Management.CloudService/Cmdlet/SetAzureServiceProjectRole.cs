@@ -17,16 +17,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Common;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole")]
-    public class SetAzureServiceProjectRoleCommand : CloudCmdlet<IServiceManagement>
+    public class SetAzureServiceProjectRoleCommand : CmdletBase<IServiceManagement>
     {
         /// <summary>
         /// The role name to edit
@@ -51,11 +51,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
-
-        public SetAzureServiceProjectRoleCommand()
-        {
-            SkipChannelInit = true;
-        }
 
         /// <summary>
         /// The code to run if setting azure instances

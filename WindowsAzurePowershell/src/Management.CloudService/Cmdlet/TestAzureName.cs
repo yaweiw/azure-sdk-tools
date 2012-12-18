@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName")]
-    public class TestAzureNameCommand : CloudCmdlet<IServiceManagement>
+    public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public TestAzureNameCommand()
         {

@@ -17,16 +17,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Cmdlet.Common;
     using Management.Services;
-    using Properties;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Properties;
 
     /// <summary>
     /// Change deployment status to running or suspended.
     /// </summary>
-    public class DeploymentStatusManager : CloudCmdlet<IServiceManagement>
+    public class DeploymentStatusManager : CloudBaseCmdlet<IServiceManagement>
     {
         public DeploymentStatusManager() { }
 
@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 base.ProcessRecord();
                 string serviceName;
                 var rootPath = GetServiceRootPath();
-                ServiceSettings settings = GetDefaultSettings(rootPath, ServiceName, Slot, null, null, Subscription, out serviceName);
+                ServiceSettings settings = General.GetDefaultSettings(rootPath, ServiceName, Slot, null, null, Subscription, out serviceName);
                 SetDeploymentStatusProcess(rootPath, Status, settings.Slot, settings.Subscription, serviceName);
             }
             catch (Exception ex)
