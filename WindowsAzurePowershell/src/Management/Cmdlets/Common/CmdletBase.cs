@@ -16,14 +16,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 {
     using System;
     using System.Diagnostics;
-    using System.Globalization;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
     using Model;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Service;
     using Utilities;
     using Constants = Samples.WindowsAzure.ServiceManagement.Constants;
 
@@ -31,33 +26,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         where T : class
     {
         private IMessageWriter writer;
+
         private bool hasOutput = false;
 
-        public Binding ServiceBinding
-        {
-            get;
-            set;
-        }
-
-        public string ServiceEndpoint
-        {
-            get;
-            set;
-        }
-
         public IMessageWriter Writer { get { return writer; } set { writer = value; } }
-
-        protected T Channel
-        {
-            get;
-            set;
-        }
-
-        protected bool SkipChannelInit
-        {
-            get;
-            set;
-        }
 
         protected CmdletBase()
         {
@@ -98,49 +70,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             return verbose;
         }
 
-        protected virtual void WriteErrorDetails(CommunicationException exception)
-        {
-            ServiceManagementError error;
-            ErrorRecord errorRecord = null;
-            
-            string operationId;
-            SMErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
-            if (error == null)
-            {
-                errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);
-            }
-            else
-            {
-                string errorDetails = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "HTTP Status Code: {0} - HTTP Error Message: {1}\nOperation ID: {2}",
-                    error.Code,
-                    error.Message,
-                    operationId);
-
-                errorRecord = new ErrorRecord(new CommunicationException(errorDetails), string.Empty, ErrorCategory.CloseError, null);
-            }
-
-            if (CommandRuntime != null)
-            {
-                WriteError(errorRecord);
-            }
-
-            if (writer != null)
-            {
-                writer.WriteError(errorRecord);
-            }
-        }
-
         public virtual object GetDynamicParameters()
         {
             return null;
-        }
-
-        protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
-        {
-            var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
         }
 
         private void SafeWriteObjectInternal(object sendToPipeline)
@@ -300,6 +232,24 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             PSObject customObject = this.ConstructPSObject(typeName, args);
             WriteOutputObject(customObject);
+        }
+
+        public virtual void ExecuteCmdlet()
+        {
+            // Do nothing.
+        }
+
+        protected override void ProcessRecord()
+        {
+            try
+            {
+                base.ProcessRecord();
+                ExecuteCmdlet();
+            }
+            catch (Exception ex)
+            {
+                SafeWriteError(ex);
+            }
         }
     }
 }

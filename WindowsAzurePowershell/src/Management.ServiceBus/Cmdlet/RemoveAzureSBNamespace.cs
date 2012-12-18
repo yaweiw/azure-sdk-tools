@@ -19,14 +19,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace")]
-    public class RemoveAzureSBNamespaceCommand : CloudCmdlet<IServiceManagement>
+    public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }

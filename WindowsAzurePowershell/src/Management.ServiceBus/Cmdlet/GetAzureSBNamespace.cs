@@ -18,14 +18,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBNamespace")]
-    public class GetAzureSBNamespaceCommand : CloudCmdlet<IServiceManagement>
+    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
