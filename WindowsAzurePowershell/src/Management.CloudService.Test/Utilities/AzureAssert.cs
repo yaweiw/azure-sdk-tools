@@ -250,7 +250,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public static void RuntimeExists(Task[] tasks, string runtimeValue)
         {
             Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
-                e => e.value!= null && e.value.Contains(runtimeValue))));
+                e => e.value != null && e.value.Contains(runtimeValue))));
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
+                e => e.value != null && e.value.Contains(string.Format("http://nodertncu.blob.core.windows.net/{0}/", runtimeValue)))));
         }
 
         public static void StartupTaskExists(Task[] tasks, string startupCommand)
