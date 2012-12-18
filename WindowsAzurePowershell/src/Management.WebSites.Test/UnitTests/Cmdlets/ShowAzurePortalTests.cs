@@ -18,20 +18,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Management.Services;
     using Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using Properties;
+    using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
 
     [TestClass]
-    public class ShowAzurePortalTests
+    public class ShowAzurePortalTests : WebsitesTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void ProcessGetAzurePublishSettingsTest()
         {
