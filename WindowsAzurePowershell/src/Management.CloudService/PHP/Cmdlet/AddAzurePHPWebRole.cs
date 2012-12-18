@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
                 SafeWriteObject(Environment.NewLine);
             }
 
-            result = string.Format(Resources.AddRoleMessageCreate, rootPath, webRole.Name);
+            result = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, webRole.Name);
             return result;
         }
 
