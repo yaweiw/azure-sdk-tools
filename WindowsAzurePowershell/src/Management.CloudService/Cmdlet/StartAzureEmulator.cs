@@ -14,32 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
     using Cmdlets.Common;
-    using Common;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator")]
-    public class StartAzureEmulatorCommand : CloudCmdlet<IServiceManagement>
+    public class StartAzureEmulatorCommand : CmdletBase<IServiceManagement>
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
-
-        public StartAzureEmulatorCommand()
-        {
-            SkipChannelInit = true;
-        }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public AzureService StartAzureEmulatorProcess(string rootPath)

@@ -20,9 +20,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Management.Automation;
     using System.Net;
     using System.ServiceModel;
+    using System.ServiceModel.Channels;
     using System.ServiceModel.Security;
     using System.Threading;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Service;
     using Microsoft.WindowsAzure.Management.Services;
     using Model;
     using Properties;
@@ -37,6 +39,24 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         private SubscriptionData _currentSubscription;
 
         public string CurrentServiceEndpoint { get; set; }
+
+        public Binding ServiceBinding
+        {
+            get;
+            set;
+        }
+
+        public string ServiceEndpoint
+        {
+            get;
+            set;
+        }
+
+        protected T Channel
+        {
+            get;
+            set;
+        }
 
         public SubscriptionData CurrentSubscription
         {
@@ -57,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                     _currentSubscription = value;
 
                     // Recreate the channel if necessary
-                    if (!ShareChannel && !SkipChannelInit)
+                    if (!ShareChannel)
                     {
                         InitChannelCurrentSubscription(true);
                     }
@@ -75,8 +95,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
         }
 
-        protected CloudBaseCmdlet(IMessageWriter writer)
-            : base(writer)
+        protected CloudBaseCmdlet(IMessageWriter Writer)
+            : base(Writer)
         {
         }
 
@@ -121,28 +141,28 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
+        protected virtual void OnProcessRecord()
+        {
+            // Intentionally left blank
+        }
+
         protected override void ProcessRecord()
         {
             try
             {
-                base.ProcessRecord();
-
                 Validate.ValidateInternetConnection();
-                if (!SkipChannelInit)
-                {
-                    InitChannelCurrentSubscription();
-                }
+                InitChannelCurrentSubscription();
+                ExecuteCmdlet();
                 OnProcessRecord();
+            }
+            catch (CommunicationException ex)
+            {
+                WriteErrorDetails(ex);
             }
             catch (Exception ex)
             {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                SafeWriteError(ex);
             }
-        }
-
-        protected virtual void OnProcessRecord()
-        {
-            //Intentionally left blank.
         }
 
         /// <summary>
@@ -164,7 +184,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
             if (ServiceBinding == null)
             {
-                ServiceBinding = ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
+                ServiceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
             }
 
             if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
@@ -178,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             else
             {
                 // Use default endpoint
-                ServiceEndpoint = ConfigurationConstants.ServiceManagementEndpoint;
+                ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
             }
 
             return ServiceManagementHelper.CreateServiceManagementChannel<T>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
@@ -497,6 +517,46 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
 
             return default(TResult);
+        }
+
+        protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
+        {
+            var channel = (IServiceManagement)Channel;
+            return channel.GetOperationStatus(subscriptionId, operationId);
+        }
+
+        protected virtual void WriteErrorDetails(CommunicationException exception)
+        {
+            ServiceManagementError error;
+            ErrorRecord errorRecord = null;
+
+            string operationId;
+            SMErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
+            if (error == null)
+            {
+                errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);
+            }
+            else
+            {
+                string errorDetails = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "HTTP Status Code: {0} - HTTP Error Message: {1}\nOperation ID: {2}",
+                    error.Code,
+                    error.Message,
+                    operationId);
+
+                errorRecord = new ErrorRecord(new CommunicationException(errorDetails), string.Empty, ErrorCategory.CloseError, null);
+            }
+
+            if (CommandRuntime != null)
+            {
+                WriteError(errorRecord);
+            }
+
+            if (Writer != null)
+            {
+                Writer.WriteError(errorRecord);
+            }
         }
     }
 }
