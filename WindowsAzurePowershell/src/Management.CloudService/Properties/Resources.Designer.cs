@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running &quot;pear WindowsAzure/WindowsAzure&quot;..
+        /// </summary>
+        internal static string AddRoleMessageCreatePHP {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreatePHP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running &quot;pip windowsazure&quot;..
         /// </summary>
         internal static string AddRoleMessageCreatePython {
@@ -205,7 +214,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/da [rest of string was truncated]&quot;;.
+        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CacheAutoDiscoveryConfig {
             get {
