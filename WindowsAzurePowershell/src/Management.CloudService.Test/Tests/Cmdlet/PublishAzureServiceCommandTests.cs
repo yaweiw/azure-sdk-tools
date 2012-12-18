@@ -32,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using System.Diagnostics;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
@@ -750,6 +751,28 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     validateRole(webRoleName);
                     validateRole(workerRoleName);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Verifies that setup_web.cmd copies web.cloud.config to web.config
+        /// </summary>
+        [TestMethod]
+        public void SetupWebCmdSuccessfull()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                string webRoleName = "webrole";
+                string serviceName = "test";
+                string fullName = Path.Combine(files.RootPath, serviceName);
+                string setupWebPath = Path.Combine(fullName, webRoleName, "bin", "setup_web.cmd");
+                string webCloudConfigPath = Path.Combine(fullName, webRoleName, "Web.cloud.config");
+                string webConfigPath = Path.Combine(fullName, webRoleName, "Web.config");
+                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, serviceName);
+                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, fullName);
+                Process.Start(setupWebPath).WaitForExit();
+
+                Assert.AreEqual<string>(File.ReadAllText(webCloudConfigPath), File.ReadAllText(webConfigPath));
             }
         }
     }
