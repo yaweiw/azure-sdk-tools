@@ -30,15 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Microsoft.WindowsAzure.Management.Utilities;
 
     [TestClass]
-    public class RestartAzureWebsiteTests
+    public class RestartAzureWebsiteTests : WebsitesTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void ProcessRestartWebsiteTest()
         {
@@ -67,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "StartAzureWebSiteTests_ProcessStartWebsiteTest" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
             restartAzureWebsiteCommand.ExecuteCommand();
