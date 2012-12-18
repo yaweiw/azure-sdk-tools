@@ -28,15 +28,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services.WebEntities;
 
     [TestClass]
-    public class RestoreAzureWebsiteDeploymentTests
+    public class RestoreAzureWebsiteDeploymentTests : WebsitesTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void RestoreAzureWebsiteDeploymentTest()
         {
@@ -89,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommitId = "id2",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "RestoreAzureWebsiteDeploymentTests_RestoreAzureWebsiteDeploymentTest2" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
@@ -107,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommitId = "id1",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "RestoreAzureWebsiteDeploymentTests_RestoreAzureWebsiteDeploymentTest1" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
             restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
