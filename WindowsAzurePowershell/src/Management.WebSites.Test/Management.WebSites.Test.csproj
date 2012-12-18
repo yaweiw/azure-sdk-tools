@@ -126,6 +126,7 @@
     <Compile Include="UnitTests\Utilities\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleGithubManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
+    <Compile Include="UnitTests\Utilities\WebsitesTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />

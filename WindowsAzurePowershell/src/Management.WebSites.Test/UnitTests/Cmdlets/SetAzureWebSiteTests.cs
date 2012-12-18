@@ -28,15 +28,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services.WebEntities;
 
     [TestClass]
-    public class SetAzureWebsiteTests
+    public class SetAzureWebsiteTests : WebsitesTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void SetAzureWebsiteProcess()
         {
@@ -82,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "SetAzureWebSiteTests_SetAzureWebsiteProcess1" },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
                 NumberOfWorkers = 3
             };
 
@@ -98,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "SetAzureWebSiteTests_SetAzureWebsiteProcess2" },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
                 HostNames = new [] { "stuff.com" }
             };
 
