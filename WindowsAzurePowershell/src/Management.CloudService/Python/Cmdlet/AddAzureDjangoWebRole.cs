@@ -88,7 +88,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         {
             try
             {
-                SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
                 SafeWriteObject(result);

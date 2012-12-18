@@ -48,7 +48,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
         {
             try
             {
-                SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = AddAzurePHPWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
                 SafeWriteObject(result);

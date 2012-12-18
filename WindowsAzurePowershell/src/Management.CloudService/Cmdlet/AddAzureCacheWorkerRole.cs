@@ -39,11 +39,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
     public class AddAzureCacheWorkerRoleCommand : AddRole
     {
-        public AddAzureCacheWorkerRoleCommand()
-        {
-            SkipChannelInit = true;
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {

@@ -17,13 +17,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBLocation")]
-    public class GetAzureSBLocationCommand : CloudCmdlet<IServiceManagement>
+    public class GetAzureSBLocationCommand : CloudBaseCmdlet<IServiceManagement>
     {
         /// <summary>
         /// Initializes a new instance of the GetAzureSBLocationCommand class.

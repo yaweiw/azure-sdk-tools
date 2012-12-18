@@ -190,7 +190,6 @@
     <Compile Include="Scaffolding\Scaffold.cs" />
     <Compile Include="Scaffolding\ScaffoldFile.cs" />
     <Compile Include="Scaffolding\ScaffoldParams.cs" />
-    <Compile Include="Cmdlet\Common\CloudCmdlet.cs" />
     <Compile Include="Cmdlet\NewAzureServiceProject.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

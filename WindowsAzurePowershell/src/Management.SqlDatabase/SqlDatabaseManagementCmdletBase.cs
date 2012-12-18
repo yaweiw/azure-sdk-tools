@@ -16,14 +16,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
     using System.ServiceModel;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
     /// </summary>
-    public abstract class SqlDatabaseManagementCmdletBase : CloudCmdlet<ISqlDatabaseManagement>
+    public abstract class SqlDatabaseManagementCmdletBase : CloudBaseCmdlet<ISqlDatabaseManagement>
     {
         /// <summary>
         /// Stores the session Id for all the request made in this session.

@@ -17,18 +17,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Common;
     using Management.Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureServiceCommand : CloudCmdlet<IServiceManagement>
+    public class RemoveAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public bool RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = GetDefaultSettings(rootName, inServiceName, null, null, null, inSubscription,
+            ServiceSettings settings = General.GetDefaultSettings(rootName, inServiceName, null, null, null, inSubscription,
                                                             out serviceName);
             if (string.IsNullOrEmpty(serviceName))
             {

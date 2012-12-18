@@ -54,7 +54,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
         {
             try
             {
-                SkipChannelInit = true;
                 base.ProcessRecord();
                 string result = AddAzureNodeWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
                 SafeWriteObject(result);

@@ -15,11 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.Management.Automation;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
-    public class SetSettings : CloudCmdlet<IServiceManagement>
+    public class SetSettings : CmdletBase<IServiceManagement>
     {
         // Uncomment this to enable global set for settings
         //[Parameter(Position = 1, Mandatory = false)]

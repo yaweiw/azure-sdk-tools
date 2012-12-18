@@ -17,15 +17,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Properties;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Properties;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
     /// </summary>
-    public class GetDeploymentStatus : CloudCmdlet<IServiceManagement>
+    public class GetDeploymentStatus : CloudBaseCmdlet<IServiceManagement>
     {
         public GetDeploymentStatus()
         {
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = base.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, subscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, subscription, out serviceName);
             slot = settings.Slot;
         }
 

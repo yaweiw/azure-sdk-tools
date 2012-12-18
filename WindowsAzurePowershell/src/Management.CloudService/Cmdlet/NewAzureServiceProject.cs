@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Common;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
 
@@ -27,16 +27,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureServiceProject")]
-    public class NewAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
+    public class NewAzureServiceProjectCommand : CmdletBase<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the cloud project")]
         [ValidateNotNullOrEmpty]
         public string ServiceName { get; set; }
-
-        public NewAzureServiceProjectCommand()
-        {
-            SkipChannelInit = true;
-        }
 
         internal AzureService NewAzureServiceProcess(string parentDirectory, string serviceName)
         {
