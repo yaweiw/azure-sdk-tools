@@ -54,36 +54,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// </summary>
         /// <param name="name">The namespace name</param>
         /// <returns>The namespace instance</returns>
-        internal ServiceBusNamespace GetNamespaceProcess(string subscriptionId, string name)
+        internal void GetNamespaceProcess(string subscriptionId, string name)
         {
             ServiceBusNamespace serviceBusNamespace = null;
 
             try
             {
                 serviceBusNamespace = Channel.GetServiceBusNamespace(subscriptionId, name);
-                WriteOutputObject(serviceBusNamespace);
+                WriteObject(serviceBusNamespace);
             }
             catch (Exception ex)
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.ServiceBusNamespaceMissingMessage));
+                    WriteExceptionError(new Exception(Resources.ServiceBusNamespaceMissingMessage));
                 }
             }
-
-            return serviceBusNamespace;
         }
 
         /// <summary>
         /// Gets a list of all namespaces associated with a subscription.
         /// </summary>
         /// <returns>The namespace list</returns>
-        internal List<ServiceBusNamespace> ListNamespacesProcess(string subscriptionId)
+        internal void ListNamespacesProcess(string subscriptionId)
         {
             List<ServiceBusNamespace> namespaces = Channel.ListServiceBusNamespaces(subscriptionId);
-            WriteOutputObject(namespaces);
-
-            return namespaces;
+            WriteObject(namespaces, true);
         }
 
         /// <summary>
@@ -91,8 +87,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// </summary>
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             if (string.IsNullOrEmpty(Name))
             {
                 ListNamespacesProcess(CurrentSubscription.SubscriptionId);

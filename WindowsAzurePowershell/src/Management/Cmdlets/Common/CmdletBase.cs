@@ -25,22 +25,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     public abstract class CmdletBase<T> : PSCmdlet, IDynamicParameters
         where T : class
     {
-        private IMessageWriter writer;
-
-        private bool hasOutput = false;
-
-        public IMessageWriter Writer { get { return writer; } set { writer = value; } }
-
-        protected CmdletBase()
-        {
-        }
-
-        protected CmdletBase(IMessageWriter writer)
-            : this()
-        {
-            this.writer = writer;
-        }
-
         protected string GetServiceRootPath() { return PathUtility.FindServiceRootDirectory(CurrentPath()); }
 
         protected string CurrentPath()
@@ -75,141 +59,19 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             return null;
         }
 
-        private void SafeWriteObjectInternal(object sendToPipeline)
+        protected void WriteObjectWithTimestamp(string message, params object[] args)
         {
-            if (CommandRuntime != null)
-            {
-                WriteObject(sendToPipeline);
-            }
-            else
-            {
-                Trace.WriteLine(sendToPipeline);
-            }
-        }
-
-        private void WriteLineIfFirstOutput()
-        {
-            if (!hasOutput)
-            {
-                hasOutput = true;
-                SafeWriteObjectInternal(Environment.NewLine);
-            }
-        }
-
-        protected void SafeWriteObject(string message, params object[] args)
-        {
-            object sendToPipeline = message;
-            WriteLineIfFirstOutput();
-            if (args.Length > 0)
-            {
-                sendToPipeline = string.Format(message, args);
-            }
-            SafeWriteObjectInternal(sendToPipeline);
-
-            if (writer != null)
-            {
-                writer.Write(sendToPipeline.ToString());
-            }
-        }
-
-        protected void WriteOutputObject(object sendToPipeline)
-        {
-            SafeWriteObjectInternal(sendToPipeline);
-
-            if (writer != null)
-            {
-                writer.WriteObject(sendToPipeline);
-            }
-        }
-
-        protected void SafeWriteObjectWithTimestamp(string message, params object[] args)
-        {
-            SafeWriteObject(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
-        }
-
-        /// <summary>
-        /// Wrap the base Cmdlet's SafeWriteProgress call so that it will not
-        /// throw a NotSupportedException when called without a CommandRuntime
-        /// (i.e., when not called from within Powershell).
-        /// </summary>
-        /// <param name="progress">The progress to write.</param>
-        protected void SafeWriteProgress(ProgressRecord progress)
-        {
-            WriteLineIfFirstOutput();
-
-            if (CommandRuntime != null)
-            {
-                WriteProgress(progress);
-            }
-            else
-            {
-                Trace.WriteLine(string.Format("{0}% Complete", progress.PercentComplete));
-            }
-        }
-
-        /// <summary>
-        /// Wrap the base Cmdlet's WriteError call so that it will not throw
-        /// a NotSupportedException when called without a CommandRuntime (i.e.,
-        /// when not called from within Powershell).
-        /// </summary>
-        /// <param name="errorRecord">The error to write.</param>
-        protected void SafeWriteError(ErrorRecord errorRecord)
-        {
-            Debug.Assert(errorRecord != null, "errorRecord cannot be null.");
-
-            // If the exception is an Azure Service Management error, pull the
-            // Azure message out to the front instead of the generic response.
-            errorRecord = AzureServiceManagementException.WrapExistingError(errorRecord);
-
-            if (CommandRuntime != null)
-            {
-                WriteError(errorRecord);
-            }
-            else
-            {
-                Trace.WriteLine(errorRecord);
-            }
-
-            if (writer != null)
-            {
-                writer.WriteError(errorRecord);
-            }
+            WriteObject(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
         /// <param name="ex">The exception resulting from the error.</param>
-        protected void SafeWriteError(Exception ex)
+        protected void WriteExceptionError(Exception ex)
         {
             Debug.Assert(ex != null, "ex cannot be null or empty.");
-            SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-        }
-
-        /// <summary>
-        /// Wrap the base Cmdlet's WriteVerbose call so that it will not throw
-        /// a NotSupportedException when called without a CommandRuntime (i.e.,
-        /// when not called from within Powershell) and uses a writer object if
-        /// it's not set to null.
-        /// </summary>
-        /// <param name="errorRecord">The message to write.</param>
-        protected void SafeWriteVerbose(string message)
-        {
-            Debug.Assert(message != null, "message cannot be null.");
-
-            if (CommandRuntime != null)
-            {
-                WriteVerbose(message);
-            }
-            else
-            {
-                Trace.WriteLine(message);
-            }
-
-            if (writer != null)
-            {
-                writer.WriteVerbose(message);
-            }
+            WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
         }
 
         protected PSObject ConstructPSObject(string typeName, params object[] args)
@@ -231,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected void SafeWriteOutputPSObject(string typeName, params object[] args)
         {
             PSObject customObject = this.ConstructPSObject(typeName, args);
-            WriteOutputObject(customObject);
+            WriteObject(customObject);
         }
 
         public virtual void ExecuteCmdlet()
@@ -248,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
             catch (Exception ex)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
         }
     }

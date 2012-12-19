@@ -92,11 +92,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 base.ProcessRecord();
                 string results = this.RemoveAzureDeploymentProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
-                SafeWriteObject(results);
+                WriteObject(results);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
 

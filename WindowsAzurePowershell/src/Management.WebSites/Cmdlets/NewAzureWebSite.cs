@@ -190,7 +190,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
         }
@@ -307,7 +307,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
 

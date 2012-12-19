@@ -42,14 +42,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             StringBuilder message = new StringBuilder();
             AzureService service = new AzureService(rootPath ,null);
             
-            SafeWriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
+            WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
             service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
             
-            SafeWriteVerbose(Resources.StartingEmulator);
+            WriteVerbose(Resources.StartingEmulator);
             service.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
             
-            SafeWriteVerbose(standardOutput);
-            SafeWriteVerbose(Resources.StartedEmulator);
+            WriteVerbose(standardOutput);
+            WriteVerbose(Resources.StartedEmulator);
             SafeWriteOutputPSObject(
                 service.GetType().FullName,
                 Parameters.ServiceName, service.ServiceName,

@@ -22,11 +22,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class SetAzureRuntimeTests : TestBase
     {
-        private FakeWriter writer;
+        private MockCommandRuntime mockCommandRuntime;
 
         private SetAzureServiceProjectRoleCommand cmdlet;
 
@@ -50,9 +51,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         [TestInitialize]
         public void TestSetup()
         {
-            writer = new FakeWriter();
+            mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new SetAzureServiceProjectRoleCommand();
-            cmdlet.Writer = writer;
+            cmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         /// <summary>
@@ -73,10 +74,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)writer.OutputChannel[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)writer.OutputChannel[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
@@ -98,10 +99,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)writer.OutputChannel[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)writer.OutputChannel[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
@@ -123,10 +124,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnoide", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)writer.OutputChannel[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)writer.OutputChannel[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }

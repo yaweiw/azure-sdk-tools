@@ -22,12 +22,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
     {
         SimpleServiceManagement channel;
-        FakeWriter writer;
+        MockCommandRuntime mockCommandRuntime;
         TestAzureNameCommand cmdlet;
         string subscriptionId = "my subscription Id";
 
@@ -35,8 +36,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         public void SetupTest()
         {
             channel = new SimpleServiceManagement();
-            writer = new FakeWriter();
-            cmdlet = new TestAzureNameCommand (channel) { Writer = writer };
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new TestAzureNameCommand (channel) { CommandRuntime = mockCommandRuntime };
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
@@ -48,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
             Assert.IsTrue(actual);
         }
 
@@ -60,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
             Assert.IsFalse(actual);
         }
 
@@ -72,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
             Assert.IsTrue(actual);
         }
 
@@ -84,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
             Assert.IsFalse(actual);
         }
 
@@ -96,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
 
             Assert.IsTrue(actual);
         }
@@ -109,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
             
             Assert.IsFalse(actual);
         }

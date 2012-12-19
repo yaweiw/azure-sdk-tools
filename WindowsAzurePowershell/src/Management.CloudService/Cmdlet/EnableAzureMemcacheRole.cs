@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string message = string.Empty;
             EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
-            SafeWriteVerbose(message);
+            WriteVerbose(message);
 
             return azureService.Components.GetWebRole(roleName);
         }
@@ -132,7 +132,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string currentVersion = new AzureTool().AzureSdkVersion;
 
             // Add MemcacheShim runtime installation.
-            new SetAzureServiceProjectRoleCommand().SetAzureRuntimesProcess(roleName, Resources.CacheRuntimeValue, currentVersion, azureService.Paths.RootPath);
+            SetAzureServiceProjectRoleCommand setRCacheRuntimeCmdlet = new SetAzureServiceProjectRoleCommand();
+            setRCacheRuntimeCmdlet.CommandRuntime = this.CommandRuntime;
+            setRCacheRuntimeCmdlet.SetAzureRuntimesProcess(roleName, Resources.CacheRuntimeValue, currentVersion, azureService.Paths.RootPath);
 
             // Fetch web role information.
             azureService = new AzureService(azureService.Paths.RootPath, null);

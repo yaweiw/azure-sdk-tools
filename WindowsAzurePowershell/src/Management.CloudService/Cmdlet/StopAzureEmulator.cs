@@ -41,10 +41,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string standardError;
 
             AzureService service = new AzureService();
-            SafeWriteVerbose(Resources.StopEmulatorMessage);
+            WriteVerbose(Resources.StopEmulatorMessage);
             service.StopEmulator(out standardOutput, out standardError);
             
-            SafeWriteVerbose(Resources.StoppedEmulatorMessage);
+            WriteVerbose(Resources.StoppedEmulatorMessage);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

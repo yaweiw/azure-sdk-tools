@@ -61,13 +61,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
-                    SafeWriteObject(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
-                    SafeWriteObject(Resources.UnableToCreateDjangoAppFix);
+                    WriteObject(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
+                    WriteObject(Resources.UnableToCreateDjangoAppFix);
                 }
             }
             else
             {
-                SafeWriteObject(Resources.MissingPythonPreReq);
+                WriteObject(Resources.MissingPythonPreReq);
             }
 
             try
@@ -76,8 +76,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             }
             catch (UnauthorizedAccessException)
             {
-                SafeWriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                SafeWriteObject(Environment.NewLine);
+                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
+                WriteObject(Environment.NewLine);
             }
 
             result = string.Format(Resources.AddRoleMessageCreatePython, rootPath, webRole.Name);
@@ -90,11 +90,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             {
                 base.ProcessRecord();
                 string result = AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
-                SafeWriteObject(result);
+                WriteObject(result);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
 
