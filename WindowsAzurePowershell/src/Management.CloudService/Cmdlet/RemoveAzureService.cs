@@ -82,11 +82,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     sub => sub.SubscriptionName == settings.Subscription);
             }
 
-            SafeWriteObjectWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
-            SafeWriteObjectWithTimestamp(Resources.RemoveDeploymentMessage);
+            WriteObjectWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
+            WriteObjectWithTimestamp(Resources.RemoveDeploymentMessage);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
-            SafeWriteObjectWithTimestamp(Resources.RemoveServiceMessage);
+            WriteObjectWithTimestamp(Resources.RemoveServiceMessage);
             RemoveService(serviceName);
             return true;
         }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         private void RemoveService(string serviceName)
         {
-            SafeWriteObjectWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
+            WriteObjectWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
 
             InvokeInOperationContext(() => RetryCall(s => this.Channel.DeleteHostedService(s, serviceName)));
         }
@@ -123,12 +123,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName))
                 {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
+                    WriteObjectWithTimestamp(Resources.CompleteMessage);
                 }
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
     }

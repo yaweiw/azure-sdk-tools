@@ -91,15 +91,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             set;
         }
 
-        protected CloudBaseCmdlet()
-        {
-        }
-
-        protected CloudBaseCmdlet(IMessageWriter Writer)
-            : base(Writer)
-        {
-        }
-
         /// <summary>
         /// Sets the current subscription to the passed subscription name. If null, no changes.
         /// </summary>
@@ -161,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
             catch (Exception ex)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
         }
 
@@ -448,7 +439,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (input != null)
             {
-                this.SafeWriteVerboseOutputForObject(input, Writer);
+                this.SafeWriteVerboseOutputForObject(input);
             }
 
             IContextChannel contextChannel = Channel as IContextChannel;
@@ -552,11 +543,19 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 WriteError(errorRecord);
             }
+        }
 
-            if (Writer != null)
-            {
-                Writer.WriteError(errorRecord);
-            }
+        /// <summary>
+        /// Wrap the base Cmdlet's WriteError call so that it will not throw
+        /// a NotSupportedException when called without a CommandRuntime (i.e.,
+        /// when not called from within Powershell).
+        /// </summary>
+        /// <param name="errorRecord">The error to write.</param>
+        protected void WriteWindowsAzureError(ErrorRecord errorRecord)
+        {
+            // If the exception is an Azure Service Management error, pull the
+            // Azure message out to the front instead of the generic response.
+            errorRecord = AzureServiceManagementException.WrapExistingError(errorRecord);
         }
     }
 }

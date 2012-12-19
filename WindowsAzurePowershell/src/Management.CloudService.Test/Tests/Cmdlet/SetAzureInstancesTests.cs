@@ -22,22 +22,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class SetAzureInstancesTests : TestBase
     {
         private const string serviceName = "AzureService";
 
-        private FakeWriter writer;
+        private MockCommandRuntime mockCommandRuntime;
 
         private SetAzureServiceProjectRoleCommand cmdlet;
 
         [TestInitialize]
         public void TestSetup()
         {
-            writer = new FakeWriter();
+            mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new SetAzureServiceProjectRoleCommand();
-            cmdlet.Writer = writer;
+            cmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -55,8 +56,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)writer.OutputChannel[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
 
@@ -79,8 +80,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
-                Assert.AreEqual<string>(roleName, ((PSObject)writer.OutputChannel[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)writer.OutputChannel[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
             }

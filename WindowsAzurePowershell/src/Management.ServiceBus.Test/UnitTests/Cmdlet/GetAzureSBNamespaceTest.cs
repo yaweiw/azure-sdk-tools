@@ -23,13 +23,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
         SimpleServiceManagement channel;
-        FakeWriter writer;
+        MockCommandRuntime mockCommandRuntime;
         GetAzureSBNamespaceCommand cmdlet;
 
         [TestInitialize]
@@ -37,8 +38,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             channel = new SimpleServiceManagement();
-            writer = new FakeWriter();
-            cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new GetAzureSBNamespaceCommand(channel) { CommandRuntime = mockCommandRuntime };
         }
 
         [TestMethod]
@@ -54,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = writer.OutputChannel[0] as ServiceBusNamespace;
+            ServiceBusNamespace actual = mockCommandRuntime.WrittenObjects[0] as ServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
         }
 
@@ -70,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord error = writer.ErrorChannel[0];
+            ErrorRecord error = mockCommandRuntime.ErrorRecords[0];
             Assert.AreEqual<string>(expected, error.Exception.Message);
         }
 
@@ -89,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusNamespace> actual = writer.OutputChannel[0] as List<ServiceBusNamespace>;
+            List<ServiceBusNamespace> actual = mockCommandRuntime.WrittenObjects[0] as List<ServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {

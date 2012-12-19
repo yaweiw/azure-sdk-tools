@@ -24,26 +24,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Starts the deployment of specified slot in the azure service
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureService")]
-    public class StartAzureService : DeploymentStatusManager
+    public class StartAzureServiceCommand : DeploymentStatusManager
     {
         /// <summary>
         /// SetDeploymentStatus will handle the execution of this cmdlet
         /// </summary>
-        public StartAzureService()
+        public StartAzureServiceCommand()
         {
             Status = DeploymentStatus.Running;
         }
 
-        public StartAzureService(IServiceManagement channel): base(channel)
+        public StartAzureServiceCommand(IServiceManagement channel): base(channel)
         {
             Status = DeploymentStatus.Running;
         }
 
         public override string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
-            SafeWriteObjectWithTimestamp(Resources.StartServiceMessage, serviceName);
+            WriteObjectWithTimestamp(Resources.StartServiceMessage, serviceName);
             var message = base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            SafeWriteObjectWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
+            WriteObjectWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
             return message;
         }
     }

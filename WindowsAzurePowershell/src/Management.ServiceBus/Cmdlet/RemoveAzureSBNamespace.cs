@@ -56,36 +56,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="subscriptionId">The user subscription id</param>
         /// <param name="name">The namespace name</param>
         /// <summary>
-        internal void RemoveServiceBusNamespaceProcess(string subscriptionId, string name)
+        public override void ExecuteCmdlet()
         {
+            string subscriptionId = CurrentSubscription.SubscriptionId;
+            string name = Name;
+
             try
             {
                 if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
                     Channel.DeleteServiceBusNamespace(subscriptionId, name);
-                    SafeWriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
+                    WriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
                 }
                 else
                 {
-                    SafeWriteError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
+                    WriteExceptionError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
                 }
             }
             catch (Exception ex)
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.RemoveNamespaceErrorMessage));
+                    WriteExceptionError(new Exception(Resources.RemoveNamespaceErrorMessage));
                 }
             }
-        }
-
-        /// <summary>
-        /// Executes the cmdlet.
-        /// </summary>
-        public override void ExecuteCmdlet()
-        {
-            base.ExecuteCmdlet();
-            RemoveServiceBusNamespaceProcess(CurrentSubscription.SubscriptionId, Name);
         }
     }
 }

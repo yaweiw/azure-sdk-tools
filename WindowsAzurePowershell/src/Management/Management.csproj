@@ -165,7 +165,6 @@
     <Compile Include="Cmdlets\SetAzureSubscription.cs" />
     <Compile Include="Model\SubscriptionData.cs" />
     <Compile Include="Utilities\General.cs" />
-    <Compile Include="Utilities\IMessageWriter.cs" />
     <Compile Include="Utilities\PathUtility.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\ConfigurationConstants.cs" />

@@ -72,7 +72,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             RoleInfo nodeWorkerRole;
 
             // Create cache worker role.
-            new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out nodeWorkerRole);
+            AddAzureNodeWorkerRoleCommand addNodeWorkerRoleCmdlet = new AddAzureNodeWorkerRoleCommand();
+            addNodeWorkerRoleCmdlet.CommandRuntime = this.CommandRuntime;
+            addNodeWorkerRoleCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out nodeWorkerRole);
             AzureService azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
             azureService.Components.Save(azureService.Paths);
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
