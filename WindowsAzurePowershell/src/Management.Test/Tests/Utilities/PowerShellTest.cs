@@ -16,16 +16,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class PowerShellTest
     {
         protected PowerShell powershell;
-        protected string moduleName;
+        protected string[] modules;
 
-        public PowerShellTest(string moduleName)
+        public PowerShellTest(params string[] modules)
         {
-            this.moduleName = moduleName;
+            this.modules = modules;
         }
 
         protected void AddScenarioScript(string script)
@@ -37,7 +38,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public virtual void SetupTest()
         {
             powershell = PowerShell.Create();
-            powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
+
+            foreach (string moduleName in modules)
+            {
+                powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
+            }
+
             powershell.AddScript("$verbosepreference='continue'");
         }
 

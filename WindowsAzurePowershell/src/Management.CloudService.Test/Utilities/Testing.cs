@@ -201,9 +201,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
 
         public static T GetPSVariableValue<T>(PSObject obj, string name)
-            where T: class
         {
-            return obj.Members[name].Value as T;
+            return (T)obj.Members[name].Value;
         }
     }
 }
