@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 settings.Save(settingsPath);
             }
 
-            WriteOutputObject(settings);
+            WriteObject(settings);
 
             return settings;
         }

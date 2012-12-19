@@ -47,23 +47,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <summary>
         /// Gets list of service bus regions on the given subscription.
         /// </summary>
-        /// <param name="subscriptionId"></param>
-        /// <returns></returns>
-        internal List<ServiceBusRegion> GetServiceBusRegionsProcess(string subscriptionId)
-        {
-            List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(subscriptionId);
-            WriteOutputObject(regions);
-
-            return regions;
-        }
-
-        /// <summary>
-        /// Executes the cmdlet.
-        /// </summary>
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-            GetServiceBusRegionsProcess(CurrentSubscription.SubscriptionId);
+            List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId);
+            WriteObject(regions);
         }
     }
 }

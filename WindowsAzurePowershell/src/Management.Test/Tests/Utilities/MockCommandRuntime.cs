@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
         public List<object> WrittenObjects = new List<object>(); 
         public StringBuilder WarningOutput = new StringBuilder();
+        public List<string> VerboseChannel = new List<string>();
 
         public override string ToString()
         {
@@ -46,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldContinue(string query, string caption)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldProcess(string verboseDescription, string verboseWarning, string caption, out ShouldProcessReason shouldProcessReason)
@@ -66,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldProcess(string target)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public void ThrowTerminatingError(ErrorRecord errorRecord)
@@ -116,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteVerbose(string text)
         {
-            throw new System.NotImplementedException();
+            VerboseChannel.Add(text);
         }
 
         public void WriteWarning(string text)

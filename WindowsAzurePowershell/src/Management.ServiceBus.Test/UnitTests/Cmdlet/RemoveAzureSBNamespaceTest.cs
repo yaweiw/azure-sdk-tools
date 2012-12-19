@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
+    using System;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using System;
 
     [TestClass]
     public class RemoveAzureSBNamespaceTests : TestBase
@@ -38,9 +38,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, Writer = writer };
+            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
             bool deleted = false;
             string expectedVerbose = string.Format(Resources.RemovingNamespaceMessage, name);
             channel.DeleteServiceBusNamespaceThunk = dsbn => { deleted = true; };
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            string actual = writer.VerboseChannel[0] as string;
+            string actual = mockCommandRuntime.VerboseChannel[0] as string;
             Assert.IsTrue(deleted);
             Assert.AreEqual<string>(expectedVerbose, actual);
         }
@@ -62,15 +62,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 
             foreach (string invalidName in invalidNames)
             {
-                FakeWriter writer = new FakeWriter();
-                RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand() { Name = invalidName, Writer = writer };
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+                RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
                 ArgumentException expected = new ArgumentException(string.Format(Resources.InvalidNamespaceName, invalidName), "Name");
 
                 // Test
                 cmdlet.ExecuteCmdlet();
 
                 // Assert
-                ErrorRecord actual = writer.ErrorChannel[0];
+                ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
                 Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
             }
         }
@@ -80,9 +80,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, Writer = writer };
+            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
             string expected = Resources.RemoveNamespaceErrorMessage;
             channel.DeleteServiceBusNamespaceThunk = dsbn => { throw new Exception(Resources.InternalServerErrorMessage); };
 
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord actual = writer.ErrorChannel[0];
+            ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
             Assert.AreEqual<string>(expected, actual.Exception.Message);
         }
     }

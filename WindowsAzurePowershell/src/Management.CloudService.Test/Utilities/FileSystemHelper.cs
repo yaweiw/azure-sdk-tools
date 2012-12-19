@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Cmdlet;
     using Cmdlets;
     using Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Model;
     using TestData;
 
@@ -131,8 +132,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 // Cleanup any certificates added during the test
                 if (!string.IsNullOrEmpty(AzureSdkPath))
                 {
-                    new RemoveAzurePublishSettingsCommand()
-                        .RemovePublishSettingsProcess(AzureSdkPath);
+                    new Microsoft.WindowsAzure.Management.CloudService.Test.Model.RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
                     GlobalPathInfo.GlobalSettingsDirectory = null;
                     AzureSdkPath = null;
                 }
@@ -295,8 +295,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <returns>Directory created for the service.</returns>
         public string CreateNewService(string serviceName)
         {
-            new NewAzureServiceProjectCommand()
-                .NewAzureServiceProcess(RootPath, serviceName);
+            NewAzureServiceProjectCommand cmdlet = new NewAzureServiceProjectCommand();
+            cmdlet.CommandRuntime = new MockCommandRuntime();
+            cmdlet.NewAzureServiceProcess(RootPath, serviceName);
 
             string path = Path.Combine(RootPath, serviceName);
             _previousDirectory = Environment.CurrentDirectory;

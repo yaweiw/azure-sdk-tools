@@ -24,21 +24,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class StartAzureServiceTests : TestBase
+    public class StartAzureServiceTests : CloudServiceCmdletTestBase
     {
         private const string serviceName = "AzureService";
         string slot = ArgumentConstants.Slots[Slot.Production];
 
-        [TestInitialize]
-        public void SetupTest()
-        {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void SetDeploymentStatusProcessTest()
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
             string newStatus = DeploymentStatus.Running;
             string currentStatus = DeploymentStatus.Suspended;
             bool statusUpdated = false;
@@ -53,8 +46,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                var startAzureService = new StartAzureService(channel) { ShareChannel = true };
-                startAzureService.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                startServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
             }
