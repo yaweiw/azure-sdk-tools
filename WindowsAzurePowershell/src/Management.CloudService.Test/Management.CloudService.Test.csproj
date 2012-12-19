@@ -132,25 +132,22 @@
     <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
-    <Compile Include="Tests\ScenarioTests.cs" />
     <Compile Include="Utilities\AzureAssert.cs" />
     <Compile Include="Utilities\CloudServiceCmdletTestBase.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
-    <Compile Include="Utilities\PowerShellTest.cs" />
     <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
-    <Compile Include="Utilities\Testing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData\Data.cs" />
     <Compile Include="TestData\ServiceSettingsTestData.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWebRoleTests.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureInstancesTests.cs" />
+    <Compile Include="Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="Resources\DeployCloudServiceUsingRemoteDesktopAndSSL.ps1" />
     <None Include="Test References\AzureDeploymentTool.accessor" />
   </ItemGroup>
   <ItemGroup>

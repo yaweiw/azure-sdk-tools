@@ -19,27 +19,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
-    public class ScenarioTests : PowerShellTest
+    public class FunctionalTests : PowerShellTest
     {
-        public ScenarioTests() 
-            : base("Microsoft.WindowsAzure.Management.CloudService.dll")
+        public FunctionalTests() 
+            : base("Microsoft.WindowsAzure.Management.ServiceBus.dll")
         {
 
         }
 
-        [TestMethod]
-        public void DeployCloudServiceUsingRemoteDesktopAndSSL()
+        [TestCategory("Functional"), TestMethod]
+        public void ListAzureSBLocation()
         {
-            string name = "test";
-            powershell.Runspace.SessionStateProxy.SetVariable("name", name);
-            AddScenarioScript("DeployCloudServiceUsingRemoteDesktopAndSSL.ps1");
+            powershell.AddScript("Get-AzureSBLocation");
+            int expectedLocationsCount = 8;
+            List<ServiceBusRegion> actual = new List<ServiceBusRegion>();
 
-            Collection<PSObject> result = powershell.Invoke();
+            powershell.Invoke(null, actual);
 
-            Assert.AreEqual<string>(name, Testing.GetPSVariableValue<string>(result[0], Parameters.ServiceName));
-            Assert.IsTrue(powershell.Streams.Verbose.Count.Equals(1));
+            Assert.AreEqual<int>(expectedLocationsCount, actual.Count);
+            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
         }
     }
 }
