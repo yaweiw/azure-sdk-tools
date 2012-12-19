@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             }
             catch (Exception ex)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
         }
     }

@@ -23,11 +23,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class ServiceComponentsTests : TestBase
     {
         private const string serviceName = "NodeService";
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private MockCommandRuntime mockCommandRuntime;
+
+        [TestInitialize]
+        public void TestSetup()
+        {
+            mockCommandRuntime = new MockCommandRuntime();
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
 
         [TestCleanup]
         public void TestCleanup()
@@ -42,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServiceComponentsTest()
         {
-            new NewAzureServiceProjectCommand().NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
+            newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
             ServiceComponents components = new ServiceComponents(new ServicePathInfo(serviceName));
             AzureAssert.AreEqualServiceComponents(components);
         }
@@ -65,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServiceComponentsTestCloudConfigDoesNotExistFail()
         {
-            new NewAzureServiceProjectCommand().NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
+            newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
             ServicePathInfo paths = new ServicePathInfo(serviceName);
 
             try
@@ -84,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServiceComponentsTestLocalConfigDoesNotExistFail()
         {
-            new NewAzureServiceProjectCommand().NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
+            newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
             ServicePathInfo paths = new ServicePathInfo(serviceName);
 
             try
@@ -103,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServiceComponentsTestSettingsDoesNotExistFail()
         {
-            new NewAzureServiceProjectCommand().NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
+            newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
             ServicePathInfo paths = new ServicePathInfo(serviceName);
 
             try
@@ -122,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void ServiceComponentsTestDefinitionDoesNotExistFail()
         {
-            new NewAzureServiceProjectCommand().NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
+            newServiceCmdlet.NewAzureServiceProcess(Directory.GetCurrentDirectory(), serviceName);
             ServicePathInfo paths = new ServicePathInfo(serviceName);
 
             try

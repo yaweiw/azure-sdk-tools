@@ -99,11 +99,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 base.ProcessRecord();
                 string result = this.GetDeploymentStatusProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
-                SafeWriteObject(result);
+                WriteObject(result);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
         

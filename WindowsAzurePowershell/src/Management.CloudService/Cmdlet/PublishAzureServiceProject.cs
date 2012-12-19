@@ -132,11 +132,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 AzureTool.Validate();
                 base.ProcessRecord();
                 PublishService(GetServiceRootPath());
-                SafeWriteObjectWithTimestamp(Resources.PublishCompleteMessage);
+                WriteObjectWithTimestamp(Resources.PublishCompleteMessage);
             }
             catch (Exception ex)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
         }
 
@@ -158,8 +158,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void PublishService(string serviceRootPath)
         {
-            SafeWriteObject(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
-            SafeWriteObject(string.Empty);
+            WriteObject(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
+            WriteObject(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObject(Resources.PublishAbortedAtUserRequest);
+                WriteObject(Resources.PublishAbortedAtUserRequest);
             }
         }
 
@@ -255,12 +255,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 defaultSettings.Subscription = CurrentSubscription.SubscriptionName;
             }
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
+            WriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
                 _hostedServiceName));
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {
 
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
+                WriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                     _hostedServiceName, CurrentSubscription.SubscriptionId));
 
                 // Caching worker roles require update to their service configuration settings with 
@@ -425,7 +425,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Slot),
                 "Slot cannot be null.");
 
-            SafeWriteObjectWithTimestamp(Resources.PublishConnectingMessage);
+            WriteObjectWithTimestamp(Resources.PublishConnectingMessage);
 
             // Check whether there's an existing service with the desired
             // name in the desired slot accessible from our subscription
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
                 "Location cannot be null or empty.");
 
-            SafeWriteObjectWithTimestamp(Resources.PublishCreatingServiceMessage);
+            WriteObjectWithTimestamp(Resources.PublishCreatingServiceMessage);
 
             CreateHostedServiceInput hostedServiceInput = new CreateHostedServiceInput
             {
@@ -470,7 +470,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 RetryCall(subscription =>
                     Channel.CreateHostedService(subscription, hostedServiceInput));
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
+                WriteObjectWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
                     hostedServiceInput.ServiceName));
             });
         }
@@ -499,7 +499,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
 
                 if (!SkipUpload)
                 {
@@ -584,7 +584,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Location = location
             };
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
+            WriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
@@ -677,7 +677,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
+                WriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
                 RetryCall(subscription =>
                     Channel.UpgradeDeployment(
                         subscription,
@@ -737,7 +737,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             while (deployment.Status != DeploymentStatus.Starting &&
                 deployment.Status != DeploymentStatus.Running);
 
-            SafeWriteObjectWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
+            WriteObjectWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
                deployment.PrivateID));
 
         }
@@ -749,8 +749,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishStartingMessage);
-                SafeWriteObjectWithTimestamp(Resources.PublishInitializingMessage);
+                WriteObjectWithTimestamp(Resources.PublishStartingMessage);
+                WriteObjectWithTimestamp(Resources.PublishInitializingMessage);
 
                 Dictionary<string, RoleInstance> roleInstanceSnapshot = new Dictionary<string, RoleInstance>();
 
@@ -815,7 +815,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                         break;
                                 }
 
-                                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
+                                WriteObjectWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
                                     currentInstance.InstanceName, currentInstance.RoleName, statusResource));
 
                             }
@@ -832,13 +832,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (CanGenerateUrlForDeploymentSlot())
                 {
-                    SafeWriteObjectWithTimestamp(
+                    WriteObjectWithTimestamp(
                         Resources.PublishCreatedWebsiteMessage,
                         string.Format(Resources.ServiceUrl, _hostedServiceName));
                 }
                 else
                 {
-                    SafeWriteObjectWithTimestamp(
+                    WriteObjectWithTimestamp(
                         Resources.PublishCreatedWebsiteLaunchNotSupportedMessage);
                 }
 

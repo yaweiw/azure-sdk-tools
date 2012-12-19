@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 
                         if (showError)
                         {
-                            SafeWriteError(new Exception(serviceError.Message));
+                            WriteExceptionError(new Exception(serviceError.Message));
                         }
 
                         return message;
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 
             if (showError)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
 
             return ex.Message;
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             }
             catch (Exception ex)
             {
-                SafeWriteError(ex);
+                WriteExceptionError(ex);
             }
         }
     }

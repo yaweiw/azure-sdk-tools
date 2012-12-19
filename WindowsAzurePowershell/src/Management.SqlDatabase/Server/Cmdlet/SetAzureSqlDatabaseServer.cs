@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(this.ProcessExceptionDetails(ex), string.Empty, ErrorCategory.CloseError, null));
+                WriteWindowsAzureError(new ErrorRecord(this.ProcessExceptionDetails(ex), string.Empty, ErrorCategory.CloseError, null));
             }
         }
     }

@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Extensions;
     using Management.Services;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
@@ -31,14 +32,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop command.
     /// </summary>
     [TestClass]
-    public class EnableAzureRemoteDesktopCommandTest : TestBase
+    public class EnableAzureRemoteDesktopCommandTest : CloudServiceCmdletTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
 
         /// <summary>
         /// Invoke the Enable-AzureServiceProjectRemoteDesktop command.
@@ -148,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the role has been setup with forwarding, access,
@@ -169,8 +164,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the roles have been setup with forwarding, access,
@@ -192,10 +187,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole_1", 1, root);
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole_2", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole_1", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole_2", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole_1", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole_2", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_1", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_2", 1, root);
                 
                 EnableRemoteDesktop("user", "GoodPassword!");
                 EnableRemoteDesktop("other", "OtherPassword!");

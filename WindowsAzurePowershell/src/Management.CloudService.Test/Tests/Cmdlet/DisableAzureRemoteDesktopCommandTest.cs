@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Extensions;
     using Management.Services;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
@@ -29,15 +30,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// Basic unit tests for the Enable-Enable-AzureServiceProjectRemoteDesktop command.
     /// </summary>
     [TestClass]
-    public class DisableAzureRemoteDesktopCommandTest : TestBase
+    public class DisableAzureRemoteDesktopCommandTest : CloudServiceCmdletTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         private static void VerifyDisableRoleSettings(AzureService service)
         {
             IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
@@ -64,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                disableRDCmdlet.DisableRemoteDesktop();
             }
         }
 
@@ -78,8 +72,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                disableRDCmdlet.DisableRemoteDesktop();
             }
         }
 
@@ -93,9 +87,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                disableRDCmdlet.DisableRemoteDesktop();
             }
         }
 
@@ -109,9 +103,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                disableRDCmdlet.DisableRemoteDesktop();
                 // Verify the role has been setup with forwarding, access,
                 // and certs
                 AzureService service = new AzureService(root, null);
@@ -130,10 +124,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                disableRDCmdlet.DisableRemoteDesktop();
                 // Verify the roles have been setup with forwarding, access,
                 // and certs
                 AzureService service = new AzureService(root, null);
@@ -153,10 +147,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
-                new DisableAzureServiceProjectRemoteDesktopCommand().DisableRemoteDesktop();
+                disableRDCmdlet.DisableRemoteDesktop();
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
                 // Verify the roles have been setup with forwarding, access,
                 // and certs

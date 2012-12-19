@@ -25,20 +25,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class RemoveAzureServiceTests : TestBase
+    public class RemoveAzureServiceTests : CloudServiceCmdletTestBase
     {
         private const string serviceName = "AzureService";
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
 
         [TestMethod]
         public void RemoveAzureServiceProcessTest()
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
             bool serviceDeleted = false;
             bool deploymentDeleted = false;
             channel.GetDeploymentBySlotThunk = ar =>
@@ -57,9 +50,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                var removeAzureServiceCommand = new RemoveAzureServiceCommand(channel);
-                removeAzureServiceCommand.ShareChannel = true;
-                removeAzureServiceCommand.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
+                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
             }
