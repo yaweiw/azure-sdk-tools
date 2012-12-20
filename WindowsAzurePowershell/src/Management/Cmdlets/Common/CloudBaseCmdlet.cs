@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Security;
+    using System.ServiceModel.Web;
     using System.Threading;
     using Extensions;
     using Microsoft.WindowsAzure.Management.Service;
@@ -556,6 +557,18 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             // If the exception is an Azure Service Management error, pull the
             // Azure message out to the front instead of the generic response.
             errorRecord = AzureServiceManagementException.WrapExistingError(errorRecord);
+        }
+
+        protected static string RetrieveOperationId()
+        {
+            var operationId = string.Empty;
+
+            if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
+            {
+                operationId = WebOperationContext.Current.IncomingResponse.Headers[Microsoft.Samples.WindowsAzure.ServiceManagement.Constants.OperationTrackingIdHeader];
+            }
+
+            return operationId;
         }
     }
 }
