@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Extensions;
     using Management.Services;
     using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
@@ -30,8 +30,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// Basic unit tests for the Enable-Enable-AzureServiceProjectRemoteDesktop command.
     /// </summary>
     [TestClass]
-    public class DisableAzureRemoteDesktopCommandTest : CloudServiceCmdletTestBase
+    public class DisableAzureRemoteDesktopCommandTest : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        private DisableAzureServiceProjectRemoteDesktopCommand disableRDCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+            disableRDCmdlet = new DisableAzureServiceProjectRemoteDesktopCommand();
+
+            disableRDCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         private static void VerifyDisableRoleSettings(AzureService service)
         {
             IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =

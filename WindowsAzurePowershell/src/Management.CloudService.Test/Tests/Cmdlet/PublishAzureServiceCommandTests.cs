@@ -33,13 +33,55 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using System.Diagnostics;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
     /// </summary>
     [TestClass]
-    public class PublishAzureServiceProjectCommandTests : CloudServiceCmdletTestBase
+    public class PublishAzureServiceProjectCommandTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SimpleServiceManagement channel;
+
+        private EnableAzureMemcacheRoleCommand enableCacheCmdlet;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        private AddAzureCacheWorkerRoleCommand addCacheRoleCmdlet;
+
+        private PublishAzureServiceProjectCommand publishServiceCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+            channel = new SimpleServiceManagement();
+
+            enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+            addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
+            publishServiceCmdlet = new PublishAzureServiceProjectCommand(channel) { ShareChannel = true };
+
+            addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
+            publishServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         /// <summary>
         /// Test a basic publish scenario.
         ///</summary>
