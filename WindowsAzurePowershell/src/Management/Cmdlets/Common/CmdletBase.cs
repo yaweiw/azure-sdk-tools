@@ -248,7 +248,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         /// Write an error message for a given exception.
         /// </summary>
         /// <param name="ex">The exception resulting from the error.</param>
-        protected void SafeWriteError(Exception ex)
+        protected virtual void SafeWriteError(Exception ex)
         {
             Debug.Assert(ex != null, "ex cannot be null or empty.");
             SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
