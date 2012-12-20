@@ -21,17 +21,53 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class EnableAzureMemcacheRoleTests : CloudServiceCmdletTestBase
+    public class EnableAzureMemcacheRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        private AddAzureCacheWorkerRoleCommand addCacheRoleCmdlet;
+
+        private EnableAzureMemcacheRoleCommand enableCacheCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+            addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
+
+            addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
-        [Ignore]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/782
         public void EnableAzureMemcacheRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))

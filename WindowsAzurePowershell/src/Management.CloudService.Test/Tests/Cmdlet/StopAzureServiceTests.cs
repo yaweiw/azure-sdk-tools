@@ -16,17 +16,39 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using CloudService.Cmdlet;
     using CloudService.Model;
+    using Extensions;
     using Management.Test.Stubs;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class StopAzureServiceTests : CloudServiceCmdletTestBase
+    public class StopAzureServiceTests : TestBase
     {
         private const string serviceName = "AzureService";
+
         string slot = ArgumentConstants.Slots[Slot.Production];
+
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SimpleServiceManagement channel;
+
+        private StopAzureServiceCommand stopServiceCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+            channel = new SimpleServiceManagement();
+
+            stopServiceCmdlet = new StopAzureServiceCommand(channel) { ShareChannel = true };
+            stopServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
 
         [TestMethod]
         public void SetDeploymentStatusProcessTest()

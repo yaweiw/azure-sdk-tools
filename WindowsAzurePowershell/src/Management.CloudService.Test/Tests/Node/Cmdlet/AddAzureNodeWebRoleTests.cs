@@ -12,18 +12,43 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Node.Cmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
     using CloudService.Cmdlet;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class AddAzureNodeWebRoleTests : CloudServiceCmdletTestBase
+    public class AddAzureNodeWebRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
         public void AddAzureNodeWebRoleProcess()
         {
