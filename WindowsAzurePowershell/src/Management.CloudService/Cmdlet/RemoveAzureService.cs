@@ -82,11 +82,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     sub => sub.SubscriptionName == settings.Subscription);
             }
 
-            WriteObjectWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
-            WriteObjectWithTimestamp(Resources.RemoveDeploymentMessage);
+            WriteVerboseWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
+            WriteVerboseWithTimestamp(Resources.RemoveDeploymentMessage);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
-            WriteObjectWithTimestamp(Resources.RemoveServiceMessage);
+            WriteVerboseWithTimestamp(Resources.RemoveServiceMessage);
             RemoveService(serviceName);
             return true;
         }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         private void RemoveService(string serviceName)
         {
-            WriteObjectWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
+            WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
 
             InvokeInOperationContext(() => RetryCall(s => this.Channel.DeleteHostedService(s, serviceName)));
         }
@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName))
                 {
-                    WriteObjectWithTimestamp(Resources.CompleteMessage);
+                    WriteVerboseWithTimestamp(Resources.CompleteMessage);
                 }
             }
             catch (Exception ex)

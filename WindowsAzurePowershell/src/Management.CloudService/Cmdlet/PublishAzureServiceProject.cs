@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 AzureTool.Validate();
                 base.ProcessRecord();
                 PublishService(GetServiceRootPath());
-                WriteObjectWithTimestamp(Resources.PublishCompleteMessage);
+                WriteVerboseWithTimestamp(Resources.PublishCompleteMessage);
             }
             catch (Exception ex)
             {
@@ -255,12 +255,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 defaultSettings.Subscription = CurrentSubscription.SubscriptionName;
             }
 
-            WriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
+            WriteVerboseWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
                 _hostedServiceName));
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {
 
-                WriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
+                WriteVerboseWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                     _hostedServiceName, CurrentSubscription.SubscriptionId));
 
                 // Caching worker roles require update to their service configuration settings with 
@@ -425,7 +425,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Slot),
                 "Slot cannot be null.");
 
-            WriteObjectWithTimestamp(Resources.PublishConnectingMessage);
+            WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);
 
             // Check whether there's an existing service with the desired
             // name in the desired slot accessible from our subscription
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
                 "Location cannot be null or empty.");
 
-            WriteObjectWithTimestamp(Resources.PublishCreatingServiceMessage);
+            WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
             CreateHostedServiceInput hostedServiceInput = new CreateHostedServiceInput
             {
@@ -470,7 +470,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 RetryCall(subscription =>
                     Channel.CreateHostedService(subscription, hostedServiceInput));
-                WriteObjectWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
+                WriteVerboseWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
                     hostedServiceInput.ServiceName));
             });
         }
@@ -499,7 +499,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                WriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteVerboseWithTimestamp(Resources.PublishUploadingPackageMessage);
 
                 if (!SkipUpload)
                 {
@@ -584,7 +584,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Location = location
             };
 
-            WriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
+            WriteVerboseWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
@@ -677,7 +677,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
-                WriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
                 RetryCall(subscription =>
                     Channel.UpgradeDeployment(
                         subscription,
@@ -737,7 +737,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             while (deployment.Status != DeploymentStatus.Starting &&
                 deployment.Status != DeploymentStatus.Running);
 
-            WriteObjectWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
+            WriteVerboseWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
                deployment.PrivateID));
 
         }
@@ -749,8 +749,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                WriteObjectWithTimestamp(Resources.PublishStartingMessage);
-                WriteObjectWithTimestamp(Resources.PublishInitializingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishStartingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishInitializingMessage);
 
                 Dictionary<string, RoleInstance> roleInstanceSnapshot = new Dictionary<string, RoleInstance>();
 
@@ -815,7 +815,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                         break;
                                 }
 
-                                WriteObjectWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
+                                WriteVerboseWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
                                     currentInstance.InstanceName, currentInstance.RoleName, statusResource));
 
                             }
@@ -832,13 +832,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (CanGenerateUrlForDeploymentSlot())
                 {
-                    WriteObjectWithTimestamp(
+                    WriteVerboseWithTimestamp(
                         Resources.PublishCreatedWebsiteMessage,
                         string.Format(Resources.ServiceUrl, _hostedServiceName));
                 }
                 else
                 {
-                    WriteObjectWithTimestamp(
+                    WriteVerboseWithTimestamp(
                         Resources.PublishCreatedWebsiteLaunchNotSupportedMessage);
                 }
 

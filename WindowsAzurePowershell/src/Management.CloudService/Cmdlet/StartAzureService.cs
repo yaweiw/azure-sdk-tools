@@ -41,9 +41,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public override string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
-            WriteObjectWithTimestamp(Resources.StartServiceMessage, serviceName);
+            WriteVerboseWithTimestamp(Resources.StartServiceMessage, serviceName);
             var message = base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            WriteObjectWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
+            WriteVerboseWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
             return message;
         }
     }
