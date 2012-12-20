@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Extensions
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        public static void SafeWriteVerboseOutputForObject(this PSCmdlet powerShellCmdlet, object obj, IMessageWriter messageWriter)
+        public static void SafeWriteVerboseOutputForObject(this PSCmdlet powerShellCmdlet, object obj)
         {
             bool verbose = powerShellCmdlet.MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)powerShellCmdlet.MyInvocation.BoundParameters["Verbose"]).ToBool();
             if (verbose == false)
@@ -86,11 +86,6 @@ namespace Microsoft.WindowsAzure.Management.Extensions
             if (powerShellCmdlet.CommandRuntime != null)
             {
                 powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
-                powerShellCmdlet.WriteVerbose(deserializedobj);
-            }
-
-            if (messageWriter != null)
-            {
                 powerShellCmdlet.WriteVerbose(deserializedobj);
             }
         }

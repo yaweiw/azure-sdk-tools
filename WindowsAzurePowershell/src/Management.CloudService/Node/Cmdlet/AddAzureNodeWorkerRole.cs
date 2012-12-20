@@ -42,8 +42,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
             }
             catch (UnauthorizedAccessException)
             {
-                SafeWriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                SafeWriteObject(Environment.NewLine);
+                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
+                WriteObject(Environment.NewLine);
             }
 
             result = string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name);
@@ -56,11 +56,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
             {
                 base.ProcessRecord();
                 string result = AddAzureNodeWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
-                SafeWriteObject(result);
+                WriteObject(result);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
     }

@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using CloudService.Cmdlet;
     using CloudService.Model;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -297,7 +298,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, serviceName);
+                NewAzureServiceProjectCommand newServiceCmdlet = new NewAzureServiceProjectCommand();
+                newServiceCmdlet.CommandRuntime = new MockCommandRuntime();
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 Assert.AreEqual<string>(serviceName, new AzureService(Path.Combine(files.RootPath, serviceName), null).ServiceName);
             }
         }

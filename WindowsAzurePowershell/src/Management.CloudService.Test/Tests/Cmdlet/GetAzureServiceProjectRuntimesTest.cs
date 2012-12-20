@@ -21,22 +21,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class GetAzureServiceProjectRuntimesTests : TestBase
     {
         private const string serviceName = "AzureService";
-        
-        private FakeWriter writer;
+
+        MockCommandRuntime mockCommandRuntime;
 
         private GetAzureServiceProjectRoleRuntimeCommand cmdlet;
 
         [TestInitialize]
         public void SetupTest()
         {
-            writer = new FakeWriter();
             cmdlet = new GetAzureServiceProjectRoleRuntimeCommand();
-            cmdlet.Writer = writer;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 cmdlet.GetAzureRuntimesProcess(string.Empty, Path.Combine(files.RootPath, serviceName), manifest);
 
-                List<CloudRuntimePackage> actual = writer.OutputChannel[0] as List<CloudRuntimePackage>;
+                List<CloudRuntimePackage> actual = mockCommandRuntime.WrittenObjects[0] as List<CloudRuntimePackage>;
 
                 Assert.AreEqual<int>(expected.Count, actual.Count);
                 Assert.IsTrue(expected.All<CloudRuntimePackage>( p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));

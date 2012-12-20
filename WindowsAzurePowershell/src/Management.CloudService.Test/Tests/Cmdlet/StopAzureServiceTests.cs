@@ -17,28 +17,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Cmdlet;
     using CloudService.Model;
     using Management.Test.Stubs;
-    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class StopAzureServiceTests : TestBase
+    public class StopAzureServiceTests : CloudServiceCmdletTestBase
     {
         private const string serviceName = "AzureService";
         string slot = ArgumentConstants.Slots[Slot.Production];
 
-        [TestInitialize]
-        public void SetupTest()
-        {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void SetDeploymentStatusProcessTest()
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
             string newStatus = DeploymentStatus.Suspended;
             string currentStatus = DeploymentStatus.Running;
             bool statusUpdated = false;
@@ -53,8 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                var stopAzureService = new StopAzureService(channel) { ShareChannel = true };
-                stopAzureService.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                stopServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
             }

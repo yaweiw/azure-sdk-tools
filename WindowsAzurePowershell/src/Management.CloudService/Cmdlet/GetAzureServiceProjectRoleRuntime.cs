@@ -42,8 +42,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureService service = new AzureService(rootPath, null);
             CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
-            WriteOutputObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
-                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>());
+            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
+                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

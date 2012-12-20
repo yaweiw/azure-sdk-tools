@@ -38,14 +38,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     /// Tests for the Publish-AzureServiceProject command.
     /// </summary>
     [TestClass]
-    public class PublishAzureServiceProjectCommandTests : TestBase
+    public class PublishAzureServiceProjectCommandTests : CloudServiceCmdletTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         /// <summary>
         /// Test a basic publish scenario.
         ///</summary>
@@ -60,19 +54,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath);
+                
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(servicePath);
 
                 // Verify the generated files
                 files.AssertFiles(new Dictionary<string, Action<string>>()
@@ -121,25 +115,25 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
                 string storageName = "testx5fservicex5fname";
                 string storageKey = "imba key";
                 string cacheRoleName = "cache_worker";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = storageName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = storageKey } };
 
                 // Add caching worker role
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath);
+                
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(servicePath);
 
                 AzureService azureService = new AzureService(servicePath, null);
                 RoleSettings cacheRole = azureService.Components.GetCloudConfigRole(cacheRoleName);
@@ -163,26 +157,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 // Add web and worker roles
-                AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
+                
                 string webRoleName = "NODE_WEB_ROLE";
-                string webRolePath = newWebRole.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
-                AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string webRolePath = addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
+                
                 string workerRoleName = "NODE_WORKER_ROLE";
-                string workerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
+                string workerRolePath = addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath);
+                
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(servicePath);
 
                 // Verify the generated files
                 Action<string> verifyContainsNames =
@@ -228,37 +222,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Add web and worker roles
-                AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
+                
                 string defaultWebRoleName = "WebRoleDefault";
-                string defaultWebRolePath = newWebRole.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
-                AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                string defaultWebRolePath = addNodeWebCmdlet.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
+                
                 string defaultWorkerRoleName = "WorkerRoleDefault";
-                string defaultWorkerRolePath = newWorkerRole.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
+                string defaultWorkerRolePath = addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
 
-                AddAzureNodeWebRoleCommand matchWebRole = new AddAzureNodeWebRoleCommand();
+                AddAzureNodeWebRoleCommand matchWebRole = addNodeWebCmdlet;
                 string matchWebRoleName = "WebRoleExactMatch";
                 string matchWebRolePath = matchWebRole.AddAzureNodeWebRoleProcess(matchWebRoleName, 2, servicePath);
 
-                AddAzureNodeWorkerRoleCommand matchWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                AddAzureNodeWorkerRoleCommand matchWorkerRole = addNodeWorkerCmdlet;
                 string matchWorkerRoleName = "WorkerRoleExactMatch";
                 string matchWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(matchWorkerRoleName, 2, servicePath);
 
-                AddAzureNodeWebRoleCommand overrideWebRole = new AddAzureNodeWebRoleCommand();
+                AddAzureNodeWebRoleCommand overrideWebRole = addNodeWebCmdlet;
                 string overrideWebRoleName = "WebRoleOverride";
                 string overrideWebRolePath = overrideWebRole.AddAzureNodeWebRoleProcess(overrideWebRoleName, 2, servicePath);
 
-                AddAzureNodeWorkerRoleCommand overrideWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                AddAzureNodeWorkerRoleCommand overrideWorkerRole = addNodeWorkerCmdlet;
                 string overrideWorkerRoleName = "WorkerRoleOverride";
                 string overrideWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(overrideWorkerRoleName, 2, servicePath);
 
@@ -270,8 +264,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 testService.Components.Save(testService.Paths);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath, RuntimePackageHelper.GetTestManifest(files));
+                
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(servicePath, RuntimePackageHelper.GetTestManifest(files));
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
 
@@ -301,7 +295,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
@@ -321,18 +315,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
                 testService.AddWebRole(Resources.NodeScaffolding);
                 string cloudConfigFile = File.ReadAllText(testService.Paths.CloudConfiguration);
                 File.WriteAllText(testService.Paths.CloudConfiguration, new Regex("<Certificates\\s*/>").Replace(cloudConfigFile, ""));
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
-                publishService.PublishService(servicePath);
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
                 // Verify the publish service attempted to create and update
@@ -361,7 +355,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
@@ -381,18 +375,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
                 testService.AddWebRole(Resources.PHPScaffolding);
                 string cloudConfigFile = File.ReadAllText(testService.Paths.CloudConfiguration);
                 File.WriteAllText(testService.Paths.CloudConfiguration, new Regex("<Certificates\\s*/>").Replace(cloudConfigFile, ""));
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
-                publishService.PublishService(servicePath);
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
                 // Verify the publish service attempted to create and update
@@ -458,7 +452,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,
@@ -479,16 +473,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
-                publishService.Launch = true;
-                publishService.PublishService(servicePath);
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.Launch = true;
+                publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
                 // Verify the publish service attempted to create and update
@@ -520,7 +514,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
                 bool upgradedDeployment = false;
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => new HostedService { Deployments = new DeploymentList() { new Deployment { DeploymentSlot = "Production" } } };
@@ -541,15 +535,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
-                publishService.PublishService(servicePath);
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.PublishService(servicePath);
 
                 // Verify the publish service upgraded the deployment
                 Assert.IsFalse(createdHostedService);
@@ -574,7 +568,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
@@ -594,17 +588,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 channel.ListCertificatesThunk = ar => new CertificateList();
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
                 string newServiceName = "NewServiceName";
-                publishService.ServiceName = newServiceName;
-                publishService.PublishService(servicePath);
+                publishServiceCmdlet.ServiceName = newServiceName;
+                publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
                 // Verify the publish service attempted to create and update
@@ -631,7 +625,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => { };
                 channel.GetHostedServiceWithDetailsThunk = ar => null;
@@ -654,15 +648,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.ShareChannel = true;
-                publishService.SkipUpload = true;
-                publishService.PublishService(servicePath);
+                
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
                 // Verify the publish service attempted to create and update
@@ -688,34 +682,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                SimpleServiceManagement channel = new SimpleServiceManagement();
+                
 
                 // Create a new service that we're going to publish
                 string serviceName = "TEST_SERVICE_NAME";
-                NewAzureServiceProjectCommand newService = new NewAzureServiceProjectCommand();
-                newService.NewAzureServiceProcess(files.RootPath, serviceName);
+                
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
                 string servicePath = files.CreateDirectory(serviceName);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
                 // Add a web role
-                AddAzureNodeWebRoleCommand newWebRole = new AddAzureNodeWebRoleCommand();
+                
                 string webRoleName = "NODE_WEB_ROLE";
-                newWebRole.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
                 string webRolePath = Path.Combine(servicePath, webRoleName);
 
                 // Add a worker role
-                AddAzureNodeWorkerRoleCommand newWorkerRole = new AddAzureNodeWorkerRoleCommand();
+                
                 string workerRoleName = "NODE_WORKER_ROLE";
-                newWorkerRole.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
                 string workerRolePath = Path.Combine(servicePath, workerRoleName);
 
                 // Add second web and worker roles that we won't add log
                 // entries to
-                new AddAzureNodeWebRoleCommand()
-                    .AddAzureNodeWebRoleProcess("SECOND_WEB_ROLE", 2, servicePath);
-                new AddAzureNodeWorkerRoleCommand()
-                    .AddAzureNodeWorkerRoleProcess("SECOND_WORKER_ROLE", 2, servicePath);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("SECOND_WEB_ROLE", 2, servicePath);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("SECOND_WORKER_ROLE", 2, servicePath);
 
                 // Add fake logs directories for server.js
                 string logName = "server.js.logs";
@@ -727,8 +719,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 File.WriteAllText(Path.Combine(logPath, "0.txt"), "secret worker role debug details were logged here");
 
                 // Get the publishing process started by creating the package
-                PublishAzureServiceProjectCommand publishService = new PublishAzureServiceProjectCommand(channel);
-                publishService.InitializeSettingsAndCreatePackage(servicePath);
+                
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(servicePath);
 
                 // Rip open the package and make sure we can't find the log
                 string packagePath = Path.Combine(servicePath, "cloud_package.cspkg");
@@ -768,8 +760,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string setupWebPath = Path.Combine(fullName, webRoleName, "bin", "setup_web.cmd");
                 string webCloudConfigPath = Path.Combine(fullName, webRoleName, "Web.cloud.config");
                 string webConfigPath = Path.Combine(fullName, webRoleName, "Web.config");
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, serviceName);
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, fullName);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, serviceName);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, fullName);
                 Process.Start(setupWebPath).WaitForExit();
 
                 Assert.AreEqual<string>(File.ReadAllText(webCloudConfigPath), File.ReadAllText(webConfigPath));

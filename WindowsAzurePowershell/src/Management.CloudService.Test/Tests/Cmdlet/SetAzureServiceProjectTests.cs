@@ -22,24 +22,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class SetAzureServiceProjectTests : TestBase
+    public class SetAzureServiceProjectTests : CloudServiceCmdletTestBase
     {
-        FakeWriter writer;
-        SetAzureServiceProjectCommand cmdlet;
-
-        [TestInitialize]
-        public void SetupTest()
-        {
-            writer = new FakeWriter();
-            cmdlet = new SetAzureServiceProjectCommand();
-            cmdlet.Writer = writer;
-        }
-
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
+            int counter = 0;
             foreach (string item in Data.ValidSubscriptionNames)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
@@ -48,16 +39,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     //
                     ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
-                    writer = new FakeWriter();
-                    cmdlet.Writer = writer;
                     settings.Save(paths.Settings);
 
-                    settings = cmdlet.SetAzureServiceProjectProcess(null, null, null, item, paths.Settings);
+                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, null, item, paths.Settings);
 
                     // Assert subscription is changed
                     //
                     Assert.AreEqual<string>(item, settings.Subscription);
-                    ServiceSettings actualOutput = writer.OutputChannel[0] as ServiceSettings;
+                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[counter++] as ServiceSettings;
                     Assert.AreEqual<string>(item, actualOutput.Subscription);
                 }
             }
@@ -74,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess(null, null, null, string.Empty, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Subscription"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, null, string.Empty, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Subscription"));
             }
         }
 
@@ -89,16 +78,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     //
                     ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
-                    writer = new FakeWriter();
-                    cmdlet.Writer = writer;
+                    mockCommandRuntime = new MockCommandRuntime();
+                    setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
                     settings.Save(paths.Settings);
 
-                    settings = cmdlet.SetAzureServiceProjectProcess(item.Value, null, null, null, paths.Settings);
+                    settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(item.Value, null, null, null, paths.Settings);
 
                     // Assert location is changed
                     //
                     Assert.AreEqual<string>(item.Value, settings.Location);
-                    ServiceSettings actualOutput = writer.OutputChannel[0] as ServiceSettings;
+                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
                     Assert.AreEqual<string>(item.Value, settings.Location);
                 }
             }
@@ -115,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess(string.Empty, null, null, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Location"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess(string.Empty, null, null, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Location"));
             }
         }
 
@@ -130,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess("MyHome", null, null, null, paths.Settings), string.Format(Resources.InvalidServiceSettingElement, "Location"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess("MyHome", null, null, null, paths.Settings), string.Format(Resources.InvalidServiceSettingElement, "Location"));
             }
         }
 
@@ -143,16 +132,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 //
                 ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
-                writer = new FakeWriter();
-                cmdlet.Writer = writer;
+                mockCommandRuntime = new MockCommandRuntime();
+                setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
                 settings.Save(paths.Settings);
 
-                settings = cmdlet.SetAzureServiceProjectProcess(null, null, "companystore", null, paths.Settings);
+                settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, "companystore", null, paths.Settings);
 
                 // Assert storageAccountName is changed
                 //
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
-                ServiceSettings actualOutput = writer.OutputChannel[0] as ServiceSettings;
+                ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
             }
         }
@@ -168,7 +157,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess(null, null, string.Empty, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "StorageAccountName"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, string.Empty, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "StorageAccountName"));
             }
         }
 
@@ -185,7 +174,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     ServiceSettings settings = new ServiceSettings();
                     settings.Save(paths.Settings);
 
-                    cmdlet.SetAzureServiceProjectProcess(null, item.Value, null, null, paths.Settings);
+                    setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, item.Value, null, null, paths.Settings);
 
                     // Assert slot is changed
                     //
@@ -206,7 +195,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess(null, string.Empty, null, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Slot"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, string.Empty, null, null, paths.Settings), string.Format(Resources.InvalidOrEmptyArgumentMessage, "Slot"));
             }
         }
 
@@ -221,7 +210,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
 
-                Testing.AssertThrows<ArgumentException>(() => cmdlet.SetAzureServiceProjectProcess(null, "MyHome", null, null, paths.Settings), string.Format(Resources.InvalidServiceSettingElement, "Slot"));
+                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, "MyHome", null, null, paths.Settings), string.Format(Resources.InvalidServiceSettingElement, "Slot"));
             }
         }
     }
