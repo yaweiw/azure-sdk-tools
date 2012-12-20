@@ -67,7 +67,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         }
 
         [TestMethod]
-        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/782
         public void EnableAzureMemcacheRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
@@ -80,6 +79,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
 
                 WebRole webRole = Testing.GetWebRole(servicePath, webRoleName);
