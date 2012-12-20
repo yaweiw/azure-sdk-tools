@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
     using Utilities;
@@ -37,9 +38,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        internal string AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
+        internal void AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
         {
-            string result;
             AzureService service = new AzureService(rootPath, null);
             RoleInfo webRole = service.AddDjangoWebRole(webRoleName, instances);
 
@@ -61,41 +61,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
-                    WriteObject(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
-                    WriteObject(Resources.UnableToCreateDjangoAppFix);
+                    WriteWarning(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
+                    WriteWarning(Resources.UnableToCreateDjangoAppFix);
                 }
             }
             else
             {
-                WriteObject(Resources.MissingPythonPreReq);
+                WriteWarning(Resources.MissingPythonPreReq);
             }
 
             try
             {
                 service.ChangeRolePermissions(webRole);
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreatePython, rootPath, webRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
-                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                WriteObject(Environment.NewLine);
+                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-
-            result = string.Format(Resources.AddRoleMessageCreatePython, rootPath, webRole.Name);
-            return result;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
-                WriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
         }
 
         internal static string FindPythonInterpreterPath()
