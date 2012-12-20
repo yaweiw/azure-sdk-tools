@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -25,37 +26,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureNodeWebRole")]
     public class AddAzureNodeWebRoleCommand : AddRole
     {
-        internal string AddAzureNodeWebRoleProcess(string webRoleName, int instances, string rootPath)
+        internal void AddAzureNodeWebRoleProcess(string webRoleName, int instances, string rootPath)
         {
-            string result;
             AzureService service = new AzureService(rootPath, null);
             RoleInfo webRole = service.AddWebRole(Resources.NodeScaffolding, webRoleName, instances);
+
             try
             {
                 service.ChangeRolePermissions(webRole);
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, rootPath, webRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
-                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                WriteObject(Environment.NewLine);
+                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-
-            result = string.Format(Resources.AddRoleMessageCreate, rootPath, webRole.Name);
-            return result;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = AddAzureNodeWebRoleProcess(Name, Instances, GetServiceRootPath());
-                WriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AddAzureNodeWebRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }
