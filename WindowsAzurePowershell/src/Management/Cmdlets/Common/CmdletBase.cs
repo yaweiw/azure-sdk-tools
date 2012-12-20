@@ -44,9 +44,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             return null;
         }
 
-        protected void WriteObjectWithTimestamp(string message, params object[] args)
+        protected void WriteVerboseWithTimestamp(string message, params object[] args)
         {
-            WriteObject(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
+            WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
         /// <summary>
