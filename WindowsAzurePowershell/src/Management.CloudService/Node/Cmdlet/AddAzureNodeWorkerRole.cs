@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -25,43 +26,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureNodeWorkerRole")]
     public class AddAzureNodeWorkerRoleCommand : AddRole
     {
-        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        internal void AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
-            RoleInfo workerRole;
-            return AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out workerRole);
-        }
-
-        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath, out RoleInfo workerRole)
-        {
-            string result;
             AzureService service = new AzureService(rootPath, null);
-            workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            RoleInfo workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+
             try
             {
                 service.ChangeRolePermissions(workerRole);
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
-                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                WriteObject(Environment.NewLine);
+                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-
-            result = string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name);
-            return result;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = AddAzureNodeWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
-                WriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AddAzureNodeWorkerRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }

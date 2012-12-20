@@ -15,9 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
+    using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Extensions;
     using Microsoft.WindowsAzure.Management.Services;
@@ -54,10 +56,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
+                string roleName = "WorkerRole1";
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
-                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, Path.Combine(files.RootPath, "AzureService"));
+                mockCommandRuntime.ResetPipelines();
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(roleName, 1, rootPath);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
+                Assert.AreEqual<string>(roleName, Testing.GetPSVariableValue<string>((PSObject)mockCommandRuntime.WrittenObjects[0], Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseChannel[0]);
             }
         }
     }
