@@ -17,10 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System;
     using System.Diagnostics;
     using System.Management.Automation;
-    using System.ServiceModel.Web;
-    using Model;
     using Utilities;
-    using Constants = Samples.WindowsAzure.ServiceManagement.Constants;
 
     public abstract class CmdletBase<T> : PSCmdlet, IDynamicParameters
         where T : class
@@ -34,18 +31,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             return (SessionState != null) ?
                 SessionState.Path.CurrentLocation.Path :
                 Environment.CurrentDirectory;
-        }
-
-        protected static string RetrieveOperationId()
-        {
-            var operationId = string.Empty;
-
-            if ((WebOperationContext.Current != null) && (WebOperationContext.Current.IncomingResponse != null))
-            {
-                operationId = WebOperationContext.Current.IncomingResponse.Headers[Constants.OperationTrackingIdHeader];
-            }
-
-            return operationId;
         }
 
         protected bool IsVerbose()
