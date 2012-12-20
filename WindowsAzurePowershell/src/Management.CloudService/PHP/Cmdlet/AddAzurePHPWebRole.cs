@@ -16,46 +16,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
     /// <summary>
-    /// Create scaffolding for a new PHP web role, change cscfg file and csdef to include the added web role
+    /// Create scaffolding for a new php web role, change cscfg file and csdef to include the added web role
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzurePHPWebRole")]
     public class AddAzurePHPWebRoleCommand : AddRole
     {
-        internal string AddAzurePHPWebRoleProcess(string webRoleName, int instances, string rootPath)
+        internal void AddAzurePHPWebRoleProcess(string webRoleName, int instances, string rootPath)
         {
-            string result;
             AzureService service = new AzureService(rootPath, null);
             RoleInfo webRole = service.AddWebRole(Resources.PHPScaffolding, webRoleName, instances);
+
             try
             {
                 service.ChangeRolePermissions(webRole);
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, rootPath, webRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
-                WriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                WriteObject(Environment.NewLine);
+                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-
-            result = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, webRole.Name);
-            return result;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string result = AddAzurePHPWebRoleProcess(Name, Instances, base.GetServiceRootPath());
-                WriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AddAzurePHPWebRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }
