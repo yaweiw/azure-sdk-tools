@@ -138,13 +138,13 @@
     <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
-    <Compile Include="Utilities\Testing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData\Data.cs" />
     <Compile Include="TestData\ServiceSettingsTestData.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWebRoleTests.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureInstancesTests.cs" />
+    <Compile Include="Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
