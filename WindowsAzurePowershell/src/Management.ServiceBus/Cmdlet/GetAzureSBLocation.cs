@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         public override void ExecuteCmdlet()
         {
             List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId);
-            WriteObject(regions);
+            WriteObject(regions, true);
         }
     }
 }

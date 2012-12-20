@@ -119,5 +119,17 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             Assert.IsTrue(File.Exists(path));
             return path;
         }
+
+        /// <summary>
+        /// Get the contents of a file included in the test project as something to
+        /// be copied on Deployment (see Local.testsettings > Deployment for
+        /// examples).
+        /// </summary>
+        /// <param name="relativePath">Relative path to the resource.</param>
+        /// <returns>the resource contents.</returns>
+        public static string GetTestResourceContents(string relativePath)
+        {
+            return File.ReadAllText(Testing.GetTestResourcePath(relativePath));
+        }
     }
 }
