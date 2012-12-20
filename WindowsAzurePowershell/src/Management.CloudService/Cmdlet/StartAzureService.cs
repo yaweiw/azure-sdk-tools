@@ -39,12 +39,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             Status = DeploymentStatus.Running;
         }
 
-        public override string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
+        public override void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
             WriteVerboseWithTimestamp(Resources.StartServiceMessage, serviceName);
-            var message = base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            WriteVerboseWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
-            return message;
+            base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
         }
     }
 }
