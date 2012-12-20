@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Parameters.RootPath, newService.Paths.RootPath
                 );
 
-            SafeWriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
+            WriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
 
             return newService;
         }

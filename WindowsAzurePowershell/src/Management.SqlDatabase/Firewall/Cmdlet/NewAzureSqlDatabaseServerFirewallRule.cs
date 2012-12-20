@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.WriteError, null));
+                WriteWindowsAzureError(new ErrorRecord(ex, string.Empty, ErrorCategory.WriteError, null));
             }
         }
     }

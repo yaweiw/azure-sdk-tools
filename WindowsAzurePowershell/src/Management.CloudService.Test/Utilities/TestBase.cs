@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Base class for AzureDeploymentCmdlets unit tests.
+    /// Base class for Windows Azure PowerShell unit tests.
     /// </summary>
     public abstract class TestBase
     {

@@ -22,15 +22,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class AddAzureNodeWorkerRoleTests : TestBase
+    public class AddAzureNodeWorkerRoleTests : CloudServiceCmdletTestBase
     {
         [TestMethod]
         public void AddAzureNodeWorkerRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, Path.Combine(files.RootPath, "AzureService"));
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, Path.Combine(files.RootPath, "AzureService"));
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
             }
