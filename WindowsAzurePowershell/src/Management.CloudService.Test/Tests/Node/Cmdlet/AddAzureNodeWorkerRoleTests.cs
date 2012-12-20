@@ -18,12 +18,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using CloudService.Cmdlet;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class AddAzureNodeWorkerRoleTests : CloudServiceCmdletTestBase
+    public class AddAzureNodeWorkerRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
         public void AddAzureNodeWorkerRoleProcess()
         {

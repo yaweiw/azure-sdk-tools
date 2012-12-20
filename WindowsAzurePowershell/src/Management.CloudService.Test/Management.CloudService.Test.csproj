@@ -133,7 +133,6 @@
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
     <Compile Include="Utilities\AzureAssert.cs" />
-    <Compile Include="Utilities\CloudServiceCmdletTestBase.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
     <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
