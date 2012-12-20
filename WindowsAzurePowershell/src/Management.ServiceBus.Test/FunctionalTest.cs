@@ -19,34 +19,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
-    public class ScenarioTests : PowerShellTest
+    public class FunctionalTest : PowerShellTest
     {
-        public ScenarioTests() 
-            : base("Microsoft.WindowsAzure.Management.ServiceBus.dll",
-                   "Microsoft.WindowsAzure.Management.CloudService.dll"
-            )
+        public FunctionalTest() 
+            : base("Microsoft.WindowsAzure.Management.ServiceBus.dll")
         {
 
         }
 
-        [TestCategory("Scenario"), TestMethod]
-        public void CreateAndGetServiceBusNamespace()
+        [TestCategory("Functional"), TestMethod]
+        public void ListAzureSBLocation()
         {
-            string serviceBusNamespaceName = "CreateAndGetServiceBusNamespace";
-            int locationIndex = 5; // North Central US
-            string expectedRemoveVerbose = string.Format(Resources.RemovingNamespaceMessage, serviceBusNamespaceName);
+            powershell.AddScript("Get-AzureSBLocation");
+            int expectedLocationsCount = 8;
+            List<ServiceBusRegion> actual = new List<ServiceBusRegion>();
 
-            powershell.Runspace.SessionStateProxy.SetVariable("name", serviceBusNamespaceName);
-            powershell.Runspace.SessionStateProxy.SetVariable("index", locationIndex);
-            AddScenarioScript("CreateAndGetServiceBusNamespace.ps1");
+            powershell.Invoke(null, actual);
 
-            Collection<PSObject> result = powershell.Invoke();
-
-            Assert.AreEqual<string>(serviceBusNamespaceName, Testing.GetPSVariableValue<string>(result[0], "Name"));
-            Assert.AreEqual<string>(expectedRemoveVerbose, powershell.Streams.Verbose[0].Message);
+            Assert.AreEqual<int>(expectedLocationsCount, actual.Count);
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
         }
     }
