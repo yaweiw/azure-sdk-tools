@@ -26,10 +26,34 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using System;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
 
     [TestClass]
-    public class AddAzureCacheWorkerRoleTests : CloudServiceCmdletTestBase
+    public class AddAzureCacheWorkerRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureCacheWorkerRoleCommand addCacheRoleCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
+
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
         public void AddNewCacheWorkerRoleSuccessful()
         {

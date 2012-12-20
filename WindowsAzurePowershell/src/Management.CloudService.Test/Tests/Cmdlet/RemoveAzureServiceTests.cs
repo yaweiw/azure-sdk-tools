@@ -19,15 +19,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Model;
     using Extensions;
     using Management.Test.Stubs;
-    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class RemoveAzureServiceTests : CloudServiceCmdletTestBase
+    public class RemoveAzureServiceTests : TestBase
     {
         private const string serviceName = "AzureService";
+
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SimpleServiceManagement channel;
+
+        private RemoveAzureServiceCommand removeServiceCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+            channel = new SimpleServiceManagement();
+
+            removeServiceCmdlet = new RemoveAzureServiceCommand(channel) { ShareChannel = true };
+            removeServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
 
         [TestMethod]
         public void RemoveAzureServiceProcessTest()

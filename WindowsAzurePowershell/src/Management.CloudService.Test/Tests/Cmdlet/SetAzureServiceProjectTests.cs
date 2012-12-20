@@ -19,14 +19,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Cmdlet;
     using CloudService.Model;
     using CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class SetAzureServiceProjectTests : CloudServiceCmdletTestBase
+    public class SetAzureServiceProjectTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SetAzureServiceProjectCommand setServiceProjectCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            setServiceProjectCmdlet = new SetAzureServiceProjectCommand();
+            setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
