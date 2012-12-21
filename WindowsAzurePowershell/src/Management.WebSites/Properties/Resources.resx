@@ -145,7 +145,8 @@ Please follow these steps in the portal:
     <value>Workspaces/WebsiteExtension/Website/{0}/dashboard/</value>
   </data>
   <data name="InvalidGitCredentials" xml:space="preserve">
-    <value>You must create your git publishing credentials using the Windows Azure portal. Please do these steps in the portal:
+    <value>You must create your git publishing credentials using the Windows Azure portal.
+Please follow these steps in the portal:
 1. On the left side open "Web Sites"
 2. Click on any website
 3. Choose "Setup Git Publishing" or "Reset deployment credentials"

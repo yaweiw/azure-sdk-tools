@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must create your git publishing credentials using the Windows Azure portal. Please do these steps in the portal:
+        ///Looks up a localized string similar to You must create your git publishing credentials using the Windows Azure portal. Please do these steps in the portal:
         ///1. On the left side open &quot;Web Sites&quot;
         ///2. Click on any website
         ///3. Choose &quot;Setup Git Publishing&quot; or &quot;Reset deployment credentials&quot;
