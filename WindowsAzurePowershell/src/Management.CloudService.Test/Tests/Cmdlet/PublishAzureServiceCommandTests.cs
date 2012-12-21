@@ -209,10 +209,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Add web and worker roles
                 
                 string webRoleName = "NODE_WEB_ROLE";
-                string webRolePath = addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 2, servicePath);
                 
                 string workerRoleName = "NODE_WORKER_ROLE";
-                string workerRolePath = addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 2, servicePath);
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
 
@@ -277,26 +277,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Add web and worker roles
                 
                 string defaultWebRoleName = "WebRoleDefault";
-                string defaultWebRolePath = addNodeWebCmdlet.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(defaultWebRoleName, 2, servicePath);
                 
                 string defaultWorkerRoleName = "WorkerRoleDefault";
-                string defaultWorkerRolePath = addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(defaultWorkerRoleName, 2, servicePath);
 
                 AddAzureNodeWebRoleCommand matchWebRole = addNodeWebCmdlet;
                 string matchWebRoleName = "WebRoleExactMatch";
-                string matchWebRolePath = matchWebRole.AddAzureNodeWebRoleProcess(matchWebRoleName, 2, servicePath);
+                matchWebRole.AddAzureNodeWebRoleProcess(matchWebRoleName, 2, servicePath);
 
                 AddAzureNodeWorkerRoleCommand matchWorkerRole = addNodeWorkerCmdlet;
                 string matchWorkerRoleName = "WorkerRoleExactMatch";
-                string matchWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(matchWorkerRoleName, 2, servicePath);
+                matchWorkerRole.AddAzureNodeWorkerRoleProcess(matchWorkerRoleName, 2, servicePath);
 
                 AddAzureNodeWebRoleCommand overrideWebRole = addNodeWebCmdlet;
                 string overrideWebRoleName = "WebRoleOverride";
-                string overrideWebRolePath = overrideWebRole.AddAzureNodeWebRoleProcess(overrideWebRoleName, 2, servicePath);
+                overrideWebRole.AddAzureNodeWebRoleProcess(overrideWebRoleName, 2, servicePath);
 
                 AddAzureNodeWorkerRoleCommand overrideWorkerRole = addNodeWorkerCmdlet;
                 string overrideWorkerRoleName = "WorkerRoleOverride";
-                string overrideWorkerRolePath = matchWorkerRole.AddAzureNodeWorkerRoleProcess(overrideWorkerRoleName, 2, servicePath);
+                matchWorkerRole.AddAzureNodeWorkerRoleProcess(overrideWorkerRoleName, 2, servicePath);
 
                 AzureService testService = new AzureService(Path.Combine(files.RootPath, serviceName), null);
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
