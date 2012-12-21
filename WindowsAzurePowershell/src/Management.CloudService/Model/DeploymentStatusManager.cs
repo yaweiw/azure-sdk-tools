@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             set;
         }
 
-        public virtual string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
+        public virtual void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
             if (!string.IsNullOrEmpty(subscription))
             {
@@ -75,11 +75,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (string.IsNullOrEmpty(result))
             {
                 SetDeployment(newStatus, serviceName, slot);
-                var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
+                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                WriteObject(deployment);
             }
 
-            return result;
+            WriteVerboseWithTimestamp(string.IsNullOrEmpty(result) ? Resources.CompleteMessage : result);
         }
 
         private string CheckDeployment(string status, string serviceName, string slot)
@@ -129,20 +131,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 updateDeploymentStatus)));
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                string serviceName;
-                var rootPath = GetServiceRootPath();
-                ServiceSettings settings = General.GetDefaultSettings(rootPath, ServiceName, Slot, null, null, Subscription, out serviceName);
-                SetDeploymentStatusProcess(rootPath, Status, settings.Slot, settings.Subscription, serviceName);
-            }
-            catch (Exception ex)
-            {
-                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            string serviceName;
+            string rootPath = GetServiceRootPath();
+            ServiceSettings settings = General.GetDefaultSettings(rootPath, ServiceName, Slot, null, null, Subscription, out serviceName);
+            SetDeploymentStatusProcess(rootPath, Status, settings.Slot, settings.Subscription, serviceName);
         }
     }
 }
