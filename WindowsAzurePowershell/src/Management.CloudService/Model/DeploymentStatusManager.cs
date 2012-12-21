@@ -80,8 +80,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
                 WriteObject(deployment);
             }
-
-            WriteVerboseWithTimestamp(string.IsNullOrEmpty(result) ? Resources.CompleteMessage : result);
+            else
+            {
+                WriteVerboseWithTimestamp(result);
+            }
         }
 
         private string CheckDeployment(string status, string serviceName, string slot)
