@@ -64,7 +64,7 @@ TypesToProcess = @(
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml'
+	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml'
 )
 
@@ -95,8 +95,8 @@ ModuleList = @()
 FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
-			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml'
-			
+			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml',
+			'.Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml'
 
 # Private data to pass to the module specified in ModuleToProcess
 PrivateData = ''
