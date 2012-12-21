@@ -161,12 +161,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
             {
-                if (ShouldProcess(Resources.InvalidGitCredentials))
+                if (ShouldProcess(Resources.InvalidGitCredentials) && ShouldContinue("", ""))
                 {
-                    if (ShouldContinue("", ""))
-                    {
-                        General.LaunchWindowsAzurePortal(null, null);
-                    }
+                    General.LaunchWindowsAzurePortal(null, null);
                 }
             } 
             
