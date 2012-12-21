@@ -337,13 +337,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                
-                channel.GetStorageServiceThunk = ar => new StorageService();
-                channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
-                channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
-                channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
-                channel.GetDeploymentBySlotThunk = ar => new Deployment()
+                Deployment expectedDeployment = new Deployment()
                 {
                     Status = DeploymentStatus.Starting,
                     RoleInstanceList = new RoleInstanceList(
@@ -353,6 +347,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                                 InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
+                
+                channel.GetStorageServiceThunk = ar => new StorageService();
+                channel.CreateHostedServiceThunk = ar => createdHostedService = true;
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
+                channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
+                channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
                 channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
@@ -368,6 +369,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 publishServiceCmdlet.ShareChannel = true;
                 publishServiceCmdlet.SkipUpload = true;
+                mockCommandRuntime.ResetPipelines();
                 publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
@@ -376,6 +378,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsTrue(createdHostedService);
                 Assert.IsTrue(createdOrUpdatedDeployment);
                 Assert.AreEqual<string>(serviceName, service.ServiceName);
+                Deployment actual = mockCommandRuntime.WrittenObjects[0] as Deployment;
+                Assert.AreEqual<string>(expectedDeployment.Name, actual.Name);
+                Assert.AreEqual<string>(expectedDeployment.Status, actual.Status);
+                Assert.AreEqual<string>(expectedDeployment.DeploymentSlot, actual.DeploymentSlot);
             }
         }
 
@@ -397,13 +403,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // determine all of the results that we'll need.
                 bool createdHostedService = false;
                 bool createdOrUpdatedDeployment = false;
-                
-                channel.GetStorageServiceThunk = ar => new StorageService();
-                channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
-                channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
-                channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
-                channel.GetDeploymentBySlotThunk = ar => new Deployment()
+                Deployment expectedDeployment = new Deployment()
                 {
                     Status = DeploymentStatus.Starting,
                     RoleInstanceList = new RoleInstanceList(
@@ -413,6 +413,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                                 InstanceStatus = RoleInstanceStatus.ReadyRole 
                             } })
                 };
+                
+                channel.GetStorageServiceThunk = ar => new StorageService();
+                channel.CreateHostedServiceThunk = ar => createdHostedService = true;
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
+                channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
+                channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
                 channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
@@ -428,6 +435,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 publishServiceCmdlet.ShareChannel = true;
                 publishServiceCmdlet.SkipUpload = true;
+                mockCommandRuntime.ResetPipelines();
                 publishServiceCmdlet.PublishService(servicePath);
                 AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
 
@@ -436,6 +444,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsTrue(createdHostedService);
                 Assert.IsTrue(createdOrUpdatedDeployment);
                 Assert.AreEqual<string>(serviceName, service.ServiceName);
+                Deployment actual = mockCommandRuntime.WrittenObjects[0] as Deployment;
+                Assert.AreEqual<string>(expectedDeployment.Name, actual.Name);
+                Assert.AreEqual<string>(expectedDeployment.Status, actual.Status);
+                Assert.AreEqual<string>(expectedDeployment.DeploymentSlot, actual.DeploymentSlot);
             }
         }
 
