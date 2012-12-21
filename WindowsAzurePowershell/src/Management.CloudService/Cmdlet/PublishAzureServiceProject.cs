@@ -150,7 +150,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
-            WriteVerbose(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
@@ -183,6 +182,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 {
                     LaunchService();
                 }
+
+                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(
+                    s, 
+                    _hostedServiceName, 
+                    _deploymentSettings.ServiceSettings.Slot
+                ));
+                WriteObject(deployment);
             }
             else
             {
