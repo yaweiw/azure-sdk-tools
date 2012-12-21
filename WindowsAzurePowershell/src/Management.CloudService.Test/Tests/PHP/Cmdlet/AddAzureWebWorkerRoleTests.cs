@@ -12,16 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
-    using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
     using CloudService.Cmdlet;
+    using CloudService.PHP.Cmdlet;
     using CloudService.Properties;
-    using CloudService.Python.Cmdlet;
-    using Management.Utilities;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Extensions;
@@ -32,13 +29,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class AddAzurePythonWebRoleTests : TestBase
+    public class AddAzurePHPWorkerRoleTests : TestBase
     {
         private MockCommandRuntime mockCommandRuntime;
 
         private NewAzureServiceProjectCommand newServiceCmdlet;
 
-        private AddAzureDjangoWebRoleCommand addPythonWebCmdlet;
+        private AddAzurePHPWorkerRoleCommand addPHPWorkerCmdlet;
 
         [TestInitialize]
         public void SetupTest()
@@ -48,48 +45,25 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
             mockCommandRuntime = new MockCommandRuntime();
 
             newServiceCmdlet = new NewAzureServiceProjectCommand();
-            addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand();
+            addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand();
 
-            addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
+            addPHPWorkerCmdlet.CommandRuntime = mockCommandRuntime;
             newServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
-        public void AddAzurePythonWebRoleProcess()
+        public void AddAzurePHPWorkerRoleProcess()
         {
-            var pyInstall = AddAzureDjangoWebRoleCommand.FindPythonInterpreterPath();
-            if (pyInstall == null)
-            {
-                Assert.Inconclusive("Python is not installed on this machine and therefore the Python tests cannot be run");
-                return;
-            }
-
-            string stdOut, stdErr;
-            ProcessHelper.StartAndWaitForProcess(
-                    new ProcessStartInfo(
-                        Path.Combine(pyInstall, "python.exe"),
-                        String.Format("-m django.bin.django-admin")
-                    ),
-                    out stdOut,
-                    out stdErr
-            );
-
-            if (stdOut.IndexOf("django-admin.py") == -1)
-            {
-                Assert.Inconclusive("Django is not installed on this machine and therefore the Python tests cannot be run");
-                return;
-            }
-
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string roleName = "WebRole1";
+                string roleName = "WorkerRole1";
                 string rootPath = Path.Combine(files.RootPath, "AzureService");
-                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePython, rootPath, roleName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 mockCommandRuntime.ResetPipelines();
-                addPythonWebCmdlet.AddAzureDjangoWebRoleProcess(roleName, 1, rootPath);
+                addPHPWorkerCmdlet.AddAzurePHPWorkerRoleProcess(roleName, 1, rootPath);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
                 Assert.AreEqual<string>(roleName, Testing.GetPSVariableValue<string>((PSObject)mockCommandRuntime.WrittenObjects[0], Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseChannel[0]);
             }

@@ -124,5 +124,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         {
             this.WarningOutput.AppendLine(text);
         }
+
+        /// <summary>
+        /// Clears all command runtime pipelines.
+        /// </summary>
+        public void ResetPipelines()
+        {
+            ErrorRecords.Clear();
+            WrittenObjects.Clear();
+            WarningOutput.Clear();
+            VerboseChannel.Clear();
+        }
     }
 }

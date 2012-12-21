@@ -129,6 +129,8 @@
     <Compile Include="Tests\Model\DeploymentStatusManagerTests.cs" />
     <Compile Include="Tests\Model\ServiceComponentsTests.cs" />
     <Compile Include="Tests\Model\ServicePathInfoTests.cs" />
+    <Compile Include="Tests\PHP\Cmdlet\AddAzureWebWorkerRoleTests.cs" />
+    <Compile Include="Tests\PHP\Cmdlet\AddAzurePHPWebRoleTests.cs" />
     <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
