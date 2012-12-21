@@ -71,6 +71,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             {
                 Output = Path.Combine(GetCurrentPath(), DefaultOutput);
             }
+            else
+            {
+                // Set the file extension to .zip
+                string ext = Path.GetExtension(Output);
+                Output = Path.ChangeExtension(Output, "zip");
+            }
 
             base.ExecuteCommand();
 
