@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             bool changes = false;
-            SiteWithConfig websiteConfigUpdate = new SiteWithConfig();
+            SiteWithConfig websiteConfigUpdate = new SiteWithConfig(website, websiteConfig);
             if (SiteWithConfig != null)
             {
                 websiteConfigUpdate = SiteWithConfig;
