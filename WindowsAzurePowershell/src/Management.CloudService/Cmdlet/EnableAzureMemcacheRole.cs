@@ -132,9 +132,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string currentVersion = new AzureTool().AzureSdkVersion;
 
             // Add MemcacheShim runtime installation.
-            SetAzureServiceProjectRoleCommand setRCacheRuntimeCmdlet = new SetAzureServiceProjectRoleCommand();
-            setRCacheRuntimeCmdlet.CommandRuntime = this.CommandRuntime;
-            setRCacheRuntimeCmdlet.SetAzureRuntimesProcess(roleName, Resources.CacheRuntimeValue, currentVersion, azureService.Paths.RootPath);
+            azureService.AddRoleRuntime(azureService.Paths, roleName, Resources.CacheRuntimeValue, currentVersion);
 
             // Fetch web role information.
             azureService = new AzureService(azureService.Paths.RootPath, null);
