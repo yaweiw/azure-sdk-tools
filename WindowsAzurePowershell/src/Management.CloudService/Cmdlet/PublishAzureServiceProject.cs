@@ -51,41 +51,41 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         private string _hostedServiceName;
         private List<IPublishListener> _listeners;
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sn")]
         public string Subscription { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sv")]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("st")]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("l")]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sl")]
         public string Slot { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
         /// <summary>
         /// true if we only want to create a package
         /// </summary>
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("po")]
         public SwitchParameter PackageOnly { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public int? TimeoutSeconds { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Force
         {
             get { return force; }
@@ -125,19 +125,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Execute the command.
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                base.ProcessRecord();
-                PublishService(GetServiceRootPath());
-                WriteVerboseWithTimestamp(Resources.PublishCompleteMessage);
-            }
-            catch (Exception ex)
-            {
-                WriteExceptionError(ex);
-            }
+            PublishService(GetServiceRootPath());
         }
 
         /// <summary>
@@ -158,8 +148,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void PublishService(string serviceRootPath)
         {
-            WriteObject(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
-            WriteObject(string.Empty);
+            AzureTool.Validate();
+            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
+            WriteVerbose(string.Empty);
 
             // Package the service and all of its roles up in the open package format used by Azure
             if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
@@ -195,8 +186,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                WriteObject(Resources.PublishAbortedAtUserRequest);
+                WriteVerbose(Resources.PublishAbortedAtUserRequest);
             }
+
+            WriteVerboseWithTimestamp(Resources.PublishCompleteMessage);
         }
 
         /// <summary>
