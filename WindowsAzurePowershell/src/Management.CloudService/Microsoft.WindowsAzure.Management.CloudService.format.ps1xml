@@ -2,6 +2,72 @@
 <Configuration>
   <ViewDefinitions>
     <View>
+      <Name>Microsoft.Samples.WindowsAzure.ServiceManagement.Deployment</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Samples.WindowsAzure.ServiceManagement.Deployment</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>Name</Label>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>DeploymentSlot</Label>
+                <PropertyName>DeploymentSlot</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>PrivateID</Label>
+                <PropertyName>PrivateID</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Status</Label>
+                <PropertyName>Status</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Url</Label>
+                <PropertyName>Url</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>RoleInstanceList</Label>
+                <PropertyName>RoleInstanceList</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>UpgradeStatus</Label>
+                <PropertyName>UpgradeStatus</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>RoleList</Label>
+                <PropertyName>RoleList</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>SdkVersion</Label>
+                <PropertyName>SdkVersion</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Locked</Label>
+                <PropertyName>Locked</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>RollbackAllowed</Label>
+                <PropertyName>RollbackAllowed</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>CreatedTime</Label>
+                <PropertyName>CreatedTime</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>LastModifiedTime</Label>
+                <PropertyName>LastModifiedTime</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
+    <View>
       <Name>Microsoft.WindowsAzure.Management.CloudService.Model.AzureService</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.CloudService.Model.AzureService</TypeName>
