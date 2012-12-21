@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             RemoveService(serviceName);
 
             WriteObject(true);
-            WriteVerboseWithTimestamp(Resources.CompleteMessage);
+            WriteVerboseWithTimestamp(Resources.RemoveCompleteMessage);
         }
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)

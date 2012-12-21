@@ -1642,6 +1642,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove complete.
+        /// </summary>
+        internal static string RemoveCompleteMessage {
+            get {
+                return ResourceManager.GetString("RemoveCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing deployment.
         /// </summary>
         internal static string RemoveDeploymentMessage {
@@ -1669,7 +1678,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string RemoveServiceStartMessage {
             get {
@@ -2065,6 +2074,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start complete.
+        /// </summary>
+        internal static string StartCompleteMessage {
+            get {
+                return ResourceManager.GetString("StartCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         internal static string StartedEmulator {
@@ -2083,11 +2101,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string StartServiceMessage {
             get {
                 return ResourceManager.GetString("StartServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop complete.
+        /// </summary>
+        internal static string StopCompleteMessage {
+            get {
+                return ResourceManager.GetString("StopCompleteMessage", resourceCulture);
             }
         }
         
@@ -2110,7 +2137,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stopping service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string StopServiceMessage {
             get {

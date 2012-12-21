@@ -479,7 +479,7 @@
     <value>Removing service...</value>
   </data>
   <data name="RemoveServiceStartMessage" xml:space="preserve">
-    <value>Removing service {0}...</value>
+    <value>Looking for service {0}...</value>
   </data>
   <data name="RemoveServiceWarning" xml:space="preserve">
     <value>Are you sure you want to remove service "{0}"?</value>
@@ -587,7 +587,7 @@
     <value>Starting Emulator...</value>
   </data>
   <data name="StartServiceMessage" xml:space="preserve">
-    <value>Starting service {0}...</value>
+    <value>Looking for service {0}...</value>
   </data>
   <data name="StopEmulatorMessage" xml:space="preserve">
     <value>Stopping emulator...</value>
@@ -596,7 +596,7 @@
     <value>Stopped</value>
   </data>
   <data name="StopServiceMessage" xml:space="preserve">
-    <value>Stopping service {0}...</value>
+    <value>Looking for service {0}...</value>
   </data>
   <data name="StorageAccountName" xml:space="preserve">
     <value>Account Name:</value>
@@ -867,5 +867,14 @@
   </data>
   <data name="AddRoleMessageCreatePHP" xml:space="preserve">
     <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running "pear WindowsAzure/WindowsAzure".</value>
+  </data>
+  <data name="StartCompleteMessage" xml:space="preserve">
+    <value>Start complete</value>
+  </data>
+  <data name="StopCompleteMessage" xml:space="preserve">
+    <value>Stop complete</value>
+  </data>
+  <data name="RemoveCompleteMessage" xml:space="preserve">
+    <value>Remove complete</value>
   </data>
 </root>
