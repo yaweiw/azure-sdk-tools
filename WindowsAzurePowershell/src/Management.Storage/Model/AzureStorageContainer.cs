@@ -14,14 +14,27 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Model
 {
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public class AzureStorageBase
+    public class AzureStorageContainer : AzureStorageBase
     {
-        public StorageContext Context { get; set; }
-        public String Name { get; set; }
+        public CloudBlobContainer CloudBlobContainer { get; private set; }
+        public BlobContainerPermissions Permissions { get; private set; }
+
+        public BlobContainerPublicAccessType PublicAccess { get; private set; }
+        public DateTimeOffset? LastModified { get; private set; }
+
+        public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
+        {
+            CloudBlobContainer = container;
+            Permissions = permissions;
+            Name = container.Name;
+            PublicAccess = Permissions.PublicAccess;
+            LastModified = container.Properties.LastModified;
+        }
     }
 }

@@ -26,12 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
     [Cmdlet(VerbsCommon.Get, "AzureStorageContainer",
         DefaultParameterSetName = "ContainerName")]
-    public class GetAzureContainerCommand : StorageBlobBaseCmdlet
+    public class GetAzureStorageContainerCommand : StorageBlobBaseCmdlet
     {
         [Alias("N", "Container")]
         [Parameter(Position = 0, HelpMessage = "Container Name",
-            ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
+            ValueFromPipeline = true,
             ParameterSetName = "ContainerName")]
         public string Name { get; set; }
 
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             {
                 if (!NameUtil.IsValidContainerName(name))
                 {
-                    throw new ArgumentException(String.Format(Resource.InvalidContainerName, name));
+                    throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
                 }
                 //FIXME Does this api return the metadata?
                 CloudBlobContainer container = blobClient.GetContainerReferenceFromServer(name, reqesutOptions, operationContext);
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 }
                 else
                 {
-                    throw new ResourceNotFoundException(String.Format(Resource.ContainerNotFound, name));
+                    throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
                 }
             }
             WriteContainersWithAcl(containerList);
@@ -93,13 +93,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             List<CloudBlobContainer> containerList = new List<CloudBlobContainer>();
             ContainerListingDetails details = ContainerListingDetails.Metadata;
-            BlobRequestOptions reqesutOptions = null;
+            BlobRequestOptions requestOptions = null;
 
             if (!NameUtil.IsValidContainerPrefix(prefix))
             {
-                throw new ArgumentException(String.Format(Resource.InvalidContainerName, prefix));
+                throw new ArgumentException(String.Format(Resources.InvalidContainerName, prefix));
             }
-            IEnumerable<CloudBlobContainer> containers = blobClient.ListContainers(prefix, details, reqesutOptions, operationContext);
+            IEnumerable<CloudBlobContainer> containers = blobClient.ListContainers(prefix, details, requestOptions, operationContext);
             containerList.AddRange(containers);
             WriteContainersWithAcl(containerList);
         }
@@ -115,14 +115,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             foreach (CloudBlobContainer container in containerList)
             {
                 BlobContainerPermissions permissions = blobClient.GetContainerPermissions(container, accessCondition, reqesutOptions, operationContext);
-                AzureContainer azureContainer = new AzureContainer(container, permissions);
+                AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
                 SafeWriteObjectWithContext(azureContainer);
             }
         }
 
         internal override void ExecuteCommand()
         {
-            SafeWriteTips(String.Format(Resource.BlobEndPointTips, blobClient.GetBaseUri()));
+            SafeWriteTips(String.Format(Resources.BlobEndPointTips, blobClient.GetBaseUri()));
             if ("ContainerPrefix" == ParameterSetName)
             {
                 ListContainersByPrefix(Prefix);

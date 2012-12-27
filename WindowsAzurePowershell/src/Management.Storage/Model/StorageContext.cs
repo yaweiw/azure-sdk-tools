@@ -22,9 +22,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model
 
     public class StorageContext
     {
-        public string BlobEndPoint  { get; set; }
-        public string TableEndPoint { get; set;}
-        public string QueueEndPoint { get; set; }
-        public CloudStorageAccount StorageAccount {get; set;}        
+        public string StorageAccountName { get; private set; }
+        public string BlobEndPoint { get; private set; }
+        public string TableEndPoint { get; private set; }
+        public string QueueEndPoint { get; private set; }
+
+        //Enable New-AzureStorageContext can be used in pipeline 
+        public StorageContext Context { get; private set; }
+
+        //FIXME force pipeline to ingore this property
+        public string Name { get; private set; }
+
+        public CloudStorageAccount StorageAccount { get; private set; }
+
+        public StorageContext(CloudStorageAccount account)
+        {
+            StorageAccount = account;
+            BlobEndPoint = account.BlobEndpoint.ToString();
+            TableEndPoint = account.TableEndpoint.ToString();
+            QueueEndPoint = account.QueueEndpoint.ToString();
+            StorageAccountName = account.Credentials.AccountName;
+            Context = this;
+            Name = String.Empty;
+        }
     }
 }

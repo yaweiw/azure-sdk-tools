@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
     [Cmdlet(VerbsCommon.New, "AzureStorageContext",
         DefaultParameterSetName = "AccountNameKey")]
-    public class NewAzureStorageContext : StorageBaseCmdlet
+    public class NewAzureStorageContext : BaseCmdlet
     {
         [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name", 
             Mandatory = true, ParameterSetName = "AccountNameKey")]
@@ -80,12 +80,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
         private string protocolType = "https";
 
+        public NewAzureStorageContext()
+        {
+            SkipChannelInit = true;
+        }
+
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
         {
+            //FIXME see the implementation of sqldatabase?
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
             return new CloudStorageAccount(credential, useHttps);
         }
 
+        //FIXME seems cannot work
         internal CloudStorageAccount GetStorageAccountBySasToken(string sasToken, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(SasToken);
@@ -102,9 +109,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return CloudStorageAccount.DevelopmentStorageAccount;
         }
 
+        //FIXME seems cannot work
         internal CloudStorageAccount GetAnonymouseStorageAccount()
         {
-            return GetStorageAccountByNameAndKey("", "", false);
+            StorageCredentials credential = new StorageCredentials();
+            return new CloudStorageAccount(credential, false);
         }
 
         internal override void ExecuteCommand()
@@ -129,13 +138,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                     account = GetAnonymouseStorageAccount();
                     break;
                 default:
-                    throw new ArgumentException(Resource.InvalidAccountParameterCombination);
+                    throw new ArgumentException(Resources.InvalidAccountParameterCombination);
             }
-            StorageContext context = new StorageContext();
-            context.StorageAccount = account;
-            StorageContextPack pack = new StorageContextPack();
-            pack.Context = context;
-            WriteObject(pack);
+            StorageContext context = new StorageContext(account);
+            WriteOutputObject(context);
         }
     }
 }

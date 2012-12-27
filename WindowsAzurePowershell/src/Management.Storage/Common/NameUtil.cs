@@ -63,6 +63,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return regex.IsMatch(s);
         }
 
+        public static bool IsValidTablePrefix(string s)
+        {
+            if (s.Length < 3)
+            {
+                s = s + "abc";
+            };
+            return IsValidTableName(s);
+        }
+
         //http://msdn.microsoft.com/en-us/library/windowsazure/dd179349.aspx
         public static bool IsValidQueueName(string s)
         {
@@ -70,9 +79,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return regex.IsMatch(s);
         }
 
+        public static bool IsValidQueuePrefix(string s)
+        {
+            if (s.Length < 3)
+            {
+                s = s + "abc";
+            };
+            return IsValidQueueName(s);
+        }
+
         public static bool IsValidFileName(string s)
         {
-            return s.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1;
+            return !string.IsNullOrEmpty(s) && s.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) == -1;
         }
     }
 }
