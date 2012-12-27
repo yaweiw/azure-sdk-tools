@@ -9,17 +9,17 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Container Name</Label>
+            <Label>Name</Label>
             <Width>20</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>URI</Label>
+            <Label>Uri</Label>
             <width>60</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Last Modified</Label>
+            <Label>LastModified</Label>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
@@ -50,17 +50,12 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Blob Name</Label>
+            <Label>Name</Label>
             <Width>20</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Container Name</Label>
-            <width>20</width>
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Blob Type</Label>
+            <Label>BlobType</Label>
             <width>10</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -70,17 +65,12 @@
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Content Type</Label>
+            <Label>ContentType</Label>
             <width>30</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
-          <!--<TableColumnHeader>
-            <Label>URI</Label>
-            <width>40</width>
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>-->
           <TableColumnHeader>
-            <Label>Last Modified</Label>
+            <Label>LastModified</Label>
             <width>30</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -92,9 +82,6 @@
                 <ScriptBlock>$_.Name</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
-                <ScriptBlock>$_.Container.Name</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
                 <ScriptBlock>$_.BlobType</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
@@ -103,9 +90,6 @@
               <TableColumnItem>
                 <ScriptBlock>$_.Properties.ContentType</ScriptBlock>
               </TableColumnItem>
-              <!--<TableColumnItem>
-                <ScriptBlock>$_.Uri</ScriptBlock>
-              </TableColumnItem>-->
               <TableColumnItem>
                 <ScriptBlock>$_.Properties.LastModified</ScriptBlock>
               </TableColumnItem>
@@ -122,12 +106,12 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Table Name</Label>
+            <Label>Name</Label>
             <Width>40</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>URI</Label>
+            <Label>Uri</Label>
             <width>40</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -154,7 +138,7 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Queue Name</Label>
+            <Label>Name</Label>
             <Width>30</Width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -164,12 +148,12 @@
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Message Count</Label>
+            <Label>ApproximateMessageCount</Label>
             <width>20</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>URI</Label>
+            <Label>Uri</Label>
             <width>40</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -208,6 +192,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageContainer</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudBlobContainer.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Blob End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>

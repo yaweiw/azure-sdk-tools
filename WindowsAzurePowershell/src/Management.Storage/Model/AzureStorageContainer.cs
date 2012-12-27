@@ -20,20 +20,42 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// azure storage container
+    /// </summary>
     public class AzureStorageContainer : AzureStorageBase
     {
+        /// <summary>
+        /// CloudBlobContainer object
+        /// </summary>
         public CloudBlobContainer CloudBlobContainer { get; private set; }
+
+        /// <summary>
+        /// the permission of CloudBlobContainer
+        /// </summary>
         public BlobContainerPermissions Permissions { get; private set; }
 
+        /// <summary>
+        /// the public accesss level of CloudBlobContainer
+        /// </summary>
         public BlobContainerPublicAccessType PublicAccess { get; private set; }
+
+        /// <summary>
+        /// last modified of CloudBlobContainer
+        /// </summary>
         public DateTimeOffset? LastModified { get; private set; }
 
+        /// <summary>
+        /// init azure storage container using CloudBlobContainer and BlobContainerPermissions
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="permissions">permissions of container</param>
         public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
         {
             CloudBlobContainer = container;
             Permissions = permissions;
             Name = container.Name;
-            PublicAccess = Permissions.PublicAccess;
+            PublicAccess = permissions.PublicAccess;
             LastModified = container.Properties.LastModified;
         }
     }

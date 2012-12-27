@@ -14,19 +14,27 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.Win32;
-    using System.IO;
-    using System.Diagnostics;
     using Storage;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
 
+    /// <summary>
+    /// test base class for storage package
+    /// </summary>
     public class StorageTestBase
     {
-
+        /// <summary>
+        /// get an unique string
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="replaceBar"></param>
+        /// <returns></returns>
         public static string GetUniqueString(string prefix = "", string replaceBar = "-")
         { 
             string name = prefix + System.Guid.NewGuid().ToString().Replace("-", replaceBar);

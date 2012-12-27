@@ -121,61 +121,59 @@
     <value>Blob '{0}' in container '{1}' already exists.</value>
   </data>
   <data name="BlobDownloadingStatus" xml:space="preserve">
-    <value>Percent : {0}% Speed : {1}</value>
+    <value>Percent : {0}% Speed : {1}.</value>
   </data>
   <data name="BlobNameNotFound" xml:space="preserve">
     <value>Can not find blob name or container name.</value>
   </data>
   <data name="BlobNotFound" xml:space="preserve">
-    <value>Can not find blob '{0}' in container '{1} '</value>
+    <value>Can not find blob '{0}' in container '{1}'.</value>
   </data>
   <data name="ConfirmRemoveContainer" xml:space="preserve">
-    <value>Are you sure to remove Container {0} ?</value>
+    <value>Are you sure to remove container '{0}' ?</value>
   </data>
   <data name="ConfirmRemoveContainerCaption" xml:space="preserve">
-    <value>Confirm to Remove Azure Container</value>
+    <value>Confirm to remove azure container.</value>
   </data>
   <data name="ContainerAlreadyExists" xml:space="preserve">
-    <value>Container '{0}' already exists!</value>
+    <value>Container '{0}' already exists.</value>
   </data>
   <data name="ContainerNotFound" xml:space="preserve">
-    <value>Can not find the container '{0}'</value>
+    <value>Can not find the container '{0}'.</value>
   </data>
   <data name="DirectoryNotExists" xml:space="preserve">
     <value>Directory '{0}' doesn't exist.</value>
   </data>
   <data name="DownloadBlobFailed" xml:space="preserve">
     <value>Cannot download the blob '{0}' in container '{1}' into local file '{2}'.  Error: {3}</value>
+    <comment>place holder 0 for blob name, 1 for blob's container name, 2 for download destination in local machine. 3 for excpetion error message.</comment>
   </data>
   <data name="DownloadBlobSuccessful" xml:space="preserve">
-    <value>Download blob {0} successful.</value>
+    <value>Download blob '{0}' successful.</value>
   </data>
   <data name="FileAlreadyExists" xml:space="preserve">
     <value>File '{0}' already exists.</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value>Can not find the specified file. {0}</value>
+    <value>Can not find the specified file '{0}'.</value>
   </data>
-  <data name="FileUploadingStatus" xml:space="preserve">
-    <value>Percent : {0}% Speed : {1} bytes/second</value>
+  <data name="FileTransmitStatus" xml:space="preserve">
+    <value>Percent : {0}% Speed : {1} bytes/second.</value>
   </data>
   <data name="IncompleteAccountInformation" xml:space="preserve">
     <value>Please supply the account name with account key as the full azure credentials.</value>
   </data>
   <data name="InValidBlobName" xml:space="preserve">
-    <value>Blob name '{0}' is invalid</value>
+    <value>Blob name '{0}' is invalid.</value>
   </data>
   <data name="InvalidContainerName" xml:space="preserve">
     <value>Container name '{0}' is invalid.</value>
   </data>
   <data name="InvalidExpiryTime" xml:space="preserve">
-    <value>Invalid ExpiryTime {0}.</value>
-  </data>
-  <data name="InvalidSASLifeTime" xml:space="preserve">
-    <value>The lifetime of the shared access signature must be less than one hours.</value>
+    <value>Invalid expiry time '{0}'.</value>
   </data>
   <data name="InvalidStartTime" xml:space="preserve">
-    <value>Invalid Start Time {0}.</value>
+    <value>Invalid start time '{0}'.</value>
   </data>
   <data name="OnlyOnePermissionForContainer" xml:space="preserve">
     <value>You must supply only one permission for container.</value>
@@ -187,25 +185,25 @@
     <value>Can not find queue '{0}'.</value>
   </data>
   <data name="RemoveBlobSuccessfully" xml:space="preserve">
-    <value>Remove blob '{0}' in container "{1}" successfully</value>
+    <value>Removed blob '{0}' in container '{1}' successfully.</value>
   </data>
   <data name="RemoveContainerCancelled" xml:space="preserve">
-    <value>The remove operation of container {0} has been cancelled</value>
+    <value>The remove operation of container '{0}' has been cancelled.</value>
   </data>
   <data name="RemoveContainerSuccessfully" xml:space="preserve">
-    <value>Remove container '{0}' successfully</value>
+    <value>Removed container '{0}' successfully.</value>
   </data>
   <data name="RemoveQueueSuccessfully" xml:space="preserve">
-    <value>Remove queue '{0}' successfully.</value>
+    <value>Removed queue '{0}' successfully.</value>
   </data>
   <data name="RemoveTableSuccessfully" xml:space="preserve">
-    <value>Remove table '{0}' successfully</value>
+    <value>Removed table '{0}' successfully.</value>
   </data>
   <data name="StartDownloadBlob" xml:space="preserve">
-    <value>Start to Downloading Blob {0}</value>
+    <value>Start to download blob '{0}' into '{1}'.</value>
   </data>
   <data name="StartUploadFile" xml:space="preserve">
-    <value>Start to Upload {0} into Blob {1}</value>
+    <value>Start to upload '{0}' into blob '{1}'.</value>
   </data>
   <data name="StorageCredentialsNotFound" xml:space="preserve">
     <value>Can not find your azure storage credential.</value>
@@ -217,60 +215,116 @@
     <value>Can not find table '{0}'.</value>
   </data>
   <data name="UnknownBlob" xml:space="preserve">
-    <value>Unknown Blob</value>
+    <value>Unknown blob.</value>
   </data>
   <data name="Upload2BlobFailed" xml:space="preserve">
-    <value>Can not upload local file to azure blob. {0}</value>
+    <value>Can not upload local file to azure blob. Error: {0}.</value>
   </data>
   <data name="UploadFileFailed" xml:space="preserve">
-    <value>Upload file {0} failed,  Error : {1}</value>
+    <value>Upload file '{0}' failed.  Error: '{1}'.</value>
   </data>
   <data name="UploadFileSuccessfully" xml:space="preserve">
-    <value>Upload file {0} successfully.</value>
+    <value>Upload file '{0}' successfully.</value>
   </data>
   <data name="BlobTypeMismatch" xml:space="preserve">
-    <value>Blob type mismatched, the current blob type of {0} is {1}.</value>
+    <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
   </data>
   <data name="CannotSendDirectory" xml:space="preserve">
-    <value>Can not send a directory to azure {0}.</value>
+    <value>Can not send the directory '{0}' to azure. This cmdlet only works with files.</value>
   </data>
   <data name="PrepareUploadingBlob" xml:space="preserve">
-    <value>Prepare to upload blob</value>
+    <value>Prepare to upload blob.</value>
   </data>
   <data name="SendAzureBlobActivity" xml:space="preserve">
-    <value>Upload file {0} into blob {1} in container {2}.</value>
+    <value>Upload file '{0}' into blob '{1}' in container '{2}'.</value>
   </data>
   <data name="SendAzureBlobCancelled" xml:space="preserve">
-    <value>Upload local file {0} into blob {1} cancelled.</value>
+    <value>Upload local file '{0}' into blob '{1}' cancelled.</value>
   </data>
   <data name="ReceiveAzureBlobActivity" xml:space="preserve">
-    <value>Download bob {0} into {1}</value>
+    <value>Download blob '{0}' into '{1}'.</value>
   </data>
   <data name="InvalidQueueName" xml:space="preserve">
-    <value>Queue name '{0}' is invalid</value>
+    <value>Queue name '{0}' is invalid.</value>
   </data>
   <data name="InvalidTableName" xml:space="preserve">
-    <value>Table name '{0}' is invalid</value>
+    <value>Table name '{0}' is invalid.</value>
   </data>
   <data name="RemoveQueueCancelled" xml:space="preserve">
-    <value>The remove operation of queue {0} has been cancelled</value>
+    <value>The remove operation of queue '{0}' has been cancelled.</value>
   </data>
   <data name="RemoveTableCancelled" xml:space="preserve">
-    <value>The remove operation of table {0} has been cancelled</value>
+    <value>The remove operation of table '{0}' has been cancelled.</value>
   </data>
   <data name="InvalidAccountParameterCombination" xml:space="preserve">
     <value>invalid parameter combination, please see the command help.</value>
   </data>
   <data name="BlobEndPointTips" xml:space="preserve">
-    <value>Blob End Point: {0}</value>
+    <value>Blob End Point: {0}.</value>
   </data>
   <data name="InvalidBlobWithoutContainer" xml:space="preserve">
     <value>ICloudBlob "{0}" should contain container properties.</value>
   </data>
   <data name="ObjectCannotBeNull" xml:space="preserve">
-    <value>object "{0}" cannot be null.</value>
+    <value>object '{0}' cannot be null.</value>
   </data>
   <data name="InvalidFileName" xml:space="preserve">
     <value>File name "{0}" is invalid.</value>
+  </data>
+  <data name="StorageExceptionDetails" xml:space="preserve">
+    <value>Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}</value>
+  </data>
+  <data name="BeginProcessingLog" xml:space="preserve">
+    <value>{0} begin processing {1}.</value>
+    <comment>0 for cmdlet name, 1 for parameter set log</comment>
+  </data>
+  <data name="ClientRequestIdFormat" xml:space="preserve">
+    <value>Azure-Storage-PowerShell-{0}</value>
+  </data>
+  <data name="EndProcessingLog" xml:space="preserve">
+    <value>{0} end processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}</value>
+    <comment>0 for cmdlet name. 1 for remote call counter, 2 for running time, 3 for client request id</comment>
+  </data>
+  <data name="ExceptionCannotEmpty" xml:space="preserve">
+    <value>Exception cannot be null or empty.</value>
+  </data>
+  <data name="FinishRemoteCall" xml:space="preserve">
+    <value>Finish remote call with status code {0} and service request id {1}.</value>
+  </data>
+  <data name="InitOperationContextLog" xml:space="preserve">
+    <value>Init Operation Context with operation id {0}.</value>
+  </data>
+  <data name="ParameterSetLog" xml:space="preserve">
+    <value>using ParameterSet {0}.</value>
+  </data>
+  <data name="StartRemoteCall" xml:space="preserve">
+    <value>Start {0}th remote call, method: {1}, destion : {2}.</value>
+    <comment>0 for int counter, 1 for request method, 2 for request uri</comment>
+  </data>
+  <data name="StopProcessingLog" xml:space="preserve">
+    <value>{0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}</value>
+    <comment>0 for cmdlet name. 1 for remote call counter, 2 for running time, 3 for client request id</comment>
+  </data>
+  <data name="VerboseLogFormat" xml:space="preserve">
+    <value>{0} {1}.</value>
+    <comment>0 for time, 1 for message</comment>
+  </data>
+  <data name="WithoutParameterSet" xml:space="preserve">
+    <value>without ParameterSet.</value>
+  </data>
+  <data name="CloudBlobClientIsNull" xml:space="preserve">
+    <value>CloudBlobClient is null.</value>
+  </data>
+  <data name="DefaultBlobEndPoint" xml:space="preserve">
+    <value>http://{0}.blob.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="DefaultQueueEndPoint" xml:space="preserve">
+    <value>http://{0}.queue.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="DefaultTableEndPoint" xml:space="preserve">
+    <value>http://{0}.table.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
   </data>
 </root>

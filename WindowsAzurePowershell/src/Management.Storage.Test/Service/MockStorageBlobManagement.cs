@@ -15,63 +15,80 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage;
 
+    /// <summary>
+    /// mock blob management
+    /// </summary>
     public class MockStorageBlobManagement : IBlobManagement
     {
-        public List<CloudBlobContainer> containerList = new List<CloudBlobContainer>();
-        public Dictionary<string, BlobContainerPermissions> containerPermissions = new Dictionary<string, BlobContainerPermissions>();
-        public Dictionary<string, List<ICloudBlob>> containerBlobs = new Dictionary<string, List<ICloudBlob>>();
-        public String BaseUri { get; set; }
+        /// <summary>
+        /// container list
+        /// </summary>
+        private List<CloudBlobContainer> containerList = new List<CloudBlobContainer>();
+
+        public List<CloudBlobContainer> ContainerList
+        {
+            get
+            {
+                return containerList;
+            }
+        }
+        
+        /// <summary>
+        /// container permissions list
+        /// </summary>
+        private Dictionary<string, BlobContainerPermissions> containerPermissions = new Dictionary<string, BlobContainerPermissions>();
+        public Dictionary<string, BlobContainerPermissions> ContainerPermissions = new Dictionary<string, BlobContainerPermissions>();
+
+        /// <summary>
+        /// container blobs list
+        /// </summary>
+        private Dictionary<string, List<ICloudBlob>> containerBlobs = new Dictionary<string, List<ICloudBlob>>();
+        public Dictionary<string, List<ICloudBlob>> ContainerBlobs
+        {
+            get
+            {
+                return containerBlobs;
+            }
+        }
 
         private string BlobEndPoint = "http://127.0.0.1/account/";
 
-        public IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded,
-            BlobRequestOptions options = null, OperationContext operationContext = null)
+        public IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options = null, OperationContext operationContext = null)
         {
             if (string.IsNullOrEmpty(prefix))
             {
-                return containerList;
+                return ContainerList;
             }
             else
             {
                 List<CloudBlobContainer> prefixContainerList = new List<CloudBlobContainer>();
-                foreach (CloudBlobContainer container in containerList)
+
+                foreach (CloudBlobContainer container in ContainerList)
                 {
                     if (container.Name.StartsWith(prefix))
                     {
                         prefixContainerList.Add(container);
                     }
                 }
+
                 return prefixContainerList;
             }
         }
 
-        public CloudBlobContainer GetContainerReferenceFromServer(string name, BlobRequestOptions options = null, OperationContext context = null)
-        {
-            foreach (CloudBlobContainer container in containerList)
-            {
-                if (container.Name == name)
-                {
-                    return container;
-                }
-            }
-            return null;
-        }
-
-        public BlobContainerPermissions GetContainerPermissions(CloudBlobContainer container, AccessCondition accessCondition = null,
-            BlobRequestOptions options = null, OperationContext operationContext = null)
+        public BlobContainerPermissions GetContainerPermissions(CloudBlobContainer container, AccessCondition accessCondition = null, BlobRequestOptions options = null, OperationContext operationContext = null)
         {
             BlobContainerPermissions defaultPermission = new BlobContainerPermissions();
             defaultPermission.PublicAccess = BlobContainerPublicAccessType.Off;
-            if (containerPermissions.ContainsKey(container.Name))
+            if (ContainerPermissions.ContainsKey(container.Name))
             {
-                return containerPermissions[container.Name];
+                return ContainerPermissions[container.Name];
             }
             else
             {
@@ -79,61 +96,51 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             }
         }
 
-
-        public string GetBaseUri()
-        {
-            return BaseUri;
-        }
-
-
         public CloudBlobContainer GetContainerReference(string name)
         {
             Uri containerUri = new Uri(String.Format("{0}{1}/", BlobEndPoint, name));
             return new CloudBlobContainer(containerUri);
         }
 
-        public bool CreateContainerIfNotExists(CloudBlobContainer container, BlobRequestOptions requestOptions = null,
-            OperationContext operationContext = null)
+        public bool CreateContainerIfNotExists(CloudBlobContainer container, BlobRequestOptions requestOptions = null, OperationContext operationContext = null)
         {
-            CloudBlobContainer containerRef =  GetContainerReferenceFromServer(container.Name);
-            if (containerRef != null)
+            CloudBlobContainer containerRef =  GetContainerReference(container.Name);
+            if (IsContainerExists(containerRef, requestOptions, operationContext))
             {
                 return false;
             }
             else
             {
                 containerRef = GetContainerReference(container.Name);
-                containerList.Add(containerRef);
+                ContainerList.Add(containerRef);
                 return true;
             }
         }
 
 
-        public void DeleteContainer(CloudBlobContainer container, AccessCondition accessCondition,
-            BlobRequestOptions options, OperationContext operationContext)
+        public void DeleteContainer(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            foreach (CloudBlobContainer containerRef in containerList)
+            foreach (CloudBlobContainer containerRef in ContainerList)
             {
                 if (container.Name == containerRef.Name)
                 {
-                    containerList.Remove(containerRef);
+                    ContainerList.Remove(containerRef);
                     return;
                 }
             }
         }
 
 
-        public void SetContainerPermissions(CloudBlobContainer container, BlobContainerPermissions permissions,
-            AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        public void SetContainerPermissions(CloudBlobContainer container, BlobContainerPermissions permissions, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             String name = container.Name;
-            if (containerPermissions.ContainsKey(name))
+            if (ContainerPermissions.ContainsKey(name))
             {
-                containerPermissions[name] = permissions;
+                ContainerPermissions[name] = permissions;
             }
             else
             {
-                containerPermissions.Add(name, permissions);
+                ContainerPermissions.Add(name, permissions);
             }
         }
 
@@ -141,9 +148,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         public ICloudBlob GetBlobReferenceFromServer(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             string containerName = container.Name;
-            if (containerBlobs.ContainsKey(containerName))
+            if (ContainerBlobs.ContainsKey(containerName))
             {
-                List<ICloudBlob> blobList = containerBlobs[containerName];
+                List<ICloudBlob> blobList = ContainerBlobs[containerName];
                 foreach (ICloudBlob blob in blobList)
                 {
                     if (blob.Name == blobName)
@@ -162,9 +169,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         public IEnumerable<IListBlobItem> ListBlobs(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, BlobRequestOptions options, OperationContext operationContext)
         {
             string containerName = container.Name;
-            if (containerBlobs.ContainsKey(containerName))
+            if (ContainerBlobs.ContainsKey(containerName))
             {
-                List<ICloudBlob> blobList = containerBlobs[containerName];
+                List<ICloudBlob> blobList = ContainerBlobs[containerName];
                 if (string.IsNullOrEmpty(prefix))
                 {
                     return blobList;
@@ -192,7 +199,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             {
                 return false;
             }
-            foreach (CloudBlobContainer containerRef in containerList)
+            foreach (CloudBlobContainer containerRef in ContainerList)
             {
                 if (containerRef.Name == container.Name)
                 {
@@ -205,13 +212,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         public bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             CloudBlobContainer container = blob.Container;
-            if (!containerBlobs.ContainsKey(container.Name))
+            if (!ContainerBlobs.ContainsKey(container.Name))
             {
                 return false;
             }
             else
             {
-                List<ICloudBlob> blobList = containerBlobs[container.Name];
+                List<ICloudBlob> blobList = ContainerBlobs[container.Name];
                 foreach (ICloudBlob blobRef in blobList)
                 {
                     if (blobRef.Name == blob.Name)
@@ -226,13 +233,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         public void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             CloudBlobContainer container = blob.Container;
-            if (!containerBlobs.ContainsKey(container.Name))
+            if (!ContainerBlobs.ContainsKey(container.Name))
             {
                 return;
             }
             else
             {
-                List<ICloudBlob> blobList = containerBlobs[container.Name];
+                List<ICloudBlob> blobList = ContainerBlobs[container.Name];
                 foreach (ICloudBlob blobRef in blobList)
                 {
                     if (blobRef.Name == blob.Name)

@@ -22,13 +22,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Management.Automation;
     using System.Text;
 
+    /// <summary>
+    /// base cmdlet for storage blob/container cmdlet
+    /// </summary>
     public class StorageBlobBaseCmdlet : StorageBaseCmdlet
     {
-        internal IBlobManagement blobClient = null;
+        internal IBlobManagement blobClient { get; set; }
+        
         //auto clean blob client in order to work with multiple storage account
         private bool autoClean = false;
 
-        //Make sure the blob is valid and already existing
+        /// <summary>
+        /// Make sure the pipeline blob is valid and already existing
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
         internal void ValidatePipelineICloudBlob(ICloudBlob blob)
         {
             if (null == blob)
@@ -47,8 +54,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
         }
 
-        //Make sure the container is valid and already existing
-        //FIXME cache for validation? too many remote call
+        /// <summary>
+        /// Make sure the container is valid and already existing 
+        /// </summary>
+        /// <param name="container"></param>
+        /// //TODO cache for validation? too many remote calls
         internal void ValidatePipelineCloudBlobContainer(CloudBlobContainer container)
         {
             if (null == container)
@@ -66,6 +76,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
         }
 
+        /// <summary>
+        /// get blob client
+        /// </summary>
+        /// <returns></returns>
         protected CloudBlobClient GetCloudBlobClient()
         {
             //use the default retry policy in storage client
@@ -73,6 +87,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return account.CreateCloudBlobClient();
         }
 
+        /// <summary>
+        /// process record
+        /// </summary>
         protected override void ProcessRecord()
         {
             if (blobClient == null)
@@ -81,12 +98,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 blobClient = new BlobManagement(GetCloudBlobClient());
             }
 
-            base.ProcessRecord();
-
-            if (autoClean)
+            try
             {
-                blobClient = null;
-                autoClean = false;
+                base.ProcessRecord();
+            }
+            finally
+            {
+
+                if (autoClean)
+                {
+                    blobClient = null;
+                    autoClean = false;
+                }
             }
         }
     }

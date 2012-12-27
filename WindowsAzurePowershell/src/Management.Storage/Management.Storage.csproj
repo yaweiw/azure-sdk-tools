@@ -47,7 +47,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
     </Reference>
     <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -64,11 +63,13 @@
     <Compile Include="Common\BaseCmdlet.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\NewAzureStorageContext.cs" />
+    <Compile Include="Common\OperationContextUtil.cs" />
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\StorageBaseCmdlet.cs" />
     <Compile Include="Blob\StorageBlobBaseCmdlet.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
+    <Compile Include="Common\StorageNouns.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -95,6 +96,7 @@
   <ItemGroup>
     <None Include="Microsoft.WindowsAzure.Management.Storage.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

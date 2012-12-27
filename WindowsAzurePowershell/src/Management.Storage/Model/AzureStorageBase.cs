@@ -19,9 +19,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// base class for all azure storage object
+    /// </summary>
     public class AzureStorageBase
     {
+        /// <summary>
+        /// storage context
+        /// </summary>
         public StorageContext Context { get; set; }
+
+        /// <summary>
+        /// azure storage object name
+        /// </summary>
         public String Name { get; set; }
     }
 }

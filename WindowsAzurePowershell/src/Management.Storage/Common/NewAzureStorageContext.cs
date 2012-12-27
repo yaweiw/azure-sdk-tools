@@ -22,35 +22,48 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Linq;
     using System.Management.Automation;
     using System.Text;
-
-    [Cmdlet(VerbsCommon.New, "AzureStorageContext",
-        DefaultParameterSetName = "AccountNameKey")]
+    
+    /// <summary>
+    /// new storage context
+    /// </summary>
+    [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext,
+        DefaultParameterSetName = AccountNameKeyParameterSet)]
     public class NewAzureStorageContext : BaseCmdlet
     {
-        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name", 
-            Mandatory = true, ParameterSetName = "AccountNameKey")]
+        private const string AccountNameKeyParameterSet = "AccountNameAndKey";
+        private const string SasTokenParameterSet = "SasToken";
+        private const string ConnectionStringParameterSet = "ConnectionString";
+        private const string LocalParameterSet = "LocalDevelopment";
+        private const string AnonymousParameterSet = "AnonymousAccount";
+
+        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
+            Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
+        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
+            Mandatory = true, ParameterSetName = AnonymousParameterSet)]
+        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
+            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
         [Parameter(Position = 1, HelpMessage = "Azure Storage Account Key",
-            Mandatory = true, ParameterSetName = "AccountNameKey")]
+            Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
 
         [Alias("sas")]
         [Parameter(HelpMessage = "Azure Storage SAS Token",
-            Mandatory = true, ParameterSetName = "AccountSastoken")]
+            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
         [ValidateNotNullOrEmpty]
         public string SasToken { get; set; }
 
         [Alias("conn")]
         [Parameter(HelpMessage = "Azure Storage Connection String",
-            Mandatory = true, ParameterSetName = "ConnectionString")]
+            Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
         public string ConnectionString { get; set; }
 
         [Parameter(HelpMessage = "Use local development storage account",
-            Mandatory = true, ParameterSetName = "LocalDevelopment")]
+            Mandatory = true, ParameterSetName = LocalParameterSet)]
         public SwitchParameter Local
         {
             get { return isLocalDevAccount; }
@@ -59,8 +72,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         private bool isLocalDevAccount;
 
         [Alias("anon")]
-        [Parameter(HelpMessage = "Use local development storage account",
-            Mandatory = true, ParameterSetName = "Anonymous")]
+        [Parameter(HelpMessage = "Use anonymous storage account",
+            Mandatory = true, ParameterSetName = AnonymousParameterSet)]
         public SwitchParameter Anonymous
         {
             get { return isAnonymous; }
@@ -69,76 +82,111 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         private bool isAnonymous;
 
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
-            ParameterSetName = "AccountNameKey")]
+            ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
-            ParameterSetName = "AccountSastoken")]
-        [ValidateSet("http", "https")]
+            ParameterSetName = SasTokenParameterSet)]
+        [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS)]
         public string Protocol
         {
             get { return protocolType; }
             set { protocolType = value; }
         }
-        private string protocolType = "https";
+        private string protocolType = StorageNouns.HTTPS;
 
+        /// <summary>
+        /// Initializes a new instance o
+        /// </summary>
         public NewAzureStorageContext()
         {
             SkipChannelInit = true;
         }
 
+        /// <summary>
+        /// get storage account by account name and account key
+        /// </summary>
+        /// <param name="accountName"></param>
+        /// <param name="accountKey"></param>
+        /// <param name="useHttps"></param>
+        /// <returns></returns>
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
         {
-            //FIXME see the implementation of sqldatabase?
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
             return new CloudStorageAccount(credential, useHttps);
         }
 
-        //FIXME seems cannot work
-        internal CloudStorageAccount GetStorageAccountBySasToken(string sasToken, bool useHttps)
+        /// <summary>
+        /// get storage account by sastoken
+        /// </summary>
+        /// <param name="sasToken"></param>
+        /// <param name="useHttps"></param>
+        /// <returns></returns>
+        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(SasToken);
-            return new CloudStorageAccount(credential, useHttps);
+            string blobEndPoint = String.Format(Resources.DefaultBlobEndPoint, storageAccountName);
+            string tableEndPoint = String.Format(Resources.DefaultTableEndPoint, storageAccountName);
+            string queueEndPoint = String.Format(Resources.DefaultQueueEndPoint, storageAccountName);
+            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
         }
 
+        /// <summary>
+        /// get storage account by connection string
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <returns></returns>
         internal CloudStorageAccount GetStorageAccountByConnectionString(string connectionString)
         {
             return CloudStorageAccount.Parse(connectionString);
         }
 
+        /// <summary>
+        /// get local development storage account
+        /// </summary>
+        /// <returns></returns>
         internal CloudStorageAccount GetLocalDevelopmentStorageAccount()
         {
             return CloudStorageAccount.DevelopmentStorageAccount;
         }
 
-        //FIXME seems cannot work
-        internal CloudStorageAccount GetAnonymouseStorageAccount()
+        /// <summary>
+        /// get anonymous storage account
+        /// </summary>
+        /// <returns></returns>
+        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName)
         {
             StorageCredentials credential = new StorageCredentials();
-            return new CloudStorageAccount(credential, false);
+            string blobEndPoint = String.Format(Resources.DefaultBlobEndPoint, storageAccountName);
+            string tableEndPoint = String.Format(Resources.DefaultTableEndPoint, storageAccountName);
+            string queueEndPoint = String.Format(Resources.DefaultQueueEndPoint, storageAccountName);
+            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
         }
 
+        /// <summary>
+        /// execute command
+        /// </summary>
         internal override void ExecuteCommand()
         {
             CloudStorageAccount account = null;
             bool useHttps = !("http" == protocolType.ToLower());
             switch (ParameterSetName)
             {
-                case "AccountNameKey":
+                case AccountNameKeyParameterSet:
                     account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps);
                     break;
-                case "AccountSastoken":
-                    account = GetStorageAccountBySasToken(SasToken, useHttps);
+                case SasTokenParameterSet:
+                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken, useHttps);
                     break;
-                case "ConnectionString":
+                case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
                     break;
-                case "LocalDevelopment":
+                case LocalParameterSet:
                     account = GetLocalDevelopmentStorageAccount();
                     break;
-                case "Anonymous":
-                    account = GetAnonymouseStorageAccount();
+                case AnonymousParameterSet:
+                    account = GetAnonymousStorageAccount(StorageAccountName);
                     break;
                 default:
-                    throw new ArgumentException(Resources.InvalidAccountParameterCombination);
+                    throw new ArgumentException(Resources.StorageCredentialsNotFound);
             }
             StorageContext context = new StorageContext(account);
             WriteOutputObject(context);
