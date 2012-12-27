@@ -20,6 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// resource not found exception
+    /// </summary>
     [Serializable]
     public class ResourceNotFoundException : Exception
     {

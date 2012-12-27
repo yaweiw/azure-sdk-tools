@@ -23,8 +23,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
+    /// <summary>
+    /// storage test utility
+    /// </summary>
     public static class StorageTestUtil
     {
+        /// <summary>
+        /// clean data in mock command runtime
+        /// </summary>
+        /// <param name="runtime"></param>
         public static void Clean(this MockCommandRuntime runtime)
         {
             runtime.ErrorRecords.Clear();

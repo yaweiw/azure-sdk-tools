@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} begin processing {1}..
+        /// </summary>
+        internal static string BeginProcessingLog {
+            get {
+                return ResourceManager.GetString("BeginProcessingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blob &apos;{0}&apos; in container &apos;{1}&apos; already exists..
         /// </summary>
         internal static string BlobAlreadyExists {
@@ -70,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Percent : {0}% Speed : {1}.
+        ///   Looks up a localized string similar to Percent : {0}% Speed : {1}..
         /// </summary>
         internal static string BlobDownloadingStatus {
             get {
@@ -79,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blob End Point: {0}.
+        ///   Looks up a localized string similar to Blob End Point: {0}..
         /// </summary>
         internal static string BlobEndPointTips {
             get {
@@ -97,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not find blob &apos;{0}&apos; in container &apos;{1} &apos;.
+        ///   Looks up a localized string similar to Can not find blob &apos;{0}&apos; in container &apos;{1}&apos;..
         /// </summary>
         internal static string BlobNotFound {
             get {
@@ -106,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blob type mismatched, the current blob type of {0} is {1}..
+        ///   Looks up a localized string similar to Blob type mismatched, the current blob type of &apos;{0}&apos; is {1}..
         /// </summary>
         internal static string BlobTypeMismatch {
             get {
@@ -115,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not send a directory to azure {0}..
+        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. This cmdlet only works with files..
         /// </summary>
         internal static string CannotSendDirectory {
             get {
@@ -124,7 +133,25 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure to remove Container {0} ?.
+        ///   Looks up a localized string similar to Azure-Storage-PowerShell-{0}.
+        /// </summary>
+        internal static string ClientRequestIdFormat {
+            get {
+                return ResourceManager.GetString("ClientRequestIdFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CloudBlobClient is null..
+        /// </summary>
+        internal static string CloudBlobClientIsNull {
+            get {
+                return ResourceManager.GetString("CloudBlobClientIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure to remove container &apos;{0}&apos; ?.
         /// </summary>
         internal static string ConfirmRemoveContainer {
             get {
@@ -133,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confirm to Remove Azure Container.
+        ///   Looks up a localized string similar to Confirm to remove azure container..
         /// </summary>
         internal static string ConfirmRemoveContainerCaption {
             get {
@@ -142,7 +169,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Container &apos;{0}&apos; already exists!.
+        ///   Looks up a localized string similar to Container &apos;{0}&apos; already exists..
         /// </summary>
         internal static string ContainerAlreadyExists {
             get {
@@ -151,11 +178,38 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not find the container &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Can not find the container &apos;{0}&apos;..
         /// </summary>
         internal static string ContainerNotFound {
             get {
                 return ResourceManager.GetString("ContainerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://{0}.blob.core.windows.net/.
+        /// </summary>
+        internal static string DefaultBlobEndPoint {
+            get {
+                return ResourceManager.GetString("DefaultBlobEndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://{0}.queue.core.windows.net/.
+        /// </summary>
+        internal static string DefaultQueueEndPoint {
+            get {
+                return ResourceManager.GetString("DefaultQueueEndPoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://{0}.table.core.windows.net/.
+        /// </summary>
+        internal static string DefaultTableEndPoint {
+            get {
+                return ResourceManager.GetString("DefaultTableEndPoint", resourceCulture);
             }
         }
         
@@ -178,11 +232,29 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download blob {0} successful..
+        ///   Looks up a localized string similar to Download blob &apos;{0}&apos; successful..
         /// </summary>
         internal static string DownloadBlobSuccessful {
             get {
                 return ResourceManager.GetString("DownloadBlobSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} end processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.
+        /// </summary>
+        internal static string EndProcessingLog {
+            get {
+                return ResourceManager.GetString("EndProcessingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exception cannot be null or empty..
+        /// </summary>
+        internal static string ExceptionCannotEmpty {
+            get {
+                return ResourceManager.GetString("ExceptionCannotEmpty", resourceCulture);
             }
         }
         
@@ -196,7 +268,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not find the specified file. {0}.
+        ///   Looks up a localized string similar to Can not find the specified file &apos;{0}&apos;..
         /// </summary>
         internal static string FileNotFound {
             get {
@@ -205,11 +277,20 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Percent : {0}% Speed : {1} bytes/second.
+        ///   Looks up a localized string similar to Percent : {0}% Speed : {1} bytes/second..
         /// </summary>
-        internal static string FileUploadingStatus {
+        internal static string FileTransmitStatus {
             get {
-                return ResourceManager.GetString("FileUploadingStatus", resourceCulture);
+                return ResourceManager.GetString("FileTransmitStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finish remote call with status code {0} and service request id {1}..
+        /// </summary>
+        internal static string FinishRemoteCall {
+            get {
+                return ResourceManager.GetString("FinishRemoteCall", resourceCulture);
             }
         }
         
@@ -223,6 +304,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Init Operation Context with operation id {0}..
+        /// </summary>
+        internal static string InitOperationContextLog {
+            get {
+                return ResourceManager.GetString("InitOperationContextLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to invalid parameter combination, please see the command help..
         /// </summary>
         internal static string InvalidAccountParameterCombination {
@@ -232,7 +322,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Blob name &apos;{0}&apos; is invalid.
+        ///   Looks up a localized string similar to Blob name &apos;{0}&apos; is invalid..
         /// </summary>
         internal static string InValidBlobName {
             get {
@@ -259,7 +349,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid ExpiryTime {0}..
+        ///   Looks up a localized string similar to Invalid expiry time &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidExpiryTime {
             get {
@@ -277,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Queue name &apos;{0}&apos; is invalid.
+        ///   Looks up a localized string similar to Queue name &apos;{0}&apos; is invalid..
         /// </summary>
         internal static string InvalidQueueName {
             get {
@@ -286,16 +376,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The lifetime of the shared access signature must be less than one hours..
-        /// </summary>
-        internal static string InvalidSASLifeTime {
-            get {
-                return ResourceManager.GetString("InvalidSASLifeTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid Start Time {0}..
+        ///   Looks up a localized string similar to Invalid start time &apos;{0}&apos;..
         /// </summary>
         internal static string InvalidStartTime {
             get {
@@ -304,7 +385,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Table name &apos;{0}&apos; is invalid.
+        ///   Looks up a localized string similar to Table name &apos;{0}&apos; is invalid..
         /// </summary>
         internal static string InvalidTableName {
             get {
@@ -313,7 +394,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to object &quot;{0}&quot; cannot be null..
+        ///   Looks up a localized string similar to object &apos;{0}&apos; cannot be null..
         /// </summary>
         internal static string ObjectCannotBeNull {
             get {
@@ -331,7 +412,16 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Prepare to upload blob.
+        ///   Looks up a localized string similar to using ParameterSet {0}..
+        /// </summary>
+        internal static string ParameterSetLog {
+            get {
+                return ResourceManager.GetString("ParameterSetLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Prepare to upload blob..
         /// </summary>
         internal static string PrepareUploadingBlob {
             get {
@@ -358,7 +448,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Download bob {0} into {1}.
+        ///   Looks up a localized string similar to Download blob &apos;{0}&apos; into &apos;{1}&apos;..
         /// </summary>
         internal static string ReceiveAzureBlobActivity {
             get {
@@ -367,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove blob &apos;{0}&apos; in container &quot;{1}&quot; successfully.
+        ///   Looks up a localized string similar to Removed blob &apos;{0}&apos; in container &apos;{1}&apos; successfully..
         /// </summary>
         internal static string RemoveBlobSuccessfully {
             get {
@@ -376,7 +466,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The remove operation of container {0} has been cancelled.
+        ///   Looks up a localized string similar to The remove operation of container &apos;{0}&apos; has been cancelled..
         /// </summary>
         internal static string RemoveContainerCancelled {
             get {
@@ -385,7 +475,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove container &apos;{0}&apos; successfully.
+        ///   Looks up a localized string similar to Removed container &apos;{0}&apos; successfully..
         /// </summary>
         internal static string RemoveContainerSuccessfully {
             get {
@@ -394,7 +484,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The remove operation of queue {0} has been cancelled.
+        ///   Looks up a localized string similar to The remove operation of queue &apos;{0}&apos; has been cancelled..
         /// </summary>
         internal static string RemoveQueueCancelled {
             get {
@@ -403,7 +493,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove queue &apos;{0}&apos; successfully..
+        ///   Looks up a localized string similar to Removed queue &apos;{0}&apos; successfully..
         /// </summary>
         internal static string RemoveQueueSuccessfully {
             get {
@@ -412,7 +502,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The remove operation of table {0} has been cancelled.
+        ///   Looks up a localized string similar to The remove operation of table &apos;{0}&apos; has been cancelled..
         /// </summary>
         internal static string RemoveTableCancelled {
             get {
@@ -421,7 +511,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remove table &apos;{0}&apos; successfully.
+        ///   Looks up a localized string similar to Removed table &apos;{0}&apos; successfully..
         /// </summary>
         internal static string RemoveTableSuccessfully {
             get {
@@ -430,7 +520,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload file {0} into blob {1} in container {2}..
+        ///   Looks up a localized string similar to Upload file &apos;{0}&apos; into blob &apos;{1}&apos; in container &apos;{2}&apos;..
         /// </summary>
         internal static string SendAzureBlobActivity {
             get {
@@ -439,7 +529,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload local file {0} into blob {1} cancelled..
+        ///   Looks up a localized string similar to Upload local file &apos;{0}&apos; into blob &apos;{1}&apos; cancelled..
         /// </summary>
         internal static string SendAzureBlobCancelled {
             get {
@@ -448,7 +538,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start to Downloading Blob {0}.
+        ///   Looks up a localized string similar to Start to download blob &apos;{0}&apos; into &apos;{1}&apos;..
         /// </summary>
         internal static string StartDownloadBlob {
             get {
@@ -457,11 +547,29 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start to Upload {0} into Blob {1}.
+        ///   Looks up a localized string similar to Start {0}th remote call, method: {1}, destion : {2}..
+        /// </summary>
+        internal static string StartRemoteCall {
+            get {
+                return ResourceManager.GetString("StartRemoteCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start to upload &apos;{0}&apos; into blob &apos;{1}&apos;..
         /// </summary>
         internal static string StartUploadFile {
             get {
                 return ResourceManager.GetString("StartUploadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.
+        /// </summary>
+        internal static string StopProcessingLog {
+            get {
+                return ResourceManager.GetString("StopProcessingLog", resourceCulture);
             }
         }
         
@@ -471,6 +579,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string StorageCredentialsNotFound {
             get {
                 return ResourceManager.GetString("StorageCredentialsNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}.
+        /// </summary>
+        internal static string StorageExceptionDetails {
+            get {
+                return ResourceManager.GetString("StorageExceptionDetails", resourceCulture);
             }
         }
         
@@ -493,7 +610,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unknown Blob.
+        ///   Looks up a localized string similar to Unknown blob..
         /// </summary>
         internal static string UnknownBlob {
             get {
@@ -502,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not upload local file to azure blob. {0}.
+        ///   Looks up a localized string similar to Can not upload local file to azure blob. Error: {0}..
         /// </summary>
         internal static string Upload2BlobFailed {
             get {
@@ -511,7 +628,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload file {0} failed,  Error : {1}.
+        ///   Looks up a localized string similar to Upload file &apos;{0}&apos; failed.  Error: &apos;{1}&apos;..
         /// </summary>
         internal static string UploadFileFailed {
             get {
@@ -520,11 +637,29 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload file {0} successfully..
+        ///   Looks up a localized string similar to Upload file &apos;{0}&apos; successfully..
         /// </summary>
         internal static string UploadFileSuccessfully {
             get {
                 return ResourceManager.GetString("UploadFileSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}..
+        /// </summary>
+        internal static string VerboseLogFormat {
+            get {
+                return ResourceManager.GetString("VerboseLogFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to without ParameterSet..
+        /// </summary>
+        internal static string WithoutParameterSet {
+            get {
+                return ResourceManager.GetString("WithoutParameterSet", resourceCulture);
             }
         }
     }

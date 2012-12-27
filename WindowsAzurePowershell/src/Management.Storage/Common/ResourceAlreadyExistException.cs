@@ -20,6 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// resource already exist exception
+    /// </summary>
     [Serializable]
     public class ResourceAlreadyExistException : Exception
     {

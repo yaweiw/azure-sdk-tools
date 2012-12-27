@@ -14,20 +14,20 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 {
-    using System;
-    using System.Text;
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model;
     using Microsoft.WindowsAzure.Management.Storage.Test.Service;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Storage.Model;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     /// <summary>
-    /// Summary description for GetAzureContainerTest
+    /// unit test for get azure storage container cmdlet
     /// </summary>
     [TestClass]
     public class GetAzureStorageContainerTest : StorageBlobTestBase
@@ -51,75 +51,86 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         [TestMethod]
-        public void ListContainersByNameTest()
+        public void ListContainersByNameWithEmptyNameTest()
         {
             //list all the azure container
-            command.ListContainersByName();
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+            List<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
+            Assert.AreEqual(0, containerList.Count);
 
             AddTestContainers();
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByName();
-            Assert.AreEqual(5, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+            containerList = command.ListContainersByName(String.Empty);
+            Assert.AreEqual(5, containerList.Count);
+        }
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByName("te*t");
-            Assert.AreEqual(2, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+        [TestMethod]
+        public void ListContainersByNameWithWildCardsTest()
+        {
+            AddTestContainers();
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByName("tx*t");
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+            List<CloudBlobContainer> containerList = command.ListContainersByName("te*t");
+            Assert.AreEqual(2, containerList.Count);
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
+            containerList = command.ListContainersByName("tx*t");
+            Assert.AreEqual(0, containerList.Count);
+
+            containerList = command.ListContainersByName("t?st");
+            Assert.AreEqual(1, containerList.Count);
+            Assert.AreEqual("test", containerList[0].Name);
+        }
+
+        [TestMethod]
+        public void ListContainersByNameWithInvalidNameTest()
+        {
             string invalidName = "a";
-            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName), 
+            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName),
                 String.Format(Resources.InvalidContainerName, invalidName));
             invalidName = "xx%%d";
-            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName), 
+            AssertThrows<ArgumentException>(() => command.ListContainersByName(invalidName),
                 String.Format(Resources.InvalidContainerName, invalidName));
-            
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByName("t?st");
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
-            Assert.AreEqual("test", container.Name);
+        }
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByName("text");
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
-            container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
-            Assert.AreEqual("text", container.Name);
+        [TestMethod]
+        public void ListContainersByNameWithContainerNameTest()
+        {
+            AddTestContainers();
+            List<CloudBlobContainer> containerList = command.ListContainersByName("text");
+            Assert.AreEqual(1, containerList.Count);
+            Assert.AreEqual("text", containerList[0].Name);
+        }
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
+        [TestMethod]
+        public void ListContainersByNameWithNotExistingContainerTest()
+        {
             string notExistingName = "abcdefg";
-            AssertThrows<ResourceNotFoundException>(() => command.ListContainersByName(notExistingName), 
+            AssertThrows<ResourceNotFoundException>(() => command.ListContainersByName(notExistingName),
                 String.Format(Resources.ContainerNotFound, notExistingName));
         }
 
         [TestMethod]
         public void ListContainersByPrefixTest()
         {
-            command.ListContainersByPrefix("");
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
-
             AddTestContainers();
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByPrefix("te");
-            Assert.AreEqual(2, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+
+            List<CloudBlobContainer> containerList = command.ListContainersByPrefix("te");
+            Assert.AreEqual(2, containerList.Count);
+            
+            containerList = command.ListContainersByPrefix("tes");
+            Assert.AreEqual(1, containerList.Count);
+            Assert.AreEqual("test", containerList[0].Name);
 
             ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByPrefix("tes");
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
-            Assert.AreEqual("test", container.Name);
+            containerList = command.ListContainersByPrefix("testx");
+            Assert.AreEqual(0, containerList.Count);
+        }
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.ListContainersByPrefix("testx");
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
-
+        [TestMethod]
+        public void ListContainerByPrefixWithInvalidPrefixTest()
+        {
             ((MockCommandRuntime)command.CommandRuntime).Clean();
             string prefix = "?";
+            AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix), String.Format(Resources.InvalidContainerName, prefix));
+            prefix = string.Empty;
             AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix), String.Format(Resources.InvalidContainerName, prefix));
         }
 
@@ -130,23 +141,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
 
             ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.WriteContainersWithAcl(blobMock.containerList);
+            command.WriteContainersWithAcl(blobMock.ContainerList);
             Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
 
             AddTestContainers();
             ((MockCommandRuntime)command.CommandRuntime).Clean();
-            command.WriteContainersWithAcl(blobMock.containerList);
+            command.WriteContainersWithAcl(blobMock.ContainerList);
             Assert.AreEqual(5, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
         }
 
         [TestMethod]
         public void ExecuteCommandGetContainerTest()
         {
-            int accountCount = 0;
             AddTestContainers();
             command.Name = "test";
             command.ExecuteCommand();
-            Assert.AreEqual(accountCount + 1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
         }
     }
 }

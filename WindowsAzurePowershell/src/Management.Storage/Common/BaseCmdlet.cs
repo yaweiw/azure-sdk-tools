@@ -25,86 +25,95 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Management.Automation;
     using System.Text;
 
+    /// <summary>
+    /// base cmdlet for cmdlet in storage package
+    /// </summary>
     public class BaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
-        //FIXME this operationContext are from SDK
-        protected OperationContext operationContext = null;
+        /// <summary>
+        /// cmdlet operation context.
+        /// </summary>
+        protected OperationContext operationContext { get; private set; }
         private int restCallCount = 0;
 
+        /// <summary>
+        /// forbidden to write output to console in order to get a quick response for users interaction such as ctrl c
+        /// </summary>
+        private bool forbiddenWriteOutput = false;
+
+        /// <summary>
+        /// init storage client operation context
+        /// </summary>
         internal void InitOperationContext()
         {
             operationContext = new OperationContext();
-            operationContext.StartTime = DateTime.Now;
+            operationContext.Init();
+
             operationContext.SendingRequest += (s, e) =>
             {
                 restCallCount++;
-                string message = String.Format("Start {0}th remote call: {1} {2}",
+                string message = String.Format(Resources.StartRemoteCall,
                     restCallCount, e.Request.Method, e.Request.RequestUri.ToString());
                 SafeWriteVerboseLog(message);
             };
-            //FIXME can not work with ctrl + c
+            
             operationContext.ResponseReceived += (s, e) =>
             {
-                string message = String.Format("Finish remote call with status code {0} and service request id {1}",
+                string message = String.Format(Resources.FinishRemoteCall,
                     e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
                 SafeWriteVerboseLog(message);
             };
-            operationContext.ClientRequestID = GetClientRequestID();
-            SafeWriteVerboseLog("Init Operation Context with operation id " + operationContext.ClientRequestID);
+
+            SafeWriteVerboseLog(String.Format(Resources.InitOperationContextLog, operationContext.ClientRequestID));
         }
 
-        internal string GetClientRequestID()
-        {
-            string prefix = "Azure-Storage-PowerShell-";
-            string uniqueId = System.Guid.NewGuid().ToString();
-            return prefix + uniqueId;
-        }
-
-        //FIXME tips should not in pipeline and can not be sorted.
-        internal void SafeWriteTips(string message)
-        {
-            //WriteOutputObject(message);
-        }
-
+        /// <summary>
+        /// write log in verbose mode
+        /// </summary>
+        /// <param name="msg">verbose log</param>
         internal void SafeWriteVerboseLog(string msg)
         {
             string time = DateTime.Now.ToString();
-            string log = String.Format("{0} {1}", time, msg);
-            SafeWriteVerbose(log);
-        }
-
-        internal double GetRunningMilliseconds()
-        {
-            if (operationContext == null)
+            string log = String.Format(Resources.VerboseLogFormat, time, msg);
+            if (!forbiddenWriteOutput)
             {
-                return 0;
+                SafeWriteVerbose(log);
             }
-            TimeSpan span = DateTime.Now - operationContext.StartTime;
-            return span.TotalMilliseconds;
         }
 
+        /// <summary>
+        /// cmdlet begin process
+        /// </summary>
         protected override void BeginProcessing()
         {
             InitOperationContext();
-            string message = String.Format("using ParameterSet {0}", ParameterSetName);
+            string message = String.Format(Resources.ParameterSetLog, ParameterSetName);
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                message = "without ParameterSet";
+                message = Resources.WithoutParameterSet;
             }
-            SafeWriteVerboseLog(this.GetType().Name + " begin processing " + message);
+            SafeWriteVerboseLog(String.Format(Resources.BeginProcessingLog, this.GetType().Name, message));
             base.BeginProcessing();
         }
 
+        /// <summary>
+        /// write error detials for storageexception
+        /// </summary>
+        /// <param name="exception"></param>
         protected virtual void WriteErrorDetails(StorageException exception)
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError;
-            exception = StorageExceptionUtil.RepackStorageException(exception);
+            exception = exception.RepackStorageException();
             SafeWriteError(new ErrorRecord(exception, exception.GetType().Name, errorCategory, null));
         }
 
+        /// <summary>
+        /// safe write error
+        /// </summary>
+        /// <param name="e"></param>
         protected override void SafeWriteError(Exception e)
         {
-            Debug.Assert(e != null, "ex cannot be null or empty.");
+            Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
 
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
             if (e is ArgumentException)
@@ -127,11 +136,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             SafeWriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
         }
 
+        /// <summary>
+        /// execute command
+        /// </summary>
         internal virtual void ExecuteCommand()
         {
             return;
         }
 
+        /// <summary>
+        /// process record
+        /// </summary>
         protected override void ProcessRecord()
         {
             try
@@ -147,22 +162,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
         }
 
+        /// <summary>
+        /// end processing
+        /// </summary>
         protected override void EndProcessing()
         {
             base.EndProcessing();
-            double timespan = GetRunningMilliseconds();
-            string message = string.Format("{0} end processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Operation id: {3}",
+            double timespan = operationContext.GetRunningMilliseconds();
+            string message = string.Format(Resources.EndProcessingLog,
                 this.GetType().Name, restCallCount, timespan, operationContext.ClientRequestID);
             SafeWriteVerboseLog(message);
         }
 
-        //FIXME can not be called
+        /// <summary>
+        /// stop processing
+        /// </summary>
         protected override void StopProcessing()
         {
-            double timespan = GetRunningMilliseconds();
-            string message = string.Format("{0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Operation id: {3}",
-                this.GetType().Name, restCallCount, timespan, operationContext.ClientRequestID);
-            SafeWriteVerboseLog(message);
+            forbiddenWriteOutput = true;
             base.StopProcessing();
         }
     }

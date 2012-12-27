@@ -6,20 +6,33 @@
     using System.Linq;
     using System.Text;
 
-    class StorageExceptionUtil
+    /// <summary>
+    /// storage exception utility
+    /// </summary>
+    public static class StorageExceptionUtil
     {
-        public static bool IsNotFoundException(StorageException e)
+        /// <summary>
+        /// whether the storage exception is resource not found exception or not.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static bool IsNotFoundException(this StorageException e)
         {
             return e.RequestInformation != null && e.RequestInformation.HttpStatusCode == 404;
         }
 
-        public static StorageException RepackStorageException(StorageException e)
+        /// <summary>
+        /// repace storage exception to expose more information in Message.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        public static StorageException RepackStorageException(this StorageException e)
         {
             if (null != e.RequestInformation &&
                 null != e.RequestInformation.HttpStatusMessage)
             {
                 String msg = string.Format(
-                    "{0}. HTTP Status Code: {1} - HTTP Error Message: {2}",
+                    Resources.StorageExceptionDetails,
                     e.Message,
                     e.RequestInformation.HttpStatusCode,
                     e.RequestInformation.HttpStatusMessage);
