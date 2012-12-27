@@ -351,6 +351,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy(updatedWebsite);
                 linkedRevisionControl.Dispose();
             }
+
+            WriteObject(webspace);
         }
     }
 }
