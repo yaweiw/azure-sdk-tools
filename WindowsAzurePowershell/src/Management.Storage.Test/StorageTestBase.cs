@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
             catch (Exception ex)
             {
                 Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual<string>(ex.Message, expectedMessage);
+                Assert.AreEqual<string>(expectedMessage, ex.Message);
             }
         }
     }

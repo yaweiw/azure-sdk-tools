@@ -41,38 +41,6 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Blob.ContainerAclInfo</Name>
-      <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Blob.ContainerAclInfo</TypeName>
-      </ViewSelectedBy>
-      <TableControl>
-        <TableHeaders>
-          <TableColumnHeader>
-            <Label>Container Name</Label>
-            <Width>40</Width>
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Access Level</Label>
-            <width>40</width>
-            <Alignment>Left</Alignment>
-          </TableColumnHeader>
-        </TableHeaders>
-        <TableRowEntries>
-          <TableRowEntry>
-            <TableColumnItems>
-              <TableColumnItem>
-                <ScriptBlock>$_.Name</ScriptBlock>
-              </TableColumnItem>
-              <TableColumnItem>
-                <ScriptBlock>$_.AccessLevel</ScriptBlock>
-              </TableColumnItem>
-            </TableColumnItems>
-          </TableRowEntry>
-        </TableRowEntries>
-      </TableControl>
-    </View>
-  <View>
       <Name>Microsoft.WindowsAzure.Storage.Blob.ICloudBlob</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.ICloudBlob</TypeName>
@@ -146,7 +114,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
-  <View>
+    <View>
       <Name>Microsoft.WindowsAzure.Storage.Table.CloudTable</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Table.CloudTable</TypeName>
@@ -178,7 +146,7 @@
         </TableRowEntries>
       </TableControl>
     </View>
-  <View>
+    <View>
       <Name>Microsoft.WindowsAzure.Storage.Queue.CloudQueue</Name>
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Queue.CloudQueue</TypeName>
@@ -219,7 +187,7 @@
                 <ScriptBlock>
                   if (!$_.ApproximateMessageCount)
                   {
-                    "Unknown";
+                    "";
                   }
                   else
                   {
@@ -236,9 +204,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureContainer</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageContainer</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureContainer</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageContainer</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -271,6 +239,168 @@
           </TableRowEntry>
         </TableRowEntries>
       </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageBlob</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageBlob</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>BlobType</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Length</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ContentType</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>LastModified</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>SnapshotTime</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.BlobType</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Length</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.ContentType</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.LastModified</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.SnapshotTime</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageQueue</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageQueue</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Uri</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ApproximateMessageCount</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>EncodeMessage</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Uri</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.ApproximateMessageCount</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.EncodeMessage</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageTable</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageTable</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Uri</Label>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.Uri</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.StorageContext</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.StorageContext</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>StorageAccountName</Label>
+                <PropertyName>StorageAccountName</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>BlobEndPoint</Label>
+                <PropertyName>BlobEndPoint</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>TableEndPoint</Label>
+                <PropertyName>TableEndPoint</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>QueueEndPoint</Label>
+                <PropertyName>QueueEndPoint</PropertyName>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
     </View>
   </ViewDefinitions>
 </Configuration>
