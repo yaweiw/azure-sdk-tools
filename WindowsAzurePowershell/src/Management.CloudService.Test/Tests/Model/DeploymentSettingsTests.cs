@@ -62,7 +62,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             mockCommandRuntime = new MockCommandRuntime();
             importCmdlet = new ImportAzurePublishSettingsCommand();
             importCmdlet.CommandRuntime = mockCommandRuntime;
-            importCmdlet.ImportSubscriptionProcess(Resources.PublishSettingsFileName, null);
+            importCmdlet.ImportSubscriptionFile(Resources.PublishSettingsFileName, null);
         }
 
         [TestCleanup()]

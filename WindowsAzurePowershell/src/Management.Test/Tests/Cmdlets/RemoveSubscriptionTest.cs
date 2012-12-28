@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using Stubs;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class RemoveSubscriptionTest
@@ -46,8 +47,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 var targetFile = Path.Combine(Directory.GetParent(Data.ValidSubscriptionsData[i]).FullName, "removeonce" + Path.GetFileName(Data.ValidSubscriptionsData[i]));
                 File.Copy(Data.ValidSubscriptionsData[i], targetFile, true);
                 var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
-
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
                 var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
+                removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub1", targetFile);
 
                 var subscriptionsManager = SubscriptionsManager.Import(targetFile);
@@ -67,8 +69,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 var targetFile = Path.Combine(Directory.GetParent(Data.ValidSubscriptionsData[i]).FullName, "removeagain" + Path.GetFileName(Data.ValidSubscriptionsData[i]));
                 File.Copy(Data.ValidSubscriptionsData[i], targetFile, true);
                 var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
-
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
                 var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
+                removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub2", targetFile);
 
                 var subscriptionsManager = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory, targetFile);
@@ -88,9 +91,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
                 var targetFile = Path.Combine(Directory.GetParent(Data.ValidSubscriptionsData[i]).FullName, "removeonce" + Path.GetFileName(Data.ValidSubscriptionsData[i]));
                 File.Copy(Data.ValidSubscriptionsData[i], targetFile, true);
                 var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, targetFile, Data.ValidPublishSettings[i]);
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
                 
                 var removeSubscriptionCommand = new RemoveAzureSubscriptionCommand();
                 removeSubscriptionCommand.SetCurrentSubscription(globalComponents.Subscriptions["mysub1"]);
+                removeSubscriptionCommand.CommandRuntime = mockCommandRuntime;
                 removeSubscriptionCommand.RemoveSubscriptionProcess("mysub1", targetFile);
 
                 var subscriptionsManager = SubscriptionsManager.Import(targetFile);
