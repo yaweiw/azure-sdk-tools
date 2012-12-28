@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
             var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            importSubscriptionCommand.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 

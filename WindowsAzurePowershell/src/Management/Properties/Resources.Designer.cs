@@ -161,6 +161,15 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose which publish settings file to use:.
+        /// </summary>
+        internal static string ChoosePublishSettingsFile {
+            get {
+                return ResourceManager.GetString("ChoosePublishSettingsFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Communication could not be established. This could be due to an invalid subscription ID. Note that subscription IDs are case sensitive..
         /// </summary>
         internal static string CommunicationCouldNotBeEstablished {
@@ -368,11 +377,29 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The first publish settings file &quot;{0}&quot; is used. If you want to use another file specify the file name..
+        /// </summary>
+        internal static string MultiplePublishSettingsFilesFoundMessage {
+            get {
+                return ResourceManager.GetString("MultiplePublishSettingsFilesFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please connect to internet before executing this cmdlet.
         /// </summary>
         internal static string NoInternetConnection {
             get {
                 return ResourceManager.GetString("NoInternetConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No publish settings files with extension *.publishsettings are found in the directory &quot;{0}&quot;..
+        /// </summary>
+        internal static string NoPublishSettingsFilesFoundMessage {
+            get {
+                return ResourceManager.GetString("NoPublishSettingsFilesFoundMessage", resourceCulture);
             }
         }
         

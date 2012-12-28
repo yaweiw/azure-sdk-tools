@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             catch (Exception ex)
             {
                 Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual(ex.Message, expectedMessage);
+                Assert.AreEqual(expectedMessage, ex.Message);
             }
         }
         

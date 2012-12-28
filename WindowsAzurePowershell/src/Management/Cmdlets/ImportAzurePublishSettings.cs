@@ -15,9 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Properties;
     using Services;
 
@@ -25,17 +28,17 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// Imports publish profiles.
     /// </summary>
     [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
-    public class ImportAzurePublishSettingsCommand : PSCmdlet
+    public class ImportAzurePublishSettingsCommand : CmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path to the publish settings file.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the publish settings file.")]
         [ValidateNotNullOrEmpty]
         public string PublishSettingsFile { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Path to the subscription data output file.")]
-        [ValidateNotNullOrEmpty]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the subscription data output file.")]
         public string SubscriptionDataFile { get; set; }
 
-        internal void ImportSubscriptionProcess(string publishSettingsFile, string subscriptionsDataFile)
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal void ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
         {
             GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
                 GlobalPathInfo.GlobalSettingsDirectory,
@@ -63,24 +66,46 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 // into the subscriptions data file and the default subscription is updated.
                 globalComponents.SaveSubscriptions(subscriptionsDataFile);
 
-                this.SafeWriteObject(string.Format(
+                WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
                     currentDefaultSubscription.SubscriptionName));
             }
         }
 
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            try
+            string publishSettingsFile = this.TryResolvePath(PublishSettingsFile);
+            string subscriptionDataFile = this.TryResolvePath(SubscriptionDataFile);
+            string searchDirectory = Directory.Exists(publishSettingsFile) ? publishSettingsFile :
+                string.IsNullOrEmpty(publishSettingsFile) ? base.CurrentPath() : string.Empty;
+            bool multipleFilesFound = false;
+            
+            if (!string.IsNullOrEmpty(searchDirectory))
             {
-                base.ProcessRecord();
-                ImportSubscriptionProcess(
-                    this.ResolvePath(PublishSettingsFile),
-                    this.TryResolvePath(SubscriptionDataFile));
+                string[] publishSettingsFiles = Directory.GetFiles(searchDirectory, "*.publishsettings");
+
+                if (publishSettingsFiles.Length > 0)
+                {
+                    publishSettingsFile = publishSettingsFiles[0];
+                    multipleFilesFound = publishSettingsFiles.Length > 1;
+                }
+                else
+                {
+                    throw new Exception(string.Format(Resources.NoPublishSettingsFilesFoundMessage, searchDirectory));
+                }
             }
-            catch (Exception exception)
+
+            ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+
+            if (multipleFilesFound)
             {
-                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+                WriteWarning(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, publishSettingsFile));
+            }
+
+            if (!string.IsNullOrEmpty(searchDirectory))
+            {
+                WriteObject(publishSettingsFile);
             }
         }
     }
