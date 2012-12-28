@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Enables memcache for specific role.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
-    public class EnableAzureMemcacheRoleCommand : CmdletBase<IServiceManagement>
+    public class EnableAzureMemcacheRoleCommand : CmdletBase
     {
         /// <summary>
         /// The role name to edit.
