@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Start, "AzureEmulator")]
-    public class StartAzureEmulatorCommand : CmdletBase<IServiceManagement>
+    public class StartAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]

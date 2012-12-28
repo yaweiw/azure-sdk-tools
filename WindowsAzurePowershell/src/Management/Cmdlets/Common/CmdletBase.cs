@@ -19,8 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Management.Automation;
     using Utilities;
 
-    public abstract class CmdletBase<T> : PSCmdlet, IDynamicParameters
-        where T : class
+    public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {
         protected string GetServiceRootPath() { return PathUtility.FindServiceRootDirectory(CurrentPath()); }
 
