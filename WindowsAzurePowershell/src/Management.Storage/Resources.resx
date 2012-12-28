@@ -296,7 +296,7 @@
     <value>{0} {1}.</value>
     <comment>0 for time, 1 for message</comment>
   </data>
-  <data name="BeginProcesingWithoutParameterSetLog" xml:space="preserve">
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
     <value>{0} begin processing without ParameterSet.</value>
     <comment>0 for cmdlet name</comment>
   </data>
@@ -315,8 +315,8 @@
     <value>http://{0}.table.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
-  <data name="BeginProcesingWithParameterSetLog" xml:space="preserve">
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'</value>
-    <comment>0 for cmdlet name, 1  for parameter name</comment>
+    <comment>0 for cmdlet name, 1  for parameter set name</comment>
   </data>
 </root>

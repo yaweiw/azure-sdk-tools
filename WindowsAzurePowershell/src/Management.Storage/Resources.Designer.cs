@@ -63,18 +63,18 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         /// <summary>
         ///   Looks up a localized string similar to {0} begin processing without ParameterSet..
         /// </summary>
-        internal static string BeginProcesingWithoutParameterSetLog {
+        internal static string BeginProcessingWithoutParameterSetLog {
             get {
-                return ResourceManager.GetString("BeginProcesingWithoutParameterSetLog", resourceCulture);
+                return ResourceManager.GetString("BeginProcessingWithoutParameterSetLog", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;.
         /// </summary>
-        internal static string BeginProcesingWithParameterSetLog {
+        internal static string BeginProcessingWithParameterSetLog {
             get {
-                return ResourceManager.GetString("BeginProcesingWithParameterSetLog", resourceCulture);
+                return ResourceManager.GetString("BeginProcessingWithParameterSetLog", resourceCulture);
             }
         }
         

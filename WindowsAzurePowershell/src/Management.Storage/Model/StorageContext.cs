@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model
         public StorageContext Context { get; private set; }
 
         /// <summary>
-        /// name place holder, and force pipeline to ingore this property
+        /// name place holder, and force pipeline to ignore this property
         /// </summary>
         public string Name { get; private set; }
 

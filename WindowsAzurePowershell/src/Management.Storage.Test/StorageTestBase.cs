@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
         /// <summary>
         /// get an unique string
         /// </summary>
-        /// <param name="prefix">unqique string prefix</param>
+        /// <param name="prefix">unique string prefix</param>
         /// <param name="replaceBar">replace "-" to the specific character</param>
         /// <returns>an unique string</returns>
         public static string GetUniqueString(string prefix = "", string replaceBar = "-")
