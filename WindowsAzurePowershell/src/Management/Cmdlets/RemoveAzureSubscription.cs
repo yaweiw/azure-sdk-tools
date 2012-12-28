@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 // Warn the user if the removed subscription is the default one.
                 if (subscription.IsDefault)
                 {
-                    this.SafeWriteWarning(Resources.RemoveDefaultSubscription);
+                    WriteWarning(Resources.RemoveDefaultSubscription);
                     // Change default to another one
                     var newSubscriptionDefault = globalComponents.Subscriptions.Values.FirstOrDefault(s => !s.SubscriptionId.Equals(subscription.SubscriptionId));
                     if (newSubscriptionDefault != null)
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 SubscriptionData currentSubscription = this.GetCurrentSubscription();
                 if (currentSubscription != null && currentSubscription.SubscriptionId.Equals(subscription.SubscriptionId))
                 {
-                    this.SafeWriteWarning(Resources.RemoveCurrentSubscription);
+                    WriteWarning(Resources.RemoveCurrentSubscription);
 
                     // Clear current subscription to another one
                     this.ClearCurrentSubscription();
