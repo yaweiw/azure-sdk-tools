@@ -95,11 +95,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                SafeWriteVerboseLog(String.Format(Resources.BeginProcesingWithoutParameterSetLog, this.GetType().Name));
+                SafeWriteVerboseLog(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                SafeWriteVerboseLog(String.Format(Resources.BeginProcesingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                SafeWriteVerboseLog(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();

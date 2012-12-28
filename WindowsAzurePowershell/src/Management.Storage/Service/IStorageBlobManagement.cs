@@ -29,11 +29,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get a list of cloudblobcontainer in azure
         /// </summary>
-        /// <param name="prefix">contaienr prefix</param>
+        /// <param name="prefix">container prefix</param>
         /// <param name="detailsIncluded">container listing details</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>An enumerable collectioni of cloudblobcontainer</returns>
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
         IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext operationContext);
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="accessCondition">access condition</param>
         /// <param name="options">blob request options</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>return an ICloudBlob if the specific blob is existing on azure, otherwise return null</returns>
+        /// <returns>return an ICloudBlob if the specific blob exists on azure, otherwise return null</returns>
         ICloudBlob GetBlobReferenceFromServer(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="container">a cloudblobcontainer object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific container is existing, otherwise return false</returns>
+        /// <returns>true if the specific container exists, otherwise return false</returns>
         bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext);
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="blob">a icloudblob object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific container is existing, otherwise return false</returns>
+        /// <returns>true if the specific blob exists, otherwise return false</returns>
         bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext);
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="blobListingDetails">blob listing details</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloublob</returns>
+        /// <returns>an enumerable collection of icloudblob</returns>
         IEnumerable<IListBlobItem> ListBlobs(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, BlobRequestOptions options, OperationContext operationContext);
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="deleteSnapshotsOption">delete snapshots option</param>
         /// <param name="accessCondition">access condition</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloublob</returns>
+        /// <returns>an enumerable collection of icloudblob</returns>
         void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
 }

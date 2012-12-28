@@ -106,8 +106,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         /// <summary>
         /// add some blobs into a container
         /// </summary>
-        /// <param name="containerName"></param>
-        /// <param name="count"></param>
+        /// <param name="containerName">container name</param>
+        /// <param name="count">how many blobs need to be added to the container</param>
         private void AddContainerBlobs(string containerName, int count)
         {
             List<ICloudBlob> blobList = null;

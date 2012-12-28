@@ -123,10 +123,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
-        /// convert CloudBlobContainer to AzureStorageContainer
+        /// pack CloudBlobContainer and it's permission to AzureStorageContainer object
         /// </summary>
-        /// <param name="containerList">An enumerable collection of azurestoragecontainer</param>
-        internal IEnumerable<AzureStorageContainer> GetAzureStorageContainers(IEnumerable<CloudBlobContainer> containerList)
+        /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
+        /// <returns>An enumerable collection of AzureStorageContainer</returns>
+        internal IEnumerable<AzureStorageContainer> PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
         {
             if (null == containerList)
             {
@@ -160,7 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 containerList = ListContainersByName(Name);
             }
 
-            IEnumerable<AzureStorageContainer> azureContainers = GetAzureStorageContainers(containerList);
+            IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
             SafeWriteObjectWithContext(azureContainers);
         }
     }

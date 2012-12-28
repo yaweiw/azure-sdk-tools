@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         {
             //list all the azure container
             IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
-            Assert.AreEqual(0, containerList.Count());
+            Assert.IsFalse(containerList.Any());
 
             AddTestContainers();
 
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             Assert.AreEqual(2, containerList.Count());
 
             containerList = command.ListContainersByName("tx*t");
-            Assert.AreEqual(0, containerList.Count());
+            Assert.IsFalse(containerList.Any());
 
             containerList = command.ListContainersByName("t?st");
             Assert.AreEqual(1, containerList.Count());
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 
             ((MockCommandRuntime)command.CommandRuntime).Clean();
             containerList = command.ListContainersByPrefix("testx");
-            Assert.AreEqual(0, containerList.Count());
+            Assert.IsFalse(containerList.Any());
         }
 
         [TestMethod]
@@ -139,16 +139,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         [TestMethod]
-        public void GetAzureStorageContainersTest()
+        public void PackCloudBlobContainerWithAclTest()
         {
-            IEnumerable<AzureStorageContainer> containerList = command.GetAzureStorageContainers(null);
-            Assert.AreEqual(0, containerList.Count());
+            IEnumerable<AzureStorageContainer> containerList = command.PackCloudBlobContainerWithAcl(null);
+            Assert.IsFalse(containerList.Any());
 
-            containerList = command.GetAzureStorageContainers(BlobMock.ContainerList);
-            Assert.AreEqual(0, containerList.Count());
+            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerList);
+            Assert.IsFalse(containerList.Any());
 
             AddTestContainers();
-            containerList = command.GetAzureStorageContainers(BlobMock.ContainerList);
+            containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerList);
             Assert.AreEqual(5, containerList.Count());
         }
 

@@ -46,11 +46,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get a list of cloudblobcontainer in azure
         /// </summary>
-        /// <param name="prefix">contaienr prefix</param>
+        /// <param name="prefix">container prefix</param>
         /// <param name="detailsIncluded">container listing details</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>An enumerable collectioni of cloudblobcontainer</returns>
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
         public IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext operationContext)
         {
             return blobClient.ListContainers(prefix, detailsIncluded, options, operationContext);
@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="accessCondition">access condition</param>
         /// <param name="options">blob request options</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>return an ICloudBlob if the specific blob is existing on azure, otherwise return null</returns>
+        /// <returns>return an ICloudBlob if the specific blob exists on azure, otherwise return null</returns>
         public ICloudBlob GetBlobReferenceFromServer(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             try
@@ -154,7 +154,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="blobListingDetails">blob listing details</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloublob</returns>
+        /// <returns>an enumerable collection of icloudblob</returns>
         public IEnumerable<IListBlobItem> ListBlobs(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, BlobRequestOptions options, OperationContext operationContext)
         {
             return container.ListBlobs(prefix, useFlatBlobListing, blobListingDetails, options, operationContext);
@@ -166,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="container">a cloudblobcontainer object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific container is existing, otherwise return false</returns>
+        /// <returns>true if the specific container exists, otherwise return false</returns>
         public bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == container)
@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="blob">a icloudblob object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific container is existing, otherwise return false</returns>
+        /// <returns>true if the specific blob exists, otherwise return false</returns>
         public bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == blob)
@@ -205,7 +205,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="deleteSnapshotsOption">delete snapshots option</param>
         /// <param name="accessCondition">access condition</param>
         /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloublob</returns>
+        /// <returns>an enumerable collection of icloudblob</returns>
         public void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             blob.Delete(deleteSnapshotsOption, accessCondition, options, operationContext);

@@ -124,7 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns></returns>
         public static bool IsValidFileName(string fileName)
         {
-            int maxFileLength = 255;
+            //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
+            int maxFileLength = 256;
 
             if (string.IsNullOrEmpty(fileName) || fileName.Length > maxFileLength)
             {
@@ -137,10 +138,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             else
             {
                 string realName = Path.GetFileNameWithoutExtension(fileName);
-                //"CLOCK$", "COM0" are reserved
+                //"CLOCK$", "COM0", "LPT0" are reserved since it can be used as file name in commandline.
                 string[] forbiddenList = { "CON", "PRN", "AUX", "NUL", 
                     "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
-                    "LPT0", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
+                    "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
                 bool forbidden = forbiddenList.Any(item => item == realName);
                 return !forbidden;
             }
