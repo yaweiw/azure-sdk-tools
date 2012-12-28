@@ -19,15 +19,49 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// storage nouns for cmdlet name
+    /// </summary>
     public static class StorageNouns
     {
+        /// <summary>
+        /// blob cmdlet name
+        /// </summary>
         public const string Blob = "AzureStorageBlob";
+
+        /// <summary>
+        /// blobcontent cmdlet name
+        /// </summary>
         public const string BlobContent = "AzureStorageBlobContent";
+
+        /// <summary>
+        /// container cmdlet name
+        /// </summary>
         public const string Container = "AzureStorageContainer";
+
+        /// <summary>
+        /// http protocol
+        /// </summary>
         public const string HTTP = "http";
+
+        /// <summary>
+        /// https protocol
+        /// </summary>
         public const string HTTPS = "https";
+
+        /// <summary>
+        /// queue cmdlet name
+        /// </summary>
         public const string Queue = "AzureStorageQueue";
+
+        /// <summary>
+        /// storage context cmdlet name
+        /// </summary>
         public const string StorageContext = "AzureStorageContext";
+
+        /// <summary>
+        /// table cmdlet name
+        /// </summary>
         public const string Table = "AzureStorageTable";
     }
 }
