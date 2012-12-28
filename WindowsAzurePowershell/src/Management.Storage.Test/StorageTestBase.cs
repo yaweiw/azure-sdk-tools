@@ -32,9 +32,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
         /// <summary>
         /// get an unique string
         /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="replaceBar"></param>
-        /// <returns></returns>
+        /// <param name="prefix">unqique string prefix</param>
+        /// <param name="replaceBar">replace "-" to the specific character</param>
+        /// <returns>an unique string</returns>
         public static string GetUniqueString(string prefix = "", string replaceBar = "-")
         { 
             string name = prefix + System.Guid.NewGuid().ToString().Replace("-", replaceBar);

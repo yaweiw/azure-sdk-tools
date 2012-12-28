@@ -33,8 +33,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// cmdlet operation context.
         /// </summary>
-        protected OperationContext operationContext { get; private set; }
-        private int restCallCount = 0;
+        protected OperationContext OperationContext { get; private set; }
+
+        /// <summary>
+        /// remote call counter
+        /// </summary>
+        private int remoteCallCounter = 0;
 
         /// <summary>
         /// forbidden to write output to console in order to get a quick response for users interaction such as ctrl c
@@ -46,25 +50,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         internal void InitOperationContext()
         {
-            operationContext = new OperationContext();
-            operationContext.Init();
+            OperationContext = new OperationContext();
+            OperationContext.Init();
 
-            operationContext.SendingRequest += (s, e) =>
+            OperationContext.SendingRequest += (s, e) =>
             {
-                restCallCount++;
+                remoteCallCounter++;
                 string message = String.Format(Resources.StartRemoteCall,
-                    restCallCount, e.Request.Method, e.Request.RequestUri.ToString());
+                    remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
                 SafeWriteVerboseLog(message);
             };
             
-            operationContext.ResponseReceived += (s, e) =>
+            OperationContext.ResponseReceived += (s, e) =>
             {
                 string message = String.Format(Resources.FinishRemoteCall,
                     e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
                 SafeWriteVerboseLog(message);
             };
 
-            SafeWriteVerboseLog(String.Format(Resources.InitOperationContextLog, operationContext.ClientRequestID));
+            SafeWriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
         }
 
         /// <summary>
@@ -75,6 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             string time = DateTime.Now.ToString();
             string log = String.Format(Resources.VerboseLogFormat, time, msg);
+
             if (!forbiddenWriteOutput)
             {
                 SafeWriteVerbose(log);
@@ -87,19 +92,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void BeginProcessing()
         {
             InitOperationContext();
-            string message = String.Format(Resources.ParameterSetLog, ParameterSetName);
+
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                message = Resources.WithoutParameterSet;
+                SafeWriteVerboseLog(String.Format(Resources.BeginProcesingWithoutParameterSetLog, this.GetType().Name));
             }
-            SafeWriteVerboseLog(String.Format(Resources.BeginProcessingLog, this.GetType().Name, message));
+            else
+            {
+                SafeWriteVerboseLog(String.Format(Resources.BeginProcesingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+            }
+
             base.BeginProcessing();
         }
 
         /// <summary>
         /// write error detials for storageexception
         /// </summary>
-        /// <param name="exception"></param>
+        /// <param name="exception">StorageException from storage client</param>
         protected virtual void WriteErrorDetails(StorageException exception)
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError;
@@ -110,12 +119,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// safe write error
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">an exception object</param>
         protected override void SafeWriteError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
 
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
+
             if (e is ArgumentException)
             {
                 errorCategory = ErrorCategory.InvalidArgument;
@@ -133,6 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 WriteErrorDetails((StorageException)e);
                 return;
             }
+
             SafeWriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
         }
 
@@ -151,7 +162,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             try
             {
-
                 base.ProcessRecord();
 
                 this.ExecuteCommand();
@@ -168,9 +178,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void EndProcessing()
         {
             base.EndProcessing();
-            double timespan = operationContext.GetRunningMilliseconds();
+            double timespan = OperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
-                this.GetType().Name, restCallCount, timespan, operationContext.ClientRequestID);
+                this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
             SafeWriteVerboseLog(message);
         }
 

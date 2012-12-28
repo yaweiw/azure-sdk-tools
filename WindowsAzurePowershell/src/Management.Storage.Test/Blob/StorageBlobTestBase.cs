@@ -27,18 +27,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     /// </summary>
     public class StorageBlobTestBase : StorageTestBase
     {
-        public MockStorageBlobManagement blobMock = null;
+        /// <summary>
+        /// mock blob management
+        /// </summary>
+        public MockStorageBlobManagement BlobMock
+        {
+            get;
+            set;
+        }
 
         [TestInitialize]
         public void InitMock()
         {
-            blobMock = new MockStorageBlobManagement();
+            BlobMock = new MockStorageBlobManagement();
         }
 
         [TestCleanup]
         public void CleanMock()
         {
-            blobMock = null;
+            BlobMock = null;
         }
 
         /// <summary>
@@ -46,9 +53,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         /// </summary>
         private void CleanTestData()
         {
-            blobMock.ContainerList.Clear();
-            blobMock.ContainerPermissions.Clear();
-            blobMock.ContainerBlobs.Clear();
+            BlobMock.ContainerList.Clear();
+            BlobMock.ContainerPermissions.Clear();
+            BlobMock.ContainerBlobs.Clear();
         }
 
         /// <summary>
@@ -62,21 +69,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             string publicOffUri = "http://127.0.0.1/account/publicoff";
             string publicBlobUri = "http://127.0.0.1/account/publicblob";
             string publicContainerUri = "http://127.0.0.1/account/publiccontainer";
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(testUri)));
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(textUri)));
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicOffUri)));
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicBlobUri)));
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicContainerUri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(testUri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(textUri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicOffUri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicBlobUri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(publicContainerUri)));
 
             BlobContainerPermissions publicOff = new BlobContainerPermissions();
             publicOff.PublicAccess = BlobContainerPublicAccessType.Off;
-            blobMock.ContainerPermissions.Add("publicoff", publicOff);
+            BlobMock.ContainerPermissions.Add("publicoff", publicOff);
             BlobContainerPermissions publicBlob = new BlobContainerPermissions();
             publicBlob.PublicAccess = BlobContainerPublicAccessType.Blob;
-            blobMock.ContainerPermissions.Add("publicblob", publicBlob);
+            BlobMock.ContainerPermissions.Add("publicblob", publicBlob);
             BlobContainerPermissions publicContainer = new BlobContainerPermissions();
             publicContainer.PublicAccess = BlobContainerPublicAccessType.Container;
-            blobMock.ContainerPermissions.Add("publiccontainer", publicContainer);
+            BlobMock.ContainerPermissions.Add("publiccontainer", publicContainer);
         }
 
         /// <summary>
@@ -88,11 +95,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             string container0Uri = "http://127.0.0.1/account/container0";
             string container1Uri = "http://127.0.0.1/account/container1";
             string container20Uri = "http://127.0.0.1/account/container20";
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container0Uri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container0Uri)));
             AddContainerBlobs("container0", 0);
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container1Uri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container1Uri)));
             AddContainerBlobs("container1", 1);
-            blobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container20Uri)));
+            BlobMock.ContainerList.Add(new CloudBlobContainer(new Uri(container20Uri)));
             AddContainerBlobs("container20", 20);
         }
 
@@ -104,19 +111,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         private void AddContainerBlobs(string containerName, int count)
         {
             List<ICloudBlob> blobList = null;
-            if (blobMock.ContainerBlobs.ContainsKey(containerName))
+
+            if (BlobMock.ContainerBlobs.ContainsKey(containerName))
             {
-                blobList = blobMock.ContainerBlobs[containerName];
+                blobList = BlobMock.ContainerBlobs[containerName];
                 blobList.Clear();
             }
             else
             {
                 blobList = new List<ICloudBlob>();
-                blobMock.ContainerBlobs.Add(containerName, blobList);
+                BlobMock.ContainerBlobs.Add(containerName, blobList);
             }
+
             string prefix = "blob";
             string uri = string.Empty;
             string endPoint = "http://127.0.0.1/account";
+
             for(int i = 0; i < count; i++)
             {
                 uri = string.Format("{0}/{1}/{2}{3}", endPoint, containerName, prefix, i);

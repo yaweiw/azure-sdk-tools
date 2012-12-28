@@ -57,32 +57,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// list containers by container name pattern.
         /// </summary>
         /// <param name="name">container name pattern</param>
-        internal List<CloudBlobContainer> ListContainersByName(string name)
+        /// <returns>An enumerable collection of cloudblob container</returns>
+        internal IEnumerable<CloudBlobContainer> ListContainersByName(string name)
         {
-            List<CloudBlobContainer> containerList = new List<CloudBlobContainer>();
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             string prefix = string.Empty;
             BlobRequestOptions requestOptions = null;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
-                IEnumerable<CloudBlobContainer> containers = blobClient.ListContainers(prefix, details, requestOptions, operationContext);
-
-                if (String.IsNullOrEmpty(name))
+                IEnumerable<CloudBlobContainer> containers = BlobClient.ListContainers(prefix, details, requestOptions, OperationContext);
+                WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
+                WildcardPattern wildcard = null;
+                
+                if (!string.IsNullOrEmpty(name))
                 {
-                    containerList.AddRange(containers);
+                    wildcard = new WildcardPattern(name, options);
                 }
-                else
+
+                foreach (CloudBlobContainer container in containers)
                 {
-                    WildcardOptions options = WildcardOptions.IgnoreCase |
-                          WildcardOptions.Compiled;
-                    WildcardPattern wildcard = new WildcardPattern(name, options);
-                    foreach (CloudBlobContainer container in containers)
+                    if (null == wildcard || wildcard.IsMatch(container.Name))
                     {
-                        if (wildcard.IsMatch(container.Name))
-                        {
-                            containerList.Add(container);
-                        }
+                        yield return container;
                     }
                 }
             }
@@ -93,27 +90,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                     throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
                 }
 
-                CloudBlobContainer container = blobClient.GetContainerReference(name);
-                if (blobClient.IsContainerExists(container, requestOptions, operationContext))
+                CloudBlobContainer container = BlobClient.GetContainerReference(name);
+
+                if (BlobClient.IsContainerExists(container, requestOptions, OperationContext))
                 {
-                    containerList.Add(container);
+                    yield return container;
                 }
                 else
                 {
                     throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
                 }
             }
-
-            return containerList;
         }
 
         /// <summary>
         /// list containers by container name prefix
         /// </summary>
         /// <param name="prefix">container name prefix</param>
-        internal List<CloudBlobContainer> ListContainersByPrefix(string prefix)
+        /// <returns>An enumerable collection of cloudblobcontainer</returns>
+        internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
         {
-            List<CloudBlobContainer> containerList = new List<CloudBlobContainer>();
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             BlobRequestOptions requestOptions = null;
 
@@ -122,20 +118,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, prefix));
             }
 
-            IEnumerable<CloudBlobContainer> containers = blobClient.ListContainers(prefix, details, requestOptions, operationContext);
-            containerList.AddRange(containers);
-            return containerList;
+            IEnumerable<CloudBlobContainer> containers = BlobClient.ListContainers(prefix, details, requestOptions, OperationContext);
+            return containers;
         }
 
         /// <summary>
         /// convert CloudBlobContainer to AzureStorageContainer
         /// </summary>
-        /// <param name="containerList">cloud blob container list</param>
-        internal void WriteContainersWithAcl(List<CloudBlobContainer> containerList)
+        /// <param name="containerList">An enumerable collection of azurestoragecontainer</param>
+        internal IEnumerable<AzureStorageContainer> GetAzureStorageContainers(IEnumerable<CloudBlobContainer> containerList)
         {
             if (null == containerList)
             {
-                return;
+                yield break;
             }
 
             BlobRequestOptions requestOptions = null;
@@ -143,10 +138,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
             foreach (CloudBlobContainer container in containerList)
             {
-                BlobContainerPermissions permissions = blobClient.GetContainerPermissions(container, accessCondition, requestOptions, operationContext);
+                BlobContainerPermissions permissions = BlobClient.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
                 AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
-                //output the container when it's ready will reduce the latency.
-                SafeWriteObjectWithContext(azureContainer);
+                yield return azureContainer;
             }
         }
 
@@ -155,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         internal override void ExecuteCommand()
         {
-            List<CloudBlobContainer> containerList = null;
+            IEnumerable<CloudBlobContainer> containerList = null;
 
             if (PrefixParameterSet == ParameterSetName)
             {
@@ -166,7 +160,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 containerList = ListContainersByName(Name);
             }
 
-            WriteContainersWithAcl(containerList);
+            IEnumerable<AzureStorageContainer> azureContainers = GetAzureStorageContainers(containerList);
+            SafeWriteObjectWithContext(azureContainers);
         }
     }
 }

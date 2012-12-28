@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get an unique client request id
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a unique request id</returns>
         public static string GetClientRequestID(this OperationContext operationContext)
         {
             string uniqueId = System.Guid.NewGuid().ToString();
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get the running ms from when operationcontext started
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a time string in ms</returns>
         public static double GetRunningMilliseconds(this OperationContext operationContext)
         {
             TimeSpan span = DateTime.Now - operationContext.StartTime;

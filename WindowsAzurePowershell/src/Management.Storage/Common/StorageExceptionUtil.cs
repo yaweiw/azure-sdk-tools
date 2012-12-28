@@ -28,8 +28,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// whether the storage exception is resource not found exception or not.
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
+        /// <param name="e">StorageException from storage client</param>
+        /// <returns>whether the storageexception is caused by resource not found</returns>
         public static bool IsNotFoundException(this StorageException e)
         {
             return e.RequestInformation != null && e.RequestInformation.HttpStatusCode == 404;
@@ -38,8 +38,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// repace storage exception to expose more information in Message.
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
+        /// <param name="e">StorageException from storage client</param>
+        /// <returns>a new storage exception with detailed error message</returns>
         public static StorageException RepackStorageException(this StorageException e)
         {
             if (null != e.RequestInformation &&
@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                     e.RequestInformation.HttpStatusMessage);
                 e = new StorageException(e.RequestInformation, msg, e);
             }
+
             return e;
         }
     }

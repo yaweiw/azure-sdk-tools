@@ -123,10 +123,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get storage account by account name and account key
         /// </summary>
-        /// <param name="accountName"></param>
-        /// <param name="accountKey"></param>
-        /// <param name="useHttps"></param>
-        /// <returns></returns>
+        /// <param name="accountName">storage account name</param>
+        /// <param name="accountKey">storage account key</param>
+        /// <param name="useHttps">whether use https</param>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
@@ -136,23 +136,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get storage account by sastoken
         /// </summary>
-        /// <param name="sasToken"></param>
-        /// <param name="useHttps"></param>
-        /// <returns></returns>
+        /// <param name="storageAccountName">storage account name, it's used for build end point</param>
+        /// <param name="sasToken">sas token</param>
+        /// <param name="useHttps">whether use https</param>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(SasToken);
-            string blobEndPoint = String.Format(Resources.DefaultBlobEndPoint, storageAccountName);
-            string tableEndPoint = String.Format(Resources.DefaultTableEndPoint, storageAccountName);
-            string queueEndPoint = String.Format(Resources.DefaultQueueEndPoint, storageAccountName);
-            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
+            return GetStorageAccountWithEndPoint(credential, storageAccountName);
         }
 
         /// <summary>
         /// get storage account by connection string
         /// </summary>
-        /// <param name="connectionString"></param>
-        /// <returns></returns>
+        /// <param name="connectionString">azure storage connection string</param>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetStorageAccountByConnectionString(string connectionString)
         {
             return CloudStorageAccount.Parse(connectionString);
@@ -161,7 +159,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get local development storage account
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetLocalDevelopmentStorageAccount()
         {
             return CloudStorageAccount.DevelopmentStorageAccount;
@@ -170,10 +168,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get anonymous storage account
         /// </summary>
-        /// <returns></returns>
+        /// <param name="storageAccountName">storage account name, it's used for build end point</param>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName)
         {
             StorageCredentials credential = new StorageCredentials();
+            return GetStorageAccountWithEndPoint(credential, storageAccountName);
+        }
+
+        /// <summary>
+        /// get storage account and use specific end point
+        /// </summary>
+        /// <param name="credential">storage credentail</param>
+        /// <param name="storageAccountName">storage account name, it's used for build end point</param>
+        /// <returns>a storage account</returns>
+        internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
+        {
             string blobEndPoint = String.Format(Resources.DefaultBlobEndPoint, storageAccountName);
             string tableEndPoint = String.Format(Resources.DefaultTableEndPoint, storageAccountName);
             string queueEndPoint = String.Format(Resources.DefaultQueueEndPoint, storageAccountName);
@@ -187,6 +197,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             CloudStorageAccount account = null;
             bool useHttps = !("http" == protocolType.ToLower());
+
             switch (ParameterSetName)
             {
                 case AccountNameKeyParameterSet:
@@ -207,6 +218,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 default:
                     throw new ArgumentException(Resources.StorageCredentialsNotFound);
             }
+
             StorageContext context = new StorageContext(account);
             WriteOutputObject(context);
         }

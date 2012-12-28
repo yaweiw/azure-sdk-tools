@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
         /// <summary>
         /// clean data in mock command runtime
         /// </summary>
-        /// <param name="runtime"></param>
+        /// <param name="runtime">Mock powershell command runtime</param>
         public static void Clean(this MockCommandRuntime runtime)
         {
             runtime.ErrorRecords.Clear();
