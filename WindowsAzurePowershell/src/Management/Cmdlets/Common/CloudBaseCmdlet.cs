@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using Utilities;
     using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
-    public abstract class CloudBaseCmdlet<T> : CmdletBase<T>
+    public abstract class CloudBaseCmdlet<T> : CmdletBase
         where T : class
     {
         private SubscriptionData _currentSubscription;
