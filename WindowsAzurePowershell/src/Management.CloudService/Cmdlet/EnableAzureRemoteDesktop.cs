@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "AzureServiceProjectRemoteDesktop")]
-    public class EnableAzureServiceProjectRemoteDesktopCommand : CmdletBase<IServiceManagement>
+    public class EnableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true)]
         [Alias("user")]

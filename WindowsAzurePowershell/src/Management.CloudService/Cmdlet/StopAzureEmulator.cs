@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator")]
-    public class StopAzureEmulatorCommand : CmdletBase<IServiceManagement>
+    public class StopAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]

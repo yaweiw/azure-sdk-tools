@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
-    public class SetSettings : CmdletBase<IServiceManagement>
+    public class SetSettings : CmdletBase
     {
         // Uncomment this to enable global set for settings
         //[Parameter(Position = 1, Mandatory = false)]
