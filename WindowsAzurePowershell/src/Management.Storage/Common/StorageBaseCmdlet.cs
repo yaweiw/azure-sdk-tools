@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get cloud storage account 
         /// </summary>
-        /// <returns>sotrage account</returns>
+        /// <returns>storage account</returns>
         internal CloudStorageAccount GetCloudStorageAccount()
         {
             if (Context != null)
@@ -64,17 +64,35 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// output azure storage object with storage context
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="item">an AzureStorageBase object</param>
         internal void SafeWriteObjectWithContext(AzureStorageBase item)
         {
             item.Context = Context;
             WriteOutputObject(item);
         }
 
+
+        /// <summary>
+        /// output azure storage object with storage context
+        /// </summary>
+        /// <param name="item">an eunmerable collection fo azurestorage object</param>
+        internal void SafeWriteObjectWithContext(IEnumerable<AzureStorageBase>  itemList)
+        {
+            if (null == itemList)
+            {
+                return;
+            }
+
+            foreach (AzureStorageBase item in itemList)
+            {
+                SafeWriteObjectWithContext(item);
+            }
+        }
+
         /// <summary>
         /// get current storage account from azure subscription
         /// </summary>
-        /// <returns></returns>
+        /// <returns>a storage account</returns>
         internal CloudStorageAccount GetCurrentStorageAccount()
         {
             //----------------------------------------------------
@@ -84,24 +102,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             // When azure powershell upgrade, So do this interface.
             //
             //----------------------------------------------------
+
+            //palceholder for getting storage account from subscription
             SubscriptionData subscription = new SubscriptionData();
             subscription.SubscriptionId = "";
             subscription.CurrentStorageAccount = "";
             //FIXME this only works with sdk 1.8, and the mangemange project should be upgraded
             //subscription.GetCurrentStorageAccount(Channel);
             //throw new NotImplementedException("Current Azure Subscription can not work with sdk 2.0, please use new-azurestoragecontext");
-            string envAccountName = "AZURE_STORAGE_ACCOUNT";
-            string envAccountKey = "AZURE_STORAGE_ACCESS_KEY";
-            String accountName = System.Environment.GetEnvironmentVariable(envAccountName);
-            String accountKey = System.Environment.GetEnvironmentVariable(envAccountKey);
-            if (String.IsNullOrEmpty(accountName) || String.IsNullOrEmpty(accountKey))
+            string envConnectionString = "AZURE_STORAGE_CONNECTION_STRING";
+            String connectionString = System.Environment.GetEnvironmentVariable(envConnectionString);
+
+            if (String.IsNullOrEmpty(connectionString))
             {
                 throw new ArgumentException(Resources.StorageCredentialsNotFound);
             }
             else
             {
-                StorageCredentials credential = new StorageCredentials(accountName, accountKey);
-                return new CloudStorageAccount(credential, true);
+                return CloudStorageAccount.Parse(connectionString);
             }
         }
 

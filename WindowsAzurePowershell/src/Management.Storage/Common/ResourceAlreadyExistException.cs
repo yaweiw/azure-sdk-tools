@@ -26,6 +26,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     [Serializable]
     public class ResourceAlreadyExistException : Exception
     {
+        /// <summary>
+        /// create a new instance with error message
+        /// </summary>
+        /// <param name="message">error message</param>
         public ResourceAlreadyExistException(String message)
             : base(message)
         { }

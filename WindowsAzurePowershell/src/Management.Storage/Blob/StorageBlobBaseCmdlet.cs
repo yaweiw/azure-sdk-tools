@@ -27,9 +27,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// </summary>
     public class StorageBlobBaseCmdlet : StorageBaseCmdlet
     {
-        internal IBlobManagement blobClient { get; set; }
+        /// <summary>
+        /// blob client for IBlobManagement
+        /// </summary>
+        internal IStorageBlobManagement BlobClient { get; set; }
         
-        //auto clean blob client in order to work with multiple storage account
+        /// <summary>
+        /// auto clean blob client in order to work with multiple storage account
+        /// </summary>
         private bool autoClean = false;
 
         /// <summary>
@@ -42,13 +47,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
+
             if (!NameUtil.IsValidBlobName(blob.Name))
             {
-                throw new ArgumentException(String.Format(Resources.InValidBlobName, blob.Name));
+                throw new ArgumentException(String.Format(Resources.InvalidBlobName, blob.Name));
             }
+
             ValidatePipelineCloudBlobContainer(blob.Container);
             BlobRequestOptions requestOptions = null;
-            if (!blobClient.IsBlobExists(blob, requestOptions, operationContext))
+
+            if (!BlobClient.IsBlobExists(blob, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
             }
@@ -57,20 +65,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Make sure the container is valid and already existing 
         /// </summary>
-        /// <param name="container"></param>
-        /// //TODO cache for validation? too many remote calls
+        /// <param name="container">A CloudBlobContainer object</param>
         internal void ValidatePipelineCloudBlobContainer(CloudBlobContainer container)
         {
             if (null == container)
             {
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(CloudBlobContainer).Name));
             }
+
             if (!NameUtil.IsValidContainerName(container.Name))
             {
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, container.Name));
             }
+
             BlobRequestOptions requestOptions = null;
-            if (!blobClient.IsContainerExists(container, requestOptions, operationContext))
+
+            if (!BlobClient.IsContainerExists(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
             }
@@ -79,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// get blob client
         /// </summary>
-        /// <returns></returns>
+        /// <returns>CloudBlobClient with default retry policy and settings</returns>
         protected CloudBlobClient GetCloudBlobClient()
         {
             //use the default retry policy in storage client
@@ -92,10 +102,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         protected override void ProcessRecord()
         {
-            if (blobClient == null)
+            if (BlobClient == null)
             {
                 autoClean = true;
-                blobClient = new BlobManagement(GetCloudBlobClient());
+                BlobClient = new StorageBlobManagement(GetCloudBlobClient());
             }
 
             try
@@ -104,10 +114,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             finally
             {
-
                 if (autoClean)
                 {
-                    blobClient = null;
+                    BlobClient = null;
                     autoClean = false;
                 }
             }

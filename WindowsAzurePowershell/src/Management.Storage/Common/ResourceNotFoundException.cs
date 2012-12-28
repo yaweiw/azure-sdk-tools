@@ -26,6 +26,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     [Serializable]
     public class ResourceNotFoundException : Exception
     {
+        /// <summary>
+        /// create a new instance with error message
+        /// </summary>
+        /// <param name="message">error message</param>
         public ResourceNotFoundException(string message)
             : base(message)
         { }

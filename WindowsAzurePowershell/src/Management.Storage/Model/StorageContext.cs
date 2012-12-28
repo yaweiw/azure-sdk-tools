@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model
         /// <summary>
         /// create a storage context usign cloud storage account
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name="account">cloud storage account</param>
         public StorageContext(CloudStorageAccount account)
         {
             StorageAccount = account;
