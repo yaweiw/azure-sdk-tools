@@ -35,5 +35,5 @@ if ($available)
 }
 else
 {
-	Write-Error "The namespace name (" + $name ") is already used"
+	Write-Error $("The namespace name (" + $name + ") is already used")
 }

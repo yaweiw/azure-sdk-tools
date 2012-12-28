@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
+    using System;
+    using System.IO;
     using System.Linq;
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
+    using Microsoft.WindowsAzure.Management.Properties;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Model;
     using Stubs;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.IO;
-    using Microsoft.WindowsAzure.Management.Properties;
-    using System;
 
     [TestClass]
     public class ImportAzurePublishSettingsTest

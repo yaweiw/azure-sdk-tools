@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Properties;
     using Services;
+    using Microsoft.WindowsAzure.Management.Model;
 
     /// <summary>
     /// Imports publish profiles.
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
         public string SubscriptionDataFile { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal void ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
+        internal SubscriptionData ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
         {
             GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
                 GlobalPathInfo.GlobalSettingsDirectory,
@@ -66,10 +67,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 // into the subscriptions data file and the default subscription is updated.
                 globalComponents.SaveSubscriptions(subscriptionsDataFile);
 
-                WriteVerbose(string.Format(
-                    Resources.DefaultAndCurrentSubscription,
-                    currentDefaultSubscription.SubscriptionName));
+                return currentDefaultSubscription;
             }
+
+            return null;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -96,7 +97,14 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 }
             }
 
-            ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+            SubscriptionData defaultSubscription = ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+
+            if (defaultSubscription != null)
+            {
+                WriteVerbose(string.Format(
+                    Resources.DefaultAndCurrentSubscription,
+                    defaultSubscription.SubscriptionName));
+            }
 
             if (multipleFilesFound)
             {
