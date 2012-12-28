@@ -281,7 +281,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             AzureSdkPath = CreateDirectory("AzureSdk");
             GlobalPathInfo.GlobalSettingsDirectory = AzureSdkPath;
             new ImportAzurePublishSettingsCommand()
-                .ImportSubscriptionProcess(publishSettingsPath, null);
+                .ImportSubscriptionFile(publishSettingsPath, null);
             GlobalPathInfo.GlobalSettingsDirectory = AzureSdkPath;
 
             return AzureSdkPath;

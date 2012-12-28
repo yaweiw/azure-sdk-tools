@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     public class MockCommandRuntime : ICommandRuntime
     {
         public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
-        public List<object> WrittenObjects = new List<object>(); 
-        public StringBuilder WarningOutput = new StringBuilder();
+        public List<object> WrittenObjects = new List<object>();
+        public List<string> WarningStream = new List<string>();
         public List<string> VerboseChannel = new List<string>();
 
         public override string ToString()
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteWarning(string text)
         {
-            this.WarningOutput.AppendLine(text);
+            this.WarningStream.Add(text);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         {
             ErrorRecords.Clear();
             WrittenObjects.Clear();
-            WarningOutput.Clear();
+            WarningStream.Clear();
             VerboseChannel.Clear();
         }
     }
