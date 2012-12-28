@@ -20,6 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// operation context utility
+    /// </summary>
     public static class OperationContextUtil
     {
         /// <summary>

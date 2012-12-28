@@ -30,10 +30,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         DefaultParameterSetName = AccountNameKeyParameterSet)]
     public class NewAzureStorageContext : BaseCmdlet
     {
+        /// <summary>
+        /// default parameter set name
+        /// </summary>
         private const string AccountNameKeyParameterSet = "AccountNameAndKey";
+
+        /// <summary>
+        /// sas token parameter set name
+        /// </summary>
         private const string SasTokenParameterSet = "SasToken";
+
+        /// <summary>
+        /// connection string parameter set name
+        /// </summary>
         private const string ConnectionStringParameterSet = "ConnectionString";
+
+        /// <summary>
+        /// local development account parameter set name
+        /// </summary>
         private const string LocalParameterSet = "LocalDevelopment";
+
+        /// <summary>
+        /// anonymous storage account parameter set name
+        /// </summary>
         private const string AnonymousParameterSet = "AnonymousAccount";
 
         [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
