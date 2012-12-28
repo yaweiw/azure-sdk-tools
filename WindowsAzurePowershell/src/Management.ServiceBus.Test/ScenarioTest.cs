@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         [TestCategory("Scenario"), TestMethod]
         public void CreateAndGetServiceBusNamespace()
         {
-            string serviceBusNamespaceName = "CreateAndGetServiceBusNamespace";
+            string serviceBusNamespaceName = "OneSDKCreateAndGetServiceBusNamespace";
             int locationIndex = 5; // North Central US
             string expectedRemoveVerbose = string.Format(Resources.RemovingNamespaceMessage, serviceBusNamespaceName);
 

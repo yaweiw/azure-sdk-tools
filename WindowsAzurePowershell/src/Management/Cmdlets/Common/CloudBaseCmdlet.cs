@@ -440,7 +440,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (input != null)
             {
-                this.SafeWriteVerboseOutputForObject(input);
+                this.WriteVerboseOutputForObject(input);
             }
 
             IContextChannel contextChannel = Channel as IContextChannel;
