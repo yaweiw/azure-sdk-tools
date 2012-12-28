@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
-    public abstract class AddRole : CmdletBase<IServiceManagement>
+    public abstract class AddRole : CmdletBase
     {
         int instanceCount;
 

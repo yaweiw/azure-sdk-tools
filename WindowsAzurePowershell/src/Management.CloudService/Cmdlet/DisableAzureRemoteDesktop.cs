@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
     [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
-    public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase<IServiceManagement>
+    public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
