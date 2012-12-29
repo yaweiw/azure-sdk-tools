@@ -193,7 +193,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
             }
 
-            return ServiceManagementHelper.CreateServiceManagementChannel<T>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
+            return ServiceManagementHelper.CreateServiceManagementChannel<T>(
+                ServiceBinding,
+                new Uri(ServiceEndpoint), CurrentSubscription.Certificate,
+                new HttpRestMessageInspector(this));
         }
 
         protected void RetryCall(Action<string> call)
