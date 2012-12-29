@@ -37,19 +37,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             set;
         }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of subscription which has this service")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of subscription which has this service")]
         public string Subscription
         {
             get;
             set;
         }
 
-        [Parameter(HelpMessage = "Do not confirm deletion of deployment")]
+        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of deployment")]
         public SwitchParameter Force
         {
             get;
             set;
         }
+
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public RemoveAzureServiceCommand() { }
 
@@ -89,7 +92,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             WriteVerboseWithTimestamp(Resources.RemoveServiceMessage);
             RemoveService(serviceName);
 
-            WriteObject(true);
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
+
             WriteVerboseWithTimestamp(Resources.RemoveCompleteMessage);
         }
 

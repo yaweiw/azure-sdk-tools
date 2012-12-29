@@ -39,6 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new SetAzureServiceProjectRoleCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.PassThru = true;
         }
 
         [TestMethod]
@@ -51,19 +52,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Resources.NodeScaffolding);
+                cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
                 Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
 
             }
         }
-
 
         [TestMethod]
         public void SetAzureInstancesProcessTestsPHP()

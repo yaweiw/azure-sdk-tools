@@ -24,17 +24,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Set, "AzureServiceProject")]
     public class SetAzureServiceProjectCommand : SetSettings
     {
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Slot { set; get; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Storage { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Subscription { get; set; }
+
+        [Parameter(Position = 4, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public ServiceSettings SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
@@ -65,7 +68,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 settings.Save(settingsPath);
             }
 
-            WriteObject(settings);
+            if (PassThru)
+            {
+                WriteObject(settings);
+            }
 
             return settings;
         }
