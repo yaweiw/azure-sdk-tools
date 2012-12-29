@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     [TestClass]
     public class EnableAzureRemoteDesktopCommandTest : TestBase
     {
-        private MockCommandRuntime mockCommandRuntime;
+        static private MockCommandRuntime mockCommandRuntime;
 
         static private EnableAzureServiceProjectRemoteDesktopCommand enableRDCmdlet;
 
@@ -189,6 +189,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 string root = files.CreateNewService("NEW_SERVICE");
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
                 addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                mockCommandRuntime.ResetPipelines();
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the roles have been setup with forwarding, access,
@@ -197,6 +198,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyRoleSettings(service);
+                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
             }
         }
 
@@ -214,8 +216,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole_2", 1, root);
                 addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_1", 1, root);
                 addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_2", 1, root);
+                mockCommandRuntime.ResetPipelines();
                 
+                enableRDCmdlet.PassThru = true;
                 EnableRemoteDesktop("user", "GoodPassword!");
+
+                enableRDCmdlet.PassThru = false;
                 EnableRemoteDesktop("other", "OtherPassword!");
 
                 // Verify the roles have been setup with forwarding, access,
@@ -226,6 +232,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[1], false);
                 VerifyRoleSettings(service);
+                Assert.AreEqual<int>(1, mockCommandRuntime.WrittenObjects.Count);
+                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
             }
         }
     }

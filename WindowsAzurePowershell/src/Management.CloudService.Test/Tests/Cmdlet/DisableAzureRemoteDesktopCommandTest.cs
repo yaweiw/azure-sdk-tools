@@ -97,7 +97,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                disableRDCmdlet.PassThru = true;
                 disableRDCmdlet.DisableRemoteDesktop();
+
+                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[1]);
             }
         }
 

@@ -56,6 +56,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
 
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -114,6 +117,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
             WriteVerbose(message);
+            if (PassThru)
+            {
+                WriteObject(azureService.Components.GetCloudConfigRole(roleName));
+            }
 
             return azureService.Components.GetWebRole(roleName);
         }
