@@ -33,11 +33,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
     public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
+        [Parameter(Position = 0, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            base.ExecuteCmdlet();
 
             DisableRemoteDesktop();
         }
@@ -54,6 +56,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 UpdateServiceConfigurations(service, forwarderName);
                 service.Components.Save(service.Paths);
+            }
+
+            if (PassThru)
+            {
+                WriteObject(true);
             }
         }
 

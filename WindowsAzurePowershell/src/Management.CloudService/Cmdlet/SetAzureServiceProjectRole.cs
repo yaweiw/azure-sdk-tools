@@ -52,6 +52,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
 
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// The code to run if setting azure instances
         /// </summary>
@@ -63,7 +66,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AzureService service = new AzureService(rootPath, null);
             service.SetRoleInstances(service.Paths, roleName, instances);
 
-            SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
 
             return service.Components.GetCloudConfigRole(roleName);
         }
@@ -83,7 +89,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AzureService service = new AzureService(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
 
-            SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
 
             return service.Components.GetCloudConfigRole(roleName);
         }

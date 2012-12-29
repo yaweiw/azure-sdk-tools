@@ -48,11 +48,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            base.ExecuteCmdlet();
 
             EnableRemoteDesktop();
         }
@@ -91,6 +93,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             
             UpdateServiceConfigurations(service, forwarderName, certElement, encryptedPassword);
             service.Components.Save(service.Paths);
+
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
         }
 
         private X509Certificate2 FindCertificate()

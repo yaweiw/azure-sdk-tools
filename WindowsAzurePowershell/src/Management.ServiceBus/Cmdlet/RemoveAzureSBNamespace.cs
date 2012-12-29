@@ -31,6 +31,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
+        [Parameter(Position = 1, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
         /// </summary>
@@ -67,6 +70,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
                 {
                     Channel.DeleteServiceBusNamespace(subscriptionId, name);
                     WriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
+                    
+                    if (PassThru)
+                    {
+                        WriteObject(true);
+                    }
                 }
                 else
                 {

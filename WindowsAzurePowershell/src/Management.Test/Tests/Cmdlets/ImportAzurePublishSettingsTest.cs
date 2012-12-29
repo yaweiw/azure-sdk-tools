@@ -159,6 +159,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             string directoryName = "testdir";
             string fileName = "myfile.publishsettings";
             Directory.CreateDirectory(directoryName);
+            string originalDirectory = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(Path.GetFullPath(directoryName));
             File.WriteAllText(fileName, File.ReadAllText(Data.ValidPublishSettings.First()));
 
@@ -168,6 +169,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
             Assert.AreEqual<string>(Path.GetFullPath(fileName), mockCommandRuntime.WrittenObjects[0].ToString());
+            Directory.SetCurrentDirectory(originalDirectory);
+            Assert.AreEqual<string>(originalDirectory, Directory.GetCurrentDirectory());
         }
 
         [TestMethod]
@@ -178,13 +181,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
-            string directoryName = "testdir";
+            string directoryName = "testdir3";
+            string originalDirectory = Directory.GetCurrentDirectory();
             Directory.CreateDirectory(directoryName);
             Directory.SetCurrentDirectory(Path.GetFullPath(directoryName));
 
             Testing.AssertThrows<Exception>(
                 () => cmdlet.ExecuteCmdlet(), 
                 string.Format(Resources.NoPublishSettingsFilesFoundMessage, Directory.GetCurrentDirectory()));
+            Directory.SetCurrentDirectory(originalDirectory);
+            Assert.AreEqual<string>(originalDirectory, Directory.GetCurrentDirectory());
         }
 
         [TestMethod]
@@ -195,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
-            string directoryName = "testdir";
+            string directoryName = "testdir2";
             string fileName1 = "myfile1.publishsettings";
             string fileName2 = "myfile2.publishsettings";
             string filePath1 = Path.Combine(directoryName, fileName1);
