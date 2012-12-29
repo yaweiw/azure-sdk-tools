@@ -365,5 +365,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
             General.LaunchWebPage(uriBuilder.ToString());
         }
+
+        /// <summary>
+        /// Convert the given array into string.
+        /// </summary>
+        /// <typeparam name="T">The type of the object array is holding</typeparam>
+        /// <param name="array">The collection</param>
+        /// <param name="delimiter">The used delimiter between array elements</param>
+        /// <returns>The array into string representation</returns>
+        public static string ArrayToString<T>(this T[] array, string delimiter)
+        {
+            return (array == null) ? null : (array.Length == 0) ? string.Empty : array.Skip(1).Aggregate(new StringBuilder(array[0].ToString()), (s, i) => s.Append(delimiter).Append(i), s => s.ToString());
+        }
     }
 }
