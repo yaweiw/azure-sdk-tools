@@ -139,6 +139,7 @@
     <Compile Include="Extensions\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Extensions\CmdletExtensions.cs" />
     <Compile Include="Model\AzureServiceManagementException.cs" />
+    <Compile Include="Model\HttpRestMessageInspector.cs" />
     <Compile Include="Model\InnerDataServiceException.cs" />
     <Compile Include="Model\ManagementOperationContext.cs" />
     <Compile Include="Services\GlobalComponents.cs" />
