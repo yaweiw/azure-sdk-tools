@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
-    using Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
     using Services;
@@ -28,40 +28,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Runs the service in the emulator
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator")]
-    public class StopAzureEmulatorCommand : CloudCmdlet<IServiceManagement>
+    public class StopAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public string StopAzureEmulatorProcess()
+        public void StopAzureEmulatorProcess()
         {
             string standardOutput;
             string standardError;
 
             AzureService service = new AzureService();
-            SafeWriteObject(Resources.StopEmulatorMessage);
+            WriteVerbose(Resources.StopEmulatorMessage);
             service.StopEmulator(out standardOutput, out standardError);
-            SafeWriteObject(Resources.StoppedEmulatorMessage);
-            return null;
+            
+            WriteVerbose(Resources.StoppedEmulatorMessage);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = this.StopAzureEmulatorProcess();
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AzureTool.Validate();
+            base.ExecuteCmdlet();
+            StopAzureEmulatorProcess();
         }
     }
 }

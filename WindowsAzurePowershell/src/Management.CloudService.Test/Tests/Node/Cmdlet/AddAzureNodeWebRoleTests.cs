@@ -12,27 +12,59 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Node.Cmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
+    using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AddAzureNodeWebRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
         [TestMethod]
         public void AddAzureNodeWebRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, Path.Combine(files.RootPath, "AzureService"));
+                string roleName = "WebRole1";
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(roleName, 1, rootPath);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WebRole"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
+                Assert.AreEqual<string>(roleName, Testing.GetPSVariableValue<string>((PSObject)mockCommandRuntime.WrittenObjects[1], Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseChannel[1]);
             }
         }
     }

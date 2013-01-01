@@ -19,14 +19,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureSBNamespace")]
-    public class NewAzureSBNamespaceCommand : CloudCmdlet<IServiceManagement>
+    public class NewAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
@@ -60,9 +60,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="name">The namespace name</param>
         /// <param name="region">The region name</param>
         /// <returns>The created service bus namespace</returns>
-        internal ServiceBusNamespace NewServiceBusNamespaceProcess(string subscriptionId, string name, string region)
+        public override void ExecuteCmdlet()
         {
             ServiceBusNamespace namespaceDescription = null;
+            string subscriptionId = CurrentSubscription.SubscriptionId;
+            string name = Name;
+            string region = Location;
 
             if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
             {
@@ -78,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 namespaceDescription = new ServiceBusNamespace { Region = region };
                 namespaceDescription = Channel.CreateServiceBusNamespace(subscriptionId, namespaceDescription, name);
-                WriteOutputObject(namespaceDescription);
+                WriteObject(namespaceDescription);
             }
             catch (Exception ex)
             {
@@ -87,17 +90,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
                     throw new Exception(Resources.NewNamespaceErrorMessage);
                 }
             }
-
-            return namespaceDescription;
-        }
-
-        /// <summary>
-        /// Executes the cmdlet.
-        /// </summary>
-        public override void ExecuteCmdlet()
-        {
-            base.ExecuteCmdlet();
-            NewServiceBusNamespaceProcess(CurrentSubscription.SubscriptionId, Name, Location);
         }
     }
 }

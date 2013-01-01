@@ -22,12 +22,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Common;
     using Management.Utilities;
     using Properties;
     using Services;
-    using Services.WebEntities;
-    using Common;
     using Services.Github;
+    using Services.WebEntities;
 
     /// <summary>
     /// Creates a new azure website.
@@ -161,7 +161,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
             {
-                throw new Exception(Resources.InvalidGitCredentials);
+                if (ShouldProcess(Resources.InvalidGitCredentials) && ShouldContinue("", ""))
+                {
+                    General.LaunchWindowsAzurePortal(null, null);
+                }
             } 
             
             if (!(validUsers.Count() == 1 && users.Count() == 1))
@@ -190,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
         }
@@ -307,7 +310,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
 
@@ -348,6 +351,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy(updatedWebsite);
                 linkedRevisionControl.Dispose();
             }
+
+            WriteObject(webspace);
         }
     }
 }

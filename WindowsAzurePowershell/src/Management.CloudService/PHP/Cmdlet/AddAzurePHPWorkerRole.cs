@@ -16,47 +16,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
     /// <summary>
-    /// Create scaffolding for a new PHP worker role, change cscfg file and csdef to include the added worker role
+    /// Create scaffolding for a new php worker role, change cscfg file and csdef to include the added worker role
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole")]
-    public class AddAzureNodeWorkerRoleCommand : AddRole
+    public class AddAzurePHPWorkerRoleCommand : AddRole
     {
-        internal string AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        internal void AddAzurePHPWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
-            string result;
             AzureService service = new AzureService(rootPath, null);
             RoleInfo workerRole = service.AddWorkerRole(Resources.PHPScaffolding, workerRoleName, instances);
+
             try
             {
                 service.ChangeRolePermissions(workerRole);
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
-                SafeWriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                SafeWriteObject(Environment.NewLine);
+                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-
-            result = string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name);
-            return result;
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = AddAzureNodeWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AddAzurePHPWorkerRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }

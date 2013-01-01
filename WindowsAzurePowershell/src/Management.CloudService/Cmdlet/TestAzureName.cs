@@ -15,11 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName")]
-    public class TestAzureNameCommand : CloudCmdlet<IServiceManagement>
+    public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public TestAzureNameCommand()
         {
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
 
-            WriteOutputObject(result.Result);
+            WriteObject(result.Result);
 
             return result;
         }
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
             
-            WriteOutputObject(result.Result);
+            WriteObject(result.Result);
 
             return result;
         }
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             ServiceBusNamespaceAvailabiliyResponse result = Channel.IsServiceBusNamespaceAvailable(subscriptionId, name);
             
-            WriteOutputObject(result.Result);
+            WriteObject(result.Result);
 
             return result;
         }

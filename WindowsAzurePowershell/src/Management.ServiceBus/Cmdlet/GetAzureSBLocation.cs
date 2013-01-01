@@ -17,13 +17,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBLocation")]
-    public class GetAzureSBLocationCommand : CloudCmdlet<IServiceManagement>
+    public class GetAzureSBLocationCommand : CloudBaseCmdlet<IServiceManagement>
     {
         /// <summary>
         /// Initializes a new instance of the GetAzureSBLocationCommand class.
@@ -47,23 +47,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <summary>
         /// Gets list of service bus regions on the given subscription.
         /// </summary>
-        /// <param name="subscriptionId"></param>
-        /// <returns></returns>
-        internal List<ServiceBusRegion> GetServiceBusRegionsProcess(string subscriptionId)
-        {
-            List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(subscriptionId);
-            WriteOutputObject(regions);
-
-            return regions;
-        }
-
-        /// <summary>
-        /// Executes the cmdlet.
-        /// </summary>
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-            GetServiceBusRegionsProcess(CurrentSubscription.SubscriptionId);
+            List<ServiceBusRegion> regions = Channel.ListServiceBusRegions(CurrentSubscription.SubscriptionId);
+            WriteObject(regions, true);
         }
     }
 }

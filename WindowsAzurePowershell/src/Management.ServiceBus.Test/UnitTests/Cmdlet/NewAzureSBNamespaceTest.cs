@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -38,10 +39,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
             ServiceBusNamespace expected = new ServiceBusNamespace { Name = name, Region = location };
             channel.CreateServiceBusNamespaceThunk = csbn => { return expected; };
             channel.ListServiceBusRegionsThunk = lsbr => 
@@ -55,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = writer.OutputChannel[0] as ServiceBusNamespace;
+            ServiceBusNamespace actual = mockCommandRuntime.WrittenObjects[0] as ServiceBusNamespace;
             Assert.AreEqual<ServiceBusNamespace>(expected, actual);
         }
 
@@ -67,8 +68,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 
             foreach (string invalidName in invalidNames)
             {
-                FakeWriter writer = new FakeWriter();
-                NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand() { Name = invalidName, Location = "West US", Writer = writer };
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+                NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand() { Name = invalidName, Location = "West US", CommandRuntime = mockCommandRuntime };
                 string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
 
                 Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
@@ -80,10 +81,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "West US";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
             channel.CreateServiceBusNamespaceThunk = csbns => { throw new Exception(Resources.InternalServerErrorMessage); };
             channel.ListServiceBusRegionsThunk = lsbr =>
             {
@@ -101,10 +102,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             SimpleServiceManagement channel = new SimpleServiceManagement();
-            FakeWriter writer = new FakeWriter();
+            MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "Invalid location";
-            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, Writer = writer };
+            NewAzureSBNamespaceCommand cmdlet = new NewAzureSBNamespaceCommand(channel) { Name = name, Location = location, CommandRuntime = mockCommandRuntime };
             channel.ListServiceBusRegionsThunk = lsbr =>
             {
                 List<ServiceBusRegion> list = new List<ServiceBusRegion>();

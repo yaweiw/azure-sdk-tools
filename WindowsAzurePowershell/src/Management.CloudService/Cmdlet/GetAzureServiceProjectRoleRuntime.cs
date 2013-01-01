@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
 
@@ -25,15 +25,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Retrieve a list of role runtimes available in the cloud
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime")]
-    public class GetAzureServiceProjectRoleRuntimeCommand : CloudCmdlet<IServiceManagement>
+    public class GetAzureServiceProjectRoleRuntimeCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
-
-        public GetAzureServiceProjectRoleRuntimeCommand()
-        {
-            SkipChannelInit = true;
-        }
 
         /// <summary>
         /// Retrieve the runtimes from the given manifest, or from the default cloud location, if none given.
@@ -47,8 +42,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureService service = new AzureService(rootPath, null);
             CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
-            WriteOutputObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
-                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>());
+            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
+                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

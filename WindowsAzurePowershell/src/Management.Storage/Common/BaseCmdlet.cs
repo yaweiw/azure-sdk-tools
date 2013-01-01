@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// safe write error
         /// </summary>
         /// <param name="e">an exception object</param>
-        protected override void SafeWriteError(Exception e)
+        protected void SafeWriteError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
 

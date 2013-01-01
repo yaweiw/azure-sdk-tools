@@ -24,28 +24,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Stops the deployment of specified slot in the azure service
     /// </summary>
     [Cmdlet(VerbsLifecycle.Stop, "AzureService")]
-    public class StopAzureService : DeploymentStatusManager
+    public class StopAzureServiceCommand : DeploymentStatusManager
     {
         /// <summary>
         /// SetDeploymentStatus will handle the execution of this cmdlet
         /// </summary>
-        public StopAzureService()
+        public StopAzureServiceCommand()
         {
             Status = DeploymentStatus.Suspended;
         }
 
-        public StopAzureService(IServiceManagement channel)
+        public StopAzureServiceCommand(IServiceManagement channel)
             : base(channel)
         {
             Status = DeploymentStatus.Suspended;
         }
 
-        public override string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
+        public override void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
-            SafeWriteObjectWithTimestamp(Resources.StopServiceMessage, serviceName);
-            var message = base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            SafeWriteObjectWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
-            return message;
+            WriteVerboseWithTimestamp(Resources.StopServiceMessage, serviceName);
+            base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
+            WriteVerboseWithTimestamp(Resources.StopCompleteMessage);
         }
     }
 }

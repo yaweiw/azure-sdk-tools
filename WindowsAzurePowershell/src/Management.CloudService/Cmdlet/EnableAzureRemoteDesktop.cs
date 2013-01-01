@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
-    using Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "AzureServiceProjectRemoteDesktop")]
-    public class EnableAzureServiceProjectRemoteDesktopCommand : CloudCmdlet<IServiceManagement>
+    public class EnableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true)]
         [Alias("user")]
@@ -48,17 +48,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
-        public EnableAzureServiceProjectRemoteDesktopCommand()
-        {
-            SkipChannelInit = true;
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            AzureTool.Validate();
             base.ExecuteCmdlet();
 
-            AzureTool.Validate();
             EnableRemoteDesktop();
         }
 

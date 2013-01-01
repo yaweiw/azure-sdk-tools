@@ -16,15 +16,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
-    using Properties;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Properties;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.
     /// </summary>
-    class RemoveAzureDeploymentCommand : CloudCmdlet<IServiceManagement>
+    class RemoveAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         public string Slot
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private ServiceSettings InitializeArguments(string rootPath, string inServiceName, string inSlot, string inSubscription, out string serviceName)
         {
-            ServiceSettings settings = base.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, inSubscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, inSubscription, out serviceName);
             return settings;
         }
 
@@ -92,11 +92,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 base.ProcessRecord();
                 string results = this.RemoveAzureDeploymentProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
-                SafeWriteObject(results);
+                WriteObject(results);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
 
