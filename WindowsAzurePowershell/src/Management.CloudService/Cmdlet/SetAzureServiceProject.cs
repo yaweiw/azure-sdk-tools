@@ -36,11 +36,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Subscription { get; set; }
 
-        public SetAzureServiceProjectCommand()
-        {
-            SkipChannelInit = true;
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public ServiceSettings SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
         {
@@ -70,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 settings.Save(settingsPath);
             }
 
-            WriteOutputObject(settings);
+            WriteObject(settings);
 
             return settings;
         }

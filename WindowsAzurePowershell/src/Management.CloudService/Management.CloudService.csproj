@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.WindowsAzure.Management.CloudService</RootNamespace>
     <AssemblyName>Microsoft.WindowsAzure.Management.CloudService</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -125,7 +125,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data.Services.Client" />
-    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -190,7 +190,6 @@
     <Compile Include="Scaffolding\Scaffold.cs" />
     <Compile Include="Scaffolding\ScaffoldFile.cs" />
     <Compile Include="Scaffolding\ScaffoldParams.cs" />
-    <Compile Include="Cmdlet\Common\CloudCmdlet.cs" />
     <Compile Include="Cmdlet\NewAzureServiceProject.cs" />
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -338,7 +337,6 @@
     <Content Include="Microsoft.WindowsAzure.Management.CloudService.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="MoveScaffolding.bat" />
     <None Include="MSSharedLibKey.snk" />
     <Content Include="Resources\Scaffolding\Node\WorkerRole\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -421,14 +419,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(ProjectDir)\MoveScaffolding.bat" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

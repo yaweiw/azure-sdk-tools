@@ -87,7 +87,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Services.Client" />
-    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -103,11 +103,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\RemoveAzurePublishSettings.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TestData\AzureServiceWrapper.cs" />
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
     <Compile Include="Tests\Cmdlet\AddAzureCacheWorkerRoleTests.cs" />
-    <Compile Include="Tests\Cmdlet\CmdletBaseTests.cs" />
     <Compile Include="Tests\Cmdlet\TestAzureNameTests.cs" />
     <Compile Include="Tests\Cmdlet\EnableAzureMemcacheRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\GetAzureServiceProjectRuntimesTest.cs" />
@@ -125,34 +129,23 @@
     <Compile Include="Tests\Model\DeploymentStatusManagerTests.cs" />
     <Compile Include="Tests\Model\ServiceComponentsTests.cs" />
     <Compile Include="Tests\Model\ServicePathInfoTests.cs" />
+    <Compile Include="Tests\PHP\Cmdlet\AddAzureWebWorkerRoleTests.cs" />
+    <Compile Include="Tests\PHP\Cmdlet\AddAzurePHPWebRoleTests.cs" />
     <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
     <Compile Include="Utilities\AzureAssert.cs" />
-    <Compile Include="Utilities\FakeWriter.cs" />
     <Compile Include="Utilities\FileSystemHelper.cs" />
     <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Utilities\TestBase.cs" />
-    <Compile Include="Utilities\Testing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="TestData\Data.cs" />
     <Compile Include="TestData\ServiceSettingsTestData.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWebRoleTests.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureInstancesTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Compile Include="Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -178,6 +171,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\testruntimemanifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -21,6 +21,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
@@ -29,15 +34,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase
     {
-        FakeWriter writer;
-        EnableAzureMemcacheRoleCommand cmdlet;
+        private MockCommandRuntime mockCommandRuntime;
+
+        private NewAzureServiceProjectCommand newServiceCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        private AddAzureCacheWorkerRoleCommand addCacheRoleCmdlet;
+
+        private EnableAzureMemcacheRoleCommand enableCacheCmdlet;
 
         [TestInitialize]
         public void SetupTest()
         {
-            writer = new FakeWriter();
-            cmdlet = new EnableAzureMemcacheRoleCommand();
-            cmdlet.Writer = writer;
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
+            newServiceCmdlet = new NewAzureServiceProjectCommand();
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+            addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
+
+            addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -50,10 +76,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expectedMessage = string.Format(Resources.EnableMemcacheMessage, webRoleName, cacheRoleName, Resources.MemcacheEndpointPort);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
-                cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                mockCommandRuntime.ResetPipelines();
+                enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
 
                 WebRole webRole = Testing.GetWebRole(servicePath, webRoleName);
                 RoleSettings roleSettings = Testing.GetRole(servicePath, webRoleName);
@@ -85,8 +112,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(webCloudConfig.Contains("configSections"));
                 Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
 
-                Assert.AreEqual<string>(expectedMessage, writer.VerboseChannel[0]);
-                Assert.AreEqual<int>(0, writer.OutputChannel.Count);
+                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseChannel[0]);
+                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
             }
         }
 
@@ -103,10 +130,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.RoleNotFoundMessage, cacheRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
             }
         }
 
@@ -123,10 +150,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.RoleNotFoundMessage, webRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
                 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
             }
         }
 
@@ -143,12 +170,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.CacheAlreadyEnabledMsg, webRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
-                cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
                 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
             }
         }
 
@@ -166,13 +193,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string newCacheRoleName = "NewCacheWorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.CacheAlreadyEnabledMsg, webRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
-                cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(newCacheRoleName, 1, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(newCacheRoleName, 1, servicePath);
 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath));
             }
         }
 
@@ -189,11 +216,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string workerRoleName = "WebRole";
                 string expected = string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, workerRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
-                new AddAzureCacheWorkerRoleCommand().AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(workerRoleName, cacheRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(workerRoleName, cacheRoleName, servicePath));
             }
         }
 
@@ -210,11 +237,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string workerRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.NotCacheWorkerRole, workerRoleName);
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
+                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess(workerRoleName, 1, servicePath);
 
-                Testing.AssertThrows<Exception>(() => cmdlet.EnableAzureMemcacheRoleProcess(webRoleName, workerRoleName, servicePath));
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, workerRoleName, servicePath));
             }
         }
     }

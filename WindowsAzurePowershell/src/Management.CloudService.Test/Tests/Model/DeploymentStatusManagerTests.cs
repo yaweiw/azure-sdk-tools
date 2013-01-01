@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase
@@ -44,10 +45,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             string newStatus = DeploymentStatus.Suspended;
             string currentStatus = DeploymentStatus.Running;
             bool statusUpdated = false;
+            Deployment expectedDeployment = new Deployment(serviceName, slot, newStatus);
             channel.UpdateDeploymentStatusBySlotThunk = ar => 
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => expectedDeployment;
             };
             channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
 
@@ -57,9 +59,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
+                deploymentManager.CommandRuntime = new MockCommandRuntime();
                 deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
+                Deployment actual = ((MockCommandRuntime)deploymentManager.CommandRuntime).WrittenObjects[0] as Deployment;
+                Assert.AreEqual<string>(expectedDeployment.Name, actual.Name);
+                Assert.AreEqual<string>(expectedDeployment.Status, actual.Status);
+                Assert.AreEqual<string>(expectedDeployment.DeploymentSlot, actual.DeploymentSlot);
             }
         }
 
@@ -85,10 +92,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.CommandRuntime = new MockCommandRuntime();
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).VerboseChannel[0];
 
                 Assert.IsFalse(statusUpdated);
-                Assert.AreEqual<string>(expectedMessage, resultMessage);
+                Assert.IsTrue(resultMessage.Contains(expectedMessage));
             }
         }
 
@@ -114,10 +123,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.CommandRuntime = new MockCommandRuntime();
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).VerboseChannel[0];
 
                 Assert.IsFalse(statusUpdated);
-                Assert.AreEqual<string>(expectedMessage, resultMessage);
+                Assert.IsTrue(resultMessage.Contains(expectedMessage));
             }
         }
 
@@ -142,10 +153,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
-                resultMessage = deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.CommandRuntime = new MockCommandRuntime();
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).VerboseChannel[0];
 
                 Assert.IsFalse(statusUpdated);
-                Assert.AreEqual<string>(expectedMessage, resultMessage);
+                Assert.IsTrue(resultMessage.Contains(expectedMessage));
+                Assert.IsTrue(((MockCommandRuntime)deploymentManager.CommandRuntime).WrittenObjects.Count.Equals(0));
             }
         }
     }

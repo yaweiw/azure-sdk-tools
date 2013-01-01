@@ -39,11 +39,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
     public class AddAzureCacheWorkerRoleCommand : AddRole
     {
-        public AddAzureCacheWorkerRoleCommand()
-        {
-            SkipChannelInit = true;
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -74,11 +69,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public WorkerRole AddAzureCacheWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
         {
-            RoleInfo nodeWorkerRole;
-
             // Create cache worker role.
-            new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess(workerRoleName, instances, rootPath, out nodeWorkerRole);
-            AzureService azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
+            AzureService azureService = new AzureService(rootPath, null);
+            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
             azureService.Components.Save(azureService.Paths);
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
 

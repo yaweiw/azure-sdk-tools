@@ -16,29 +16,43 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using CloudService.Cmdlet;
     using CloudService.Model;
+    using Extensions;
     using Management.Test.Stubs;
-    using Services;
-    using TestData;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
     public class StartAzureServiceTests : TestBase
     {
         private const string serviceName = "AzureService";
+
         string slot = ArgumentConstants.Slots[Slot.Production];
+
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SimpleServiceManagement channel;
+
+        private StartAzureServiceCommand startServiceCmdlet;
 
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+            channel = new SimpleServiceManagement();
+
+            startServiceCmdlet = new StartAzureServiceCommand(channel) { ShareChannel = true };
+            startServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
         public void SetDeploymentStatusProcessTest()
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
             string newStatus = DeploymentStatus.Running;
             string currentStatus = DeploymentStatus.Suspended;
             bool statusUpdated = false;
@@ -53,8 +67,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                var startAzureService = new StartAzureService(channel) { ShareChannel = true };
-                startAzureService.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                startServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
             }

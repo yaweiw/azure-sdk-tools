@@ -24,21 +24,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Xml.Linq;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceDefinitionSchema;
     using Utilities;
-    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
 
     /// <summary>
     /// Enables memcache for specific role.
     /// </summary>
     [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
-    public class EnableAzureMemcacheRoleCommand : CloudCmdlet<IServiceManagement>
+    public class EnableAzureMemcacheRoleCommand : CmdletBase
     {
         /// <summary>
         /// The role name to edit.
@@ -55,11 +55,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("cn")]
         [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
-
-        public EnableAzureMemcacheRoleCommand()
-        {
-            SkipChannelInit = true;
-        }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -118,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string message = string.Empty;
             EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
-            SafeWriteVerbose(message);
+            WriteVerbose(message);
 
             return azureService.Components.GetWebRole(roleName);
         }
@@ -137,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string currentVersion = new AzureTool().AzureSdkVersion;
 
             // Add MemcacheShim runtime installation.
-            new SetAzureServiceProjectRoleCommand().SetAzureRuntimesProcess(roleName, Resources.CacheRuntimeValue, currentVersion, azureService.Paths.RootPath);
+            azureService.AddRoleRuntime(azureService.Paths, roleName, Resources.CacheRuntimeValue, currentVersion);
 
             // Fetch web role information.
             azureService = new AzureService(azureService.Paths.RootPath, null);

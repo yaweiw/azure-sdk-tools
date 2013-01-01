@@ -18,10 +18,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
 
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
@@ -125,6 +126,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
 
         /// <summary>
+        /// Get the contents of a file included in the test project as something to
+        /// be copied on Deployment (see Local.testsettings > Deployment for
+        /// examples).
+        /// </summary>
+        /// <param name="relativePath">Relative path to the resource.</param>
+        /// <returns>the resource contents.</returns>
+        public static string GetTestResourceContents(string relativePath)
+        {
+            return File.ReadAllText(Testing.GetTestResourcePath(relativePath));
+        }
+
+        /// <summary>
         /// Validate a collection of assertions against files that are expected
         /// to exist in the file system watched by a FileSystemHelper.
         /// </summary>
@@ -185,6 +198,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         {
             AzureService service = new AzureService(servicePath, null);
             return service.Components.GetCloudConfigRole(name);
+        }
+
+        public static T GetPSVariableValue<T>(PSObject obj, string name)
+        {
+            return (T)obj.Members[name].Value;
         }
     }
 }

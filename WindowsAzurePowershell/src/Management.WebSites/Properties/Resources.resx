@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>
@@ -145,7 +145,13 @@ Please follow these steps in the portal:
     <value>Workspaces/WebsiteExtension/Website/{0}/dashboard/</value>
   </data>
   <data name="InvalidGitCredentials" xml:space="preserve">
-    <value>Git credentials needs to be setup on the portal.</value>
+    <value>You must create your git publishing credentials using the Windows Azure portal.
+Please follow these steps in the portal:
+1. On the left side open "Web Sites"
+2. Click on any website
+3. Choose "Setup Git Publishing" or "Reset deployment credentials"
+4. Back in the PowerShell window, rerun this command by typing "New-AzureWebSite {site name} -Git -PublishingUsername {username}
+Launch portal now?</value>
   </data>
   <data name="MultiplePublishingUsernames" xml:space="preserve">
     <value>Multiple possible publishing users. Please specify one using the argument PublishingUsername.</value>

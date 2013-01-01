@@ -26,15 +26,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Websites.Services.WebEntities;
 
     [TestClass]
-    public class RemoveAzureWebsiteTests
+    public class RemoveAzureWebsiteTests : WebsitesTestBase
     {
-        [TestInitialize]
-        public void SetupTest()
-        {
-            GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
-            Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-        }
-
         [TestMethod]
         public void ProcessRemoveWebsiteTest()
         {
@@ -76,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = "website1",
-                CurrentSubscription = new SubscriptionData { SubscriptionId = "RemoveAzureWebSiteTests_ProcessRemoveWebsiteTest" }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
             // Delete existing website

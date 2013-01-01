@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Xml.Serialization;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Properties;
 
     internal static class General
@@ -422,6 +423,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
             }
 
             return obj;
+        }
+
+        public static ServiceSettings GetDefaultSettings(string rootPath, string inServiceName, string slot, string location, string storageName, string subscription, out string serviceName)
+        {
+            ServiceSettings serviceSettings;
+
+            if (string.IsNullOrEmpty(rootPath))
+            {
+                serviceSettings = ServiceSettings.LoadDefault(null, slot, location, subscription, storageName, inServiceName, null, out serviceName);
+            }
+            else
+            {
+                serviceSettings = ServiceSettings.LoadDefault(new AzureService(rootPath, null).Paths.Settings,
+                slot, location, subscription, storageName, inServiceName, new AzureService(rootPath, null).ServiceName, out serviceName);
+            }
+
+            return serviceSettings;
         }
     }
 }

@@ -19,26 +19,39 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Model;
     using Extensions;
     using Management.Test.Stubs;
-    using Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     [TestClass]
     public class RemoveAzureServiceTests : TestBase
     {
         private const string serviceName = "AzureService";
 
+        private MockCommandRuntime mockCommandRuntime;
+
+        private SimpleServiceManagement channel;
+
+        private RemoveAzureServiceCommand removeServiceCmdlet;
+
         [TestInitialize]
         public void SetupTest()
         {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+            channel = new SimpleServiceManagement();
+
+            removeServiceCmdlet = new RemoveAzureServiceCommand(channel) { ShareChannel = true };
+            removeServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
         public void RemoveAzureServiceProcessTest()
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
             bool serviceDeleted = false;
             bool deploymentDeleted = false;
             channel.GetDeploymentBySlotThunk = ar =>
@@ -57,11 +70,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                var removeAzureServiceCommand = new RemoveAzureServiceCommand(channel);
-                removeAzureServiceCommand.ShareChannel = true;
-                removeAzureServiceCommand.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
+                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
+                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
             }
         }
     }

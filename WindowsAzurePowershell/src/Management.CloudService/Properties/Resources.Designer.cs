@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running &quot;pear WindowsAzure/WindowsAzure&quot;..
+        /// </summary>
+        internal static string AddRoleMessageCreatePHP {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreatePHP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running &quot;pip windowsazure&quot;..
         /// </summary>
         internal static string AddRoleMessageCreatePython {
@@ -205,7 +214,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/da [rest of string was truncated]&quot;;.
+        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CacheAutoDiscoveryConfig {
             get {
@@ -1633,6 +1642,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove complete.
+        /// </summary>
+        internal static string RemoveCompleteMessage {
+            get {
+                return ResourceManager.GetString("RemoveCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Removing deployment.
         /// </summary>
         internal static string RemoveDeploymentMessage {
@@ -1660,7 +1678,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string RemoveServiceStartMessage {
             get {
@@ -2056,6 +2074,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start complete.
+        /// </summary>
+        internal static string StartCompleteMessage {
+            get {
+                return ResourceManager.GetString("StartCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         internal static string StartedEmulator {
@@ -2074,11 +2101,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string StartServiceMessage {
             get {
                 return ResourceManager.GetString("StartServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop complete.
+        /// </summary>
+        internal static string StopCompleteMessage {
+            get {
+                return ResourceManager.GetString("StopCompleteMessage", resourceCulture);
             }
         }
         
@@ -2101,7 +2137,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stopping service {0}....
+        ///   Looks up a localized string similar to Looking for service {0}....
         /// </summary>
         internal static string StopServiceMessage {
             get {

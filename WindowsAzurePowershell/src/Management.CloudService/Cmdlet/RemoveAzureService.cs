@@ -17,18 +17,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Common;
     using Management.Services;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureServiceCommand : CloudCmdlet<IServiceManagement>
+    public class RemoveAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName
@@ -58,10 +58,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             Channel = channel;
         }
 
-        public bool RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
+        public void RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = GetDefaultSettings(rootName, inServiceName, null, null, null, inSubscription,
+            ServiceSettings settings = General.GetDefaultSettings(rootName, inServiceName, null, null, null, inSubscription,
                                                             out serviceName);
             if (string.IsNullOrEmpty(serviceName))
             {
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !ShouldProcess("", string.Format(Resources.RemoveServiceWarning, serviceName),
                                 Resources.ShouldProcessCaption))
             {
-                return false;
+                return;
             }
 
             if (!string.IsNullOrEmpty(settings.Subscription))
@@ -82,13 +82,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     sub => sub.SubscriptionName == settings.Subscription);
             }
 
-            SafeWriteObjectWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
-            SafeWriteObjectWithTimestamp(Resources.RemoveDeploymentMessage);
+            WriteVerboseWithTimestamp(Resources.RemoveServiceStartMessage, serviceName);
+            WriteVerboseWithTimestamp(Resources.RemoveDeploymentMessage);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
             StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
-            SafeWriteObjectWithTimestamp(Resources.RemoveServiceMessage);
+            WriteVerboseWithTimestamp(Resources.RemoveServiceMessage);
             RemoveService(serviceName);
-            return true;
+
+            WriteObject(true);
+            WriteVerboseWithTimestamp(Resources.RemoveCompleteMessage);
         }
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)
@@ -97,11 +99,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription))
             {
                 DeploymentStatusManager setDeployment = new DeploymentStatusManager(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                setDeployment.CommandRuntime = this.CommandRuntime;
                 setDeployment.SetDeploymentStatusProcess(rootName, DeploymentStatus.Suspended, slot, subscription, serviceName);
 
                 deploymentStatusCommand.WaitForState(DeploymentStatus.Suspended, rootName, serviceName, slot, subscription);
 
                 RemoveAzureDeploymentCommand removeDeployment = new RemoveAzureDeploymentCommand(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                removeDeployment.CommandRuntime = this.CommandRuntime;
                 removeDeployment.RemoveAzureDeploymentProcess(rootName, serviceName, slot, subscription);
 
                 while (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription)) ;
@@ -110,26 +114,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         private void RemoveService(string serviceName)
         {
-            SafeWriteObjectWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
+            WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
 
             InvokeInOperationContext(() => RetryCall(s => this.Channel.DeleteHostedService(s, serviceName)));
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-
-                if (RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName))
-                {
-                    SafeWriteObjectWithTimestamp(Resources.CompleteMessage);
-                }
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName);
         }
     }
 }
