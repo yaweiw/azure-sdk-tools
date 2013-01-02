@@ -199,10 +199,5 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             AzureService service = new AzureService(servicePath, null);
             return service.Components.GetCloudConfigRole(name);
         }
-
-        public static T GetPSVariableValue<T>(PSObject obj, string name)
-        {
-            return (T)obj.Members[name].Value;
-        }
     }
 }

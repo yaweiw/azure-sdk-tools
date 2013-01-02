@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 addPHPWorkerCmdlet.AddAzurePHPWorkerRoleProcess(roleName, 1, rootPath);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
-                Assert.AreEqual<string>(roleName, Testing.GetPSVariableValue<string>((PSObject)mockCommandRuntime.WrittenObjects[0], Parameters.RoleName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).GetVariableValue<string>(Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseChannel[0]);
             }
         }
