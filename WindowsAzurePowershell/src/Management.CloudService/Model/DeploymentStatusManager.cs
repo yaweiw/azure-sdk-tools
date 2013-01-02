@@ -62,6 +62,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             set;
         }
 
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public virtual void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
             if (!string.IsNullOrEmpty(subscription))
@@ -78,7 +81,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
                 Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
-                WriteObject(deployment);
+
+                if (PassThru)
+                {
+                    WriteObject(deployment);                    
+                }
             }
             else
             {

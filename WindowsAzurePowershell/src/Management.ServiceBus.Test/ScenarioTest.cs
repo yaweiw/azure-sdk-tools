@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         [TestCategory("Scenario"), TestMethod]
         public void CreateAndGetServiceBusNamespace()
         {
-            string serviceBusNamespaceName = "OneSDKCreateAndGetServiceBusNamespace";
+            string serviceBusNamespaceName = "AzureSDKCreateAndGetServiceBusNamespaceTest";
             int locationIndex = 5; // North Central US
             string expectedRemoveVerbose = string.Format(Resources.RemovingNamespaceMessage, serviceBusNamespaceName);
 
@@ -45,9 +45,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
             Collection<PSObject> result = powershell.Invoke();
 
+            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
             Assert.AreEqual<string>(serviceBusNamespaceName, Testing.GetPSVariableValue<string>(result[0], "Name"));
             Assert.AreEqual<string>(expectedRemoveVerbose, powershell.Streams.Verbose[0].Message);
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
         }
     }
 }
