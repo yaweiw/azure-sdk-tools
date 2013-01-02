@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             // For now geo regions will be hardcoded since the Get GeoRegions endpoint is still not exposed.
             WriteObject(AvailableWebspaces.Webspaces.Keys, true);
