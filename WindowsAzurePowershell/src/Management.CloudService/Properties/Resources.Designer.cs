@@ -196,11 +196,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Memcache is already enabled for web role &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Memcache is already enabled for role &apos;{0}&apos;..
         /// </summary>
-        internal static string CacheAlreadyEnabledMsg {
+        internal static string CacheAlreadyEnabledMessage {
             get {
-                return ResourceManager.GetString("CacheAlreadyEnabledMsg", resourceCulture);
+                return ResourceManager.GetString("CacheAlreadyEnabledMessage", resourceCulture);
             }
         }
         
@@ -742,15 +742,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string EnableMemcacheMessage {
             get {
                 return ResourceManager.GetString("EnableMemcacheMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable-AzureMemcacheRole is supported for web roles only. Verify that &apos;{0}&apos; is a web role..
-        /// </summary>
-        internal static string EnableMemcacheOnWorkerRoleErrorMsg {
-            get {
-                return ResourceManager.GetString("EnableMemcacheOnWorkerRoleErrorMsg", resourceCulture);
             }
         }
         
