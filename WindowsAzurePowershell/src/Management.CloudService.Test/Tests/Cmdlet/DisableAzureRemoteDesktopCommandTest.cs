@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 disableRDCmdlet.PassThru = true;
                 disableRDCmdlet.DisableRemoteDesktop();
 
-                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[1]);
+                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[1]);
             }
         }
 

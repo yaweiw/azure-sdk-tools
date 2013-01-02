@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusRegion> actual = mockCommandRuntime.WrittenObjects[0] as List<ServiceBusRegion>;
+            List<ServiceBusRegion> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusRegion>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
 
             for (int i = 0; i < expected.Count; i++)

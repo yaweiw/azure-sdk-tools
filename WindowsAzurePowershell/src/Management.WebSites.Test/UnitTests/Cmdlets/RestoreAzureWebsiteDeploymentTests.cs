@@ -85,9 +85,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            var responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.Count);
+            var responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
             Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && d.Complete));
@@ -103,9 +103,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.Count);
+            responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
             Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && d.Complete));

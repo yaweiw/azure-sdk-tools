@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
 
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
 
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
 
             Assert.IsTrue(actual);
         }
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)mockCommandRuntime.WrittenObjects[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             
             Assert.IsFalse(actual);
         }

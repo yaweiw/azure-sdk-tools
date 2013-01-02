@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (Git && GitHub)
             {
