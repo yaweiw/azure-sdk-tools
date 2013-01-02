@@ -60,6 +60,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
                 deploymentManager.CommandRuntime = new MockCommandRuntime();
+                deploymentManager.PassThru = true;
                 deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
