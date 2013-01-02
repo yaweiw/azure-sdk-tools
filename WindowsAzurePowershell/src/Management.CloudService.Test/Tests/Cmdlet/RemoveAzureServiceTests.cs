@@ -67,13 +67,40 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                removeServiceCmdlet.PassThru = true;
+                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
+                Assert.IsTrue(deploymentDeleted);
+                Assert.IsTrue(serviceDeleted);
+                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+            }
+        }
 
+        [TestMethod]
+        public void RemoveAzureServiceProcessWithoutPassThruTest()
+        {
+            bool serviceDeleted = false;
+            bool deploymentDeleted = false;
+            channel.GetDeploymentBySlotThunk = ar =>
+            {
+                if (deploymentDeleted) throw new EndpointNotFoundException();
+                return new Deployment(serviceName, ArgumentConstants.Slots[Slot.Production], DeploymentStatus.Suspended);
+            };
+            channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
+            channel.DeleteDeploymentBySlotThunk = ar =>
+            {
+                deploymentDeleted = true;
+            };
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
-                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
             }
         }
     }

@@ -54,6 +54,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new SetAzureServiceProjectRoleCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.PassThru = true;
         }
 
         /// <summary>
@@ -69,15 +70,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWebRole(Resources.NodeScaffolding);
                 string roleName = "WebRole1";
+                cmdlet.PassThru = false;
                 
                 RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }

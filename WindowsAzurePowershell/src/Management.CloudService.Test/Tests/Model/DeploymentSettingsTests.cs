@@ -16,16 +16,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
     using System;
     using System.IO;
+    using System.Linq;
     using CloudService.Model;
     using CloudService.Properties;
     using Cmdlets;
     using Management.Services;
     using Management.Test.Stubs;
-    using Test.Model;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class DeploymentSettingsTests : TestBase
@@ -62,7 +62,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             mockCommandRuntime = new MockCommandRuntime();
             importCmdlet = new ImportAzurePublishSettingsCommand();
             importCmdlet.CommandRuntime = mockCommandRuntime;
-            importCmdlet.ImportSubscriptionProcess(Resources.PublishSettingsFileName, null);
+            importCmdlet.ImportSubscriptionFile(Data.ValidPublishSettings.First(), null);
         }
 
         [TestCleanup()]

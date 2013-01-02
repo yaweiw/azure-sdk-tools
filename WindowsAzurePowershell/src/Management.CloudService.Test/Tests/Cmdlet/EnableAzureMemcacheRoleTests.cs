@@ -80,6 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess(webRoleName, 1, servicePath);
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, servicePath);
                 mockCommandRuntime.ResetPipelines();
+                enableCacheCmdlet.PassThru = true;
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, servicePath);
 
                 WebRole webRole = Testing.GetWebRole(servicePath, webRoleName);
@@ -113,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
 
                 Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseChannel[0]);
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.WrittenObjects[0] as RoleSettings).name);
             }
         }
 
