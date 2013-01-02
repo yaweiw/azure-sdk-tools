@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
 
@@ -80,8 +80,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
                 Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
             }

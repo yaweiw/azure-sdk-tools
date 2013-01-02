@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 DefaultCurrentPath;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (string.IsNullOrEmpty(Output))
             {
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 Output = Path.ChangeExtension(Output, "zip");
             }
 
-            base.ExecuteCommand();
+            base.ExecuteCmdlet();
 
             // List new deployments
             Stream websiteLogs = null;

@@ -378,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsTrue(createdHostedService);
                 Assert.IsTrue(createdOrUpdatedDeployment);
                 Assert.AreEqual<string>(serviceName, service.ServiceName);
-                Deployment actual = mockCommandRuntime.WrittenObjects[0] as Deployment;
+                Deployment actual = mockCommandRuntime.OutputPipeline[0] as Deployment;
                 Assert.AreEqual<string>(expectedDeployment.Name, actual.Name);
                 Assert.AreEqual<string>(expectedDeployment.Status, actual.Status);
                 Assert.AreEqual<string>(expectedDeployment.DeploymentSlot, actual.DeploymentSlot);
@@ -444,7 +444,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsTrue(createdHostedService);
                 Assert.IsTrue(createdOrUpdatedDeployment);
                 Assert.AreEqual<string>(serviceName, service.ServiceName);
-                Deployment actual = mockCommandRuntime.WrittenObjects[0] as Deployment;
+                Deployment actual = mockCommandRuntime.OutputPipeline[0] as Deployment;
                 Assert.AreEqual<string>(expectedDeployment.Name, actual.Name);
                 Assert.AreEqual<string>(expectedDeployment.Status, actual.Status);
                 Assert.AreEqual<string>(expectedDeployment.DeploymentSlot, actual.DeploymentSlot);

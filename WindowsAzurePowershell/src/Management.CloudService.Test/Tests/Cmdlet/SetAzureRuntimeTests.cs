@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
                 VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
@@ -98,10 +98,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
@@ -123,10 +123,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnoide", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "*");
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[0]).Members[Parameters.RoleName].Value.ToString());
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.WrittenObjects[1]).Members[Parameters.RoleName].Value.ToString());
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.IsTrue(((PSObject)mockCommandRuntime.WrittenObjects[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).Members[Parameters.RoleName].Value.ToString());
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).Members[Parameters.RoleName].Value.ToString());
+                Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
+                Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[1]).TypeNames.Contains(typeof(RoleSettings).FullName));
                 Assert.AreEqual<string>(roleName, roleSettings1.name);
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }

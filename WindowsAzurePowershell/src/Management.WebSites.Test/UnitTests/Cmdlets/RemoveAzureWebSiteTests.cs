@@ -73,14 +73,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             // Delete existing website
-            removeAzureWebsiteCommand.ExecuteCommand();
+            removeAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsTrue(deletedWebsite);
 
             // Delete unexisting website
             deletedWebsite = false;
 
             removeAzureWebsiteCommand.Name = "website2";
-            removeAzureWebsiteCommand.ExecuteCommand();
+            removeAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsFalse(deletedWebsite);
         }
     }

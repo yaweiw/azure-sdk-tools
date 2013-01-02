@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             // Show existing website
-            showAzureWebsiteCommand.ExecuteCommand();
+            showAzureWebsiteCommand.ExecuteCmdlet();
         }
     }
 }
