@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class ScenarioTest : PowerShellTest
@@ -31,21 +33,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         public void ComplexCachingTest()
         {
             string cloudService = "OneSDKCloudServiceTest";
+            string expectedDeploymentName = "productionDeploy";
+            string expectedDeploymentSlot = DeploymentSlotType.Production.ToString();
             Deployment deployment;
 
             powershell.Runspace.SessionStateProxy.SetVariable("cloudService", cloudService);
             AddScenarioScript("ComplexCachingTest.ps1");
 
-            powershell.Invoke();
+            System.Collections.ObjectModel.Collection<System.Management.Automation.PSObject> res = powershell.Invoke();
 
             if (!powershell.Streams.Error.Count.Equals(0))
             {
                 throw powershell.Streams.Error[0].Exception;
             }
 
-            deployment = powershell.Runspace.SessionStateProxy.GetVariable("deployment") as Deployment;
-            Assert.AreEqual<string>(deployment.Name, cloudService);
-            Assert.AreEqual<string>(deployment.DeploymentSlot, "Production");
+            deployment = powershell.GetPowerShellVariable<Deployment>("deployment");
+            Assert.AreEqual<string>(deployment.Name, expectedDeploymentName);
+            Assert.AreEqual<string>(deployment.DeploymentSlot, expectedDeploymentSlot);
             Assert.AreEqual<string>(deployment.Status, DeploymentStatus.Running.ToString());
         }
     }
