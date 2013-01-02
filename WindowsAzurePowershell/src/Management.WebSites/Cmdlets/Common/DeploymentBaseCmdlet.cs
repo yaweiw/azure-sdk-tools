@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             return null;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Repository repository = GetRepository(Name);
             if (repository == null)

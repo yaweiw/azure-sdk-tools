@@ -20,10 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
     public class MockCommandRuntime : ICommandRuntime
     {
-        public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
-        public List<object> WrittenObjects = new List<object>();
+        public List<ErrorRecord> ErrorStream = new List<ErrorRecord>();
+        public List<object> OutputPipeline = new List<object>();
         public List<string> WarningStream = new List<string>();
-        public List<string> VerboseChannel = new List<string>();
+        public List<string> VerboseStream = new List<string>();
 
         public override string ToString()
         {
@@ -92,17 +92,17 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteError(ErrorRecord errorRecord)
         {
-            ErrorRecords.Add(errorRecord);
+            ErrorStream.Add(errorRecord);
         }
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteProgress(long sourceId, ProgressRecord progressRecord)
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteVerbose(string text)
         {
-            VerboseChannel.Add(text);
+            VerboseStream.Add(text);
         }
 
         public void WriteWarning(string text)
@@ -130,10 +130,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         /// </summary>
         public void ResetPipelines()
         {
-            ErrorRecords.Clear();
-            WrittenObjects.Clear();
+            ErrorStream.Clear();
+            OutputPipeline.Clear();
             WarningStream.Clear();
-            VerboseChannel.Clear();
+            VerboseStream.Clear();
         }
     }
 }

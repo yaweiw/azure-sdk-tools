@@ -113,8 +113,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(webCloudConfig.Contains("configSections"));
                 Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
 
-                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseChannel[0]);
-                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.WrittenObjects[0] as RoleSettings).name);
+                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
+                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.OutputPipeline[0] as RoleSettings).name);
             }
         }
 
@@ -168,8 +168,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(workerCloudConfig.Contains("configSections"));
                 Assert.IsTrue(workerCloudConfig.Contains("dataCacheClients"));
 
-                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseChannel[0]);
-                Assert.AreEqual<string>(workerRoleName, (mockCommandRuntime.WrittenObjects[0] as RoleSettings).name);
+                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
+                Assert.AreEqual<string>(workerRoleName, (mockCommandRuntime.OutputPipeline[0] as RoleSettings).name);
             }
         }
 

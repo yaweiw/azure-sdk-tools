@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
-                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
             }
         }
     }
