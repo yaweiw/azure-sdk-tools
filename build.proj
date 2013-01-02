@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;Build;Publish">
+  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -18,8 +18,10 @@
     <ScaffoldingReleaseDestinationDir>.\Package\Release</ScaffoldingReleaseDestinationDir>
     <ScaffoldingDebugSourceDir>.\Package\Debug\Resources</ScaffoldingDebugSourceDir>
     <ScaffoldingDebugDestinationDir>.\Package\Debug</ScaffoldingDebugDestinationDir>
+    <ReleaseScaffoldingDir>.\Package\Release\Scaffolding</ReleaseScaffoldingDir>
+    <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
 
-	<TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
+	  <TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>	
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
@@ -58,6 +60,22 @@
       Targets="Clean"
       Properties="Configuration=Release"
       ContinueOnError="true" />
+    
+    <!-- Delete scaffolding files-->
+    <Message Importance="high" Text="Cleaning scaffolding files..." ContinueOnError="true" />
+    <ItemGroup>
+      <DebugScaffoldingFiles Include="$(DebugScaffoldingDir)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(DebugScaffoldingFiles)"
+      ContinueOnError="true" />
+    <ItemGroup>
+      <ReleaseScaffoldingFiles Include="$(ReleaseScaffoldingDir)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(ReleaseScaffoldingFiles)"
+      ContinueOnError="true" />
+    <RemoveDir Directories="$(ReleaseScaffoldingDir);$(DebugScaffoldingDir)" ContinueOnError="true"/>
 
     <!-- Delete the publish files -->
     <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="true" />
