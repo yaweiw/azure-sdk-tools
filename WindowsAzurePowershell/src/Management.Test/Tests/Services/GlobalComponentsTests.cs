@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
                 var publishSettingsFile = Data.ValidPublishSettings[i];
 
                 // Prepare
-                new ImportAzurePublishSettingsCommand().ImportSubscriptionProcess(publishSettingsFile, null);
+                new ImportAzurePublishSettingsCommand().ImportSubscriptionFile(publishSettingsFile, null);
                 GlobalComponents globalComponents = GlobalComponents.Load(Data.AzureAppDir);
                 PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(Data.AzureAppDir, Resources.PublishSettingsFileName));
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsFile);

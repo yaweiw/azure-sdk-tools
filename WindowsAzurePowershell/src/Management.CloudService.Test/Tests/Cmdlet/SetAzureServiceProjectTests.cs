@@ -42,12 +42,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             setServiceProjectCmdlet = new SetAzureServiceProjectCommand();
             setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
+            setServiceProjectCmdlet.PassThru = true;
         }
 
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
-            int counter = 0;
             foreach (string item in Data.ValidSubscriptionNames)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
@@ -57,14 +57,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
                     settings.Save(paths.Settings);
+                    setServiceProjectCmdlet.PassThru = false;
 
                     settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, null, item, paths.Settings);
 
                     // Assert subscription is changed
                     //
                     Assert.AreEqual<string>(item, settings.Subscription);
-                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[counter++] as ServiceSettings;
-                    Assert.AreEqual<string>(item, actualOutput.Subscription);
+                    Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
                 }
             }
         }

@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             SimpleServiceManagement channel = new SimpleServiceManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
+            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime, PassThru = true };
             bool deleted = false;
             string expectedVerbose = string.Format(Resources.RemovingNamespaceMessage, name);
             channel.DeleteServiceBusNamespaceThunk = dsbn => { deleted = true; };
@@ -52,6 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             string actual = mockCommandRuntime.VerboseChannel[0] as string;
             Assert.IsTrue(deleted);
             Assert.AreEqual<string>(expectedVerbose, actual);
+            Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
         }
 
         [TestMethod]
