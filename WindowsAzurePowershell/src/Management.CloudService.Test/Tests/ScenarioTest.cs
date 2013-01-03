@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
         }
 
-        [TestCategory("Scenario"), TestMethod]
+        [TestCategory("Functional"), TestMethod]
         public void ComplexCachingTest()
         {
             string cloudService = "OneSDKCloudServiceTest";
