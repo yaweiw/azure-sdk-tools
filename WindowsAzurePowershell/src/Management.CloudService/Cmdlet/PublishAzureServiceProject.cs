@@ -498,7 +498,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                WriteVerboseWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteVerboseWithTimestamp(
+                    Resources.PublishUploadingPackageMessage,
+                    _deploymentSettings.ServiceSettings.StorageAccountName);
 
                 if (!SkipUpload)
                 {
