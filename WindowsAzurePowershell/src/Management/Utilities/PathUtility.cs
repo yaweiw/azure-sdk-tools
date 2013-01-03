@@ -63,17 +63,5 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             // Couldn't locate the service root, exit
             return null;
         }
-
-        public static string Combine(params string[] paths)
-        {
-            string combinedPath = string.Empty;
-
-            foreach (string path in paths)
-            {
-                combinedPath = Path.Combine(combinedPath, path);
-            }
-
-            return combinedPath;
-        }
     }
 }
