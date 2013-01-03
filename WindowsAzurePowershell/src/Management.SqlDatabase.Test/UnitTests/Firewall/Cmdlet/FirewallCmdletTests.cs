@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
             Assert.AreEqual("1.1.1.1", newFirewallResult.EndIpAddress);
             Assert.AreEqual("Success", newFirewallResult.OperationStatus);
             Assert.AreEqual(true, newFirewallRuleCalled);
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
             Assert.AreEqual("2.2.2.2", firstRule.EndIpAddress);
             Assert.AreEqual("Success", firstRule.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
 
         [TestMethod]
@@ -199,7 +199,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
             Assert.AreEqual("3.3.3.3", firstRule.EndIpAddress);
             Assert.AreEqual("Success", firstRule.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
 
         [TestMethod]
@@ -268,11 +268,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Firewall.
             Assert.AreEqual("2.2.2.2", firstRule.EndIpAddress);
             Assert.AreEqual("Success", firstRule.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
 
             // Remove Rule1 again
             removeServerContext = removeAzureSqlDatabaseServerFirewallRule.RemoveAzureSqlDatabaseServerFirewallRuleProcess("Server1", "Rule1");
-            Assert.AreEqual(1, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(1, commandRuntime.ErrorStream.Count);
             Assert.IsTrue(commandRuntime.WarningStream.Count > 0);
         }
     }

@@ -53,27 +53,33 @@ namespace Microsoft.WindowsAzure.Management.Model
 
         public void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-            StringBuilder httpResponse = new StringBuilder();
+            if (cmdlet.SessionState != null)
+            {
+                HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
+                StringBuilder httpResponse = new StringBuilder();
 
-            httpResponse.AppendLine("============================ HTTP RESPONSE ============================" + Environment.NewLine);
-            httpResponse.AppendLine("Status Code:\n" + responseProperties.StatusCode.ToString() + Environment.NewLine);
-            httpResponse.AppendLine("Headers:\n" + MessageHeadersToString(responseProperties.Headers));
-            httpResponse.AppendLine("Body:\n" + reply.ToString() + Environment.NewLine);
-            cmdlet.WriteDebug(httpResponse.ToString());
+                httpResponse.AppendLine("============================ HTTP RESPONSE ============================" + Environment.NewLine);
+                httpResponse.AppendLine("Status Code:\n" + responseProperties.StatusCode.ToString() + Environment.NewLine);
+                httpResponse.AppendLine("Headers:\n" + MessageHeadersToString(responseProperties.Headers));
+                httpResponse.AppendLine("Body:\n" + reply.ToString() + Environment.NewLine);
+                cmdlet.WriteDebug(httpResponse.ToString());
+            }
         }
 
         public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-            HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-            StringBuilder httpRequest = new StringBuilder();
+            if (cmdlet.SessionState != null)
+            {
+                HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+                StringBuilder httpRequest = new StringBuilder();
 
-            httpRequest.AppendLine("============================ HTTP REQUEST ============================" + Environment.NewLine);
-            httpRequest.AppendLine("HTTP Method:\n" + requestProperties.Method + Environment.NewLine);
-            httpRequest.AppendLine("Absolute Uri:\n" + request.Headers.To.AbsoluteUri + Environment.NewLine);
-            httpRequest.AppendLine("Headers:\n" + MessageHeadersToString(requestProperties.Headers));
-            httpRequest.AppendLine("Body:\n" + request.ToString() + Environment.NewLine);
-            cmdlet.WriteDebug(httpRequest.ToString());
+                httpRequest.AppendLine("============================ HTTP REQUEST ============================" + Environment.NewLine);
+                httpRequest.AppendLine("HTTP Method:\n" + requestProperties.Method + Environment.NewLine);
+                httpRequest.AppendLine("Absolute Uri:\n" + request.Headers.To.AbsoluteUri + Environment.NewLine);
+                httpRequest.AppendLine("Headers:\n" + MessageHeadersToString(requestProperties.Headers));
+                httpRequest.AppendLine("Body:\n" + request.ToString() + Environment.NewLine);
+                cmdlet.WriteDebug(httpRequest.ToString());
+            }
 
             return request;
         }

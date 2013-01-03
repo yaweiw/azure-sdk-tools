@@ -276,5 +276,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 return false;
             }
         }
+
+        /// <summary>
+        /// Gets role startup.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <returns>The role startup</returns>
+        public Startup GetRoleStartup(string roleName)
+        {
+            WebRole webRole = GetWebRole(roleName);
+            WorkerRole workerRole = GetWorkerRole(roleName);
+            Startup startup = webRole != null ? webRole.Startup : workerRole.Startup;
+
+            return startup;
+        }
+
+        /// <summary>
+        /// Decides if the given role is web or worker role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <returns>Boolean flag indicates if the role is web or not</returns>
+        public bool IsWebRole(string roleName)
+        {
+            WebRole webRole = GetWebRole(roleName);
+            WorkerRole workerRole = GetWorkerRole(roleName);
+            return webRole != null ? true : false;
+        }
     }
 }

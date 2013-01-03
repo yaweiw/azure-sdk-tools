@@ -64,6 +64,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 deploymentDeleted = true;
             };
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -73,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
-                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
             }
         }
 
@@ -92,6 +93,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 deploymentDeleted = true;
             };
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -100,7 +102,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
                 Assert.IsTrue(deploymentDeleted);
                 Assert.IsTrue(serviceDeleted);
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveAzureServiceProcessWithNotExistingServiceFail()
+        {
+            bool serviceDeleted = false;
+            bool deploymentDeleted = false;
+            channel.GetDeploymentBySlotThunk = ar =>
+            {
+                if (deploymentDeleted) throw new EndpointNotFoundException();
+                return new Deployment(serviceName, ArgumentConstants.Slots[Slot.Production], DeploymentStatus.Suspended);
+            };
+            channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
+            channel.DeleteDeploymentBySlotThunk = ar =>
+            {
+                deploymentDeleted = true;
+            };
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                removeServiceCmdlet.PassThru = true;
+                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
+                Assert.IsFalse(deploymentDeleted);
+                Assert.IsFalse(serviceDeleted);
+                Assert.IsTrue(mockCommandRuntime.OutputPipeline.Count.Equals(0));
             }
         }
     }

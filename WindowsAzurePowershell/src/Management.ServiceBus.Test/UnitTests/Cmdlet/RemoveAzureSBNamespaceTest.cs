@@ -49,10 +49,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            string actual = mockCommandRuntime.VerboseChannel[0] as string;
+            string actual = mockCommandRuntime.VerboseStream[0] as string;
             Assert.IsTrue(deleted);
             Assert.AreEqual<string>(expectedVerbose, actual);
-            Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+            Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
                 cmdlet.ExecuteCmdlet();
 
                 // Assert
-                ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
+                ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
                 Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
             }
         }
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
+            ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
             Assert.AreEqual<string>(expected, actual.Exception.Message);
         }
     }

@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.WrittenObjects[0] as ServiceBusNamespace;
+            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
         }
 
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord error = mockCommandRuntime.ErrorRecords[0];
+            ErrorRecord error = mockCommandRuntime.ErrorStream[0];
             Assert.AreEqual<string>(expected, error.Exception.Message);
         }
 
@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusNamespace> actual = mockCommandRuntime.WrittenObjects[0] as List<ServiceBusNamespace>;
+            List<ServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {

@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = mockCommandRuntime.WrittenObjects[0] as ServiceBusNamespace;
+            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
             Assert.AreEqual<ServiceBusNamespace>(expected, actual);
         }
 

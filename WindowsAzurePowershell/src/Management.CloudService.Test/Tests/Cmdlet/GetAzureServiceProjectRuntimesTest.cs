@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 cmdlet.GetAzureRuntimesProcess(string.Empty, Path.Combine(files.RootPath, serviceName), manifest);
 
-                List<CloudRuntimePackage> actual = mockCommandRuntime.WrittenObjects[0] as List<CloudRuntimePackage>;
+                List<CloudRuntimePackage> actual = mockCommandRuntime.OutputPipeline[0] as List<CloudRuntimePackage>;
 
                 Assert.AreEqual<int>(expected.Count, actual.Count);
                 Assert.IsTrue(expected.All<CloudRuntimePackage>( p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));

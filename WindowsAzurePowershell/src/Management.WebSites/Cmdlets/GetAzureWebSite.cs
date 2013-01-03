@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(websites, true);
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (!string.IsNullOrEmpty(Name))
             {

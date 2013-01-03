@@ -108,6 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tests\ScenarioTest.cs" />
     <Compile Include="TestData\AzureServiceWrapper.cs" />
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
@@ -149,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\ComplexCachingTest.ps1" />
     <None Include="Test References\AzureDeploymentTool.accessor" />
   </ItemGroup>
   <ItemGroup>

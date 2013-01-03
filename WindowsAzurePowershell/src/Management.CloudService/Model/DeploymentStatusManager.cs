@@ -62,8 +62,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             set;
         }
 
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         public virtual void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
+            string result;
+
             if (!string.IsNullOrEmpty(subscription))
             {
                 var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
@@ -71,18 +76,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     sub => sub.SubscriptionName == subscription);
             }
 
-            string result = CheckDeployment(newStatus, serviceName, slot);
+            // Check that deployment slot for the service exists
+            WriteVerboseWithTimestamp(Resources.LookingForDeploymentMessage, slot, serviceName);
+            result = CheckDeployment(newStatus, serviceName, slot);
+
             if (string.IsNullOrEmpty(result))
             {
                 SetDeployment(newStatus, serviceName, slot);
                 GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
                 Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
-                WriteObject(deployment);
+
+                if (PassThru)
+                {
+                    WriteObject(deployment);                    
+                }
+
+                WriteVerboseWithTimestamp(string.Format(Resources.ChangeDeploymentStatusCompleteMessage, serviceName, newStatus));
             }
             else
             {
-                WriteVerboseWithTimestamp(result);
+                WriteWarning(result);
             }
         }
 
@@ -111,9 +125,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             }
             catch
             {
-                // If we reach here that means the service or slot doesn't exist
+                // If we reach here that means the slot doesn't exist
                 //
-                result = string.Format(Resources.ServiceSlotDoesNotExist, serviceName, slot);
+                result = string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName);
             }
 
             return result;
