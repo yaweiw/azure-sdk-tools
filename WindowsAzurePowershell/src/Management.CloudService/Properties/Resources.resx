@@ -838,8 +838,8 @@
   <data name="SettingsFileEmptyContent" xml:space="preserve">
     <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
   </data>
-  <data name="CacheAlreadyEnabledMsg" xml:space="preserve">
-    <value>Memcache is already enabled for web role '{0}'.</value>
+  <data name="CacheAlreadyEnabledMessage" xml:space="preserve">
+    <value>Memcache is already enabled for role '{0}'.</value>
   </data>
   <data name="CacheClientDiagnosticLevelAssemblyName" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
@@ -858,9 +858,6 @@
   </data>
   <data name="NamedCacheSettingValue" xml:space="preserve">
     <value>{"caches":[{"name":"default","policy":{"eviction":{"type":0},"expiration":{"defaultTTL":10,"isExpirable":true,"type":1},"serverNotification":{"isEnabled":false}},"secondaries":0}]}</value>
-  </data>
-  <data name="EnableMemcacheOnWorkerRoleErrorMsg" xml:space="preserve">
-    <value>Enable-AzureMemcacheRole is supported for web roles only. Verify that '{0}' is a web role.</value>
   </data>
   <data name="NotCacheWorkerRole" xml:space="preserve">
     <value>'{0}' must be a cache worker role. Verify that it has proper cache worker role configuration.</value>

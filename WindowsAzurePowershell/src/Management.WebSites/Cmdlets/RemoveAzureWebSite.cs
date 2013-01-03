@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (!Force.IsPresent &&
                 !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),

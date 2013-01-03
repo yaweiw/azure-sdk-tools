@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Site website = null;
 

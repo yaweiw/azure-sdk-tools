@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            stopAzureWebsiteCommand.ExecuteCommand();
+            stopAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsTrue(updated);
         }
     }

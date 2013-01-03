@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("NewServerName", newServerResult.ServerName);
             Assert.AreEqual("Success", newServerResult.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("MyLocation1", firstServer.Location);
             Assert.AreEqual("Success", firstServer.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
 
         [TestMethod]
@@ -205,14 +205,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("MyLocation1", firstServer.Location);
             Assert.AreEqual("Success", firstServer.OperationStatus);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
 
             // Remove TestServer0 again
             removeAzureSqlDatabaseServer = new RemoveAzureSqlDatabaseServer(channel) { ShareChannel = true };
             removeAzureSqlDatabaseServer.CurrentSubscription = UnitTestHelper.CreateUnitTestSubscription();
             removeAzureSqlDatabaseServer.CommandRuntime = commandRuntime;
             removeServerContext = removeAzureSqlDatabaseServer.RemoveAzureSqlDatabaseServerProcess("TestServer0");
-            Assert.AreEqual(1, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(1, commandRuntime.ErrorStream.Count);
             Assert.IsTrue(commandRuntime.WarningStream.Count > 0);
         }
 
@@ -261,7 +261,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
             Assert.AreEqual("Success", setPasswordResult.OperationStatus);
             Assert.AreEqual("NewPassword", password);
 
-            Assert.AreEqual(0, commandRuntime.ErrorRecords.Count);
+            Assert.AreEqual(0, commandRuntime.ErrorStream.Count);
         }
     }
 }

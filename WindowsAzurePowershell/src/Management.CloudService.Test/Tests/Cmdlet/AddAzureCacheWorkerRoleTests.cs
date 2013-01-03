@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
                 AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
 
-                PSObject actualOutput = mockCommandRuntime.WrittenObjects[1] as PSObject;
+                PSObject actualOutput = mockCommandRuntime.OutputPipeline[1] as PSObject;
                 Assert.AreEqual<string>(roleName, actualOutput.Members[Parameters.CacheWorkerRoleName].Value.ToString());
                 Assert.AreEqual<int>(expectedInstanceCount, int.Parse(actualOutput.Members[Parameters.Instances].Value.ToString()));
             }
