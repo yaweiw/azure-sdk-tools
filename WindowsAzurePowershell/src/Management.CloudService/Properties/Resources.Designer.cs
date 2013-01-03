@@ -196,11 +196,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Memcache is already enabled for web role &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Memcache is already enabled for role &apos;{0}&apos;..
         /// </summary>
-        internal static string CacheAlreadyEnabledMsg {
+        internal static string CacheAlreadyEnabledMessage {
             get {
-                return ResourceManager.GetString("CacheAlreadyEnabledMsg", resourceCulture);
+                return ResourceManager.GetString("CacheAlreadyEnabledMessage", resourceCulture);
             }
         }
         
@@ -390,6 +390,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string ChangeDeploymentStateWaitMessage {
             get {
                 return ResourceManager.GetString("ChangeDeploymentStateWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloud service {0} is in {1} state..
+        /// </summary>
+        internal static string ChangeDeploymentStatusCompleteMessage {
+            get {
+                return ResourceManager.GetString("ChangeDeploymentStatusCompleteMessage", resourceCulture);
             }
         }
         
@@ -746,15 +755,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enable-AzureMemcacheRole is supported for web roles only. Verify that &apos;{0}&apos; is a web role..
-        /// </summary>
-        internal static string EnableMemcacheOnWorkerRoleErrorMsg {
-            get {
-                return ResourceManager.GetString("EnableMemcacheOnWorkerRoleErrorMsg", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Windows Azure Certificate.
         /// </summary>
         internal static string EnableRemoteDesktop_FriendlyCertificateName {
@@ -1075,6 +1075,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string LocalServiceConfigurationFileName {
             get {
                 return ResourceManager.GetString("LocalServiceConfigurationFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for {0} deployment for {1} cloud service....
+        /// </summary>
+        internal static string LookingForDeploymentMessage {
+            get {
+                return ResourceManager.GetString("LookingForDeploymentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for cloud service {0}....
+        /// </summary>
+        internal static string LookingForServiceMessage {
+            get {
+                return ResourceManager.GetString("LookingForServiceMessage", resourceCulture);
             }
         }
         
@@ -1633,29 +1651,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing service {0}.
+        ///   Looks up a localized string similar to Removing cloud service {0}....
         /// </summary>
         internal static string RemoveAzureServiceWaitMessage {
             get {
                 return ResourceManager.GetString("RemoveAzureServiceWaitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove complete.
-        /// </summary>
-        internal static string RemoveCompleteMessage {
-            get {
-                return ResourceManager.GetString("RemoveCompleteMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing deployment.
-        /// </summary>
-        internal static string RemoveDeploymentMessage {
-            get {
-                return ResourceManager.GetString("RemoveDeploymentMessage", resourceCulture);
             }
         }
         
@@ -1665,24 +1665,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string RemoveDeploymentWaitMessage {
             get {
                 return ResourceManager.GetString("RemoveDeploymentWaitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing service....
-        /// </summary>
-        internal static string RemoveServiceMessage {
-            get {
-                return ResourceManager.GetString("RemoveServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Looking for service {0}....
-        /// </summary>
-        internal static string RemoveServiceStartMessage {
-            get {
-                return ResourceManager.GetString("RemoveServiceStartMessage", resourceCulture);
             }
         }
         
@@ -1903,7 +1885,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified service does not exist..
+        ///   Looks up a localized string similar to The specified cloud service &quot;{0}&quot; does not exist..
         /// </summary>
         internal static string ServiceDoesNotExist {
             get {
@@ -1993,7 +1975,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Service {0} doesn&apos;t exist or it doesn&apos;t have {1} slot.
+        ///   Looks up a localized string similar to The {0} slot for cloud service {1} doesn&apos;t exist..
         /// </summary>
         internal static string ServiceSlotDoesNotExist {
             get {
@@ -2074,15 +2056,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start complete.
-        /// </summary>
-        internal static string StartCompleteMessage {
-            get {
-                return ResourceManager.GetString("StartCompleteMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         internal static string StartedEmulator {
@@ -2101,24 +2074,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Looking for service {0}....
-        /// </summary>
-        internal static string StartServiceMessage {
-            get {
-                return ResourceManager.GetString("StartServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stop complete.
-        /// </summary>
-        internal static string StopCompleteMessage {
-            get {
-                return ResourceManager.GetString("StopCompleteMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Stopping emulator....
         /// </summary>
         internal static string StopEmulatorMessage {
@@ -2133,15 +2088,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string StoppedEmulatorMessage {
             get {
                 return ResourceManager.GetString("StoppedEmulatorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Looking for service {0}....
-        /// </summary>
-        internal static string StopServiceMessage {
-            get {
-                return ResourceManager.GetString("StopServiceMessage", resourceCulture);
             }
         }
         

@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class ScenarioTest : PowerShellTest
@@ -32,10 +33,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
         }
 
-        [TestCategory("Scenario"), TestMethod]
+        [TestCategory("Functional"), TestMethod]
         public void CreateAndGetServiceBusNamespace()
         {
-            string serviceBusNamespaceName = "OneSDKCreateAndGetServiceBusNamespace";
+            string serviceBusNamespaceName = "AzureSDKCreateAndGetServiceBusNamespaceTest";
             int locationIndex = 5; // North Central US
             string expectedRemoveVerbose = string.Format(Resources.RemovingNamespaceMessage, serviceBusNamespaceName);
 
@@ -44,10 +45,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             AddScenarioScript("CreateAndGetServiceBusNamespace.ps1");
 
             Collection<PSObject> result = powershell.Invoke();
-
-            Assert.AreEqual<string>(serviceBusNamespaceName, Testing.GetPSVariableValue<string>(result[0], "Name"));
-            Assert.AreEqual<string>(expectedRemoveVerbose, powershell.Streams.Verbose[0].Message);
+            
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            Assert.AreEqual<string>(serviceBusNamespaceName, result[0].GetVariableValue<string>("Name"));
+            Assert.AreEqual<string>(expectedRemoveVerbose, powershell.Streams.Verbose[0].Message);
         }
     }
 }

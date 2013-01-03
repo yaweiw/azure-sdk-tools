@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyRoleSettings(service);
-                Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
             }
         }
 
@@ -232,8 +232,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[1], false);
                 VerifyRoleSettings(service);
-                Assert.AreEqual<int>(1, mockCommandRuntime.WrittenObjects.Count);
-                Assert.IsTrue((bool)mockCommandRuntime.WrittenObjects[0]);
+                Assert.AreEqual<int>(1, mockCommandRuntime.OutputPipeline.Count);
+                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
             }
         }
     }

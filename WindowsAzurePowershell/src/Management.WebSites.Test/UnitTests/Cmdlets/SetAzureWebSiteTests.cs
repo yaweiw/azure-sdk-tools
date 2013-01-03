@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 NumberOfWorkers = 3
             };
 
-            setAzureWebsiteCommand.ExecuteCommand();
+            setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsTrue(updatedSiteConfig);
             Assert.IsFalse(updatedSite);
 
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 HostNames = new [] { "stuff.com" }
             };
 
-            setAzureWebsiteCommand.ExecuteCommand();
+            setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsFalse(updatedSiteConfig);
             Assert.IsTrue(updatedSite);
         }
@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 NumberOfWorkers = 3
             };
 
-            setAzureWebsiteCommand.ExecuteCommand();
+            setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsTrue(updatedSiteConfig);
             Assert.IsFalse(updatedSite);
 
@@ -165,12 +165,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 HostNames = new[] { "stuff.com" }
             };
 
-            setAzureWebsiteCommand.ExecuteCommand();
+            setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsFalse(updatedSiteConfig);
             Assert.IsTrue(updatedSite);
 
             setAzureWebsiteCommand.NetFrameworkVersion = "v2.0";
-            setAzureWebsiteCommand.ExecuteCommand();
+            setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.AreEqual<int?>(3, siteConfig.NumberOfWorkers);
             Assert.AreEqual<string>("v2.0", siteConfig.NetFrameworkVersion);
         }

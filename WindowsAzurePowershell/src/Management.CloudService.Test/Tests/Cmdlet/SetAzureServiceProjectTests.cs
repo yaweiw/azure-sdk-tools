@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     // Assert subscription is changed
                     //
                     Assert.AreEqual<string>(item, settings.Subscription);
-                    Assert.AreEqual<int>(0, mockCommandRuntime.WrittenObjects.Count);
+                    Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     // Assert location is changed
                     //
                     Assert.AreEqual<string>(item.Value, settings.Location);
-                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
+                    ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
                     Assert.AreEqual<string>(item.Value, settings.Location);
                 }
             }
@@ -158,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Assert storageAccountName is changed
                 //
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
-                ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
+                ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
             }
         }
