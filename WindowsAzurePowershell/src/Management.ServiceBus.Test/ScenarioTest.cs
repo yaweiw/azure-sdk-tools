@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
         }
 
-        [TestCategory("Scenario"), TestMethod]
+        [TestCategory("Functional"), TestMethod]
         public void CreateAndGetServiceBusNamespace()
         {
             string serviceBusNamespaceName = "AzureSDKCreateAndGetServiceBusNamespaceTest";
