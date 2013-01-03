@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 // If we reach here that means the service or slot doesn't exist
                 //
-                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, serviceName, slot));
+                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName));
             }
 
             return deployment.Status;
