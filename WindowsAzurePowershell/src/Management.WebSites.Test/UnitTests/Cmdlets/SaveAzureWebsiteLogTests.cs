@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
             
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
-            getAzureWebsiteLogCommand.ExecuteCommand();
+            getAzureWebsiteLogCommand.ExecuteCmdlet();
             Assert.AreEqual("test", File.ReadAllText(SaveAzureWebsiteLogCommand.DefaultOutput));
         }
 
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
-            getAzureWebsiteLogCommand.ExecuteCommand();
+            getAzureWebsiteLogCommand.ExecuteCmdlet();
             Assert.AreEqual("test with no extnsion", File.ReadAllText(expectedOutput));
         }
     }

@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            restartAzureWebsiteCommand.ExecuteCommand();
+            restartAzureWebsiteCommand.ExecuteCmdlet();
 
             Assert.AreEqual(2, siteStates.Count);
             Assert.AreEqual("Stopped", siteStates[0]);

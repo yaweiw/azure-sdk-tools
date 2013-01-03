@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;Build;Publish">
+  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -18,8 +18,10 @@
     <ScaffoldingReleaseDestinationDir>.\Package\Release</ScaffoldingReleaseDestinationDir>
     <ScaffoldingDebugSourceDir>.\Package\Debug\Resources</ScaffoldingDebugSourceDir>
     <ScaffoldingDebugDestinationDir>.\Package\Debug</ScaffoldingDebugDestinationDir>
+    <ReleaseScaffoldingDir>.\Package\Release\Scaffolding</ReleaseScaffoldingDir>
+    <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
 
-	<TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
+	  <TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>	
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
@@ -37,39 +39,55 @@
   <!-- Clean the build in all configurations -->
   <Target Name="Clean">
     <!-- Clean the solutions -->
-    <Message Importance="high" Text="Cleaning Cmdlets..." ContinueOnError="true" />
+    <Message Importance="high" Text="Cleaning Cmdlets..." ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
       Properties="Configuration=Debug"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
       Properties="Configuration=Release"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
       Properties="Configuration=ReleaseSigned"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
       Properties="Configuration=Release"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
+    
+    <!-- Delete scaffolding files-->
+    <Message Importance="high" Text="Cleaning scaffolding files..." ContinueOnError="false" />
+    <ItemGroup>
+      <DebugScaffoldingFiles Include="$(DebugScaffoldingDir)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(DebugScaffoldingFiles)"
+      ContinueOnError="false" />
+    <ItemGroup>
+      <ReleaseScaffoldingFiles Include="$(ReleaseScaffoldingDir)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(ReleaseScaffoldingFiles)"
+      ContinueOnError="false" />
+    <RemoveDir Directories="$(ReleaseScaffoldingDir);$(DebugScaffoldingDir)" ContinueOnError="false"/>
 
     <!-- Delete the publish files -->
-    <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="true" />
+    <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="false" />
     <ItemGroup>
       <PublishFiles Include="$(PublishDirectory)\**\*.*" />
     </ItemGroup>
     <Delete
       Files="@(PublishFiles)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <RemoveDir
       Directories="$(PublishDirectory)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build all flavors of the Cmdlets -->
@@ -79,17 +97,17 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=Debug"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=Release"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=ReleaseSigned"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build the Setup -->
@@ -97,16 +115,16 @@
     <Message
       Importance="high"
       Text="Building Setup..."
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Message
       Importance="high"
       Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Build"
       Properties="Configuration=Release"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build the Cmdlets and Setup in all configurations -->
@@ -118,7 +136,7 @@
   <Target Name="Publish" DependsOnTargets="Build">
     
     <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="true" />
+    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="false" />
     <ItemGroup>
       <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
 	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
@@ -127,20 +145,20 @@
     </ItemGroup>
     <MakeDir
       Directories="$(BuildOutputDirectory)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Copy
       SourceFiles="@(DebugFiles)"
       DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="true"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Copy
       SourceFiles="@(ReleaseFiles)"
       DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="true"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     
     <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="true" />
+    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="false" />
     <ItemGroup>
       <SetupFiles Include="$(SetupDirectory)\**\*.*" />
     </ItemGroup>
@@ -148,23 +166,23 @@
       SourceFiles="@(SetupFiles)"
       DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="true"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Run the unit tests -->
   <Target Name="Test" DependsOnTargets="BuildCmdlets">
     <Message Importance="high" Text="Running tests..." />
     <Message Importance="high" Text="You are required to have installed the a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="true" />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     
     <Message Importance="high" Text="Debug tests:" />
     <Exec
       Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Message Importance="high" Text="Release tests:" />
     <Exec
       Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Release.trx"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Do everything possible -->
@@ -179,7 +197,7 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=ReleaseSigned"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <CreateItem Include="$(ScaffoldingReleaseSourceDir)\**\*.*">
       <Output TaskParameter="Include" ItemName="Scaffolding" />
     </CreateItem>
@@ -194,7 +212,7 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=Debug"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <CreateItem Include="$(ScaffoldingDebugSourceDir)\**\*.*">
       <Output TaskParameter="Include" ItemName="Scaffolding" />
     </CreateItem>

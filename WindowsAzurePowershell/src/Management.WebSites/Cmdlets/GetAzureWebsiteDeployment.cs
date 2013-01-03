@@ -82,9 +82,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInDeploymentOperationContext(() => { deployResult.Logs = DeploymentChannel.GetDeploymentLogs(deployResult.Id); });
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
-            base.ExecuteCommand();
+            base.ExecuteCmdlet();
 
             InvokeInDeploymentOperationContext(() =>
             {

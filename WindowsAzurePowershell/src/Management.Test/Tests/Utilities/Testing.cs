@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     using System.Diagnostics;
     using System.IO;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
 
     /// <summary>
     /// Various utilities and helpers to facilitate testing.

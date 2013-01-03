@@ -65,9 +65,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             DeploymentChannel = deploymentChannel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
-            base.ExecuteCommand();
+            base.ExecuteCmdlet();
 
             if (!Force.IsPresent &&
                 !ShouldProcess("", string.Format(Resources.RedeployCommit, CommitId),

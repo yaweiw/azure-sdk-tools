@@ -54,8 +54,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 cmdlet.NewAzureServiceProcess(files.RootPath, expectedName);
 
                 // Assert
-                PSObject actualPSObject = mockCommandRuntime.WrittenObjects[0] as PSObject;
-                string actualServiceCreatedMessage = mockCommandRuntime.VerboseChannel[0];
+                PSObject actualPSObject = mockCommandRuntime.OutputPipeline[0] as PSObject;
+                string actualServiceCreatedMessage = mockCommandRuntime.VerboseStream[0];
                 
                 Assert.AreEqual<string>(expectedName, actualPSObject.Members[Parameters.ServiceName].Value.ToString());
                 Assert.AreEqual<string>(expectedRootPath, actualPSObject.Members[Parameters.RootPath].Value.ToString());

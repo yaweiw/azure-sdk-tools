@@ -36,8 +36,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             return operation;
         }
 
-        internal abstract void ExecuteCommand();
-
         protected string ProcessException(Exception ex)
         {
             return ProcessException(ex, true);
@@ -98,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 base.ProcessRecord();
 
                 // Execute actual cmdlet action
-                ExecuteCommand();
+                ExecuteCmdlet();
             }
             catch (EndpointNotFoundException ex)
             {
@@ -107,10 +105,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             catch (ProtocolException ex)
             {
                 ProcessException(ex);
-            }
-            catch (Exception ex)
-            {
-                WriteExceptionError(ex);
             }
         }
     }
