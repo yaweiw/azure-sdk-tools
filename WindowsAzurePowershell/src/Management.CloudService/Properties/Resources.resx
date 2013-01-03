@@ -859,4 +859,7 @@
   <data name="LookingForServiceMessage" xml:space="preserve">
     <value>Looking for cloud service {0}...</value>
   </data>
+  <data name="PackageCreated" xml:space="preserve">
+    <value>Package is created at service root path {0}.</value>
+  </data>
 </root>
