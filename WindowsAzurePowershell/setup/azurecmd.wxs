@@ -77,7 +77,7 @@
                   Name="Windows Azure PowerShell"
                   Description="Windows PowerShell commandlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -Command &quot;cd 'C:\'; Get-ChildItem '[PowerShellFolder]*.psd1' | ForEach-Object {Import-Module $_}; $VerbosePreference=\&quot;Continue\&quot;; Write-Output \&quot;For a list of all Azure cmdlets type 'help azure'.`r`nFor Node.js cmdlets type 'help node-dev'.`r`nFor PHP cmdlets type 'help php-dev'.\&quot;"/>
+                  Arguments="-NoExit -Command &quot;cd 'C:\'; Get-ChildItem '[PowerShellFolder]*.psd1' | ForEach-Object {Import-Module $_}; $VerbosePreference=\&quot;Continue\&quot;; Write-Output \&quot;For a list of all Azure cmdlets type 'help azure'.`r`nFor Node.js cmdlets type 'help node-dev'.`r`nFor PHP cmdlets type 'help php-dev'.`r`nFor Python cmdlets type 'help python-dev'.\&quot;"/>
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
