@@ -24,9 +24,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using System.Linq;
 
     [TestClass]
-    public class FunctionalTest : PowerShellTest
+    public class BasicTest : PowerShellTest
     {
-        public FunctionalTest() 
+        public BasicTest() 
             : base("Microsoft.WindowsAzure.Management.ServiceBus.dll")
         {
 
