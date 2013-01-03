@@ -86,6 +86,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 {
                     WriteObject(deployment);                    
                 }
+
+                WriteVerboseWithTimestamp(string.Format(Resources.ChangeDeploymentStatusCompleteMessage, serviceName, newStatus));
             }
             else
             {
