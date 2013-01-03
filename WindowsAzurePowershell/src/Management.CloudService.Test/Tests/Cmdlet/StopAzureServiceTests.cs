@@ -62,6 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
             };
             channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -70,6 +71,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 stopServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
+            }
+        }
+
+        [TestMethod]
+        public void SetDeploymentStatusProcessWithNotExisitingServiceFail()
+        {
+            string newStatus = DeploymentStatus.Suspended;
+            string currentStatus = DeploymentStatus.Running;
+            bool statusUpdated = false;
+            channel.UpdateDeploymentStatusBySlotThunk = ar =>
+            {
+                statusUpdated = true;
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+            };
+            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                stopServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+
+                Assert.IsFalse(statusUpdated);
             }
         }
     }
