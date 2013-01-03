@@ -188,7 +188,7 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="Clean;Build;Publish;Test" />
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned">
