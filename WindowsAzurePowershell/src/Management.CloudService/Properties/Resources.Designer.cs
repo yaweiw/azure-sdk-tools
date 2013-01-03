@@ -1624,7 +1624,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uploading Package....
+        ///   Looks up a localized string similar to Uploading Package to storage service {0}....
         /// </summary>
         internal static string PublishUploadingPackageMessage {
             get {

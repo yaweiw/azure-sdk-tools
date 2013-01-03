@@ -461,7 +461,7 @@
     <value>Upgrading...</value>
   </data>
   <data name="PublishUploadingPackageMessage" xml:space="preserve">
-    <value>Uploading Package...</value>
+    <value>Uploading Package to storage service {0}...</value>
   </data>
   <data name="PublishVerifyingStorageMessage" xml:space="preserve">
     <value>Verifying storage account '{0}'...</value>
