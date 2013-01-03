@@ -865,11 +865,8 @@
   <data name="AddRoleMessageCreatePHP" xml:space="preserve">
     <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running "pear WindowsAzure/WindowsAzure".</value>
   </data>
-  <data name="StartCompleteMessage" xml:space="preserve">
-    <value>Start complete</value>
-  </data>
-  <data name="StopCompleteMessage" xml:space="preserve">
-    <value>Stop complete</value>
+  <data name="ChangeDeploymentStatusCompleteMessage" xml:space="preserve">
+    <value>Cloud service {0} is in {1} state.</value>
   </data>
   <data name="RemoveCompleteMessage" xml:space="preserve">
     <value>Remove complete</value>

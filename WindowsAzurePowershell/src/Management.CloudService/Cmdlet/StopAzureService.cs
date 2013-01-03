@@ -44,7 +44,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             WriteVerboseWithTimestamp(Resources.StopServiceMessage, serviceName);
             base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            WriteVerboseWithTimestamp(Resources.StopCompleteMessage);
         }
     }
 }

@@ -394,6 +394,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cloud service {0} is in {1} state..
+        /// </summary>
+        internal static string ChangeDeploymentStatusCompleteMessage {
+            get {
+                return ResourceManager.GetString("ChangeDeploymentStatusCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service {0} is set to value {1}.
         /// </summary>
         internal static string ChangeSettingsElementMessage {
@@ -2065,15 +2074,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start complete.
-        /// </summary>
-        internal static string StartCompleteMessage {
-            get {
-                return ResourceManager.GetString("StartCompleteMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Started.
         /// </summary>
         internal static string StartedEmulator {
@@ -2097,15 +2097,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string StartServiceMessage {
             get {
                 return ResourceManager.GetString("StartServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stop complete.
-        /// </summary>
-        internal static string StopCompleteMessage {
-            get {
-                return ResourceManager.GetString("StopCompleteMessage", resourceCulture);
             }
         }
         
