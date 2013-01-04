@@ -157,6 +157,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;.
+        /// </summary>
+        internal static string NoDefaultSubscriptionMessage {
+            get {
+                return ResourceManager.GetString("NoDefaultSubscriptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal.
         ///Please follow these steps in the portal:
         ///1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create

@@ -14,12 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using Management.Services;
-    using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.Cmdlets;
+    using Microsoft.WindowsAzure.Management.Websites.Properties;
     using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -118,6 +120,43 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);
             Assert.AreEqual("user1", website.PublishingUsername);
+        }
+
+        [TestMethod]
+        public void ProcessGetWebsiteWithNullSubscription()
+        {
+            // Setup
+            GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
+                GlobalPathInfo.GlobalSettingsDirectory,
+                null,
+                Microsoft.WindowsAzure.Management.CloudService.Test.TestData.Data.ValidPublishSettings[0]);
+            RemoveAzureSubscriptionCommand removeCmdlet = new RemoveAzureSubscriptionCommand();
+            removeCmdlet.CommandRuntime = new MockCommandRuntime();
+            removeCmdlet.RemoveSubscriptionProcess("Windows Azure Sandbox 9-220", null);
+            removeCmdlet.RemoveSubscriptionProcess("TestSubscription1", null);
+            removeCmdlet.RemoveSubscriptionProcess("TestSubscription2", null);
+            
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSitesThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                }
+
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+            };
+
+            // Test
+            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = null
+            };
+
+            Testing.AssertThrows<Exception>(() => getAzureWebsiteCommand.ExecuteCmdlet(), Resources.NoDefaultSubscriptionMessage);
         }
     }
 }

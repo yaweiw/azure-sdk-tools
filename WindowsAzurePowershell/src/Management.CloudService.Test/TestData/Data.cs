@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
-    static class Data
+    public static class Data
     {
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115

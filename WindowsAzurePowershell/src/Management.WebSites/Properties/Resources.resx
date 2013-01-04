@@ -189,4 +189,7 @@ Launch portal now?</value>
   <data name="LinkAlreadyEstablished" xml:space="preserve">
     <value>Link already established</value>
   </data>
+  <data name="NoDefaultSubscriptionMessage" xml:space="preserve">
+    <value>There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;</value>
+  </data>
 </root>
