@@ -178,7 +178,7 @@ Launch portal now?</value>
     <value>Deployment with {0} does not exist</value>
   </data>
   <data name="RepositoryNotSetup" xml:space="preserve">
-    <value>Repository is not setup</value>
+    <value>Repository is not setup. Please use valid site name or make sure you pass site name.</value>
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
