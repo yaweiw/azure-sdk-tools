@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -25,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// <summary>
     /// base cmdlet for storage blob/container cmdlet
     /// </summary>
-    public class StorageBlobBaseCmdlet : StorageBaseCmdlet
+    public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase
     {
         /// <summary>
         /// blob client for IBlobManagement

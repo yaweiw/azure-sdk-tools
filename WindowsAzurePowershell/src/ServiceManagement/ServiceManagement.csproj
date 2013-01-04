@@ -81,6 +81,10 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -129,6 +133,7 @@
     <Compile Include="Contract\OperationTracking.cs" />
     <Compile Include="Contract\OSImage.cs" />
     <Compile Include="Contract\ServiceBus.cs" />
+    <Compile Include="Contract\StorageManagement.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +158,7 @@
     <Compile Include="ResourceModel\ServiceManagementError.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper2.cs" />
+    <Compile Include="ResourceModel\StorageManagement.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
   </ItemGroup>

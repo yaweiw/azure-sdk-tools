@@ -97,7 +97,6 @@ ModuleList = @()
 FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
-			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml'
 			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Storage.dll-Help.xml'

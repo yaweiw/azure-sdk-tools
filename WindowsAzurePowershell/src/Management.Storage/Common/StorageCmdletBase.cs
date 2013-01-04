@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model;
     using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
@@ -28,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// <summary>
     /// base cmdlet for cmdlet in storage package
     /// </summary>
-    public class BaseCmdlet : CloudBaseCmdlet<IServiceManagement>
+    public class StorageCmdletBase : CmdletBase
     {
         /// <summary>
         /// cmdlet operation context.
@@ -58,31 +57,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 remoteCallCounter++;
                 string message = String.Format(Resources.StartRemoteCall,
                     remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
-                SafeWriteVerboseLog(message);
+                WriteVerboseLog(message);
             };
             
             OperationContext.ResponseReceived += (s, e) =>
             {
                 string message = String.Format(Resources.FinishRemoteCall,
                     e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
-                SafeWriteVerboseLog(message);
+                WriteVerboseLog(message);
             };
 
-            SafeWriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
+            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
         }
 
         /// <summary>
         /// write log in verbose mode
         /// </summary>
         /// <param name="msg">verbose log</param>
-        internal void SafeWriteVerboseLog(string msg)
+        internal void WriteVerboseLog(string msg)
         {
-            string time = DateTime.Now.ToString();
-            string log = String.Format(Resources.VerboseLogFormat, time, msg);
-
             if (!forbiddenWriteOutput)
             {
-                SafeWriteVerbose(log);
+                WriteVerboseWithTimestamp(msg);
             }
         }
 
@@ -95,11 +91,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                SafeWriteVerboseLog(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+                WriteVerboseLog(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                SafeWriteVerboseLog(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                WriteVerboseLog(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();
@@ -113,14 +109,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError;
             exception = exception.RepackStorageException();
-            SafeWriteError(new ErrorRecord(exception, exception.GetType().Name, errorCategory, null));
+            WriteError(new ErrorRecord(exception, exception.GetType().Name, errorCategory, null));
         }
 
         /// <summary>
         /// safe write error
         /// </summary>
         /// <param name="e">an exception object</param>
-        protected void SafeWriteError(Exception e)
+        protected override void WriteExceptionError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
 
@@ -144,32 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 return;
             }
 
-            SafeWriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
-        }
-
-        /// <summary>
-        /// execute command
-        /// </summary>
-        internal virtual void ExecuteCommand()
-        {
-            return;
-        }
-
-        /// <summary>
-        /// process record
-        /// </summary>
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                base.ProcessRecord();
-
-                this.ExecuteCommand();
-            }
-            catch (Exception e)
-            {
-                SafeWriteError(e);
-            }
+            WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
         }
 
         /// <summary>
@@ -181,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             double timespan = OperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
                 this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
-            SafeWriteVerboseLog(message);
+            WriteVerboseLog(message);
         }
 
         /// <summary>

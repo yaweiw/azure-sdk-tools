@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.Storage.Model;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// </summary>
     [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext,
         DefaultParameterSetName = AccountNameKeyParameterSet)]
-    public class NewAzureStorageContext : BaseCmdlet
+    public class NewAzureStorageContext : StorageCmdletBase
     {
         /// <summary>
         /// default parameter set name
@@ -113,14 +113,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         private string protocolType = StorageNouns.HTTPS;
 
         /// <summary>
-        /// Initializes a new instance o
-        /// </summary>
-        public NewAzureStorageContext()
-        {
-            SkipChannelInit = true;
-        }
-
-        /// <summary>
         /// get storage account by account name and account key
         /// </summary>
         /// <param name="accountName">storage account name</param>
@@ -193,7 +185,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// execute command
         /// </summary>
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = null;
             bool useHttps = !("http" == protocolType.ToLower());
@@ -220,7 +212,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
 
             StorageContext context = new StorageContext(account);
-            WriteOutputObject(context);
+            WriteObject(context);
         }
     }
 }

@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
+namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
 {
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob;
+    using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model;
     using Microsoft.WindowsAzure.Management.Storage.Test.Service;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -123,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             Assert.AreEqual(1, containerList.Count());
             Assert.AreEqual("test", containerList.First().Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
+            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             containerList = command.ListContainersByPrefix("testx");
             Assert.IsFalse(containerList.Any());
         }
@@ -131,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         [TestMethod]
         public void ListContainerByPrefixWithInvalidPrefixTest()
         {
-            ((MockCommandRuntime)command.CommandRuntime).Clean();
+            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             string prefix = "?";
             AssertThrows<ArgumentException>(() => command.ListContainersByPrefix(prefix), String.Format(Resources.InvalidContainerName, prefix));
             prefix = string.Empty;
@@ -151,13 +152,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             containerList = command.PackCloudBlobContainerWithAcl(BlobMock.ContainerList);
             Assert.AreEqual(5, containerList.Count());
         }
-
+        
         [TestMethod]
         public void ExecuteCommandGetContainerTest()
         {
             AddTestContainers();
             command.Name = "test";
-            command.ExecuteCommand();
+            command.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
         }
     }
