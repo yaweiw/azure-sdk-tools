@@ -14,19 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
-    using System.Linq;
+    using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using System.IO;
 
     /// <summary>
     /// Packages the service project into *.cspkg
@@ -40,9 +34,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AzureTool.Validate();
             string unused;
             string rootPath = base.GetServiceRootPath();
+            string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
+
             AzureService service = new AzureService(base.GetServiceRootPath(), null);
             service.CreatePackage(DevEnv.Cloud, out unused, out unused);
-            WriteVerbose(string.Format(Resources.PackageCreated, Path.Combine(rootPath, Resources.LocalPackageFileName)));
+            WriteVerbose(string.Format(Resources.PackageCreated, packagePath));
+            SafeWriteOutputPSObject(typeof(PSObject).FullName, Parameters.PackagePath, packagePath);
         }
     }
 }
