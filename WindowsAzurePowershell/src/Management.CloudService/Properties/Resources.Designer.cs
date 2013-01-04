@@ -1322,6 +1322,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Package is created at service root path {0}..
+        /// </summary>
+        internal static string PackageCreated {
+            get {
+                return ResourceManager.GetString("PackageCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {{
         ///  &quot;author&quot;: &quot;&quot;,
         ///
@@ -1624,7 +1633,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uploading Package....
+        ///   Looks up a localized string similar to Uploading Package to storage service {0}....
         /// </summary>
         internal static string PublishUploadingPackageMessage {
             get {
