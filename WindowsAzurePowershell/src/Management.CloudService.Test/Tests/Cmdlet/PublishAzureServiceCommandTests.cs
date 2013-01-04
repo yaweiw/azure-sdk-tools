@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.IO.Packaging;
     using System.Linq;
@@ -29,13 +30,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Management.Test.Tests.Utilities;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using System.Diagnostics;
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-    using Microsoft.WindowsAzure.Management.Extensions;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
@@ -819,6 +820,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Process.Start(setupWebPath).WaitForExit();
 
                 Assert.AreEqual<string>(File.ReadAllText(webCloudConfigPath), File.ReadAllText(webConfigPath));
+            }
+        }
+
+        /// <summary>
+        /// Tests that creating package and pre publish preparations will succeed for
+        /// a role without Startup task
+        /// </summary>
+        [TestMethod]
+        public void PublishServiceWithEmptyStartup()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                string webRoleName = "webrole";
+                string serviceName = "test";
+                string rootPath = files.CreateNewService(serviceName);
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                AzureService service = new AzureService(rootPath, null);
+                service.AddWebRole(Resources.NodeScaffolding, webRoleName);
+                WebRole webRole = service.Components.GetWebRole(webRoleName);
+                webRole.Startup = new Startup();
+                service.Components.Save(service.Paths);
+                service = new AzureService(rootPath, null);
+                channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
+                channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
+
+                publishServiceCmdlet.InitializeSettingsAndCreatePackage(rootPath, RuntimePackageHelper.GetTestManifest(files));
+
+                webRole = service.Components.GetWebRole(webRoleName);
+                Assert.IsNull(webRole.Startup.Task);
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, Resources.CloudPackageFileName)));
             }
         }
     }
