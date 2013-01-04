@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 {
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -27,6 +28,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
     /// </summary>
     public class MockStorageBlobManagement : IStorageBlobManagement
     {
+        /// <summary>
+        /// blob end point
+        /// </summary>
+        private string BlobEndPoint = "http://127.0.0.1/account/";
+
         /// <summary>
         /// container list
         /// </summary>
@@ -63,11 +69,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
                 return containerBlobs;
             }
         }
-
-        /// <summary>
-        /// blob end point
-        /// </summary>
-        private string BlobEndPoint = "http://127.0.0.1/account/";
 
         /// <summary>
         /// get a list of cloudblobcontainer in azure

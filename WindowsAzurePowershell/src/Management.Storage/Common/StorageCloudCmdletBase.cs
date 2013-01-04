@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.Storage.Model;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// <summary>
     /// base cmdlet for all storage cmdlet
     /// </summary>
-    public class StorageBaseCmdlet : BaseCmdlet
+    public class StorageCloudCmdletBase : StorageCmdletBase
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
@@ -65,10 +65,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// output azure storage object with storage context
         /// </summary>
         /// <param name="item">an AzureStorageBase object</param>
-        internal void SafeWriteObjectWithContext(AzureStorageBase item)
+        internal void WriteObjectWithStorageContext(AzureStorageBase item)
         {
             item.Context = Context;
-            WriteOutputObject(item);
+            WriteObject(item);
         }
 
 
@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// output azure storage object with storage context
         /// </summary>
         /// <param name="item">an eunmerable collection fo azurestorage object</param>
-        internal void SafeWriteObjectWithContext(IEnumerable<AzureStorageBase>  itemList)
+        internal void WriteObjectWithStorageContext(IEnumerable<AzureStorageBase>  itemList)
         {
             if (null == itemList)
             {
@@ -85,7 +85,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             foreach (AzureStorageBase item in itemList)
             {
-                SafeWriteObjectWithContext(item);
+                WriteObjectWithStorageContext(item);
             }
         }
 
@@ -121,16 +121,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 return CloudStorageAccount.Parse(connectionString);
             }
-        }
-
-        /// <summary>
-        /// process record
-        /// </summary>
-        protected override void ProcessRecord()
-        {
-            SkipChannelInit = Context != null;
-
-            base.ProcessRecord();
         }
     }
 }

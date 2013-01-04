@@ -12,10 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Blob
+namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -25,11 +26,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using System.Text;
 
     /// <summary>
-    /// Get azure storage container
+    /// list azure storage container
     /// </summary>
     [Cmdlet(VerbsCommon.Get, StorageNouns.Container,
         DefaultParameterSetName = NameParameterSet)]
-    public class GetAzureStorageContainerCommand : StorageBlobBaseCmdlet
+    public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
         /// default parameter set name
@@ -148,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// execute command
         /// </summary>
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             IEnumerable<CloudBlobContainer> containerList = null;
 
@@ -162,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
-            SafeWriteObjectWithContext(azureContainers);
+            WriteObjectWithStorageContext(azureContainers);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         /// Write an error message for a given exception.
         /// </summary>
         /// <param name="ex">The exception resulting from the error.</param>
-        protected void WriteExceptionError(Exception ex)
+        protected virtual void WriteExceptionError(Exception ex)
         {
             Debug.Assert(ex != null, "ex cannot be null or empty.");
             WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
