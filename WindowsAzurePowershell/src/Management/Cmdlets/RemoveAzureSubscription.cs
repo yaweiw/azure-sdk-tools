@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
         [ValidateNotNullOrEmpty]
         public string SubscriptionDataFile { get; set; }
 
-        internal void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
+        public void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
         {
             // Import subscriptions from subscriptions file
             var globalComponents = GlobalComponents.Load(

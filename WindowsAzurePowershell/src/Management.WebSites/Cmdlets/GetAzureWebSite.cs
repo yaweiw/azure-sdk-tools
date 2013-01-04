@@ -62,6 +62,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         public override void ExecuteCmdlet()
         {
+            if (CurrentSubscription == null)
+            {
+                throw new Exception(Resources.NoDefaultSubscriptionMessage);
+            }
+
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website
