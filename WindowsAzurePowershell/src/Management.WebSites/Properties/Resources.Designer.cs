@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click &apos;set/reset deployment credentials&apos; to set up a new user account, then reurn to this cmdlet and specify PublishingUsername..
+        ///   Looks up a localized string similar to Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click &apos;set/reset deployment credentials&apos; to set up a new user account, then reurn this cmdlet and specify PublishingUsername..
         /// </summary>
         internal static string MultiplePublishingUsernames {
             get {

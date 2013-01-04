@@ -154,7 +154,7 @@ Please follow these steps in the portal:
 Launch portal now?</value>
   </data>
   <data name="MultiplePublishingUsernames" xml:space="preserve">
-    <value>Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click 'set/reset deployment credentials' to set up a new user account, then reurn to this cmdlet and specify PublishingUsername.</value>
+    <value>Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click 'set/reset deployment credentials' to set up a new user account, then reurn this cmdlet and specify PublishingUsername.</value>
   </data>
   <data name="NeedPublishingUsernames" xml:space="preserve">
     <value>A publishing username is required. Please specify one using the argument PublishingUsername.</value>
