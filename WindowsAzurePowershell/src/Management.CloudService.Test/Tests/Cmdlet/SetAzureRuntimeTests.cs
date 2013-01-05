@@ -131,5 +131,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.AreEqual<string>(roleName, roleSettings2.name);
             }
         }
+
+        /// <summary>
+        /// Verify that adding valid role runtimes results in valid changes in the commandlet scaffolding 
+        /// (in this case, valid package.json changes).  Test for both a valid node runtiem version and 
+        /// valid iisnode runtiem version
+        /// </summary>
+        [TestMethod]
+        public void TestSetAzureRuntimeValidRuntimeVersionsCanInsensitive()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWebRole(Resources.NodeScaffolding);
+                string roleName = "WebRole1";
+                string caseInsensitiveName = "weBrolE1";
+                cmdlet.PassThru = false;
+
+                RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(caseInsensitiveName, "node", "0.8.2", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(caseInsensitiveName, "iisnode", "0.1.21", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
+                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "node", "0.8.2");
+                VerifyPackageJsonVersion(service.Paths.RootPath, roleName, "iisnode", "0.1.21");
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+                Assert.AreEqual<string>(roleName, roleSettings1.name);
+                Assert.AreEqual<string>(roleName, roleSettings2.name);
+            }
+        }
     }
 }

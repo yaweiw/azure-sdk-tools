@@ -82,8 +82,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
-            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
-            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
+            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
+            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
         }
 
         /// <summary>
