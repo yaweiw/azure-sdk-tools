@@ -45,6 +45,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 new WebSpace { Name = "webspace2", GeoRegion = "webspace2" }
             });
 
+            channel.GetSiteConfigThunk = ar =>
+            {
+                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new SiteConfig
+                    {
+                        PublishingUsername = "user1"
+                    };
+                }
+
+                return null;
+            };
+
             channel.CreateSiteThunk = ar =>
                                           {
                                               Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
@@ -57,10 +70,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                                           };
 
             // Test
+            MockCommandRuntime mockRuntime = new MockCommandRuntime();
             NewAzureWebsiteCommand newAzureWebsiteCommand = new NewAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
-                CommandRuntime = new MockCommandRuntime(),
+                CommandRuntime = mockRuntime,
                 Name = websiteName,
                 Location = webspaceName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
@@ -68,6 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             newAzureWebsiteCommand.ExecuteCmdlet();
             Assert.IsTrue(created);
+            Assert.AreEqual<string>(websiteName, (mockRuntime.OutputPipeline[0] as SiteWithConfig).Name);
         }
     }
 }
