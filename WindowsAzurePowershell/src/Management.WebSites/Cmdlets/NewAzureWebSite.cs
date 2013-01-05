@@ -298,7 +298,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
-                Site websiteObject = null;
                 SiteConfig websiteConfiguration = null;
                 InvokeInOperationContext(() => 
                 {
