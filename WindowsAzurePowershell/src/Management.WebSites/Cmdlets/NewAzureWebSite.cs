@@ -298,6 +298,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+                Site websiteObject = null;
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() => 
+                {
+                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
+                    WaitForOperation(CommandRuntime.ToString());
+                });
+                WriteObject(new SiteWithConfig(website, websiteConfiguration));
             }
             catch (ProtocolException ex)
             {
@@ -351,8 +359,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy(updatedWebsite);
                 linkedRevisionControl.Dispose();
             }
-
-            WriteObject(webspace);
         }
     }
 }

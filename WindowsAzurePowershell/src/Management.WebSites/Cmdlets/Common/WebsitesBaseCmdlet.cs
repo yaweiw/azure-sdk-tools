@@ -94,9 +94,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             try
             {
                 base.ProcessRecord();
-
-                // Execute actual cmdlet action
-                ExecuteCmdlet();
             }
             catch (EndpointNotFoundException ex)
             {
