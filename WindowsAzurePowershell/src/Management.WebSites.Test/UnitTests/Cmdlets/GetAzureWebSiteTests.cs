@@ -132,10 +132,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Microsoft.WindowsAzure.Management.CloudService.Test.TestData.Data.ValidPublishSettings[0]);
             RemoveAzureSubscriptionCommand removeCmdlet = new RemoveAzureSubscriptionCommand();
             removeCmdlet.CommandRuntime = new MockCommandRuntime();
-            removeCmdlet.RemoveSubscriptionProcess("Windows Azure Sandbox 9-220", null);
-            removeCmdlet.RemoveSubscriptionProcess("TestSubscription1", null);
-            removeCmdlet.RemoveSubscriptionProcess("TestSubscription2", null);
-            
+            ICollection<string> subscriptions = globalComponents.Subscriptions.Keys;
+
+            foreach (string subscription in subscriptions)
+            {
+                removeCmdlet.RemoveSubscriptionProcess(subscription ,null);
+            }
+
             SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
             channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
             channel.GetSitesThunk = ar =>
