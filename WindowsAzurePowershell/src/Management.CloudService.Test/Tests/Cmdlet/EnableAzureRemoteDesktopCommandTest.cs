@@ -77,6 +77,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 securePassword.MakeReadOnly();
             }
 
+            if (enableRDCmdlet == null)
+            {
+                enableRDCmdlet = new EnableAzureServiceProjectRemoteDesktopCommand();
+                if (mockCommandRuntime == null)
+                {
+                    mockCommandRuntime = new MockCommandRuntime();
+                }
+                enableRDCmdlet.CommandRuntime = mockCommandRuntime;
+            }
+
             enableRDCmdlet.Username = username;
             enableRDCmdlet.Password = securePassword;
             enableRDCmdlet.EnableRemoteDesktop();
