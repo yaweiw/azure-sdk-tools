@@ -48,7 +48,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             if (interpPath != null)
             {
                 string stdOut, stdErr;
-                Environment.CurrentDirectory = Path.Combine(rootPath, webRole.Name);
 
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
