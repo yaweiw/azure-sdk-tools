@@ -98,29 +98,5 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return account.CreateCloudBlobClient();
         }
 
-        /// <summary>
-        /// process record
-        /// </summary>
-        protected override void ProcessRecord()
-        {
-            if (BlobClient == null)
-            {
-                autoClean = true;
-                BlobClient = new StorageBlobManagement(GetCloudBlobClient());
-            }
-
-            try
-            {
-                base.ProcessRecord();
-            }
-            finally
-            {
-                if (autoClean)
-                {
-                    BlobClient = null;
-                    autoClean = false;
-                }
-            }
-        }
     }
 }

@@ -23,6 +23,15 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract
 
     [CLSCompliant(false)]
     /// <summary>
+    /// storage management interface
+    /// </summary>
+    public interface IStorageManagement : IServiceManagement
+    {
+        /// storage management only need to get storage account from IServiceManagement
+    }
+
+    [CLSCompliant(false)]
+    /// <summary>
     /// blob management interface
     /// </summary>
     public interface IStorageBlobManagement
@@ -133,4 +142,5 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract
         /// <returns>an enumerable collection of icloudblob</returns>
         void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
+
 }
