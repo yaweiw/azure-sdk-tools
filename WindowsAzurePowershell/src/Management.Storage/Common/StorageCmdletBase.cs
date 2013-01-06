@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Storage;
     using System;
@@ -26,8 +27,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
     /// <summary>
     /// base cmdlet for cmdlet in storage package
+    /// The cmdlet with cloud should extend StorageCloudCmdlBase.
+    /// The cmdlet without cloud could extend StorageCmdletBase.
     /// </summary>
-    public class StorageCmdletBase : CmdletBase
+    public class StorageCmdletBase : CloudBaseCmdlet<IStorageManagement>
     {
         /// <summary>
         /// cmdlet operation context.
@@ -83,6 +86,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
+        /// init channel with or without subscription in storage cmdlet
+        /// this method do nothing in StorageCmdletBase, since Storage Cmdlet could work with or without subscription.
+        /// </summary>
+        /// <param name="force">force to create a new channel</param>
+        protected override void InitChannelCurrentSubscription(bool force)
+        {
+            Channel = CreateChannel();
+        }
+
+        /// <summary>
+        /// create channel, there is no need to create a channel for Cmdlet without Cloud.
+        /// </summary>
+        /// <returns>IStorageManagement object</returns>
+        protected override IStorageManagement CreateChannel()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// cmdlet begin process
         /// </summary>
         protected override void BeginProcessing()
@@ -113,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// safe write error
+        /// write error with category and identifier
         /// </summary>
         /// <param name="e">an exception object</param>
         protected override void WriteExceptionError(Exception e)
