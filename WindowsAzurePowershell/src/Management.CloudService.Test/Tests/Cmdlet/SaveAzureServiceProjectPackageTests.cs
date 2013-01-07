@@ -115,8 +115,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
                 AzureService service = new AzureService(rootPath, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 cmdlet.ExecuteCmdlet();

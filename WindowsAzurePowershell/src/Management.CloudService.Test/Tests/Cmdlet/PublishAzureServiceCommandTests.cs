@@ -832,7 +832,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(rootPath, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, webRoleName);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath, workerRoleName);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, workerRoleName);
                 WebRole webRole = service.Components.GetWebRole(webRoleName);
                 WorkerRole workerRole = service.Components.GetWorkerRole(workerRoleName);
                 webRole.Startup = new Startup();
@@ -868,7 +868,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(rootPath, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, webRoleName);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath, workerRoleName);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, workerRoleName);
                 WebRole webRole = service.Components.GetWebRole(webRoleName);
                 WorkerRole workerRole = service.Components.GetWorkerRole(workerRoleName);
                 webRole.Startup = null;

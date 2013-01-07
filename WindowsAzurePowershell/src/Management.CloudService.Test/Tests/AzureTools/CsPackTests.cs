@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Resources.PHPScaffolding);
                 service.AddWebRole(Resources.PHPScaffolding);

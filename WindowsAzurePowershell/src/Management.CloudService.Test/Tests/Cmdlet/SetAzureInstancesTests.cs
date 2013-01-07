@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
