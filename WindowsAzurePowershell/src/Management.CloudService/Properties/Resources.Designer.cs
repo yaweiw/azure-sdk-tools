@@ -61,11 +61,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}..
         /// </summary>
         internal static string AddRoleMessageCreate {
             get {
                 return ResourceManager.GetString("AddRoleMessageCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
+        /// </summary>
+        internal static string AddRoleMessageCreateNode {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreateNode", resourceCulture);
             }
         }
         
@@ -1322,6 +1331,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Package is created at service root path {0}..
+        /// </summary>
+        internal static string PackageCreated {
+            get {
+                return ResourceManager.GetString("PackageCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {{
         ///  &quot;author&quot;: &quot;&quot;,
         ///
@@ -1624,7 +1642,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uploading Package....
+        ///   Looks up a localized string similar to Uploading Package to storage service {0}....
         /// </summary>
         internal static string PublishUploadingPackageMessage {
             get {
