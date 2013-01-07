@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.PHPScaffolding, roleName, 1);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.PHPScaffolding, roleName, 1);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
