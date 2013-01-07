@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System.IO;
     using System.Management.Automation;
     using Model;
     using Properties;
@@ -25,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     public class AddAzureWorkerRoleCommand : AddRole
     {
         public AddAzureWorkerRoleCommand(string rootPath = null) :
-            base(Resources.GeneralScaffolding, Resources.AddRoleMessageCreate, false, rootPath)
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false, rootPath)
         {
 
         }
