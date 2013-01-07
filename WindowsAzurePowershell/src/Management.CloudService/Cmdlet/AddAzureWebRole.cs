@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using Model;
     using Properties;
+    using System.IO;
 
     /// <summary>
     /// Create scaffolding for a new web role, change cscfg file and csdef to include the added web role
@@ -25,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     public class AddAzureWebRoleCommand : AddRole
     {
         public AddAzureWebRoleCommand(string rootPath = null) :
-            base(Resources.GeneralScaffolding, Resources.AddRoleMessageCreate, true, rootPath)
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreate, true, rootPath)
         {
 
         }

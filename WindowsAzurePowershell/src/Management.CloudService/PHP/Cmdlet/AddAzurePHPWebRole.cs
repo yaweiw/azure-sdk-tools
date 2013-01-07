@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
 {
-    using System;
+    using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -27,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     public class AddAzurePHPWebRoleCommand : AddRole
     {
         public AddAzurePHPWebRoleCommand(string rootPath = null) :
-            base(Resources.PHPScaffolding, Resources.AddRoleMessageCreatePHP, true, rootPath)
+            base(Path.Combine(Resources.PHPScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePHP, true, rootPath)
         {
 
         }
