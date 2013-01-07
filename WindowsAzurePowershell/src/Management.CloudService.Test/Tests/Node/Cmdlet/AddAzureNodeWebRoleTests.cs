@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             {
                 string roleName = "WebRole1";
                 string rootPath = Path.Combine(files.RootPath, "AzureService");
-                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 addNodeWebCmdlet.AddAzureNodeWebRoleProcess(roleName, 1, rootPath);
 
@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             {
                 string roleName = "WebRole1";
                 string rootPath = Path.Combine(files.RootPath, "AzureService");
-                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 File.Delete(settingsFilePath);

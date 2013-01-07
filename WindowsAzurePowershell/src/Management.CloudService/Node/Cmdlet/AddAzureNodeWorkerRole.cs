@@ -35,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
             {
                 service.ChangeRolePermissions(workerRole);
                 SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, rootPath, workerRole.Name));
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreateNode, rootPath, workerRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
