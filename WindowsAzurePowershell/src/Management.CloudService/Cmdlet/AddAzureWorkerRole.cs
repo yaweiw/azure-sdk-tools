@@ -14,9 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -26,21 +24,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureWorkerRole")]
     public class AddAzureWorkerRoleCommand : AddRole
     {
-        public override void ExecuteCmdlet()
+        public AddAzureWorkerRoleCommand(string rootPath = null) :
+            base(Resources.GeneralScaffolding, Resources.AddRoleMessageCreate, false, rootPath)
         {
-            AzureService service = new AzureService(GetServiceRootPath(), null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.GeneralScaffolding, Name, Instances);
 
-            try
-            {
-                service.ChangeRolePermissions(workerRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, GetServiceRootPath(), workerRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
         }
     }
 }

@@ -26,26 +26,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole")]
     public class AddAzurePHPWorkerRoleCommand : AddRole
     {
-        internal void AddAzurePHPWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        public AddAzurePHPWorkerRoleCommand(string rootPath = null) :
+            base(Resources.PHPScaffolding, Resources.AddRoleMessageCreatePHP, false, rootPath)
         {
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.PHPScaffolding, workerRoleName, instances);
 
-            try
-            {
-                service.ChangeRolePermissions(workerRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreatePHP, rootPath, workerRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
-        }
-
-        public override void ExecuteCmdlet()
-        {
-            AddAzurePHPWorkerRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }

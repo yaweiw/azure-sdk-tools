@@ -32,18 +32,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Utilities;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     /// <summary>
     /// Adds dedicated caching node worker role.
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
-    public class AddAzureCacheWorkerRoleCommand : AddRole
+    public class AddAzureCacheWorkerRoleCommand : CmdletBase
     {
+        [Parameter(Position = 0, HelpMessage = "Role name")]
+        [Alias("n")]
+        public string Name { get; set; }
+
+        [Parameter(Position = 1, HelpMessage = "Instances count")]
+        [Alias("i")]
+        public int Instances { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            AddAzureCacheWorkerRoleProcess(base.Name, base.Instances, base.GetServiceRootPath());
+            AddAzureCacheWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
         }
 
         private AzureService CachingConfigurationFactoryMethod(string rootPath, RoleInfo cacheWorkerRole, string sdkVersion)
