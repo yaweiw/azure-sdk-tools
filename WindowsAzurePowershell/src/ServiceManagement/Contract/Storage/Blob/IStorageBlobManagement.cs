@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright 2012 Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract.Storage.Blob
 {
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -21,16 +21,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract
     using System.Linq;
     using System.Text;
 
-    [CLSCompliant(false)]
-    /// <summary>
-    /// storage management interface
-    /// </summary>
-    public interface IStorageManagement : IServiceManagement
-    {
-        /// storage management only need to get storage account from IServiceManagement
-    }
-
-    [CLSCompliant(false)]
     /// <summary>
     /// blob management interface
     /// </summary>
@@ -142,5 +132,4 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Contract
         /// <returns>an enumerable collection of icloudblob</returns>
         void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
-
 }

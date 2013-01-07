@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Service;
@@ -37,13 +37,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// base cmdlet for all storage cmdlet
+    /// base cmdlet for all storage cmdlet that works with cloud
     /// </summary>
     public class StorageCloudCmdletBase : StorageCmdletBase
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
-        public StorageContext Context {get; set;}
+        public AzureStorageContext Context {get; set;}
 
         /// <summary>
         /// get cloud storage account 
@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
 
                 //set the storage context and use it in pipeline
-                StorageContext context = new StorageContext(account);
+                AzureStorageContext context = new AzureStorageContext(account);
                 Context = context;
 
                 return account;
