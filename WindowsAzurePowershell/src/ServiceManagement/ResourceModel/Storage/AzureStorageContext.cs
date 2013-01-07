@@ -12,21 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage
 {
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    [CLSCompliant(false)]
     /// <summary>
     /// Storage context
     /// </summary>
-    public class StorageContext
+    public class AzureStorageContext
     {
         /// <summary>
         /// storage account name used in this context
@@ -51,7 +48,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         /// <summary>
         /// self reference, it could enable New-AzureStorageContext can be used in pipeline 
         /// </summary>
-        public StorageContext Context { get; private set; }
+        public AzureStorageContext Context { get; private set; }
 
         /// <summary>
         /// name place holder, and force pipeline to ignore this property
@@ -67,7 +64,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         /// create a storage context usign cloud storage account
         /// </summary>
         /// <param name="account">cloud storage account</param>
-        public StorageContext(CloudStorageAccount account)
+        public AzureStorageContext(CloudStorageAccount account)
         {
             StorageAccount = account;
             BlobEndPoint = account.BlobEndpoint.ToString();
@@ -76,64 +73,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
             StorageAccountName = account.Credentials.AccountName;
             Context = this;
             Name = String.Empty;
-        }
-    }
-
-    [CLSCompliant(false)]
-    /// <summary>
-    /// base class for all azure storage object
-    /// </summary>
-    public class AzureStorageBase
-    {
-        /// <summary>
-        /// storage context
-        /// </summary>
-        public StorageContext Context { get; set; }
-
-        /// <summary>
-        /// azure storage object name
-        /// </summary>
-        public String Name { get; set; }
-    }
-
-    [CLSCompliant(false)]
-    /// <summary>
-    /// azure storage container
-    /// </summary>
-    public class AzureStorageContainer : AzureStorageBase
-    {
-        /// <summary>
-        /// CloudBlobContainer object
-        /// </summary>
-        public CloudBlobContainer CloudBlobContainer { get; private set; }
-
-        /// <summary>
-        /// the permission of CloudBlobContainer
-        /// </summary>
-        public BlobContainerPermissions Permissions { get; private set; }
-
-        /// <summary>
-        /// the public accesss level of CloudBlobContainer
-        /// </summary>
-        public BlobContainerPublicAccessType PublicAccess { get; private set; }
-
-        /// <summary>
-        /// last modified of CloudBlobContainer
-        /// </summary>
-        public DateTimeOffset? LastModified { get; private set; }
-
-        /// <summary>
-        /// init azure storage container using CloudBlobContainer and BlobContainerPermissions
-        /// </summary>
-        /// <param name="container">CloudBlobContainer object</param>
-        /// <param name="permissions">permissions of container</param>
-        public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
-        {
-            CloudBlobContainer = container;
-            Permissions = permissions;
-            Name = container.Name;
-            PublicAccess = permissions.PublicAccess;
-            LastModified = container.Properties.LastModified;
         }
     }
 }
