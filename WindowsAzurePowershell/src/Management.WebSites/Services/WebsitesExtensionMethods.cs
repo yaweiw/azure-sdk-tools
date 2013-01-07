@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             foreach (var webspace in webspaces)
             {
                 var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
-                var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
+                var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website, System.StringComparison.InvariantCultureIgnoreCase));
                 if (matchWebsite != null)
                 {
                     return matchWebsite;
