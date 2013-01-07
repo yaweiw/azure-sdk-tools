@@ -108,6 +108,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tests\Cmdlet\AddAzureWebRoleTests.cs" />
+    <Compile Include="Tests\Cmdlet\AddAzureWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\SaveAzureServiceProjectPackageTests.cs" />
     <Compile Include="Tests\ScenarioTest.cs" />
     <Compile Include="TestData\AzureServiceWrapper.cs" />

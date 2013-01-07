@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repository is not setup. Please use valid site name or make sure you pass site name..
+        ///   Looks up a localized string similar to Repository is not setup. You need to pass a valid site name..
         /// </summary>
         internal static string RepositoryNotSetup {
             get {
