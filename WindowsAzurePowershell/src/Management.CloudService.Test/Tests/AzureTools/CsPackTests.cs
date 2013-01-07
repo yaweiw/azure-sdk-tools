@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                RoleInfo webRoleInfo = service.AddWebRole(Resources.PHPScaffolding);
+                RoleInfo webRoleInfo = service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
@@ -108,8 +108,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                service.AddWorkerRole(Resources.PHPScaffolding);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));

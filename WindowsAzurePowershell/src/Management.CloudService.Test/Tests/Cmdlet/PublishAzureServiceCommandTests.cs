@@ -423,7 +423,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 string servicePath = files.CreateNewService(serviceName);
                 AzureService testService = new AzureService(servicePath, null);
-                testService.AddWebRole(Resources.PHPScaffolding);
+                testService.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 string cloudConfigFile = File.ReadAllText(testService.Paths.CloudConfiguration);
                 File.WriteAllText(testService.Paths.CloudConfiguration, new Regex("<Certificates\\s*/>").Replace(cloudConfigFile, ""));
                 // Get the publishing process started by creating the package
