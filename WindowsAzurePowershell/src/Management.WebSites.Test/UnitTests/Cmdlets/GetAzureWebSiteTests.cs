@@ -130,10 +130,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Name = "WEBSiTe1"
             };
 
-            getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
 
-            website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as SiteWithConfig;
+            website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
             Assert.IsNotNull(website);
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
