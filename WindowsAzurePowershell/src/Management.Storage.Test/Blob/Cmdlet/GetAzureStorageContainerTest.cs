@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage.Blob;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;

@@ -14,8 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
