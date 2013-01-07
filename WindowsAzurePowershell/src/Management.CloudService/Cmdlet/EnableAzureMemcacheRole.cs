@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (PassThru)
             {
-                WriteObject(azureService.Components.GetCloudConfigRole(roleName));
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
             }
 
             return azureService.Components.GetWebRole(roleName);

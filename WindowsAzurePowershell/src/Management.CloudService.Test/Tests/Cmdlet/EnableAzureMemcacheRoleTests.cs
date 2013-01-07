@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
 
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase
@@ -114,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
 
                 Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
-                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.OutputPipeline[0] as RoleSettings).name);
+                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.OutputPipeline[0] as PSObject).GetVariableValue<string>(Parameters.RoleName));
             }
         }
 
@@ -169,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Assert.IsTrue(workerCloudConfig.Contains("dataCacheClients"));
 
                 Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
-                Assert.AreEqual<string>(workerRoleName, (mockCommandRuntime.OutputPipeline[0] as RoleSettings).name);
+                Assert.AreEqual<string>(workerRoleName, (mockCommandRuntime.OutputPipeline[0] as PSObject).GetVariableValue<string>(Parameters.RoleName));
             }
         }
 
