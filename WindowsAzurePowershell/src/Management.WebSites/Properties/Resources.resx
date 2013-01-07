@@ -154,7 +154,7 @@ Please follow these steps in the portal:
 Launch portal now?</value>
   </data>
   <data name="MultiplePublishingUsernames" xml:space="preserve">
-    <value>Multiple possible publishing users. Please specify one using the argument PublishingUsername.</value>
+    <value>Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click 'set/reset deployment credentials' to set up a new user account, then reurn this cmdlet and specify PublishingUsername.</value>
   </data>
   <data name="NeedPublishingUsernames" xml:space="preserve">
     <value>A publishing username is required. Please specify one using the argument PublishingUsername.</value>
@@ -178,7 +178,7 @@ Launch portal now?</value>
     <value>Deployment with {0} does not exist</value>
   </data>
   <data name="RepositoryNotSetup" xml:space="preserve">
-    <value>Repository is not setup</value>
+    <value>Repository is not setup. You need to pass a valid site name.</value>
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
@@ -188,5 +188,8 @@ Launch portal now?</value>
   </data>
   <data name="LinkAlreadyEstablished" xml:space="preserve">
     <value>Link already established</value>
+  </data>
+  <data name="NoDefaultSubscriptionMessage" xml:space="preserve">
+    <value>There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;</value>
   </data>
 </root>

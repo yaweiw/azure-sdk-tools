@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -75,13 +75,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        /// <summary>
-        /// true if we only want to create a package
-        /// </summary>
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        [Alias("po")]
-        public SwitchParameter PackageOnly { get; set; }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public int? TimeoutSeconds { get; set; }
 
@@ -152,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
 
             // Package the service and all of its roles up in the open package format used by Azure
-            if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
+            if (InitializeSettingsAndCreatePackage(serviceRootPath))
             {
                 if (ServiceExists())
                 {
@@ -498,7 +491,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                WriteVerboseWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteVerboseWithTimestamp(
+                    Resources.PublishUploadingPackageMessage,
+                    _deploymentSettings.ServiceSettings.StorageAccountName);
 
                 if (!SkipUpload)
                 {

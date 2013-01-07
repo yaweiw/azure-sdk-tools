@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -82,8 +82,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
-            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
-            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
+            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
+            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
         }
 
         /// <summary>
