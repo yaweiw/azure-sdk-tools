@@ -28,8 +28,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     /// <summary>
     /// list azure storage container
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, StorageNouns.Container,
-        DefaultParameterSetName = NameParameterSet)]
+    [Cmdlet(VerbsCommon.Get, StorageNouns.Container, DefaultParameterSetName = NameParameterSet),
+        OutputType(typeof(AzureStorageContainer))]
     public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase
     {
         /// <summary>
