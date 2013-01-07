@@ -4,7 +4,7 @@ $current = [string] (Get-Location -PSProvider FileSystem)
 $client = New-Object System.Net.WebClient
 
 # For a custom role, it may not use runtime download, if that's the case, skip.
-if (!$runtimeUrl) { Write-Host "No runtimes to download"; exit; }
+if (!($runtimeUrl) -and (!$overrideUrl)) { Write-Host "No runtimes to download"; exit; }
 
 function downloadWithRetry {
 	param([string]$url, [string]$dest, [int]$retry) 
