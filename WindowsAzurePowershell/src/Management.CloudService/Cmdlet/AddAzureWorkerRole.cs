@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
@@ -21,31 +21,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     using Properties;
 
     /// <summary>
-    /// Create scaffolding for a new node worker role, change cscfg file and csdef to include the added worker role
+    /// Create scaffolding for a new worker role, change cscfg file and csdef to include the added worker role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureNodeWorkerRole")]
-    public class AddAzureNodeWorkerRoleCommand : AddRole
+    [Cmdlet(VerbsCommon.Add, "AzureWorkerRole")]
+    public class AddAzureWorkerRoleCommand : AddRole
     {
-        internal void AddAzureNodeWorkerRoleProcess(string workerRoleName, int instances, string rootPath)
+        public override void ExecuteCmdlet()
         {
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            AzureService service = new AzureService(GetServiceRootPath(), null);
+            RoleInfo workerRole = service.AddWorkerRole(Resources.GeneralScaffolding, Name, Instances);
 
             try
             {
                 service.ChangeRolePermissions(workerRole);
                 SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreateNode, rootPath, workerRole.Name));
+                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, GetServiceRootPath(), workerRole.Name));
             }
             catch (UnauthorizedAccessException)
             {
                 WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
             }
-        }
-
-        public override void ExecuteCmdlet()
-        {
-            AddAzureNodeWorkerRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }
