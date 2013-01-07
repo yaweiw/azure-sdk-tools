@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 cmdlet.PassThru = false;
                 
@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "node", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnode", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
@@ -118,7 +118,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 RoleSettings roleSettings1 = cmdlet.SetAzureRuntimesProcess(roleName, "noide", "0.8.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 RoleSettings roleSettings2 = cmdlet.SetAzureRuntimesProcess(roleName, "iisnoide", "0.9.99", service.Paths.RootPath, RuntimePackageHelper.GetTestManifest(files));
                 VerifyInvalidPackageJsonVersion(service.Paths.RootPath, roleName, "node", "*");
@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string roleName = "WebRole1";
                 string caseInsensitiveName = "weBrolE1";
                 cmdlet.PassThru = false;

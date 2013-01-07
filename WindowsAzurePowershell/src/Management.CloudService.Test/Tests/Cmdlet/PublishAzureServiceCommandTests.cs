@@ -358,7 +358,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 string servicePath = files.CreateNewService(serviceName);
                 AzureService testService = new AzureService(servicePath, null);
-                testService.AddWebRole(Resources.NodeScaffolding);
+                testService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string cloudConfigFile = File.ReadAllText(testService.Paths.CloudConfiguration);
                 File.WriteAllText(testService.Paths.CloudConfiguration, new Regex("<Certificates\\s*/>").Replace(cloudConfigFile, ""));
                 // Get the publishing process started by creating the package
@@ -831,7 +831,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(rootPath, null);
-                service.AddWebRole(Resources.NodeScaffolding, webRoleName);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath, webRoleName);
                 service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName);
                 WebRole webRole = service.Components.GetWebRole(webRoleName);
                 WorkerRole workerRole = service.Components.GetWorkerRole(workerRoleName);
@@ -867,7 +867,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string rootPath = files.CreateNewService(serviceName);
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(rootPath, null);
-                service.AddWebRole(Resources.NodeScaffolding, webRoleName);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath, webRoleName);
                 service.AddWorkerRole(Resources.NodeScaffolding, workerRoleName);
                 WebRole webRole = service.Components.GetWebRole(webRoleName);
                 WorkerRole workerRole = service.Components.GetWorkerRole(workerRoleName);

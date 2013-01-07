@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                RoleInfo webRole = service.AddWebRole(Resources.NodeScaffolding, "MyWebRole", 10);
+                RoleInfo webRole = service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "MyWebRole", 10);
 
                 AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: new WebRoleInfo[] { (WebRoleInfo)webRole }, webScaff: Path.Combine(Resources.NodeScaffolding, Resources.WebRole), roles: new RoleInfo[] { webRole });
             }
@@ -258,7 +258,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, serviceName, null).AddWebRole(Resources.NodeScaffolding, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
+                Testing.AssertThrows<ArgumentException>(() => new AzureService(files.RootPath, serviceName, null).AddWebRole(Data.NodeWebRoleScaffoldingPath, "\tRole"), string.Format(Resources.InvalidRoleNameMessage, "\tRole"));
             }
         }
 
@@ -277,8 +277,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding, "WebRole");
-                Testing.AssertThrows<ArgumentException>(() => service.AddWebRole(Resources.NodeScaffolding, "WebRole"), string.Format(Resources.AddRoleMessageRoleExists, "WebRole"));
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole");
+                Testing.AssertThrows<ArgumentException>(() => service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole"), string.Format(Resources.AddRoleMessageRoleExists, "WebRole"));
             }
         }
 
@@ -328,7 +328,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding, "WebRole", 1);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath, "WebRole", 1);
                 service.SetRoleInstances(service.Paths, "WebRole", newInstances);
                 Assert.AreEqual<int>(service.Components.CloudConfig.Role[0].Instances.count, newInstances);
                 Assert.AreEqual<int>(service.Components.LocalConfig.Role[0].Instances.count, newInstances);
@@ -395,7 +395,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 {
                     for (int i = 0, w = 0, wo = 0; i < webRole + workerRole;)
                     {
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Resources.NodeScaffolding);
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                         if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Resources.NodeScaffolding);
                     }
                 }
@@ -404,7 +404,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                     for (int i = 0, w = 0, wo = 0; i < webRole + workerRole;)
                     {
                         if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Resources.NodeScaffolding);
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Resources.NodeScaffolding);
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                     }
                 }
                 else if (order == 2)
