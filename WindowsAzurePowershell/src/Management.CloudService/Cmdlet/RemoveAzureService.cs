@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -111,10 +111,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
             if (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription))
             {
-                DeploymentStatusManager setDeployment = new DeploymentStatusManager(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
-                setDeployment.CommandRuntime = this.CommandRuntime;
-                setDeployment.SetDeploymentStatusProcess(rootName, DeploymentStatus.Suspended, slot, subscription, serviceName);
-
                 InvokeInOperationContext(() =>
                 {
                     this.RetryCall(s => this.Channel.DeleteDeploymentBySlot(s, serviceName, slot));

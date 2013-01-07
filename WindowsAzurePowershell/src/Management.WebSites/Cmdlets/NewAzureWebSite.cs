@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -298,6 +298,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() => 
+                {
+                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
+                    WaitForOperation(CommandRuntime.ToString());
+                });
+                WriteObject(new SiteWithConfig(website, websiteConfiguration));
             }
             catch (ProtocolException ex)
             {
@@ -351,8 +358,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 linkedRevisionControl.Deploy(updatedWebsite);
                 linkedRevisionControl.Dispose();
             }
-
-            WriteObject(webspace);
         }
     }
 }
