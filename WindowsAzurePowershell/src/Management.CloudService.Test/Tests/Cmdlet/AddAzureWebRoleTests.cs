@@ -91,5 +91,46 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Directory.SetCurrentDirectory(originalDirectory);
             }
         }
+
+        [TestMethod]
+        public void AddAzureWebRoleWithTemplateFolder()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string roleName = "WebRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string originalDirectory = Directory.GetCurrentDirectory();
+                string scaffoldingPath = "MyWebTemplateFolder";
+                Directory.SetCurrentDirectory(rootPath);
+                addWebCmdlet = new AddAzureWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime, Name = roleName, TemplateFolder = scaffoldingPath };
+
+                addWebCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), scaffoldingPath);
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
+
+                Directory.SetCurrentDirectory(originalDirectory);
+            }
+        }
+
+        [TestMethod]
+        public void AddAzureWebRoleWithMissingScaffoldXmlFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string roleName = "WebRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string originalDirectory = Directory.GetCurrentDirectory();
+                string scaffoldingPath = "TemplateMissingScaffoldXml";
+                addWebCmdlet = new AddAzureWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime, Name = roleName, TemplateFolder = scaffoldingPath };
+
+                Testing.AssertThrows<FileNotFoundException>(() => addWebCmdlet.ExecuteCmdlet());
+            }
+        }
     }
 }

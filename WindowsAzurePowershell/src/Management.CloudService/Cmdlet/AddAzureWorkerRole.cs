@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.IO;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Model;
     using Properties;
 
@@ -25,10 +26,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureWorkerRole")]
     public class AddAzureWorkerRoleCommand : AddRole
     {
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Role scaffolding template folder")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateFolder { get; set; }
+
         public AddAzureWorkerRoleCommand(string rootPath = null) :
             base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false, rootPath)
         {
 
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            // Set scaffolding to use the provided template if it's set.
+            Scaffolding = string.IsNullOrEmpty(TemplateFolder) ? Scaffolding : TemplateFolder;
+
+            base.ExecuteCmdlet();
         }
     }
 }

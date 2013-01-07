@@ -14,10 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System.IO;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Model;
     using Properties;
-    using System.IO;
 
     /// <summary>
     /// Create scaffolding for a new web role, change cscfg file and csdef to include the added web role
@@ -25,10 +26,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureWebRole")]
     public class AddAzureWebRoleCommand : AddRole
     {
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Role scaffolding template folder")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateFolder { get; set; }
+
         public AddAzureWebRoleCommand(string rootPath = null) :
             base(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreate, true, rootPath)
         {
 
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            // Set scaffolding to use the provided template if it's set.
+            Scaffolding = string.IsNullOrEmpty(TemplateFolder) ? Scaffolding : TemplateFolder;
+
+            base.ExecuteCmdlet();
         }
     }
 }
