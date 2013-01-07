@@ -28,11 +28,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     {
         private string rootPath;
 
-        private string scaffolding;
-
         private string successMessage;
 
         private bool isWebRole;
+
+        protected string Scaffolding { set; get; }
 
         [Parameter(Position = 0, HelpMessage = "Role name")]
         [Alias("n")]
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public AddRole(string scaffolding, string successMessage, bool isWebRole, string rootPath = null)
         {
             this.rootPath = rootPath ?? GetServiceRootPath();
-            this.scaffolding = scaffolding;
+            this.Scaffolding = scaffolding;
             this.isWebRole = isWebRole;
             this.successMessage = successMessage;
         }
@@ -66,11 +66,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             if (isWebRole)
             {
-                roleInfo = service.AddWebRole(scaffolding, Name, Instances);
+                roleInfo = service.AddWebRole(Scaffolding, Name, Instances);
             }
             else
             {
-                roleInfo = service.AddWorkerRole(scaffolding, Name, Instances);
+                roleInfo = service.AddWorkerRole(Scaffolding, Name, Instances);
             }
 
             OnProcessing(roleInfo);

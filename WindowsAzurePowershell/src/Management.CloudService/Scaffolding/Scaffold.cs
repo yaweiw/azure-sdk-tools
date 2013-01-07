@@ -139,7 +139,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
 
         internal static Scaffold Parse(string path)
         {
-            Debug.Assert(File.Exists(path));
             XDocument document = XDocument.Load(path);
             Scaffold scaffold = new Scaffold();
 
