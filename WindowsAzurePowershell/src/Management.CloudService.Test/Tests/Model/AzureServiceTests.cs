@@ -409,15 +409,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 }
                 else if (order == 2)
                 {
-                    wrappedService.AddRole(Resources.NodeScaffolding, webRole, workerRole);
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, workerRole);
                     webRoles.CopyTo(roles, 0);
                     Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
                 }
                 else if (order == 3)
                 {
-                    wrappedService.AddRole(Resources.NodeScaffolding, 0, workerRole);
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, 0, workerRole);
                     workerRoles.CopyTo(roles, 0);
-                    wrappedService.AddRole(Resources.NodeScaffolding, webRole, 0);
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, 0);
                     Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
                 }
                 else
@@ -425,7 +425,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                     throw new ArgumentException("value for order parameter is unknown");
                 }
 
-                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Path.Combine(Resources.NodeScaffolding, Resources.WebRole), workerScaff: Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole), roles:roles);
+                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.NodeWebRoleScaffoldingPath, workerScaff: Data.NodeWorkerRoleScaffoldingPath, roles: roles);
             }
         }
 
@@ -476,15 +476,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 }
                 else if (order == 2)
                 {
-                    wrappedService.AddRole(Resources.PHPScaffolding, webRole, workerRole);
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, workerRole);
                     webRoles.CopyTo(roles, 0);
                     Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
                 }
                 else if (order == 3)
                 {
-                    wrappedService.AddRole(Resources.PHPScaffolding, 0, workerRole);
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, 0, workerRole);
                     workerRoles.CopyTo(roles, 0);
-                    wrappedService.AddRole(Resources.PHPScaffolding, webRole, 0);
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, 0);
                     Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
                 }
                 else
@@ -492,10 +492,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                     throw new ArgumentException("value for order parameter is unknown");
                 }
 
-                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Path.Combine(Resources.PHPScaffolding, Resources.WebRole), workerScaff: Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole), roles: roles);
+                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.PHPWebRoleScaffoldingPath, workerScaff: Data.PHPWorkerRoleScaffoldingPath, roles: roles);
             }
         }
-
-    
     }
 }
