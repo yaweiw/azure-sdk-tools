@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System.ServiceModel;
     using Samples.WindowsAzure.ServiceManagement;
     using Utilities;
+    using WindowsAzure.Storage;
 
     public class SubscriptionData
     {

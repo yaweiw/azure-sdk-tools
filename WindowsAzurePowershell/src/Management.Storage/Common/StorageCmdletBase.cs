@@ -87,21 +87,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
         /// <summary>
         /// init channel with or without subscription in storage cmdlet
-        /// this method do nothing in StorageCmdletBase, since Storage Cmdlet could work with or without subscription.
         /// </summary>
         /// <param name="force">force to create a new channel</param>
         protected override void InitChannelCurrentSubscription(bool force)
         {
-            Channel = CreateChannel();
-        }
-
-        /// <summary>
-        /// create channel, there is no need to create a channel for Cmdlet without Cloud.
-        /// </summary>
-        /// <returns>IStorageManagement object</returns>
-        protected override IStorageManagement CreateChannel()
-        {
-            return null;
+            if (force)
+            {
+                WriteVerboseLog(Resources.InitChannelFromSubscription);
+                base.InitChannelCurrentSubscription(force);
+            }
         }
 
         /// <summary>
@@ -127,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// write error detials for storageexception
         /// </summary>
         /// <param name="exception">StorageException from storage client</param>
-        protected virtual void WriteErrorDetails(StorageException exception)
+        protected void WriteErrorDetails(StorageException exception)
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError;
             exception = exception.RepackStorageException();

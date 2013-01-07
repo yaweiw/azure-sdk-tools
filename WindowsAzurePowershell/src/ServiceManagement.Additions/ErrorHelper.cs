@@ -120,5 +120,18 @@ namespace Microsoft.WindowsAzure.Management.Service
 
             return true;
         }
+
+        /// <summary>
+        /// is not found communication exception
+        /// </summary>
+        /// <param name="exception">Communication Exception</param>
+        /// <returns>true if exception caused by resource not found, otherwise, false</returns>
+        public static bool IsNotFoundCommunicationException(CommunicationException exception)
+        {
+            ServiceManagementError error = null;
+            string operationId = string.Empty;
+            SMErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
+            return error.Code == HttpStatusCode.NotFound.ToString();
+        }
     }
 }

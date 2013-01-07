@@ -32,11 +32,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// blob client for IBlobManagement
         /// </summary>
         internal IStorageBlobManagement BlobClient { get; set; }
-        
-        /// <summary>
-        /// auto clean blob client in order to work with multiple storage account
-        /// </summary>
-        private bool autoClean = false;
 
         /// <summary>
         /// Make sure the pipeline blob is valid and already existing
@@ -98,5 +93,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return account.CreateCloudBlobClient();
         }
 
+        /// <summary>
+        /// create blob client and storage service management channel if need to.
+        /// </summary>
+        /// <returns>IStorageManagement object</returns>
+        protected override IStorageManagement CreateChannel()
+        {
+            if (ShouldInitServiceChannel())
+            {
+                //set the Channel, so it can be used in GetCloudBlobClient
+                Channel = base.CreateChannel();
+            }
+
+            //init blob client
+            if (BlobClient == null || !ShareChannel)
+            {
+                BlobClient = new StorageBlobManagement(GetCloudBlobClient());
+            }
+
+            return Channel;
+        }
     }
 }

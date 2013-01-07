@@ -199,8 +199,8 @@
   <data name="StartUploadFile" xml:space="preserve">
     <value>Start to upload '{0}' to blob '{1}'.</value>
   </data>
-  <data name="StorageCredentialsNotFound" xml:space="preserve">
-    <value>Can not find your azure storage credential. Please set the "AZURE_STORAGE_CONNECTION_STRING" environment variable at frist.</value>
+  <data name="DefaultStorageCredentialsNotFound" xml:space="preserve">
+    <value>Can not find your azure storage credential. Please set current storage account using "Set-AzureSubscription" or set the "AZURE_STORAGE_CONNECTION_STRING" environment variable.</value>
   </data>
   <data name="TableAlreadyExists" xml:space="preserve">
     <value>Table '{0}' already exists.</value>
@@ -303,20 +303,47 @@
   <data name="CloudBlobClientIsNull" xml:space="preserve">
     <value>CloudBlobClient is null.</value>
   </data>
-  <data name="DefaultBlobEndPoint" xml:space="preserve">
+  <data name="DefaultBlobEndPointFormat" xml:space="preserve">
     <value>http://{0}.blob.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
-  <data name="DefaultQueueEndPoint" xml:space="preserve">
+  <data name="DefaultQueueEndPointFormat" xml:space="preserve">
     <value>http://{0}.queue.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
-  <data name="DefaultTableEndPoint" xml:space="preserve">
+  <data name="DefaultTableEndPointFormat" xml:space="preserve">
     <value>http://{0}.table.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'</value>
     <comment>0 for cmdlet name, 1  for parameter set name</comment>
+  </data>
+  <data name="CurrentStorageAccountNameNotFound" xml:space="preserve">
+    <value>Current Storage Account not found in subscription '{0}'. Please set it use "Set-AzureSubscription".</value>
+    <comment>0 subscription name</comment>
+  </data>
+  <data name="HTTPPrefix" xml:space="preserve">
+    <value>http://</value>
+  </data>
+  <data name="HTTPSPrefix" xml:space="preserve">
+    <value>https://</value>
+  </data>
+  <data name="CurrentStorageAccountNotFoundOnAzure" xml:space="preserve">
+    <value>Can not found current storage account '{0}' on azure, please check whether your storage account exists.</value>
+    <comment>0 storage account name</comment>
+  </data>
+  <data name="UseCurrentStorageAccountFromSubscription" xml:space="preserve">
+    <value>Use current storage account '{0}' from subscription '{1}'.</value>
+    <comment>0 storage account name 1 subscription name</comment>
+  </data>
+  <data name="GetStorageAccountFromEnvironmentVariable" xml:space="preserve">
+    <value>Get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'.</value>
+  </data>
+  <data name="EnvConnectionString" xml:space="preserve">
+    <value>AZURE_STORAGE_CONNECTION_STRING</value>
+  </data>
+  <data name="InitChannelFromSubscription" xml:space="preserve">
+    <value>Init service channel from current subscription</value>
   </data>
 </root>
