@@ -176,9 +176,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <returns>a storage account</returns>
         internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
         {
-            string blobEndPoint = String.Format(Resources.DefaultBlobEndPoint, storageAccountName);
-            string tableEndPoint = String.Format(Resources.DefaultTableEndPoint, storageAccountName);
-            string queueEndPoint = String.Format(Resources.DefaultQueueEndPoint, storageAccountName);
+            string blobEndPoint = String.Format(Resources.DefaultBlobEndPointFormat, storageAccountName);
+            string tableEndPoint = String.Format(Resources.DefaultTableEndPointFormat, storageAccountName);
+            string queueEndPoint = String.Format(Resources.DefaultQueueEndPointFormat, storageAccountName);
             return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
         }
 
@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account = GetAnonymousStorageAccount(StorageAccountName);
                     break;
                 default:
-                    throw new ArgumentException(Resources.StorageCredentialsNotFound);
+                    throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
             }
 
             StorageContext context = new StorageContext(account);

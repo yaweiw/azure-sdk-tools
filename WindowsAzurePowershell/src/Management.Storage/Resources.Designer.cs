@@ -187,29 +187,56 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Storage Account not found in subscription &apos;{0}&apos;. Please set it use &quot;Set-AzureSubscription&quot;..
+        /// </summary>
+        internal static string CurrentStorageAccountNameNotFound {
+            get {
+                return ResourceManager.GetString("CurrentStorageAccountNameNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not found current storage account &apos;{0}&apos; on azure, please check whether your storage account exists..
+        /// </summary>
+        internal static string CurrentStorageAccountNotFoundOnAzure {
+            get {
+                return ResourceManager.GetString("CurrentStorageAccountNotFoundOnAzure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://{0}.blob.core.windows.net/.
         /// </summary>
-        internal static string DefaultBlobEndPoint {
+        internal static string DefaultBlobEndPointFormat {
             get {
-                return ResourceManager.GetString("DefaultBlobEndPoint", resourceCulture);
+                return ResourceManager.GetString("DefaultBlobEndPointFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to http://{0}.queue.core.windows.net/.
         /// </summary>
-        internal static string DefaultQueueEndPoint {
+        internal static string DefaultQueueEndPointFormat {
             get {
-                return ResourceManager.GetString("DefaultQueueEndPoint", resourceCulture);
+                return ResourceManager.GetString("DefaultQueueEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not find your azure storage credential. Please set current storage account using &quot;Set-AzureSubscription&quot; or set the &quot;AZURE_STORAGE_CONNECTION_STRING&quot; environment variable..
+        /// </summary>
+        internal static string DefaultStorageCredentialsNotFound {
+            get {
+                return ResourceManager.GetString("DefaultStorageCredentialsNotFound", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to http://{0}.table.core.windows.net/.
         /// </summary>
-        internal static string DefaultTableEndPoint {
+        internal static string DefaultTableEndPointFormat {
             get {
-                return ResourceManager.GetString("DefaultTableEndPoint", resourceCulture);
+                return ResourceManager.GetString("DefaultTableEndPointFormat", resourceCulture);
             }
         }
         
@@ -246,6 +273,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string EndProcessingLog {
             get {
                 return ResourceManager.GetString("EndProcessingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AZURE_STORAGE_CONNECTION_STRING.
+        /// </summary>
+        internal static string EnvConnectionString {
+            get {
+                return ResourceManager.GetString("EnvConnectionString", resourceCulture);
             }
         }
         
@@ -291,6 +327,42 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string FinishRemoteCall {
             get {
                 return ResourceManager.GetString("FinishRemoteCall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get storage account from environment variable &apos;AZURE_STORAGE_CONNECTION_STRING&apos;..
+        /// </summary>
+        internal static string GetStorageAccountFromEnvironmentVariable {
+            get {
+                return ResourceManager.GetString("GetStorageAccountFromEnvironmentVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://.
+        /// </summary>
+        internal static string HTTPPrefix {
+            get {
+                return ResourceManager.GetString("HTTPPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://.
+        /// </summary>
+        internal static string HTTPSPrefix {
+            get {
+                return ResourceManager.GetString("HTTPSPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Init service channel from current subscription.
+        /// </summary>
+        internal static string InitChannelFromSubscription {
+            get {
+                return ResourceManager.GetString("InitChannelFromSubscription", resourceCulture);
             }
         }
         
@@ -556,15 +628,6 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not find your azure storage credential. Please set the &quot;AZURE_STORAGE_CONNECTION_STRING&quot; environment variable at frist..
-        /// </summary>
-        internal static string StorageCredentialsNotFound {
-            get {
-                return ResourceManager.GetString("StorageCredentialsNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}.
         /// </summary>
         internal static string StorageExceptionDetails {
@@ -624,6 +687,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string UploadFileSuccessfully {
             get {
                 return ResourceManager.GetString("UploadFileSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use current storage account &apos;{0}&apos; from subscription &apos;{1}&apos;..
+        /// </summary>
+        internal static string UseCurrentStorageAccountFromSubscription {
+            get {
+                return ResourceManager.GetString("UseCurrentStorageAccountFromSubscription", resourceCulture);
             }
         }
         
