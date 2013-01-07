@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// new storage context
     /// </summary>
     [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext, DefaultParameterSetName = AccountNameKeyParameterSet),
-        OutputType(typeof(StorageContext))]
+        OutputType(typeof(AzureStorageContext))]
     public class NewAzureStorageContext : StorageCmdletBase
     {
         /// <summary>
@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
             }
 
-            StorageContext context = new StorageContext(account);
+            AzureStorageContext context = new AzureStorageContext(account);
             WriteObject(context);
         }
     }
