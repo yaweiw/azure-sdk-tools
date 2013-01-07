@@ -170,7 +170,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -226,7 +226,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 int nextPort = service.Components.GetNextPort();
@@ -256,7 +256,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 service.AddWorkerRole(Resources.NodeScaffolding);
                 service = new AzureService(service.Paths.RootPath, null);
@@ -288,7 +288,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole[0].Endpoints.InputEndpoint = null;
                 service.Components.Save(service.Paths);
                 service.AddWebRole(Resources.PHPScaffolding);
@@ -305,7 +305,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort) + 1;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWebRole(Resources.PHPScaffolding);
                 service = new AzureServiceWrapper(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();

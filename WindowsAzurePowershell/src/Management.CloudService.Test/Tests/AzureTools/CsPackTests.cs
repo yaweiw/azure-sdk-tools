@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
     using System.IO;
     using CloudService.Model;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -33,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                RoleInfo webRoleInfo = service.AddWebRole(Resources.NodeScaffolding);
+                RoleInfo webRoleInfo = service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
@@ -106,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Resources.NodeScaffolding);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.AddWorkerRole(Resources.PHPScaffolding);
                 service.AddWebRole(Resources.PHPScaffolding);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
