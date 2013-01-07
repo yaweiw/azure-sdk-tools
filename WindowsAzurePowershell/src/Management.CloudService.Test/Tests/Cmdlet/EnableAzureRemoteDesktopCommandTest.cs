@@ -176,7 +176,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the role has been setup with forwarding, access,
@@ -197,8 +198,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
                 mockCommandRuntime.ResetPipelines();
                 EnableRemoteDesktop("user", "GoodPassword!");
 
@@ -222,10 +225,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole_1", 1, root);
-                addNodeWebCmdlet.AddAzureNodeWebRoleProcess("WebRole_2", 1, root);
-                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_1", 1, root);
-                addNodeWorkerCmdlet.AddAzureNodeWorkerRoleProcess("WorkerRole_2", 1, root);
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole_1", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole_2", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole_1", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole_2", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
                 mockCommandRuntime.ResetPipelines();
                 
                 enableRDCmdlet.PassThru = true;

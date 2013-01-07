@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
-    using CloudService.Cmdlet;
     using CloudService.Properties;
     using CloudService.Python.Cmdlet;
     using Management.Utilities;
@@ -36,8 +35,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     {
         private MockCommandRuntime mockCommandRuntime;
 
-        private NewAzureServiceProjectCommand newServiceCmdlet;
-
         private AddAzureDjangoWebRoleCommand addPythonWebCmdlet;
 
         [TestInitialize]
@@ -46,12 +43,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             mockCommandRuntime = new MockCommandRuntime();
-
-            newServiceCmdlet = new NewAzureServiceProjectCommand();
-            addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand();
-
-            addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
-            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -83,13 +74,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WebRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePython, rootPath, roleName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 mockCommandRuntime.ResetPipelines();
-                addPythonWebCmdlet.AddAzureDjangoWebRoleProcess(roleName, 1, rootPath);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
+                addPythonWebCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
                 Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
             }
@@ -101,18 +95,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WebRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePython, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 File.Delete(settingsFilePath);
                 Assert.IsFalse(File.Exists(settingsFilePath));
 
-                addPythonWebCmdlet.AddAzureDjangoWebRoleProcess(roleName, 1, rootPath);
+                addPythonWebCmdlet.ExecuteCmdlet();
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).GetVariableValue<string>(Parameters.RoleName));
-                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[1]);
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
                 Assert.IsTrue(File.Exists(settingsFilePath));
             }
         }

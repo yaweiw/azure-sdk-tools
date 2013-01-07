@@ -26,26 +26,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureNodeWebRole")]
     public class AddAzureNodeWebRoleCommand : AddRole
     {
-        internal void AddAzureNodeWebRoleProcess(string webRoleName, int instances, string rootPath)
+        public AddAzureNodeWebRoleCommand(string rootPath = null) :
+            base(Resources.NodeScaffolding, Resources.AddRoleMessageCreateNode, true, rootPath)
         {
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo webRole = service.AddWebRole(Resources.NodeScaffolding, webRoleName, instances);
 
-            try
-            {
-                service.ChangeRolePermissions(webRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreateNode, rootPath, webRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
-        }
-
-        public override void ExecuteCmdlet()
-        {
-            AddAzureNodeWebRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }

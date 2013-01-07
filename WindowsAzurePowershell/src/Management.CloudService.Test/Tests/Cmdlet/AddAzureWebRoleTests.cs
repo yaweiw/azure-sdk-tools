@@ -32,8 +32,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     {
         private MockCommandRuntime mockCommandRuntime;
 
-        private NewAzureServiceProjectCommand newServiceCmdlet;
-
         private AddAzureWebRoleCommand addWebCmdlet;
 
         [TestInitialize]
@@ -42,12 +40,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             mockCommandRuntime = new MockCommandRuntime();
-
-            newServiceCmdlet = new NewAzureServiceProjectCommand();
-            addWebCmdlet = new AddAzureWebRoleCommand();
-
-            addWebCmdlet.CommandRuntime = mockCommandRuntime;
-            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -56,19 +48,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WebRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 string originalDirectory = Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(rootPath);
-                addWebCmdlet.Name = roleName;
-                addWebCmdlet.Instances = 1;
+                addWebCmdlet = new AddAzureWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime, Name = roleName };
 
                 addWebCmdlet.ExecuteCmdlet();
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WebRole));
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).GetVariableValue<string>(Parameters.RoleName));
-                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[1]);
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
 
                 Directory.SetCurrentDirectory(originalDirectory);
             }
@@ -80,22 +71,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WebRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 string originalDirectory = Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(rootPath);
                 File.Delete(settingsFilePath);
                 Assert.IsFalse(File.Exists(settingsFilePath));
-                addWebCmdlet.Name = roleName;
-                addWebCmdlet.Instances = 1;
+                addWebCmdlet = new AddAzureWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime, Name = roleName };
 
                 addWebCmdlet.ExecuteCmdlet();
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WebRole));
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).GetVariableValue<string>(Parameters.RoleName));
-                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[1]);
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
                 Assert.IsTrue(File.Exists(settingsFilePath));
 
                 Directory.SetCurrentDirectory(originalDirectory);

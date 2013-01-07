@@ -14,9 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -26,21 +24,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureWebRole")]
     public class AddAzureWebRoleCommand : AddRole
     {
-        public override void ExecuteCmdlet()
+        public AddAzureWebRoleCommand(string rootPath = null) :
+            base(Resources.GeneralScaffolding, Resources.AddRoleMessageCreate, true, rootPath)
         {
-            AzureService service = new AzureService(GetServiceRootPath(), null);
-            RoleInfo webRole = service.AddWebRole(Resources.GeneralScaffolding, Name, Instances);
 
-            try
-            {
-                service.ChangeRolePermissions(webRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, GetServiceRootPath(), webRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
         }
     }
 }
