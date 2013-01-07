@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
         [ValidateNotNullOrEmpty]
         public string SubscriptionDataFile { get; set; }
 
-        internal void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
+        public void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
         {
             // Import subscriptions from subscriptions file
             var globalComponents = GlobalComponents.Load(

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -196,6 +196,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, -1), string.Format(Resources.InvalidInstancesCount, roleName));
+            }
+        }
+
+        [TestMethod]
+        public void SetAzureInstancesProcessTestsCaseInsensitive()
+        {
+            int newRoleInstances = 10;
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                string roleName = "WebRole1";
+                service.AddWebRole(Resources.NodeScaffolding);
+                cmdlet.PassThru = false;
+                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WeBrolE1", newRoleInstances, service.Paths.RootPath);
+                service = new AzureService(service.Paths.RootPath, null);
+
+                Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
+                Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
+                Assert.AreEqual<string>(roleName, roleSettings.name);
+
             }
         }
     }
