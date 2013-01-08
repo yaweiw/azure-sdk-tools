@@ -1,6 +1,6 @@
-﻿// ----------------------------------------------------------------------------------
+﻿﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2012 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using System.Text;
     
     /// <summary>
@@ -119,6 +120,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="accountKey">storage account key</param>
         /// <param name="useHttps">whether use https</param>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
@@ -132,6 +134,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="sasToken">sas token</param>
         /// <param name="useHttps">whether use https</param>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(SasToken);
@@ -143,6 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="connectionString">azure storage connection string</param>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountByConnectionString(string connectionString)
         {
             return CloudStorageAccount.Parse(connectionString);
@@ -152,6 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// get local development storage account
         /// </summary>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetLocalDevelopmentStorageAccount()
         {
             return CloudStorageAccount.DevelopmentStorageAccount;
@@ -162,6 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="storageAccountName">storage account name, it's used for build end point</param>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName)
         {
             StorageCredentials credential = new StorageCredentials();
@@ -174,6 +180,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="credential">storage credentail</param>
         /// <param name="storageAccountName">storage account name, it's used for build end point</param>
         /// <returns>a storage account</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
         {
             string blobEndPoint = String.Format(Resources.DefaultBlobEndPointFormat, storageAccountName);
@@ -185,6 +192,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <summary>
         /// execute command
         /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             CloudStorageAccount account = null;
