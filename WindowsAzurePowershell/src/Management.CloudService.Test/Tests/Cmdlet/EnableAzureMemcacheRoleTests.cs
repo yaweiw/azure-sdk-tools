@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
                 RoleSettings roleSettings = Testing.GetRole(rootPath, webRoleName);
 
-                AzureAssert.RuntimeExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
+                AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
                 AzureAssert.StartupTaskExists(webRole.Startup.Task, Resources.CacheStartupCommand);
@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 WorkerRole workerRole = Testing.GetWorkerRole(rootPath, workerRoleName);
                 RoleSettings roleSettings = Testing.GetRole(rootPath, workerRoleName);
 
-                AzureAssert.RuntimeExists(workerRole.Startup.Task, Resources.CacheRuntimeValue);
+                AzureAssert.RuntimeUrlAndIdExists(workerRole.Startup.Task, Resources.CacheRuntimeValue);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, workerRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WorkerRole));
                 AzureAssert.StartupTaskExists(workerRole.Startup.Task, Resources.CacheStartupCommand);
