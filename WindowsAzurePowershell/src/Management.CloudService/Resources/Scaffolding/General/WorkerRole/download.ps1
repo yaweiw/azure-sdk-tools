@@ -41,7 +41,7 @@ function copyOnVerify($file, $output) {
   Write-Host "Verifying $file"
   $verify = Get-AuthenticodeSignature $file
   Out-Host -InputObject $verify
-  # Verify when $runtimeUrl is not empty and $overrideUrl is empty
+  # Verify when $runtimeUrl is set
   if ($runtimeUrl -and ($verify.Status -ne "Valid")) {
      throw "Invalid signature for runtime package $file"
   }
