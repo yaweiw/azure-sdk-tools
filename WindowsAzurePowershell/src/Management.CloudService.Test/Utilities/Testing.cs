@@ -199,5 +199,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             AzureService service = new AzureService(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
         }
+
+        /// <summary>
+        /// Asserts that given two directories and identical.
+        /// </summary>
+        /// <param name="expected">The expected directory</param>
+        /// <param name="actual">The actual directory</param>
+        public static void AssertDirectoryIdentical(string expected, string actual)
+        {
+            DirectoryInfo expectedDir = new DirectoryInfo(expected);
+            DirectoryInfo actualDir = new DirectoryInfo(expected);
+            DirectoryInfo[] ExpectedDirs = expectedDir.GetDirectories();
+            DirectoryInfo[] ActualDirs = actualDir.GetDirectories();
+            FileInfo[] expectedFiles = expectedDir.GetFiles();
+            FileInfo[] actualFiles = actualDir.GetFiles();
+
+            Assert.AreEqual<int>(expectedFiles.Length, actualFiles.Length);
+
+            for (int i = 0; i < expectedFiles.Length; i++)
+            {
+                Assert.AreEqual<string>(expectedFiles[i].Name, actualFiles[i].Name);
+            }
+
+            foreach (DirectoryInfo subdir in ExpectedDirs)
+            {
+                string ActualSubDir = Path.Combine(actual, subdir.Name);
+                AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
+            }
+        }
     }
 }
