@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             // Create cache worker role.
             AzureService azureService = new AzureService(rootPath, null);
-            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), workerRoleName, instances);
+            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), workerRoleName, instances);
             azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
             azureService.Components.Save(azureService.Paths);
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
