@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public override void ExecuteCmdlet()
         {
             RootPath = RootPath ?? GetServiceRootPath();
-            Scaffolding = this.ResolvePath(Scaffolding);
             AzureService service = new AzureService(RootPath, null);
             RoleInfo roleInfo = null;
             
