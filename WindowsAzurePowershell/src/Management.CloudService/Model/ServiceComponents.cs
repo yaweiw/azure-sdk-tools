@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using Properties;
     using ServiceConfigurationSchema;
@@ -84,6 +84,41 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
             LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
+        }
+
+        /// <summary>
+        /// Sets the VM size of a role
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="vmSize">The VM size</param>
+        public void SetRoleVMSize(string roleName, string vmSize)
+        {
+            Validate.ValidateStringIsNullOrEmpty(roleName, Resources.RoleName);
+
+            bool isDefined = Enum.GetNames(typeof(RoleSize)).Any(x => x.ToLower() == vmSize.ToLower());
+
+            if (!isDefined)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidVMSize, roleName));
+            }
+
+            if (!RoleExists(roleName))
+            {
+                throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
+            }
+
+            WebRole webRole = GetWebRole(roleName);
+            RoleSize size = (RoleSize)Enum.Parse(typeof(RoleSize), vmSize, true);
+
+            if (webRole != null)
+            {
+                webRole.vmsize = size;
+            }
+            else
+            {
+                WorkerRole workerRole = GetWorkerRole(roleName);
+                workerRole.vmsize = size;
+            }
         }
 
         /// <summary>
