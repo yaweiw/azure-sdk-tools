@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Extensions;
 
     /// <summary>
     /// Creates basic scaffolding structure for azure web/worker role.
@@ -52,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <param name="rootPath">The service root path</param>
         public AddRole(string scaffolding, string successMessage, bool isWebRole, string rootPath = null)
         {
-            this.rootPath = rootPath ?? GetServiceRootPath();
+            this.rootPath = rootPath;
             this.Scaffolding = scaffolding;
             this.isWebRole = isWebRole;
             this.successMessage = successMessage;
@@ -61,9 +62,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            rootPath = rootPath ?? GetServiceRootPath();
+            Scaffolding = this.ResolvePath(Scaffolding);
             AzureService service = new AzureService(rootPath, null);
             RoleInfo roleInfo = null;
-
+            
             if (isWebRole)
             {
                 roleInfo = service.AddWebRole(Scaffolding, Name, Instances);

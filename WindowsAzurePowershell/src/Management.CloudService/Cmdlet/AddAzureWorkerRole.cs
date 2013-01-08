@@ -36,6 +36,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         }
 
+        public AddAzureWorkerRoleCommand() :
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false, null)
+        {
+
+        }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
