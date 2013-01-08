@@ -76,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
                 string roleName = "WebRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePython, rootPath, roleName);
                 mockCommandRuntime.ResetPipelines();
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
                 string roleName = "WebRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPythonWebCmdlet = new AddAzureDjangoWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 addPythonWebCmdlet.CommandRuntime = mockCommandRuntime;
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePython, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);

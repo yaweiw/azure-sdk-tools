@@ -30,14 +30,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [ValidateNotNullOrEmpty]
         public string TemplateFolder { get; set; }
 
-        public AddAzureWorkerRoleCommand(string rootPath = null) :
-            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false, rootPath)
-        {
-
-        }
-
         public AddAzureWorkerRoleCommand() :
-            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false, null)
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false)
         {
 
         }

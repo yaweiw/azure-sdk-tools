@@ -25,14 +25,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureNodeWebRole")]
     public class AddAzureNodeWebRoleCommand : AddRole
     {
-        public AddAzureNodeWebRoleCommand(string rootPath = null) :
-            base(Path.Combine(Resources.NodeScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreateNode, true, rootPath)
-        {
-
-        }
-
         public AddAzureNodeWebRoleCommand() :
-            base(Path.Combine(Resources.NodeScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreateNode, true, null)
+            base(Path.Combine(Resources.NodeScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreateNode, true)
         {
 
         }

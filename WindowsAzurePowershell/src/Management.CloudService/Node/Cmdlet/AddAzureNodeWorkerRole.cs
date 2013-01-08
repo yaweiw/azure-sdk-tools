@@ -25,14 +25,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureNodeWorkerRole")]
     public class AddAzureNodeWorkerRoleCommand : AddRole
     {
-        public AddAzureNodeWorkerRoleCommand(string rootPath = null) :
-            base(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreateNode, false, rootPath)
-        {
-
-        }
-
         public AddAzureNodeWorkerRoleCommand() :
-            base(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreateNode, false, null)
+            base(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreateNode, false)
         {
 
         }

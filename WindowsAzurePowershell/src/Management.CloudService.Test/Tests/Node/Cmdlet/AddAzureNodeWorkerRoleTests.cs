@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string roleName = "WorkerRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
 
                 addNodeWorkerCmdlet.ExecuteCmdlet();
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string roleName = "WorkerRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
                 File.Delete(settingsFilePath);

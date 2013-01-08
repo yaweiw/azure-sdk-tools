@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string roleName = "WebRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addPHPWebCmdlet = new AddAzurePHPWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPHPWebCmdlet = new AddAzurePHPWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
                 
                 addPHPWebCmdlet.ExecuteCmdlet();
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string roleName = "WebRole1";
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
-                addPHPWebCmdlet = new AddAzurePHPWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPHPWebCmdlet = new AddAzurePHPWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
                 File.Delete(settingsFilePath);
