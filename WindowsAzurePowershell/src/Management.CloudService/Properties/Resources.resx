@@ -865,4 +865,7 @@
   <data name="AddRoleMessageCreate" xml:space="preserve">
     <value>Role has been created at {0}\{1}.</value>
   </data>
+  <data name="InvalidVMSize" xml:space="preserve">
+    <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>
+  </data>
 </root>

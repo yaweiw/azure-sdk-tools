@@ -1052,6 +1052,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge..
+        /// </summary>
+        internal static string InvalidVMSize {
+            get {
+                return ResourceManager.GetString("InvalidVMSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to engines.
         /// </summary>
         internal static string JsonEnginesSectionName {
