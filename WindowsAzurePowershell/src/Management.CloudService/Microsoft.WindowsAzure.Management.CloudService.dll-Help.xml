@@ -638,7 +638,7 @@
           <maml:para>C:\PS&gt;</maml:para>
           C:\PS&gt;
         </maml:introduction>
-        <dev:code>Add-AzureWorkerRole MyWorkerRole</dev:code>
+        <dev:code>Add-AzureNodeWorkerRole MyWorkerRole</dev:code>
         <dev:remarks>
           <maml:para>Adds scaffolding for a single worker role named &quot;MyWorkerRole&quot; to the current application</maml:para>
           <maml:para></maml:para>
@@ -3259,6 +3259,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "3" >
+          <maml:name>TemplateFolder</maml:name>
+          <maml:description>
+            <maml:para>The web role scaffolding template folder to use</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -3285,6 +3292,18 @@
           <maml:uri/>
         </dev:type>
         <dev:defaultValue>1</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>TemplateFolder</maml:name>
+        <maml:description>
+          <maml:para>The web role scaffolding template folder to use</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>WebRole1</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -3394,6 +3413,30 @@
           </command:commandLine>
         </command:commandLines>
       </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Create web role with custom scaffolding --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Add-AzureWebRole MyWebRole -TemplateFolder .\MyWebTemplateFolder</dev:code>
+        <dev:remarks>
+          <maml:para>Adds scaffolding for a new web role named &quot;MyWebRole&quot; to the current application with MyWebTemplateFolder as scaffolding template</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
     </command:examples>
     <maml:relatedLinks>
       <maml:navigationLink>
@@ -3443,6 +3486,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >Int32</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "3" >
+          <maml:name>TemplateFolder</maml:name>
+          <maml:description>
+            <maml:para>The scaffolding template folder used to create the worker role</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -3469,6 +3519,18 @@
           <maml:uri/>
         </dev:type>
         <dev:defaultValue>1</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>TemplateFolder</maml:name>
+        <maml:description>
+          <maml:para>The scaffolding template folder used to create the worker role</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>WorkerRole1</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -3565,6 +3627,30 @@
         <dev:code>Add-AzureWorkerRole MyWorkerRole -I 2</dev:code>
         <dev:remarks>
           <maml:para>Adds scaffolding for a new worker role named &quot;MyWorkerRole&quot; to the current application, with a role instance count of 2</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Create worker role with custom scaffolding --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Add-AzureWorkerRole MyWorkerRole -TemplateFoldr .\MyWorkerRoleTemplate</dev:code>
+        <dev:remarks>
+          <maml:para>Adds scaffolding for a new worker role named &quot;MyWorkerRole&quot; to the current application, with custom scaffolding .\MyWorkerRoleTemplate</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>

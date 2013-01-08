@@ -23,16 +23,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
         
         public AzureServiceWrapper(string rootPath, string scaffoldingPath) : base(rootPath, scaffoldingPath) { }
 
-        public void AddRole(string scaffolding, int webRole, int workerRole)
+        public void AddRole(string webScaffolding, string workerScaffolding, int webRole, int workerRole)
         {
             for (int i = 0; i < webRole; i++)
             {
-                AddWebRole(scaffolding);
+                AddWebRole(webScaffolding);
             }
 
             for (int i = 0; i < workerRole; i++)
             {
-                AddWorkerRole(scaffolding);
+                AddWorkerRole(workerScaffolding);
             }
         }
 

@@ -33,8 +33,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     {
         private MockCommandRuntime mockCommandRuntime;
 
-        private NewAzureServiceProjectCommand newServiceCmdlet;
-
         private AddAzurePHPWorkerRoleCommand addPHPWorkerCmdlet;
 
         [TestInitialize]
@@ -42,13 +40,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-            mockCommandRuntime = new MockCommandRuntime();
-
-            newServiceCmdlet = new NewAzureServiceProjectCommand();
-            addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand();
-
-            addPHPWorkerCmdlet.CommandRuntime = mockCommandRuntime;
-            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -57,13 +48,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WorkerRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                mockCommandRuntime = new MockCommandRuntime();
+                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
-                mockCommandRuntime.ResetPipelines();
-                addPHPWorkerCmdlet.AddAzurePHPWorkerRoleProcess(roleName, 1, rootPath);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
+                addPHPWorkerCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
                 Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
             }
@@ -75,18 +68,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WorkerRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                mockCommandRuntime = new MockCommandRuntime();
+                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 File.Delete(settingsFilePath);
                 Assert.IsFalse(File.Exists(settingsFilePath));
 
-                addPHPWorkerCmdlet.AddAzurePHPWorkerRoleProcess(roleName, 1, rootPath);
+                addPHPWorkerCmdlet.ExecuteCmdlet();
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).GetVariableValue<string>(Parameters.RoleName));
-                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[1]);
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
                 Assert.IsTrue(File.Exists(settingsFilePath));
             }
         }
