@@ -1681,12 +1681,6 @@
           </maml:description>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
-          <maml:name>PackageOnly</maml:name>
-          <maml:description>
-            <maml:para>If specified, do not publish the service to Windows Azure, instead create a service package (.cspkg) file for the service, which can be deployed separately</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "named" >
           <maml:name>TimeoutSeconds</maml:name>
           <maml:description>
             <maml:para>The timeout in seconds for service deployment operations</maml:para>
@@ -1774,17 +1768,6 @@
         <dev:defaultValue>Off</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>PackageOnly</maml:name>
-        <maml:description>
-          <maml:para>If specified, do not publish the service to Windows Azure, instead create a service package (.cspkg) file for the service, which can be deployed separately</maml:para>
-        </maml:description>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue>Off</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>TimeoutSeconds</maml:name>
         <maml:description>
           <maml:para>The timeout in seconds for service deployment operations</maml:para>
@@ -1854,30 +1837,6 @@
         <dev:code>Publish-AzureServiceProject</dev:code>
         <dev:remarks>
           <maml:para>Publishes the current service, using the current service settings and the current Azure publish profile</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para>
-          </maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText>
-            </command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-      <command:example>
-        <maml:title>
-          --------------  Create Deployment Package --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-          C:\PS&gt;
-        </maml:introduction>
-        <dev:code>Publish-AzureServiceProject -PackageOnly</dev:code>
-        <dev:remarks>
-          <maml:para>Creates a deployment package (.cspkg) file in the service directory and does not publish to Windows Azure</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
@@ -2237,7 +2196,7 @@
     <command:details>
       <command:name>Set-AzureServiceProjectRole</command:name>
       <maml:description>
-        <maml:para>Set the number of instances or the runtime version of a role</maml:para>
+        <maml:para>Set the number of instances, vm size or the runtime version of a role</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2294,6 +2253,23 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceProjectRole</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+          <maml:name>RoleName</maml:name>
+          <maml:description>
+            <maml:para>The name of the web or worker role that is changing</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
+          <maml:name>VMSize</maml:name>
+          <maml:description>
+            <maml:para>The vm size of the role</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
@@ -2316,6 +2292,18 @@
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
           <maml:name>Int32</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>VMSize</maml:name>
+        <maml:description>
+          <maml:para>The vm size of the role</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -2439,6 +2427,30 @@
         <dev:code>Set-AzureServiceProjectRole MyRole1 node 0.6.20</dev:code>
         <dev:remarks>
           <maml:para>Sets the node.exe runtime version for role &quot;MyRole1&quot; to 0.6.20.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Change Web Role VM Size to ExtraLarge--------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureServiceProjectRole &quot;MyWebRole&quot; -VMSize ExtraLarge</dev:code>
+        <dev:remarks>
+          <maml:para>Sets VMSize for the web role named 'MyWebRole1' to ExtraLarge</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
@@ -3672,6 +3684,209 @@
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Add-AzureWorkerRole</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <!--Generated by Help Cmdlet Editor-->
+    <command:details>
+      <command:name>New-AzureRoleTemplate</command:name>
+      <maml:description>
+        <maml:para>Creates azure web and worker role template</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para />
+        <!--New copy right info here.-->
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureRoleTemplate</command:noun>
+      <!--New Dev version info here.-->
+      <dev:version />
+    </command:details>
+    <maml:description>
+      <!--This is the Description section-->
+      <maml:para>Creates azure web and worker role template</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureRoleTemplate</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+          <maml:name>Web</maml:name>
+          <maml:description>
+            <maml:para>Indicates that cmdlet should create web role template folder</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "false" position = "1" >
+          <maml:name>Worker</maml:name>
+          <maml:description>
+            <maml:para>Indicates that cmdlet should create worker role template folder</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "false" position = "3" >
+          <maml:name>Output</maml:name>
+          <maml:description>
+            <maml:para>The output path of generated template</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Web</maml:name>
+        <maml:description>
+          <maml:para>Indicates that cmdlet should create web role template folder</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Worker</maml:name>
+        <maml:description>
+          <maml:para>Indicates that cmdlet should create web role template folder</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Output</maml:name>
+        <maml:description>
+          <maml:para>The output path of generated template</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>.\[Web][Worker]RoleTemplate</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+        </dev:type>
+        <maml:description></maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <command:terminatingErrors>
+    </command:terminatingErrors>
+    <command:nonTerminatingErrors>
+    </command:nonTerminatingErrors>
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>
+          --------------  Add web role template --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureRoleTemplate -Web</dev:code>
+        <dev:remarks>
+          <maml:para>Create new azure web role template in folder called WebRoleTemplate in the current directory</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Add worker role template --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureRoleTemplate -Worker</dev:code>
+        <dev:remarks>
+          <maml:para>Create new azure worker role template in folder called WorkerRoleTemplate in the current directory</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Add Web role template in output folder--------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>New-AzureRoleTemplate -Web -Output C:\MyWebRoleTemplate</dev:code>
+        <dev:remarks>
+          <maml:para>Create new azure web role template in in MyWebRoleTemplate</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureServiceProject</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureWorkerRole</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureWebRole</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
