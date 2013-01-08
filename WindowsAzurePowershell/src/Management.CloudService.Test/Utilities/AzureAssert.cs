@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 expected.LocalPackage, expected.RootPath, expected.Settings, actual);
         }
 
-        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string root, string settings, ServicePathInfo actual)
+        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string rootPath, string settings, ServicePathInfo actual)
         {
             throw new NotImplementedException();
         }
