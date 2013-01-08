@@ -17,10 +17,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
 
     /// <summary>
     /// Creates new azure template for web/worker role.
@@ -51,14 +52,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (Web.IsPresent)
             {
-                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), output, true);
+                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, Microsoft.WindowsAzure.Management.CloudService.Model.RoleType.WebRole.ToString()), output, true);
             }
             else
             {
-                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), output, true);
+                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, Microsoft.WindowsAzure.Management.CloudService.Model.RoleType.WorkerRole.ToString()), output, true);
             }
 
-            SafeWriteOutputPSObject(null, "Path", output);
+            SafeWriteOutputPSObject(null, Parameters.Path, output);
         }
     }
 }
