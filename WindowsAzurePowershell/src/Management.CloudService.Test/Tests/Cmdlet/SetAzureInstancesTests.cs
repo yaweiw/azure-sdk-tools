@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding, roleName, 1);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.PHPScaffolding, roleName, 1);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.NodeScaffolding, roleName, 1);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.PHPScaffolding, roleName, 1);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
@@ -196,6 +196,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, -1), string.Format(Resources.InvalidInstancesCount, roleName));
+            }
+        }
+
+        [TestMethod]
+        public void SetAzureInstancesProcessTestsCaseInsensitive()
+        {
+            int newRoleInstances = 10;
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                string roleName = "WebRole1";
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                cmdlet.PassThru = false;
+                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WeBrolE1", newRoleInstances, service.Paths.RootPath);
+                service = new AzureService(service.Paths.RootPath, null);
+
+                Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
+                Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
+                Assert.AreEqual<string>(roleName, roleSettings.name);
+
             }
         }
     }

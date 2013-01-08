@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -165,14 +165,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <summary>
         /// Adds the given role to both config files and the service def.
         /// </summary>
-        private void AddRoleCore(string scaffolding, RoleInfo role, RoleType type)
+        private void AddRoleCore(string scaffolding, RoleInfo role)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
             parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
             parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
-            string scaffoldingSource = Path.Combine(scaffolding, type.ToString());
 
-            GenerateScaffolding(scaffoldingSource, role.Name, parameters);
+            GenerateScaffolding(scaffolding, role.Name, parameters);
         }
 
         private Dictionary<string, object> CreateDefaultParameters(RoleInfo role)
@@ -191,7 +190,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             name = GetRoleName(name, Resources.WebRole, Components.Definition.WebRole == null ? new String[0] : Components.Definition.WebRole.Select(wr => wr.name.ToLower()));
             WebRoleInfo role = new WebRoleInfo(name, instanceCount);
-            AddRoleCore(scaffolding, role, RoleType.WebRole);
+            AddRoleCore(scaffolding, role);
 
             return role;
         }
@@ -200,7 +199,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             name = GetRoleName(name, Resources.WorkerRole, Components.Definition.WorkerRole == null ? new String[0] : Components.Definition.WorkerRole.Select(wr => wr.name.ToLower()));
             WorkerRoleInfo role = new WorkerRoleInfo(name, instanceCount);
-            AddRoleCore(Scaffolding, role, RoleType.WorkerRole);
+            AddRoleCore(Scaffolding, role);
 
             return role;
         }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -67,9 +67,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <returns>The runtime startup task</returns>
         public static Task GetRuntimeStartupTask(Startup roleStartup)
         {
-            return roleStartup.Task.FirstOrDefault<Task>(t =>
+            if (roleStartup.Task != null)
+            {
+                return roleStartup.Task.FirstOrDefault<Task>(t =>
                 t.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine)
              || t.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine));
+            }
+
+            return null;
         }
 
         private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)

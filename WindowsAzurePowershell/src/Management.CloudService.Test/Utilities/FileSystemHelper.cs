@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     public class FileSystemHelper : IDisposable
     {
         /// <summary>
-        /// Gets the path to the root of the file system utilized by the test.
+        /// Gets the path to the rootPath of the file system utilized by the test.
         /// </summary>
         public string RootPath { get; private set; }
 
@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <param name="testInstance">
         /// Reference to the test class (to access its logging).
         /// </param>
-        /// <param name="rootPath">The root directory.</param>
+        /// <param name="rootPath">The rootPath directory.</param>
         public FileSystemHelper(TestBase testInstance, string rootPath)
         {
             Debug.Assert(testInstance != null);
@@ -180,10 +180,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
         
         /// <summary>
-        /// Get the path of a file relative to the FileSystemHelper's root.
+        /// Get the path of a file relative to the FileSystemHelper's rootPath.
         /// </summary>
         /// <param name="fullPath">The full path to the file.</param>
-        /// <returns>The path relative to the FileSystemHelper's root.</returns>
+        /// <returns>The path relative to the FileSystemHelper's rootPath.</returns>
         public string GetRelativePath(string fullPath)
         {
             Debug.Assert(!string.IsNullOrEmpty(fullPath));
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
         /// <summary>
         /// Get the full path to a file given a path relative to the
-        /// FileSystemHelper's root.
+        /// FileSystemHelper's rootPath.
         /// </summary>
         /// <param name="relativePath">Relative path.</param>
         /// <returns>Corresponding full path.</returns>
@@ -219,7 +219,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
         
         /// <summary>
-        /// Create a new directory relative to the root.
+        /// Create a new directory relative to the rootPath.
         /// </summary>
         /// <param name="relativePath">Relative path to the directory.</param>
         /// <returns>The full path to the directory.</returns>
@@ -238,7 +238,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         }
         
         /// <summary>
-        /// Create an empty file relative to the root.
+        /// Create an empty file relative to the rootPath.
         /// </summary>
         /// <param name="relativePath">Relative path to the file.</param>
         /// <returns>The full path to the file.</returns>
