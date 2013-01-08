@@ -44,7 +44,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
             }
 
-            powershell.AddScript("$verbosepreference='continue'");
+            powershell.AddScript("$VerbosePreference='Continue'");
+            powershell.AddScript("$DebugPreference='Continue'");
         }
 
         [TestCleanup]

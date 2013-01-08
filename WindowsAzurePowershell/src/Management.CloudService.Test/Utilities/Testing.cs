@@ -170,33 +170,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <summary>
         /// Gets worker role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The worker role object</returns>
-        internal static WorkerRole GetWorkerRole(string servicePath, string name)
+        internal static WorkerRole GetWorkerRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWorkerRole(name);
         }
 
         /// <summary>
         /// Gets web role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The web role object</returns>
-        internal static WebRole GetWebRole(string servicePath, string name)
+        internal static WebRole GetWebRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWebRole(name);
         }
 
         /// <summary>
         /// Gets the role settings object from cloud service configuration.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The role settings object</returns>
-        internal static RoleSettings GetRole(string servicePath, string name)
+        internal static RoleSettings GetRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
         }
     }

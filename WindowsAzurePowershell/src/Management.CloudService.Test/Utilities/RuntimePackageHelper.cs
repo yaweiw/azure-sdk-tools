@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     public class RuntimePackageHelper
     {
         /// <summary>
-        /// Write out the test manifest file to a directory under the root
+        /// Write out the test manifest file to a directory under the rootPath
         /// </summary>
         /// <param name="helper">The file system helper being used for the test</param>
         /// <returns>The path to the test manifest file</returns>
