@@ -59,12 +59,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string servicePath = Path.Combine(files.RootPath, "AzureService");
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
                 string roleName = "WorkerRole";
                 int expectedInstanceCount = 10;
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
-                WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, servicePath);
-                RoleSettings cacheRoleSettings = Testing.GetRole(servicePath, roleName);
+                WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
+                RoleSettings cacheRoleSettings = Testing.GetRole(rootPath, roleName);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
 
@@ -91,12 +91,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                string servicePath = Path.Combine(files.RootPath, "AzureService");
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
 
                 foreach (string invalidName in TestData.Data.InvalidRoleNames)
                 {
-                    Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, servicePath));
+                    Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
                 }
             }
         }

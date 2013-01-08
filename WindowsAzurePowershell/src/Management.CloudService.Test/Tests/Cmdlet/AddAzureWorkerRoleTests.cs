@@ -32,8 +32,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     {
         private MockCommandRuntime mockCommandRuntime;
 
-        private NewAzureServiceProjectCommand newServiceCmdlet;
-
         private AddAzureWorkerRoleCommand addWorkerCmdlet;
 
         [TestInitialize]
@@ -42,12 +40,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             mockCommandRuntime = new MockCommandRuntime();
-
-            newServiceCmdlet = new NewAzureServiceProjectCommand();
-            addWorkerCmdlet = new AddAzureWorkerRoleCommand();
-
-            addWorkerCmdlet.CommandRuntime = mockCommandRuntime;
-            newServiceCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -56,18 +48,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WorkerRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 string originalDirectory = Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(rootPath);
-                mockCommandRuntime.ResetPipelines();
-                addWorkerCmdlet.Name = roleName;
-                addWorkerCmdlet.Instances = 1;
+                addWorkerCmdlet = new AddAzureWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = roleName };
 
                 addWorkerCmdlet.ExecuteCmdlet();
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
                 Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
 
@@ -81,25 +71,65 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string roleName = "WorkerRole1";
-                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
-                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 string originalDirectory = Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(rootPath);
                 File.Delete(settingsFilePath);
                 Assert.IsFalse(File.Exists(settingsFilePath));
-                addWorkerCmdlet.Name = roleName;
-                addWorkerCmdlet.Instances = 1;
+                addWorkerCmdlet = new AddAzureWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = roleName };
 
                 addWorkerCmdlet.ExecuteCmdlet();
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
-                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[1]).GetVariableValue<string>(Parameters.RoleName));
-                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[1]);
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
                 Assert.IsTrue(File.Exists(settingsFilePath));
 
                 Directory.SetCurrentDirectory(originalDirectory);
+            }
+        }
+
+        [TestMethod]
+        public void AddAzureWorkerRoleWithTemplateFolder()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string roleName = "WorkerRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string originalDirectory = Directory.GetCurrentDirectory();
+                string scaffoldingPath = "MyWorkerTemplateFolder";
+                Directory.SetCurrentDirectory(rootPath);
+                addWorkerCmdlet = new AddAzureWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = roleName, TemplateFolder = scaffoldingPath };
+
+                addWorkerCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), scaffoldingPath);
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
+
+                Directory.SetCurrentDirectory(originalDirectory);
+            }
+        }
+
+        [TestMethod]
+        public void AddAzureWorkerRoleWithMissingScaffoldXmlFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string roleName = "WorkerRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreate, rootPath, roleName);
+                string originalDirectory = Directory.GetCurrentDirectory();
+                string scaffoldingPath = "TemplateMissingScaffoldXml";
+                addWorkerCmdlet = new AddAzureWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = roleName, TemplateFolder = scaffoldingPath };
+
+                Testing.AssertThrows<FileNotFoundException>(() => addWorkerCmdlet.ExecuteCmdlet());
             }
         }
     }
