@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
 {
-    using System;
+    using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
@@ -26,26 +25,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzurePHPWebRole")]
     public class AddAzurePHPWebRoleCommand : AddRole
     {
-        internal void AddAzurePHPWebRoleProcess(string webRoleName, int instances, string rootPath)
+        public AddAzurePHPWebRoleCommand() :
+            base(Path.Combine(Resources.PHPScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePHP, true)
         {
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo webRole = service.AddWebRole(Resources.PHPScaffolding, webRoleName, instances);
 
-            try
-            {
-                service.ChangeRolePermissions(webRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreatePHP, rootPath, webRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
-        }
-
-        public override void ExecuteCmdlet()
-        {
-            AddAzurePHPWebRoleProcess(Name, Instances, GetServiceRootPath());
         }
     }
 }

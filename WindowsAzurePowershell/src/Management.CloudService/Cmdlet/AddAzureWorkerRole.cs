@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
+    using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using System.Security.Permissions;
     using Model;
     using Properties;
 
@@ -26,21 +26,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     [Cmdlet(VerbsCommon.Add, "AzureWorkerRole")]
     public class AddAzureWorkerRoleCommand : AddRole
     {
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Role scaffolding template folder")]
+        [ValidateNotNullOrEmpty]
+        public string TemplateFolder { get; set; }
+
+        public AddAzureWorkerRoleCommand() :
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreate, false)
+        {
+
+        }
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            AzureService service = new AzureService(GetServiceRootPath(), null);
-            RoleInfo workerRole = service.AddWorkerRole(Resources.GeneralScaffolding, Name, Instances);
+            // Set scaffolding to use the provided template if it's set.
+            Scaffolding = string.IsNullOrEmpty(TemplateFolder) ? Scaffolding : TemplateFolder;
 
-            try
-            {
-                service.ChangeRolePermissions(workerRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, workerRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreate, GetServiceRootPath(), workerRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
+            base.ExecuteCmdlet();
         }
     }
 }

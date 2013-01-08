@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
                 AzureService service = new AzureService(rootPath, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 cmdlet.ExecuteCmdlet();
 
@@ -114,10 +114,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
 
                 AzureService service = new AzureService(rootPath, null);
-                service.AddWebRole(Resources.NodeScaffolding);
-                service.AddWorkerRole(Resources.NodeScaffolding);
-                service.AddWorkerRole(Resources.NodeScaffolding);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
 
                 cmdlet.ExecuteCmdlet();
 
