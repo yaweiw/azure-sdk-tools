@@ -139,6 +139,7 @@
     <Compile Include="Cmdlet\AddAzureCacheWorkerRole.cs" />
     <Compile Include="Cmdlet\AddAzureWebRole.cs" />
     <Compile Include="Cmdlet\AddAzureWorkerRole.cs" />
+    <Compile Include="Cmdlet\NewAzureRoleTemplate.cs" />
     <Compile Include="Cmdlet\SaveAzureServiceProjectPackage.cs" />
     <Compile Include="Cmdlet\EnableAzureMemcacheRole.cs" />
     <Compile Include="Cmdlet\GetAzureServiceProjectRoleRuntime.cs" />
