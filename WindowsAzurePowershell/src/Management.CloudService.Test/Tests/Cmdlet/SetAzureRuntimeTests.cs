@@ -33,17 +33,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
         private const string serviceName = "AzureService";
 
-        public static void VerifyPackageJsonVersion(string servicePath, string roleName, string runtime, string version)
+        public static void VerifyPackageJsonVersion(string rootPath, string roleName, string runtime, string version)
         {
-            string packagePath = Path.Combine(servicePath, roleName);
+            string packagePath = Path.Combine(rootPath, roleName);
             string actualVersion;
             Assert.IsTrue(JavaScriptPackageHelpers.TryGetEngineVersion(packagePath, runtime, out actualVersion));
             Assert.AreEqual(version, actualVersion, true);
         }
 
-        public static void VerifyInvalidPackageJsonVersion(string servicePath, string roleName, string runtime, string version)
+        public static void VerifyInvalidPackageJsonVersion(string rootPath, string roleName, string runtime, string version)
         {
-            string packagePath = Path.Combine(servicePath, roleName);
+            string packagePath = Path.Combine(rootPath, roleName);
             string actualVersion;
             Assert.IsFalse(JavaScriptPackageHelpers.TryGetEngineVersion(packagePath, runtime, out actualVersion));
         }
