@@ -39,12 +39,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public SwitchParameter Worker { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Output path for the generated template")]
-        public string OutputPath { get; set; }
+        public string Output { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            string output = !string.IsNullOrEmpty(OutputPath) ? this.TryResolvePath(OutputPath) :
+            string output = !string.IsNullOrEmpty(Output) ? this.TryResolvePath(Output) :
                 Web.IsPresent ?
                 Path.Combine(CurrentPath(), DefaultWebRoleTemplate) :
                 Path.Combine(CurrentPath(), DefaultWorkerRoleTemplate);
