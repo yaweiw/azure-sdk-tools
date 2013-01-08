@@ -42,7 +42,7 @@ function copyOnVerify($file, $output) {
   $verify = Get-AuthenticodeSignature $file
   Out-Host -InputObject $verify
   # Verify when $runtimeUrl is set
-  if ($runtimeUrl -and ($verify.Status -ne "Valid")) {
+  if (!$overrideUrl -and ($verify.Status -ne "Valid")) {
      throw "Invalid signature for runtime package $file"
   }
   else {
