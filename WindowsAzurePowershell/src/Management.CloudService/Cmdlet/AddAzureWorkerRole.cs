@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Extensions;
     using Model;
     using Properties;
 
@@ -40,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             // Set scaffolding to use the provided template if it's set.
-            Scaffolding = string.IsNullOrEmpty(TemplateFolder) ? Scaffolding : TemplateFolder;
+            Scaffolding = string.IsNullOrEmpty(TemplateFolder) ? Scaffolding : this.ResolvePath(TemplateFolder);
 
             base.ExecuteCmdlet();
         }

@@ -2237,7 +2237,7 @@
     <command:details>
       <command:name>Set-AzureServiceProjectRole</command:name>
       <maml:description>
-        <maml:para>Set the number of instances or the runtime version of a role</maml:para>
+        <maml:para>Set the number of instances, vm size or the runtime version of a role</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -2294,6 +2294,23 @@
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceProjectRole</maml:name>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
+          <maml:name>RoleName</maml:name>
+          <maml:description>
+            <maml:para>The name of the web or worker role that is changing</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
+          <maml:name>VMSize</maml:name>
+          <maml:description>
+            <maml:para>The vm size of the role</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
@@ -2316,6 +2333,18 @@
         <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         <dev:type>
           <maml:name>Int32</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>VMSize</maml:name>
+        <maml:description>
+          <maml:para>The vm size of the role</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -2439,6 +2468,30 @@
         <dev:code>Set-AzureServiceProjectRole MyRole1 node 0.6.20</dev:code>
         <dev:remarks>
           <maml:para>Sets the node.exe runtime version for role &quot;MyRole1&quot; to 0.6.20.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Change Web Role VM Size to ExtraLarge--------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Set-AzureServiceProjectRole &quot;MyWebRole&quot; -VMSize ExtraLarge</dev:code>
+        <dev:remarks>
+          <maml:para>Sets VMSize for the web role named 'MyWebRole1' to ExtraLarge</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>

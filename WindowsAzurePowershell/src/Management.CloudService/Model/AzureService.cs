@@ -273,9 +273,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             Components.Save(paths);
         }
 
+        /// <summary>
+        /// Sets the role instance count
+        /// </summary>
+        /// <param name="paths">The service paths</param>
+        /// <param name="roleName">The name of the role to change its instance count</param>
+        /// <param name="VMSize">The new role instance count</param>
         public void SetRoleInstances(ServicePathInfo paths, string roleName, int instances)
         {
             Components.SetRoleInstances(roleName, instances);
+            Components.Save(paths);
+        }
+
+        /// <summary>
+        /// Sets the role VMSize
+        /// </summary>
+        /// <param name="paths">The service paths</param>
+        /// <param name="roleName">The name of the role to change its vm size</param>
+        /// <param name="VMSize">The new role vm size</param>
+        public void SetRoleVMSize(ServicePathInfo paths, string roleName, string VMSize)
+        {
+            Components.SetRoleVMSize(roleName, VMSize);
             Components.Save(paths);
         }
 
