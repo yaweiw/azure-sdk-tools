@@ -27,13 +27,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// </summary>
     public abstract class AddRole : CmdletBase
     {
-        private string rootPath;
-
         private string successMessage;
 
         private bool isWebRole;
 
         protected string Scaffolding { set; get; }
+
+        public string RootPath { set; get; }
 
         [Parameter(Position = 0, HelpMessage = "Role name")]
         [Alias("n")]
@@ -51,9 +51,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <param name="successMessage">The verbose message to emit when the cmdlet succeed</param>
         /// <param name="isWebRole">Flag that indicates role is web or worker</param>
         /// <param name="rootPath">The service root path</param>
-        public AddRole(string scaffolding, string successMessage, bool isWebRole, string rootPath = null)
+        public AddRole(string scaffolding, string successMessage, bool isWebRole)
         {
-            this.rootPath = rootPath;
             this.Scaffolding = scaffolding;
             this.isWebRole = isWebRole;
             this.successMessage = successMessage;
@@ -62,9 +61,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            rootPath = rootPath ?? GetServiceRootPath();
+            RootPath = RootPath ?? GetServiceRootPath();
             Scaffolding = this.ResolvePath(Scaffolding);
-            AzureService service = new AzureService(rootPath, null);
+            AzureService service = new AzureService(RootPath, null);
             RoleInfo roleInfo = null;
             
             if (isWebRole)
@@ -82,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 service.ChangeRolePermissions(roleInfo);
                 SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleInfo.Name);
-                WriteVerbose(string.Format(successMessage, rootPath, roleInfo.Name));
+                WriteVerbose(string.Format(successMessage, RootPath, roleInfo.Name));
             }
             catch (UnauthorizedAccessException)
             {

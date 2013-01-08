@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole" };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WebRole" };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 disableRDCmdlet.PassThru = true;
                 disableRDCmdlet.DisableRemoteDesktop();
@@ -110,9 +110,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole" };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WebRole" };
                 addNodeWebCmdlet.ExecuteCmdlet();
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 disableRDCmdlet.DisableRemoteDesktop();
             }
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole" };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WebRole" };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
                 disableRDCmdlet.DisableRemoteDesktop();
@@ -150,9 +150,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole" };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WebRole" };
                 addNodeWebCmdlet.ExecuteCmdlet();
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
                 disableRDCmdlet.DisableRemoteDesktop();
@@ -175,9 +175,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string root = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WebRole" };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WebRole" };
                 addNodeWebCmdlet.ExecuteCmdlet();
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(root) { CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = root, CommandRuntime = mockCommandRuntime, Name = "WorkerRole" };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 EnableAzureRemoteDesktopCommandTest.EnableRemoteDesktop("user", "GoodPassword!");
                 disableRDCmdlet.DisableRemoteDesktop();

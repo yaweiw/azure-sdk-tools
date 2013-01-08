@@ -30,14 +30,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [ValidateNotNullOrEmpty]
         public string TemplateFolder { get; set; }
 
-        public AddAzureWebRoleCommand(string rootPath = null) :
-            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreate, true, rootPath)
-        {
-
-        }
-
         public AddAzureWebRoleCommand() :
-            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreate, true, null)
+            base(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreate, true)
         {
 
         }

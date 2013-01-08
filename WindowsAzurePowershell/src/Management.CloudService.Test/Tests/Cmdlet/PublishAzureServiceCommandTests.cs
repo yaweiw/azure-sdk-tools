@@ -199,11 +199,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Add web and worker roles
                 
                 string webRoleName = "NODE_WEB_ROLE";
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = webRoleName, Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = webRoleName, Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 
                 string workerRoleName = "NODE_WORKER_ROLE";
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = workerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = workerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 channel.GetStorageServiceThunk = ss => new StorageService { ServiceName = serviceName };
                 channel.GetStorageKeysThunk = sk => new StorageService { StorageServiceKeys = new StorageServiceKeys { Primary = serviceName } };
@@ -268,31 +268,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Add web and worker roles
                 
                 string defaultWebRoleName = "WebRoleDefault";
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = defaultWebRoleName, Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = defaultWebRoleName, Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
 
                 string defaultWorkerRoleName = "WorkerRoleDefault";
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = defaultWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = defaultWorkerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
                 AddAzureNodeWebRoleCommand matchWebRole = addNodeWebCmdlet;
                 string matchWebRoleName = "WebRoleExactMatch";
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = matchWebRoleName, Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = matchWebRoleName, Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
 
                 AddAzureNodeWorkerRoleCommand matchWorkerRole = addNodeWorkerCmdlet;
                 string matchWorkerRoleName = "WorkerRoleExactMatch";
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = matchWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = matchWorkerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
                 AddAzureNodeWebRoleCommand overrideWebRole = addNodeWebCmdlet;
                 string overrideWebRoleName = "WebRoleOverride";
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = overrideWebRoleName, Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = overrideWebRoleName, Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
 
                 AddAzureNodeWorkerRoleCommand overrideWorkerRole = addNodeWorkerCmdlet;
                 string overrideWorkerRoleName = "WorkerRoleOverride";
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = overrideWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = overrideWorkerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
                 AzureService testService = new AzureService(servicePath, null);
@@ -739,22 +739,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Add a web role
                 
                 string webRoleName = "NODE_WEB_ROLE";
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = webRoleName, Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = webRoleName, Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 string webRolePath = Path.Combine(servicePath, webRoleName);
 
                 // Add a worker role
                 
                 string workerRoleName = "NODE_WORKER_ROLE";
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = workerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = workerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
                 string workerRolePath = Path.Combine(servicePath, workerRoleName);
 
                 // Add second web and worker roles that we won't add log
                 // entries to
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = "SECOND_WEB_ROLE", Instances = 2 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = "SECOND_WEB_ROLE", Instances = 2 };
                 addNodeWebCmdlet.ExecuteCmdlet();
-                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand(servicePath) { CommandRuntime = mockCommandRuntime, Name = "SECOND_Worker_ROLE", Instances = 2 };
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = servicePath, CommandRuntime = mockCommandRuntime, Name = "SECOND_Worker_ROLE", Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
                 // Add fake logs directories for server.js
@@ -808,7 +808,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string setupWebPath = Path.Combine(rootPath, webRoleName, "bin", "setup_web.cmd");
                 string webCloudConfigPath = Path.Combine(rootPath, webRoleName, "Web.cloud.config");
                 string webConfigPath = Path.Combine(rootPath, webRoleName, "Web.config");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime, Name = webRoleName};
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = webRoleName};
                 addNodeWebCmdlet.ExecuteCmdlet();
                 Process.Start(setupWebPath).WaitForExit();
 

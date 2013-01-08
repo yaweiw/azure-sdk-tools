@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
                 mockCommandRuntime = new MockCommandRuntime();
-                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
 
                 addPHPWorkerCmdlet.ExecuteCmdlet();
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string serviceName = "AzureService";
                 string rootPath = files.CreateNewService(serviceName);
                 mockCommandRuntime = new MockCommandRuntime();
-                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand(rootPath) { CommandRuntime = mockCommandRuntime };
+                addPHPWorkerCmdlet = new AddAzurePHPWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
                 string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreatePHP, rootPath, roleName);
                 string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
                 File.Delete(settingsFilePath);

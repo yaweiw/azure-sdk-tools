@@ -37,14 +37,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         const string PythonInterpreterExe = "python.exe";
         const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
 
-        public AddAzureDjangoWebRoleCommand(string rootPath = null) :
-            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true, rootPath)
-        {
-
-        }
-
         public AddAzureDjangoWebRoleCommand() :
-            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true, null)
+            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true)
         {
 
         }
