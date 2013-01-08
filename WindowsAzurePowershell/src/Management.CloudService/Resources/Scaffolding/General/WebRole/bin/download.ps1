@@ -4,7 +4,10 @@ $current = [string] (Get-Location -PSProvider FileSystem)
 $client = New-Object System.Net.WebClient
 
 # For a custom role, it may not use runtime download, if that's the case, skip.
-if (!($runtimeUrl) -and (!$overrideUrl)) { Write-Host "No runtimes to download"; exit; }
+if (!$runtimeUrl -and !$overrideUrl) { Write-Host "No runtimes to download"; exit; }
+
+# If runtimeUrl and overrideUrl are set, fail.
+if ($runtimeUrl -and $overrideUrl) { throw "Both RUNTIMEURL and RUNTIMEOVERRIDEURL values are set in your service definition, please set RUNTIMEOVERRIDEURL and leave RUNTIMEURL empty if this role is installing a custom runtime package" }
 
 function downloadWithRetry {
 	param([string]$url, [string]$dest, [int]$retry) 
@@ -39,7 +42,7 @@ function copyOnVerify($file, $output) {
   $verify = Get-AuthenticodeSignature $file
   Out-Host -InputObject $verify
   # Verify when $runtimeUrl is not empty and $overrideUrl is empty
-  if ($runtimeUrl -and !$overrideUrl -and ($verify.Status -ne "Valid")) {
+  if ($runtimeUrl -and ($verify.Status -ne "Valid")) {
      throw "Invalid signature for runtime package $file"
   }
   else {
