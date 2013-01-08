@@ -97,7 +97,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///Looks up a localized string similar to You must create your git publishing credentials using the Windows Azure portal. Please do these steps in the portal:
+        ///   Looks up a localized string similar to You must create your git publishing credentials using the Windows Azure portal.
+        ///Please follow these steps in the portal:
         ///1. On the left side open &quot;Web Sites&quot;
         ///2. Click on any website
         ///3. Choose &quot;Setup Git Publishing&quot; or &quot;Reset deployment credentials&quot;
@@ -138,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Multiple possible publishing users. Please specify one using the argument PublishingUsername..
+        ///   Looks up a localized string similar to Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click &apos;set/reset deployment credentials&apos; to set up a new user account, then reurn this cmdlet and specify PublishingUsername..
         /// </summary>
         internal static string MultiplePublishingUsernames {
             get {
@@ -152,6 +153,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         internal static string NeedPublishingUsernames {
             get {
                 return ResourceManager.GetString("NeedPublishingUsernames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;.
+        /// </summary>
+        internal static string NoDefaultSubscriptionMessage {
+            get {
+                return ResourceManager.GetString("NoDefaultSubscriptionMessage", resourceCulture);
             }
         }
         
@@ -198,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Repository is not setup.
+        ///   Looks up a localized string similar to Repository is not setup. You need to pass a valid site name..
         /// </summary>
         internal static string RepositoryNotSetup {
             get {

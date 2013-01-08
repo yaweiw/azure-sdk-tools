@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -37,23 +37,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         const string PythonInterpreterExe = "python.exe";
         const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        internal void AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
+        public AddAzureDjangoWebRoleCommand() :
+            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true)
         {
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo webRole = service.AddDjangoWebRole(webRoleName, instances);
 
-            // let Django create it's scaffolding
+        }
+
+        protected override void OnProcessing(RoleInfo roleInfo)
+        {
             var interpPath = FindPythonInterpreterPath();
             if (interpPath != null)
             {
                 string stdOut, stdErr;
-                Environment.CurrentDirectory = Path.Combine(rootPath, webRole.Name);
 
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
-                        String.Format(DjangoStartProjectCommand, webRole.Name)
+                        String.Format(DjangoStartProjectCommand, roleInfo.Name)
                     ),
                     out stdOut,
                     out stdErr
@@ -69,22 +69,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             {
                 WriteWarning(Resources.MissingPythonPreReq);
             }
-
-            try
-            {
-                service.ChangeRolePermissions(webRole);
-                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, webRole.Name);
-                WriteVerbose(string.Format(Resources.AddRoleMessageCreatePython, rootPath, webRole.Name));
-            }
-            catch (UnauthorizedAccessException)
-            {
-                WriteWarning(Resources.AddRoleMessageInsufficientPermissions);
-            }
-        }
-
-        public override void ExecuteCmdlet()
-        {
-            AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
         }
 
         internal static string FindPythonInterpreterPath()

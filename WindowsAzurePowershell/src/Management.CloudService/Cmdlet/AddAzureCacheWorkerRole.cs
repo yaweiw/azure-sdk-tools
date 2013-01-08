@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,34 +16,38 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using System.IO;
     using System.Management.Automation;
-    using System.Runtime.InteropServices;
     using System.Security;
-    using System.Security.Cryptography.Pkcs;
-    using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using System.Text;
     using AzureTools;
-    using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
     using Utilities;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Adds dedicated caching node worker role.
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
-    public class AddAzureCacheWorkerRoleCommand : AddRole
+    public class AddAzureCacheWorkerRoleCommand : CmdletBase
     {
+        [Parameter(Position = 0, HelpMessage = "Role name")]
+        [Alias("n")]
+        public string Name { get; set; }
+
+        [Parameter(Position = 1, HelpMessage = "Instances count")]
+        [Alias("i")]
+        public int Instances { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            AddAzureCacheWorkerRoleProcess(base.Name, base.Instances, base.GetServiceRootPath());
+            AddAzureCacheWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
         }
 
         private AzureService CachingConfigurationFactoryMethod(string rootPath, RoleInfo cacheWorkerRole, string sdkVersion)
@@ -71,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             // Create cache worker role.
             AzureService azureService = new AzureService(rootPath, null);
-            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Resources.NodeScaffolding, workerRoleName, instances);
+            RoleInfo nodeWorkerRole = azureService.AddWorkerRole(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), workerRoleName, instances);
             azureService = CachingConfigurationFactoryMethod(rootPath, nodeWorkerRole, new AzureTool().AzureSdkVersion);
             azureService.Components.Save(azureService.Paths);
             WorkerRole cacheWorkerRole = azureService.Components.GetWorkerRole(nodeWorkerRole.Name);
