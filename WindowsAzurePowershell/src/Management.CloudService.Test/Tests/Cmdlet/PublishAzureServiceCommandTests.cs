@@ -529,7 +529,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 publishServiceCmdlet.ShareChannel = true;
                 publishServiceCmdlet.SkipUpload = true;
-                publishServiceCmdlet.Launch = true;
                 publishServiceCmdlet.PublishService(rootPath);
                 AzureService service = new AzureService(rootPath, null);
 
