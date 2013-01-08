@@ -43,6 +43,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
 
         }
 
+        public AddAzureDjangoWebRoleCommand() :
+            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true, null)
+        {
+
+        }
+
         protected override void OnProcessing(RoleInfo roleInfo)
         {
             var interpPath = FindPythonInterpreterPath();

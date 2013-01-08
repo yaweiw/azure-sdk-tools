@@ -30,5 +30,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
         {
 
         }
+
+        public AddAzureNodeWorkerRoleCommand() :
+            base(Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreateNode, false, null)
+        {
+
+        }
     }
 }

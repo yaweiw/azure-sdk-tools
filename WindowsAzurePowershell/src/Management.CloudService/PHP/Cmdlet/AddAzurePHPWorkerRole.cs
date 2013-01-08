@@ -30,5 +30,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
         {
 
         }
+
+        public AddAzurePHPWorkerRoleCommand() :
+            base(Path.Combine(Resources.PHPScaffolding, RoleType.WorkerRole.ToString()), Resources.AddRoleMessageCreatePHP, false, null)
+        {
+
+        }
     }
 }
