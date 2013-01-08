@@ -264,27 +264,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
 
-            // Create the new entity and set its properties
-            Database database = new Database();
-            database.Name = databaseName;
-
-            if (databaseMaxSize != null)
-            {
-                database.MaxSizeGB = (int)databaseMaxSize;
-            }
-
-            if (!string.IsNullOrEmpty(databaseCollation))
-            {
-                database.CollationName = databaseCollation;
-            }
-
-            if (databaseEdition != DatabaseEdition.None)
-            {
-                database.Edition = databaseEdition.ToString();
-            }
+            // Create a new database object
+            Database database = CreateNewDatabaseInternal(
+                databaseName,
+                databaseMaxSize,
+                databaseCollation,
+                databaseEdition);
 
             // Save changes
-            this.AddToDatabases(database);
             try
             {
                 this.SaveChanges(SaveChangesOptions.None);
@@ -299,6 +286,77 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             catch
             {
                 this.ClearTrackedEntity(database);
+                throw;
+            }
+
+            // Load the extra properties for this object.
+            database.LoadExtraProperties(this);
+
+            return database;
+        }
+
+        /// <summary>
+        /// Creates a new Sql Database in the given server context along with a continuous copy at the specified partner server
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <returns>The newly created Sql Database.</returns>
+        public Database CreateNewDatabaseWithCopy(
+            string databaseName,
+            string partnerServer,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition,
+            int? maxLagInMinutes)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
+            // Create a new database object
+            Database database = CreateNewDatabaseInternal(
+                databaseName,
+                databaseMaxSize,
+                databaseCollation,
+                databaseEdition);
+
+            // Create a new database copy object with all the required properties
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.SourceServerName = this.ServerName;
+            databaseCopy.SourceDatabaseName = databaseName;
+            databaseCopy.DestinationServerName = partnerServer;
+            databaseCopy.DestinationDatabaseName = databaseCopy.SourceDatabaseName;
+            databaseCopy.IsContinuous = true;
+
+            // Set the optional Maximum Lag (RPO) value
+            databaseCopy.MaximumLag = maxLagInMinutes;
+
+            // Add the database copy object to context
+            this.AddToDatabaseCopies(databaseCopy);
+
+            // Establish the association between the database and database copy objects
+            this.AddLink(database, "DatabaseCopies", databaseCopy);
+            this.SetLink(databaseCopy, "Database", database);
+
+            // Save changes
+            try
+            {
+                this.SaveChanges(SaveChangesOptions.Batch);
+
+                // Re-Query the database for server side updated information
+                database = this.RefreshEntity(database);
+                if (database == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabase);
+                }
+            }
+            catch
+            {
+                this.ClearTrackedEntity(database);
+                this.ClearTrackedEntity(databaseCopy);
                 throw;
             }
 
@@ -577,6 +635,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             int? maxLagInMinutes,
             bool continuousCopy)
         {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
             // Create a new database copy object with all the required properties
             DatabaseCopy databaseCopy = new DatabaseCopy();
             databaseCopy.SourceServerName = this.ServerName;
@@ -620,6 +681,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             DatabaseCopy databaseCopy,
             bool forcedTermination)
         {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
             try
             {
                 // Mark Forced/Friendly flag on the databaseCopy object first
@@ -636,6 +700,46 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 this.RevertChanges(databaseCopy);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Create a new database object.
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <returns>The newly created database object.</returns>
+        private Database CreateNewDatabaseInternal(
+            string databaseName,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition)
+        {
+            // Create the new entity and set its properties
+            Database database = new Database();
+
+            database.Name = databaseName;
+
+            if (databaseMaxSize != null)
+            {
+                database.MaxSizeGB = (int)databaseMaxSize;
+            }
+
+            if (!string.IsNullOrEmpty(databaseCollation))
+            {
+                database.CollationName = databaseCollation;
+            }
+
+            if (databaseEdition != DatabaseEdition.None)
+            {
+                database.Edition = databaseEdition.ToString();
+            }
+
+            // Add the new database object to context
+            this.AddToDatabases(database);
+
+            return database;
         }
 
         #endregion
