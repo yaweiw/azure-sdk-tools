@@ -64,9 +64,9 @@ TypesToProcess = @(
 
 # Format files (.ps1xml) to be loaded when importing this module
 FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml'
+	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
+	'Microsoft.WindowsAzure.Management.Storage.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml'
-	'Microsoft.WindowsAzure.Management.Storage.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
@@ -74,7 +74,7 @@ NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
 				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
-        '.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
+				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
 				'.\Microsoft.WindowsAzure.Management.Storage.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll'
 
@@ -97,9 +97,9 @@ ModuleList = @()
 FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
+			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Storage.dll-Help.xml',
-			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml'
-			
+			'.\Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml'
 
 # Private data to pass to the module specified in ModuleToProcess
 PrivateData = ''
