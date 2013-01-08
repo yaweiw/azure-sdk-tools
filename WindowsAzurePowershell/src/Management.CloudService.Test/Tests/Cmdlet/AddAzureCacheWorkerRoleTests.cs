@@ -100,5 +100,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void AddNewCacheWorkerRoleDoesNotHaveAnyRuntime()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string roleName = "WorkerRole";
+                int expectedInstanceCount = 10;
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                
+                WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
+
+                Variable runtimeId = Array.Find<Variable>(cacheWorkerRole.Startup.Task[0].Environment, v => v.name.Equals(Resources.RuntimeTypeKey));
+                Assert.AreEqual<string>(string.Empty, runtimeId.value);
+            }
+        }
     }
 }
