@@ -1,6 +1,6 @@
-﻿// ----------------------------------------------------------------------------------
+﻿﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2012 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using System.Text;
 
     /// <summary>
@@ -58,6 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="name">container name pattern</param>
         /// <returns>An enumerable collection of cloudblob container</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByName(string name)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
@@ -108,6 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="prefix">container name prefix</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
@@ -127,6 +130,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<AzureStorageContainer> PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
         {
             if (null == containerList)
@@ -148,6 +152,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <summary>
         /// execute command
         /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             IEnumerable<CloudBlobContainer> containerList = null;

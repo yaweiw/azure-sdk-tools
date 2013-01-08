@@ -1,6 +1,6 @@
-﻿// ----------------------------------------------------------------------------------
+﻿﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2012 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -10,7 +10,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-// ---------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
@@ -123,9 +123,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="exception">StorageException from storage client</param>
         protected void WriteErrorDetails(StorageException exception)
         {
-            ErrorCategory errorCategory = ErrorCategory.CloseError;
             exception = exception.RepackStorageException();
-            WriteError(new ErrorRecord(exception, exception.GetType().Name, errorCategory, null));
+            WriteExceptionError(exception);
         }
 
         /// <summary>
