@@ -7,7 +7,7 @@ $client = New-Object System.Net.WebClient
 if (!$runtimeUrl -and !$overrideUrl) { Write-Host "No runtimes to download"; exit; }
 
 # If runtimeUrl and overrideUrl are set, fail.
-if ($runtimeUrl -and $overrideUrl) { throw "Both RUNTIMEURL and RUNTIMEOVERRIDEURL values are set in your service definition, please set RUNTIMEOVERRIDEURL and leave RUNTIMEURL empty if this role is installing a custom runtime package" }
+if ($runtimeUrl -and $overrideUrl) { throw "Both RUNTIMEURL and RUNTIMEOVERRIDEURL values are set in the service definition for this role, please set RUNTIMEOVERRIDEURL and leave RUNTIMEURL empty if this role is installing a custom runtime package" }
 
 function downloadWithRetry {
 	param([string]$url, [string]$dest, [int]$retry) 
