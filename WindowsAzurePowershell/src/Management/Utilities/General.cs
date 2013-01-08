@@ -391,21 +391,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
             if (!dir.Exists)
             {
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + sourceDirName);
+                throw new DirectoryNotFoundException(string.Format(Resources.PathDoesNotExist, sourceDirName));
             }
 
-            if (!Directory.Exists(destDirName))
-            {
-                Directory.CreateDirectory(destDirName);
-            }
+            Directory.CreateDirectory(destDirName);
 
             FileInfo[] files = dir.GetFiles();
             foreach (FileInfo file in files)
             {
-                string temppath = Path.Combine(destDirName, file.Name);
-                file.CopyTo(temppath, false);
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, false);
             }
 
             if (copySubDirs)

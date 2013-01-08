@@ -80,5 +80,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), outputPath);
             }
         }
+
+        [TestMethod]
+        public void NewAzureRoleTemplateWithDirectoryExists()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string outputPath = files.CreateDirectory("test");
+                addTemplateCmdlet = new NewAzureRoleTemplateCommand() { Worker = true, CommandRuntime = mockCommandRuntime, Output = outputPath };
+
+                addTemplateCmdlet.ExecuteCmdlet();
+
+                Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), outputPath);
+            }
+        }
     }
 }
