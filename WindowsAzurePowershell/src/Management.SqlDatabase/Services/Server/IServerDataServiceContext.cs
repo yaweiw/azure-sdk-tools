@@ -62,6 +62,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             DatabaseEdition databaseEdition);
 
         /// <summary>
+        /// Creates a new Sql Database in the given server context along with a continuous copy at the specified partner server
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <returns>The newly created Sql Database.</returns>
+        Database CreateNewDatabaseWithCopy(
+            string databaseName,
+            string partnerServer,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition,
+            int? maxLagInMinutes);
+
+        /// <summary>
         /// Updates the property on the database with the name <paramref name="databaseName"/>.
         /// </summary>
         /// <param name="databaseName">The database to update.</param>

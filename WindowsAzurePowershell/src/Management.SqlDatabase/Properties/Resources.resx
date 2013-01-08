@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CredentialNotSpecified" xml:space="preserve">
     <value>The Sql Authenticate Credential was not specified.</value>
@@ -200,6 +200,12 @@ Error Code: {0}</value>
   <data name="NewAzureSqlDatabaseWarning" xml:space="preserve">
     <value>Are you sure you want to create a new Windows Azure Sql Database?</value>
     <comment>Process workflow</comment>
+  </data>
+  <data name="NewAzureSqlDatabaseWithCopyDescription" xml:space="preserve">
+    <value>Create a new Windows Azure Sql Database "{0}.{1}" and copy it to "{2}.{1}"</value>
+  </data>
+  <data name="NewAzureSqlDatabaseWithCopyWarning" xml:space="preserve">
+    <value>Are you sure you want to create a new Windows Azure Sql Database "{0}.{1}" and copy it to "{2}.{1}"?</value>
   </data>
   <data name="RemoveAzureSqlDatabaseDescription" xml:space="preserve">
     <value>Removing Windows Azure Sql Database "{0}.{1}".</value>

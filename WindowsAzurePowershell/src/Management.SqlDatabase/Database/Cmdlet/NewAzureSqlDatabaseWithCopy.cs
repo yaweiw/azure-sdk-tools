@@ -15,17 +15,18 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
 {
     using System;
+    using System.Globalization;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
 
     /// <summary>
-    /// Creates a new Windows Azure SQL Database in the given server context.
+    /// Creates a new Windows Azure SQL Database in the given server context along with a continuous copy at the specified partner server
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureSqlDatabase", SupportsShouldProcess = true,
+    [Cmdlet(VerbsCommon.New, "AzureSqlDatabaseWithCopy", SupportsShouldProcess = true,
         ConfirmImpact = ConfirmImpact.Low)]
-    public class NewAzureSqlDatabase : PSCmdlet
+    public class NewAzureSqlDatabaseWithCopy : PSCmdlet
     {
         #region Parameters
 
@@ -46,10 +47,17 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public string DatabaseName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the partner server.
+        /// </summary>
+        [Parameter(Mandatory = true, Position = 2,
+            HelpMessage = "The name of the partner server")]
+        [ValidateNotNullOrEmpty]
+        public string PartnerServer { get; set; }
+
+        /// <summary>
         /// Gets or sets the collation for the newly created database.
         /// </summary>
-        [Parameter(Mandatory = false,
-            HelpMessage = "Collation for the newly created database.")]
+        [Parameter(Mandatory = false, HelpMessage = "Collation for the newly created database.")]
         [ValidateNotNullOrEmpty]
         public string Collation { get; set; }
 
@@ -66,7 +74,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         public int MaxSizeGB { get; set; }
 
         /// <summary>
-        /// Gets or sets the switch to not confirm on the creation of the database.
+        /// Gets or sets the maximum lag for the continuous copy operation.
+        /// </summary>
+        [Parameter(Mandatory = false,
+            HelpMessage = "The maximum lag for the continuous copy operation")]
+        public int MaxLagInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the switch not to confirm on the creation of the database.
         /// </summary>
         [Parameter(HelpMessage = "Do not confirm on the creation of the database")]
         public SwitchParameter Force { get; set; }
@@ -79,11 +94,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         protected override void ProcessRecord()
         {
             // Do nothing if force is not specified and user cancelled the operation
+            string actionDescription = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.NewAzureSqlDatabaseWithCopyDescription,
+                this.Context.ServerName,
+                DatabaseName,
+                this.PartnerServer);
+            string actionWarning = string.Format(
+                CultureInfo.InvariantCulture,
+                Resources.NewAzureSqlDatabaseWithCopyWarning,
+                this.Context.ServerName,
+                DatabaseName,
+                this.PartnerServer);
+            this.WriteVerbose(actionDescription);
             if (!this.Force.IsPresent &&
                 !this.ShouldProcess(
-                Resources.NewAzureSqlDatabaseDescription,
-                Resources.NewAzureSqlDatabaseWarning,
-                Resources.ShouldProcessCaption))
+                    actionDescription,
+                    actionWarning,
+                    Resources.ShouldProcessCaption))
             {
                 return;
             }
@@ -93,13 +121,18 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
                     (int?)this.MaxSizeGB : null;
 
-                Database database = this.Context.CreateNewDatabase(
+                int? maxLagInMinutes = this.MyInvocation.BoundParameters.ContainsKey("MaxLagInMinutes") ?
+                    (int?)this.MaxLagInMinutes : null;
+
+                Database database = this.Context.CreateNewDatabaseWithCopy(
                     this.DatabaseName,
+                    this.PartnerServer,
                     maxSizeGb,
                     this.Collation,
-                    this.Edition);
+                    this.Edition,
+                    maxLagInMinutes);
 
-                this.WriteObject(database, true);
+                this.WriteObject(database);
             }
             catch (Exception ex)
             {

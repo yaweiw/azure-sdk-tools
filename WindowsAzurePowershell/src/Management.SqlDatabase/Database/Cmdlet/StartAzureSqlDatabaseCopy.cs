@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             // Do nothing if force is not specified and user cancelled the operation
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
-                Resources.StartAzureSqlDatabaseCopyWarning,
+                Resources.StartAzureSqlDatabaseCopyDescription,
                 this.Context.ServerName,
                 databaseName,
                 this.PartnerServer,
