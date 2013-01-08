@@ -49,15 +49,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Web.IsPresent ?
                 Path.Combine(CurrentPath(), DefaultWebRoleTemplate) :
                 Path.Combine(CurrentPath(), DefaultWorkerRoleTemplate);
+            string source = Web.IsPresent ? Path.Combine(Resources.GeneralScaffolding, Resources.WebRole) : Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole);
 
-            if (Web.IsPresent)
-            {
-                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, Microsoft.WindowsAzure.Management.CloudService.Model.RoleType.WebRole.ToString()), output, true);
-            }
-            else
-            {
-                General.DirectoryCopy(Path.Combine(Resources.GeneralScaffolding, Microsoft.WindowsAzure.Management.CloudService.Model.RoleType.WorkerRole.ToString()), output, true);
-            }
+            General.DirectoryCopy(source, output, true);
 
             SafeWriteOutputPSObject(null, Parameters.Path, output);
         }
