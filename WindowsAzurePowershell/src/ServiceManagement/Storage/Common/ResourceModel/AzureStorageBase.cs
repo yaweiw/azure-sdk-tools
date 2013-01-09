@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel.Storage
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
 {
     using System;
     using System.Collections.Generic;
