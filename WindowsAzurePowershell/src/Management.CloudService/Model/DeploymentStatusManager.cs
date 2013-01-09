@@ -151,7 +151,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             string serviceName;
             string rootPath = GetServiceRootPath();
-            ServiceSettings settings = General.GetDefaultSettings(rootPath, ServiceName, Slot, null, null, Subscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(
+                rootPath,
+                ServiceName,
+                Slot,
+                null,
+                null,
+                null,
+                Subscription,
+                out serviceName);
+
             SetDeploymentStatusProcess(rootPath, Status, settings.Slot, settings.Subscription, serviceName);
         }
     }

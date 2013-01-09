@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
                 RoleSettings cacheRoleSettings = Testing.GetRole(rootPath, roleName);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
 
                 AzureAssert.WorkerRoleImportsExists(new Import { moduleName = Resources.CachingModuleName }, cacheWorkerRole);
 
