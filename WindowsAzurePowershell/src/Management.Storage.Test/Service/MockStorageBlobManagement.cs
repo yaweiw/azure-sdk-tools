@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract.Storage.Blob;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
