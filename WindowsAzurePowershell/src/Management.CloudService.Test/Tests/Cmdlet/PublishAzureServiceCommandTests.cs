@@ -295,11 +295,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = overrideWorkerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
+                string cacheWebRoleName = "cacheWebRole";
+                string cacheRuntimeVersion = "1.7.0";
+                AddAzureNodeWebRoleCommand addAzureWebRole = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = cacheWebRoleName };
+                addAzureWebRole.ExecuteCmdlet();
+
                 AzureService testService = new AzureService(rootPath, null);
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
+                testService.AddRoleRuntime(testService.Paths, cacheWebRoleName, Resources.CacheRuntimeValue, cacheRuntimeVersion, RuntimePackageHelper.GetTestManifest(files));
                 testService.Components.Save(testService.Paths);
 
                 // Get the publishing process started by creating the package
@@ -307,13 +313,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 publishServiceCmdlet.InitializeSettingsAndCreatePackage(rootPath, RuntimePackageHelper.GetTestManifest(files));
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
-
+                
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe;http://DATACENTER/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.exe;http://DATACENTER/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
+                RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);
             }
         }
 

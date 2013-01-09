@@ -16,8 +16,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System;
     using System.IO;
+    using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
@@ -30,8 +33,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
 
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase
@@ -75,12 +76,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 mockCommandRuntime.ResetPipelines();
                 enableCacheCmdlet.PassThru = true;
+                enableCacheCmdlet.CacheRuntimeVersion = "1.8.0";
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath);
 
                 WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
                 RoleSettings roleSettings = Testing.GetRole(rootPath, webRoleName);
 
                 AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
+
+                Assert.AreEqual<string>(Resources.CacheRuntimeVersionKey, webRole.Startup.Task[0].Environment[0].name);
+                Assert.AreEqual<string>(enableCacheCmdlet.CacheRuntimeVersion, webRole.Startup.Task[0].Environment[0].value);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
                 AzureAssert.StartupTaskExists(webRole.Startup.Task, Resources.CacheStartupCommand);

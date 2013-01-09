@@ -535,10 +535,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             protected override void Configure(Dictionary<string, string> environment)
             {
-                this.Runtime = Runtime.Cache;
                 if (string.IsNullOrEmpty(this.Version))
                 {
-                    this.Version = new AzureTool().AzureSdkVersion;
+                    string version;
+                    if (!environment.TryGetValue(Resources.CacheRuntimeVersionKey, out version))
+                    {
+                        version = new AzureTool().AzureSdkVersion;
+                    }
+
+                    this.Version = version;
                 }
             }
 
@@ -551,6 +556,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 return string.Format(Resources.CacheVersionWarningText, package.Version, this.RoleName,
                     this.Version);
+            }
+
+            protected override bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
+            {
+                base.GetChanges(package, out changes);
+
+                Debug.Assert(changes.ContainsKey(Resources.RuntimeTypeKey), "Cache runtime should be added before calling this method");
+                Debug.Assert(changes.ContainsKey(Resources.RuntimeUrlKey), "Cache runtime should be added before calling this method");
+
+                changes[Resources.CacheRuntimeVersionKey] = package.Version;
+
+                return true;
             }
         }
 
