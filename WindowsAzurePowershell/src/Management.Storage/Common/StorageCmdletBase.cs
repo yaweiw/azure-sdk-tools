@@ -14,8 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Contract.Storage;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Storage;
     using System;
