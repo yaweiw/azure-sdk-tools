@@ -413,6 +413,24 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Terminating the database copy from &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;..
+        /// </summary>
+        internal static string StopAzureSqlDatabaseCopyDescription {
+            get {
+                return ResourceManager.GetString("StopAzureSqlDatabaseCopyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to terminate the database copy from &quot;{0}.{1}&quot; to &quot;{2}.{3}&quot;?.
+        /// </summary>
+        internal static string StopAzureSqlDatabaseCopyWarning {
+            get {
+                return ResourceManager.GetString("StopAzureSqlDatabaseCopyWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown ParameterSet specified..
         /// </summary>
         internal static string UnknownParameterSet {
