@@ -40,6 +40,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string Container = "AzureStorageContainer";
 
         /// <summary>
+        /// container acl cmdlet name
+        /// </summary>
+        public const string ContainerAcl = "AzureStorageContainerAcl";
+
+        /// <summary>
+        /// BlobContainerPublicAccessType is off
+        /// </summary>
+        public const string ContainerAclOff = "off";
+
+        /// <summary>
+        /// BlobContainerPublicAccessType is blob
+        /// </summary>
+        public const string ContainerAclBlob = "blob";
+
+        /// <summary>
+        /// BlobContainerPublicAccessType is container
+        /// </summary>
+        public const string ContainerAclContainer = "container";
+
+        /// <summary>
         /// http protocol
         /// </summary>
         public const string HTTP = "http";
@@ -58,6 +78,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// storage context cmdlet name
         /// </summary>
         public const string StorageContext = "AzureStorageContext";
+
+        /// <summary>
+        /// storage account name
+        /// </summary>
+        public const string StorageAccountName = "Storage account name";
 
         /// <summary>
         /// table cmdlet name
