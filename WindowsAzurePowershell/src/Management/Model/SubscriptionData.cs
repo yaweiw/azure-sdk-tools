@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Storage;
     using Samples.WindowsAzure.ServiceManagement;
     using Utilities;
 
