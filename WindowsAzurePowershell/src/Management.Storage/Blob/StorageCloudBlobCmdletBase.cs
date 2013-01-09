@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// get blob client
         /// </summary>
         /// <returns>CloudBlobClient with default retry policy and settings</returns>
-        protected CloudBlobClient GetCloudBlobClient()
+        internal CloudBlobClient GetCloudBlobClient()
         {
             //use the default retry policy in storage client
             CloudStorageAccount account = GetCloudStorageAccount();
