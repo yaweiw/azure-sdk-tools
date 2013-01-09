@@ -84,7 +84,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Blob\Cmdlet\GetAzureStorageContainerAclTest.cs" />
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainerTest.cs" />
+    <Compile Include="Blob\Cmdlet\NewAzureStorageContainerTest.cs" />
+    <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
+    <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
     <Compile Include="Blob\StorageBlobTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MockStorageBlobManagement.cs" />
