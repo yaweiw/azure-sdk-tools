@@ -1169,6 +1169,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
+          <maml:name>CacheRuntimeVersion</maml:name>
+          <maml:description>
+            <maml:para>The cache runtime version</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -1188,6 +1195,18 @@
         <maml:name>CacheWorkerRoleName</maml:name>
         <maml:description>
           <maml:para>The name of the dedicated cache worker role, created with Add-AzureCacheWorkerRole</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+        <maml:name>CacheRuntimeVersion</maml:name>
+        <maml:description>
+          <maml:para>The cache runtime version</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -1243,6 +1262,54 @@
         <dev:code>Enable-AzureMemcacheRole WebRole1 WorkerRole1</dev:code>
         <dev:remarks>
           <maml:para>Enables memcached in web role WebRole1, using dedicated caching role WorkerRole1</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Enable Caching in worker role --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Enable-AzureMemcacheRole WorkerRole1 CacheWorkerRole</dev:code>
+        <dev:remarks>
+          <maml:para>Enables memcached in worker role WorkerRole1, using dedicated caching role CacheWorkerRole</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Enable Caching in web role with runtime version specified  --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Enable-AzureMemcacheRole WebRole1 WorkerRole1 1.8.0</dev:code>
+        <dev:remarks>
+          <maml:para>Enables memcached with runtime version 1.8.0 in web role WebRole1, using dedicated caching role WorkerRole1</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>

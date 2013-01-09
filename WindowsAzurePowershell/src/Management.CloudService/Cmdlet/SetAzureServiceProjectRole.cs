@@ -74,6 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="roleName">The name of the role to update</param>
         /// <param name="instances">The new number of instances for the role</param>
         /// <param name="rootPath">The root path to the service containing the role</param>
+        /// <returns>Role after updating instance count</returns>
         public RoleSettings SetAzureInstancesProcess(string roleName, int instances, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
@@ -87,6 +88,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             return service.Components.GetCloudConfigRole(roleName);
         }
 
+        /// <summary>
+        /// Sets the VM size of the role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="vmSize">The vm size</param>
+        /// <param name="rootPath">The service root path</param>
+        /// <returns>Role after updating VM size</returns>
         public RoleSettings SetAzureVMSizeProcess(string roleName, string vmSize, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);

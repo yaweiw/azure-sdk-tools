@@ -59,6 +59,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        /// <summary>
+        /// Cache runtime version
+        /// </summary>
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("cv")]
+        public string CacheRuntimeVersion { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -129,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="webRole">The web role to enable caching one</param>
         private void EnableMemcache(string roleName, string cacheWorkerRoleName, ref string message, ref AzureService azureService)
         {
-            string currentVersion = new AzureTool().AzureSdkVersion;
+            string currentVersion = string.IsNullOrEmpty(CacheRuntimeVersion) ? new AzureTool().AzureSdkVersion : CacheRuntimeVersion;
 
             // Add MemcacheShim runtime installation.
             azureService.AddRoleRuntime(azureService.Paths, roleName, Resources.CacheRuntimeValue, currentVersion);
