@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Model;
     using Properties;
     using Services;
-    using StorageClient;
     using Utilities;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
     using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -515,7 +515,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     BlobRequestOptions blobRequestOptions = null;
                     if (TimeoutSeconds != null)
                     {
-                        blobRequestOptions = new BlobRequestOptions { Timeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
+                        blobRequestOptions = new BlobRequestOptions { ServerTimeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
                     }
 
                     packageUri = RetryCall(subscription =>
@@ -532,26 +532,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
             }
             return packageUri;
-        }
-
-        /// <summary>
-        /// Removes the package after uploading it to the storage account
-        /// </summary>
-        private void RemovePackage()
-        {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-
-            if (!SkipUpload)
-            {
-
-                RetryCall(subscription =>
-                        AzureBlob.RemovePackageFromBlob(
-                            CreateChannel(),
-                            _deploymentSettings.ServiceSettings.StorageAccountName,
-                            subscription));
-            }
         }
 
         /// <summary>
