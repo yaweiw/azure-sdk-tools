@@ -64,8 +64,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(rootName, inServiceName, null, null, null, inSubscription,
-                                                            out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(
+                rootName,
+                inServiceName,
+                null,
+                null,
+                null,
+                null,
+                inSubscription,
+                out serviceName);
+
             if (string.IsNullOrEmpty(serviceName))
             {
                 throw new Exception(Resources.InvalidServiceName);

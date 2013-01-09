@@ -17,9 +17,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
     using System;
     using System.Globalization;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using StorageClient;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public static class AzureBlob
     {
@@ -44,18 +46,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         /// <remarks>The uploaded file name will be guid</remarks>
         public static Uri UploadFile(string storageName, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
         {
-            string baseAddress = General.BlobEndpointUri(storageName);
-            var credentials = new StorageCredentialsAccountAndKey(storageName, storageKey);
-            var client = new CloudBlobClient(baseAddress, credentials);
+            Uri baseAddress = new Uri(General.BlobEndpointUri(storageName));
+            StorageCredentials credentials = new StorageCredentials(storageName, storageKey);
+            CloudBlobClient client = new CloudBlobClient(baseAddress, credentials);
             string blobName = Guid.NewGuid().ToString();
 
             CloudBlobContainer container = client.GetContainerReference(ContainerName);
-            container.CreateIfNotExist();
-            CloudBlob blob = container.GetBlobReference(blobName);
+            container.CreateIfNotExists();
+            CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
 
             using (FileStream readStream = File.OpenRead(filePath))
             {
-                blob.UploadFromStream(readStream, blobRequestOptions);
+                blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), blobRequestOptions);
             }
 
             return new Uri(
@@ -66,61 +68,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
                     ContainerName,
                     client.DefaultDelimiter,
                     blobName));
-        }
-
-        /// <summary>
-        /// Removes uploaded package from storage account.
-        /// </summary>
-        /// <param name="channel">Channel to use for REST calls</param>
-        /// <param name="storageName">Store which has the package</param>
-        /// <param name="subscriptionId">Subscription which has the store</param>
-        public static void RemovePackageFromBlob(IServiceManagement channel, string storageName, string subscriptionId)
-        {
-            StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            string storageKey = storageService.StorageServiceKeys.Primary;
-
-            RemoveFile(storageName, storageKey);
-        }
-
-        /// <summary>
-        /// Removes file from storage account
-        /// </summary>
-        /// <param name="storageName">Store which has file to remove</param>
-        /// <param name="storageKey">Store access key</param>
-        private static void RemoveFile(string storageName, string storageKey)
-        {
-            string baseAddress = General.BlobEndpointUri(storageName);
-            var credentials = new StorageCredentialsAccountAndKey(storageName, storageKey);
-            var client = new CloudBlobClient(baseAddress, credentials);
-
-            CloudBlobContainer container = client.GetContainerReference(ContainerName);
-            if (Exists(container))
-            {
-                container.Delete();
-            }
-        }
-
-        /// <summary>
-        /// Checks if a container exists.
-        /// </summary>
-        /// <param name="container">Container to check for</param>
-        /// <returns>Flag indicating the existence of the container</returns>
-        private static bool Exists(CloudBlobContainer container)
-        {
-            try
-            {
-                container.FetchAttributes();
-                return true;
-            }
-            catch (StorageClientException e)
-            {
-                if (e.ErrorCode == StorageErrorCode.ResourceNotFound)
-                {
-                    return false;
-                }
-
-                throw;
-            }
         }
     }
 }
