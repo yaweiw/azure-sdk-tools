@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
-            StorageCredentials credential = new StorageCredentials(SasToken);
+            StorageCredentials credential = new StorageCredentials(sasToken);
             return GetStorageAccountWithEndPoint(credential, storageAccountName);
         }
 
@@ -183,6 +183,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
         {
+            if (String.IsNullOrEmpty(storageAccountName))
+            {
+                throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
+            }
+
             string blobEndPoint = String.Format(Resources.DefaultBlobEndPointFormat, storageAccountName);
             string tableEndPoint = String.Format(Resources.DefaultTableEndPointFormat, storageAccountName);
             string queueEndPoint = String.Format(Resources.DefaultQueueEndPointFormat, storageAccountName);

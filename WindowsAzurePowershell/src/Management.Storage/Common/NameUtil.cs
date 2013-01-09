@@ -44,12 +44,34 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>true for valid container prefix, otherwise return false</returns>
         public static bool IsValidContainerPrefix(string containerPrefix)
         {
-            if (containerPrefix.Length > 0 && containerPrefix.Length < 3)
+            if (containerPrefix.StartsWith("$"))
             {
-                containerPrefix = containerPrefix + "abc";
-            };
+                string root = "$root";
+                string logs = "$logs";
 
-            return IsValidContainerName(containerPrefix);
+                if (root.IndexOf(containerPrefix) == 0 || logs.IndexOf(containerPrefix) == 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (containerPrefix.Length > 0 && containerPrefix.Length < 3)
+                {
+                    containerPrefix = containerPrefix + "abc";
+                };
+
+                if (containerPrefix.EndsWith("-"))
+                { 
+                    containerPrefix += "a";
+                }
+
+                return IsValidContainerName(containerPrefix);
+            }
         }
 
         /// <summary>
@@ -59,8 +81,27 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>true for valid blob name, otherwise return false</returns>
         public static bool IsValidBlobName(string blobName)
         {
-            Regex regex = new Regex(@"^[\s\S]{1,1024}$");
-            return regex.IsMatch(blobName);
+            int minLength = 0;
+            int maxLength = 1024;
+
+            if (blobName.Length > minLength && blobName.Length <= maxLength)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// is valid blob prefix <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
+        /// </summary>
+        /// <param name="blobName">blob name</param>
+        /// <returns>true for valid blob name, otherwise return false</returns>
+        public static bool IsValidBlobPreix(string blobPrefix)
+        {
+            return IsValidBlobName(blobPrefix);
         }
 
         
@@ -98,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>true for valid queue name, otherwise return false</returns>
         public static bool IsValidQueueName(string queueName)
         {
-            Regex regex = new Regex(@"^[0-9a-z][a-z0-9-]{1,61}[0-9a-z]$");
+            Regex regex = new Regex(@"^[0-9a-z]([a-z0-9]|(?<=[a-z0-9])-(?=[a-z0-9])){1,61}[0-9a-z]$");
             return regex.IsMatch(queueName);
         }
 
@@ -113,6 +154,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 queuePrefix = queuePrefix + "abc";
             };
+            
+            if(queuePrefix.EndsWith("-"))
+            {
+                queuePrefix += "a";
+            }
 
             return IsValidQueueName(queuePrefix);
         }
@@ -131,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 return false;
             }
-            else if (fileName.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) == -1)
+            else if (fileName.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1)
             {
                 return false;
             }
