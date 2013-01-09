@@ -80,6 +80,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string StorageContext = "AzureStorageContext";
 
         /// <summary>
+        /// storage account name
+        /// </summary>
+        public const string StorageAccountName = "Storage account name";
+
+        /// <summary>
         /// table cmdlet name
         /// </summary>
         public const string Table = "AzureStorageTable";

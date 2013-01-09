@@ -145,6 +145,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         private CloudStorageAccount GetStorageAccountFromSubscription()
         {
             string CurrentStorageAccount = CurrentSubscription.CurrentStorageAccount;
+
             if (string.IsNullOrEmpty(CurrentStorageAccount))
             {
                 throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
