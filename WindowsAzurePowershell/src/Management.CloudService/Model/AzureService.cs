@@ -345,8 +345,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
                     this.Components.Save(this.Paths);
                 }
-
-                this.Components.Save(this.Paths);
             }
         }
     }

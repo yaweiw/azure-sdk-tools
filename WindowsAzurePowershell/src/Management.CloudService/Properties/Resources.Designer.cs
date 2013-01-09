@@ -259,6 +259,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CacheRuntimeVersion.
+        /// </summary>
+        internal static string CacheRuntimeVersionKey {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffolding\Cache.
         /// </summary>
         internal static string CacheScaffolding {
