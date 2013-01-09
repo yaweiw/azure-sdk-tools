@@ -267,6 +267,14 @@ Error Code: {0}</value>
     <value>Are you sure you want to copy Windows Azure Sql Database "{0}.{1}" to "{2}.{3}"?</value>
     <comment>Process workflow</comment>
   </data>
+  <data name="StopAzureSqlDatabaseCopyDescription" xml:space="preserve">
+    <value>Terminating the database copy from "{0}.{1}" to "{2}.{3}".</value>
+    <comment>Process workflow</comment>
+  </data>
+  <data name="StopAzureSqlDatabaseCopyWarning" xml:space="preserve">
+    <value>Are you sure you want to terminate the database copy from "{0}.{1}" to "{2}.{3}"?</value>
+    <comment>Process workflow</comment>
+  </data>
   <data name="UnknownParameterSet" xml:space="preserve">
     <value>Unknown ParameterSet specified.</value>
     <comment>Parameter Validation</comment>

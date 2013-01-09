@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
                 HttpSession testSession = DatabaseTestHelper.DefaultSessionCollection.GetSession(
                     "UnitTest.StopAzureSqlDatabaseContinuousCopyWithSqlAuth");
-                testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
+                DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
                 testSession.RequestValidator =
                     new Action<HttpMessage, HttpMessage.Request>(
                     (expected, actual) =>
@@ -84,24 +84,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
                                 break;
                         }
                     });
-                testSession.ResponseModifier =
-                    new Action<HttpMessage>(
-                        (message) =>
-                        {
-                            DatabaseTestHelper.FixODataResponseUri(
-                                message.ResponseInfo,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
-                testSession.RequestModifier =
-                    new Action<HttpMessage.Request>(
-                        (request) =>
-                        {
-                            DatabaseTestHelper.FixODataRequestPayload(
-                                request,
-                                testSession.ServiceBaseUri,
-                                MockHttpServer.DefaultServerPrefixUri);
-                        });
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
@@ -142,25 +124,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
             HttpSession testSession = new HttpSession();
             testSession.Messages = new HttpMessageCollection();
-            testSession.ServiceBaseUri = DatabaseTestHelper.CommonServiceBaseUri;
-            testSession.ResponseModifier =
-                new Action<HttpMessage>(
-                    (message) =>
-                    {
-                        DatabaseTestHelper.FixODataResponseUri(
-                            message.ResponseInfo,
-                            testSession.ServiceBaseUri,
-                            MockHttpServer.DefaultServerPrefixUri);
-                    });
-            testSession.RequestModifier =
-                new Action<HttpMessage.Request>(
-                    (request) =>
-                    {
-                        DatabaseTestHelper.FixODataRequestPayload(
-                            request,
-                            testSession.ServiceBaseUri,
-                            MockHttpServer.DefaultServerPrefixUri);
-                    });
+            DatabaseTestHelper.SetDefaultTestSessionSettings(testSession);
 
             Collection<PSObject> databaseCopies = null;
             using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
