@@ -165,6 +165,9 @@
     <Compile Include="Storage\Common\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Storage\Blob\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
+    <Compile Include="Storage\Table\Contract\IStorageTableManagement.cs" />
+    <Compile Include="Storage\Table\Contract\StorageTableManagement.cs" />
+    <Compile Include="Storage\Table\ResourceModel\AzureStorageTable.cs" />
     <Compile Include="Storage\Util\StorageExceptionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
