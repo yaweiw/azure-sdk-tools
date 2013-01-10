@@ -118,6 +118,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Table\Cmdlet\GetStorageAzureTable.cs" />
+    <Compile Include="Table\Cmdlet\NewStorageAzureTable.cs" />
+    <Compile Include="Table\Cmdlet\RemoveStorageAzureTable.cs" />
+    <Compile Include="Table\StorageCloudTableCmdletBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">
