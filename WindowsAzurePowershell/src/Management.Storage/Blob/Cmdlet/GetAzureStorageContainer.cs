@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -55,6 +56,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public string Prefix { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the GetAzureStorageContainerCommand class.
+        /// </summary>
+        public GetAzureStorageContainerCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the GetAzureStorageContainerCommand class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public GetAzureStorageContainerCommand(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
+        /// <summary>
         /// list containers by container name pattern.
         /// </summary>
         /// <param name="name">container name pattern</param>
@@ -68,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
-                IEnumerable<CloudBlobContainer> containers = BlobClient.ListContainers(prefix, details, requestOptions, OperationContext);
+                IEnumerable<CloudBlobContainer> containers = Channel.ListContainers(prefix, details, requestOptions, OperationContext);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
                 
@@ -92,9 +110,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
                 }
 
-                CloudBlobContainer container = BlobClient.GetContainerReference(name);
+                CloudBlobContainer container = Channel.GetContainerReference(name);
 
-                if (BlobClient.IsContainerExists(container, requestOptions, OperationContext))
+                if (Channel.IsContainerExists(container, requestOptions, OperationContext))
                 {
                     yield return container;
                 }
@@ -121,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, prefix));
             }
 
-            IEnumerable<CloudBlobContainer> containers = BlobClient.ListContainers(prefix, details, requestOptions, OperationContext);
+            IEnumerable<CloudBlobContainer> containers = Channel.ListContainers(prefix, details, requestOptions, OperationContext);
             return containers;
         }
 
@@ -143,7 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             foreach (CloudBlobContainer container in containerList)
             {
-                BlobContainerPermissions permissions = BlobClient.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                BlobContainerPermissions permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
                 AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
                 yield return azureContainer;
             }

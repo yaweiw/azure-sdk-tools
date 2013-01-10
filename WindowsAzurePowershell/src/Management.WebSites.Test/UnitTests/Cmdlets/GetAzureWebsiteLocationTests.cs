@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -40,9 +40,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime()
             };
 
-            getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            var locations = (IEnumerable<string>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+            var locations = (IEnumerable<string>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(locations);
             Assert.IsTrue(locations.Any(loc => loc.Equals("East US")));
             Assert.IsTrue(locations.Any(loc => loc.Equals("West US")));

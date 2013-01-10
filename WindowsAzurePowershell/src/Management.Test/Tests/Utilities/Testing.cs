@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     using System.Diagnostics;
     using System.IO;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
 
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
@@ -74,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             catch (Exception ex)
             {
                 Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual(ex.Message, expectedMessage);
+                Assert.AreEqual(expectedMessage, ex.Message);
             }
         }
         

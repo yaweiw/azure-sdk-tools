@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -34,10 +34,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Model;
     using Properties;
     using Services;
-    using StorageClient;
     using Utilities;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
     using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -75,13 +75,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        /// <summary>
-        /// true if we only want to create a package
-        /// </summary>
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        [Alias("po")]
-        public SwitchParameter PackageOnly { get; set; }
-
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public int? TimeoutSeconds { get; set; }
 
@@ -91,6 +84,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             get { return force; }
             set { force = value; }
         }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("ag")]
+        public string AffinityGroup { get; set; }
 
         private bool force;
         /// <summary>
@@ -152,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             WriteVerbose(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
 
             // Package the service and all of its roles up in the open package format used by Azure
-            if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
+            if (InitializeSettingsAndCreatePackage(serviceRootPath))
             {
                 if (ServiceExists())
                 {
@@ -237,6 +234,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 _azureService.Paths.Settings,
                 Slot,
                 Location,
+                AffinityGroup,
                 Subscription,
                 StorageAccountName,
                 ServiceName,
@@ -270,7 +268,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     CreateStorageAccount(
                         defaultSettings.StorageAccountName,
                         _hostedServiceName,
-                        defaultSettings.Location);
+                        defaultSettings.Location,
+                        defaultSettings.AffinityGroup);
                 }
 
                 // Initiate call to all publish listeners.
@@ -453,8 +452,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.Label),
                 "Label cannot be null or empty.");
             Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
-                "Location cannot be null or empty.");
+                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location) |
+                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.AffinityGroup),
+                "either Location or AffinityGroup should be set.");
 
             WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
@@ -462,8 +462,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 ServiceName = _hostedServiceName,
                 Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
-                Location = _deploymentSettings.ServiceSettings.Location
             };
+
+            if (!string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.AffinityGroup))
+            {
+                hostedServiceInput.AffinityGroup = _deploymentSettings.ServiceSettings.AffinityGroup;
+            }
+            else
+            {
+                hostedServiceInput.Location = _deploymentSettings.ServiceSettings.Location;
+            }
 
             InvokeInOperationContext(() =>
             {
@@ -498,14 +506,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                WriteVerboseWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteVerboseWithTimestamp(
+                    Resources.PublishUploadingPackageMessage,
+                    _deploymentSettings.ServiceSettings.StorageAccountName);
 
                 if (!SkipUpload)
                 {
                     BlobRequestOptions blobRequestOptions = null;
                     if (TimeoutSeconds != null)
                     {
-                        blobRequestOptions = new BlobRequestOptions { Timeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
+                        blobRequestOptions = new BlobRequestOptions { ServerTimeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
                     }
 
                     packageUri = RetryCall(subscription =>
@@ -522,26 +532,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
             }
             return packageUri;
-        }
-
-        /// <summary>
-        /// Removes the package after uploading it to the storage account
-        /// </summary>
-        private void RemovePackage()
-        {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-
-            if (!SkipUpload)
-            {
-
-                RetryCall(subscription =>
-                        AzureBlob.RemovePackageFromBlob(
-                            CreateChannel(),
-                            _deploymentSettings.ServiceSettings.StorageAccountName,
-                            subscription));
-            }
         }
 
         /// <summary>
@@ -574,14 +564,22 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Create an Azure storage account that we can use to upload our
         /// package when creating and deploying a service.
         /// </summary>
-        private void CreateStorageAccount(string name, string label, string location)
+        private void CreateStorageAccount(string name, string label, string location, string affinityGroup)
         {
             CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
             {
                 ServiceName = name,
                 Label = ServiceManagementHelper.EncodeToBase64String(label),
-                Location = location
             };
+
+            if (!string.IsNullOrEmpty(affinityGroup))
+            {
+                storageServiceInput.AffinityGroup = affinityGroup;
+            }
+            else
+            {
+                storageServiceInput.Location = location;
+            }
 
             WriteVerboseWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 

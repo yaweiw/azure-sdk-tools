@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,10 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
 {
+    using System;
+    using System.IO;
     using System.Linq;
     using Management.Cmdlets;
     using Management.Extensions;
     using Management.Services;
+    using Microsoft.WindowsAzure.Management.Properties;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Model;
     using Stubs;
     using TestData;
@@ -36,14 +40,19 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void TestImportSubscriptionProcess()
         {
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
             var globalComponents = GlobalComponents.CreateFromPublishSettings(GlobalPathInfo.GlobalSettingsDirectory, null, Data.ValidPublishSettings.First());
 
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            
+            cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 
-            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            var currentSubscription = cmdlet.GetCurrentSubscription();
             Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
             Assert.IsTrue(currentSubscription.IsDefault);
 
@@ -53,12 +62,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void TestImportSubscriptionPublishSettingsOnlyProcess()
         {
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 
-            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            var currentSubscription = cmdlet.GetCurrentSubscription();
             Assert.AreEqual(Data.Subscription1, currentSubscription.SubscriptionName);
             Assert.IsTrue(currentSubscription.IsDefault);
         }
@@ -67,12 +80,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void TestImportSubscriptionPublishSettingsSecondVersionOnlyProcess()
         {
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings2.First(),
                 null);
 
-            var currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            var currentSubscription = cmdlet.GetCurrentSubscription();
             Assert.AreEqual(Data.SampleSubscription1, currentSubscription.SubscriptionName);
             Assert.AreEqual("https://newmanagement.core.windows.net/", currentSubscription.ServiceEndpoint);
             Assert.IsNotNull(currentSubscription.Certificate);
@@ -82,26 +99,125 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
         [TestMethod]
         public void TestImportSubscriptionPublishSettingsOnlyMultipleTimesProcess()
         {
-            var importSubscriptionCommand = new ImportAzurePublishSettingsCommand();
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
             
-            var subscriptions = importSubscriptionCommand.GetSubscriptions(null);
+            var subscriptions = cmdlet.GetSubscriptions(null);
             
-            SubscriptionData currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            SubscriptionData currentSubscription = cmdlet.GetCurrentSubscription();
             Assert.AreEqual(Data.Subscription1, currentSubscription.SubscriptionName);
             Assert.IsTrue(currentSubscription.IsDefault);
             
             SubscriptionData newCurrentSubscription = subscriptions.Values.FirstOrDefault(s => !s.SubscriptionId.Equals(currentSubscription.SubscriptionId));
-            importSubscriptionCommand.SetCurrentSubscription(newCurrentSubscription);
+            cmdlet.SetCurrentSubscription(newCurrentSubscription);
 
-            importSubscriptionCommand.ImportSubscriptionProcess(
+            cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
 
-            currentSubscription = importSubscriptionCommand.GetCurrentSubscription();
+            currentSubscription = cmdlet.GetCurrentSubscription();
             Assert.AreEqual(currentSubscription.SubscriptionId, newCurrentSubscription.SubscriptionId);
+        }
+
+        [TestMethod]
+        public void TestImportPublishSettingsWithPassingDirectory()
+        {
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            string directoryName = "testdir";
+            string fileName = "myfile.publishsettings";
+            string filePath = Path.Combine(directoryName, fileName);
+            Directory.CreateDirectory(directoryName);
+            File.WriteAllText(filePath, File.ReadAllText(Data.ValidPublishSettings.First()));
+            cmdlet.PublishSettingsFile = directoryName;
+
+            cmdlet.ExecuteCmdlet();
+
+            SubscriptionData currentSubscription = cmdlet.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
+            Assert.IsTrue(currentSubscription.IsDefault);
+            Assert.AreEqual<string>(filePath, mockCommandRuntime.OutputPipeline[0].ToString());
+        }
+
+        [TestMethod]
+        public void TestImportPublishSettingsWithoutPassingDirectory()
+        {
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            string directoryName = "testdir";
+            string fileName = "myfile.publishsettings";
+            Directory.CreateDirectory(directoryName);
+            string originalDirectory = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(Path.GetFullPath(directoryName));
+            File.WriteAllText(fileName, File.ReadAllText(Data.ValidPublishSettings.First()));
+
+            cmdlet.ExecuteCmdlet();
+
+            SubscriptionData currentSubscription = cmdlet.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
+            Assert.IsTrue(currentSubscription.IsDefault);
+            Assert.AreEqual<string>(Path.GetFullPath(fileName), mockCommandRuntime.OutputPipeline[0].ToString());
+            Directory.SetCurrentDirectory(originalDirectory);
+            Assert.AreEqual<string>(originalDirectory, Directory.GetCurrentDirectory());
+        }
+
+        [TestMethod]
+        public void TestImportPublishSettingsWithNoPublishSettingsFilesFound()
+        {
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            string directoryName = "testdir3";
+            string originalDirectory = Directory.GetCurrentDirectory();
+            Directory.CreateDirectory(directoryName);
+            Directory.SetCurrentDirectory(Path.GetFullPath(directoryName));
+
+            Testing.AssertThrows<Exception>(
+                () => cmdlet.ExecuteCmdlet(), 
+                string.Format(Resources.NoPublishSettingsFilesFoundMessage, Directory.GetCurrentDirectory()));
+            Directory.SetCurrentDirectory(originalDirectory);
+            Assert.AreEqual<string>(originalDirectory, Directory.GetCurrentDirectory());
+        }
+
+        [TestMethod]
+        public void TestImportPublishSettingsWithMultiplePublishSettingsFilesFound()
+        {
+            MockCommandRuntime mockCommandRuntime;
+            ImportAzurePublishSettingsCommand cmdlet;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new ImportAzurePublishSettingsCommand();
+            cmdlet.CommandRuntime = mockCommandRuntime;
+            string directoryName = "testdir2";
+            string fileName1 = "myfile1.publishsettings";
+            string fileName2 = "myfile2.publishsettings";
+            string filePath1 = Path.Combine(directoryName, fileName1);
+            string filePath2 = Path.Combine(directoryName, fileName2);
+            Directory.CreateDirectory(directoryName);
+            File.WriteAllText(filePath1, File.ReadAllText(Data.ValidPublishSettings.First()));
+            File.WriteAllText(filePath2, File.ReadAllText(Data.ValidPublishSettings.First()));
+            cmdlet.PublishSettingsFile = directoryName;
+
+            cmdlet.ExecuteCmdlet();
+
+            SubscriptionData currentSubscription = cmdlet.GetCurrentSubscription();
+            Assert.AreEqual(currentSubscription.SubscriptionName, Data.Subscription1);
+            Assert.IsTrue(currentSubscription.IsDefault);
+            Assert.AreEqual<string>(filePath1, mockCommandRuntime.OutputPipeline[0].ToString());
+            Assert.AreEqual<string>(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, filePath1), mockCommandRuntime.WarningStream[0]);
         }
     }
 }

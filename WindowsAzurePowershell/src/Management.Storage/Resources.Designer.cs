@@ -700,6 +700,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use storage account &apos;{0}&apos; from storage context.
+        /// </summary>
+        internal static string UseStorageAccountFromContext {
+            get {
+                return ResourceManager.GetString("UseStorageAccountFromContext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} {1}..
         /// </summary>
         internal static string VerboseLogFormat {

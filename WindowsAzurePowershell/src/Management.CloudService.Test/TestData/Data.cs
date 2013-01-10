@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using CloudService.Model;
     using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
 
-    static class Data
+    public static class Data
     {
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115
@@ -47,6 +48,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
         public static StorageServiceList ValidStorageService { get; private set; }
         public static string AzureSdkAppDir { get; private set; }
         public static string TestResultDirectory { get; private set; }
+
+        public static string NodeWebRoleScaffoldingPath = Path.Combine(Resources.NodeScaffolding, RoleType.WebRole.ToString());
+        public static string NodeWorkerRoleScaffoldingPath = Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString());
+        public static string PHPWebRoleScaffoldingPath = Path.Combine(Resources.PHPScaffolding, RoleType.WebRole.ToString());
+        public static string PHPWorkerRoleScaffoldingPath = Path.Combine(Resources.PHPScaffolding, RoleType.WorkerRole.ToString());
+        public static string PythonWebRoleScaffoldingPath = Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString());
+        public static string GeneralWebRoleScaffoldingPath = Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString());
+        public static string GeneralWorkerRoleScaffoldingPath = Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString());
 
         static Data()
         {

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -61,10 +61,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected PSObject ConstructPSObject(string typeName, params object[] args)
         {
             Debug.Assert(args.Length % 2 == 0, "The parameter args length must be even number");
-            Debug.Assert(!string.IsNullOrEmpty(typeName), "typeName can't be null or empty");
 
             PSObject outputObject = new PSObject();
-            outputObject.TypeNames.Add(typeName);
+
+            if (!string.IsNullOrEmpty(typeName))
+            {
+                outputObject.TypeNames.Add(typeName);
+            }
 
             for (int i = 0; i <= args.Length / 2; i += 2)
             {

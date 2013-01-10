@@ -113,7 +113,9 @@
     <Compile Include="TestData\Data.cs" />
     <Compile Include="Tests\Utilities\AzureAssert.cs" />
     <Compile Include="Tests\Utilities\MockCommandRuntime.cs" />
+    <Compile Include="Tests\Utilities\PowerShellExtensions.cs" />
     <Compile Include="Tests\Utilities\PowerShellTest.cs" />
+    <Compile Include="Tests\Utilities\PSObjectExtensions.cs" />
     <Compile Include="Tests\Utilities\RemoveAzurePublishSettings.cs" />
     <Compile Include="Tests\Utilities\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Tests\Utilities\Testing.cs" />

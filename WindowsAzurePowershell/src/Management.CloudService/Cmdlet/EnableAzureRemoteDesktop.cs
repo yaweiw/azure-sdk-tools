@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -48,11 +48,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("pwd")]
         public SecureString Password { get; set; }
 
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            base.ExecuteCmdlet();
 
             EnableRemoteDesktop();
         }
@@ -91,6 +93,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             
             UpdateServiceConfigurations(service, forwarderName, certElement, encryptedPassword);
             service.Components.Save(service.Paths);
+
+            if (PassThru)
+            {
+                WriteObject(true);
+            }
         }
 
         private X509Certificate2 FindCertificate()
