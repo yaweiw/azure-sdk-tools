@@ -41,7 +41,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         [Parameter(Position = 1, HelpMessage = "Instances count")]
         [Alias("i")]
-        [PSDefaultValue(Value = 1)]
         public int Instances { get; set; }
 
         /// <summary>
@@ -56,13 +55,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             this.Scaffolding = scaffolding;
             this.isWebRole = isWebRole;
             this.successMessage = successMessage;
+            this.Instances = 1;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             RootPath = RootPath ?? GetServiceRootPath();
-            Scaffolding = this.ResolvePath(Scaffolding);
             AzureService service = new AzureService(RootPath, null);
             RoleInfo roleInfo = null;
             

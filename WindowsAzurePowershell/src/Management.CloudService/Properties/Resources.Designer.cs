@@ -259,6 +259,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CacheRuntimeVersion.
+        /// </summary>
+        internal static string CacheRuntimeVersionKey {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersionKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scaffolding\Cache.
         /// </summary>
         internal static string CacheScaffolding {
@@ -331,20 +340,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find valid Windows Azure role in current directory {0}.
+        /// </summary>
+        internal static string CannotFindRole {
+            get {
+                return ResourceManager.GetString("CannotFindRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindServiceConfigurationFile {
             get {
                 return ResourceManager.GetString("CannotFindServiceConfigurationFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
-        /// </summary>
-        internal static string CannotFindServiceRoot {
-            get {
-                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
             }
         }
         
@@ -863,6 +872,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot enable memcach protocol on a cache worker role {0}..
+        /// </summary>
+        internal static string InvalidCacheRoleName {
+            get {
+                return ResourceManager.GetString("InvalidCacheRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid certificate format. Publish settings may be corrupted. Use Get-AzurePublishSettingsFile to download updated settings.
         /// </summary>
         internal static string InvalidCertificate {
@@ -1048,6 +1066,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string InvalidSubscriptionNameMessage {
             get {
                 return ResourceManager.GetString("InvalidSubscriptionNameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge..
+        /// </summary>
+        internal static string InvalidVMSize {
+            get {
+                return ResourceManager.GetString("InvalidVMSize", resourceCulture);
             }
         }
         

@@ -162,9 +162,6 @@
   <data name="CannotFindServiceConfigurationFile" xml:space="preserve">
     <value>service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn't exist</value>
   </data>
-  <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Cannot locate deploymentSettings.json in parent folders</value>
-  </data>
   <data name="CertificateElementName" xml:space="preserve">
     <value>ManagementCertificate</value>
   </data>
@@ -864,5 +861,17 @@
   </data>
   <data name="AddRoleMessageCreate" xml:space="preserve">
     <value>Role has been created at {0}\{1}.</value>
+  </data>
+  <data name="InvalidVMSize" xml:space="preserve">
+    <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>
+  </data>
+  <data name="CacheRuntimeVersionKey" xml:space="preserve">
+    <value>CacheRuntimeVersion</value>
+  </data>
+  <data name="CannotFindRole" xml:space="preserve">
+    <value>Can't find valid Windows Azure role in current directory {0}</value>
+  </data>
+  <data name="InvalidCacheRoleName" xml:space="preserve">
+    <value>Cannot enable memcach protocol on a cache worker role {0}.</value>
   </data>
 </root>

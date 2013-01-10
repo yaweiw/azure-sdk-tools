@@ -20,14 +20,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using ManagementResources = Microsoft.WindowsAzure.Management.Properties.Resources;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.IO;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
 
     [TestClass]
-    public class SetAzureInstancesTests : TestBase
+    public class SetAzureVMSizeTests : TestBase
     {
         private const string serviceName = "AzureService";
 
@@ -45,9 +44,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsNode()
+        public void SetAzureVMSizeProcessTestsNode()
         {
-            int newRoleInstances = 10;
+            string newRoleVMSize = RoleSize.Large.ToString();
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -55,54 +54,50 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
-                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
+                RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
-                Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
-                Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
-                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
-
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsPHP()
+        public void SetAzureVMSizeProcessTestsPHP()
         {
-            int newRoleInstances = 10;
+            string newRoleVMSize = RoleSize.Medium.ToString();
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WebRole1", newRoleInstances, service.Paths.RootPath);
+                RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
-                Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
-                Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                
+                Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
                 Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).Members[Parameters.RoleName].Value.ToString());
                 Assert.IsTrue(((PSObject)mockCommandRuntime.OutputPipeline[0]).TypeNames.Contains(typeof(RoleSettings).FullName));
-                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsRoleNameDoesNotExistFail()
+        public void SetAzureVMSizeProcessTestsRoleNameDoesNotExistFail()
         {
             string roleName = "WebRole1";
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, 10), string.Format(Resources.RoleNotFoundMessage, roleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, RoleSize.Medium.ToString()), string.Format(Resources.RoleNotFoundMessage, roleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsNodeRoleNameDoesNotExistServiceContainsWebRoleFail()
+        public void SetAzureVMSizeProcessTestsNodeRoleNameDoesNotExistServiceContainsWebRoleFail()
         {
             string roleName = "WebRole1";
             string invalidRoleName = "foo";
@@ -111,12 +106,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsPHPRoleNameDoesNotExistServiceContainsWebRoleFail()
+        public void SetAzureVMSizeProcessTestsPHPRoleNameDoesNotExistServiceContainsWebRoleFail()
         {
             string roleName = "WebRole1";
             string invalidRoleName = "foo";
@@ -125,12 +120,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWebRole(Data.PHPWebRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsNodeRoleNameDoesNotExistServiceContainsWorkerRoleFail()
+        public void SetAzureVMSizeProcessTestsNodeRoleNameDoesNotExistServiceContainsWorkerRoleFail()
         {
             string roleName = "WorkerRole1";
             string invalidRoleName = "foo";
@@ -139,12 +134,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsPHPRoleNameDoesNotExistServiceContainsWorkerRoleFail()
+        public void SetAzureVMSizeProcessTestsPHPRoleNameDoesNotExistServiceContainsWorkerRoleFail()
         {
             string roleName = "WorkerRole1";
             string invalidRoleName = "foo";
@@ -153,58 +148,58 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
                 service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath, roleName, 1);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, invalidRoleName, 10), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, invalidRoleName, RoleSize.Large.ToString()), string.Format(Resources.RoleNotFoundMessage, invalidRoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsEmptyRoleNameFail()
+        public void SetAzureVMSizeProcessTestsEmptyRoleNameFail()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, string.Empty, 10), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, string.Empty, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsNullRoleNameFail()
+        public void SetAzureVMSizeProcessTestsNullRoleNameFail()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, null, 10), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, null, RoleSize.Large.ToString()), string.Format(Resources.InvalidOrEmptyArgumentMessage, Resources.RoleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsLargeRoleInstanceFail()
+        public void SetAzureVMSizeProcessTestsLargeRoleInstanceFail()
         {
             string roleName = "WebRole1";
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, 2000), string.Format(Resources.InvalidInstancesCount, roleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, "Gigantic"), string.Format(Resources.InvalidVMSize, roleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessNegativeRoleInstanceFail()
+        public void SetAzureVMSizeProcessNegativeRoleInstanceFail()
         {
             string roleName = "WebRole1";
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                Testing.AssertThrows<ArgumentException>(() => service.SetRoleInstances(service.Paths, roleName, -1), string.Format(Resources.InvalidInstancesCount, roleName));
+                Testing.AssertThrows<ArgumentException>(() => service.SetRoleVMSize(service.Paths, roleName, string.Empty), string.Format(Resources.InvalidVMSize, roleName));
             }
         }
 
         [TestMethod]
-        public void SetAzureInstancesProcessTestsCaseInsensitive()
+        public void SetAzureVMSizeProcessTestsCaseInsensitive()
         {
-            int newRoleInstances = 10;
+            string newRoleVMSize = RoleSize.Large.ToString();
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -212,58 +207,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 string roleName = "WebRole1";
                 service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 cmdlet.PassThru = false;
-                RoleSettings roleSettings = cmdlet.SetAzureInstancesProcess("WeBrolE1", newRoleInstances, service.Paths.RootPath);
+                RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WeBrolE1", newRoleVMSize, service.Paths.RootPath);
                 service = new AzureService(service.Paths.RootPath, null);
 
-                Assert.AreEqual<int>(newRoleInstances, service.Components.CloudConfig.Role[0].Instances.count);
-                Assert.AreEqual<int>(newRoleInstances, service.Components.LocalConfig.Role[0].Instances.count);
+                
+                Assert.AreEqual<string>(newRoleVMSize, service.Components.Definition.WebRole[0].vmsize.ToString());
                 Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
-                Assert.AreEqual<int>(newRoleInstances, roleSettings.Instances.count);
                 Assert.AreEqual<string>(roleName, roleSettings.name);
 
             }
         }
 
         [TestMethod]
-        public void SetAzureServiceProjectRoleWithoutPassingRoleName()
+        public void SetAzureVMSizeProcessTestsCaseInsensitiveVMSizeSize()
         {
-            string originalDirectory = Directory.GetCurrentDirectory();
-            string serviceName = "AzureService1";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
-            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-            Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1"));
-            cmdlet.RoleName = string.Empty;
-            cmdlet.ExecuteCmdlet();
-            service = new AzureService(service.Paths.RootPath, null);
+            string newRoleVMSize = "ExTraLaRge";
 
-            Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
-            Directory.SetCurrentDirectory(originalDirectory);
-        }
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                string roleName = "WebRole1";
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                cmdlet.PassThru = false;
+                RoleSettings roleSettings = cmdlet.SetAzureVMSizeProcess("WebRole1", newRoleVMSize, service.Paths.RootPath);
+                service = new AzureService(service.Paths.RootPath, null);
 
-        [TestMethod]
-        public void SetAzureServiceProjectRoleInDeepDirectory()
-        {
-            string originalDirectory = Directory.GetCurrentDirectory();
-            string serviceName = "AzureService2";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
-            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-            Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1", "bin"));
-            cmdlet.RoleName = string.Empty;
-            cmdlet.ExecuteCmdlet();
-            service = new AzureService(service.Paths.RootPath, null);
 
-            Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
-            Directory.SetCurrentDirectory(originalDirectory);
-        }
+                Assert.AreEqual<string>(newRoleVMSize.ToLower(), service.Components.Definition.WebRole[0].vmsize.ToString().ToLower());
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+                Assert.AreEqual<string>(roleName, roleSettings.name);
 
-        [TestMethod]
-        public void SetAzureServiceProjectRoleInServiecRootDirectoryFail()
-        {
-            string serviceName = "AzureService3";
-            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
-            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-            cmdlet.RoleName = string.Empty;
-            Testing.AssertThrows<InvalidOperationException>(() => cmdlet.ExecuteCmdlet(), ManagementResources.CannotFindServiceRoot);
+            }
         }
     }
 }

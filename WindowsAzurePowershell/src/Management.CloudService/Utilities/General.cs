@@ -425,21 +425,62 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
             return obj;
         }
 
-        public static ServiceSettings GetDefaultSettings(string rootPath, string inServiceName, string slot, string location, string storageName, string subscription, out string serviceName)
+        public static ServiceSettings GetDefaultSettings(
+            string rootPath,
+            string inServiceName,
+            string slot,
+            string location,
+            string affinityGroup,
+            string storageName,
+            string subscription,
+            out string serviceName)
         {
             ServiceSettings serviceSettings;
 
             if (string.IsNullOrEmpty(rootPath))
             {
-                serviceSettings = ServiceSettings.LoadDefault(null, slot, location, subscription, storageName, inServiceName, null, out serviceName);
+                serviceSettings = ServiceSettings.LoadDefault(null, slot, location, affinityGroup, subscription, storageName, inServiceName, null, out serviceName);
             }
             else
             {
-                serviceSettings = ServiceSettings.LoadDefault(new AzureService(rootPath, null).Paths.Settings,
-                slot, location, subscription, storageName, inServiceName, new AzureService(rootPath, null).ServiceName, out serviceName);
+                serviceSettings = ServiceSettings.LoadDefault(
+                    new AzureService(rootPath, null).Paths.Settings,
+                    slot,
+                    location,
+                    affinityGroup,
+                    subscription,
+                    storageName,
+                    inServiceName,
+                    new AzureService(rootPath, null).ServiceName,
+                    out serviceName);
             }
 
             return serviceSettings;
+        }
+
+        /// <summary>
+        /// Gets role name for the current pathif exists.
+        /// </summary>
+        /// <returns>The role name</returns>
+        public static string GetRoleName(string rootPath, string currentPath)
+        {
+            bool found = false;
+            string roleName = null;
+
+            if (!(rootPath.Length >= currentPath.Length))
+            {
+                string difference = currentPath.Replace(rootPath, string.Empty);
+                roleName = difference.Split(new char[]{Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries).GetValue(0).ToString();
+                AzureService service = new AzureService(rootPath, null);
+                found = service.Components.RoleExists(roleName);
+            }
+
+            if (!found)
+            {
+                throw new ArgumentException(string.Format(Resources.CannotFindRole, currentPath));                
+            }
+
+            return roleName;
         }
     }
 }

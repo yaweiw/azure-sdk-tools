@@ -114,6 +114,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         /// <summary>
+        /// Asserts that given environment variable exists with it's associated value.
+        /// </summary>
+        /// <param name="roleStartup">The role startup</param>
+        /// <param name="variableName">The environment variable name</param>
+        /// <param name="expectedValue">The expected value</param>
+        public static void ValidateRoleRuntimeVariable(Startup roleStartup, string variableName, string expectedValue)
+        {
+            string actualValue;
+            Assert.IsTrue(TryGetEnvironmentValue(roleStartup.Task, variableName, out actualValue));
+            Assert.AreEqual<string>(expectedValue, actualValue);
+        }
+
+        /// <summary>
         /// Verify that a given role variable setting matches expectations, null, blank, empty and whitespace only values 
         /// are counted as equivalent
         /// </summary>
@@ -238,18 +251,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         /// <param name="key">The name of the setting</param>
         /// <param name="value">The value of the setting, if it is found, null otherwise</param>
         /// <returns>true if the setting is found in the given environment</returns>
-        private bool TryGetEnvironmentValue(ServiceDefinitionSchema.Variable[] environment, string key, out string value)
+        private static bool TryGetEnvironmentValue(Task[] tasks, string key, out string value)
         {
-            value = null;
             bool found = false;
-            if (environment != null)
+            value = string.Empty;
+
+            foreach (Task task in tasks)
             {
-                foreach (ServiceDefinitionSchema.Variable setting in environment)
+                Variable[] environment = task.Environment;
+                value = null;
+                if (environment != null)
                 {
-                    if (string.Equals(setting.name, key, StringComparison.OrdinalIgnoreCase))
+                    foreach (Variable setting in environment)
                     {
-                        value = setting.value;
-                        found = true;
+                        if (string.Equals(setting.name, key, StringComparison.OrdinalIgnoreCase))
+                        {
+                            value = setting.value;
+                            found = true;
+                        }
                     }
                 }
             }

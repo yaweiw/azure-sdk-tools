@@ -295,11 +295,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = overrideWorkerRoleName, Instances = 2 };
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
+                string cacheWebRoleName = "cacheWebRole";
+                string cacheRuntimeVersion = "1.7.0";
+                AddAzureNodeWebRoleCommand addAzureWebRole = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = cacheWebRoleName };
+                addAzureWebRole.ExecuteCmdlet();
+
                 AzureService testService = new AzureService(rootPath, null);
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.2");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
                 RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
+                testService.AddRoleRuntime(testService.Paths, cacheWebRoleName, Resources.CacheRuntimeValue, cacheRuntimeVersion, RuntimePackageHelper.GetTestManifest(files));
                 testService.Components.Save(testService.Paths);
 
                 // Get the publishing process started by creating the package
@@ -307,13 +313,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 publishServiceCmdlet.InitializeSettingsAndCreatePackage(rootPath, RuntimePackageHelper.GetTestManifest(files));
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
-
+                
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe;http://DATACENTER/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.exe;http://DATACENTER/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
+                RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);
             }
         }
 
@@ -884,6 +891,100 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.IsNull(webRole.Startup);
                 Assert.IsNull(workerRole.Startup);
                 Assert.IsTrue(File.Exists(Path.Combine(rootPath, Resources.CloudPackageFileName)));
+            }
+        }
+
+        /// <summary>
+        /// Test more complex azure service deployment using a mock for the
+        /// Azure calls.
+        ///</summary>
+        [TestMethod]
+        public void PublishAzureServiceUsingAffinityGroup()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+
+                bool createdHostedService = false;
+                bool createdOrUpdatedDeployment = false;
+                bool storageCreated = false;
+                string affinityGroup = "my group";
+                HostedService cloudService = null;
+                StorageService storageService = new StorageService()
+                {
+                    StorageServiceProperties = new StorageServiceProperties() { Status = StorageServiceStatus.Creating, AffinityGroup = affinityGroup }
+                };
+                Deployment deployment = new Deployment()
+                {
+                    Status = DeploymentStatus.Deploying,
+                    RoleInstanceList = new RoleInstanceList(
+                        new RoleInstance[] { 
+                            new RoleInstance() {
+                                InstanceName = "Role_IN_0",
+                                InstanceStatus = RoleInstanceStatus.ReadyRole 
+                            } })
+                };
+
+                // Create a new channel to mock the calls to Azure and
+                // determine all of the results that we'll need.
+
+                channel.GetStorageServiceThunk = MultiCallResponseBuilder(
+                    () => null,
+                    () => storageService,
+                    () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; 
+                            storageService.StorageServiceProperties.AffinityGroup = affinityGroup;
+                            return storageService; });
+                channel.CreateStorageServiceThunk = ar => storageCreated = true;
+                channel.CreateHostedServiceThunk = ar => { createdHostedService = true; cloudService = new HostedService() { HostedServiceProperties = new HostedServiceProperties() { AffinityGroup = affinityGroup } }; };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
+                channel.CreateOrUpdateDeploymentThunk = ar =>
+                {
+                    createdOrUpdatedDeployment = true;
+                    channel.GetDeploymentBySlotThunk = MultiCallResponseBuilder(
+                () => deployment,
+                () => { deployment.Status = DeploymentStatus.Running; return deployment; });
+                };
+                channel.GetDeploymentBySlotThunk = ar =>
+                {
+                    if (createdHostedService)
+                    {
+                        Deployment deploymentCreated = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
+                        deploymentCreated.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
+                        return deployment;
+                    }
+                    else
+                    {
+                        throw new EndpointNotFoundException();
+                    }
+                };
+
+                channel.ListCertificatesThunk = ar => new CertificateList();
+
+                // Create a new service that we're going to publish
+                string serviceName = "TEST_SERVICE_NAME";
+
+                string rootPath = files.CreateNewService(serviceName);
+
+                // Get the publishing process started by creating the package
+
+                publishServiceCmdlet.ShareChannel = true;
+                publishServiceCmdlet.SkipUpload = true;
+                publishServiceCmdlet.PublishService(rootPath);
+                AzureService service = new AzureService(rootPath, null);
+
+                // Verify the publish service attempted to create and update
+                // the service through the mock.
+                Assert.IsTrue(storageCreated);
+                Assert.IsTrue(createdHostedService);
+                Assert.IsTrue(createdOrUpdatedDeployment);
+                Assert.AreEqual(StorageServiceStatus.Created, storageService.StorageServiceProperties.Status);
+                Assert.AreEqual(affinityGroup, storageService.StorageServiceProperties.AffinityGroup);
+                Assert.AreEqual(affinityGroup, cloudService.HostedServiceProperties.AffinityGroup);
+                Assert.AreEqual(DeploymentStatus.Running, deployment.Status);
+                Assert.AreEqual<string>(serviceName, service.ServiceName);
             }
         }
     }
