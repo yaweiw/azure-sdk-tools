@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.Contract
+namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract
 {
     using System;
     using System.Collections.Generic;
@@ -20,10 +20,9 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.Contra
     using System.Text;
 
     /// <summary>
-    /// storage management interface
+    /// storage management interface for all cmdlet that works without cloud
     /// </summary>
-    public interface IStorageManagement : IServiceManagement
+    public interface IStorageManagement
     {
-        /// storage management only need to get storage account from IServiceManagement
     }
 }

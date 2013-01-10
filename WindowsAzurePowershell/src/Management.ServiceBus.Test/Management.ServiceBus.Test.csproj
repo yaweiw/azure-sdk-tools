@@ -80,7 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="FunctionalTest.cs" />
+    <Compile Include="BasicTest.cs" />
     <Compile Include="ScenarioTest.cs" />
     <Compile Include="UnitTests\Cmdlet\RemoveAzureSBNamespaceTest.cs" />
     <Compile Include="UnitTests\Cmdlet\NewAzureSBNamespaceTest.cs" />

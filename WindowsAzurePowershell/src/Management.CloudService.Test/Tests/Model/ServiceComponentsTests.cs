@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -170,7 +170,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -184,7 +184,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -198,7 +198,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.NodeScaffolding);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -212,7 +212,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -226,7 +226,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 int nextPort = service.Components.GetNextPort();
@@ -241,7 +241,7 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultWebPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
                 int nextPort = service.Components.GetNextPort();
@@ -256,9 +256,9 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
-                service.AddWorkerRole(Resources.NodeScaffolding);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -272,9 +272,9 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole.ToList().ForEach(wr => wr.Endpoints = null);
-                service.AddWorkerRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service = new AzureService(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -288,10 +288,10 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort);
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 service.Components.Definition.WebRole[0].Endpoints.InputEndpoint = null;
                 service.Components.Save(service.Paths);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service = new AzureServiceWrapper(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);
@@ -305,8 +305,8 @@ using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
             {
                 int expectedPort = int.Parse(Resources.DefaultPort) + 1;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWebRole(Resources.NodeScaffolding);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service = new AzureServiceWrapper(service.Paths.RootPath, null);
                 int nextPort = service.Components.GetNextPort();
                 Assert.AreEqual<int>(expectedPort, nextPort);

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -170,39 +170,62 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <summary>
         /// Gets worker role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The worker role object</returns>
-        internal static WorkerRole GetWorkerRole(string servicePath, string name)
+        internal static WorkerRole GetWorkerRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWorkerRole(name);
         }
 
         /// <summary>
         /// Gets web role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The web role object</returns>
-        internal static WebRole GetWebRole(string servicePath, string name)
+        internal static WebRole GetWebRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWebRole(name);
         }
 
         /// <summary>
         /// Gets the role settings object from cloud service configuration.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The role settings object</returns>
-        internal static RoleSettings GetRole(string servicePath, string name)
+        internal static RoleSettings GetRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
         }
 
-        public static T GetPSVariableValue<T>(PSObject obj, string name)
+        /// <summary>
+        /// Asserts that given two directories and identical.
+        /// </summary>
+        /// <param name="expected">The expected directory</param>
+        /// <param name="actual">The actual directory</param>
+        public static void AssertDirectoryIdentical(string expected, string actual)
         {
-            return (T)obj.Members[name].Value;
+            DirectoryInfo expectedDir = new DirectoryInfo(expected);
+            DirectoryInfo actualDir = new DirectoryInfo(expected);
+            DirectoryInfo[] ExpectedDirs = expectedDir.GetDirectories();
+            DirectoryInfo[] ActualDirs = actualDir.GetDirectories();
+            FileInfo[] expectedFiles = expectedDir.GetFiles();
+            FileInfo[] actualFiles = actualDir.GetFiles();
+
+            Assert.AreEqual<int>(expectedFiles.Length, actualFiles.Length);
+
+            for (int i = 0; i < expectedFiles.Length; i++)
+            {
+                Assert.AreEqual<string>(expectedFiles[i].Name, actualFiles[i].Name);
+            }
+
+            foreach (DirectoryInfo subdir in ExpectedDirs)
+            {
+                string ActualSubDir = Path.Combine(actual, subdir.Name);
+                AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
+            }
         }
     }
 }

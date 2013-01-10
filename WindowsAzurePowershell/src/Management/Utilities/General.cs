@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -364,6 +364,53 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             }
 
             General.LaunchWebPage(uriBuilder.ToString());
+        }
+
+        /// <summary>
+        /// Convert the given array into string.
+        /// </summary>
+        /// <typeparam name="T">The type of the object array is holding</typeparam>
+        /// <param name="array">The collection</param>
+        /// <param name="delimiter">The used delimiter between array elements</param>
+        /// <returns>The array into string representation</returns>
+        public static string ArrayToString<T>(this T[] array, string delimiter)
+        {
+            return (array == null) ? null : (array.Length == 0) ? string.Empty : array.Skip(1).Aggregate(new StringBuilder(array[0].ToString()), (s, i) => s.Append(delimiter).Append(i), s => s.ToString());
+        }
+
+        /// <summary>
+        /// Copies a directory.
+        /// </summary>
+        /// <param name="sourceDirName">The source directory name</param>
+        /// <param name="destDirName">The destination directory name</param>
+        /// <param name="copySubDirs">Should the copy be recursive</param>
+        public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(string.Format(Resources.PathDoesNotExist, sourceDirName));
+            }
+
+            Directory.CreateDirectory(destDirName);
+
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string tempPath = Path.Combine(destDirName, file.Name);
+                file.CopyTo(tempPath, false);
+            }
+
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDirName, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -62,18 +62,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
             // Couldn't locate the service root, exit
             return null;
-        }
-
-        public static string Combine(params string[] paths)
-        {
-            string combinedPath = string.Empty;
-
-            foreach (string path in paths)
-            {
-                combinedPath = Path.Combine(combinedPath, path);
-            }
-
-            return combinedPath;
         }
     }
 }

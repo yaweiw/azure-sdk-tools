@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     public class RuntimePackageHelper
     {
         /// <summary>
-        /// Write out the test manifest file to a directory under the root
+        /// Write out the test manifest file to a directory under the rootPath
         /// </summary>
         /// <param name="helper">The file system helper being used for the test</param>
         /// <returns>The path to the test manifest file</returns>
@@ -111,6 +111,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 "Actual runtime URL '{0}' does not match expected runtime URL '{1}'", actualRuntimeUrl, runtimeUrl));
             Assert.IsTrue(VerifySetting(overrideUrl, actualOverrideUrl), string.Format(
                 "Actual override URL '{0}' does not match expected override URL '{1}'", actualOverrideUrl, overrideUrl));
+        }
+
+        /// <summary>
+        /// Asserts that given environment variable exists with it's associated value.
+        /// </summary>
+        /// <param name="roleStartup">The role startup</param>
+        /// <param name="variableName">The environment variable name</param>
+        /// <param name="expectedValue">The expected value</param>
+        public static void ValidateRoleRuntimeVariable(Startup roleStartup, string variableName, string expectedValue)
+        {
+            string actualValue;
+            Assert.IsTrue(TryGetEnvironmentValue(roleStartup.Task, variableName, out actualValue));
+            Assert.AreEqual<string>(expectedValue, actualValue);
         }
 
         /// <summary>
@@ -238,18 +251,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         /// <param name="key">The name of the setting</param>
         /// <param name="value">The value of the setting, if it is found, null otherwise</param>
         /// <returns>true if the setting is found in the given environment</returns>
-        private bool TryGetEnvironmentValue(ServiceDefinitionSchema.Variable[] environment, string key, out string value)
+        private static bool TryGetEnvironmentValue(Task[] tasks, string key, out string value)
         {
-            value = null;
             bool found = false;
-            if (environment != null)
+            value = string.Empty;
+
+            foreach (Task task in tasks)
             {
-                foreach (ServiceDefinitionSchema.Variable setting in environment)
+                Variable[] environment = task.Environment;
+                value = null;
+                if (environment != null)
                 {
-                    if (string.Equals(setting.name, key, StringComparison.OrdinalIgnoreCase))
+                    foreach (Variable setting in environment)
                     {
-                        value = setting.value;
-                        found = true;
+                        if (string.Equals(setting.name, key, StringComparison.OrdinalIgnoreCase))
+                        {
+                            value = setting.value;
+                            found = true;
+                        }
                     }
                 }
             }

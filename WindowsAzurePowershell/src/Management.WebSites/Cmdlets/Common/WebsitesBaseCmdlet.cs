@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -35,8 +35,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             operation.Status = "Success";
             return operation;
         }
-
-        internal abstract void ExecuteCommand();
 
         protected string ProcessException(Exception ex)
         {
@@ -96,9 +94,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             try
             {
                 base.ProcessRecord();
-
-                // Execute actual cmdlet action
-                ExecuteCommand();
             }
             catch (EndpointNotFoundException ex)
             {
@@ -107,10 +102,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
             catch (ProtocolException ex)
             {
                 ProcessException(ex);
-            }
-            catch (Exception ex)
-            {
-                WriteExceptionError(ex);
             }
         }
     }

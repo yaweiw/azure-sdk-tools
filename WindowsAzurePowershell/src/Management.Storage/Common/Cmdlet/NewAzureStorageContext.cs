@@ -14,7 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext, DefaultParameterSetName = AccountNameKeyParameterSet),
         OutputType(typeof(AzureStorageContext))]
-    public class NewAzureStorageContext : StorageCmdletBase
+    public class NewAzureStorageContext : StorageCmdletBase<IStorageManagement>
     {
         /// <summary>
         /// default parameter set name
@@ -137,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
-            StorageCredentials credential = new StorageCredentials(SasToken);
+            StorageCredentials credential = new StorageCredentials(sasToken);
             return GetStorageAccountWithEndPoint(credential, storageAccountName);
         }
 
@@ -183,6 +184,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
         {
+            if (String.IsNullOrEmpty(storageAccountName))
+            {
+                throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
+            }
+
             string blobEndPoint = String.Format(Resources.DefaultBlobEndPointFormat, storageAccountName);
             string tableEndPoint = String.Format(Resources.DefaultTableEndPointFormat, storageAccountName);
             string queueEndPoint = String.Format(Resources.DefaultQueueEndPointFormat, storageAccountName);
