@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -36,12 +36,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         [TestInitialize]
         public void InitCommand()
         {
-            command = new StorageCloudBlobCmdletBase
-            {
-                BlobClient = BlobMock,
-                Context = new AzureStorageContext(CloudStorageAccount.DevelopmentStorageAccount),
-                CommandRuntime = new MockCommandRuntime()
-            };
+            command = new StorageCloudBlobCmdletBase(BlobMock)
+                {
+                    Context = new AzureStorageContext(CloudStorageAccount.DevelopmentStorageAccount),
+                    CommandRuntime = new MockCommandRuntime()
+                };
         }
 
         [TestMethod]

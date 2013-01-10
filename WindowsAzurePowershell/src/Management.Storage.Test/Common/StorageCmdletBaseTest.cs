@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -31,12 +32,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
         /// <summary>
         /// StorageCmdletBase command
         /// </summary>
-        public StorageCmdletBase command = null;
+        public StorageCmdletBase<IStorageManagement> command = null;
 
         [TestInitialize]
         public void InitCommand()
         {
-            command = new StorageCmdletBase
+            command = new StorageCmdletBase<IStorageManagement>
             {
                 CommandRuntime = new MockCommandRuntime()
             };
@@ -52,8 +53,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
         public void InitOperationContextTest()
         {
             command.InitOperationContext();
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).VerboseChannel.Count());
-            string log = (string)((MockCommandRuntime)command.CommandRuntime).VerboseChannel.FirstOrDefault();
+            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).VerboseStream.Count());
+            string log = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
             Assert.IsTrue(log.Length > 0);
         }
 
@@ -62,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
         {
             string log = "WriteVerboseLogTest";
             command.WriteVerboseLog(log);
-            string verboseLog = (string)((MockCommandRuntime)command.CommandRuntime).VerboseChannel.FirstOrDefault();
+            string verboseLog = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
             Assert.IsTrue(verboseLog.EndsWith(log));
         }
     }
