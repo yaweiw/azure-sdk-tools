@@ -16,5 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public const string Instances = "Instances";
 
         public const string RoleName = "RoleName";
+
+        public const string PackagePath = "PackagePath";
+
+        public const string Path = "Path";
     }
 }

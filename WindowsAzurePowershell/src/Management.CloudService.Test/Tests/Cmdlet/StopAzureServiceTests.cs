@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -62,6 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
             };
             channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -70,6 +71,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 stopServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
+            }
+        }
+
+        [TestMethod]
+        public void SetDeploymentStatusProcessWithNotExisitingServiceFail()
+        {
+            string newStatus = DeploymentStatus.Suspended;
+            string currentStatus = DeploymentStatus.Running;
+            bool statusUpdated = false;
+            channel.UpdateDeploymentStatusBySlotThunk = ar =>
+            {
+                statusUpdated = true;
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+            };
+            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
+
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                stopServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+
+                Assert.IsFalse(statusUpdated);
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -139,7 +139,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
 
         internal static Scaffold Parse(string path)
         {
-            Debug.Assert(File.Exists(path));
             XDocument document = XDocument.Load(path);
             Scaffold scaffold = new Scaffold();
 

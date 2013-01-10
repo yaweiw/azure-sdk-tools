@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -193,7 +193,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
             }
 
-            return ServiceManagementHelper.CreateServiceManagementChannel<T>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
+            return ServiceManagementHelper.CreateServiceManagementChannel<T>(
+                ServiceBinding,
+                new Uri(ServiceEndpoint), CurrentSubscription.Certificate,
+                new HttpRestMessageInspector(this));
         }
 
         protected void RetryCall(Action<string> call)
@@ -440,7 +443,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (input != null)
             {
-                this.SafeWriteVerboseOutputForObject(input);
+                this.WriteVerboseOutputForObject(input);
             }
 
             IContextChannel contextChannel = Channel as IContextChannel;
