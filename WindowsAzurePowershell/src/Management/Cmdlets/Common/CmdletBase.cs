@@ -16,12 +16,50 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Management.Automation;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Properties;
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {
-        protected string GetServiceRootPath() { return PathUtility.FindServiceRootDirectory(CurrentPath()); }
+        public string GetServiceRootPath()
+        {
+            // Get the service path
+            var servicePath = FindServiceRootDirectory(CurrentPath());
+
+            // Was the service path found?
+            if (servicePath == null)
+            {
+                throw new InvalidOperationException(Resources.CannotFindServiceRoot);
+            }
+
+            return servicePath;
+        }
+
+        public string FindServiceRootDirectory(string path)
+        {
+            // Is the csdef file present in the folder
+            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
+
+            if (found)
+            {
+                return path; //return it
+            }
+
+            // Find the last slash
+            int slash = path.LastIndexOf('\\');
+            if (slash > 0)
+            {
+                // Slash found trim off the last path
+                path = path.Substring(0, slash);
+
+                // Recurse
+                return FindServiceRootDirectory(path);
+            }
+
+            // Couldn't locate the service root, exit
+            return null;
+        }
 
         protected string CurrentPath()
         {
