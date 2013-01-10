@@ -165,6 +165,9 @@
     <Compile Include="Storage\Common\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Storage\Blob\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
+    <Compile Include="Storage\Queue\Contract\IStorageQueueManagement.cs" />
+    <Compile Include="Storage\Queue\Contract\StorageQueueManagement.cs" />
+    <Compile Include="Storage\Queue\ResourceModel\AzureStorageQueue.cs" />
     <Compile Include="Storage\Util\StorageExceptionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
