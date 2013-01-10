@@ -14,12 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -33,9 +33,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         [TestInitialize]
         public void InitCommand()
         {
-            command = new NewAzureStorageContainerCommand
+            command = new NewAzureStorageContainerCommand(BlobMock)
                 {
-                    BlobClient = BlobMock,
                     CommandRuntime = new MockCommandRuntime()
                 };
         }
@@ -79,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             name = "test";
             command.CreateAzureContainer(name);
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
+            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual("test", container.Name);
 
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
@@ -93,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             string name = "containername";
             command.Name = name;
             command.ExecuteCmdlet();
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
+            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(name, container.Name);
         }
     }
