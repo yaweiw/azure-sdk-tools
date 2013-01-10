@@ -41,9 +41,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         [TestInitialize]
         public void InitCommand()
         {
-            command = new GetAzureStorageContainerCommand
+            command = new GetAzureStorageContainerCommand(BlobMock)
             {
-                BlobClient = BlobMock,
                 CommandRuntime = new MockCommandRuntime()
             };
         }
@@ -159,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             AddTestContainers();
             command.Name = "test";
             command.ExecuteCmdlet();
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
         }
     }
 }

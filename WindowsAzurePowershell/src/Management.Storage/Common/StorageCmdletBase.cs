@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
@@ -29,7 +29,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// The cmdlet with cloud should extend StorageCloudCmdlBase.
     /// The cmdlet without cloud could extend StorageCmdletBase.
     /// </summary>
-    public class StorageCmdletBase : CloudBaseCmdlet<IStorageManagement>
+    public class StorageCmdletBase<T> : CloudBaseCmdlet<T>
+        where T : class
     {
         /// <summary>
         /// cmdlet operation context.
@@ -87,13 +88,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// init channel with or without subscription in storage cmdlet
         /// </summary>
-        /// <param name="force">force to create a new channel</param>
+        /// <param name="force">force to call the base.InitChannelCurrentSubscription</param>
         protected override void InitChannelCurrentSubscription(bool force)
         {
             if (force)
             {
                 WriteVerboseLog(Resources.InitChannelFromSubscription);
-                base.InitChannelCurrentSubscription(force);
+                //don't force to create the channel
+                base.InitChannelCurrentSubscription(false);
             }
         }
 

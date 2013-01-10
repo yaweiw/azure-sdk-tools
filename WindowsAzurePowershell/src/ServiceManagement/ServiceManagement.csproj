@@ -135,6 +135,7 @@
     <Compile Include="Contract\ServiceBus.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Storage\Blob\Contract\IStorageBlobManagement.cs" />
+    <Compile Include="Storage\Blob\Contract\StorageBlobManagement.cs" />
     <Compile Include="Storage\Common\Contract\IStorageManagement.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="Storage\Common\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Storage\Blob\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
+    <Compile Include="Storage\Util\StorageExceptionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />

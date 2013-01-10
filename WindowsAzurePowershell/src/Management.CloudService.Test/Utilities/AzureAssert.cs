@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                 expected.LocalPackage, expected.RootPath, expected.Settings, actual);
         }
 
-        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string root, string settings, ServicePathInfo actual)
+        public static void AreEqualServicePathInfo(string cloudConfig, string cloudPackage, string def, string localConfig, string localPackage, string rootPath, string settings, ServicePathInfo actual)
         {
             throw new NotImplementedException();
         }
@@ -247,12 +247,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             Assert.IsTrue(Array.Exists<ConfigConfigurationSetting>(actual, c => c.name == expected.name));
         }
 
-        public static void RuntimeExists(Task[] tasks, string runtimeValue)
+        public static void RuntimeUrlAndIdExists(Task[] tasks, string runtimeValue)
         {
             Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
                 e => e.value != null && e.value.Contains(runtimeValue))));
             Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
                 e => e.value != null && e.value.Contains(string.Format("http://nodertncu.blob.core.windows.net/{0}/", runtimeValue)))));
+        }
+
+        public static void RuntimeIdExists(Task[] tasks, string runtimeValue)
+        {
+            Assert.IsTrue(Array.Exists<Task>(tasks, t => Array.Exists<Variable>(t.Environment,
+                e => e.value != null && e.value.Contains(runtimeValue))));
         }
 
         public static void StartupTaskExists(Task[] tasks, string startupCommand)

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -85,9 +85,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            var responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.Count);
+            var responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime) restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
             Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id2") && d.Complete));
@@ -103,9 +103,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            restoreAzureWebsiteDeploymentCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.Count);
-            responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            restoreAzureWebsiteDeploymentCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.Count);
+            responseDeployments = (IEnumerable<DeployResult>)((MockCommandRuntime)restoreAzureWebsiteDeploymentCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(responseDeployments);
             Assert.AreEqual(2, responseDeployments.Count());
             Assert.IsTrue(responseDeployments.Any(d => d.Id.Equals("id1") && d.Complete));

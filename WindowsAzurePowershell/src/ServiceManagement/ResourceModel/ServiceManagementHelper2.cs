@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,7 +27,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     using System.ServiceModel.Web;
     using System.Text;
     using System.Xml;
-    using Samples.WindowsAzure.ServiceManagement;
 
     public static class ServiceManagementHelper2
     {
@@ -126,12 +125,16 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static T CreateServiceManagementChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert)
+        public static T CreateServiceManagementChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert, params IEndpointBehavior[] behaviors)
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(binding, remoteUri);
             factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
             factory.Credentials.ClientCertificate.Certificate = cert;
+            foreach (IEndpointBehavior behavior in behaviors)
+            {
+                factory.Endpoint.Behaviors.Add(behavior);
+            }
 
             var channel = factory.CreateChannel();
             return channel;
@@ -299,6 +302,5 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         public void Validate(ServiceEndpoint endpoint) { }
 
         #endregion
-
     }
 }

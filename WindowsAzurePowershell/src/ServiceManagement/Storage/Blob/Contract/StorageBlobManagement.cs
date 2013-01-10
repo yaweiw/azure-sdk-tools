@@ -12,22 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Management.Automation;
     using System.Text;
 
     /// <summary>
     /// blob management
     /// </summary>
-    internal class StorageBlobManagement : IStorageBlobManagement
+    public class StorageBlobManagement : IStorageBlobManagement
     {
+        /// <summary>
+        /// azure storage blob client
+        /// </summary>
         private CloudBlobClient blobClient;
 
         /// <summary>
@@ -36,11 +39,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="client">a cloud blob object</param>
         public StorageBlobManagement(CloudBlobClient client)
         {
-            if (null == client)
-            {
-                throw new RuntimeException(Resources.CloudBlobClientIsNull);
-            }
-
             blobClient = client;
         }
 
