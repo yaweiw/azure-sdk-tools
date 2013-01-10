@@ -14,7 +14,7 @@
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;

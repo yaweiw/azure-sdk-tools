@@ -41,9 +41,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         [TestInitialize]
         public void InitCommand()
         {
-            command = new GetAzureStorageContainerCommand
+            command = new GetAzureStorageContainerCommand(BlobMock)
             {
-                BlobClient = BlobMock,
                 CommandRuntime = new MockCommandRuntime()
             };
         }
