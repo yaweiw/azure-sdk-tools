@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Util
 {
     using Microsoft.WindowsAzure.Storage;
     using System;
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 null != e.RequestInformation.HttpStatusMessage)
             {
                 String msg = string.Format(
-                    Resources.StorageExceptionDetails,
+                    "Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}",
                     e.Message,
                     e.RequestInformation.HttpStatusCode,
                     e.RequestInformation.HttpStatusMessage);

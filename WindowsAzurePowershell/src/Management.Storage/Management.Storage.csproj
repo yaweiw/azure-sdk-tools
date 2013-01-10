@@ -107,7 +107,6 @@
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\StorageCloudCmdletBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
-    <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -115,7 +114,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\StorageBlobManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management\Management.csproj">
