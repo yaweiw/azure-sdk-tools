@@ -14,8 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -27,13 +26,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// <summary>
     /// base cmdlet for storage blob/container cmdlet
     /// </summary>
-    public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase
+    public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase<IStorageBlobManagement>
     {
-        /// <summary>
-        /// blob client for IStorageBlobManagement
-        /// </summary>
-        internal IStorageBlobManagement BlobClient { get; set; }
-
         /// <summary>
         /// Make sure the pipeline blob is valid and already existing
         /// </summary>
@@ -53,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             ValidatePipelineCloudBlobContainer(blob.Container);
             BlobRequestOptions requestOptions = null;
 
-            if (!BlobClient.IsBlobExists(blob, requestOptions, OperationContext))
+            if (!Channel.IsBlobExists(blob, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
             }
@@ -77,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             BlobRequestOptions requestOptions = null;
 
-            if (!BlobClient.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
             }
@@ -98,18 +92,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// create blob client and storage service management channel if need to.
         /// </summary>
         /// <returns>IStorageManagement object</returns>
-        protected override IStorageManagement CreateChannel()
+        protected override IStorageBlobManagement CreateChannel()
         {
-            if (ShouldInitServiceChannel())
+            //init storage blob managment channel
+            if (Channel == null || !ShareChannel)
             {
-                //set the Channel, so it can be used in GetCloudBlobClient
-                Channel = base.CreateChannel();
-            }
-
-            //init blob client
-            if (BlobClient == null || !ShareChannel)
-            {
-                BlobClient = new StorageBlobManagement(GetCloudBlobClient());
+                Channel = new StorageBlobManagement(GetCloudBlobClient());
             }
 
             return Channel;

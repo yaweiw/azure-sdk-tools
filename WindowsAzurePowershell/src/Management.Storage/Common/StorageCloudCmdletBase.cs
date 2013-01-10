@@ -14,11 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Service;
     using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -34,11 +35,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Net;
     using System.ServiceModel;
     using System.Text;
+    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// base cmdlet for all storage cmdlet that works with cloud
     /// </summary>
-    public class StorageCloudCmdletBase : StorageCmdletBase
+    public class StorageCloudCmdletBase<T> : StorageCmdletBase<T>
+        where T : class
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
@@ -52,6 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (Context != null)
             {
+                WriteVerboseLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
                 return Context.StorageAccount;
             }
             else
@@ -91,16 +95,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <param name="force">force to create a new channel</param>
         protected override void InitChannelCurrentSubscription(bool force)
         {
-            if (ShouldInitServiceChannel())
-            {
-                //force storagecmdletbase to create a service management channel
-                base.InitChannelCurrentSubscription(true);
-            }
-            else
-            {
-                //only create the storage client.
-                CreateChannel();
-            }
+            //create storage management channel
+            CreateChannel();
         }
 
         /// <summary>
@@ -145,6 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         private CloudStorageAccount GetStorageAccountFromSubscription()
         {
             string CurrentStorageAccount = CurrentSubscription.CurrentStorageAccount;
+
             if (string.IsNullOrEmpty(CurrentStorageAccount))
             {
                 throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);
@@ -156,7 +153,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
                 try
                 {
-                    return CurrentSubscription.GetCurrentStorageAccount(Channel);
+                    IServiceManagement serviceChannel = GetServiceManagementChannel();
+                    return CurrentSubscription.GetCurrentStorageAccount(serviceChannel);
                 }
                 catch (CommunicationException e)
                 {
@@ -192,6 +190,35 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 WriteVerboseLog(Resources.GetStorageAccountFromEnvironmentVariable);
                 return CloudStorageAccount.Parse(connectionString);
             }
+        }
+
+        /// <summary>
+        /// get IServiceManagement Channel
+        /// </summary>
+        /// <returns>IServiceManagement Channel</returns>
+        private IServiceManagement GetServiceManagementChannel()
+        {
+            //from CloudBaseCmdlet.CreateChannel
+            if (ServiceBinding == null)
+            {
+                ServiceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
+            }
+
+            if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
+            {
+                ServiceEndpoint = CurrentServiceEndpoint;
+            }
+            else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+            {
+                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
+            }
+            else
+            {
+                // Use default endpoint
+                ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
+            }
+
+            return ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
         }
     }
 }

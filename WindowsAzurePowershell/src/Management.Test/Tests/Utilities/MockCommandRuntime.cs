@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,10 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
     public class MockCommandRuntime : ICommandRuntime
     {
-        public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
-        public List<object> WrittenObjects = new List<object>(); 
-        public StringBuilder WarningOutput = new StringBuilder();
-        public List<string> VerboseChannel = new List<string>();
+        public List<ErrorRecord> ErrorStream = new List<ErrorRecord>();
+        public List<object> OutputPipeline = new List<object>();
+        public List<string> WarningStream = new List<string>();
+        public List<string> VerboseStream = new List<string>();
 
         public override string ToString()
         {
@@ -92,17 +92,17 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteError(ErrorRecord errorRecord)
         {
-            ErrorRecords.Add(errorRecord);
+            ErrorStream.Add(errorRecord);
         }
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteProgress(long sourceId, ProgressRecord progressRecord)
@@ -117,12 +117,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteVerbose(string text)
         {
-            VerboseChannel.Add(text);
+            VerboseStream.Add(text);
         }
 
         public void WriteWarning(string text)
         {
-            this.WarningOutput.AppendLine(text);
+            this.WarningStream.Add(text);
         }
 
         /// <summary>
@@ -130,10 +130,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         /// </summary>
         public void ResetPipelines()
         {
-            ErrorRecords.Clear();
-            WrittenObjects.Clear();
-            WarningOutput.Clear();
-            VerboseChannel.Clear();
+            ErrorStream.Clear();
+            OutputPipeline.Clear();
+            WarningStream.Clear();
+            VerboseStream.Clear();
         }
     }
 }

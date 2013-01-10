@@ -31,14 +31,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public static void Init(this OperationContext operationContext)
         {
             operationContext.StartTime = DateTime.Now;
-            operationContext.ClientRequestID = operationContext.GetClientRequestID();
+            operationContext.ClientRequestID = operationContext.GenClientRequestID();
         }
 
         /// <summary>
         /// get an unique client request id
         /// </summary>
         /// <returns>a unique request id</returns>
-        public static string GetClientRequestID(this OperationContext operationContext)
+        internal static string GenClientRequestID(this OperationContext operationContext)
         {
             string uniqueId = System.Guid.NewGuid().ToString();
             return string.Format(Resources.ClientRequestIdFormat, uniqueId);

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -55,68 +55,6 @@ namespace Microsoft.WindowsAzure.Management.Extensions
             deserializedobj = deserializedobj.Replace("d2p1:", string.Empty);
             powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
             powerShellCmdlet.WriteVerbose(deserializedobj);
-        }
-
-        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
-        public static void SafeWriteVerboseOutputForObject(this PSCmdlet powerShellCmdlet, object obj)
-        {
-            bool verbose = powerShellCmdlet.MyInvocation.BoundParameters.ContainsKey("Verbose") && ((SwitchParameter)powerShellCmdlet.MyInvocation.BoundParameters["Verbose"]).ToBool();
-            if (verbose == false)
-            {
-                return;
-            }
-
-            string deserializedobj;
-            var serializer = new DataContractSerializer(obj.GetType());
-
-            using (var backing = new StringWriter())
-            {
-                using (var writer = new XmlTextWriter(backing))
-                {
-                    writer.Formatting = Formatting.Indented;
-
-                    serializer.WriteObject(writer, obj);
-                    deserializedobj = backing.ToString();
-                }
-            }
-
-            deserializedobj = deserializedobj.Replace("/d2p1:", string.Empty);
-            deserializedobj = deserializedobj.Replace("d2p1:", string.Empty);
-
-            if (powerShellCmdlet.CommandRuntime != null)
-            {
-                powerShellCmdlet.WriteVerbose(powerShellCmdlet.CommandRuntime.ToString());
-                powerShellCmdlet.WriteVerbose(deserializedobj);
-            }
-        }
-
-        public static void SafeWriteObject(this PSCmdlet psCmdlet, object sendToPipeline)
-        {
-            psCmdlet.SafeWriteObject(sendToPipeline, false);
-        }
-
-        public static void SafeWriteObject(this PSCmdlet psCmdlet, object sendToPipeline, bool enumerateCollection)
-        {
-            try
-            {
-                psCmdlet.WriteObject(sendToPipeline, enumerateCollection);
-            }
-            catch (Exception)
-            {
-                // Do nothing
-            }
-        }
-
-        public static void SafeWriteWarning(this PSCmdlet psCmdlet, string text)
-        {
-            try
-            {
-                psCmdlet.WriteWarning(text);
-            }
-            catch (Exception)
-            {
-                Trace.WriteLine(text);
-            }
         }
 
         public static string TryResolvePath(this PSCmdlet psCmdlet, string path)

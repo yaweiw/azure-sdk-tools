@@ -346,4 +346,8 @@
   <data name="InitChannelFromSubscription" xml:space="preserve">
     <value>Init service channel from current subscription</value>
   </data>
+  <data name="UseStorageAccountFromContext" xml:space="preserve">
+    <value>Use storage account '{0}' from storage context</value>
+    <comment>0 for storage account name</comment>
+  </data>
 </root>

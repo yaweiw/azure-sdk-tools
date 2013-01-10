@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -107,11 +107,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             }
         }
         private string _storageAccountName = null;
+
+        public string AffinityGroup
+        {
+            get { return _affinityGroup; }
+            set
+            {
+                if (_shouldValidate)
+                {
+                    Validate.ValidateStringIsNullOrEmpty(value, "AffinityGroup");
+                }
+
+                _affinityGroup = value ?? string.Empty;
+            }
+        }
+        private string _affinityGroup = null;
         
         public ServiceSettings()
         {
             _slot = string.Empty;
             _location = string.Empty;
+            _affinityGroup = string.Empty;
             _subscription = string.Empty;
             _storageAccountName = string.Empty;
         }
@@ -127,7 +143,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return settings;
         }
 
-        public static ServiceSettings LoadDefault(string path, string slot, string location, string subscription, string storageAccountName, string suppliedServiceName, string serviceDefinitionName, out string serviceName)
+        public static ServiceSettings LoadDefault(
+            string path,
+            string slot,
+            string location,
+            string affinityGroup,
+            string subscription,
+            string storageAccountName,
+            string suppliedServiceName,
+            string serviceDefinitionName,
+            out string serviceName)
         {
             ServiceSettings local;
             ServiceSettings defaultServiceSettings = new ServiceSettings();
@@ -147,6 +172,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             defaultServiceSettings._subscription = GetDefaultSubscription(local.Subscription, subscription);
             serviceName = GetServiceName(suppliedServiceName, serviceDefinitionName);
             defaultServiceSettings._storageAccountName = GetDefaultStorageName(local.StorageAccountName, null, storageAccountName, serviceName).ToLower();
+            defaultServiceSettings._affinityGroup = affinityGroup;
 
             return defaultServiceSettings;
         }
