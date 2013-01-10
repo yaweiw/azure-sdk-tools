@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
                 var publishSettingsFile = Data.ValidPublishSettings[i];
 
                 // Prepare
-                new ImportAzurePublishSettingsCommand().ImportSubscriptionProcess(publishSettingsFile, null);
+                new ImportAzurePublishSettingsCommand().ImportSubscriptionFile(publishSettingsFile, null);
                 GlobalComponents globalComponents = GlobalComponents.Load(Data.AzureAppDir);
                 PublishData actualPublishSettings = General.DeserializeXmlFile<PublishData>(Path.Combine(Data.AzureAppDir, Resources.PublishSettingsFileName));
                 PublishData expectedPublishSettings = General.DeserializeXmlFile<PublishData>(publishSettingsFile);

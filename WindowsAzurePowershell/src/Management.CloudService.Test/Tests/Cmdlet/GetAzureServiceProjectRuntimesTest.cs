@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 cmdlet.GetAzureRuntimesProcess(string.Empty, Path.Combine(files.RootPath, serviceName), manifest);
 
-                List<CloudRuntimePackage> actual = mockCommandRuntime.WrittenObjects[0] as List<CloudRuntimePackage>;
+                List<CloudRuntimePackage> actual = mockCommandRuntime.OutputPipeline[0] as List<CloudRuntimePackage>;
 
                 Assert.AreEqual<int>(expected.Count, actual.Count);
                 Assert.IsTrue(expected.All<CloudRuntimePackage>( p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));

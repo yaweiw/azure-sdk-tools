@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,12 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
+    using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using Management.Services;
-    using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.CloudService.Test;
+    using Microsoft.WindowsAzure.Management.Cmdlets;
+    using Microsoft.WindowsAzure.Management.Websites.Properties;
     using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -53,9 +55,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
             };
 
-            getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
-            var sites = (IEnumerable<Site>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.FirstOrDefault();
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+            var sites = (IEnumerable<Site>)((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.IsNotNull(sites);
             Assert.IsTrue(sites.Any(website => (website).Name.Equals("website1") && (website).WebSpace.Equals("webspace1")));
             Assert.IsTrue(sites.Any(website => (website).Name.Equals("website2") && (website).WebSpace.Equals("webspace2")));
@@ -109,15 +111,74 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 Name = "website1"
             };
 
-            getAzureWebsiteCommand.ExecuteCommand();
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).WrittenObjects.Count);
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
 
-            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).WrittenObjects[0] as SiteWithConfig;
+            var website = ((MockCommandRuntime) getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
             Assert.IsNotNull(website);
             Assert.IsNotNull(website);
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);
             Assert.AreEqual("user1", website.PublishingUsername);
+
+            // Run with mixed casing
+            getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
+                Name = "WEBSiTe1"
+            };
+
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+
+            website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
+            Assert.IsNotNull(website);
+            Assert.IsNotNull(website);
+            Assert.AreEqual("website1", website.Name);
+            Assert.AreEqual("webspace1", website.WebSpace);
+            Assert.AreEqual("user1", website.PublishingUsername);
+        }
+
+        [TestMethod]
+        public void ProcessGetWebsiteWithNullSubscription()
+        {
+            // Setup
+            GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
+                GlobalPathInfo.GlobalSettingsDirectory,
+                null,
+                Microsoft.WindowsAzure.Management.CloudService.Test.TestData.Data.ValidPublishSettings[0]);
+            RemoveAzureSubscriptionCommand removeCmdlet = new RemoveAzureSubscriptionCommand();
+            removeCmdlet.CommandRuntime = new MockCommandRuntime();
+            ICollection<string> subscriptions = globalComponents.Subscriptions.Keys;
+
+            foreach (string subscription in subscriptions)
+            {
+                removeCmdlet.RemoveSubscriptionProcess(subscription ,null);
+            }
+
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSitesThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                }
+
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+            };
+
+            // Test
+            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = null
+            };
+
+            Testing.AssertThrows<Exception>(() => getAzureWebsiteCommand.ExecuteCmdlet(), Resources.NoDefaultSubscriptionMessage);
         }
     }
 }

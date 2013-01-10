@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -42,12 +42,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             setServiceProjectCmdlet = new SetAzureServiceProjectCommand();
             setServiceProjectCmdlet.CommandRuntime = mockCommandRuntime;
+            setServiceProjectCmdlet.PassThru = true;
         }
 
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
-            int counter = 0;
             foreach (string item in Data.ValidSubscriptionNames)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
@@ -57,14 +57,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                     ServiceSettings settings = new ServiceSettings();
                     settings.Save(paths.Settings);
+                    setServiceProjectCmdlet.PassThru = false;
 
                     settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(null, null, null, item, paths.Settings);
 
                     // Assert subscription is changed
                     //
                     Assert.AreEqual<string>(item, settings.Subscription);
-                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[counter++] as ServiceSettings;
-                    Assert.AreEqual<string>(item, actualOutput.Subscription);
+                    Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     // Assert location is changed
                     //
                     Assert.AreEqual<string>(item.Value, settings.Location);
-                    ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
+                    ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
                     Assert.AreEqual<string>(item.Value, settings.Location);
                 }
             }
@@ -158,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 // Assert storageAccountName is changed
                 //
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
-                ServiceSettings actualOutput = mockCommandRuntime.WrittenObjects[0] as ServiceSettings;
+                ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
                 Assert.AreEqual<string>("companystore", settings.StorageAccountName);
             }
         }

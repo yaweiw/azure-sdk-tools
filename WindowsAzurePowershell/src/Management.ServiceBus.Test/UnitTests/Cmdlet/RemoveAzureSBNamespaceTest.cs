@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             SimpleServiceManagement channel = new SimpleServiceManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
-            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
+            RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime, PassThru = true };
             bool deleted = false;
             string expectedVerbose = string.Format(Resources.RemovingNamespaceMessage, name);
             channel.DeleteServiceBusNamespaceThunk = dsbn => { deleted = true; };
@@ -49,9 +49,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            string actual = mockCommandRuntime.VerboseChannel[0] as string;
+            string actual = mockCommandRuntime.VerboseStream[0] as string;
             Assert.IsTrue(deleted);
             Assert.AreEqual<string>(expectedVerbose, actual);
+            Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
         }
 
         [TestMethod]
@@ -70,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
                 cmdlet.ExecuteCmdlet();
 
                 // Assert
-                ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
+                ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
                 Assert.AreEqual<string>(expected.Message, actual.Exception.Message);
             }
         }
@@ -90,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord actual = mockCommandRuntime.ErrorRecords[0];
+            ErrorRecord actual = mockCommandRuntime.ErrorStream[0];
             Assert.AreEqual<string>(expected, actual.Exception.Message);
         }
     }

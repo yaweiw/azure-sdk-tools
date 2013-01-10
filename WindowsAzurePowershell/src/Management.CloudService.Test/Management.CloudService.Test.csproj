@@ -77,10 +77,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
@@ -108,6 +104,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tests\Cmdlet\AddAzureWebRoleTests.cs" />
+    <Compile Include="Tests\Cmdlet\AddAzureWorkerRoleTests.cs" />
+    <Compile Include="Tests\Cmdlet\NewAzureRoleTemplateTests.cs" />
+    <Compile Include="Tests\Cmdlet\SetAzureVMSizeTests.cs" />
+    <Compile Include="Tests\Cmdlet\SaveAzureServiceProjectPackageTests.cs" />
+    <Compile Include="Tests\ScenarioTest.cs" />
     <Compile Include="TestData\AzureServiceWrapper.cs" />
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
@@ -129,7 +131,7 @@
     <Compile Include="Tests\Model\DeploymentStatusManagerTests.cs" />
     <Compile Include="Tests\Model\ServiceComponentsTests.cs" />
     <Compile Include="Tests\Model\ServicePathInfoTests.cs" />
-    <Compile Include="Tests\PHP\Cmdlet\AddAzureWebWorkerRoleTests.cs" />
+    <Compile Include="Tests\PHP\Cmdlet\AddAzurePHPWorkerRoleTests.cs" />
     <Compile Include="Tests\PHP\Cmdlet\AddAzurePHPWebRoleTests.cs" />
     <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
@@ -148,7 +150,63 @@
     <Compile Include="Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\TemplateMissingScaffoldXml\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TemplateMissingScaffoldXml\WorkerRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWorkerTemplateFolder\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWorkerTemplateFolder\Scaffold.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWorkerTemplateFolder\WorkerRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\RoleSettings.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\Scaffold.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\hello.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\WebRole.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\ComplexCachingTest.ps1" />
+    <Content Include="Resources\MyWorkerTemplateFolder\good_bat_file.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWorkerTemplateFolder\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWorkerTemplateFolder\helper_stuff.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TemplateMissingScaffoldXml\good_bat_file.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TemplateMissingScaffoldXml\helper_stuff.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TemplateMissingScaffoldXml\setup_worker.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\web.cloud.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MyWebTemplateFolder\Web.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Test References\AzureDeploymentTool.accessor" />
   </ItemGroup>
   <ItemGroup>

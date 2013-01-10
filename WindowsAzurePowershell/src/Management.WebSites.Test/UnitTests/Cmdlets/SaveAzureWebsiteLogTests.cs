@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
             
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
-            getAzureWebsiteLogCommand.ExecuteCommand();
+            getAzureWebsiteLogCommand.ExecuteCmdlet();
             Assert.AreEqual("test", File.ReadAllText(SaveAzureWebsiteLogCommand.DefaultOutput));
         }
 
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
-            getAzureWebsiteLogCommand.ExecuteCommand();
+            getAzureWebsiteLogCommand.ExecuteCmdlet();
             Assert.AreEqual("test with no extnsion", File.ReadAllText(expectedOutput));
         }
     }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             foreach (var webspace in webspaces)
             {
                 var websites = proxy.GetSites(subscriptionId, webspace.Name, propertiesToInclude);
-                var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website));
+                var matchWebsite = websites.FirstOrDefault(w => w.Name.Equals(website, System.StringComparison.InvariantCultureIgnoreCase));
                 if (matchWebsite != null)
                 {
                     return matchWebsite;

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -425,18 +425,34 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
             return obj;
         }
 
-        public static ServiceSettings GetDefaultSettings(string rootPath, string inServiceName, string slot, string location, string storageName, string subscription, out string serviceName)
+        public static ServiceSettings GetDefaultSettings(
+            string rootPath,
+            string inServiceName,
+            string slot,
+            string location,
+            string affinityGroup,
+            string storageName,
+            string subscription,
+            out string serviceName)
         {
             ServiceSettings serviceSettings;
 
             if (string.IsNullOrEmpty(rootPath))
             {
-                serviceSettings = ServiceSettings.LoadDefault(null, slot, location, subscription, storageName, inServiceName, null, out serviceName);
+                serviceSettings = ServiceSettings.LoadDefault(null, slot, location, affinityGroup, subscription, storageName, inServiceName, null, out serviceName);
             }
             else
             {
-                serviceSettings = ServiceSettings.LoadDefault(new AzureService(rootPath, null).Paths.Settings,
-                slot, location, subscription, storageName, inServiceName, new AzureService(rootPath, null).ServiceName, out serviceName);
+                serviceSettings = ServiceSettings.LoadDefault(
+                    new AzureService(rootPath, null).Paths.Settings,
+                    slot,
+                    location,
+                    affinityGroup,
+                    subscription,
+                    storageName,
+                    inServiceName,
+                    new AzureService(rootPath, null).ServiceName,
+                    out serviceName);
             }
 
             return serviceSettings;

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -71,7 +71,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = General.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, subscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(
+                rootPath,
+                inServiceName,
+                inSlot,
+                null,
+                null,
+                null,
+                subscription,
+                out serviceName);
+
             slot = settings.Slot;
         }
 
@@ -87,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 // If we reach here that means the service or slot doesn't exist
                 //
-                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, serviceName, slot));
+                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName));
             }
 
             return deployment.Status;
