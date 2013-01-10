@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
@@ -37,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The role name to edit
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string RoleName { get; set; }
 
         /// <summary>
@@ -134,17 +135,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
+            string rootPath = GetServiceRootPath();
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
+                this.SetAzureInstancesProcess(RoleName, Instances, rootPath);
             }
             else if (string.Equals(this.ParameterSetName, VMSizeParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                this.SetAzureVMSizeProcess(RoleName, VMSize, base.GetServiceRootPath());
+                this.SetAzureVMSizeProcess(RoleName, VMSize, rootPath);
             }
             else
             {
-                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
+                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, rootPath);
             }
         }
     }
