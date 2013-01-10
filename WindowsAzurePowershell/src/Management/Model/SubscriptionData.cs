@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
+    using System.ServiceModel.Channels;
     using Microsoft.WindowsAzure.Storage;
     using Samples.WindowsAzure.ServiceManagement;
     using Utilities;
@@ -38,6 +39,21 @@ namespace Microsoft.WindowsAzure.Management.Model
         public string CurrentStorageAccount { get; set; }
 
         public bool IsDefault { get; set; }
+
+        /// <summary>
+        /// Gets current storage account using current subscription.
+        /// </summary>
+        /// <returns>The current storage account</returns>
+        public CloudStorageAccount GetCurrentStorageAccount()
+        {
+            Binding serviceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(0);
+            string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
+                Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint :
+                ServiceEndpoint;
+            IServiceManagement channel = ServiceManagementHelper2.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
+
+            return GetCurrentStorageAccount(channel);
+        }
 
         public CloudStorageAccount GetCurrentStorageAccount(IServiceManagement channel)
         {

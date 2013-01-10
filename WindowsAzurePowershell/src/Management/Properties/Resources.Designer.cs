@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
+        ///   Looks up a localized string similar to Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders..
         /// </summary>
         internal static string CannotFindServiceRoot {
             get {
