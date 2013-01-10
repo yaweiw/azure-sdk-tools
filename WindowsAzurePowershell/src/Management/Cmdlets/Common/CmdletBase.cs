@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
             if (found)
             {
-                return path; //return it
+                return path;
             }
 
             // Find the last slash
