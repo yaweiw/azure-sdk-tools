@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -48,6 +49,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private bool force = false;
 
         /// <summary>
+        /// Initializes a new instance of the RemoveAzureStorageContainerCommand class.
+        /// </summary>
+        public RemoveAzureStorageContainerCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the RemoveAzureStorageContainerCommand class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public RemoveAzureStorageContainerCommand(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
+        /// <summary>
         /// confirm the remove operation
         /// </summary>
         /// <param name="message">confirmation message</param>
@@ -73,9 +91,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             BlobRequestOptions reqesutOptions = null;
             AccessCondition accessCondition = null;
 
-            CloudBlobContainer container = BlobClient.GetContainerReference(name);
+            CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!BlobClient.IsContainerExists(container, reqesutOptions, OperationContext))
+            if (!Channel.IsContainerExists(container, reqesutOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
@@ -84,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (force || ConfirmRemove(name))
             {
-                BlobClient.DeleteContainer(container, accessCondition, reqesutOptions, OperationContext);
+                Channel.DeleteContainer(container, accessCondition, reqesutOptions, OperationContext);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
             }
             else

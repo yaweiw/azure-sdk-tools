@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -50,6 +51,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
         private string accessLevel = StorageNouns.ContainerAclOff;
 
         /// <summary>
+        /// Initializes a new instance of the SetAzureStorageContainerAclCommand class.
+        /// </summary>
+        public SetAzureStorageContainerAclCommand()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SetAzureStorageContainerAclCommand class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public SetAzureStorageContainerAclCommand(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
+        /// <summary>
         /// set the access level of specified container
         /// </summary>
         /// <param name="name">container name</param>
@@ -82,14 +100,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             BlobRequestOptions requestOptions = null;
             AccessCondition accessCondition = null;
 
-            CloudBlobContainer container = BlobClient.GetContainerReference(name);
+            CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!BlobClient.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
 
-            BlobClient.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
+            Channel.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
             AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
 
             WriteObjectWithStorageContext(azureContainer);
