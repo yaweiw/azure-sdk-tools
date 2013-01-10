@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -38,11 +40,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         [TestInitialize]
         public void InitCommand()
         {
-            command = new FakeRemoveAzureContainerCommand
-            {
-                BlobClient = BlobMock,
-                CommandRuntime = new MockCommandRuntime()
-            };
+            command = new FakeRemoveAzureContainerCommand(BlobMock)
+                {
+                    CommandRuntime = new MockCommandRuntime()
+                };
         }
 
         [TestCleanup]
@@ -75,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             string name = "test";
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.RemoveAzureContainer(name);
-            string result = (string)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
+            string result = (string)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(String.Format(Resources.RemoveContainerCancelled, name), result);
         }
 
@@ -89,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.confirm = true;
             command.RemoveAzureContainer(name);
-            string result = (string)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
+            string result = (string)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);
 
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
@@ -97,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             command.Force = true;
             command.confirm = false;
             command.RemoveAzureContainer(name);
-            result = (string)((MockCommandRuntime)command.CommandRuntime).WrittenObjects.FirstOrDefault();
+            result = (string)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(String.Format(Resources.RemoveContainerSuccessfully, name), result);            
         }
 
@@ -113,6 +114,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 
     internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
     {
+
+        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
+            : base(channel)
+        { 
+        }
+
         public bool confirm = false;
 
         internal override bool ConfirmRemove(string message)
