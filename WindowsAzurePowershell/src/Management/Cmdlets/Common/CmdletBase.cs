@@ -16,12 +16,50 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
     using System.Management.Automation;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Properties;
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {
-        protected string GetServiceRootPath() { return PathUtility.FindServiceRootDirectory(CurrentPath()); }
+        public string GetServiceRootPath()
+        {
+            // Get the service path
+            var servicePath = FindServiceRootDirectory(CurrentPath());
+
+            // Was the service path found?
+            if (servicePath == null)
+            {
+                throw new InvalidOperationException(Resources.CannotFindServiceRoot);
+            }
+
+            return servicePath;
+        }
+
+        public string FindServiceRootDirectory(string path)
+        {
+            // Is the csdef file present in the folder
+            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
+
+            if (found)
+            {
+                return path;
+            }
+
+            // Find the last slash
+            int slash = path.LastIndexOf('\\');
+            if (slash > 0)
+            {
+                // Slash found trim off the last path
+                path = path.Substring(0, slash);
+
+                // Recurse
+                return FindServiceRootDirectory(path);
+            }
+
+            // Couldn't locate the service root, exit
+            return null;
+        }
 
         protected string CurrentPath()
         {
@@ -61,10 +99,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected PSObject ConstructPSObject(string typeName, params object[] args)
         {
             Debug.Assert(args.Length % 2 == 0, "The parameter args length must be even number");
-            Debug.Assert(!string.IsNullOrEmpty(typeName), "typeName can't be null or empty");
 
             PSObject outputObject = new PSObject();
-            outputObject.TypeNames.Add(typeName);
+
+            if (!string.IsNullOrEmpty(typeName))
+            {
+                outputObject.TypeNames.Add(typeName);
+            }
 
             for (int i = 0; i <= args.Length / 2; i += 2)
             {

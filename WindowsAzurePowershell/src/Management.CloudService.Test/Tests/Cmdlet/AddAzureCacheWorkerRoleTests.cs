@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
                 RoleSettings cacheRoleSettings = Testing.GetRole(rootPath, roleName);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
+                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
 
                 AzureAssert.WorkerRoleImportsExists(new Import { moduleName = Resources.CachingModuleName }, cacheWorkerRole);
 
@@ -98,6 +98,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 {
                     Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
                 }
+            }
+        }
+
+        [TestMethod]
+        public void AddNewCacheWorkerRoleDoesNotHaveAnyRuntime()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string rootPath = Path.Combine(files.RootPath, "AzureService");
+                string roleName = "WorkerRole";
+                int expectedInstanceCount = 10;
+                newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
+                
+                WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
+
+                Variable runtimeId = Array.Find<Variable>(cacheWorkerRole.Startup.Task[0].Environment, v => v.name.Equals(Resources.RuntimeTypeKey));
+                Assert.AreEqual<string>(string.Empty, runtimeId.value);
             }
         }
     }

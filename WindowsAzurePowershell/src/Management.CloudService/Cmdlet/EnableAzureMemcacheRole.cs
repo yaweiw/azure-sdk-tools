@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The role name to edit.
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("rn")]
         [ValidateNotNullOrEmpty]
         public string RoleName { get; set; }
@@ -59,10 +59,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        /// <summary>
+        /// Cache runtime version
+        /// </summary>
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("cv")]
+        public string CacheRuntimeVersion { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
+            string rootPath = GetServiceRootPath();
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
             EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
         }
 
@@ -90,6 +99,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (!IsCacheWorkerRole(cacheWorkerRole))
             {
                 throw new Exception(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
+            }
+
+            // Verify that user is not trying to enable cache on a cache worker role.
+            if (roleName.Equals(cacheWorkerRole))
+            {
+                throw new Exception(string.Format(Resources.InvalidCacheRoleName, roleName));
             }
 
             // Verify role to enable cache on exists
@@ -129,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="webRole">The web role to enable caching one</param>
         private void EnableMemcache(string roleName, string cacheWorkerRoleName, ref string message, ref AzureService azureService)
         {
-            string currentVersion = new AzureTool().AzureSdkVersion;
+            string currentVersion = string.IsNullOrEmpty(CacheRuntimeVersion) ? new AzureTool().AzureSdkVersion : CacheRuntimeVersion;
 
             // Add MemcacheShim runtime installation.
             azureService.AddRoleRuntime(azureService.Paths, roleName, Resources.CacheRuntimeValue, currentVersion);
