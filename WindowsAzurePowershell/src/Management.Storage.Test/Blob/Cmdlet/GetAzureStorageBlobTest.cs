@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
@@ -46,72 +47,107 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         }
 
         [TestMethod]
-        public void ListBlobsByNameTest()
+        public void GetCloudBlobContainerByNameWithInvalidNameTest()
         {
-            string containerName = string.Empty;
-            string blobName = string.Empty;
-            AssertThrows<ArgumentException>(() => command.ListBlobsByName(containerName, blobName), 
-                String.Format(Resources.InvalidContainerName, containerName));
+            string name = string.Empty;
+            AssertThrows<ArgumentException>(() => command.GetCloudBlobContainerByName(name),
+                String.Format(Resources.InvalidContainerName, name));
 
-            containerName = "test";
-            AssertThrows<ArgumentException>(() => command.ListBlobsByName(containerName, blobName),
-                String.Format(Resources.ContainerNotFound, containerName));
+            name = "a";
+            AssertThrows<ArgumentException>(() => command.GetCloudBlobContainerByName(name),
+                String.Format(Resources.InvalidContainerName, name));
 
-            AddTestContainers();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "test";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "test";
-            blobName = "*";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-
-            AddTestBlobs();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container0";
-            blobName = "";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            blobName = "blob0";
-            AssertThrows<ResourceNotFoundException>(() => command.ListBlobsByName(containerName, blobName), 
-                String.Format(Resources.BlobNotFound, blobName, containerName));
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container1";
-            blobName = "blob0";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            AzureStorageBlob blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
-            Assert.AreEqual("blob0", blob.Name);
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container1";
-            blobName = "blob*";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
-            Assert.AreEqual("blob0", blob.Name);
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container20";
-            blobName = "*1?";
-            command.ListBlobsByName(containerName, blobName);
-            Assert.AreEqual(10, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
-            Assert.IsTrue(blob.Name.StartsWith("blob1") && blob.Name.Length == "blob1".Length + 1);
-
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container20";
-            blobName = new String('a', 1025);
-            AssertThrows<ArgumentException>(() => command.ListBlobsByName(containerName, blobName),
-                String.Format(Resources.InValidBlobName, blobName));
+            name = "abcde*-";
+            AssertThrows<ArgumentException>(() => command.GetCloudBlobContainerByName(name),
+                String.Format(Resources.InvalidContainerName, name));
         }
 
         [TestMethod]
-        public void ListBlobsByPrefixTest()
+        public void GetCloudBlobContainerByNameWithNoExistsContianerTest()
+        {
+            string name = "test";
+            AssertThrows<ArgumentException>(() => command.GetCloudBlobContainerByName(name),
+                String.Format(Resources.ContainerNotFound, name));
+        }
+
+        [TestMethod]
+        public void GetCloudBlobContainerByNameSuccessfullyTest()
+        {
+            AddTestContainers();
+
+            string name = "test";
+            CloudBlobContainer container = command.GetCloudBlobContainerByName(name);
+            Assert.AreEqual(name, container.Name);
+        }
+
+        [TestMethod]
+        public void ListBlobsByNameWithEmptyContainerTest()
+        {
+            AddTestContainers();
+
+            string containerName = "test";
+            string blobName = "";
+            List<IListBlobItem> blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(0, blobList.Count);
+
+            containerName = "test";
+            blobName = "*";
+            blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(0, blobList.Count);
+
+            containerName = "test";
+            blobName = "blob";
+            AssertThrows<ResourceNotFoundException>(()=> command.ListBlobsByName(containerName, blobName).ToList(),
+                String.Format(Resources.BlobNotFound, blobName, containerName));
+        }
+
+        [TestMethod]
+        public void ListBlobsByNameWithInvalidBlobNameTest()
+        {
+            AddTestContainers();
+            string containerName = "test";
+            string blobName = new String('a', 1025);
+            AssertThrows<ArgumentException>(() => command.ListBlobsByName(containerName, blobName).ToList(),
+                String.Format(Resources.InvalidBlobName, blobName));
+        }
+
+        [TestMethod]
+        public void ListBlobsByNameWithWildCardTest()
+        {
+            AddTestBlobs();
+
+            string containerName = "container1";
+            string blobName = "blob*";
+            List<IListBlobItem> blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(1, blobList.Count);
+            Assert.AreEqual("blob0", ((ICloudBlob)blobList[0]).Name);
+
+            containerName = "container20";
+            blobName = "*1?";
+            blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(10, blobList.Count);
+            ICloudBlob blob = (ICloudBlob)blobList[0];
+            Assert.IsTrue(blob.Name.StartsWith("blob1") && blob.Name.Length == "blob1".Length + 1);
+        }
+
+        [TestMethod]
+        public void ListBlobsByNameSuccessfullyTest()
+        {
+            AddTestBlobs();
+            string containerName = "container1";
+            string blobName = "blob0";
+            List<IListBlobItem> blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(1, blobList.Count);
+            Assert.AreEqual("blob0", ((ICloudBlob)blobList[0]).Name);
+
+            containerName = "container20";
+            blobName = String.Empty;
+            blobList = command.ListBlobsByName(containerName, blobName).ToList();
+            Assert.AreEqual(20, blobList.Count);
+        }
+
+        [TestMethod]
+        public void ListBlobsByPrefixWithInvalidPrefixTest()
         {
             string containerName = string.Empty;
             string prefix = string.Empty;
@@ -121,41 +157,54 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             containerName = "test";
             AssertThrows<ArgumentException>(() => command.ListBlobsByPrefix(containerName, prefix),
                 String.Format(Resources.ContainerNotFound, containerName));
+        }
 
+        [TestMethod]
+        public void ListBlobsByPrefixWithEmptyContainerTest()
+        {
+            AddTestContainers();
+            string containerName = "test";
+            string prefix = "1";
+
+            List<IListBlobItem> blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(0, blobList.Count);
+        }
+
+        [TestMethod]
+        public void ListBlobsByPrefixSuccessfullyTest()
+        {
             AddTestBlobs();
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            containerName = "container0";
-            prefix = "blob";
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            
+            string containerName = "container0";
+            string prefix = "blob";
+            List<IListBlobItem> blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(0, blobList.Count);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             containerName = "container1";
             prefix = "blob";
-            command.ListBlobsByPrefix(containerName, prefix);
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            AzureStorageBlob blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(1, blobList.Count);
+            ICloudBlob blob = (ICloudBlob)blobList[0];
             Assert.AreEqual("blob0", blob.Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             containerName = "container1";
             prefix = "blob0";
-            command.ListBlobsByPrefix(containerName, prefix);
-            Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(1, blobList.Count);
+            blob = (ICloudBlob) blobList[0];
             Assert.AreEqual("blob0", blob.Name);
 
-            ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             containerName = "container1";
             prefix = "blob01";
-            command.ListBlobsByPrefix(containerName, prefix);
-            Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
+            blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(0, blobList.Count);
 
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             containerName = "container20";
             prefix = "blob1";
-            command.ListBlobsByPrefix(containerName, prefix);
-            Assert.AreEqual(11, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-            blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            blobList = command.ListBlobsByPrefix(containerName, prefix).ToList();
+            Assert.AreEqual(11, blobList.Count);
+            blob = (ICloudBlob) blobList[0];
             Assert.IsTrue(blob.Name.StartsWith("blob1"));
         }
 
@@ -173,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             Assert.AreEqual(0, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
 
             AddTestBlobs();
-            blobList = blobMock.containerBlobs["container20"];
+            blobList = BlobMock.ContainerBlobs["container20"];
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.WriteBlobsWithContext(blobList);
             Assert.AreEqual(20, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
@@ -187,7 +236,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.Container = "container1";
             command.Blob = "blob*";
-            command.ExecuteCommand();
+            command.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
             AzureStorageBlob blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual("blob0", blob.Name);
@@ -195,7 +244,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.Container = "container20";
             command.Blob = "blob12";
-            command.ExecuteCommand();
+            command.ExecuteCmdlet();
             Assert.AreEqual(1, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
             blob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual("blob12", blob.Name);
@@ -203,10 +252,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             command.Container = "container20";
             command.Blob = "*";
-            command.ExecuteCommand();
+            command.ExecuteCmdlet();
             Assert.AreEqual(20, ((MockCommandRuntime)command.CommandRuntime).OutputPipeline.Count);
-
-            //FIXME how to set the parametersetname to BlobPrefix;
         }
     }
 }
