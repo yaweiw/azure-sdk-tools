@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
+    using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
 
     [TestClass]
     public class EnableAzureMemcacheRoleTests : TestBase
@@ -293,7 +294,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             Assert.AreEqual<string>("/RoleEnvironment/Deployment/@emulated", webRole.Startup.Task[1].Environment[0].RoleInstanceValue.xpath);
             
             Assert.AreEqual<string>(Resources.CacheRuntimeUrl, webRole.Startup.Task[1].Environment[1].name);
-            Assert.AreEqual<string>("http://nodertncu.blob.core.windows.net/cache/1.8.0.exe", webRole.Startup.Task[1].Environment[1].value);
+            Assert.AreEqual<string>(TestResources.CacheRuntimeUrl, webRole.Startup.Task[1].Environment[1].value);
             
 
             AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
