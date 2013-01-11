@@ -71,8 +71,10 @@ foreach($singleUrl in $url -split ";")
     {
        cd $downloaddir
        Start-Process -FilePath $final -ArgumentList -y -Wait
+	   Start-Sleep -s 5
        $cmd = $downloaddir + "\setup.cmd"
        Start-Process -FilePath $cmd  -Wait
+	   Start-Sleep -s 5
     }
     else
     {

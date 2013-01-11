@@ -2,7 +2,6 @@
 
 cd /d "%~dp0"
 
-if "%EMULATED%"=="true" if DEFINED APPCMD goto emulator_setup
 if "%EMULATED%"== "true" exit /b 0
 
 echo Granting permissions for Network Service to the web root directory...
