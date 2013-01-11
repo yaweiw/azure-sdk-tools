@@ -66,10 +66,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [Alias("cv")]
         public string CacheRuntimeVersion { get; set; }
 
-        public EnableAzureMemcacheRoleCommand ()
-	    {
+        public EnableAzureMemcacheRoleCommand()
+        {
             CacheRuntimeVersion = new AzureTool().AzureSdkVersion;
-	    }
+        }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -240,7 +240,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     break;
 
                 default:
-                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported, 
+                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported,
                         Resources.MinSupportAzureSdkVersion, Resources.MaxSupportAzureSdkVersion));
             }
         }
@@ -279,8 +279,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     roleName, new Dictionary<string, object>());
 
                 // Adjust web.config to enable auto discovery for the caching role.
-                string webCloudConfigPath = string.Format(@"{0}\{1}\{2}", azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
-                string webConfigPath = string.Format(@"{0}\{1}\{2}", azureService.Paths.RootPath, roleName, Resources.WebConfigTemplateFileName);
+                string webCloudConfigPath = Path.Combine(azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
+                string webConfigPath = Path.Combine(azureService.Paths.RootPath, roleName, Resources.WebConfigTemplateFileName);
 
                 UpdateWebConfig(roleName, cacheWorkerRole, webCloudConfigPath);
                 UpdateWebConfig(roleName, cacheWorkerRole, webConfigPath);
