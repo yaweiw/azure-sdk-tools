@@ -286,4 +286,16 @@
   <data name="NoPublishSettingsFilesFoundMessage" xml:space="preserve">
     <value>No publish settings files with extension *.publishsettings are found in the directory "{0}".</value>
   </data>
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing without ParameterSet.</value>
+    <comment>0 for cmdlet name.</comment>
+  </data>
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing with ParameterSet '{1}'</value>
+    <comment>0 for cmdlet name. 1 for parameter set name.</comment>
+  </data>
+  <data name="EndProcessingLog" xml:space="preserve">
+    <value>{0} end processing.</value>
+    <comment>0 for cmdlet name.</comment>
+  </data>
 </root>
