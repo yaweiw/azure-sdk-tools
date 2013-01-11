@@ -63,11 +63,9 @@ foreach($singleUrl in $url -split ";")
     if (Test-Path -LiteralPath $final)
     {
        cd $downloaddir
-       Start-Process -FilePath $final -ArgumentList -y -Wait
-	   Start-Sleep -s 5
+       cmd.exe /c $final -y
        $cmd = $downloaddir + "\setup.cmd"
-       Start-Process -FilePath $cmd  -Wait
-	   Start-Sleep -s 5
+       cmd.exe /c $cmd
     }
     else
     {
