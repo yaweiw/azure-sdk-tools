@@ -194,10 +194,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// </summary>
         /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The role settings object</returns>
-        internal static RoleSettings GetRole(string rootPath, string name)
+        internal static RoleSettings GetCloudRole(string rootPath, string name)
         {
             AzureService service = new AzureService(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
+        }
+
+        /// <summary>
+        /// Gets the role settings object from local service configuration.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The role settings object</returns>
+        internal static RoleSettings GetLocalRole(string rootPath, string name)
+        {
+            AzureService service = new AzureService(rootPath, null);
+            return service.Components.GetLocalConfigRole(name);
         }
 
         /// <summary>
