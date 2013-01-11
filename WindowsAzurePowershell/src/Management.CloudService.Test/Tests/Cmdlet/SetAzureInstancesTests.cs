@@ -20,9 +20,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using ManagementResources = Microsoft.WindowsAzure.Management.Properties.Resources;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using System.IO;
 
     [TestClass]
     public class SetAzureInstancesTests : TestBase
@@ -220,6 +222,48 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 Assert.AreEqual<string>(roleName, roleSettings.name);
 
             }
+        }
+
+        [TestMethod]
+        public void SetAzureServiceProjectRoleWithoutPassingRoleName()
+        {
+            string originalDirectory = Directory.GetCurrentDirectory();
+            string serviceName = "AzureService1";
+            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+            Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1"));
+            cmdlet.RoleName = string.Empty;
+            cmdlet.ExecuteCmdlet();
+            service = new AzureService(service.Paths.RootPath, null);
+
+            Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
+            Directory.SetCurrentDirectory(originalDirectory);
+        }
+
+        [TestMethod]
+        public void SetAzureServiceProjectRoleInDeepDirectory()
+        {
+            string originalDirectory = Directory.GetCurrentDirectory();
+            string serviceName = "AzureService2";
+            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+            Directory.SetCurrentDirectory(Path.Combine(service.Paths.RootPath, "WebRole1", "bin"));
+            cmdlet.RoleName = string.Empty;
+            cmdlet.ExecuteCmdlet();
+            service = new AzureService(service.Paths.RootPath, null);
+
+            Assert.AreEqual<string>("WebRole1", cmdlet.RoleName);
+            Directory.SetCurrentDirectory(originalDirectory);
+        }
+
+        [TestMethod]
+        public void SetAzureServiceProjectRoleInServiecRootDirectoryFail()
+        {
+            string serviceName = "AzureService3";
+            AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
+            service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+            cmdlet.RoleName = string.Empty;
+            Testing.AssertThrows<InvalidOperationException>(() => cmdlet.ExecuteCmdlet(), ManagementResources.CannotFindServiceRoot);
         }
     }
 }

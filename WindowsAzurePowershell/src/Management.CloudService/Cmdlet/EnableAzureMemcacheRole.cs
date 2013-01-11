@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The role name to edit.
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("rn")]
         [ValidateNotNullOrEmpty]
         public string RoleName { get; set; }
@@ -69,7 +69,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
+            string rootPath = GetServiceRootPath();
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
             EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
         }
 
@@ -97,6 +99,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (!IsCacheWorkerRole(cacheWorkerRole))
             {
                 throw new Exception(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
+            }
+
+            // Verify that user is not trying to enable cache on a cache worker role.
+            if (roleName.Equals(cacheWorkerRole))
+            {
+                throw new Exception(string.Format(Resources.InvalidCacheRoleName, roleName));
             }
 
             // Verify role to enable cache on exists
