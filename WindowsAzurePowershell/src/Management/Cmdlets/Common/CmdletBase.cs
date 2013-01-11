@@ -138,5 +138,33 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 WriteExceptionError(ex);
             }
         }
+
+        /// <summary>
+        /// cmdlet begin process
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            if (string.IsNullOrEmpty(ParameterSetName))
+            {
+                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+            }
+            else
+            {
+                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+            }
+
+            base.BeginProcessing();
+        }
+
+        /// <summary>
+        /// end processing
+        /// </summary>
+        protected override void EndProcessing()
+        {
+            string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
+            WriteVerboseWithTimestamp(message);
+
+            base.EndProcessing();
+        }
     }
 }
