@@ -14,30 +14,47 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob
 {
+    using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using System.Security.Permissions;
+    using System.Text;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureStorageBlob", DefaultParameterSetName = "ContainerBlobNameManual")]
+    [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet),
+        OutputType(typeof(AzureStorageBlob))]
     public class RemoveStorageAzureBlobCommand : StorageCloudBlobCmdletBase
     {
+        /// <summary>
+        /// Blob Pipeline parameter set name
+        /// </summary>
+        private const string BlobPipelineParameterSet = "BlobPipeline";
+
+        /// <summary>
+        /// container pipeline paremeter set name
+        /// </summary>
+        private const string ContainerPipelineParmeterSet = "ContainerPipeline";
+
+        /// <summary>
+        /// blob name and container name parameter set
+        /// </summary>
+        private const string NameParameterSet = "NamePipeline";
+
         [Parameter(HelpMessage = "ICloudBlob Object",
-                   ValueFromPipeline = true, ParameterSetName = "BlobPipeline")]
+            ValueFromPipeline = true, ParameterSetName = BlobPipelineParameterSet)]
         public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(HelpMessage = "CloudBlobContainer Object",
-                  ValueFromPipeline = true, ParameterSetName = "ContainerPipeline")]
+            ValueFromPipeline = true, ParameterSetName = ContainerPipelineParmeterSet)]
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
-        [Parameter(ParameterSetName = "ContainerPipeline", Mandatory = true, Position = 0, HelpMessage = "Blob name")]
-        [Parameter(ParameterSetName = "ContainerBlobNameManual", Mandatory = true, Position = 0, HelpMessage = "Blob name")]
+        [Parameter(ParameterSetName = ContainerPipelineParmeterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
+        [Parameter(ParameterSetName = NameParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         public string Blob 
         {
             get { return BlobName; }
@@ -46,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         private string BlobName = String.Empty;
 
         [Parameter(HelpMessage = "Container name", Mandatory = true, Position = 1,
-            ParameterSetName = "ContainerBlobNameManual")]
+            ParameterSetName = NameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string Container
         {
@@ -72,21 +89,33 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             Channel = channel;
         }
 
-        internal void RemoveAzureBlobByICloudBlob(ICloudBlob blob, bool isValidBlob = false)
+        /// <summary>
+        /// remove the azure blob 
+        /// </summary>
+        /// <param name="blob">ICloudblob object</param>
+        /// <param name="isValidBlob">whether the ICloudblob parameter is validated</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal void RemoveAzureBlob(ICloudBlob blob, bool isValidBlob = false)
         {
             if (!isValidBlob)
             {
                 ValidatePipelineICloudBlob(blob);
             }
+
             DeleteSnapshotsOption deleteSnapshotsOption = DeleteSnapshotsOption.None;
             AccessCondition accessCondition = null;
             BlobRequestOptions requestOptions = null;
+
             Channel.DeleteICloudBlob(blob, deleteSnapshotsOption, accessCondition, requestOptions, OperationContext);
-            string result = String.Format(Resources.RemoveBlobSuccessfully, blob.Name, blob.Container.Name);
-            WriteObject(result);
         }
 
-        internal void RemoveAzureBlobByCloudBlobContainer(CloudBlobContainer container, string blobName)
+        /// <summary>
+        /// remove azure blob
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="blobName">blob name</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal void RemoveAzureBlob(CloudBlobContainer container, string blobName)
         {
             if (!NameUtil.IsValidBlobName(blobName))
             {
@@ -97,17 +126,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             AccessCondition accessCondition = null;
             BlobRequestOptions requestOptions = null;
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
+
             if (null == blob)
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, container.Name));
             }
-            RemoveAzureBlobByICloudBlob(blob, true);
+
+            RemoveAzureBlob(blob, true);
         }
 
-        internal void RemoveAzureBlobByName(string containerName, string blobName)
+        /// <summary>
+        /// remove azure blob
+        /// </summary>
+        /// <param name="containerName">container name</param>
+        /// <param name="blobName">blob name</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal void RemoveAzureBlob(string containerName, string blobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            RemoveAzureBlobByCloudBlobContainer(container, blobName);
+            RemoveAzureBlob(container, blobName);
         }
 
         /// <summary>
@@ -116,19 +153,33 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            string blobName = string.Empty;
+            string containerName = string.Empty;
+
             switch (ParameterSetName.ToLower())
             {
-                case "BlobPipeline":
-                    RemoveAzureBlobByICloudBlob(ICloudBlob, false);
+                case BlobPipelineParameterSet:
+                    RemoveAzureBlob(ICloudBlob, false);
+                    blobName = ICloudBlob.Name;
+                    containerName = ICloudBlob.Container.Name;
                     break;
-                case "ContainerPipeline":
-                    RemoveAzureBlobByCloudBlobContainer(CloudBlobContainer, ContainerName);
+
+                case ContainerPipelineParmeterSet:
+                    RemoveAzureBlob(CloudBlobContainer, BlobName);
+                    blobName = BlobName;
+                    containerName = ContainerName;
                     break;
-                case "ContainerBlobNameManual":
+
+                case NameParameterSet:
                 default:
-                    RemoveAzureBlobByName(ContainerName, BlobName);
+                    RemoveAzureBlob(ContainerName, BlobName);
+                    blobName = BlobName;
+                    containerName = ContainerName;
                     break;
             }
+
+            string result = String.Format(Resources.RemoveBlobSuccessfully, blobName, containerName);
+            WriteObject(result);
         }
     }
 }
