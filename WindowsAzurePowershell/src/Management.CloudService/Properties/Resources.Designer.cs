@@ -340,20 +340,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find valid Windows Azure role in current directory {0}.
+        /// </summary>
+        internal static string CannotFindRole {
+            get {
+                return ResourceManager.GetString("CannotFindRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindServiceConfigurationFile {
             get {
                 return ResourceManager.GetString("CannotFindServiceConfigurationFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
-        /// </summary>
-        internal static string CannotFindServiceRoot {
-            get {
-                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
             }
         }
         
@@ -868,6 +868,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string IllegalPath {
             get {
                 return ResourceManager.GetString("IllegalPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot enable memcach protocol on a cache worker role {0}..
+        /// </summary>
+        internal static string InvalidCacheRoleName {
+            get {
+                return ResourceManager.GetString("InvalidCacheRoleName", resourceCulture);
             }
         }
         
