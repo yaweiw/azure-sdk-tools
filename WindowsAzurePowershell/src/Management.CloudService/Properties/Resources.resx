@@ -874,4 +874,16 @@
   <data name="InvalidCacheRoleName" xml:space="preserve">
     <value>Cannot enable memcach protocol on a cache worker role {0}.</value>
   </data>
+  <data name="EmulatorConnectionString" xml:space="preserve">
+    <value>UseDevelopmentStorage=true</value>
+  </data>
+  <data name="CacheRuntimeUrl" xml:space="preserve">
+    <value>CACHERUNTIMEURL</value>
+  </data>
+  <data name="EmulatedKey" xml:space="preserve">
+    <value>EMULATED</value>
+  </data>
+  <data name="RemovePackage" xml:space="preserve">
+    <value>Removing old package {0}...</value>
+  </data>
 </root>

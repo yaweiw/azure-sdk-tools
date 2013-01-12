@@ -250,6 +250,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CACHERUNTIMEURL.
+        /// </summary>
+        internal static string CacheRuntimeUrl {
+            get {
+                return ResourceManager.GetString("CacheRuntimeUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cache.
         /// </summary>
         internal static string CacheRuntimeValue {
@@ -724,6 +733,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string DnsDoesNotExist {
             get {
                 return ResourceManager.GetString("DnsDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EMULATED.
+        /// </summary>
+        internal static string EmulatedKey {
+            get {
+                return ResourceManager.GetString("EmulatedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UseDevelopmentStorage=true.
+        /// </summary>
+        internal static string EmulatorConnectionString {
+            get {
+                return ResourceManager.GetString("EmulatorConnectionString", resourceCulture);
             }
         }
         
@@ -1710,6 +1737,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string RemoveDeploymentWaitMessage {
             get {
                 return ResourceManager.GetString("RemoveDeploymentWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing old package {0}....
+        /// </summary>
+        internal static string RemovePackage {
+            get {
+                return ResourceManager.GetString("RemovePackage", resourceCulture);
             }
         }
         
