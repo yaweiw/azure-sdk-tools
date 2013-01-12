@@ -1250,6 +1250,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole..
+        /// </summary>
+        internal static string NoCacheWorkerRoles {
+            get {
+                return ResourceManager.GetString("NoCacheWorkerRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to nodejs.
         /// </summary>
         internal static string NodeDirectory {
