@@ -886,4 +886,7 @@
   <data name="RemovePackage" xml:space="preserve">
     <value>Removing old package {0}...</value>
   </data>
+  <data name="NoCacheWorkerRoles" xml:space="preserve">
+    <value>The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole.</value>
+  </data>
 </root>
