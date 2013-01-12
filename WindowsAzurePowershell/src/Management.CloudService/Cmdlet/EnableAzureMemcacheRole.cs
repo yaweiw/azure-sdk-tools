@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
+    using System.Linq;
     using ServiceDefinitionSchema;
     using Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
@@ -51,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The dedicated caching worker role name.
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("cn")]
         [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
@@ -91,6 +92,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public WebRole EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
         {
             AzureService azureService = new AzureService(rootPath, null);
+
+            if (string.IsNullOrEmpty(cacheWorkerRoleName))
+            {
+                WorkerRole defaultCache = azureService.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(
+                    w => w.Imports != null && w.Imports.Any(i => i.moduleName.Equals(Resources.CachingModuleName)));
+
+                if (defaultCache == null)
+                {
+                    throw new Exception(Resources.NoCacheWorkerRoles);
+                }
+
+                cacheWorkerRoleName = defaultCache.name;
+            }
 
             // Verify cache worker role exists
             if (!azureService.Components.RoleExists(cacheWorkerRoleName))
