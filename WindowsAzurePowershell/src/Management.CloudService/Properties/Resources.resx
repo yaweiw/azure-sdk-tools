@@ -883,4 +883,7 @@
   <data name="EmulatedKey" xml:space="preserve">
     <value>EMULATED</value>
   </data>
+  <data name="RemovePackage" xml:space="preserve">
+    <value>Removing old package {0}...</value>
+  </data>
 </root>

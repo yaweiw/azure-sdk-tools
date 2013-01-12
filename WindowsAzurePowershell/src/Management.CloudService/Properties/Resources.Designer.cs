@@ -1741,6 +1741,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing old package {0}....
+        /// </summary>
+        internal static string RemovePackage {
+            get {
+                return ResourceManager.GetString("RemovePackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove service &quot;{0}&quot;?.
         /// </summary>
         internal static string RemoveServiceWarning {
