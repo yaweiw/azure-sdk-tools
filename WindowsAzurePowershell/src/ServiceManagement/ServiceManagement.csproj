@@ -81,6 +81,10 @@
     <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -130,6 +134,8 @@
     <Compile Include="Contract\OSImage.cs" />
     <Compile Include="Contract\ServiceBus.cs" />
     <Compile Include="Contract\StorageService.cs" />
+    <Compile Include="Storage\Blob\Contract\IStorageBlobManagement.cs" />
+    <Compile Include="Storage\Blob\Contract\StorageBlobManagement.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
@@ -154,11 +160,16 @@
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper2.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
+    <Compile Include="Storage\Common\ResourceModel\AzureStorageBase.cs" />
+    <Compile Include="Storage\Common\ResourceModel\AzureStorageContext.cs" />
+    <Compile Include="Storage\Blob\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
+    <Compile Include="Storage\Util\StorageExceptionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
