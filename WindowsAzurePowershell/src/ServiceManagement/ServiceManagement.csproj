@@ -168,6 +168,9 @@
     <Compile Include="Storage\Queue\Contract\IStorageQueueManagement.cs" />
     <Compile Include="Storage\Queue\Contract\StorageQueueManagement.cs" />
     <Compile Include="Storage\Queue\ResourceModel\AzureStorageQueue.cs" />
+    <Compile Include="Storage\Table\Contract\IStorageTableManagement.cs" />
+    <Compile Include="Storage\Table\Contract\StorageTableManagement.cs" />
+    <Compile Include="Storage\Table\ResourceModel\AzureStorageTable.cs" />
     <Compile Include="Storage\Util\StorageExceptionUtil.cs" />
   </ItemGroup>
   <ItemGroup>
