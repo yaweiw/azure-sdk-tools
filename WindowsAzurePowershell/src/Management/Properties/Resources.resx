@@ -124,7 +124,7 @@
     <value>Windows Azure Powershell</value>
   </data>
   <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Cannot locate deploymentSettings.json in parent folders</value>
+    <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
   </data>
   <data name="CertificateNotFoundInStore" xml:space="preserve">
     <value>No certificate was found in the certificate store with thumbprint {0}</value>
@@ -285,5 +285,17 @@
   </data>
   <data name="NoPublishSettingsFilesFoundMessage" xml:space="preserve">
     <value>No publish settings files with extension *.publishsettings are found in the directory "{0}".</value>
+  </data>
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing without ParameterSet.</value>
+    <comment>0 for cmdlet name.</comment>
+  </data>
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing with ParameterSet '{1}'</value>
+    <comment>0 for cmdlet name. 1 for parameter set name.</comment>
+  </data>
+  <data name="EndProcessingLog" xml:space="preserve">
+    <value>{0} end processing.</value>
+    <comment>0 for cmdlet name.</comment>
   </data>
 </root>
