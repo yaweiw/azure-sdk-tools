@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using System;
     using System.Collections.Generic;
     using System.Linq;
