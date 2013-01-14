@@ -26,6 +26,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
     using System.Xml.Linq;
     using System.Reflection;
     using System.Xml.Serialization;
+    using Microsoft.Data.OData;
+    using System.Net;
 
     public class ServiceBusConstants
     {
@@ -51,7 +53,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ODataFormatter<T> : IClientMessageFormatter where T : class, new()
+    public class ODataFormatter<T> : IClientMessageFormatter where T : class, new(), IODataResolvable<T>
     {
         private IClientMessageFormatter originalFormatter;
 
@@ -62,27 +64,66 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public object DeserializeReply(Message message, object[] parameters)
         {
-            XDocument response = XDocument.Parse(message.ToString());
-            List<T> results = new List<T>();
-            IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            List<T> result = new List<T>();
+            ODataMessageReaderSettings readerSettings = new ODataMessageReaderSettings();
+            readerSettings.MessageQuotas = new ODataMessageQuotas();
+            MessageBuffer messageBuffer = message.CreateBufferedCopy(message.ToString().Length);
+            MemoryStream memoryStream = new MemoryStream(messageBuffer.BufferSize);
+            messageBuffer.WriteMessage(memoryStream);
+            Stream responseStream = memoryStream;
+            
+            using (ODataMessageReader responseReader = new ODataMessageReader(new HttpResponseAdapterMessage(message, responseStream), readerSettings))
+            {
+                ODataReader reader = responseReader.CreateODataFeedReader();
 
-            foreach (XElement content in contents)
-            {
-                XElement data = content.Elements().First<XElement>();
-                results.Add((T)serializer.Deserialize(new StringReader(data.ToString())));
+                // Start => FeedStart
+                if (reader.State == ODataReaderState.Start)
+                {
+                    reader.Read();
+                }
+
+                // Feedstart 
+                if (reader.State == ODataReaderState.FeedStart)
+                {
+                    reader.Read();
+                }
+
+                while (reader.State == ODataReaderState.EntryStart)
+                {
+                    // EntryStart => EntryEnd
+                    reader.Read();
+
+                    ODataEntry entry = (ODataEntry)reader.Item;
+                    T item = new T();
+                    result.Add(item.Resolve(entry));
+
+                    // Entry End => ?
+                    reader.Read();
+                }
             }
 
-            if (response.Root.Name == XName.Get("feed", ServiceBusConstants.AtomNamespaceName))
-            {
-                List<T> collection = new List<T>();
-                collection.AddRange(results);
-                return collection;
-            }
-            else
-            {
-                return results[0];
-            }
+            return null;
+            //XDocument response = XDocument.Parse(message.ToString());
+            //List<T> results = new List<T>();
+            //IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
+            //XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+            //foreach (XElement content in contents)
+            //{
+            //    XElement data = content.Elements().First<XElement>();
+            //    results.Add((T)serializer.Deserialize(new StringReader(data.ToString())));
+            //}
+
+            //if (response.Root.Name == XName.Get("feed", ServiceBusConstants.AtomNamespaceName))
+            //{
+            //    List<T> collection = new List<T>();
+            //    collection.AddRange(results);
+            //    return collection;
+            //}
+            //else
+            //{
+            //    return results[0];
+            //}
         }
 
         public Message SerializeRequest(MessageVersion messageVersion, object[] parameters)
