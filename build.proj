@@ -170,7 +170,7 @@
   </Target>
   
   <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildCmdlets">
+  <Target Name="Test" DependsOnTargets="BuildDebug;BuildReleaseSigned">
     <Message Importance="high" Text="Running tests..." />
     <Message Importance="high" Text="You are required to have installed the a version of Visual Studio with support for MSTest (and MSTest on your path)." />
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />

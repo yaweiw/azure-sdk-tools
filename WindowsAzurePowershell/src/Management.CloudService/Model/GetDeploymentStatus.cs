@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string result = this.GetDeploymentStatusProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
+                string result = this.GetDeploymentStatusProcess(General.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(result);
             }
             catch (Exception ex)

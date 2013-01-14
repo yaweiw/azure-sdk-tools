@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            PublishService(GetServiceRootPath());
+            PublishService(General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
