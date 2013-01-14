@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
 
     public class AzureStorageBlob : AzureStorageBase
     {
-        public ICloudBlob CloudBlob { get; private set; }
+        public ICloudBlob ICloudBlob { get; private set; }
         public BlobType BlobType { get; private set; }
         public long Length { get; private set; }
         public string ContentType { get; private set; }
@@ -33,7 +33,8 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
         public AzureStorageBlob(ICloudBlob blob)
         {
             Name = blob.Name;
-            CloudBlob = blob;
+            ICloudBlob = blob;
+            BlobType = blob.BlobType;
             Length = blob.Properties.Length;
             ContentType = blob.Properties.ContentType;
             LastModified = blob.Properties.LastModified;
