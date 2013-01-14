@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            AddAzureCacheWorkerRoleProcess(Name, Instances, base.GetServiceRootPath());
+            AddAzureCacheWorkerRoleProcess(Name, Instances, General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>

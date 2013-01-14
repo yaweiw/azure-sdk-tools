@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
 
     /// <summary>
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
+            this.GetAzureRuntimesProcess(Runtime, General.GetServiceRootPath(CurrentPath()));
         }        
     }
 }

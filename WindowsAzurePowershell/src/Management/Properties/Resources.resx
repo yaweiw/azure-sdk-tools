@@ -123,9 +123,6 @@
   <data name="AzureDirectoryName" xml:space="preserve">
     <value>Windows Azure Powershell</value>
   </data>
-  <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
-  </data>
   <data name="CertificateNotFoundInStore" xml:space="preserve">
     <value>No certificate was found in the certificate store with thumbprint {0}</value>
   </data>
