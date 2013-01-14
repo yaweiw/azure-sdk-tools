@@ -433,7 +433,7 @@
     <Content Include="Resources\Scaffolding\Node\WebRole\startup\startup.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\Node\WebRole\node.cmd">
+    <Content Include="Resources\Scaffolding\Node\WebRole\bin\node.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Scaffolding\Node\WorkerRole\download.ps1">
@@ -494,7 +494,7 @@
     <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\php_entry.cmd">
+    <Content Include="Resources\Scaffolding\PHP\WebRole\bin\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
