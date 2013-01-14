@@ -35,6 +35,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string BlobContent = "AzureStorageBlobContent";
 
         /// <summary>
+        /// blob snapshot cmdlet name
+        /// </summary>
+        public const string BlobSnapshot = "AzureStorageBlobSnapshot";
+
+        /// <summary>
         /// container cmdlet name
         /// </summary>
         public const string Container = "AzureStorageContainer";

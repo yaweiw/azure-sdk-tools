@@ -348,4 +348,8 @@
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'</value>
   </data>
+  <data name="InvalidBlobType" xml:space="preserve">
+    <value>blob '{0}' 's type should be block or page.</value>
+    <comment>0 for blob name</comment>
+  </data>
 </root>
