@@ -1,6 +1,6 @@
 :workerLoop
 
-:: Try to keep this worker role alive.
-:: Do lot of work here!
+:: Do work
+ping 123.45.67.89 -n 1 -w 1000000 > nul
 
 goto workerLoop

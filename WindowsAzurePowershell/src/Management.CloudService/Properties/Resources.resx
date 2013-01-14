@@ -162,9 +162,6 @@
   <data name="CannotFindServiceConfigurationFile" xml:space="preserve">
     <value>service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn't exist</value>
   </data>
-  <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Cannot locate deploymentSettings.json in parent folders</value>
-  </data>
   <data name="CertificateElementName" xml:space="preserve">
     <value>ManagementCertificate</value>
   </data>
@@ -867,5 +864,29 @@
   </data>
   <data name="InvalidVMSize" xml:space="preserve">
     <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>
+  </data>
+  <data name="CacheRuntimeVersionKey" xml:space="preserve">
+    <value>CacheRuntimeVersion</value>
+  </data>
+  <data name="CannotFindRole" xml:space="preserve">
+    <value>Can't find valid Windows Azure role in current directory {0}</value>
+  </data>
+  <data name="InvalidCacheRoleName" xml:space="preserve">
+    <value>Cannot enable memcach protocol on a cache worker role {0}.</value>
+  </data>
+  <data name="EmulatorConnectionString" xml:space="preserve">
+    <value>UseDevelopmentStorage=true</value>
+  </data>
+  <data name="CacheRuntimeUrl" xml:space="preserve">
+    <value>CACHERUNTIMEURL</value>
+  </data>
+  <data name="EmulatedKey" xml:space="preserve">
+    <value>EMULATED</value>
+  </data>
+  <data name="RemovePackage" xml:space="preserve">
+    <value>Removing old package {0}...</value>
+  </data>
+  <data name="NoCacheWorkerRoles" xml:space="preserve">
+    <value>The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole.</value>
   </data>
 </root>

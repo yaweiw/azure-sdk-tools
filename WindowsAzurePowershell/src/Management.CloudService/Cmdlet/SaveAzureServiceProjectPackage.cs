@@ -23,21 +23,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Model;
 
     /// <summary>
-    /// Packages the service project into *.cspkg
+    /// Packages the service project into cloud or local package.
     /// </summary>
     [Cmdlet(VerbsData.Save, "AzureServiceProjectPackage")]
     public class SaveAzureServiceProjectPackageCommand : CmdletBase
     {
+        [Parameter(Mandatory = false)]
+        [Alias("l")]
+        public SwitchParameter Local { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
             string unused;
             string rootPath = base.GetServiceRootPath();
-            string packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
+            string packagePath;
 
             AzureService service = new AzureService(base.GetServiceRootPath(), null);
-            service.CreatePackage(DevEnv.Cloud, out unused, out unused);
+
+            if (!Local.IsPresent)
+            {
+                service.CreatePackage(DevEnv.Cloud, out unused, out unused);
+                packagePath = Path.Combine(rootPath, Resources.CloudPackageFileName);
+            }
+            else
+            {
+                service.CreatePackage(DevEnv.Local, out unused, out unused);
+                packagePath = Path.Combine(rootPath, Resources.LocalPackageFileName);
+            }
+
+            
             WriteVerbose(string.Format(Resources.PackageCreated, packagePath));
             SafeWriteOutputPSObject(typeof(PSObject).FullName, Parameters.PackagePath, packagePath);
         }
