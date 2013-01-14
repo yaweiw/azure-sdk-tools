@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security.Permissions;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.New, StorageNouns.BlobContent),
+    [Cmdlet(VerbsCommon.New, StorageNouns.BlobSnapshot),
         OutputType(typeof(AzureStorageBlob))]
     public class NewAzureStorageBlobSnapshotCommand : StorageCloudBlobCmdletBase
     {
