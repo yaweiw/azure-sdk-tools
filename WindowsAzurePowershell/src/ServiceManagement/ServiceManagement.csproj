@@ -136,6 +136,7 @@
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Storage\Blob\Contract\IStorageBlobManagement.cs" />
     <Compile Include="Storage\Blob\Contract\StorageBlobManagement.cs" />
+    <Compile Include="Storage\Blob\ResourceModel\AzureStorageBlob.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
