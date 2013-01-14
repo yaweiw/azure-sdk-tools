@@ -457,5 +457,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
 
             return serviceSettings;
         }
+
+        /// <summary>
+        /// Gets role name for the current pathif exists.
+        /// </summary>
+        /// <returns>The role name</returns>
+        public static string GetRoleName(string rootPath, string currentPath)
+        {
+            bool found = false;
+            string roleName = null;
+
+            if (!(rootPath.Length >= currentPath.Length))
+            {
+                string difference = currentPath.Replace(rootPath, string.Empty);
+                roleName = difference.Split(new char[]{Path.DirectorySeparatorChar}, StringSplitOptions.RemoveEmptyEntries).GetValue(0).ToString();
+                AzureService service = new AzureService(rootPath, null);
+                found = service.Components.RoleExists(roleName);
+            }
+
+            if (!found)
+            {
+                throw new ArgumentException(string.Format(Resources.CannotFindRole, currentPath));                
+            }
+
+            return roleName;
+        }
     }
 }
