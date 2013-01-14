@@ -131,5 +131,16 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="OperationContext">operation context</param>
         /// <returns>an enumerable collection of icloudblob</returns>
         void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext OperationContext);
+
+        /// <summary>
+        /// create snap shot for specified blob
+        /// </summary>
+        /// <param name="blockBlob">CloudBlockBlob object</param>
+        /// <param name="metadata">blob meta data</param>
+        /// <param name="accessCondition">access condition</param>
+        /// <param name="options">request options</param>
+        /// <param name="operationContext">operation context</param>
+        /// <returns>the snapshot blob</returns>
+        ICloudBlob CreateSnapshot(ICloudBlob blob, IDictionary<string, string> metadata, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
 }

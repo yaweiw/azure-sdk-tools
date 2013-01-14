@@ -358,5 +358,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
                 }
             }
         }
+
+        /// <summary>
+        /// create snap shot for specified blob
+        /// </summary>
+        /// <param name="blockBlob">CloudBlockBlob object</param>
+        /// <param name="metadata">blob meta data</param>
+        /// <param name="accessCondition">access condition</param>
+        /// <param name="options">request options</param>
+        /// <param name="operationContext">operation context</param>
+        /// <returns>the snapshot blob if successed, return null if the blobType of ICloudBlob is BlobType.Unspecified</returns>
+        public ICloudBlob CreateSnapshot(ICloudBlob blob, IDictionary<string, string> metadata, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
