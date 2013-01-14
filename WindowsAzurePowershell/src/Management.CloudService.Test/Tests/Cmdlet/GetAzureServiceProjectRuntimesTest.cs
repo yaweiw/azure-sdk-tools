@@ -48,16 +48,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string manifest = RuntimePackageHelper.GetTestManifest(files);
-                CloudRuntimeCollection expected = service.GetCloudRuntimes(service.Paths, manifest);
+                CloudRuntimeCollection runtimes;
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
 
-                cmdlet.GetAzureRuntimesProcess(string.Empty, Path.Combine(files.RootPath, serviceName), manifest);
+                cmdlet.GetAzureRuntimesProcess(string.Empty, manifest);
 
                 List<CloudRuntimePackage> actual = mockCommandRuntime.OutputPipeline[0] as List<CloudRuntimePackage>;
 
-                Assert.AreEqual<int>(expected.Count, actual.Count);
-                Assert.IsTrue(expected.All<CloudRuntimePackage>( p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));
+                Assert.AreEqual<int>(runtimes.Count, actual.Count);
+                Assert.IsTrue(runtimes.All<CloudRuntimePackage>(p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));
             }
         }
     }

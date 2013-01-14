@@ -18,6 +18,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
+      <Task executionContext="elevated" commandLine="node.cmd .\startup.js" />
     </Startup>
     <Runtime>
       <Environment>
