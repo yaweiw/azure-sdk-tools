@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public override void ExecuteCmdlet()
         {
-            RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName);
+            RemoveAzureServiceProcess(General.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
         }
     }
 }

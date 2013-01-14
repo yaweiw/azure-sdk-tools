@@ -14,6 +14,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
+      <Task executionContext="elevated" commandLine=".\startup.cmd &gt; startup_log.txt" />
     </Startup>
     <Runtime>
       <Environment>
@@ -25,7 +26,7 @@
         </Variable>
       </Environment>
       <EntryPoint>
-        <ProgramEntryPoint commandLine="startup.cmd" setReadyOnProcessStart="true"/>
+        <ProgramEntryPoint commandLine="worker.cmd" setReadyOnProcessStart="true"/>
       </EntryPoint>
     </Runtime>
   </WorkerRole>

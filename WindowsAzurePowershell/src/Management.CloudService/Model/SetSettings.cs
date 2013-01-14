@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
     public class SetSettings : CmdletBase
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         internal string GetServiceSettingsPath(bool global)
         {
-            return new AzureService(GetServiceRootPath(), null).Paths.Settings;
+            return new AzureService(General.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
         }
     }
 }
