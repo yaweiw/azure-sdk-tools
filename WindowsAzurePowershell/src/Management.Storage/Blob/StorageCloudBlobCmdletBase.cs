@@ -29,6 +29,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase<IStorageBlobManagement>
     {
         /// <summary>
+        /// Initializes a new instance of the StorageCloudBlobCmdletBase class.
+        /// </summary>
+        public StorageCloudBlobCmdletBase()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StorageCloudBlobCmdletBase class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public StorageCloudBlobCmdletBase(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
+        /// <summary>
         /// Make sure the pipeline blob is valid and already existing
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
@@ -81,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// get blob client
         /// </summary>
         /// <returns>CloudBlobClient with default retry policy and settings</returns>
-        protected CloudBlobClient GetCloudBlobClient()
+        internal CloudBlobClient GetCloudBlobClient()
         {
             //use the default retry policy in storage client
             CloudStorageAccount account = GetCloudStorageAccount();
