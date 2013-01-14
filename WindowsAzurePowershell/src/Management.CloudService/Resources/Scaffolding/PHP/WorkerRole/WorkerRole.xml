@@ -5,7 +5,7 @@
       <InputEndpoint name="HttpIn" protocol="tcp" port="$Port$" />
     </Endpoints>
     <Startup>
-      <Task executionContext="elevated" commandLine="setup_worker.cmd > log.txt">
+      <Task executionContext="elevated" commandLine="setup_worker.cmd &gt; log.txt">
         <Environment>
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
@@ -25,6 +25,7 @@
           <Variable name="WORKER" value="true"/>
         </Environment>
       </Task>
+      <Task executionContext="elevated" commandLine="php_entry.cmd .\startup\startup.php" />
     </Startup>
     <Runtime>
       <Environment>
@@ -36,7 +37,7 @@
         </Variable>
       </Environment>
       <EntryPoint>
-        <ProgramEntryPoint commandLine="php_entry.cmd" setReadyOnProcessStart="true"/>
+        <ProgramEntryPoint commandLine="php_entry.cmd .\index.php" setReadyOnProcessStart="true"/>
       </EntryPoint>
     </Runtime>
   </WorkerRole>

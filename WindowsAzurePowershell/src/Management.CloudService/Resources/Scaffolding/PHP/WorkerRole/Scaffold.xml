@@ -1,4 +1,5 @@
 ﻿<Scaffold>
+  <ScaffoldFile PathExpression="startup\\.*" />
   <ScaffoldFile Path="download.ps1" />
   <ScaffoldFile Path="index.php" />
   <ScaffoldFile Path="php_entry.cmd" />
