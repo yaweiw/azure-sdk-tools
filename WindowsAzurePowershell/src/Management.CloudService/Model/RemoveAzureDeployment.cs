@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string results = this.RemoveAzureDeploymentProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
+                string results = this.RemoveAzureDeploymentProcess(General.GetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(results);
             }
             catch (Exception ex)
