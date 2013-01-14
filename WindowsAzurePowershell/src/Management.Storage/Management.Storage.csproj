@@ -99,7 +99,6 @@
   <ItemGroup>
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainer.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
-    <Compile Include="Common\StorageCmdletBase.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
     <Compile Include="Common\OperationContextUtil.cs" />
