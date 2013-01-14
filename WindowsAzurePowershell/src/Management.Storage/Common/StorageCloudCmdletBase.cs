@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using Microsoft.WindowsAzure.Management.Service;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -32,7 +33,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Diagnostics;
     using System.Linq;
     using System.Management.Automation;
-    using System.Net;
     using System.ServiceModel;
     using System.Text;
     using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
@@ -40,12 +40,57 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// <summary>
     /// base cmdlet for all storage cmdlet that works with cloud
     /// </summary>
-    public class StorageCloudCmdletBase<T> : StorageCmdletBase<T>
+    public class StorageCloudCmdletBase<T> : CloudBaseCmdlet<T>
         where T : class
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
         public AzureStorageContext Context {get; set;}
+
+        /// <summary>
+        /// cmdlet operation context.
+        /// </summary>
+        protected Microsoft.WindowsAzure.Storage.OperationContext OperationContext { get; private set; }
+
+        /// <summary>
+        /// remote call counter
+        /// </summary>
+        private int remoteCallCounter = 0;
+
+        /// <summary>
+        /// init storage client operation context
+        /// </summary>
+        internal void InitOperationContext()
+        {
+            OperationContext = new Microsoft.WindowsAzure.Storage.OperationContext();
+            OperationContext.Init();
+
+            OperationContext.SendingRequest += (s, e) =>
+            {
+                remoteCallCounter++;
+                string message = String.Format(Resources.StartRemoteCall,
+                    remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
+                WriteVerboseLog(message);
+            };
+
+            OperationContext.ResponseReceived += (s, e) =>
+            {
+                string message = String.Format(Resources.FinishRemoteCall,
+                    e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
+                WriteVerboseLog(message);
+            };
+
+            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
+        }
+
+        /// <summary>
+        /// write log in verbose mode
+        /// </summary>
+        /// <param name="msg">verbose log</param>
+        internal void WriteVerboseLog(string msg)
+        {
+            WriteVerboseWithTimestamp(msg);
+        }
 
         /// <summary>
         /// get cloud storage account 
@@ -148,13 +193,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                //the service channel have already initialized
                 WriteVerboseLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
 
                 try
                 {
-                    IServiceManagement serviceChannel = GetServiceManagementChannel();
-                    return CurrentSubscription.GetCurrentStorageAccount(serviceChannel);
+                    //the service channel initialized by subscription
+                    return CurrentSubscription.GetCurrentStorageAccount();
                 }
                 catch (CommunicationException e)
                 {
@@ -193,32 +237,67 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get IServiceManagement Channel
+        /// write error detials for storageexception
         /// </summary>
-        /// <returns>IServiceManagement Channel</returns>
-        private IServiceManagement GetServiceManagementChannel()
+        /// <param name="exception">StorageException from storage client</param>
+        protected void WriteErrorDetails(StorageException exception)
         {
-            //from CloudBaseCmdlet.CreateChannel
-            if (ServiceBinding == null)
+            exception = exception.RepackStorageException();
+            WriteExceptionError(exception);
+        }
+
+        /// <summary>
+        /// write error with category and identifier
+        /// </summary>
+        /// <param name="e">an exception object</param>
+        protected override void WriteExceptionError(Exception e)
+        {
+            Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+
+            ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
+
+            if (e is ArgumentException)
             {
-                ServiceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
+                errorCategory = ErrorCategory.InvalidArgument;
+            }
+            else if (e is ResourceNotFoundException)
+            {
+                errorCategory = ErrorCategory.ObjectNotFound;
+            }
+            else if (e is ResourceAlreadyExistException)
+            {
+                errorCategory = ErrorCategory.ResourceExists;
+            }
+            else if (e is StorageException)
+            {
+                WriteErrorDetails((StorageException)e);
+                return;
             }
 
-            if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
-            {
-                ServiceEndpoint = CurrentServiceEndpoint;
-            }
-            else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
-            {
-                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
-            }
-            else
-            {
-                // Use default endpoint
-                ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
-            }
+            WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
+        }
 
-            return ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(ServiceBinding, new Uri(ServiceEndpoint), CurrentSubscription.Certificate);
+
+        /// <summary>
+        /// cmdlet begin process
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            InitOperationContext();
+
+            base.BeginProcessing();
+        }
+
+        /// <summary>
+        /// end processing
+        /// </summary>
+        protected override void EndProcessing()
+        {
+            double timespan = OperationContext.GetRunningMilliseconds();
+            string message = string.Format(Resources.EndProcessingLog,
+                this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
+            WriteVerboseLog(message);
+            base.EndProcessing();
         }
     }
 }
