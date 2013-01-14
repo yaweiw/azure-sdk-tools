@@ -14,7 +14,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
-      <Task executionContext="elevated" commandLine="startup.cmd &gt; startup_log.txt"></Task>
+      <Task executionContext="elevated" commandLine="startup\startup.cmd &gt; startup_log.txt" />
     </Startup>
     <Runtime>
       <Environment>
