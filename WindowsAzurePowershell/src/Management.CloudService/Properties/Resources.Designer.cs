@@ -367,6 +367,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders..
+        /// </summary>
+        internal static string CannotFindServiceRoot {
+            get {
+                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ManagementCertificate.
         /// </summary>
         internal static string CertificateElementName {
