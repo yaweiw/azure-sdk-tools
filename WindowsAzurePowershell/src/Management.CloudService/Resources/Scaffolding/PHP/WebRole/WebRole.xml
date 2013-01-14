@@ -14,7 +14,7 @@
     <Imports>
     </Imports>
     <Startup>
-      <Task executionContext="elevated" commandLine="setup_web.cmd > log.txt">
+      <Task executionContext="elevated" commandLine="setup_web.cmd &gt; log.txt">
         <Environment>
           <Variable name="EMULATED">
             <RoleInstanceValue xpath="/RoleEnvironment/Deployment/@emulated" />
@@ -32,6 +32,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
+      <Task executionContext="elevated" commandLine="php_entry.cmd .\startup\startup.php" />
     </Startup>
   </WebRole>
 </ServiceDefinition>
