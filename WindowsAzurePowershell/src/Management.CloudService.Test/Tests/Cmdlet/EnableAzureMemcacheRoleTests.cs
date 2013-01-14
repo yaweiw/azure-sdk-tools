@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expectedMessage = string.Format(Resources.EnableMemcacheMessage, webRoleName, cacheRoleName, Resources.MemcacheEndpointPort);
-                
+
                 addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = webRoleName };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
@@ -79,41 +79,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 enableCacheCmdlet.CacheRuntimeVersion = "1.8.0";
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath);
 
-                WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
-                RoleSettings roleSettings = Testing.GetRole(rootPath, webRoleName);
-
-                AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
-
-                Assert.AreEqual<string>(Resources.CacheRuntimeVersionKey, webRole.Startup.Task[0].Environment[0].name);
-                Assert.AreEqual<string>(enableCacheCmdlet.CacheRuntimeVersion, webRole.Startup.Task[0].Environment[0].value);
-
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
-                AzureAssert.StartupTaskExists(webRole.Startup.Task, Resources.CacheStartupCommand);
-                
-                AzureAssert.InternalEndpointExists(webRole.Endpoints.InternalEndpoint, 
-                    new InternalEndpoint { name = Resources.MemcacheEndpointName, protocol = InternalProtocol.tcp, port = Resources.MemcacheEndpointPort});
-
-                LocalStore localStore = new LocalStore
-                {
-                    name = Resources.CacheDiagnosticStoreName,
-                    cleanOnRoleRecycle = false
-                };
-                
-                AzureAssert.LocalResourcesLocalStoreExists(localStore, webRole.LocalResources);
-
-                DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
-                AzureAssert.ConfigurationSettingExist(diagnosticLevel, webRole.ConfigurationSettings);
-
-                ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
-                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, roleSettings.ConfigurationSettings);
-
-                string webConfigPath = string.Format(@"{0}\{1}\{2}", rootPath, webRoleName, Resources.WebCloudConfig);
-                string webCloudConfig = File.ReadAllText(webConfigPath);
-                Assert.IsTrue(webCloudConfig.Contains("configSections"));
-                Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
-
-                Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
-                Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.OutputPipeline[0] as PSObject).GetVariableValue<string>(Parameters.RoleName));
+                AssertCachingEnabled(files, serviceName, rootPath, webRoleName, expectedMessage);
             }
         }
 
@@ -207,9 +173,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string cacheRoleName = "WorkerRole";
                 string webRoleName = "WebRole";
                 string expected = string.Format(Resources.RoleNotFoundMessage, webRoleName);
-                
+
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
-                
+
                 Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath));
             }
         }
@@ -232,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 addNodeWebCmdlet.ExecuteCmdlet();
                 addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath);
-                
+
                 Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, cacheRoleName, rootPath));
             }
         }
@@ -282,6 +248,92 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 addNodeWorkerCmdlet.ExecuteCmdlet();
 
                 Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(webRoleName, workerRoleName, rootPath));
+            }
+        }
+
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessWithDefaultRoleName()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string originalDirectory = Directory.GetCurrentDirectory();
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string webRoleName = "WebRole";
+                string cacheRoleName = "WorkerRole";
+                string expectedMessage = string.Format(Resources.EnableMemcacheMessage, webRoleName, cacheRoleName, Resources.MemcacheEndpointPort);
+
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = webRoleName };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                Directory.SetCurrentDirectory(Path.Combine(rootPath, webRoleName));
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
+                mockCommandRuntime.ResetPipelines();
+                enableCacheCmdlet.PassThru = true;
+                enableCacheCmdlet.CacheRuntimeVersion = "1.8.0";
+                enableCacheCmdlet.RoleName = string.Empty;
+                enableCacheCmdlet.CacheWorkerRoleName = cacheRoleName;
+                enableCacheCmdlet.ExecuteCmdlet();
+
+                AssertCachingEnabled(files, serviceName, rootPath, webRoleName, expectedMessage);
+                Directory.SetCurrentDirectory(originalDirectory);
+            }
+        }
+
+        private void AssertCachingEnabled(FileSystemHelper files, string serviceName, string rootPath, string webRoleName, string expectedMessage)
+        {
+            WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
+            RoleSettings roleSettings = Testing.GetRole(rootPath, webRoleName);
+
+            AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
+
+            Assert.AreEqual<string>(Resources.CacheRuntimeVersionKey, webRole.Startup.Task[0].Environment[0].name);
+            Assert.AreEqual<string>(enableCacheCmdlet.CacheRuntimeVersion, webRole.Startup.Task[0].Environment[0].value);
+
+            AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
+            AzureAssert.StartupTaskExists(webRole.Startup.Task, Resources.CacheStartupCommand);
+
+            AzureAssert.InternalEndpointExists(webRole.Endpoints.InternalEndpoint,
+                new InternalEndpoint { name = Resources.MemcacheEndpointName, protocol = InternalProtocol.tcp, port = Resources.MemcacheEndpointPort });
+
+            LocalStore localStore = new LocalStore
+            {
+                name = Resources.CacheDiagnosticStoreName,
+                cleanOnRoleRecycle = false
+            };
+
+            AzureAssert.LocalResourcesLocalStoreExists(localStore, webRole.LocalResources);
+
+            DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
+            AzureAssert.ConfigurationSettingExist(diagnosticLevel, webRole.ConfigurationSettings);
+
+            ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
+            AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, roleSettings.ConfigurationSettings);
+
+            string webConfigPath = string.Format(@"{0}\{1}\{2}", rootPath, webRoleName, Resources.WebCloudConfig);
+            string webCloudConfig = File.ReadAllText(webConfigPath);
+            Assert.IsTrue(webCloudConfig.Contains("configSections"));
+            Assert.IsTrue(webCloudConfig.Contains("dataCacheClients"));
+
+            Assert.AreEqual<string>(expectedMessage, mockCommandRuntime.VerboseStream[0]);
+            Assert.AreEqual<string>(webRoleName, (mockCommandRuntime.OutputPipeline[0] as PSObject).GetVariableValue<string>(Parameters.RoleName));
+        }
+
+        /// <summary>
+        /// Verify that enabling cache with non-existing cache worker role will fail.
+        /// </summary>
+        [TestMethod]
+        public void EnableAzureMemcacheRoleProcessOnCacheWorkerRoleFail()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                string cacheRoleName = "WorkerRole";
+                string expected = string.Format(Resources.InvalidCacheRoleName, cacheRoleName);
+
+                addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(cacheRoleName, 1, rootPath);
+
+                Testing.AssertThrows<Exception>(() => enableCacheCmdlet.EnableAzureMemcacheRoleProcess(cacheRoleName, cacheRoleName, rootPath));
             }
         }
     }
