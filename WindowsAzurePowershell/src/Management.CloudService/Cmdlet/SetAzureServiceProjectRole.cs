@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
@@ -37,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The role name to edit
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string RoleName { get; set; }
 
         /// <summary>
@@ -74,6 +75,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="roleName">The name of the role to update</param>
         /// <param name="instances">The new number of instances for the role</param>
         /// <param name="rootPath">The root path to the service containing the role</param>
+        /// <returns>Role after updating instance count</returns>
         public RoleSettings SetAzureInstancesProcess(string roleName, int instances, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
@@ -87,6 +89,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             return service.Components.GetCloudConfigRole(roleName);
         }
 
+        /// <summary>
+        /// Sets the VM size of the role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="vmSize">The vm size</param>
+        /// <param name="rootPath">The service root path</param>
+        /// <returns>Role after updating VM size</returns>
         public RoleSettings SetAzureVMSizeProcess(string roleName, string vmSize, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
@@ -126,17 +135,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
+            string rootPath = GetServiceRootPath();
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
+                this.SetAzureInstancesProcess(RoleName, Instances, rootPath);
             }
             else if (string.Equals(this.ParameterSetName, VMSizeParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                this.SetAzureVMSizeProcess(RoleName, VMSize, base.GetServiceRootPath());
+                this.SetAzureVMSizeProcess(RoleName, VMSize, rootPath);
             }
             else
             {
-                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
+                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, rootPath);
             }
         }
     }

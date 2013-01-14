@@ -71,7 +71,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = General.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, subscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(
+                rootPath,
+                inServiceName,
+                inSlot,
+                null,
+                null,
+                null,
+                subscription,
+                out serviceName);
+
             slot = settings.Slot;
         }
 

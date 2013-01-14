@@ -250,11 +250,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CACHERUNTIMEURL.
+        /// </summary>
+        internal static string CacheRuntimeUrl {
+            get {
+                return ResourceManager.GetString("CacheRuntimeUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cache.
         /// </summary>
         internal static string CacheRuntimeValue {
             get {
                 return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CacheRuntimeVersion.
+        /// </summary>
+        internal static string CacheRuntimeVersionKey {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersionKey", resourceCulture);
             }
         }
         
@@ -331,20 +349,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find valid Windows Azure role in current directory {0}.
+        /// </summary>
+        internal static string CannotFindRole {
+            get {
+                return ResourceManager.GetString("CannotFindRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindServiceConfigurationFile {
             get {
                 return ResourceManager.GetString("CannotFindServiceConfigurationFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
-        /// </summary>
-        internal static string CannotFindServiceRoot {
-            get {
-                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
             }
         }
         
@@ -719,6 +737,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EMULATED.
+        /// </summary>
+        internal static string EmulatedKey {
+            get {
+                return ResourceManager.GetString("EmulatedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UseDevelopmentStorage=true.
+        /// </summary>
+        internal static string EmulatorConnectionString {
+            get {
+                return ResourceManager.GetString("EmulatorConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ((http|tcp)://[0-9.:/]*).
         /// </summary>
         internal static string EmulatorOutputSitesRegex {
@@ -859,6 +895,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string IllegalPath {
             get {
                 return ResourceManager.GetString("IllegalPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot enable memcach protocol on a cache worker role {0}..
+        /// </summary>
+        internal static string InvalidCacheRoleName {
+            get {
+                return ResourceManager.GetString("InvalidCacheRoleName", resourceCulture);
             }
         }
         
@@ -1201,6 +1246,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string NewServiceCreatedMessage {
             get {
                 return ResourceManager.GetString("NewServiceCreatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole..
+        /// </summary>
+        internal static string NoCacheWorkerRoles {
+            get {
+                return ResourceManager.GetString("NoCacheWorkerRoles", resourceCulture);
             }
         }
         
@@ -1692,6 +1746,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string RemoveDeploymentWaitMessage {
             get {
                 return ResourceManager.GetString("RemoveDeploymentWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing old package {0}....
+        /// </summary>
+        internal static string RemovePackage {
+            get {
+                return ResourceManager.GetString("RemovePackage", resourceCulture);
             }
         }
         

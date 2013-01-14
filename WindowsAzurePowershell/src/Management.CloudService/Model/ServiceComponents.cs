@@ -319,6 +319,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <returns>The role startup</returns>
         public Startup GetRoleStartup(string roleName)
         {
+            if (!RoleExists(roleName))
+            {
+                throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
+            }
+
             WebRole webRole = GetWebRole(roleName);
             WorkerRole workerRole = GetWorkerRole(roleName);
             Startup startup = webRole != null ? webRole.Startup : workerRole.Startup;
