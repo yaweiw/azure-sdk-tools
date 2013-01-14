@@ -1,4 +1,5 @@
 ﻿<Scaffold>
+  <ScaffoldFile PathExpression="startup\\.*" />
   <ScaffoldFile Path="download.ps1" />
   <ScaffoldFile Path="node.cmd" />
   <ScaffoldFile Path="setup_worker.cmd" />

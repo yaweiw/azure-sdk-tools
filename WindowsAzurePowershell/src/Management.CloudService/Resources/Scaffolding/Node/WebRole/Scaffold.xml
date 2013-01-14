@@ -1,5 +1,6 @@
 ﻿<Scaffold>
   <ScaffoldFile PathExpression="bin\\.*" />
+  <ScaffoldFile PathExpression="startup\\.*" />
   <ScaffoldFile Path="server.js" />
   <ScaffoldFile Path="Web.config" />
   <ScaffoldFile Path="Web.cloud.config" />
