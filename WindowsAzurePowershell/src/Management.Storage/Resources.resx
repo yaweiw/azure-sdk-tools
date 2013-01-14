@@ -296,10 +296,6 @@
     <value>{0} {1}.</value>
     <comment>0 for time, 1 for message</comment>
   </data>
-  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
-    <value>{0} begin processing without ParameterSet.</value>
-    <comment>0 for cmdlet name</comment>
-  </data>
   <data name="CloudBlobClientIsNull" xml:space="preserve">
     <value>CloudBlobClient is null.</value>
   </data>
@@ -314,10 +310,6 @@
   <data name="DefaultTableEndPointFormat" xml:space="preserve">
     <value>http://{0}.table.core.windows.net/</value>
     <comment>0 for storage account name</comment>
-  </data>
-  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
-    <value>{0} begin processing with ParameterSet '{1}'</value>
-    <comment>0 for cmdlet name, 1  for parameter set name</comment>
   </data>
   <data name="CurrentStorageAccountNameNotFound" xml:space="preserve">
     <value>Current Storage Account not found in subscription '{0}'. Please set it use "Set-AzureSubscription".</value>
@@ -349,5 +341,11 @@
   <data name="UseStorageAccountFromContext" xml:space="preserve">
     <value>Use storage account '{0}' from storage context</value>
     <comment>0 for storage account name</comment>
+  </data>
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing without ParameterSet.</value>
+  </data>
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing with ParameterSet '{1}'</value>
   </data>
 </root>
