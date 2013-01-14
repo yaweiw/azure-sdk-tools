@@ -38,10 +38,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The path to the service in question</param>
         /// <param name="manifest">The path to the manifest file, if null, the default cloud manifest is used (test hook)</param>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public void GetAzureRuntimesProcess(string runtimeType, string rootPath, string manifest = null)
+        public void GetAzureRuntimesProcess(string runtimeType, string manifest = null)
         {
-            AzureService service = new AzureService(rootPath, null);
-            CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
+            CloudRuntimeCollection runtimes;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
             WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
                 p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }
@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            this.GetAzureRuntimesProcess(Runtime, General.GetServiceRootPath(CurrentPath()));
+            this.GetAzureRuntimesProcess(Runtime);
         }        
     }
 }

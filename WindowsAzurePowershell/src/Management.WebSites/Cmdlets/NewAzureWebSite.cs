@@ -315,6 +315,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     WriteWarning(message);
                 }
+                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                {
+                    WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
+                }
                 else
                 {
                     WriteExceptionError(new Exception(message));
