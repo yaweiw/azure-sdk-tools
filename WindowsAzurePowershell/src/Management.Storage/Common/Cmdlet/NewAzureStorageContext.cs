@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext, DefaultParameterSetName = AccountNameKeyParameterSet),
         OutputType(typeof(AzureStorageContext))]
-    public class NewAzureStorageContext : StorageCmdletBase<IStorageManagement>
+    public class NewAzureStorageContext : CmdletBase
     {
         /// <summary>
         /// default parameter set name
