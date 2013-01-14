@@ -27,6 +27,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
+      <Task executionContext="elevated" commandLine="..\startup.cmd &gt; startup_log.txt" />
     </Startup>
   </WebRole>
 </ServiceDefinition>

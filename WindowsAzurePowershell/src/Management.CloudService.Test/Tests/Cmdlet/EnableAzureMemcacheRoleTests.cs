@@ -290,11 +290,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             Assert.AreEqual<string>(Resources.CacheRuntimeVersionKey, webRole.Startup.Task[0].Environment[0].name);
             Assert.AreEqual<string>(enableCacheCmdlet.CacheRuntimeVersion, webRole.Startup.Task[0].Environment[0].value);
             
-            Assert.AreEqual<string>(Resources.EmulatedKey, webRole.Startup.Task[1].Environment[0].name);
-            Assert.AreEqual<string>("/RoleEnvironment/Deployment/@emulated", webRole.Startup.Task[1].Environment[0].RoleInstanceValue.xpath);
+            Assert.AreEqual<string>(Resources.EmulatedKey, webRole.Startup.Task[2].Environment[0].name);
+            Assert.AreEqual<string>("/RoleEnvironment/Deployment/@emulated", webRole.Startup.Task[2].Environment[0].RoleInstanceValue.xpath);
             
-            Assert.AreEqual<string>(Resources.CacheRuntimeUrl, webRole.Startup.Task[1].Environment[1].name);
-            Assert.AreEqual<string>(TestResources.CacheRuntimeUrl, webRole.Startup.Task[1].Environment[1].value);
+            Assert.AreEqual<string>(Resources.CacheRuntimeUrl, webRole.Startup.Task[2].Environment[1].name);
+            Assert.AreEqual<string>(TestResources.CacheRuntimeUrl, webRole.Startup.Task[2].Environment[1].value);
             
 
             AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, serviceName, webRoleName), Path.Combine(Resources.CacheScaffolding, Resources.WebRole));
