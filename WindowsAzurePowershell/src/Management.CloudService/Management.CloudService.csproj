@@ -409,9 +409,15 @@
     <Content Include="Resources\Scaffolding\General\WorkerRole\setup_worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\General\WorkerRole\startup.cmd">
+    <Content Include="Resources\Scaffolding\General\WorkerRole\worker.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Scaffolding\General\WebRole\startup\startup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Scaffolding\General\WorkerRole\startup\startup.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Scaffolding\Node\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
