@@ -29,26 +29,31 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
 
         public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath, BlobRequestOptions blobRequestOptions)
         {
-            StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            string storageKey = storageService.StorageServiceKeys.Primary;
+            string storageKey;
+            string blobEndpointUri;
 
-            return UploadFile(storageName, storageKey, packagePath, blobRequestOptions);
+            StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
+            storageKey = storageService.StorageServiceKeys.Primary;
+            storageService = channel.GetStorageService(subscriptionId, storageName);
+            blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
+
+            return UploadFile(storageName, blobEndpointUri, storageKey, packagePath, blobRequestOptions);
         }
 
         /// <summary>
         /// Uploads a file to azure store.
         /// </summary>
         /// <param name="storageName">Store which file will be uploaded to</param>
+        /// <param name="storageUri">The storage endpoint Uri</param>
         /// <param name="storageKey">Store access key</param>
         /// <param name="filePath">Path to file which will be uploaded</param>
         /// <param name="blobRequestOptions">The request options for blob uploading.</param>
         /// <returns>Uri which holds locates the uploaded file</returns>
         /// <remarks>The uploaded file name will be guid</remarks>
-        public static Uri UploadFile(string storageName, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
+        public static Uri UploadFile(string storageName, string blobEndpointUri, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
         {
-            Uri baseAddress = new Uri(General.BlobEndpointUri(storageName));
             StorageCredentials credentials = new StorageCredentials(storageName, storageKey);
-            CloudBlobClient client = new CloudBlobClient(baseAddress, credentials);
+            CloudBlobClient client = new CloudBlobClient(new Uri(blobEndpointUri), credentials);
             string blobName = Guid.NewGuid().ToString();
 
             CloudBlobContainer container = client.GetContainerReference(ContainerName);
