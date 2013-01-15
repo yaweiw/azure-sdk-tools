@@ -6,6 +6,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Blob End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -47,6 +51,10 @@
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob</TypeName>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudPageBlob</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Blob End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -103,6 +111,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Table.CloudTable</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudTableClient.BaseUri</ScriptBlock>
+        <Label>Table End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -135,6 +147,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Queue.CloudQueue</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudQueueClient.BaseUri</ScriptBlock>
+        <Label>Queue End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -233,6 +249,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageBlob</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ICloudBlob.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Blob End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -291,6 +311,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageQueue</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudQueue.CloudQueueClient.BaseUri</ScriptBlock>
+        <Label>Queue End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -335,6 +359,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel.AzureStorageTable</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudTable.CloudTableClient.BaseUri</ScriptBlock>
+        <Label>Table End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
