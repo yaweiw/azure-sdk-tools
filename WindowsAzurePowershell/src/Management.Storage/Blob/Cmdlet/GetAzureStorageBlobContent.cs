@@ -340,7 +340,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             catch (Exception e)
             {
-                WriteVerboseLog(String.Format(Resources.DownloadBlobFailed, blob.Name, blob.Container.Name, filePath, e.Message));
+                WriteDebugLog(String.Format(Resources.DownloadBlobFailed, blob.Name, blob.Container.Name, filePath, e.Message));
                 throw;
             }
 

@@ -86,6 +86,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
+        protected void WriteDebugWithTimestamp(string message, params object[] args)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
+        }
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
@@ -146,11 +151,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();
