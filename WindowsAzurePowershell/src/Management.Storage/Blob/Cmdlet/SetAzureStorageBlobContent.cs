@@ -411,7 +411,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
             catch (Exception e)
             {
-                WriteVerboseLog(String.Format(Resources.Upload2BlobFailed, e.Message));
+                WriteDebugLog(String.Format(Resources.Upload2BlobFailed, e.Message));
                 throw;
             }
 

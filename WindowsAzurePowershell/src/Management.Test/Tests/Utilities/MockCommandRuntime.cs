@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         public List<object> OutputPipeline = new List<object>();
         public List<string> WarningStream = new List<string>();
         public List<string> VerboseStream = new List<string>();
+        public List<string> DebugStream = new List<string>();
 
         public override string ToString()
         {
@@ -87,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteDebug(string text)
         {
-            throw new System.NotImplementedException();
+            DebugStream.Add(text);
         }
 
         public void WriteError(ErrorRecord errorRecord)

@@ -70,26 +70,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 remoteCallCounter++;
                 string message = String.Format(Resources.StartRemoteCall,
                     remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
-                WriteVerboseLog(message);
+                WriteDebugLog(message);
             };
 
             OperationContext.ResponseReceived += (s, e) =>
             {
                 string message = String.Format(Resources.FinishRemoteCall,
                     e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
-                WriteVerboseLog(message);
+                WriteDebugLog(message);
             };
 
-            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
+            WriteVerboseWithTimestamp(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
         }
 
         /// <summary>
         /// write log in verbose mode
         /// </summary>
         /// <param name="msg">verbose log</param>
-        internal void WriteVerboseLog(string msg)
+        internal void WriteDebugLog(string msg)
         {
-            WriteVerboseWithTimestamp(msg);
+            WriteDebugWithTimestamp(msg);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (Context != null)
             {
-                WriteVerboseLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
+                WriteDebugLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
                 return Context.StorageAccount;
             }
             else
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
+                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
 
                 try
                 {
@@ -231,7 +231,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(Resources.GetStorageAccountFromEnvironmentVariable);
+                WriteDebugLog(Resources.GetStorageAccountFromEnvironmentVariable);
                 return CloudStorageAccount.Parse(connectionString);
             }
         }
@@ -296,7 +296,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             double timespan = OperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
                 this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
-            WriteVerboseLog(message);
+            WriteDebugLog(message);
             base.EndProcessing();
         }
     }

@@ -322,7 +322,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finish remote call with status code {0} and service request id {1}..
+        ///   Looks up a localized string similar to Finish remote call with status code {0} with service request id {1}..
         /// </summary>
         internal static string FinishRemoteCall {
             get {
@@ -367,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Init Operation Context with operation id {0}..
+        ///   Looks up a localized string similar to Init Operation Context with operation id {0}. If you want to get more details, please add &quot;-Debug&quot; to your command..
         /// </summary>
         internal static string InitOperationContextLog {
             get {
