@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected override void EndProcessing()
         {
             string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
-            WriteVerboseWithTimestamp(message);
+            WriteDebugWithTimestamp(message);
 
             base.EndProcessing();
         }
