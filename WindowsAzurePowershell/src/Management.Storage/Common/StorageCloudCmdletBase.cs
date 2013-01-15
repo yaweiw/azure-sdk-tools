@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 WriteDebugLog(message);
             };
 
-            WriteVerboseWithTimestamp(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
+            WriteVerboseWithTimestamp(String.Format(Resources.InitOperationContextLog, this.GetType().Name, OperationContext.ClientRequestID));
         }
 
         /// <summary>
