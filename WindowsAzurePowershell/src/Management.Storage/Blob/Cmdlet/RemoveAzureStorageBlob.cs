@@ -45,12 +45,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         private const string NameParameterSet = "NamePipeline";
 
-        [Parameter(HelpMessage = "ICloudBlob Object",
-            ValueFromPipeline = true, ParameterSetName = BlobPipelineParameterSet)]
+        [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
+            ValueFromPipelineByPropertyName = true, ParameterSetName = BlobPipelineParameterSet)]
         public ICloudBlob ICloudBlob { get; set; }
 
-        [Parameter(HelpMessage = "CloudBlobContainer Object",
-            ValueFromPipeline = true, ParameterSetName = ContainerPipelineParmeterSet)]
+        [Parameter(HelpMessage = "CloudBlobContainer Object", Mandatory = true,
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
         [Parameter(ParameterSetName = ContainerPipelineParmeterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
@@ -155,8 +155,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string blobName = string.Empty;
             string containerName = string.Empty;
-
-            switch (ParameterSetName.ToLower())
+            switch (ParameterSetName)
             {
                 case BlobPipelineParameterSet:
                     RemoveAzureBlob(ICloudBlob, false);
