@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Util
                 null != e.RequestInformation.HttpStatusMessage)
             {
                 String msg = string.Format(
-                    "Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}",
+                    "{0} HTTP Status Code: {1} - HTTP Error Message: {2}",
                     e.Message,
                     e.RequestInformation.HttpStatusCode,
                     e.RequestInformation.HttpStatusMessage);

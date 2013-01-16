@@ -155,6 +155,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string blobName = string.Empty;
             string containerName = string.Empty;
+
             switch (ParameterSetName)
             {
                 case BlobPipelineParameterSet:
