@@ -149,6 +149,7 @@
     <Compile Include="ResourceModel\Constants.cs" />
     <Compile Include="ResourceModel\HttpResponseAdapterMessage.cs" />
     <Compile Include="ResourceModel\IODataResolvable.cs" />
+    <Compile Include="ResourceModel\ODataHelper.cs" />
     <Compile Include="ResourceModel\ServiceBus.cs" />
     <Compile Include="ResourceModel\Deployment.cs" />
     <Compile Include="ResourceModel\Disk.cs" />

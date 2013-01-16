@@ -16,37 +16,28 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.ServiceModel.Dispatcher;
-    using System.ServiceModel.Channels;
-    using System.Xml;
     using System.IO;
-    using System.ServiceModel.Description;
-    using System.Xml.Linq;
+    using System.Linq;
     using System.Reflection;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.ServiceModel.Dispatcher;
+    using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.Data.OData;
-    using System.Net;
 
     public class ServiceBusConstants
     {
         public const string ServiceBusXNamespace = "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect";
-        
         public const string AtomNamespaceName = "http://www.w3.org/2005/Atom";
-        
         public const string NamespaceNamePattern = "^[a-zA-Z][a-zA-Z0-9-]*$";
-        
-        public const string Code = "Code";
-
-        public const string FullName = "FullName";
     }
 
-    public class ODataBodyWriter : BodyWriter
+    public class CustomBodyWriter : BodyWriter
     {
         string body;
 
-        public ODataBodyWriter(string body)
+        public CustomBodyWriter(string body)
             : base(true)
         {
             this.body = body;
@@ -59,112 +50,37 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ODataFormatter<T> : IClientMessageFormatter where T : class, IODataResolvable, new()
+    public class ServiceBusFormatter<T> : IClientMessageFormatter where T : class, new()
     {
         private IClientMessageFormatter originalFormatter;
 
-        public ODataFormatter(IClientMessageFormatter originalFormatter)
+        public ServiceBusFormatter(IClientMessageFormatter originalFormatter)
         {
             this.originalFormatter = originalFormatter;
         }
 
         public object DeserializeReply(Message message, object[] parameters)
         {
-            List<T> resultList = null;
-            T resultEntry = null;
-            ODataMessageReaderSettings readerSettings = new ODataMessageReaderSettings();
-            readerSettings.MessageQuotas = new ODataMessageQuotas();
-            MemoryStream memoryStream = new MemoryStream();
-            XmlWriter writer = XmlWriter.Create(memoryStream);
-            message.WriteMessage(writer);
-            writer.Flush();
-            memoryStream.Position = 0;
-            Stream responseStream = memoryStream;
-            
-            using (ODataMessageReader responseReader = new ODataMessageReader(new HttpResponseAdapterMessage(message, responseStream), readerSettings))
-            {
-                ODataReader reader;
-                
-                List<ODataPayloadKindDetectionResult> payloadKind = new List<ODataPayloadKindDetectionResult>(responseReader.DetectPayloadKind());
+            XDocument response = XDocument.Parse(message.ToString());
+            List<T> results = new List<T>();
+            IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
 
-                if (payloadKind.Any<ODataPayloadKindDetectionResult>(r => r.PayloadKind == ODataPayloadKind.Entry))
-                {
-                    reader = responseReader.CreateODataEntryReader();
-                    ReadResult(reader, out resultEntry);
-                }
-                else if (payloadKind.Any<ODataPayloadKindDetectionResult>(r => r.PayloadKind == ODataPayloadKind.Feed))
-	            {
-		            reader = responseReader.CreateODataFeedReader();
-                    ReadResult(reader, out resultList);
-	            }
+            foreach (XElement content in contents)
+            {
+                XElement data = content.Elements().First<XElement>();
+                results.Add((T)serializer.Deserialize(new StringReader(data.ToString())));
             }
 
-            return (resultEntry != null) ? resultEntry : (object)resultList;
-            //XDocument response = XDocument.Parse(message.ToString());
-            //List<T> results = new List<T>();
-            //IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
-            //XmlSerializer serializer = new XmlSerializer(typeof(T));
-
-            //foreach (XElement content in contents)
-            //{
-            //    XElement data = content.Elements().First<XElement>();
-            //    results.Add((T)serializer.Deserialize(new StringReader(data.ToString())));
-            //}
-
-            //if (response.Root.Name == XName.Get("feed", ServiceBusConstants.AtomNamespaceName))
-            //{
-            //    List<T> collection = new List<T>();
-            //    collection.AddRange(results);
-            //    return collection;
-            //}
-            //else
-            //{
-            //    return results[0];
-            //}
-        }
-
-        private void ReadResult(ODataReader reader, out List<T> resultList)
-        {
-            resultList = new List<T>();
-
-            // Start => FeedStart
-            if (reader.State == ODataReaderState.Start)
+            if (response.Root.Name == XName.Get("feed", ServiceBusConstants.AtomNamespaceName))
             {
-                reader.Read();
+                List<T> collection = new List<T>();
+                collection.AddRange(results);
+                return collection;
             }
-
-            // Feedstart 
-            if (reader.State == ODataReaderState.FeedStart)
+            else
             {
-                reader.Read();
-            }
-
-            while (reader.State == ODataReaderState.EntryStart)
-            {
-                // EntryStart => EntryEnd
-                reader.Read();
-
-                ODataEntry entry = (ODataEntry)reader.Item;
-                T item = new T();
-                //item.Resolve(entry);
-                resultList.Add(item);
-
-                // Entry End => ?
-                reader.Read();
-            }
-        }
-
-        private void ReadResult(ODataReader reader, out T item)
-        {
-            item = new T();
-
-            while (reader.Read())
-            {
-                if (reader.State == ODataReaderState.EntryEnd)
-                {
-                    ODataEntry entry = (ODataEntry)reader.Item;
-                    item.Resolve(entry);
-                }
+                return results[0];
             }
         }
 
@@ -200,7 +116,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
                     new XElement(XName.Get("content", ServiceBusConstants.AtomNamespaceName),
                             new XAttribute("type", "application/xml"),
                             XDocument.Parse(body).Root))).ToString();
-            Message finalMessage = Message.CreateMessage(messageVersion, null, new ODataBodyWriter(body));
+            Message finalMessage = Message.CreateMessage(messageVersion, null, new CustomBodyWriter(body));
             finalMessage.Headers.CopyHeadersFrom(originalMessage);
             finalMessage.Properties.CopyProperties(originalMessage.Properties);
             HttpRequestMessageProperty property = finalMessage.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
@@ -212,11 +128,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ODataBehaviorAttribute : Attribute, IOperationBehavior
+    public class ServiceBusBehaviorAttribute : Attribute, IOperationBehavior
     {
         private Type dataContractType;
 
-        public ODataBehaviorAttribute(Type formatterType)
+        public ServiceBusBehaviorAttribute(Type formatterType)
         {
             this.dataContractType = formatterType;
         }
@@ -228,7 +144,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
-            Type genericFormatterType = typeof(ODataFormatter<>);
+            Type genericFormatterType = typeof(ServiceBusFormatter<>);
             Type formatterType = genericFormatterType.MakeGenericType(new Type[] { dataContractType });
             ConstructorInfo ctor = formatterType.GetConstructor(new Type[] { typeof(IClientMessageFormatter) });
             IClientMessageFormatter newFormatter = ctor.Invoke(new object[] { clientOperation.Formatter }) as IClientMessageFormatter;
