@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     /// <summary>
     /// new storage context
     /// </summary>
-    [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext, DefaultParameterSetName = AccountNameKeyParameterSet),
+    [Cmdlet(VerbsCommon.New, StorageNouns.StorageContext, DefaultParameterSetName = AccountNameKeyParameterSet, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
         OutputType(typeof(AzureStorageContext))]
     public class NewAzureStorageContext : CmdletBase
     {
