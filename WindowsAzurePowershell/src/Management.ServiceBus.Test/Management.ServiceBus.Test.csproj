@@ -80,7 +80,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ScenarioTest.cs" />
     <Compile Include="UnitTests\Cmdlet\RemoveAzureSBNamespaceTest.cs" />
     <Compile Include="UnitTests\Cmdlet\NewAzureSBNamespaceTest.cs" />
     <Compile Include="UnitTests\Cmdlet\GetAzureSBLocationTest.cs" />
@@ -119,9 +118,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CreateAndGetServiceBusNamespace.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

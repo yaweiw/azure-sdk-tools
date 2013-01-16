@@ -37,6 +37,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         [TestInitialize]
         public virtual void SetupTest()
         {
+            CreatePowerShell();
+        }
+
+        protected void CreatePowerShell()
+        {
             powershell = PowerShell.Create();
 
             foreach (string moduleName in modules)
