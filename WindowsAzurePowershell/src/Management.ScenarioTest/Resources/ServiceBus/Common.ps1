@@ -12,8 +12,38 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-do
+$location = "North Central US"
+
+<#
+.SYNOPSIS
+Gets valid and available service bus namespace name.
+#>
+function Get-NamespaceName
 {
-	$name = "OneSDK" + (Get-Random).ToString()
-	$available = Test-AzureName -ServiceBusNamespace $name
-} while (!$available)
+	do
+	{
+		$name = "OneSDK" + (Get-Random).ToString()
+		$available = Test-AzureName -ServiceBusNamespace $name
+	} while (!$available)
+
+	return $name
+}
+
+<#
+.SYNOPSIS
+Removes given namespace when it's status is 'Active'
+
+.PARAMETER name
+The namespace name.
+#>
+function Remove-Namespace
+{
+	param([string]$name) 
+	do
+	{
+		$namespace = Get-AzureSBNamespace $name
+		Start-Sleep -s 1
+	} while ($namespace.Status -ne "Active")
+
+	Remove-AzureSBNamespace $name
+}
