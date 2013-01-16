@@ -24,28 +24,28 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
     internal class HttpResponseAdapterMessage : IODataResponseMessage
     {
-        private HttpResponseMessageProperty resp = null;
-        private Stream str = null;
+        private HttpResponseMessageProperty resposeProperties = null;
+        private Stream responseStream = null;
 
-        public HttpResponseAdapterMessage(Message reply, Stream str)
+        public HttpResponseAdapterMessage(Message reply, Stream responseStream)
         {
-            this.resp = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-            this.str = str;
+            this.resposeProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
+            this.responseStream = responseStream;
         }
 
         public Task<Stream> GetStreamAsync()
         {
-            return Task.Factory.StartNew(() => this.str);
+            return Task.Factory.StartNew(() => this.responseStream);
         }
 
         public string GetHeader(string headerName)
         {
-            return resp.Headers[headerName];
+            return resposeProperties.Headers[headerName];
         }
 
         public Stream GetStream()
         {
-            return this.str;
+            return this.responseStream;
         }
 
         public IEnumerable<KeyValuePair<string, string>> Headers
@@ -54,9 +54,9 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
             {
                 List<KeyValuePair<string, string>> retHeaders = new List<KeyValuePair<string, string>>();
 
-                foreach (string key in this.resp.Headers.Keys)
+                foreach (string key in this.resposeProperties.Headers.Keys)
                 {
-                    retHeaders.Add(new KeyValuePair<string, string>(key, this.resp.Headers[key]));
+                    retHeaders.Add(new KeyValuePair<string, string>(key, this.resposeProperties.Headers[key]));
                 }
 
                 return retHeaders;
@@ -72,7 +72,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         {
             get
             {
-                return (int)this.resp.StatusCode;
+                return (int)this.resposeProperties.StatusCode;
             }
 
             set
