@@ -38,5 +38,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
                 return (T)obj;
             }
         }
+
+        /// <summary>
+        /// Sets a new PSVariable to the current scope.
+        /// </summary>
+        /// <param name="powershell">The PowerShell instance</param>
+        /// <param name="name">The variable name</param>
+        /// <param name="value">The variable value</param>
+        public static void SetVariable(this PowerShell powershell, string name, object value)
+        {
+            powershell.Runspace.SessionStateProxy.SetVariable(name, value);
+        }
     }
 }
