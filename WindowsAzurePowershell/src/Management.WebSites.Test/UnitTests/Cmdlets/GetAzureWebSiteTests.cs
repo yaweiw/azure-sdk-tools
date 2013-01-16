@@ -120,6 +120,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             Assert.AreEqual("website1", website.Name);
             Assert.AreEqual("webspace1", website.WebSpace);
             Assert.AreEqual("user1", website.PublishingUsername);
+
+            // Run with mixed casing
+            getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
+                Name = "WEBSiTe1"
+            };
+
+            getAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+
+            website = ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline[0] as SiteWithConfig;
+            Assert.IsNotNull(website);
+            Assert.IsNotNull(website);
+            Assert.AreEqual("website1", website.Name);
+            Assert.AreEqual("webspace1", website.WebSpace);
+            Assert.AreEqual("user1", website.PublishingUsername);
         }
 
         [TestMethod]
