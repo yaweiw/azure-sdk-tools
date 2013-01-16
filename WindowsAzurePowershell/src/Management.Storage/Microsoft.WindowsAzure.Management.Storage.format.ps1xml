@@ -105,7 +105,7 @@
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>$_.Properties.LastModified</ScriptBlock>
-              </TableColumnItem
+              </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>$_.SnapshotTime</ScriptBlock>
               </TableColumnItem>
