@@ -13,6 +13,7 @@
 # ----------------------------------------------------------------------------------
 
 $location = "North Central US"
+$createdNamespaces = @()
 
 <#
 .SYNOPSIS
@@ -46,4 +47,13 @@ function Remove-Namespace
 	} while ($namespace.Status -ne "Active")
 
 	Remove-AzureSBNamespace $name
+}
+
+<#
+.SYNOPSIS
+Clears the all created resources while doing the test.
+#>
+function Test-Cleanup
+{
+	foreach ($name in $createdNamespaces) { Remove-Namespace $name }
 }
