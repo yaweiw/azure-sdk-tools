@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Management.ScenarioTest.CloudServiceTests
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 {
     using System;
     using System.Collections.Generic;

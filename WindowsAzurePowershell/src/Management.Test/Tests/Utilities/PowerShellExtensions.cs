@@ -27,8 +27,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         /// <returns>The variable object</returns>
         public static T GetPowerShellVariable<T>(this PowerShell powershell, string name)
         {
-            PSObject psobject = powershell.Runspace.SessionStateProxy.GetVariable(name) as PSObject;
-            return (T)psobject.BaseObject;
+            object obj = powershell.Runspace.SessionStateProxy.GetVariable(name);
+
+            if (obj is PSObject)
+            {
+                return (T)(obj as PSObject).BaseObject;
+            }
+            else
+            {
+                return (T)obj;
+            }
         }
     }
 }
