@@ -143,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             bool useFlatBlobListing = true;
             string prefix = string.Empty;
-            BlobListingDetails details = BlobListingDetails.All;
+            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata;
 
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
@@ -156,8 +156,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     wildcard = new WildcardPattern(blobName, options);
                 }
 
-                foreach (ICloudBlob blob in blobs)
+                foreach (IListBlobItem blobItem in blobs)
                 {
+                    ICloudBlob blob = blobItem as ICloudBlob;
+
+                    if (blob == null)
+                    {
+                        continue;
+                    }
+
                     if (wildcard == null || wildcard.IsMatch(blob.Name))
                     {
                         yield return blob;
@@ -197,7 +204,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             BlobRequestOptions requestOptions = null;
             bool useFlatBlobListing = true;
-            BlobListingDetails details = BlobListingDetails.All;
+            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata;
 
             return Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
         }
@@ -214,8 +221,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 return;
             }
 
-            foreach (ICloudBlob blob in blobList)
+            foreach (IListBlobItem blobItem in blobList)
             {
+                ICloudBlob blob = blobItem as ICloudBlob;
+                
+                if (blob == null)
+                {
+                    continue;
+                }
+
                 AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
                 WriteObjectWithStorageContext(azureBlob);
             }

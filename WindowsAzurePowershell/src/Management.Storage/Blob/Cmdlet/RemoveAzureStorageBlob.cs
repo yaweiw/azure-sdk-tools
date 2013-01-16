@@ -72,6 +72,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string ContainerName = String.Empty;
 
+        [Parameter(HelpMessage = "delete the blob and its snapshots")]
+        public SwitchParameter DeleteSnapshot
+        {
+            get { return deleteSnapshot; }
+            set { deleteSnapshot = value; }
+        }
+        private bool deleteSnapshot;
+
+        [Parameter(HelpMessage = "Force to remove the blob and its snapshot without confirm")]
+        public SwitchParameter Force
+        {
+            get { return force; }
+            set { force = value; }
+        }
+        private bool force = false;
+
         /// <summary>
         /// Initializes a new instance of the RemoveStorageAzureBlobCommand class.
         /// </summary>
@@ -90,12 +106,67 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
+        /// confirm the remove operation
+        /// </summary>
+        /// <param name="message">confirmation message</param>
+        /// <returns>true if the operation is confirmed by user, otherwise false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal virtual bool ConfirmRemove(string message)
+        {
+            return ShouldProcess(message);
+        }
+
+        /// <summary>
+        /// whether the specified blob is a snapshot
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <returns>true if the specified blob is snapshot, otherwise false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal bool IsSnapshot(ICloudBlob blob)
+        {
+            return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
+        }
+
+        /// <summary>
+        /// check whether specified blob has snapshot
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <returns>true if the specified blob has snapshot, otherwise false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal bool HasSnapShot(ICloudBlob blob)
+        {
+            BlobListingDetails details = BlobListingDetails.Snapshots;
+            BlobRequestOptions requestOptions = null;
+            bool useFlatBlobListing = true;
+
+            if (IsSnapshot(blob)) //snapshot can't have snapshot
+            {
+                return false;
+            }
+
+            IEnumerable<IListBlobItem> snapshots = Channel.ListBlobs(blob.Container, blob.Name, useFlatBlobListing, details, requestOptions, OperationContext);
+
+            foreach (IListBlobItem item in snapshots)
+            {
+                ICloudBlob blobItem = item as ICloudBlob;
+
+                if (blobItem != null && blobItem.Name == blob.Name && blobItem.SnapshotTime != null)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// remove the azure blob 
         /// </summary>
         /// <param name="blob">ICloudblob object</param>
         /// <param name="isValidBlob">whether the ICloudblob parameter is validated</param>
+        /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal void RemoveAzureBlob(ICloudBlob blob, bool isValidBlob = false)
+        internal bool RemoveAzureBlob(ICloudBlob blob, bool isValidBlob = false)
         {
             if (!isValidBlob)
             {
@@ -106,7 +177,31 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             AccessCondition accessCondition = null;
             BlobRequestOptions requestOptions = null;
 
+            if (IsSnapshot(blob) && deleteSnapshot)
+            {
+                throw new ArgumentException(String.Format(Resources.CannotDeleteSnapshotForSnapshot, blob.Name, blob.SnapshotTime));
+            }
+
+            if (deleteSnapshot)
+            {
+                deleteSnapshotsOption = DeleteSnapshotsOption.DeleteSnapshotsOnly;
+            }
+            else if (HasSnapShot(blob))
+            {
+                string message = string.Format(Resources.ConfirmRemoveBlobWithSnapshot, blob.Name, blob.Container.Name);
+
+                if (force || ConfirmRemove(message))
+                {
+                    deleteSnapshotsOption = DeleteSnapshotsOption.IncludeSnapshots;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             Channel.DeleteICloudBlob(blob, deleteSnapshotsOption, accessCondition, requestOptions, OperationContext);
+            return true;
         }
 
         /// <summary>
@@ -114,8 +209,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="blobName">blob name</param>
+        /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal void RemoveAzureBlob(CloudBlobContainer container, string blobName)
+        internal bool RemoveAzureBlob(CloudBlobContainer container, string blobName)
         {
             if (!NameUtil.IsValidBlobName(blobName))
             {
@@ -132,7 +228,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, container.Name));
             }
 
-            RemoveAzureBlob(blob, true);
+            return RemoveAzureBlob(blob, true);
         }
 
         /// <summary>
@@ -140,11 +236,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name</param>
+        /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal void RemoveAzureBlob(string containerName, string blobName)
+        internal bool RemoveAzureBlob(string containerName, string blobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            RemoveAzureBlob(container, blobName);
+            return RemoveAzureBlob(container, blobName);
         }
 
         /// <summary>
@@ -155,30 +252,41 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string blobName = string.Empty;
             string containerName = string.Empty;
+            bool removed = false;
 
             switch (ParameterSetName)
             {
                 case BlobPipelineParameterSet:
-                    RemoveAzureBlob(ICloudBlob, false);
+                    removed = RemoveAzureBlob(ICloudBlob, false);
                     blobName = ICloudBlob.Name;
                     containerName = ICloudBlob.Container.Name;
                     break;
 
                 case ContainerPipelineParmeterSet:
-                    RemoveAzureBlob(CloudBlobContainer, BlobName);
+                    removed = RemoveAzureBlob(CloudBlobContainer, BlobName);
                     blobName = BlobName;
                     containerName = ContainerName;
                     break;
 
                 case NameParameterSet:
                 default:
-                    RemoveAzureBlob(ContainerName, BlobName);
+                    removed = RemoveAzureBlob(ContainerName, BlobName);
                     blobName = BlobName;
                     containerName = ContainerName;
                     break;
             }
 
-            string result = String.Format(Resources.RemoveBlobSuccessfully, blobName, containerName);
+            string result = string.Empty;
+
+            if (removed)
+            {
+                result = String.Format(Resources.RemoveBlobSuccessfully, blobName, containerName);
+            }
+            else
+            {
+                result = String.Format(Resources.RemoveBlobCanncelled, blobName, containerName);
+            }
+
             WriteObject(result);
         }
     }
