@@ -124,6 +124,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The specified blob &apos;{0}&apos; is already a snapshot with snapshot time {1}. Can&apos;t use &quot;DeleteSnapshot&quot; option for it..
+        /// </summary>
+        internal static string CannotDeleteSnapshotForSnapshot {
+            get {
+                return ResourceManager.GetString("CannotDeleteSnapshotForSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. This cmdlet only works with files..
         /// </summary>
         internal static string CannotSendDirectory {
@@ -147,6 +156,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string CloudBlobClientIsNull {
             get {
                 return ResourceManager.GetString("CloudBlobClientIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The blob &apos;{0}&apos; in container &apos;{1}&apos; has snapshot. Are you sure to remove blob and its snapshots?.
+        /// </summary>
+        internal static string ConfirmRemoveBlobWithSnapshot {
+            get {
+                return ResourceManager.GetString("ConfirmRemoveBlobWithSnapshot", resourceCulture);
             }
         }
         
@@ -507,6 +525,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string ReceiveAzureBlobActivity {
             get {
                 return ResourceManager.GetString("ReceiveAzureBlobActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The remove operation of  blob &apos;{0}&apos; in container &apos;{1}&apos; is cancelled..
+        /// </summary>
+        internal static string RemoveBlobCanncelled {
+            get {
+                return ResourceManager.GetString("RemoveBlobCanncelled", resourceCulture);
             }
         }
         
