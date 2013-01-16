@@ -12,8 +12,15 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-Get-AzureSBLocation | 
-Select @{Name="Location";Expression={$_."Code"}} | 
-Where {$_.Location -eq $location} | 
-New-AzureSBNamespace $name
-$namespace = Get-AzureSBNamespace $name
+<#
+.SYNOPSIS
+Tests using List-AzureSBLocation and piping it's output to New-AzureSBNamespace.
+#>
+function Test-ListAzureSBLocation1
+{
+	Get-AzureSBLocation | 
+	Select @{Name="Location";Expression={$_."Code"}} | 
+	Where {$_.Location -eq $location} | 
+	Foreach-Object { New-Object PSObject -Property @{Name=Get-NamespaceName;Location=$_.Location} } | 
+	New-AzureSBNamespace
+}

@@ -18,39 +18,37 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using System.Text;
-    using System;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.Management.Automation;
-    using System.Collections.ObjectModel;
-    using System.IO;
 
     [TestClass]
     public class ServiceBusNamespaceTests : PowerShellTest
     {
-        const string RemoveNamespaceScript = "ServiceBus\\RemoveNamespace.ps1";
+        const string CommonScript = "ServiceBus\\Common.ps1";
 
-        const string GetNamespaceNameScript = "ServiceBus\\GetNamespaceName.ps1";
-
-        const string ListAzureSBLocation1Script = "ServiceBus\\ListAzureSBLocation1.ps1";
+        const string NamespaceScenarioTestsScript = "ServiceBus\\NamespaceScenarioTests.ps1";
         
 
         string createdNamespace;
 
         [TestInitialize]
-        public void TestSetup()
+        public override void TestSetup()
         {
+            base.TestSetup();
             createdNamespace = string.Empty;
+            AddScenarioScript(CommonScript);
+            AddScenarioScript(NamespaceScenarioTestsScript);
         }
 
         [TestCleanup]
         public override void TestCleanup()
         {
+            string name = createdNamespace;
             base.TestCleanup();
-            base.CreatePowerShell();
-            AddScenarioScript(RemoveNamespaceScript);
-            powershell.SetVariable("name", createdNamespace);
+            TestSetup();
+            powershell.AddScript(string.Format("Remove-Namespace {0}", name));
+
             powershell.Invoke();
+
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
         }
 
@@ -73,30 +71,28 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
 
             powershell.Invoke(null, actual);
 
-            Assert.AreEqual<int>(expectedLocationsCount, actual.Count);
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            Assert.AreEqual<int>(expectedLocationsCount, actual.Count);
         }
 
         /// <summary>
-        /// Tests Get-AzureSBLocation cmdlet piped to New-AzureSBNamespace cmdlets.
+        /// Tests using List-AzureSBLocation and piping it's output to New-AzureSBNamespace.
         /// </summary>
         [TestMethod]
-        public void ListAzureSBLocationPipeToNewAzureSBNamespace()
+        public void TestListAzureSBLocation1()
         {
-            string location = "North Central US";
-            AddScenarioScript(GetNamespaceNameScript);
-            AddScenarioScript(ListAzureSBLocation1Script);
-            powershell.SetVariable("location", location);
-            
+            powershell.AddScript("$namespace = Test-ListAzureSBLocation1");
+
             powershell.Invoke();
 
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            string location = powershell.GetPowerShellVariable<string>("location");
             ServiceBusNamespace serviceBusNamespace = powershell.GetPowerShellVariable<ServiceBusNamespace>("namespace");
-            string name = powershell.GetPowerShellVariable<string>("name");
-            Assert.AreEqual<string>(name, serviceBusNamespace.Name);
+
+            Assert.IsTrue(!string.IsNullOrEmpty(serviceBusNamespace.Name));
             Assert.AreEqual<string>(location, serviceBusNamespace.Region);
             Assert.IsTrue(serviceBusNamespace.Status.Equals("Activating") || serviceBusNamespace.Status.Equals("Active"));
-            createdNamespace = name;
+            createdNamespace = serviceBusNamespace.Name;
         }
     }
 }
