@@ -35,7 +35,7 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
-      <Task executionContext="elevated" commandLine="node.cmd .\startup.js" />
+      <Task executionContext="elevated" commandLine="node.cmd ..\startup.js" />
     </Startup>
   </WebRole>
 </ServiceDefinition>

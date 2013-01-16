@@ -294,6 +294,7 @@
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\WebRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\index.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -309,6 +310,7 @@
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
