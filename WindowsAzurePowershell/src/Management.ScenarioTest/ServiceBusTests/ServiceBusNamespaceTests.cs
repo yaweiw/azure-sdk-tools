@@ -12,27 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
+namespace Management.ScenarioTest.ServiceBusTests
 {
-    using System.Collections.ObjectModel;
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using System.Collections.Generic;
-    using System.Linq;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
 
     [TestClass]
-    public class BasicTest : PowerShellTest
+    public class ServiceBusNamespaceTests : PowerShellTest
     {
-        public BasicTest() 
+        public ServiceBusNamespaceTests() 
             : base("Microsoft.WindowsAzure.Management.ServiceBus.dll")
         {
 
         }
 
-        [TestCategory("Functional"), TestMethod]
+        [TestMethod]
         public void ListAzureSBLocation()
         {
             powershell.AddScript("Get-AzureSBLocation");
