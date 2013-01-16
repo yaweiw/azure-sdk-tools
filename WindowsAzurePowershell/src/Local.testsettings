@@ -2,14 +2,15 @@
 <TestSettings name="Local" id="cdbdc350-d4c9-4e43-a4f9-37455108ceaa" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
-    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
-    <DeploymentItem filename="Management.Test\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
     <DeploymentItem filename="Management.ServiceBus.Test\Resources\" />
     <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
-    <DeploymentItem filename="Management.CloudService\Resources\" />
-    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
     <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
+    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
+    <DeploymentItem filename="Management.Test\Resources\" />
+    <DeploymentItem filename="Management.ScenarioTest\Resources\" />
+    <DeploymentItem filename="Management.CloudService\Resources\" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>
