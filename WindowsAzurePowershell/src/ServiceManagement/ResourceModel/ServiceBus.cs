@@ -1,5 +1,4 @@
-﻿using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +14,16 @@
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
+    using System.Collections.Generic;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.Data.OData;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
-    using System.Linq;
 
     /// <summary>
     /// Represents service bus namespace
     /// </summary>
     [XmlRoot("NamespaceDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
-    public class ServiceBusNamespace : IODataResolvable
+    public class ServiceBusNamespace
     {
         public string Name { get; set; }
 
@@ -65,17 +64,13 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
                 return this.Name.GetHashCode() ^ this.Region.GetHashCode();
             }
         }
-
-        public void Resolve(ODataEntry entry)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 
     /// <summary>
     /// Represents service bus region entry.
     /// </summary>
-    public class ServiceBusRegion : IODataResolvable
+    [XmlRoot("RegionCodeDescription", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
+    public class ServiceBusRegion
     {
         public string Code { get; set; }
 
@@ -92,16 +87,10 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         {
             return this.Code.GetHashCode();
         }
-
-        public void Resolve(ODataEntry entry)
-        {
-            this.Code = entry.GetPropetyValue<string>(ServiceBusConstants.Code);
-            this.FullName = entry.GetPropetyValue<string>(ServiceBusConstants.FullName);
-        }
     }
 
     [XmlRoot("NamespaceAvailability", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
-    public class ServiceBusNamespaceAvailabiliyResponse : IODataResolvable
+    public class ServiceBusNamespaceAvailabiliyResponse
     {
         public bool Result { get; set; }
 
@@ -115,11 +104,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         public override int GetHashCode()
         {
             return this.Result.GetHashCode();
-        }
-
-        public void Resolve(ODataEntry entry)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
