@@ -26,30 +26,19 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         const string CommonScript = "ServiceBus\\Common.ps1";
 
         const string NamespaceScenarioTestsScript = "ServiceBus\\NamespaceScenarioTests.ps1";
-        
 
-        string createdNamespace;
+        private void AddScriptWithCleanup(string script)
+        {
+            powershell.AddScript(script);
+            powershell.AddScript("Test-Cleanup");
+        }
 
         [TestInitialize]
         public override void TestSetup()
         {
             base.TestSetup();
-            createdNamespace = string.Empty;
             AddScenarioScript(CommonScript);
             AddScenarioScript(NamespaceScenarioTestsScript);
-        }
-
-        [TestCleanup]
-        public override void TestCleanup()
-        {
-            string name = createdNamespace;
-            base.TestCleanup();
-            TestSetup();
-            powershell.AddScript(string.Format("Remove-Namespace {0}", name));
-
-            powershell.Invoke();
-
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
         }
 
         public ServiceBusNamespaceTests()
@@ -81,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         public void TestListAzureSBLocation1()
         {
-            powershell.AddScript("$namespace = Test-ListAzureSBLocation1");
+            AddScriptWithCleanup("$namespace = Test-ListAzureSBLocation1");
 
             powershell.Invoke();
 
@@ -92,7 +81,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
             Assert.IsTrue(!string.IsNullOrEmpty(serviceBusNamespace.Name));
             Assert.AreEqual<string>(location, serviceBusNamespace.Region);
             Assert.IsTrue(serviceBusNamespace.Status.Equals("Activating") || serviceBusNamespace.Status.Equals("Active"));
-            createdNamespace = serviceBusNamespace.Name;
         }
     }
 }
