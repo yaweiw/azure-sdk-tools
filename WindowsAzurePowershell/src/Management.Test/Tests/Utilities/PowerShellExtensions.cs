@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// Log the PowerShell Streams from a PowerShell invocation
         /// </summary>
         /// <param name="powershell">The PowerShell instance to log</param>
