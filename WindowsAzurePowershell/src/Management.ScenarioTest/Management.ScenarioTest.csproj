@@ -7,13 +7,11 @@
     <ProjectGuid>{A3965B66-5A3E-4B8C-9574-28E5958D4828}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Management.ScenarioTest</RootNamespace>
-    <AssemblyName>Management.ScenarioTest</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.ScenarioTest</RootNamespace>    <AssemblyName>Management.ScenarioTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-  </PropertyGroup>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -48,8 +46,7 @@
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />
-  </ItemGroup>
+    <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Common.ps1" />
     <None Include="Resources\Credentials.ps1" />
@@ -62,37 +59,31 @@
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
     <None Include="Resources\Scaffolding.ps1" />
-    <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\ServiceBus\Common.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <None Include="Resources\tipsf001.publishsettings" />
+    <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>    </Resource>    <Resource Include="Resources\ServiceBus\Common.ps1">      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>    </Resource>    <None Include="Resources\tipsf001.publishsettings" />
     <None Include="Resources\tipsf002.publishsettings" />
     <None Include="Resources\tipsf003.publishsettings" />
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
-      <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
+      <Project>{b6f73ab3-1207-4b52-b90a-065cd5e107eb}</Project>
       <Name>Management.CloudService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
-      <Project>{8BBE3C78-69C6-42FE-B1FE-B3AA24771ECE}</Project>
+      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
       <Name>Management.ServiceBus</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.SqlDatabase\Management.SqlDatabase.csproj">
-      <Project>{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}</Project>
-      <Name>Management.SqlDatabase</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
-      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
+      <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
       <Name>Management.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559A16C7-B11C-4AA6-8C16-8ADECA6ABED7}</Project>
-      <Name>ServiceManagement</Name>
+    <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
+      <Project>{c8d37385-6d1b-493a-9eec-88a9ffeb47f6}</Project>
+      <Name>Management.Websites</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management\Management.csproj">
+      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
+      <Name>Management</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
