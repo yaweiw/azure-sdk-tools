@@ -62,12 +62,12 @@
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
     <None Include="Resources\Scaffolding.ps1" />
-    <Content Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
+    <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\ServiceBus\Common.ps1">
+    </Resource>
+    <Resource Include="Resources\ServiceBus\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <None Include="Resources\tipsf001.publishsettings" />
     <None Include="Resources\tipsf002.publishsettings" />
     <None Include="Resources\tipsf003.publishsettings" />

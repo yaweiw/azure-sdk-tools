@@ -70,17 +70,56 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         public void TestListAzureSBLocation1()
         {
-            AddScriptWithCleanup("$namespace = Test-ListAzureSBLocation1");
+            AddScriptWithCleanup("Test-ListAzureSBLocation1");
 
             powershell.Invoke();
 
             Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
-            string location = powershell.GetPowerShellVariable<string>("location");
-            ServiceBusNamespace serviceBusNamespace = powershell.GetPowerShellVariable<ServiceBusNamespace>("namespace");
+        }
 
-            Assert.IsTrue(!string.IsNullOrEmpty(serviceBusNamespace.Name));
-            Assert.AreEqual<string>(location, serviceBusNamespace.Region);
-            Assert.IsTrue(serviceBusNamespace.Status.Equals("Activating") || serviceBusNamespace.Status.Equals("Active"));
+        /// <summary>
+        /// Tests using Get-AzureSBNamespace cmdlet and expect to return empty collection
+        /// </summary>
+        [TestMethod]
+        public void TestGetAzureSBNamespaceWithEmptyNamespaces()
+        {
+            powershell.AddScript("$namespaces = Get-AzureSBNamespace");
+
+            powershell.Invoke();
+
+            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            List<ServiceBusNamespace> namespaces = powershell.GetPowerShellCollection<ServiceBusNamespace>("namespaces");
+            Assert.IsTrue(namespaces.Count.Equals(0));
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespace2()
+        {
+            AddScriptWithCleanup("New-Namespace 1; $namespaces = Get-AzureSBNamespace");
+
+            powershell.Invoke();
+
+            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            List<ServiceBusNamespace> namespaces = powershell.GetPowerShellCollection<ServiceBusNamespace>("namespaces");
+            Assert.IsTrue(namespaces.Count.Equals(1));
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespace3()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespace4()
+        {
+
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespace5()
+        {
+
         }
     }
 }
