@@ -23,7 +23,11 @@ namespace Management.ScenarioTest.CloudServiceTests
         static string TrueIsNotFalseException = "Assertion failed: $true -eq $false";
         static string ExceptionMatchFailedException = "Exception match failed, '{0}' != '{1}'";
         public EmulatorTests()
-            : base("Microsoft.WindowsAzure.Management.dll", "Microsoft.WindowsAzure.Management.CloudService.dll", "Common.ps1")
+            : base(
+                "Microsoft.WindowsAzure.Management.dll", 
+                "Microsoft.WindowsAzure.Management.CloudService.dll", 
+                "Common.ps1"
+            )
         {
         }
 
