@@ -57,7 +57,8 @@
       </MemberSet>
     </Members>
   </Type>
-  <Type>    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.DatabaseCopy</Name>
+  <Type>
+    <Name>Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server.DatabaseCopy</Name>
     <Members>
       <MemberSet>
         <Name>PSStandardMembers</Name>
