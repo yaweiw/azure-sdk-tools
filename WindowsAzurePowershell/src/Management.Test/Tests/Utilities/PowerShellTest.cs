@@ -42,6 +42,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             foreach (string moduleName in modules)
             {
                 powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
+                AddScenarioScript("Common.ps1");
             }
 
             powershell.AddScript("$VerbosePreference='Continue'");

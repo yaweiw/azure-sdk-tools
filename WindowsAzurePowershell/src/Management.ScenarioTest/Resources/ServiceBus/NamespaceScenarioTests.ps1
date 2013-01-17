@@ -19,10 +19,22 @@ Tests using List-AzureSBLocation and piping it's output to New-AzureSBNamespace.
 function Test-ListAzureSBLocation1
 {
 	$name = Get-NamespaceName
-	Get-AzureSBLocation | 
+	$namespace = Get-AzureSBLocation | 
 	Select @{Name="Location";Expression={$_."Code"}} | 
 	Where {$_.Location -eq $location} | 
 	% { New-Object PSObject -Property @{Name=$name;Location=$_.Location} } | 
 	New-AzureSBNamespace
 	$createdNamespaces += $name
+
+	$actualName = $namespace.Name
+	Assert-True {($name -eq $namespace.Name)} "The namespace name '$actualName' does not match the expected name '$name'"
+}
+
+<#
+.SYNOPSIS
+Tests running Get-AzureSBNamespace cmdlet and expects that no namespaces are returned.
+#>
+function Test-GetAzureSBNamespace1
+{
+	
 }

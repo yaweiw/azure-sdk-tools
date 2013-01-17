@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$location = "North Central US"
+$location = "North Central US" # If $Env:DefaultLocation
 $createdNamespaces = @()
 
 <#
@@ -39,7 +39,7 @@ The namespace name.
 #>
 function Remove-Namespace
 {
-	param([string]$name) 
+	param([string]$name)
 	do
 	{
 		$namespace = Get-AzureSBNamespace $name
@@ -56,4 +56,17 @@ Clears the all created resources while doing the test.
 function Test-Cleanup
 {
 	foreach ($name in $createdNamespaces) { Remove-Namespace $name }
+}
+
+<#
+.SYNOPSIS
+Creates service bus namespaces with the count specified.
+
+.PARAMETER count
+The number of namespaces to create.
+#>
+function New-Namespace
+{
+	param([int]$count)
+	1..$count | % { $name = Get-NamespaceName; New-AzureSBNamespace $name $location }
 }
