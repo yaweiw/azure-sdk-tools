@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -63,6 +64,28 @@
     <None Include="Resources\tipsf002.publishsettings" />
     <None Include="Resources\tipsf003.publishsettings" />
     <None Include="Resources\tipsf004.publishsettings" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
+      <Project>{b6f73ab3-1207-4b52-b90a-065cd5e107eb}</Project>
+      <Name>Management.CloudService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
+      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
+      <Name>Management.ServiceBus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Test\Management.Test.csproj">
+      <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
+      <Name>Management.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
+      <Project>{c8d37385-6d1b-493a-9eec-88a9ffeb47f6}</Project>
+      <Name>Management.Websites</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management\Management.csproj">
+      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
+      <Name>Management</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
