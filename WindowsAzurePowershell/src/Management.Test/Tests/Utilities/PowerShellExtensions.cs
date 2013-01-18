@@ -18,8 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using System.Collections.Generic;
-    using System;
 
     public static class PowerShellExtensions
     {

@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
             : base(
                 "Microsoft.WindowsAzure.Management.dll", 
                 "Microsoft.WindowsAzure.Management.CloudService.dll", 
+                "Assert.ps1",
                 "Common.ps1"
             )
         {

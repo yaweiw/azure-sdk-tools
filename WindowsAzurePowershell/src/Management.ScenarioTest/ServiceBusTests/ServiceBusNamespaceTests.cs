@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
@@ -23,27 +22,12 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     [TestClass]
     public class ServiceBusNamespaceTests : PowerShellTest
     {
-        const string CommonScript = "ServiceBus\\Common.ps1";
-
-        const string NamespaceScenarioTestsScript = "ServiceBus\\NamespaceScenarioTests.ps1";
-
-        private void AddScriptWithCleanup(string script)
-        {
-            powershell.AddScript(script);
-            powershell.AddScript("Test-Cleanup");
-        }
-
-        [TestInitialize]
-        public override void TestSetup()
-        {
-            base.TestSetup();
-            AddScenarioScript(CommonScript);
-            AddScenarioScript(NamespaceScenarioTestsScript);
-        }
-
         public ServiceBusNamespaceTests()
             : base("Microsoft.WindowsAzure.Management.ServiceBus.dll",
-                   "Microsoft.WindowsAzure.Management.CloudService.dll")
+                   "Microsoft.WindowsAzure.Management.CloudService.dll",
+                   "Assert.ps1",
+                   "ServiceBus\\Common.ps1",
+                   "ServiceBus\\NamespaceScenarioTests.ps1")
         {
 
         }
@@ -54,14 +38,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         public void ListAzureSBLocationWithValidCredentials()
         {
-            powershell.AddScript("Get-AzureSBLocation");
-            int expectedLocationsCount = 8;
-            List<ServiceBusRegion> actual = new List<ServiceBusRegion>();
-
-            powershell.Invoke(null, actual);
-
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
-            Assert.AreEqual<int>(expectedLocationsCount, actual.Count);
+            RunPowerShellTest("Test-ListAzureSBLocation");
         }
 
         /// <summary>
@@ -70,11 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         public void TestListAzureSBLocation1()
         {
-            AddScriptWithCleanup("Test-ListAzureSBLocation1");
-
-            powershell.Invoke();
-
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
+            RunPowerShellTest("Test-ListAzureSBLocation1");
         }
 
         /// <summary>
@@ -83,43 +56,31 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         public void TestGetAzureSBNamespaceWithEmptyNamespaces()
         {
-            powershell.AddScript("$namespaces = Get-AzureSBNamespace");
-
-            powershell.Invoke();
-
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
-            List<ServiceBusNamespace> namespaces = powershell.GetPowerShellCollection<ServiceBusNamespace>("namespaces");
-            Assert.IsTrue(namespaces.Count.Equals(0));
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithEmptyNamespaces");
         }
 
         [TestMethod]
-        public void TestGetAzureSBNamespace2()
+        public void TestGetAzureSBNamespaceWithOneNamespace()
         {
-            AddScriptWithCleanup("New-Namespace 1; $namespaces = Get-AzureSBNamespace");
-
-            powershell.Invoke();
-
-            Assert.IsTrue(powershell.Streams.Error.Count.Equals(0));
-            List<ServiceBusNamespace> namespaces = powershell.GetPowerShellCollection<ServiceBusNamespace>("namespaces");
-            Assert.IsTrue(namespaces.Count.Equals(1));
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithOneNamespace");
         }
 
         [TestMethod]
-        public void TestGetAzureSBNamespace3()
+        public void TestGetAzureSBNamespaceWithMultipleNamespaces()
         {
-
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithMultipleNamespaces");
         }
 
         [TestMethod]
-        public void TestGetAzureSBNamespace4()
+        public void TestGetAzureSBNamespaceWithValidExisitingNamespace()
         {
-
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithValidExisitingNamespace");
         }
 
         [TestMethod]
-        public void TestGetAzureSBNamespace5()
+        public void TestGetAzureSBNamespaceWithValidNonExisitingNamespace()
         {
-
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithValidNonExisitingNamespace");
         }
     }
 }
