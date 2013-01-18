@@ -349,6 +349,24 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Get-AzureStorageContainerAcl.
+        /// </summary>
+        internal static string GetAzureStorageContainerAclCmdletName {
+            get {
+                return ResourceManager.GetString("GetAzureStorageContainerAclCmdletName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Get-AzureStorageContainer.
+        /// </summary>
+        internal static string GetAzureStorageContainerCmdletName {
+            get {
+                return ResourceManager.GetString("GetAzureStorageContainerCmdletName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Get storage account from environment variable &apos;AZURE_STORAGE_CONNECTION_STRING&apos;..
         /// </summary>
         internal static string GetStorageAccountFromEnvironmentVariable {
@@ -480,6 +498,33 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string InvalidTableName {
             get {
                 return ResourceManager.GetString("InvalidTableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New-Alias.
+        /// </summary>
+        internal static string NewAlias {
+            get {
+                return ResourceManager.GetString("NewAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        internal static string NewAliasName {
+            get {
+                return ResourceManager.GetString("NewAliasName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string NewAliasValue {
+            get {
+                return ResourceManager.GetString("NewAliasValue", resourceCulture);
             }
         }
         
