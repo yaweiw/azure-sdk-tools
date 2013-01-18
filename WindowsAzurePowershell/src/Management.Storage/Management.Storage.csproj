@@ -98,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainer.cs" />
-    <Compile Include="Blob\Cmdlet\GetAzureStorageContainerAcl.cs" />
     <Compile Include="Blob\Cmdlet\NewAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
