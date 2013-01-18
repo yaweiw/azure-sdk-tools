@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Get, StorageNouns.Container, DefaultParameterSetName = NameParameterSet),
         OutputType(typeof(AzureStorageContainer))]
-    public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase
+    public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase, IModuleAssemblyInitializer
     {
         /// <summary>
         /// default parameter set name
@@ -186,6 +186,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
             WriteObjectWithStorageContext(azureContainers);
+        }
+
+        /// <summary>
+        /// add alias "Get-AzureStorageContainerAcl" for this cmdlet
+        /// </summary>
+        public void OnImport()
+        {
+            System.Management.Automation.PowerShell invoker = null;
+            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
+            invoker.AddCommand(Resources.NewAlias).AddParameter(Resources.NewAliasName, Resources.GetAzureStorageContainerAclCmdletName).AddParameter(Resources.NewAliasValue, Resources.GetAzureStorageContainerCmdletName);
+            System.Collections.ObjectModel.Collection<PSObject> psObjects = invoker.Invoke();
         }
     }
 }
