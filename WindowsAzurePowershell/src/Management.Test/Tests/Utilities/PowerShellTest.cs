@@ -49,6 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             try
             {
                 output = powershell.Invoke();
+                
                 if (powershell.HadErrors || powershell.Streams.Error.Count > 0)
                 {
                     throw new RuntimeException(ErrorIsNotEmptyException);
@@ -75,11 +76,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             foreach (string moduleName in modules)
             {
                 powershell.AddScript(string.Format("Import-Module \"{0}\"", Testing.GetTestResourcePath(moduleName)));
-                AddScenarioScript("Common.ps1");
             }
 
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
+            powershell.AddScript("$ErrorActionPreference='Stop'");
         }
 
         [TestCleanup]

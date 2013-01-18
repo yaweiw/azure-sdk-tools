@@ -12,8 +12,18 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$location = "North Central US" # If $Env:DefaultLocation
 $createdNamespaces = @()
+
+<#
+.SYNOPSIS
+Gets default location from the available list of service bus locations.
+#>
+function Get-DefaultLocation
+{
+	$locations = Get-AzureSBLocation
+
+	return $locations[0].Code
+}
 
 <#
 .SYNOPSIS
@@ -53,7 +63,7 @@ function Remove-Namespace
 .SYNOPSIS
 Clears the all created resources while doing the test.
 #>
-function Test-Cleanup
+function Test-CleanupServiceBus
 {
 	foreach ($name in $createdNamespaces) { Remove-Namespace $name }
 }
@@ -68,5 +78,15 @@ The number of namespaces to create.
 function New-Namespace
 {
 	param([int]$count)
-	1..$count | % { $name = Get-NamespaceName; New-AzureSBNamespace $name $location }
+	$location = Get-DefaultLocation
+	1..$count | % { $name = Get-NamespaceName; New-AzureSBNamespace $name $location; $global:createdNamespaces += $name }
+}
+
+<#
+.SYNOPSIS
+Removes all the active namespaces in the current subscription.
+#>
+function Remove-ActiveNamespaces
+{
+	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace
 }
