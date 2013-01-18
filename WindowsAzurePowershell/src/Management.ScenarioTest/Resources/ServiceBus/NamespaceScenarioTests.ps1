@@ -37,7 +37,7 @@ function Test-ListAzureSBLocation1
 	Where {$_.Location -eq $expectedLocation} | 
 	% { New-Object PSObject -Property @{Name=$expectedName;Location=$_.Location} } | 
 	New-AzureSBNamespace
-	
+  
 	# Assert
 	$actualName = $namespace.Name
 	$actualLocation = $namespace.Region
@@ -56,7 +56,7 @@ Tests running Get-AzureSBNamespace cmdlet and expects that no namespaces are ret
 function Test-GetAzureSBNamespaceWithEmptyNamespaces
 {
 	# Setup
-	Remove-ActiveNamespaces
+	Initialize-NamespaceTest
 
 	# Test
 	$namespaces = Get-AzureSBNamespace
@@ -72,7 +72,7 @@ Tests running Get-AzureSBNamespace cmdlet and expects that one namespace is retu
 function Test-GetAzureSBNamespaceWithOneNamespace
 {
 	# Setup
-	Remove-ActiveNamespaces
+	Initialize-NamespaceTest
 	New-Namespace 1
 
 	# Test
@@ -92,7 +92,7 @@ Tests running Get-AzureSBNamespace cmdlet and expects that multiple namespaces a
 function Test-GetAzureSBNamespaceWithMultipleNamespaces
 {
 	# Setup
-	Remove-ActiveNamespaces
+	Initialize-NamespaceTest
 	New-Namespace 3
 
 	# Test
@@ -112,7 +112,7 @@ Tests running Get-AzureSBNamespace cmdlet using a valid name and expects getting
 function Test-GetAzureSBNamespaceWithValidExisitingNamespace
 {
 	# Setup
-	Remove-ActiveNamespaces
+	Initialize-NamespaceTest
 	New-Namespace 1
 	$expectedName = $createdNamespaces[0]
 
@@ -139,4 +139,54 @@ function Test-GetAzureSBNamespaceWithValidNonExisitingNamespace
 
 	# Test
 	Assert-Throws { Get-AzureSBNamespace $invalidName } "Internal Server Error. This could happen due to an incorrect/missing namespace"
+}
+
+<#
+.SYNOPSIS
+Tests running Get-AzureSBNamespace cmdlet and pipe it's result to Remove-AzureSBNamespace cmdlet.
+#>
+function Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace
+{
+	# Setup
+	Initialize-NamespaceTest
+	New-Namespace 5
+	$actual = $true
+
+	# Test
+	Get-AzureSBNamespace | Remove-AzureSBNamespace -PassThru | % {$actual = $actual -and $_}
+
+	# Assert
+	Assert-True { $actual } "Piping Get-AzureSBNamespace into Remove-AzureSBNamespace failed"
+
+	# Cleanup
+	Test-CleanupServiceBus
+}
+
+<#
+.SYNOPSIS
+Tests running Get-AzureSBNamespace cmdlet and pipe it's result to Set-AzureWebsite cmdlet.
+#>
+function Test-GetAzureSBNamespaceWithWebsites
+{
+	# Setup
+	# Initialize-NamespaceTest
+	$namespaceName = Get-NamespaceName
+	New-AzureSBNamespace $namespaceName $(Get-DefaultLocation)
+	Wait-NamespaceStatus $namespaceName "Active"
+	$websiteName = Get-NamespaceName
+	New-AzureWebsite $websiteName
+	$settingName = "NamespaceConnectionString"
+
+	# Test
+	Get-AzureSBNamespace $namespaceName | % { Set-AzureWebsite $websiteName -AppSettings @{ $settingName = $_.ConnectionString } }
+
+	# Assert
+	$website = Get-AzureWebsite $websiteName
+	$namespace = Get-AzureSBNamespace $namespaceName
+	Assert-AreEqual $namespace.ConnectionString $website.AppSettings[$settingName]
+
+	# Cleanup
+	$createdNamespaces += $namespaceName
+	Remove-AzureWebsite $websiteName
+	Test-CleanupServiceBus
 }
