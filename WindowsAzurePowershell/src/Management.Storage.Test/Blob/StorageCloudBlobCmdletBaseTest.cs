@@ -43,6 +43,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
                 };
         }
 
+        [TestCleanup]
+        public void CleanCommand()
+        {
+            command = null;
+        }
+
         [TestMethod]
         public void ValidatePipelineICloudBlobWithNullTest()
         {
@@ -102,12 +108,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             string testUri = "http://127.0.0.1/account/test";
             CloudBlobContainer container = new CloudBlobContainer(new Uri(testUri));
             command.ValidatePipelineCloudBlobContainer(container);
-        }
-
-        [TestCleanup]
-        public void CleanCommand()
-        {
-            command = null;
         }
 
         [TestMethod]
