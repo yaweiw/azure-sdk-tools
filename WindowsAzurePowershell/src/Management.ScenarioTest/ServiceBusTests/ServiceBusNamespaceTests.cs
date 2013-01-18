@@ -23,9 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     public class ServiceBusNamespaceTests : PowerShellTest
     {
         public ServiceBusNamespaceTests()
-            : base("Microsoft.WindowsAzure.Management.ServiceBus.dll",
-                   "Microsoft.WindowsAzure.Management.CloudService.dll",
-                   "Microsoft.WindowsAzure.Management.Websites.dll",
+            : base("Azure.psd1",
                    "Assert.ps1",
                    "ServiceBus\\Common.ps1",
                    "ServiceBus\\NamespaceScenarioTests.ps1")
