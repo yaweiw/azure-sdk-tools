@@ -169,7 +169,7 @@ Tests running Get-AzureSBNamespace cmdlet and pipe it's result to Set-AzureWebsi
 function Test-GetAzureSBNamespaceWithWebsites
 {
 	# Setup
-	# Initialize-NamespaceTest
+	Initialize-NamespaceTest
 	$namespaceName = Get-NamespaceName
 	New-AzureSBNamespace $namespaceName $(Get-DefaultLocation)
 	Wait-NamespaceStatus $namespaceName "Active"
