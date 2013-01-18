@@ -9,7 +9,7 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Location</Label>
+            <Label>Code</Label>
             <Width>20</Width>
           </TableColumnHeader>
         </TableHeaders>
