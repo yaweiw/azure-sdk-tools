@@ -25,12 +25,15 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         public ServiceBusNamespaceTests()
             : base("Microsoft.WindowsAzure.Management.ServiceBus.dll",
                    "Microsoft.WindowsAzure.Management.CloudService.dll",
+                   "Microsoft.WindowsAzure.Management.Websites.dll",
                    "Assert.ps1",
                    "ServiceBus\\Common.ps1",
                    "ServiceBus\\NamespaceScenarioTests.ps1")
         {
 
         }
+
+        #region Get-AzureSBLocation Scenario Tests
 
         /// <summary>
         /// Test Get-AzureSBLocation with valid credentials.
@@ -49,6 +52,10 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         {
             RunPowerShellTest("Test-ListAzureSBLocation1");
         }
+
+        #endregion
+
+        #region Get-AzureSBNamespace Scenario Tests
 
         /// <summary>
         /// Tests using Get-AzureSBNamespace cmdlet and expect to return empty collection
@@ -82,5 +89,19 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         {
             RunPowerShellTest("Test-GetAzureSBNamespaceWithValidNonExisitingNamespace");
         }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespacePipedToRemoveAzureSBNamespace()
+        {
+            RunPowerShellTest("Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace");
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespaceWithWebsites()
+        {
+            RunPowerShellTest("Test-GetAzureSBNamespaceWithWebsites");
+        }
+
+        #endregion
     }
 }

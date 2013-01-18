@@ -47,7 +47,7 @@ function Assert-Throws
 ####################
 function Assert-True
 {
-    param([ScriptBlock] $script, [string]$message)
+    param([ScriptBlock] $script, [string] $message)
 	
 	if (!$message)
 	{
@@ -72,7 +72,7 @@ function Assert-True
 ####################
 function Assert-NotNull
 {
-    param([object]$actual, [string]$message)
+    param([object] $actual, [string] $message)
 	
 	if (!$message)
 	{
@@ -110,7 +110,7 @@ function Assert-Exists
 ####################
 function Assert-AreEqual
 {
-    param([object]$expected, [object]$actual, [string]$message)
+    param([object] $expected, [object] $actual, [string] $message)
 	
 	if (!$message)
 	{

@@ -50,13 +50,55 @@ The namespace name.
 function Remove-Namespace
 {
 	param([string]$name)
+	Wait-NamespaceStatus $name "Active"
+	Remove-AzureSBNamespace $name
+	Wait-NamespaceRemoved $name
+}
+
+<#
+.SYNOPSIS
+Waits until the namespace is removed.
+
+.PARAMETER name
+The namespace name.
+#>
+function Wait-NamespaceRemoved
+{
+	param([string]$name)
+	
+	$removed = $false
+	do
+	{
+		try
+		{
+			$namespace = Get-AzureSBNamespace $name
+			Start-Sleep -s 5
+		}
+		catch
+		{
+			$removed = $true
+		}
+	} while (!$removed)
+}
+
+<#
+.SYNOPSIS
+Waits on the namespace until its status reaches provided state.
+
+.PARAMETER name
+The namespace name.
+
+.PARAMETER status
+The status to wait on.
+#>
+function Wait-NamespaceStatus
+{
+	param([string] $name, [string] $status)
 	do
 	{
 		$namespace = Get-AzureSBNamespace $name
-		Start-Sleep -s 1
-	} while ($namespace.Status -ne "Active")
-
-	Remove-AzureSBNamespace $name
+		Start-Sleep -s 5
+	} while ($namespace.Status -ne $status)
 }
 
 <#
@@ -70,7 +112,7 @@ function Test-CleanupServiceBus
 
 <#
 .SYNOPSIS
-Creates service bus namespaces with the count specified.
+Creates service bus namespaces with the count specified and wait until the namespace status is Active.
 
 .PARAMETER count
 The number of namespaces to create.
@@ -79,14 +121,20 @@ function New-Namespace
 {
 	param([int]$count)
 	$location = Get-DefaultLocation
-	1..$count | % { $name = Get-NamespaceName; New-AzureSBNamespace $name $location; $global:createdNamespaces += $name }
+	1..$count | % { 
+		$name = Get-NamespaceName;
+		New-AzureSBNamespace $name $location;
+		$global:createdNamespaces += $name;
+	}
+
+	$global:createdNamespaces | % { Wait-NamespaceStatus $_ "Active" };
 }
 
 <#
 .SYNOPSIS
 Removes all the active namespaces in the current subscription.
 #>
-function Remove-ActiveNamespaces
+function Initialize-NamespaceTest
 {
 	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace
 }
