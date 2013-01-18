@@ -7,11 +7,12 @@
     <ProjectGuid>{A3965B66-5A3E-4B8C-9574-28E5958D4828}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Management.ScenarioTest</RootNamespace>
+    <RootNamespace>Microsoft.WindowsAzure.Management.ScenarioTest</RootNamespace>
     <AssemblyName>Management.ScenarioTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,9 +48,15 @@
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceBusTests\ServiceBusNamespaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Common.ps1" />
+    <Resource Include="Resources\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Assert.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\Credentials.ps1" />
     <None Include="Resources\Credstests.ps1" />
     <None Include="Resources\CredUtils.ps1" />
@@ -60,6 +67,12 @@
     <None Include="Resources\NodeEmulatorTests.ps1" />
     <None Include="Resources\PHPEmulatorTests.ps1" />
     <None Include="Resources\Scaffolding.ps1" />
+    <Resource Include="Resources\ServiceBus\NamespaceScenarioTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ServiceBus\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\tipsf001.publishsettings" />
     <None Include="Resources\tipsf002.publishsettings" />
     <None Include="Resources\tipsf003.publishsettings" />
