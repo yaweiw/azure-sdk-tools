@@ -49,6 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             try
             {
                 output = powershell.Invoke();
+                
                 if (powershell.HadErrors || powershell.Streams.Error.Count > 0)
                 {
                     throw new RuntimeException(ErrorIsNotEmptyException);
@@ -68,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         [TestInitialize]
-        public virtual void SetupTest()
+        public virtual void TestSetup()
         {
             powershell = PowerShell.Create();
 
@@ -79,6 +80,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
+            powershell.AddScript("$ErrorActionPreference='Stop'");
         }
 
         [TestCleanup]
