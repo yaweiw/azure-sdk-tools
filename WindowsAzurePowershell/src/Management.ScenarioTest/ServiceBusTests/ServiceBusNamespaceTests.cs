@@ -136,5 +136,34 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         #endregion
+
+        #region Remove-AzureSBNamespace Scenario Tests
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithExistingNamespace");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithNonExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithNonExistingNamespace");
+        }
+
+        /// <summary>
+        /// This test does the following:
+        /// * Generate namespace name.
+        /// * Uses Test-AzureName to make sure it's available
+        /// * Waits for it's status to be 'Active'
+        /// * Pipe it's value to Remove-AzureSBNamespace
+        /// </summary>
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceInputPiping()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceInputPiping");
+        }
+
+        #endregion
     }
 }

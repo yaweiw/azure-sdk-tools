@@ -284,3 +284,59 @@ function Test-NewAzureSBNamespaceWithWebsite
 	Remove-AzureWebsite $websiteName -Force
 	Test-CleanupServiceBus
 }
+
+########################################################################### Remove-AzureSBNamespace Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet and expects to remove the namespace.
+#>
+function Test-RemoveAzureSBNamespaceWithExistingNamespace
+{
+	# Setup
+	$name = Get-NamespaceName
+	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
+	Wait-NamespaceStatus $name "Active"
+
+	# Test
+	Remove-AzureSBNamespace $name
+
+	# Assert
+	$namespace = Get-AzureSBNamespace $name
+	Assert-AreEqual "Removing" $namespace.Status
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with non-existing namespace and expects to get an exception
+#>
+function Test-RemoveAzureSBNamespaceWithNonExistingNamespace
+{
+	# Test
+	Assert-Throws { Remove-AzureSBNamespace "NonExistingOneSDKName" } "Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription."
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet pipe a namespace object into it.
+#>
+function Test-RemoveAzureSBNamespaceInputPiping
+{
+	# Setup
+	$name = Get-NamespaceName
+
+	# Test
+	$available = Test-AzureName -ServiceBusNamespace $name
+	Assert-True { $available } "The service bus name '$name' is not available"
+
+	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
+	
+	Wait-NamespaceStatus $name "Active"
+	
+	$namespace = Get-AzureSBNamespace $name
+	$namespace | Remove-AzureSBNamespace
+
+	# Assert
+	$namespace = Get-AzureSBNamespace $name
+	Assert-AreEqual "Removing" $namespace.Status
+}
