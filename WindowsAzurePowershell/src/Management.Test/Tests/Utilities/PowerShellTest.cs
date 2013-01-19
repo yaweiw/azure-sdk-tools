@@ -41,10 +41,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public virtual Collection<PSObject> RunPowerShellTest(params string[] scripts)
         {
             Collection<PSObject> output = null;
-            foreach (string script in scripts)
+            for (int i = 0; i < scripts.Length; ++i)
             {
-                Console.WriteLine(script);
-                powershell.AddScript(script);
+                Console.WriteLine(scripts[i]);
+                powershell.AddScript(scripts[i]);
             }
             try
             {
@@ -63,6 +63,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             }
             finally
             {
+                Console.WriteLine("History: {0}", powershell.HistoryString);
                 powershell.LogPowerShellResults(output);
             }
         }
