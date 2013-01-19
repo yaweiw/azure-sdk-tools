@@ -18,7 +18,7 @@ namespace Management.ScenarioTest.CloudServiceTests
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
 
     [TestClass]
-    public class EmulatorTests : PowerShellTest
+    public class EmulatorTests : PowerShellAzureTest
     {
         static string TrueIsNotFalseException = "Assertion failed: $true -eq $false";
         static string ExceptionMatchFailedException = "Exception match failed, '{0}' != '{1}'";
@@ -40,6 +40,8 @@ namespace Management.ScenarioTest.CloudServiceTests
                 "Write-Progress \"Progress\"",
                 "Write-Verbose \"Verbose\"",
                 "Write-Warning \"Warning\"",
+                "foreach ($k in (Get-Item env:) ){$name=$k.name; $Value = $k.Value; Write-Debug \"$name=$Value\"}",
+                "foreach ($sub in Get-AzureSubscription) {$name = $sub.SubscriptionName; Write-Debug $name}",
                 "Assert-True {$true -eq $true}"
                 );
         }

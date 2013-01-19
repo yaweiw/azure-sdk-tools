@@ -86,6 +86,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -113,11 +117,13 @@
     <Compile Include="TestData\Data.cs" />
     <Compile Include="Tests\Utilities\AzureAssert.cs" />
     <Compile Include="Tests\Utilities\MockCommandRuntime.cs" />
+    <Compile Include="Tests\Utilities\PowerShellAzureTest.cs" />
     <Compile Include="Tests\Utilities\PowerShellExtensions.cs" />
     <Compile Include="Tests\Utilities\PowerShellTest.cs" />
     <Compile Include="Tests\Utilities\PSObjectExtensions.cs" />
     <Compile Include="Tests\Utilities\RemoveAzurePublishSettings.cs" />
     <Compile Include="Tests\Utilities\SimpleServiceManagementAsyncResult.cs" />
+    <Compile Include="Tests\Utilities\TestCredentialHelper.cs" />
     <Compile Include="Tests\Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
