@@ -14,11 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
-    using System.Management.Automation;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.Collections.ObjectModel;
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class PowerShellTest
@@ -26,11 +27,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public static string ErrorIsNotEmptyException = "Test failed due to a non-empty error stream, check the error stream in the test log for more details";
 
         protected PowerShell powershell;
-        protected string[] modules;
+        protected List<string> modules;
 
         public PowerShellTest(params string[] modules)
         {
-            this.modules = modules;
+            this.modules = new List<string>();
+            this.modules.Add("Azure.psd1");
+            this.modules.Add("Assert.ps1");
+            this.modules.AddRange(modules);
         }
 
         protected void AddScenarioScript(string script)
@@ -49,6 +53,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             try
             {
                 output = powershell.Invoke();
+                
                 if (powershell.HadErrors || powershell.Streams.Error.Count > 0)
                 {
                     throw new RuntimeException(ErrorIsNotEmptyException);
@@ -69,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         [TestInitialize]
-        public virtual void SetupTest()
+        public virtual void TestSetup()
         {
             powershell = PowerShell.Create();
 
@@ -80,6 +85,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
+            powershell.AddScript("$ErrorActionPreference='Stop'");
         }
 
         [TestCleanup]

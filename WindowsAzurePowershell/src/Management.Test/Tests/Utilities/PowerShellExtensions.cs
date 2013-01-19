@@ -34,8 +34,59 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         /// <returns>The variable object</returns>
         public static T GetPowerShellVariable<T>(this PowerShell powershell, string name)
         {
-            PSObject psobject = powershell.Runspace.SessionStateProxy.GetVariable(name) as PSObject;
-            return (T)psobject.BaseObject;
+            object obj = powershell.Runspace.SessionStateProxy.GetVariable(name);
+            
+            if (obj is PSObject)
+            {
+                return (T)(obj as PSObject).BaseObject;
+            }
+            else
+            {
+                return (T)obj;
+            }
+        }
+
+        /// <summary>
+        /// Gets a powershell enumerable collection from the current session and convernts it back to it's original type.
+        /// </summary>
+        /// <typeparam name="T">The powershell object original type</typeparam>
+        /// <param name="powershell">The PowerShell instance</param>
+        /// <param name="name">The variable name</param>
+        /// <returns>The collection in list</returns>
+        public static List<T> GetPowerShellCollection<T>(this PowerShell powershell, string name)
+        {
+            List<T> result = new List<T>();
+
+            try
+            {
+                object[] objects = (object[])powershell.Runspace.SessionStateProxy.GetVariable(name);
+
+                foreach (object item in objects)
+                {
+                    if (item is PSObject)
+                    {
+                        result.Add((T)(item as PSObject).BaseObject);
+                    }
+                    else
+                    {
+                        result.Add((T)item);
+                    }
+                }
+            }
+            catch (Exception) { /* Do nothing */ }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Sets a new PSVariable to the current scope.
+        /// </summary>
+        /// <param name="powershell">The PowerShell instance</param>
+        /// <param name="name">The variable name</param>
+        /// <param name="value">The variable value</param>
+        public static void SetVariable(this PowerShell powershell, string name, object value)
+        {
+            powershell.Runspace.SessionStateProxy.SetVariable(name, value);
         }
 
         /// <summary>
