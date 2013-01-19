@@ -165,5 +165,33 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         #endregion
+
+        #region General Service Bus Scenario Tests
+
+        [TestMethod]
+        public void TestGetAzureSBLocationWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBLocation}");
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBNamespace}");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {New-AzureSBNamespace $(Get-NamespaceName) $(Get-DefaultServiceBusLocation)}");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureSBNamespace \"AnyName\"}");
+        }
+
+        #endregion
     }
 }
