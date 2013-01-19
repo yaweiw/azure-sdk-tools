@@ -28,14 +28,15 @@ function Assert-Throws
    }
    catch 
    {
-       Write-Output ("Caught exception: '" + $_.Exception.Message + "'")
-       if ($_.Exception.Message -eq $message)
+       $actualMessage = $_.Exception.Message
+       Write-Output ("Caught exception: '$actualMessage'")
+       if ($actualMessage -eq $message)
 	   {
 	       return $true;
 	   }
    }
 
-   throw "Expected exception not received: '$message'";
+   throw "Expected exception not received: '$message' the actual message is '$actualMessage'";
 }
 
 ###################
