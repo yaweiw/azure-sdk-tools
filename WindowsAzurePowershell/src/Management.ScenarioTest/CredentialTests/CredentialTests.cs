@@ -11,7 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Management.ScenarioTest.CredentialTests
+
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.CredentialTests
 {
     using System;
     using System.Collections.Generic;

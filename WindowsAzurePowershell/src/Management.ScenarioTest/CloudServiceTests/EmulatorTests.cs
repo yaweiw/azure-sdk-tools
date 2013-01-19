@@ -11,7 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-namespace Management.ScenarioTest.CloudServiceTests
+
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 {
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,6 +27,7 @@ namespace Management.ScenarioTest.CloudServiceTests
             : base(
                 "Microsoft.WindowsAzure.Management.dll", 
                 "Microsoft.WindowsAzure.Management.CloudService.dll", 
+                "Assert.ps1",
                 "Common.ps1"
             )
         {
