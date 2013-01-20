@@ -448,6 +448,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The page blob size must be a multiple of 512 bytes. But the size of local file &apos;{0}&apos; is {1}..
+        /// </summary>
+        internal static string InvalidPageBlobSize {
+            get {
+                return ResourceManager.GetString("InvalidPageBlobSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Queue name &apos;{0}&apos; is invalid..
         /// </summary>
         internal static string InvalidQueueName {

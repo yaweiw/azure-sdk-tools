@@ -360,4 +360,8 @@
     <value>The remove operation of  blob '{0}' in container '{1}' is cancelled.</value>
     <comment>0 for blob name, 1 for container name</comment>
   </data>
+  <data name="InvalidPageBlobSize" xml:space="preserve">
+    <value>The page blob size must be a multiple of 512 bytes. But the size of local file '{0}' is {1}.</value>
+    <comment>0 for local file path, 1 file size</comment>
+  </data>
 </root>
