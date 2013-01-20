@@ -106,14 +106,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             else
             {
                 CloudStorageAccount account = null;
+                bool shouldInitChannel = ShouldInitServiceChannel();
 
-                if (ShouldInitServiceChannel())
+                try
                 {
-                    account = GetStorageAccountFromSubscription();
+                    if (shouldInitChannel)
+                    {
+                        account = GetStorageAccountFromSubscription();
+                    }
+                    else
+                    {
+                        account = GetStorageAccountFromEnvironmentVariable();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    account = GetStorageAccountFromEnvironmentVariable();
+                    //stop the pipeline if storage account is missed.
+                    WriteTerminatingError(e);
                 }
 
                 //set the storage context and use it in pipeline
@@ -202,10 +211,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch (CommunicationException e)
                 {
+                    WriteVerboseLog(Resources.CannotGetSotrageAccountFromSubscription);
+
                     if (e.IsNotFoundException())
                     {
                         //repack the 404 error
-                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount);
+                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount, CurrentSubscription.SubscriptionName);
                         CommunicationException exception = new CommunicationException(errorMessage, e);
                         throw exception;
                     }
@@ -232,7 +243,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             else
             {
                 WriteVerboseLog(Resources.GetStorageAccountFromEnvironmentVariable);
-                return CloudStorageAccount.Parse(connectionString);
+
+                try
+                {
+                    return CloudStorageAccount.Parse(connectionString);
+                }
+                catch
+                {
+                    WriteVerboseLog(Resources.CannotGetStorageAccountFromEnvironmentVariable);
+                    throw;
+                }
             }
         }
 
@@ -253,7 +273,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void WriteExceptionError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+            WriteError(new ErrorRecord(e, e.GetType().Name, GetExceptionErrorCategory(e), null));
+        }
 
+        /// <summary>
+        /// write error with category and identifier
+        /// </summary>
+        /// <param name="e">an exception object</param>
+        protected void WriteExceptionError(StorageException e)
+        {
+            WriteErrorDetails(e);
+        }
+
+        /// <summary>
+        /// get the error category for specificed exception
+        /// </summary>
+        /// <param name="e">exception object</param>
+        /// <returns>error category</returns>
+        protected ErrorCategory GetExceptionErrorCategory(Exception e)
+        {
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
 
             if (e is ArgumentException)
@@ -268,15 +306,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 errorCategory = ErrorCategory.ResourceExists;
             }
-            else if (e is StorageException)
-            {
-                WriteErrorDetails((StorageException)e);
-                return;
-            }
 
-            WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
+            return errorCategory;
         }
 
+        /// <summary>
+        /// write terminating error
+        /// </summary>
+        /// <param name="e">exception object</param>
+        protected void WriteTerminatingError(Exception e)
+        {
+            Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+            ThrowTerminatingError(new ErrorRecord(e, e.GetType().Name, GetExceptionErrorCategory(e), null));
+        }
 
         /// <summary>
         /// cmdlet begin process
