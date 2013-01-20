@@ -269,10 +269,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            if (!String.IsNullOrEmpty(fileName) && !NameUtil.IsValidFileName(fileName))
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidFileName, fileName));
-            }
+            string filePath = GetFullReceiveFilePath(fileName, blobName);
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
@@ -302,27 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
-            string filePath = Path.Combine(CurrentPath(), fileName);
-
-            if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
-            {
-                fileName = blob.Name;
-                filePath = Path.Combine(filePath, fileName);
-            }
-
-            fileName = Path.GetFileName(filePath);
-
-            if (!NameUtil.IsValidFileName(fileName))
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidFileName, fileName));
-            }
-
-            String dirPath = Path.GetDirectoryName(filePath);
-
-            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
-            {
-                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
-            }
+            string filePath = GetFullReceiveFilePath(fileName, blob.Name);
 
             if (!overwrite && System.IO.File.Exists(filePath))
             {
@@ -345,6 +322,40 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             return new AzureStorageBlob(blob);
+        }
+
+        /// <summary>
+        /// get full file path according to the specified file name
+        /// </summary>
+        /// <param name="fileName">file name</param>
+        /// <returns>full file path</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal string GetFullReceiveFilePath(string fileName, string blobName)
+        {
+            String filePath = Path.Combine(CurrentPath(), fileName);
+            fileName = Path.GetFileName(filePath);
+
+            if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
+            {
+                fileName = blobName;
+                filePath = Path.Combine(filePath, fileName);
+            }
+
+            fileName = Path.GetFileName(filePath);
+
+            if (!NameUtil.IsValidFileName(fileName))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidFileName, fileName));
+            }
+
+            String dirPath = Path.GetDirectoryName(filePath);
+
+            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
+            {
+                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
+            }
+
+            return filePath;
         }
 
         /// <summary>
