@@ -69,6 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "$abc", //$ is invalid
                     "abd*677", //* is invalid
                     "abc?", //? is invalid
+                    "$root-", //$ is invalid
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidContainerPrefix);
         }
@@ -116,7 +117,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "a?", //? is invalid
                     "af*", //* is invalid
                     "abc+", //+ is invalid
-                    new String('a', 64) //too long
+                    new String('a', 64), //too long
+                    new String('a', 256) //too long
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidTableName);
         }
@@ -135,7 +137,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "a?", //? is invalid
                     "af*", //* is invalid
                     "abc+", //+ is invalid
-                    new String('a', 64) //too long
+                    new String('a', 64), //too long
+                    new String('a', 256) //too long
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidTablePrefix);
         }
@@ -160,6 +163,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "$abc", //$ is invalid
                     "abd*677", //* is invalid
                     "abc?", //? is invalid
+                    new String('a', 64), //too long
+                    new String('a', 256) //too long
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidQueueName);
         }
@@ -180,6 +185,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "$abc", //$ is invalid
                     "abd*677", //* is invalid
                     "abc?", //? is invalid
+                    new String('a', 64), //too long
+                    new String('a', 256) //too long
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidQueuePrefix);
         }
@@ -197,10 +204,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
                     "COM1", //forbidden file name
                     "abd*677", //* is invalid
                     "abc?", //? is invalid
+                    new String('a', 512), //too long
+                    new String('a', 1024) //too long
                 };
             NameValidateHelper(negatives, false, NameUtil.IsValidFileName);
         }
 
+        /// <summary>
+        /// validate names
+        /// </summary>
+        /// <param name="names">names which need to be checked</param>
+        /// <param name="isValid">the names is valid or not</param>
+        /// <param name="validator">Validate method</param>
         private void NameValidateHelper(string[] names, bool isValid, Func<string, bool> validator)
         {
             foreach (string name in names)
