@@ -370,6 +370,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string filePath = GetFullSendFilePath(fileName);
 
+            if (blob.BlobType == WindowsAzure.Storage.Blob.BlobType.PageBlob)
+            {
+                long fileSize = new FileInfo(filePath).Length;
+                long pageBlobUnit = 512;
+                long remainder = fileSize % pageBlobUnit;
+
+                if (remainder != 0)
+                {
+                    //the blob size must be a multiple of 512 bytes.
+                    throw new ArgumentException(String.Format(Resources.InvalidPageBlobSize, filePath, fileSize));
+                }
+            }
+
             if (null == blob)
             {
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
