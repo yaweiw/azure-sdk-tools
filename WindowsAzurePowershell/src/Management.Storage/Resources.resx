@@ -348,4 +348,16 @@
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'</value>
   </data>
+  <data name="CannotDeleteSnapshotForSnapshot" xml:space="preserve">
+    <value>The specified blob '{0}' is already a snapshot with snapshot time {1}. Can't use "DeleteSnapshot" option for it.</value>
+    <comment>0 for blob name, 1 for snapshot time </comment>
+  </data>
+  <data name="ConfirmRemoveBlobWithSnapshot" xml:space="preserve">
+    <value>The blob '{0}' in container '{1}' has snapshot. Are you sure to remove blob and its snapshots?</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
+  <data name="RemoveBlobCanncelled" xml:space="preserve">
+    <value>The remove operation of  blob '{0}' in container '{1}' is cancelled.</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
 </root>
