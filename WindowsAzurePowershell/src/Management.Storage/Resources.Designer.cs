@@ -127,13 +127,12 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         ///   Looks up a localized string similar to The specified blob &apos;{0}&apos; is already a snapshot with snapshot time {1}. Can&apos;t use &quot;DeleteSnapshot&quot; option for it..
         /// </summary>
         internal static string CannotDeleteSnapshotForSnapshot {
-            get
-            {
+            get {
                 return ResourceManager.GetString("CannotDeleteSnapshotForSnapshot", resourceCulture);
             }
         }
-
-	/// <summary>
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not get storage account  from subscription. Please check the subscription settings using &quot;Get-AzureSubscription&quot;..
         /// </summary>
         internal static string CannotGetSotrageAccountFromSubscription {
@@ -490,6 +489,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string InvalidFileName {
             get {
                 return ResourceManager.GetString("InvalidFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The page blob size must be a multiple of 512 bytes. But the size of local file &apos;{0}&apos; is {1}..
+        /// </summary>
+        internal static string InvalidPageBlobSize {
+            get {
+                return ResourceManager.GetString("InvalidPageBlobSize", resourceCulture);
             }
         }
         
