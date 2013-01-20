@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;.
+        ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;..
         /// </summary>
         internal static string BeginProcessingWithParameterSetLog {
             get {
@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} end processing, Used {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.
+        ///   Looks up a localized string similar to {0} end processing, Used {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}..
         /// </summary>
         internal static string EndProcessingLog {
             get {
@@ -412,7 +412,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Init service channel from current subscription.
+        ///   Looks up a localized string similar to Init service channel from current subscription..
         /// </summary>
         internal static string InitChannelFromSubscription {
             get {

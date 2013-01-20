@@ -272,7 +272,7 @@
     <value>Azure-Storage-PowerShell-{0}</value>
   </data>
   <data name="EndProcessingLog" xml:space="preserve">
-    <value>{0} end processing, Used {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}</value>
+    <value>{0} end processing, Used {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.</value>
     <comment>0 for cmdlet name. 1 for remote call counter, 2 for running time, 3 for client request id</comment>
   </data>
   <data name="ExceptionCannotEmpty" xml:space="preserve">
@@ -337,7 +337,7 @@
     <value>AZURE_STORAGE_CONNECTION_STRING</value>
   </data>
   <data name="InitChannelFromSubscription" xml:space="preserve">
-    <value>Init service channel from current subscription</value>
+    <value>Init service channel from current subscription.</value>
   </data>
   <data name="UseStorageAccountFromContext" xml:space="preserve">
     <value>Use storage account '{0}' from storage context</value>
@@ -347,7 +347,7 @@
     <value>{0} begin processing without ParameterSet.</value>
   </data>
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
-    <value>{0} begin processing with ParameterSet '{1}'</value>
+    <value>{0} begin processing with ParameterSet '{1}'.</value>
   </data>
   <data name="InvalidBlobType" xml:space="preserve">
     <value>blob '{0}' 's type should be block or page.</value>
