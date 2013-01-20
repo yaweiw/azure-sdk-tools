@@ -24,5 +24,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract
     /// </summary>
     public interface IStorageManagement
     {
+        //This is a place holder for the unit tests of StorageCloudCmdletBase
     }
 }

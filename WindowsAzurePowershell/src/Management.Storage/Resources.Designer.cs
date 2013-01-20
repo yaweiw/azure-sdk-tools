@@ -127,8 +127,27 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         ///   Looks up a localized string similar to The specified blob &apos;{0}&apos; is already a snapshot with snapshot time {1}. Can&apos;t use &quot;DeleteSnapshot&quot; option for it..
         /// </summary>
         internal static string CannotDeleteSnapshotForSnapshot {
-            get {
+            get
+            {
                 return ResourceManager.GetString("CannotDeleteSnapshotForSnapshot", resourceCulture);
+            }
+        }
+
+	/// <summary>
+        ///   Looks up a localized string similar to Can not get storage account  from subscription. Please check the subscription settings using &quot;Get-AzureSubscription&quot;..
+        /// </summary>
+        internal static string CannotGetSotrageAccountFromSubscription {
+            get {
+                return ResourceManager.GetString("CannotGetSotrageAccountFromSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not get storage account from environment variable &apos;AZURE_STORAGE_CONNECTION_STRING&apos;. Please check whether this environment variable is valid..
+        /// </summary>
+        internal static string CannotGetStorageAccountFromEnvironmentVariable {
+            get {
+                return ResourceManager.GetString("CannotGetStorageAccountFromEnvironmentVariable", resourceCulture);
             }
         }
         
@@ -214,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not found current storage account &apos;{0}&apos; on azure, please check whether your storage account exists..
+        ///   Looks up a localized string similar to Can not found current storage account &apos;{0}&apos; of subsciption &apos;{1}&apos; on azure, please check whether your storage account exists..
         /// </summary>
         internal static string CurrentStorageAccountNotFoundOnAzure {
             get {
