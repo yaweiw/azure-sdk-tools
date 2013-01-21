@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
             ParameterSetName = SasTokenParameterSet)]
-        [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS)]
+        [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS, IgnoreCase = true)]
         public string Protocol
         {
             get { return protocolType; }
