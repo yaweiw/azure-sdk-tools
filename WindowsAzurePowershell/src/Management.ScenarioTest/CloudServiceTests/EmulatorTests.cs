@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 {
-    using Common;
     using System.Management.Automation;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class EmulatorTests : WindowsAzurePowerShellTest
@@ -69,28 +69,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
                 Assert.AreEqual<string>(TrueIsNotFalseException, runtimeException.Message,
                     string.Format(ExceptionMatchFailedException, TrueIsNotFalseException, runtimeException.Message));
             }
-        }
-
-        [TestMethod]
-        public void CommonPowerShellFailingTest()
-        {
-            try
-            {
-                RunPowerShellTest(
-                "Write-Output \"Output\"",
-                "Write-Debug \"Debug\"",
-                "Write-Progress \"Progress\"",
-                "Write-Verbose \"Verbose\"",
-                "Write-Warning \"Warning\"",
-                "Assert-Tru {$true -eq $false}"
-                );
-            }
-            catch (RuntimeException runtimeException)
-            {
-                Assert.AreEqual<string>(PowerShellTest.ErrorIsNotEmptyException, runtimeException.Message,
-                    string.Format(ExceptionMatchFailedException, PowerShellTest.ErrorIsNotEmptyException, runtimeException.Message));
-            }
-
         }
     }
 }
