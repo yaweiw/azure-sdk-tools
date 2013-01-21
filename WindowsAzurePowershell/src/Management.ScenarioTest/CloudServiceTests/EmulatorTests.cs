@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 {
+    using Common;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
 
     [TestClass]
-    public class EmulatorTests : PowerShellAzureTest
+    public class EmulatorTests : WindowsAzurePowerShellTest
     {
         static string TrueIsNotFalseException = "Assertion failed: $true -eq $false";
         static string ExceptionMatchFailedException = "Exception match failed, '{0}' != '{1}'";
