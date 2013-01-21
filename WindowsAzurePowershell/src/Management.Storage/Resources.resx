@@ -170,7 +170,7 @@
     <value>Invalid start time '{0}'.</value>
   </data>
   <data name="OnlyOnePermissionForContainer" xml:space="preserve">
-    <value>You must supply only one permission for container.</value>
+    <value>You must supply only one permission in Off/Blob/Container for container.</value>
   </data>
   <data name="QueueAlreadyExists" xml:space="preserve">
     <value>Queue '{0}' already exists.</value>

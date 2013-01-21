@@ -565,7 +565,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You must supply only one permission for container..
+        ///   Looks up a localized string similar to You must supply only one permission in Off/Blob/Container for container..
         /// </summary>
         internal static string OnlyOnePermissionForContainer {
             get {

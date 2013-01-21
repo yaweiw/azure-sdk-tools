@@ -53,12 +53,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// block blob type
         /// </summary>
-        private const string BlockBlobType = "block";
+        private const string BlockBlobType = "Block";
 
         /// <summary>
         /// page blob type
         /// </summary>
-        private const string PageBlobType = "page";
+        private const string PageBlobType = "Page";
 
         [Alias("FullName")]
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "file Path",
@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             ParameterSetName = BlobParameterSet)]
         public ICloudBlob ICloudBlob { get; set; }
 
-        [Parameter(HelpMessage = "Blob Type('block', 'page')")]
+        [Parameter(HelpMessage = "Blob Type('Block', 'Page')")]
         [ValidateSet(BlockBlobType, PageBlobType)]
         public string BlobType
         {
