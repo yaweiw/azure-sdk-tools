@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
     using System.Management.Automation;
     using System.Net;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class ExceptionHandlerTests : TestBase

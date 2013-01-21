@@ -14,22 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
+    using System;
     using System.IO;
     using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using System;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
 
     [TestClass]
     public class AddAzureCacheWorkerRoleTests : TestBase
@@ -101,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
                 foreach (string invalidName in TestData.Data.InvalidRoleNames)
                 {
-                    Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
+                    ManagementTesting.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
                 }
             }
         }

@@ -23,11 +23,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Extensions;
     using Management.Services;
     using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.
@@ -132,21 +133,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
 
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(null, null));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(string.Empty, string.Empty));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", null));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", string.Empty));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "short"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "onlylower"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "ONLYUPPER"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "1234567890"));
             }
         }
@@ -161,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
-                Testing.AssertThrows<InvalidOperationException>(() =>
+                ManagementTesting.AssertThrows<InvalidOperationException>(() =>
                     EnableRemoteDesktop("user", "GoodPassword!"));
             }
         }
