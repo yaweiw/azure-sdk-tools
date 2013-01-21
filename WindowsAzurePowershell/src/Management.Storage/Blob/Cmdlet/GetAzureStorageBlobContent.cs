@@ -25,7 +25,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security;
+    using System.Security.AccessControl;
     using System.Security.Permissions;
+    using System.Security.Principal;
     using System.Text;
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, DefaultParameterSetName = ManuallyParameterSet),
@@ -203,6 +206,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
+        /// confirm the overwrite operation
+        /// </summary>
+        /// <param name="msg">confirmation message</param>
+        /// <returns>true if the opeation is confirmed, otherwise return false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal virtual bool ConfirmOverwrite(string msg = null)
+        {
+            if (String.IsNullOrEmpty(msg))
+            {
+                msg = BlobName;
+            }
+
+            return ShouldProcess(msg);
+        }
+
+        /// <summary>
         /// download blob to lcoal file
         /// </summary>
         /// <param name="blob">source blob object</param>
@@ -269,7 +288,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blobName);
+            string filePath = GetValidFullReceiveFilePath(fileName, blobName);
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
@@ -299,11 +318,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blob.Name);
+            string filePath = GetValidFullReceiveFilePath(fileName, blob.Name);
 
             if (!overwrite && System.IO.File.Exists(filePath))
             {
-                throw new ArgumentException(String.Format(Resources.FileAlreadyExists, filePath));
+                if (!ConfirmOverwrite(filePath))
+                {
+                    throw new ArgumentException(String.Format(Resources.FileAlreadyExists, filePath));
+                }
             }
 
             if (!isValidBlob)
@@ -328,9 +350,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// get full file path according to the specified file name
         /// </summary>
         /// <param name="fileName">file name</param>
-        /// <returns>full file path</returns>
+        /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal string GetFullReceiveFilePath(string fileName, string blobName)
+        internal string GetValidFullReceiveFilePath(string fileName, string blobName)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
@@ -355,7 +377,84 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
             }
 
+            //check the write permission on the specified file path
+            var permissionEntity = dirPath;
+
+            if (System.IO.File.Exists(filePath))
+            {
+                permissionEntity = filePath;
+            }
+
+            if (!HasWritePermission(permissionEntity))
+            {
+                throw new ArgumentException(String.Format(Resources.WritePermissionDenied, permissionEntity));
+            }
+
             return filePath;
+        }
+
+        /// <summary>
+        /// check whether the current user has write permission on specified file path
+        /// <see cref="http://stackoverflow.com/questions/1281620/checking-for-directory-and-file-write-permissions-in-net"/>
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns>true if current user has permission, otherwise false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal bool HasWritePermission(string filePath)
+        {
+            //FIXME it seems cannot work with ready only permission
+            try
+            {
+                FileSystemSecurity security = null;
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    security = System.IO.File.GetAccessControl(filePath);
+                }
+                else
+                {
+                    security = Directory.GetAccessControl(Path.GetDirectoryName(filePath));
+                }
+
+                var rules = security.GetAccessRules(true, true, typeof(NTAccount));
+                var currentuser = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+                bool result = false;
+
+                foreach (FileSystemAccessRule rule in rules)
+                {
+                    if (0 == (rule.FileSystemRights & (FileSystemRights.WriteData | FileSystemRights.Write)))
+                    {
+                        continue;
+                    }
+
+                    if (rule.IdentityReference.Value.StartsWith("S-1-"))
+                    {
+                        var sid = new SecurityIdentifier(rule.IdentityReference.Value);
+
+                        if (!currentuser.IsInRole(sid))
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (!currentuser.IsInRole(rule.IdentityReference.Value))
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (rule.AccessControlType == AccessControlType.Deny)
+                        return false;
+                    if (rule.AccessControlType == AccessControlType.Allow)
+                        result = true;
+                }
+                return result;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
