@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public PowerShellTest(params string[] modules)
         {
             this.modules = new List<string>();
-            this.modules.Add("Azure.psd1");
+            this.modules.Add("TestAzure.psd1");
             this.modules.Add("Assert.ps1");
             this.modules.AddRange(modules);
         }
