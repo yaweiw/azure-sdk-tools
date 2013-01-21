@@ -211,26 +211,15 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// create snap shot for specified blob
+        /// fetch container attributes
         /// </summary>
-        /// <param name="blockBlob">CloudBlockBlob object</param>
-        /// <param name="metadata">blob meta data</param>
-        /// <param name="accessCondition">access condition</param>
-        /// <param name="options">request options</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>the snapshot blob if successed, return null if the blobType of ICloudBlob is BlobType.Unspecified</returns>
-        public ICloudBlob CreateSnapshot(ICloudBlob blob, IDictionary<string, string> metadata, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            if (blob.BlobType == BlobType.BlockBlob)
-            {
-                return ((CloudBlockBlob)blob).CreateSnapshot(metadata, accessCondition, options, operationContext);
-            }
-            else if (blob.BlobType == BlobType.PageBlob)
-            {
-                return ((CloudPageBlob)blob).CreateSnapshot(metadata, accessCondition, options, operationContext);
-            }
-
-            return null;
+            container.FetchAttributes(accessCondition, options, operationContext);
         }
     }
 }
