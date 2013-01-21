@@ -34,6 +34,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             this.modules = new List<string>();
             this.modules.Add("Azure.psd1");
             this.modules.Add("Assert.ps1");
+            this.modules.Add("Common.ps1");
             this.modules.AddRange(modules);
         }
 

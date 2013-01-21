@@ -43,8 +43,8 @@ function Assert-Throws
 #
 # Verify that the given scriptblock returns true
 #
-#    param [ScriptBlock] $script: The script to execute
-#    param [string] $message    : The message to return if the given script does not return true
+#    param [ScriptBlock] $script : The script to execute
+#    param [string] $message     : The message to return if the given script does not return true
 ####################
 function Assert-True
 {
