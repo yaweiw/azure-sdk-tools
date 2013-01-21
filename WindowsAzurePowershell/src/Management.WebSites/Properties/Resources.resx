@@ -198,4 +198,7 @@ Launch portal now?</value>
   <data name="InvalidHostnameValidation" xml:space="preserve">
     <value>The specified hostname does not exist. Please specify a valid hostname for the site.</value>
   </data>
+  <data name="RemoveWebsiteMessage" xml:space="preserve">
+    <value>Removing website</value>
+  </data>
 </root>
