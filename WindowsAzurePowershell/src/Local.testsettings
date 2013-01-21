@@ -15,6 +15,7 @@
     <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
     <DeploymentItem filename="Management.CloudService\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
+    <DeploymentItem filename="..\..\Package\Debug\" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>
