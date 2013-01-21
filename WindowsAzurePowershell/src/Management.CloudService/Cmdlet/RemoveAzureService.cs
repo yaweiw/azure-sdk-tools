@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
+    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true)]
     public class RemoveAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
@@ -79,39 +79,40 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 throw new Exception(Resources.InvalidServiceName);
             }
 
-            if (!Force.IsPresent &&
-                !ShouldProcess("", string.Format(Resources.RemoveServiceWarning, serviceName),
-                                Resources.ShouldProcessCaption))
-            {
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(settings.Subscription))
-            {
-                var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
-                CurrentSubscription = globalComponents.Subscriptions.Values.First(
-                    sub => sub.SubscriptionName == settings.Subscription);
-            }
-
-            // Check that cloud service exists
-            WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
-            bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
-
-            if (found)
-            {
-                StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
-                StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
-                RemoveService(serviceName);
-
-                if (PassThru)
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemoveServiceWarning, serviceName),
+                Resources.RemoveServiceWhatIfMessage,
+                serviceName,
+                () =>
                 {
-                    WriteObject(true);
-                }
-            }
-            else
-            {
-                WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
-            }
+                    if (!string.IsNullOrEmpty(settings.Subscription))
+                    {
+                        var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
+                        CurrentSubscription = globalComponents.Subscriptions.Values.First(
+                            sub => sub.SubscriptionName == settings.Subscription);
+                    }
+
+                    // Check that cloud service exists
+                    WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
+                    bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
+
+                    if (found)
+                    {
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
+                        RemoveService(serviceName);
+
+                        if (PassThru)
+                        {
+                            WriteObject(true);
+                        }
+                    }
+                    else
+                    {
+                        WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
+                    }
+                });
         }
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)
