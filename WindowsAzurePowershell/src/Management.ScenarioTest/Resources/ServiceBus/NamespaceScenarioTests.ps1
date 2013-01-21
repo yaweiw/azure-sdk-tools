@@ -350,10 +350,16 @@ function Test-RemoveAzureSBNamespaceInputPiping
 	
 	Wait-NamespaceStatus $name "Active"
 	
-	$namespace = Get-AzureSBNamespace $name
-	$namespace | Remove-AzureSBNamespace
+	Get-AzureSBNamespace $name | Remove-AzureSBNamespace
 
 	# Assert
-	$namespace = Get-AzureSBNamespace $name
-	Assert-AreEqual "Removing" $namespace.Status
+	try
+	{ 
+		$namespace = Get-AzureSBNamespace $name
+		Assert-AreEqual "Removing" $namespace.Status
+	}
+	catch
+	{
+		# Succeed in case that the namespace was removed already.
+	}
 }
