@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
     using System;
     using System.Collections.Generic;
@@ -24,6 +24,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Common;
 
     public class TestCredentialHelper
     {
@@ -76,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             Assert.IsTrue(File.Exists(credentialFile), string.Format("Did not download file {0}", credentialFile));
             powerShell.ImportCredentials(credentialFile);
             foreach (string key in this.environment.Keys) powerShell.AddEnvironmentVariable(key, environment[key]);
-            foreach (string key in this.powerShellVariables.Keys) powerShell.AddPowerShellVariable(key, powerShellVariables[key]);
+            foreach (string key in this.powerShellVariables.Keys) powerShell.SetVariable(key, powerShellVariables[key]);
         }
 
         public static void DownloadTestCredentials(string testEnvironment, string downloadDirectoryPath, string blobUri, string storageAccount, string storageKey)

@@ -12,21 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
-    using System.Management.Automation;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.Collections.ObjectModel;
     using System;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class PowerShellAzureTest : PowerShellTest
+    public class WindowsAzurePowerShellTest : PowerShellTest
     {
         protected TestCredentialHelper credentials;
         protected string credentialFile;
 
-        public PowerShellAzureTest(params string[] modules)
+        public WindowsAzurePowerShellTest(params string[] modules)
             : base(modules)
         {
             this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
