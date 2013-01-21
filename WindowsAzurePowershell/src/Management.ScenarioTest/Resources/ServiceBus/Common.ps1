@@ -66,19 +66,23 @@ function Wait-NamespaceRemoved
 {
 	param([string]$name)
 	
-	$removed = $false
-	do
-	{
-		try
+	$waitScriptBlock = {
+		$removed = $false
+		do
 		{
-			$namespace = Get-AzureSBNamespace $name
-			Start-Sleep -s 5
-		}
-		catch
-		{
-			$removed = $true
-		}
-	} while (!$removed)
+			try
+			{
+				$namespace = Get-AzureSBNamespace $name
+				#Start-Sleep -s 5
+			}
+			catch
+			{
+				$removed = $true
+			}
+		} while (!$removed)
+	}
+
+	Wait-Function $waitScriptBlock
 }
 
 <#
@@ -94,11 +98,16 @@ The status to wait on.
 function Wait-NamespaceStatus
 {
 	param([string] $name, [string] $status)
-	do
-	{
-		$namespace = Get-AzureSBNamespace $name
-		Start-Sleep -s 5
-	} while ($namespace.Status -ne $status)
+
+	$waitScriptBlock = {
+		do
+		{
+			$namespace = Get-AzureSBNamespace $name
+			Start-Sleep -s 5
+		} while ($namespace.Status -ne $status)
+	}
+
+	Wait-Function $waitScriptBlock
 }
 
 <#
