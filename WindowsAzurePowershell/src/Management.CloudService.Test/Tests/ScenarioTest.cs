@@ -15,10 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using VisualStudio.TestTools.UnitTesting;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ScenarioTest : PowerShellTest
