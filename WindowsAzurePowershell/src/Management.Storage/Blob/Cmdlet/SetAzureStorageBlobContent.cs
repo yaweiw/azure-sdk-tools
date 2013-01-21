@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
@@ -102,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(HelpMessage = "Blob Type('Block', 'Page')")]
-        [ValidateSet(BlockBlobType, PageBlobType)]
+        [ValidateSet(BlockBlobType, PageBlobType, IgnoreCase = true)]
         public string BlobType
         {
             get { return blobType; }
@@ -343,7 +344,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
             ICloudBlob blob = null;
 
-            switch (blobType.ToLower())
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(blobType))
             {
                 case PageBlobType:
                     blob = container.GetPageBlobReference(blobName);
