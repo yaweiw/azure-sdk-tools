@@ -136,5 +136,62 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         }
 
         #endregion
+
+        #region Remove-AzureSBNamespace Scenario Tests
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithExistingNamespace");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithNonExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithNonExistingNamespace");
+        }
+
+        /// <summary>
+        /// This test does the following:
+        /// * Generate namespace name.
+        /// * Uses Test-AzureName to make sure it's available
+        /// * Waits for it's status to be 'Active'
+        /// * Pipe it's value to Remove-AzureSBNamespace
+        /// </summary>
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceInputPiping()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceInputPiping");
+        }
+
+        #endregion
+
+        #region General Service Bus Scenario Tests
+
+        [TestMethod]
+        public void TestGetAzureSBLocationWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBLocation}");
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBNamespace}");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {New-AzureSBNamespace $(Get-NamespaceName) $(Get-DefaultServiceBusLocation)}");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureSBNamespace \"AnyName\"}");
+        }
+
+        #endregion
     }
 }
