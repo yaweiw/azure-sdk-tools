@@ -97,5 +97,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
                 Assert.AreEqual<string>(expected[i].Name, actual[i].Name);
             }
         }
+
+        [TestMethod]
+        public void GetAzureSBNamespaceWithInvalidNamesFail()
+        {
+            // Setup
+            string[] invalidNames = { "1test", "test#", "test invaid", "-test", "_test" };
+
+            foreach (string invalidName in invalidNames)
+            {
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+                GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
+                string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
+
+                Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
+            }
+        }
     }
 }

@@ -18,7 +18,7 @@ $createdNamespaces = @()
 .SYNOPSIS
 Gets default location from the available list of service bus locations.
 #>
-function Get-DefaultLocation
+function Get-DefaultServiceBusLocation
 {
 	$locations = Get-AzureSBLocation
 
@@ -120,10 +120,9 @@ The number of namespaces to create.
 function New-Namespace
 {
 	param([int]$count)
-	$location = Get-DefaultLocation
 	1..$count | % { 
 		$name = Get-NamespaceName;
-		New-AzureSBNamespace $name $location;
+		New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation);
 		$global:createdNamespaces += $name;
 	}
 
