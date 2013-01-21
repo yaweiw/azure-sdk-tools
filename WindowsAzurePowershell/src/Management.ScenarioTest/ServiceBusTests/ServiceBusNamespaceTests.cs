@@ -23,9 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     public class ServiceBusNamespaceTests : PowerShellTest
     {
         public ServiceBusNamespaceTests()
-            : base("Azure.psd1",
-                   "Assert.ps1",
-                   "ServiceBus\\Common.ps1",
+            : base("ServiceBus\\Common.ps1",
                    "ServiceBus\\NamespaceScenarioTests.ps1")
         {
 
@@ -98,6 +96,43 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         public void TestGetAzureSBNamespaceWithWebsites()
         {
             RunPowerShellTest("Test-GetAzureSBNamespaceWithWebsites");
+        }
+
+        #endregion
+
+        #region New-AzureSBNamespace Scenario Tests
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithValidNewNamespace()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithValidNewNamespace");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithValidExistingNamespace()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithValidExistingNamespace");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithInvalidLocation()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithInvalidLocation");
+        }
+
+        /// <summary>
+        /// This scenario test does the following:
+        /// * Generates new name.
+        /// * Uses Test-AzureName to make sure name is available
+        /// * Runs Get-AzureSBLocation and pick default location object.
+        /// * Creates new namespace.
+        /// * Waits until it's status is Active
+        /// * Setup website environment variable using Set-AzureWebsite -AppSettings
+        /// </summary>
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithWebsite()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithWebsite");
         }
 
         #endregion
