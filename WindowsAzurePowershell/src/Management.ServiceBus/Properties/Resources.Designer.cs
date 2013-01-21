@@ -106,7 +106,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deleting &quot;{0}&quot; namespace....
+        ///   Looks up a localized string similar to Are you sure you want to delete the namespace &apos;{0}&apos;?.
+        /// </summary>
+        internal static string RemoveServiceBusNamespaceConfirmartion {
+            get {
+                return ResourceManager.GetString("RemoveServiceBusNamespaceConfirmartion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting namespace.
         /// </summary>
         internal static string RemovingNamespaceMessage {
             get {
