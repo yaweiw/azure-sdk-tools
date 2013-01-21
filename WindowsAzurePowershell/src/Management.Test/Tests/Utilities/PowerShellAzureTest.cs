@@ -34,9 +34,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         [TestInitialize]
-        public override void SetupTest()
+        public override void TestSetup()
         {
-            base.SetupTest();
+            base.TestSetup();
             this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
         }
     }
