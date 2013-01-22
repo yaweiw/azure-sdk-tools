@@ -174,6 +174,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private bool finished = false;
 
         /// <summary>
+        /// exception thrown during downloading
+        /// </summary>
+        private Exception downloadException = null;
+
+        /// <summary>
         /// on downloading finish
         /// </summary>
         /// <param name="progress">progress information</param>
@@ -191,7 +196,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             
             pr.PercentComplete = 100;
-            
+            downloadException = e;
+
             if (null == e)
             {
                 pr.StatusDescription = String.Format(Resources.DownloadBlobSuccessful, BlobName);
@@ -237,6 +243,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 }
                 
                 transferManager.WaitForCompletion();
+
+                if (downloadException != null)
+                {
+                    throw downloadException;
+                }
             }
         }
 
