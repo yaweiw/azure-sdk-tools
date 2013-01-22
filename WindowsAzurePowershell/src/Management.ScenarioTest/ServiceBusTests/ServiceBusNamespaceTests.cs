@@ -196,6 +196,22 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
             RunPowerShellTest("Test-RemoveAzureSBNamespaceInputPiping");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void TestRemoveAzureSBNamespaceWhatIf()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWhatIf");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.ServiceBus)]
+        public void TestRemoveAzureSBNamespaceWhatIfError()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWhatIfError");
+        }
+
         #endregion
 
         #region General Service Bus Scenario Tests
