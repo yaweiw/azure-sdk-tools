@@ -174,7 +174,7 @@ function Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace
 	$actual = $true
 
 	# Test
-	Get-AzureSBNamespace | Remove-AzureSBNamespace -PassThru | % {$actual = $actual -and $_}
+	Get-AzureSBNamespace | Remove-AzureSBNamespace -PassThru -Force | % {$actual = $actual -and $_}
 
 	# Assert
 	Assert-True { $actual } "Piping Get-AzureSBNamespace into Remove-AzureSBNamespace failed"
@@ -316,7 +316,7 @@ function Test-RemoveAzureSBNamespaceWithExistingNamespace
 	Wait-NamespaceStatus $name "Active"
 
 	# Test
-	Remove-AzureSBNamespace $name
+	Remove-AzureSBNamespace $name -Force
 
 	# Assert
 	$namespace = Get-AzureSBNamespace $name
@@ -330,7 +330,7 @@ Tests running Remove-AzureSBNamespace cmdlet with non-existing namespace and exp
 function Test-RemoveAzureSBNamespaceWithNonExistingNamespace
 {
 	# Test
-	Assert-Throws { Remove-AzureSBNamespace "NonExistingOneSDKName" } "Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription."
+	Assert-Throws { Remove-AzureSBNamespace "NonExistingOneSDKName" -Force } "Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription."
 }
 
 <#
@@ -350,7 +350,7 @@ function Test-RemoveAzureSBNamespaceInputPiping
 	
 	Wait-NamespaceStatus $name "Active"
 	
-	Get-AzureSBNamespace $name | Remove-AzureSBNamespace
+	Get-AzureSBNamespace $name | Remove-AzureSBNamespace -Force
 
 	# Assert
 	try
