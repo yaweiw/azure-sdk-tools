@@ -98,8 +98,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             string fileName = "";
             AssertThrows<ArgumentException>(()=>command.GetFullSendFilePath(fileName));
             fileName = @"c:\Windows\System32";
-            AssertThrows<ArgumentException>(() => command.GetFullSendFilePath(fileName),
-                String.Format(Resources.CannotSendDirectory, fileName));
+            Assert.IsTrue(String.IsNullOrEmpty(command.GetFullSendFilePath(fileName)));
             fileName = @"c:\WindowsXXXXX\System32XX\xxxxx";
             AssertThrows<ArgumentException>(() => command.GetFullSendFilePath(fileName),
                 String.Format(Resources.FileNotFound, fileName));
@@ -152,10 +151,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         [TestMethod]
         public void SetAzureBlobContentByContainerWithDirectoryTest()
         {
-            string fileName = string.Empty;
+            string fileName = ".";
             ICloudBlob blob = null;
-            AssertThrows<ArgumentException>(() => command.SetAzureBlobContent(fileName, blob, false),
-                String.Format(Resources.CannotSendDirectory, System.IO.Directory.GetCurrentDirectory()));
+            Assert.IsNull(command.SetAzureBlobContent(fileName, blob, false));
         }
 
         [TestMethod]

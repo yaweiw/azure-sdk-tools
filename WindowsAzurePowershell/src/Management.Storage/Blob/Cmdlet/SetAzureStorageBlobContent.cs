@@ -298,17 +298,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// get full file path according to the specified file name
         /// </summary>
         /// <param name="fileName">file name</param>
-        /// <returns>full file path</returns>
+        /// <returns>full file path if fileName is valid, empty string if file name is directory</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetFullSendFilePath(string fileName)
         {
+            if (string.IsNullOrEmpty(fileName))
+            {
+                throw new ArgumentException(Resources.FileNameCannotEmpty);
+            }
+
             String filePath = Path.Combine(CurrentPath(), fileName);
 
             if (!System.IO.File.Exists(filePath))
             {
                 if (System.IO.Directory.Exists(filePath))
                 {
-                    throw new ArgumentException(String.Format(Resources.CannotSendDirectory, filePath));
+                    WriteWarning(String.Format(Resources.CannotSendDirectory, filePath));
+                    filePath = string.Empty;
                 }
                 else
                 {
@@ -317,6 +323,39 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             return filePath;
+        }
+
+        /// <summary>
+        /// the root dir for sending file
+        /// make sure the root dir is lower case.
+        /// </summary>
+        private string sendRootDir = String.Empty;
+
+        /// <summary>
+        /// get blob name according to the relative file path
+        /// </summary>
+        /// <param name="filePath">absolute file path</param>
+        /// <returns>blob name</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal string GetBlobNameFromRelativeFilePath(string filePath)
+        {
+            string blobName = string.Empty;
+            string fileName = Path.GetFileName(filePath);
+            string dirPath = Path.GetDirectoryName(filePath).ToLower();
+
+            if (string.IsNullOrEmpty(sendRootDir) || !dirPath.StartsWith(sendRootDir))
+            {
+                //if sendRoot dir is empty or dir path is not sub folder of the sending root dir
+                //set the current dir as the root sending dir
+                sendRootDir = dirPath + Path.DirectorySeparatorChar;
+                blobName = fileName;
+            }
+            else
+            {
+                blobName = filePath.Substring(sendRootDir.Length);
+            }
+
+            return blobName;
         }
 
         /// <summary>
@@ -345,11 +384,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string filePath = GetFullSendFilePath(fileName);
 
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return null;
+            }
+
             ValidatePipelineCloudBlobContainer(container);
 
             if (string.IsNullOrEmpty(blobName))
             {
-                blobName = Path.GetFileName(filePath);
+                blobName = GetBlobNameFromRelativeFilePath(filePath);
             }
 
             ICloudBlob blob = null;
@@ -380,6 +424,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         internal AzureStorageBlob SetAzureBlobContent(string fileName, ICloudBlob blob, bool isValidContainer = false)
         {
             string filePath = GetFullSendFilePath(fileName);
+
+            if (String.IsNullOrEmpty(filePath))
+            {
+                return null;
+            }
 
             if (null == blob)
             {
@@ -449,28 +498,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         public override void ExecuteCmdlet()
         {
             AzureStorageBlob blob = null;
-            string blobName = string.Empty;
+            string containerName = string.Empty;
 
             switch (ParameterSetName)
             {
                 case ContainerParameterSet:
                     blob = SetAzureBlobContent(FileName, CloudBlobContainer, BlobName);
-                    blobName = BlobName;
+                    containerName = CloudBlobContainer.Name;
                     break;
                 case BlobParameterSet:
                     blob = SetAzureBlobContent(FileName, ICloudBlob);
-                    blobName = ICloudBlob.Name;
+                    containerName = ICloudBlob.Container.Name;
                     break;
                 case ManuallyParameterSet:
                 default:
                     blob = SetAzureBlobContent(FileName, ContainerName, BlobName);
-                    blobName = blob.Name;
+                    containerName = ContainerName;
                     break;
             }
 
             if (blob == null)
             {
-                String result = String.Format(Resources.SendAzureBlobCancelled, FileName, blobName);
+                String result = String.Format(Resources.SendAzureBlobCancelled, FileName, containerName);
                 WriteObject(result);
             }
             else

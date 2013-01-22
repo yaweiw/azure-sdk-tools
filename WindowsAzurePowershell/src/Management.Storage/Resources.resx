@@ -224,7 +224,7 @@
     <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
   </data>
   <data name="CannotSendDirectory" xml:space="preserve">
-    <value>Can not send the directory '{0}' to azure. This cmdlet only works with files.</value>
+    <value>Can not send the directory '{0}' to azure. If you want to send directory to azure, please use "ls -File | Set-AzureStorageBlobContent -Container containerName".</value>
   </data>
   <data name="PrepareUploadingBlob" xml:space="preserve">
     <value>Prepare to upload blob.</value>
@@ -233,7 +233,8 @@
     <value>Upload file '{0}' to blob '{1}' in container '{2}'.</value>
   </data>
   <data name="SendAzureBlobCancelled" xml:space="preserve">
-    <value>Upload local file '{0}' to blob '{1}' cancelled.</value>
+    <value>Upload local file '{0}' to container '{1}' is cancelled.</value>
+    <comment>0 local file path, 1 container name</comment>
   </data>
   <data name="ReceiveAzureBlobActivity" xml:space="preserve">
     <value>Download blob '{0}' into '{1}'.</value>
@@ -367,5 +368,8 @@
   <data name="WritePermissionDenied" xml:space="preserve">
     <value>Write to file '{0}' is denied.</value>
     <comment>0 for local file path</comment>
+  </data>
+  <data name="FileNameCannotEmpty" xml:space="preserve">
+    <value>File name can not be empty.</value>
   </data>
 </root>
