@@ -16,8 +16,8 @@
 #
 # Validate that the given code block throws the given exception
 #
-#    param [ScriptBlock] $script: The code to test
-#    param [string] $message    : The text of the exception that should be thrown
+#    param [ScriptBlock] $script : The code to test
+#    param [string] $message     : The text of the exception that should be thrown
 #######################
 function Assert-Throws
 {

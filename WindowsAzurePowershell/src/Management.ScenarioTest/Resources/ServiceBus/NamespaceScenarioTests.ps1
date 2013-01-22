@@ -364,3 +364,33 @@ function Test-RemoveAzureSBNamespaceInputPiping
 		# Succeed in case that the namespace was removed already.
 	}
 }
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with WhatIf parameter.
+#>
+function Test-RemoveAzureSBNamespaceWhatIf
+{
+	# Setup
+	Initialize-NamespaceTest
+	$name = Get-NamespaceName
+	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
+	Wait-NamespaceStatus $name "Active"
+
+	# Test
+	$message = Remove-AzureSBNamespace $name -WhatIf -Force
+	$removed = Remove-AzureSBNamespace $name -Force -PassThru
+
+	# Assert
+	Assert-True { $removed }
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with WhatIf parameter.
+#>
+function Test-RemoveAzureSBNamespaceWhatIfError
+{
+	# Test
+	Assert-Throws { Remove-AzureSBNamespace "123InvalidName" -WhatIf -Force } "The provided name `"123InvalidName`" does not match the service bus namespace naming rules.`r`nParameter name: Name"
+}
