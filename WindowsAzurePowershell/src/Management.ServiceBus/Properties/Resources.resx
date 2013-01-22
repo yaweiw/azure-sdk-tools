@@ -132,7 +132,7 @@
   <data name="RemoveNamespaceErrorMessage" xml:space="preserve">
     <value>Internal Server Error. This could happen because the namespace does not exist or it does not exist under your subscription.</value>
   </data>
-  <data name="RemoveServiceBusNamespaceConfirmartion" xml:space="preserve">
+  <data name="RemoveServiceBusNamespaceConfirmation" xml:space="preserve">
     <value>Are you sure you want to delete the namespace '{0}'?</value>
   </data>
   <data name="RemovingNamespaceMessage" xml:space="preserve">
