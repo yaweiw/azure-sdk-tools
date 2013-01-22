@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             int id = 0;
             string activity = String.Format(Resources.ReceiveAzureBlobActivity, blob.Name, filePath);
-            string status = Resources.PrepareUploadingBlob;
+            string status = Resources.PrepareDownloadingBlob;
             ProgressRecord pr = new ProgressRecord(id, activity, status);
 
             finished = false;

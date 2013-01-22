@@ -511,6 +511,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Prepare to download blob..
+        /// </summary>
+        internal static string PrepareDownloadingBlob {
+            get {
+                return ResourceManager.GetString("PrepareDownloadingBlob", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prepare to upload blob..
         /// </summary>
         internal static string PrepareUploadingBlob {
