@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 
                     ConfirmAction(
                         Force.IsPresent,
-                        string.Format(Resources.RemoveServiceBusNamespaceConfirmartion, name),
+                        string.Format(Resources.RemoveServiceBusNamespaceConfirmation, name),
                         string.Format(Resources.RemovingNamespaceMessage),
                         name,
                         () =>
