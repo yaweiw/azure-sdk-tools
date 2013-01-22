@@ -752,5 +752,14 @@ namespace Microsoft.WindowsAzure.Management.Storage {
                 return ResourceManager.GetString("VerboseLogFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Write to file &apos;{0}&apos; is denied..
+        /// </summary>
+        internal static string WritePermissionDenied {
+            get {
+                return ResourceManager.GetString("WritePermissionDenied", resourceCulture);
+            }
+        }
     }
 }

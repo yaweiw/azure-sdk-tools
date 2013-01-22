@@ -279,7 +279,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
-        /// confirm the overwrite operatioin
+        /// confirm the overwrite operation
         /// </summary>
         /// <param name="msg">confirmation message</param>
         /// <returns>true if the opeation is confirmed, otherwise return false</returns>
