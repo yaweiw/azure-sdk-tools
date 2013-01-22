@@ -119,5 +119,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             return Channel;
         }
+
+        /// <summary>
+        /// whether the specified blob is a snapshot
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <returns>true if the specified blob is snapshot, otherwise false</returns>
+        internal bool IsSnapshot(ICloudBlob blob)
+        {
+            return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
+        }
     }
 }

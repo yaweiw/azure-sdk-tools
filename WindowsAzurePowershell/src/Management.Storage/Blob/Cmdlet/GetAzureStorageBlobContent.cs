@@ -299,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blobName);
+            string filePath = GetFullReceiveFilePath(fileName, blobName, string.Empty);
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
@@ -311,7 +311,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, container.Name));
             }
 
-            return GetBlobContent(blob, fileName, true);
+            return GetBlobContent(blob, filePath, true);
         }
 
         /// <summary>
@@ -329,7 +329,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blob.Name);
+            //skip download the snapshot except the ICloudBlob pipeline
+            if (IsSnapshot(blob) && ParameterSetName != BlobParameterSet)
+            {
+                WriteWarning(String.Format(Resources.SkipDownloadSnapshot, blob.Name, blob.SnapshotTime));
+                return null;
+            }
+
+            string filePath = GetFullReceiveFilePath(fileName, blob.Name, blob.SnapshotTime.ToString());
 
             if (!overwrite && System.IO.File.Exists(filePath))
             {
@@ -371,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="fileName">file name</param>
         /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal string GetFullReceiveFilePath(string fileName, string blobName)
+        internal string GetFullReceiveFilePath(string fileName, string blobName, string snapshotTime)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
@@ -384,7 +391,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
             {
-                fileName = NameUtil.ConvertBlobNameToFileName(blobName);
+                fileName = NameUtil.ConvertBlobNameToFileName(blobName, snapshotTime);
                 filePath = Path.Combine(filePath, fileName);
             }
 

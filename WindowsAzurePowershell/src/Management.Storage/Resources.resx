@@ -402,4 +402,11 @@
   <data name="PrepareDownloadingBlob" xml:space="preserve">
     <value>Prepare to download blob.</value>
   </data>
+  <data name="FileNameFormatForSnapShot" xml:space="preserve">
+    <value>{0}_{1}{2}</value>
+    <comment>0 for blob name, 1 for snaphsot time, 2 blob name extension</comment>
+  </data>
+  <data name="SkipDownloadSnapshot" xml:space="preserve">
+    <value>Skip to download blob '{0}' with snapshot time '{0}'.</value>
+  </data>
 </root>
