@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         /// <param name="blobName">blob name</param>
         /// <returns>valid file name</returns>
-        public static string ConvertBlobNameToFileName(string blobName)
+        public static string ConvertBlobNameToFileName(string blobName, string snapshotTime)
         {
             string fileName = blobName;
 
@@ -211,6 +211,27 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             foreach (KeyValuePair<string, string> rule in replaceRules)
             {
                 fileName = fileName.Replace(rule.Key, rule.Value);
+            }
+
+            if (!string.IsNullOrEmpty(snapshotTime))
+            {
+                int index = fileName.LastIndexOf('.');
+
+                string prefix = string.Empty;
+                string postfix = string.Empty;
+
+                if(index == -1)
+                {
+                    prefix = fileName;
+                    postfix = string.Empty;
+                }
+                else
+                {
+                    prefix = fileName.Substring(0, index - 1);
+                    postfix = fileName.Substring(index);
+                }
+
+                fileName = string.Format(Resources.FileNameFormatForSnapShot, prefix, snapshotTime, postfix);
             }
 
             return fileName;
