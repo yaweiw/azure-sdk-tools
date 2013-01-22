@@ -9,5 +9,6 @@ TestResults
 *.suo
 *.orig
 *.ncrunchsolution
+*.patch
 /Publish
 /Package

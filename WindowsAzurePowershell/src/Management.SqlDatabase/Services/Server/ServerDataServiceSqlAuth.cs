@@ -264,27 +264,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             // Create a new request Id for this operation
             this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
 
-            // Create the new entity and set its properties
-            Database database = new Database();
-            database.Name = databaseName;
-
-            if (databaseMaxSize != null)
-            {
-                database.MaxSizeGB = (int)databaseMaxSize;
-            }
-
-            if (!string.IsNullOrEmpty(databaseCollation))
-            {
-                database.CollationName = databaseCollation;
-            }
-
-            if (databaseEdition != DatabaseEdition.None)
-            {
-                database.Edition = databaseEdition.ToString();
-            }
+            // Create a new database object
+            Database database = CreateNewDatabaseInternal(
+                databaseName,
+                databaseMaxSize,
+                databaseCollation,
+                databaseEdition);
 
             // Save changes
-            this.AddToDatabases(database);
             try
             {
                 this.SaveChanges(SaveChangesOptions.None);
@@ -299,6 +286,77 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             catch
             {
                 this.ClearTrackedEntity(database);
+                throw;
+            }
+
+            // Load the extra properties for this object.
+            database.LoadExtraProperties(this);
+
+            return database;
+        }
+
+        /// <summary>
+        /// Creates a new Sql Database in the given server context along with a continuous copy at the specified partner server
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <returns>The newly created Sql Database.</returns>
+        public Database CreateNewDatabaseWithCopy(
+            string databaseName,
+            string partnerServer,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition,
+            int? maxLagInMinutes)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
+            // Create a new database object
+            Database database = CreateNewDatabaseInternal(
+                databaseName,
+                databaseMaxSize,
+                databaseCollation,
+                databaseEdition);
+
+            // Create a new database copy object with all the required properties
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.SourceServerName = this.ServerName;
+            databaseCopy.SourceDatabaseName = databaseName;
+            databaseCopy.DestinationServerName = partnerServer;
+            databaseCopy.DestinationDatabaseName = databaseCopy.SourceDatabaseName;
+            databaseCopy.IsContinuous = true;
+
+            // Set the optional Maximum Lag (RPO) value
+            databaseCopy.MaximumLag = maxLagInMinutes;
+
+            // Add the database copy object to context
+            this.AddToDatabaseCopies(databaseCopy);
+
+            // Establish the association between the database and database copy objects
+            this.AddLink(database, "DatabaseCopies", databaseCopy);
+            this.SetLink(databaseCopy, "Database", database);
+
+            // Save changes
+            try
+            {
+                this.SaveChanges(SaveChangesOptions.Batch);
+
+                // Re-Query the database for server side updated information
+                database = this.RefreshEntity(database);
+                if (database == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabase);
+                }
+            }
+            catch
+            {
+                this.ClearTrackedEntity(database);
+                this.ClearTrackedEntity(databaseCopy);
                 throw;
             }
 
@@ -443,6 +501,245 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
                 this.RevertChanges(database);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Retrieve all database copy objects with matching parameters.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <returns>All database copy objects with matching parameters.</returns>
+        public DatabaseCopy[] GetDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName)
+        {
+            // Setup the query by filtering for the source/destination server name from the context.
+            IQueryable<DatabaseCopy> databaseCopyQuerySource = this.DatabaseCopies
+                .Where(copy => copy.SourceServerName == this.ServerName);
+            IQueryable<DatabaseCopy> databaseCopyQueryTarget = this.DatabaseCopies
+                .Where(copy => copy.DestinationServerName == this.ServerName);
+
+            // Add additional filter for database name
+            if (databaseName != null)
+            {
+                // Append the clause to only return database of the specified name
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.SourceDatabaseName == databaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.DestinationDatabaseName == databaseName);
+            }
+
+            // Add additional filter for partner server name
+            if (partnerServer != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationServerName == partnerServer);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceServerName == partnerServer);
+            }
+
+            // Add additional filter for partner database name
+            if (partnerDatabaseName != null)
+            {
+                databaseCopyQuerySource = databaseCopyQuerySource
+                    .Where(copy => copy.DestinationDatabaseName == partnerDatabaseName);
+                databaseCopyQueryTarget = databaseCopyQueryTarget
+                    .Where(copy => copy.SourceDatabaseName == partnerDatabaseName);
+            }
+
+            DatabaseCopy[] databaseCopies;
+
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+
+            try
+            {
+                // Return all results as an array.
+                DatabaseCopy[] sourceDatabaseCopies = databaseCopyQuerySource.ToArray();
+                DatabaseCopy[] targetDatabaseCopies = databaseCopyQueryTarget.ToArray();
+                databaseCopies = sourceDatabaseCopies.Concat(targetDatabaseCopies).ToArray();
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
+            }
+
+            // Load the extra properties for all objects.
+            foreach (DatabaseCopy databaseCopy in databaseCopies)
+            {
+                databaseCopy.LoadExtraProperties(this);
+            }
+
+            return databaseCopies;
+        }
+
+        /// <summary>
+        /// Refreshes the given database copy object.
+        /// </summary>
+        /// <param name="databaseCopy">The object to refresh.</param>
+        /// <returns>The refreshed database copy object.</returns>
+        public DatabaseCopy GetDatabaseCopy(DatabaseCopy databaseCopy)
+        {
+            DatabaseCopy refreshedDatabaseCopy;
+
+            MergeOption tempOption = this.MergeOption;
+            this.MergeOption = MergeOption.OverwriteChanges;
+
+            try
+            {
+                // Find the database copy by its keys
+                refreshedDatabaseCopy = this.DatabaseCopies
+                    .Where(c => c.SourceServerName == databaseCopy.SourceServerName)
+                    .Where(c => c.SourceDatabaseName == databaseCopy.SourceDatabaseName)
+                    .Where(c => c.DestinationServerName == databaseCopy.DestinationServerName)
+                    .Where(c => c.DestinationDatabaseName == databaseCopy.DestinationDatabaseName)
+                    .SingleOrDefault();
+                if (refreshedDatabaseCopy == null)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            CultureInfo.InvariantCulture,
+                            Resources.DatabaseCopyNotFound,
+                            databaseCopy.SourceServerName,
+                            databaseCopy.SourceDatabaseName,
+                            databaseCopy.DestinationServerName,
+                            databaseCopy.DestinationDatabaseName));
+                }
+            }
+            finally
+            {
+                this.MergeOption = tempOption;
+            }
+
+            // Load the extra properties for this object.
+            refreshedDatabaseCopy.LoadExtraProperties(this);
+
+            return refreshedDatabaseCopy;
+        }
+
+        /// <summary>
+        /// Start database copy on the database with the name <paramref name="databaseName"/>.
+        /// </summary>
+        /// <param name="databaseName">The name of the database to copy.</param>
+        /// <param name="partnerServer">The name for the partner server.</param>
+        /// <param name="partnerDatabaseName">The name of the database on the partner server.</param>
+        /// <param name="maxLagInMinutes">The maximum lag for the continuous copy operation.</param>
+        /// <param name="continuousCopy"><c>true</c> to make this a continuous copy.</param>
+        /// <returns>The new instance of database copy operation.</returns>
+        public DatabaseCopy StartDatabaseCopy(
+            string databaseName,
+            string partnerServer,
+            string partnerDatabaseName,
+            int? maxLagInMinutes,
+            bool continuousCopy)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
+            // Create a new database copy object with all the required properties
+            DatabaseCopy databaseCopy = new DatabaseCopy();
+            databaseCopy.SourceServerName = this.ServerName;
+            databaseCopy.SourceDatabaseName = databaseName;
+            databaseCopy.DestinationServerName = partnerServer;
+            databaseCopy.DestinationDatabaseName = partnerDatabaseName;
+
+            // Set the optional continuous copy flag
+            databaseCopy.IsContinuous = continuousCopy;
+
+            // Set the optional Maximum Lag (RPO) value
+            databaseCopy.MaximumLag = maxLagInMinutes;
+
+            this.AddToDatabaseCopies(databaseCopy);
+            try
+            {
+                this.SaveChanges(SaveChangesOptions.None);
+
+                // Requery for the entity to obtain updated linkid and state
+                databaseCopy = this.RefreshEntity(databaseCopy);
+                if (databaseCopy == null)
+                {
+                    throw new ApplicationException(Resources.ErrorRefreshingDatabaseCopy);
+                }
+            }
+            catch
+            {
+                this.RevertChanges(databaseCopy);
+                throw;
+            }
+
+            return databaseCopy;
+        }
+
+        /// <summary>
+        /// Terminate an ongoing database copy operation.
+        /// </summary>
+        /// <param name="databaseCopy">The database copy to terminate.</param>
+        /// <param name="forcedTermination"><c>true</c> to forcefully terminate the copy.</param>
+        public void StopDatabaseCopy(
+            DatabaseCopy databaseCopy,
+            bool forcedTermination)
+        {
+            // Create a new request Id for this operation
+            this.clientRequestId = SqlDatabaseManagementHelper.GenerateClientTracingId();
+
+            try
+            {
+                // Mark Forced/Friendly flag on the databaseCopy object first
+                databaseCopy.IsForcedTerminate = forcedTermination;
+                this.UpdateObject(databaseCopy);
+                this.SaveChanges();
+
+                // Mark the copy operation for delete
+                this.DeleteObject(databaseCopy);
+                this.SaveChanges();
+            }
+            catch
+            {
+                this.RevertChanges(databaseCopy);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Create a new database object.
+        /// </summary>
+        /// <param name="databaseName">The name for the new database.</param>
+        /// <param name="databaseMaxSize">The max size for the database.</param>
+        /// <param name="databaseCollation">The collation for the database.</param>
+        /// <param name="databaseEdition">The edition for the database.</param>
+        /// <returns>The newly created database object.</returns>
+        private Database CreateNewDatabaseInternal(
+            string databaseName,
+            int? databaseMaxSize,
+            string databaseCollation,
+            DatabaseEdition databaseEdition)
+        {
+            // Create the new entity and set its properties
+            Database database = new Database();
+
+            database.Name = databaseName;
+
+            if (databaseMaxSize != null)
+            {
+                database.MaxSizeGB = (int)databaseMaxSize;
+            }
+
+            if (!string.IsNullOrEmpty(databaseCollation))
+            {
+                database.CollationName = databaseCollation;
+            }
+
+            if (databaseEdition != DatabaseEdition.None)
+            {
+                database.Edition = databaseEdition.ToString();
+            }
+
+            // Add the new database object to context
+            this.AddToDatabases(database);
+
+            return database;
         }
 
         #endregion
