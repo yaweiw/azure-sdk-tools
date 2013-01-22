@@ -1777,6 +1777,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove cloud service and all it&apos;s deployments.
+        /// </summary>
+        internal static string RemoveServiceWhatIfMessage {
+            get {
+                return ResourceManager.GetString("RemoveServiceWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /role:{0};&quot;{1}/{0}&quot; .
         /// </summary>
         internal static string RoleArgTemplate {
