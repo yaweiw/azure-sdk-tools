@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
+    <Compile Include="Common\PowerShellExtensions.cs" />
+    <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />

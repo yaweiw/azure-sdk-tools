@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Linq;
     using Management.Services;
     using Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.Cmdlets;
     using Microsoft.WindowsAzure.Management.Websites.Properties;
     using Model;
