@@ -199,6 +199,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         private bool finished = false;
 
         /// <summary>
+        /// exception thrown during uploading
+        /// </summary>
+        private Exception uploadException = null;
+
+        /// <summary>
         /// on uploading finish
         /// </summary>
         /// <param name="progress">progress information</param>
@@ -216,6 +221,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             pr.PercentComplete = 100;
+            uploadException = e;            
             
             if (null == e)
             {
@@ -264,6 +270,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 }
 
                 transferManager.WaitForCompletion();
+
+                if (uploadException != null)
+                {
+                    throw uploadException;
+                }
             }
         }
 
