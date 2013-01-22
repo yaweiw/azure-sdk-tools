@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         /// <param name="powerShell">The PowerShell instance to use for removing credentials</param>
         public static void RemoveCredentials(this PowerShell powerShell)
         {
-            powerShell.AddScript("Get-AzureSubscription | Remove-AzureSubscription");
+            powerShell.AddScript("try {$sub = Get-AzureSubscription | Remove-AzureSubscription -Force} catch {}");
         }
 
         /// <summary>
