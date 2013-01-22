@@ -99,5 +99,24 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 WriteExceptionError(ex);
             }
         }
+
+        /// <summary>
+        /// Asks for confirmation before executing the action.
+        /// </summary>
+        /// <param name="force">Do not ask for confirmation</param>
+        /// <param name="actionMessage">Message to describe the action</param>
+        /// <param name="processMessage">Message to prompt after the active is performed.</param>
+        /// <param name="target">The target name.</param>
+        /// <param name="action">The action code</param>
+        protected void ConfirmAction(bool force, string actionMessage, string processMessage, string target, Action action)
+        {
+            if (force || ShouldContinue(actionMessage, ""))
+            {
+                if (ShouldProcess(target, processMessage))
+                {
+                    action();
+                }
+            }
+        }
     }
 }
