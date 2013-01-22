@@ -76,6 +76,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
 
                 using (AsyncExceptionManager exceptionManager = new AsyncExceptionManager())
                 {
+                    // Retrieve all databases then each individual ones
                     Collection<PSObject> databases, database1, database2;
                     using (new MockHttpServer(
                         exceptionManager,
