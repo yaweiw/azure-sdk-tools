@@ -83,7 +83,8 @@ function Test-GetAzureSBNamespaceWithEmptyNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 0
+	$expectedCount = (Get-AzureSBNamespace).Count
+	Assert-AreEqual $namespaces.Count $expectedCount
 }
 
 <#
@@ -100,7 +101,7 @@ function Test-GetAzureSBNamespaceWithOneNamespace
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 1
+	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
 	Test-CleanupServiceBus
@@ -120,7 +121,7 @@ function Test-GetAzureSBNamespaceWithMultipleNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 3
+	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
 	Test-CleanupServiceBus
@@ -170,11 +171,11 @@ function Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace
 {
 	# Setup
 	Initialize-NamespaceTest
-	New-Namespace 5
+	New-Namespace 2
 	$actual = $true
 
 	# Test
-	Get-AzureSBNamespace | Remove-AzureSBNamespace -PassThru -Force | % {$actual = $actual -and $_}
+	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -PassThru -Force | % {$actual = $actual -and $_}
 
 	# Assert
 	Assert-True { $actual } "Piping Get-AzureSBNamespace into Remove-AzureSBNamespace failed"
