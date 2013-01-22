@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class ServiceBusNamespaceTests : PowerShellTest
+    public class ServiceBusNamespaceTests : WindowsAzurePowerShellTest
     {
         public ServiceBusNamespaceTests()
             : base("ServiceBus\\Common.ps1",

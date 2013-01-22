@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
             {
                 output = powershell.Invoke();
                 
-                if (powershell.HadErrors || powershell.Streams.Error.Count > 0)
+                if (powershell.Streams.Error.Count > 0)
                 {
                     throw new RuntimeException(ErrorIsNotEmptyException);
                 }

@@ -51,7 +51,7 @@ function Remove-Namespace
 {
 	param([string]$name)
 	Wait-NamespaceStatus $name "Active"
-	Remove-AzureSBNamespace $name
+	Remove-AzureSBNamespace $name -Force
 	Wait-NamespaceRemoved $name
 }
 
@@ -68,21 +68,20 @@ function Wait-NamespaceRemoved
 	
 	$waitScriptBlock = {
 		$removed = $false
-		do
+		try
 		{
-			try
-			{
-				$namespace = Get-AzureSBNamespace $name
-				#Start-Sleep -s 5
-			}
-			catch
-			{
-				$removed = $true
-			}
-		} while (!$removed)
+			$namespace = Get-AzureSBNamespace $name
+			Start-Sleep -s 5
+		}
+		catch
+		{
+			$removed = $true
+		}
+
+		return $removed;
 	}
 
-	Wait-Function $waitScriptBlock
+	Wait-Function $waitScriptBlock $true
 }
 
 <#
@@ -99,15 +98,8 @@ function Wait-NamespaceStatus
 {
 	param([string] $name, [string] $status)
 
-	$waitScriptBlock = {
-		do
-		{
-			$namespace = Get-AzureSBNamespace $name
-			Start-Sleep -s 5
-		} while ($namespace.Status -ne $status)
-	}
-
-	Wait-Function $waitScriptBlock
+	$waitScriptBlock = { (Get-AzureSBNamespace $name).Status }
+	Wait-Function $waitScriptBlock $status
 }
 
 <#
@@ -144,5 +136,5 @@ Removes all the active namespaces in the current subscription.
 #>
 function Initialize-NamespaceTest
 {
-	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace
+	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -Force
 }
