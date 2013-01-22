@@ -192,5 +192,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 return !forbidden;
             }
         }
+
+        /// <summary>
+        /// convert blob name into valid file name
+        /// </summary>
+        /// <param name="blobName">blob name</param>
+        /// <returns>valid file name</returns>
+        public static string ConvertBlobNameToFileName(string blobName)
+        {
+            string fileName = blobName;
+
+            //replace dirctionary
+            Dictionary<string, string> replaceRules = new Dictionary<string, string>()
+	            {
+	                {"/", "\\"}
+	            };
+
+            foreach (KeyValuePair<string, string> rule in replaceRules)
+            {
+                fileName = fileName.Replace(rule.Key, rule.Value);
+            }
+
+            return fileName;
+        }
     }
 }
