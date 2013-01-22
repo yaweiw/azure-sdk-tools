@@ -42,16 +42,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             string name = "test";
             RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime, PassThru = true };
             bool deleted = false;
-            string expectedVerbose = string.Format(Resources.RemovingNamespaceMessage, name);
             channel.DeleteServiceBusNamespaceThunk = dsbn => { deleted = true; };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            string actual = mockCommandRuntime.VerboseStream[0] as string;
             Assert.IsTrue(deleted);
-            Assert.AreEqual<string>(expectedVerbose, actual);
             Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
         }
 

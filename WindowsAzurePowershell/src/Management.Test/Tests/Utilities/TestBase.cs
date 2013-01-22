@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test
+namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 {
     using System.Diagnostics;
     using VisualStudio.TestTools.UnitTesting;

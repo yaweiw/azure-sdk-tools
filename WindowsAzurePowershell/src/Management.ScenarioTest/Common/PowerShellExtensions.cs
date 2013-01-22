@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
     using System;
     using System.Collections.Generic;
@@ -21,6 +21,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
     public static class PowerShellExtensions
     {
+        public static string PowerShellEnvironmentFormat = "Set-Item env:{0} \"{1}\"";
+        public static string PowerShellVariableFormat = "${0}={1}";
+        public static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
+        
         /// <summary>
         /// Gets a powershell varibale from the current session and convernts it back to it's original type.
         /// </summary>
@@ -130,6 +134,46 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             LogPowerShellStream<ProgressRecord>(powershell.Streams.Progress, "PROGRESS");
             LogPowerShellStream<VerboseRecord>(powershell.Streams.Verbose, "VERBOSE");
             LogPowerShellStream<WarningRecord>(powershell.Streams.Warning, "WARNING");
+        }
+
+        /// <summary>
+        /// Add an environment variable to the PowerShell instance
+        /// </summary>
+        /// <param name="powerShell">The powershell instance to alter</param>
+        /// <param name="variableKey">The variable name</param>
+        /// <param name="variableValue">The variable value</param>
+        public static void AddEnvironmentVariable(this PowerShell powerShell, string variableKey, string variableValue)
+        {
+            powerShell.AddScript(string.Format(PowerShellEnvironmentFormat, variableKey, variableValue));
+        }
+
+        /// <summary>
+        /// Add an environment variable to the PowerShell instance
+        /// </summary>
+        /// <param name="powerShell">The powershell instance to alter</param>
+        /// <param name="variableKey">The variable name</param>
+        /// <param name="variableValue">The variable value</param>
+        public static void AddPowerShellVariable(this PowerShell powerShell, string variableKey, string variableValue)
+        {
+            powerShell.AddScript(string.Format(PowerShellVariableFormat, variableKey, variableValue));
+        }
+        /// <summary>
+        /// Import credentials into PowerShell
+        /// </summary>
+        /// <param name="powerShell">The PowerShell instance to alter</param>
+        /// <param name="credentialPath">The fully qualified path top the credentials</param>
+        public static void ImportCredentials(this PowerShell powerShell, string credentialPath)
+        {
+            powerShell.AddScript(string.Format(CredentialImportFormat, credentialPath));
+        }
+
+        /// <summary>
+        /// Remove all credentials for the current user
+        /// </summary>
+        /// <param name="powerShell">The PowerShell instance to use for removing credentials</param>
+        public static void RemoveCredentials(this PowerShell powerShell)
+        {
+            powerShell.AddScript("Get-AzureSubscription | Remove-AzureSubscription");
         }
 
         /// <summary>

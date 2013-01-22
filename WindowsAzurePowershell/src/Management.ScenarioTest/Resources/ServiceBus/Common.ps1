@@ -18,7 +18,7 @@ $createdNamespaces = @()
 .SYNOPSIS
 Gets default location from the available list of service bus locations.
 #>
-function Get-DefaultLocation
+function Get-DefaultServiceBusLocation
 {
 	$locations = Get-AzureSBLocation
 
@@ -66,19 +66,23 @@ function Wait-NamespaceRemoved
 {
 	param([string]$name)
 	
-	$removed = $false
-	do
-	{
-		try
+	$waitScriptBlock = {
+		$removed = $false
+		do
 		{
-			$namespace = Get-AzureSBNamespace $name
-			Start-Sleep -s 5
-		}
-		catch
-		{
-			$removed = $true
-		}
-	} while (!$removed)
+			try
+			{
+				$namespace = Get-AzureSBNamespace $name
+				#Start-Sleep -s 5
+			}
+			catch
+			{
+				$removed = $true
+			}
+		} while (!$removed)
+	}
+
+	Wait-Function $waitScriptBlock
 }
 
 <#
@@ -94,11 +98,16 @@ The status to wait on.
 function Wait-NamespaceStatus
 {
 	param([string] $name, [string] $status)
-	do
-	{
-		$namespace = Get-AzureSBNamespace $name
-		Start-Sleep -s 5
-	} while ($namespace.Status -ne $status)
+
+	$waitScriptBlock = {
+		do
+		{
+			$namespace = Get-AzureSBNamespace $name
+			Start-Sleep -s 5
+		} while ($namespace.Status -ne $status)
+	}
+
+	Wait-Function $waitScriptBlock
 }
 
 <#
@@ -120,10 +129,9 @@ The number of namespaces to create.
 function New-Namespace
 {
 	param([int]$count)
-	$location = Get-DefaultLocation
 	1..$count | % { 
 		$name = Get-NamespaceName;
-		New-AzureSBNamespace $name $location;
+		New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation);
 		$global:createdNamespaces += $name;
 	}
 
