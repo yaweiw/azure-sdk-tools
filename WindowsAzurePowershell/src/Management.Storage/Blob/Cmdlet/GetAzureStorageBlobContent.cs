@@ -25,10 +25,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security;
+    using System.Security.AccessControl;
     using System.Security.Permissions;
+    using System.Security.Principal;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, DefaultParameterSetName = ManuallyParameterSet),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
         OutputType(typeof(AzureStorageBlob))]
     public class GetAzureStorageBlobContentCommand : StorageCloudBlobCmdletBase
     {
@@ -174,6 +177,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private bool finished = false;
 
         /// <summary>
+        /// exception thrown during downloading
+        /// </summary>
+        private Exception downloadException = null;
+
+        /// <summary>
         /// on downloading finish
         /// </summary>
         /// <param name="progress">progress information</param>
@@ -191,7 +199,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             
             pr.PercentComplete = 100;
-            
+            downloadException = e;
+
             if (null == e)
             {
                 pr.StatusDescription = String.Format(Resources.DownloadBlobSuccessful, BlobName);
@@ -200,6 +209,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 pr.StatusDescription = String.Format(Resources.DownloadBlobFailed, BlobName, ContainerName, FileName, e.Message);
             }
+        }
+
+        /// <summary>
+        /// confirm the overwrite operation
+        /// </summary>
+        /// <param name="msg">confirmation message</param>
+        /// <returns>true if the opeation is confirmed, otherwise return false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal virtual bool ConfirmOverwrite(string msg = null)
+        {
+            if (String.IsNullOrEmpty(msg))
+            {
+                msg = BlobName;
+            }
+
+            return ShouldProcess(msg);
         }
 
         /// <summary>
@@ -237,6 +262,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 }
                 
                 transferManager.WaitForCompletion();
+
+                if (downloadException != null)
+                {
+                    throw downloadException;
+                }
             }
         }
 
@@ -303,12 +333,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (!overwrite && System.IO.File.Exists(filePath))
             {
-                throw new ArgumentException(String.Format(Resources.FileAlreadyExists, filePath));
+                if (!ConfirmOverwrite(filePath))
+                {
+                    throw new ArgumentException(String.Format(Resources.FileAlreadyExists, filePath));
+                }
             }
 
             if (!isValidBlob)
             {
                 ValidatePipelineICloudBlob(blob);
+            }
+
+            //create the destination directory if not exists.
+            String dirPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
             }
 
             try
@@ -328,16 +369,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// get full file path according to the specified file name
         /// </summary>
         /// <param name="fileName">file name</param>
-        /// <returns>full file path</returns>
+        /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetFullReceiveFilePath(string fileName, string blobName)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
+            String dirPath = Path.GetDirectoryName(filePath);
+
+            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
+            {
+                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
+            }
 
             if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
             {
-                fileName = blobName;
+                fileName = NameUtil.ConvertBlobNameToFileName(blobName);
                 filePath = Path.Combine(filePath, fileName);
             }
 
@@ -348,12 +395,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidFileName, fileName));
             }
 
-            String dirPath = Path.GetDirectoryName(filePath);
-
-            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
-            {
-                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
-            }
+            //there is no need to check the read/write permission on the specified file path, the datamovement libraray will do that
 
             return filePath;
         }

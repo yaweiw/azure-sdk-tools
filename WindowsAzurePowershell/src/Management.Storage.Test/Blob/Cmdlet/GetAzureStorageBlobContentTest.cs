@@ -230,6 +230,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
                 String.Format(Resources.DirectoryNotExists, @"D:\E\xxxxx\febc"));
 
             fileName = @"c:\Windows\System32\cmd.exe";
+            command.Confirmed = false;
             AssertThrows<ArgumentException>(() => command.GetBlobContent(blockBlob, fileName, false),
                 String.Format(Resources.FileAlreadyExists, fileName));
         }
@@ -270,6 +271,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     internal class FakeGetAzureStorageBlobContentCommand : GetAzureStorageBlobContentCommand
     {
         public bool Exception = false;
+        public bool Confirmed = false;
+        
+        internal override bool ConfirmOverwrite(string msg = null)
+        {
+            return Confirmed;
+        }
 
         public FakeGetAzureStorageBlobContentCommand(IStorageBlobManagement channel)
         {
