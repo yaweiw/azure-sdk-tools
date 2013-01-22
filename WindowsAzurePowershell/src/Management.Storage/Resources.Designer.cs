@@ -331,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}_{1}{2}.
+        ///   Looks up a localized string similar to {0} ({1}){2}.
         /// </summary>
         internal static string FileNameFormatForSnapShot {
             get {
