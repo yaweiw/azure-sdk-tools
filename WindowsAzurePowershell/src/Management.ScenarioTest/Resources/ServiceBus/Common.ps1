@@ -108,7 +108,9 @@ Clears the all created resources while doing the test.
 #>
 function Test-CleanupServiceBus
 {
-	foreach ($name in $createdNamespaces) { Remove-Namespace $name }
+	try { foreach ($name in $global:createdNamespaces) { Remove-Namespace $name } }
+	catch { <# Succeed #> }
+	$global:createdNamespaces = @()
 }
 
 <#
@@ -136,5 +138,6 @@ Removes all the active namespaces in the current subscription.
 #>
 function Initialize-NamespaceTest
 {
-	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -Force
+	try { Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -Force }
+	catch { <# Succeed #> }
 }
