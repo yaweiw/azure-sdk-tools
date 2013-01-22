@@ -299,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blobName, string.Empty);
+            string filePath = GetFullReceiveFilePath(fileName, blobName, null);
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
@@ -336,7 +336,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 return null;
             }
 
-            string filePath = GetFullReceiveFilePath(fileName, blob.Name, blob.SnapshotTime.ToString());
+            string filePath = GetFullReceiveFilePath(fileName, blob.Name, blob.SnapshotTime);
 
             if (!overwrite && System.IO.File.Exists(filePath))
             {
@@ -378,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="fileName">file name</param>
         /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal string GetFullReceiveFilePath(string fileName, string blobName, string snapshotTime)
+        internal string GetFullReceiveFilePath(string fileName, string blobName, DateTimeOffset? snapshotTime)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
