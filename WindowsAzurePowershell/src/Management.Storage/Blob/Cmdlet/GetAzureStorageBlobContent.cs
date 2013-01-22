@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security.Principal;
     using System.Text;
 
-    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, DefaultParameterSetName = ManuallyParameterSet),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
         OutputType(typeof(AzureStorageBlob))]
     public class GetAzureStorageBlobContentCommand : StorageCloudBlobCmdletBase
     {
@@ -299,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
             }
 
-            string filePath = GetValidFullReceiveFilePath(fileName, blobName);
+            string filePath = GetFullReceiveFilePath(fileName, blobName);
 
             ValidatePipelineCloudBlobContainer(container);
             AccessCondition accessCondition = null;
@@ -329,8 +329,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
-            string filePath = GetValidFullReceiveFilePath(fileName, blob.Name);
-
+            string filePath = GetFullReceiveFilePath(fileName, blob.Name);
+            Console.WriteLine(filePath);
+            Console.WriteLine(overwrite);
+            Console.WriteLine(System.IO.File.Exists(filePath));
             if (!overwrite && System.IO.File.Exists(filePath))
             {
                 if (!ConfirmOverwrite(filePath))
@@ -363,7 +365,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="fileName">file name</param>
         /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal string GetValidFullReceiveFilePath(string fileName, string blobName)
+        internal string GetFullReceiveFilePath(string fileName, string blobName)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
@@ -388,84 +390,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
             }
 
-            //check the write permission on the specified file path
-            var permissionEntity = dirPath;
-
-            if (System.IO.File.Exists(filePath))
-            {
-                permissionEntity = filePath;
-            }
-
-            if (!HasWritePermission(permissionEntity))
-            {
-                throw new ArgumentException(String.Format(Resources.WritePermissionDenied, permissionEntity));
-            }
+            //there is no need to check the read/write permission on the specified file path, the datamovement libraray will do that
 
             return filePath;
-        }
-
-        /// <summary>
-        /// check whether the current user has write permission on specified file path
-        /// <see cref="http://stackoverflow.com/questions/1281620/checking-for-directory-and-file-write-permissions-in-net"/>
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns>true if current user has permission, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal bool HasWritePermission(string filePath)
-        {
-            //FIXME it seems cannot work with ready only permission
-            try
-            {
-                FileSystemSecurity security = null;
-
-                if (System.IO.File.Exists(filePath))
-                {
-                    security = System.IO.File.GetAccessControl(filePath);
-                }
-                else
-                {
-                    security = Directory.GetAccessControl(Path.GetDirectoryName(filePath));
-                }
-
-                var rules = security.GetAccessRules(true, true, typeof(NTAccount));
-                var currentuser = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-                bool result = false;
-
-                foreach (FileSystemAccessRule rule in rules)
-                {
-                    if (0 == (rule.FileSystemRights & (FileSystemRights.WriteData | FileSystemRights.Write)))
-                    {
-                        continue;
-                    }
-
-                    if (rule.IdentityReference.Value.StartsWith("S-1-"))
-                    {
-                        var sid = new SecurityIdentifier(rule.IdentityReference.Value);
-
-                        if (!currentuser.IsInRole(sid))
-                        {
-                            continue;
-                        }
-                    }
-                    else
-                    {
-                        if (!currentuser.IsInRole(rule.IdentityReference.Value))
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (rule.AccessControlType == AccessControlType.Deny)
-                        return false;
-                    if (rule.AccessControlType == AccessControlType.Allow)
-                        result = true;
-                }
-                return result;
-            }
-            catch
-            {
-                return false;
-            }
         }
 
         /// <summary>
