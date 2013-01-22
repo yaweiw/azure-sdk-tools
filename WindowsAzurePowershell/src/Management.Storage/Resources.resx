@@ -364,4 +364,8 @@
     <value>The page blob size must be a multiple of 512 bytes. But the size of local file '{0}' is {1}.</value>
     <comment>0 for local file path, 1 file size</comment>
   </data>
+  <data name="WritePermissionDenied" xml:space="preserve">
+    <value>Write to file '{0}' is denied.</value>
+    <comment>0 for local file path</comment>
+  </data>
 </root>
