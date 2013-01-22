@@ -331,6 +331,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}_{1}{2}.
+        /// </summary>
+        internal static string FileNameFormatForSnapShot {
+            get {
+                return ResourceManager.GetString("FileNameFormatForSnapShot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can not find the specified file &apos;{0}&apos;..
         /// </summary>
         internal static string FileNotFound {
@@ -642,6 +651,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string SendAzureBlobCancelled {
             get {
                 return ResourceManager.GetString("SendAzureBlobCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip to download blob &apos;{0}&apos; with snapshot time &apos;{0}&apos;..
+        /// </summary>
+        internal static string SkipDownloadSnapshot {
+            get {
+                return ResourceManager.GetString("SkipDownloadSnapshot", resourceCulture);
             }
         }
         

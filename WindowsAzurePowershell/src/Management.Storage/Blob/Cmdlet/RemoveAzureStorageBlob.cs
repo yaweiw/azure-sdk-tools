@@ -117,17 +117,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
-        /// whether the specified blob is a snapshot
-        /// </summary>
-        /// <param name="blob">ICloudBlob object</param>
-        /// <returns>true if the specified blob is snapshot, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal bool IsSnapshot(ICloudBlob blob)
-        {
-            return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
-        }
-
-        /// <summary>
         /// check whether specified blob has snapshot
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
