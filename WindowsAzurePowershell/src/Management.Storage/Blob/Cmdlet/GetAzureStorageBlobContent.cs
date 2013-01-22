@@ -330,9 +330,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             string filePath = GetFullReceiveFilePath(fileName, blob.Name);
-            Console.WriteLine(filePath);
-            Console.WriteLine(overwrite);
-            Console.WriteLine(System.IO.File.Exists(filePath));
+
             if (!overwrite && System.IO.File.Exists(filePath))
             {
                 if (!ConfirmOverwrite(filePath))
@@ -369,10 +367,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             String filePath = Path.Combine(CurrentPath(), fileName);
             fileName = Path.GetFileName(filePath);
+            String dirPath = Path.GetDirectoryName(filePath);
+
+            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
+            {
+                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
+            }
 
             if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
             {
-                fileName = blobName;
+                fileName = NameUtil.ConvertBlobNameToFileName(blobName);
                 filePath = Path.Combine(filePath, fileName);
             }
 
@@ -381,13 +385,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             if (!NameUtil.IsValidFileName(fileName))
             {
                 throw new ArgumentException(String.Format(Resources.InvalidFileName, fileName));
-            }
-
-            String dirPath = Path.GetDirectoryName(filePath);
-
-            if (!String.IsNullOrEmpty(dirPath) && !Directory.Exists(dirPath))
-            {
-                throw new ArgumentException(String.Format(Resources.DirectoryNotExists, dirPath));
             }
 
             //there is no need to check the read/write permission on the specified file path, the datamovement libraray will do that
