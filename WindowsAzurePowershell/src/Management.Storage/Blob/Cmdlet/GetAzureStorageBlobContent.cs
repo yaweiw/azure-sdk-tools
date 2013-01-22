@@ -344,6 +344,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 ValidatePipelineICloudBlob(blob);
             }
 
+            //create the destination directory if not exists.
+            String dirPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
+
             try
             {
                 DownloadBlob(blob, filePath);

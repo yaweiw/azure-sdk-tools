@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. This cmdlet only works with files..
+        ///   Looks up a localized string similar to Can not send the directory &apos;{0}&apos; to azure. If you want to send directory to azure, please use &quot;ls -File | Set-AzureStorageBlobContent -Container containerName&quot;..
         /// </summary>
         internal static string CannotSendDirectory {
             get {
@@ -318,6 +318,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string FileAlreadyExists {
             get {
                 return ResourceManager.GetString("FileAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File name can not be empty..
+        /// </summary>
+        internal static string FileNameCannotEmpty {
+            get {
+                return ResourceManager.GetString("FileNameCannotEmpty", resourceCulture);
             }
         }
         
@@ -619,7 +628,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload local file &apos;{0}&apos; to blob &apos;{1}&apos; cancelled..
+        ///   Looks up a localized string similar to Upload local file &apos;{0}&apos; to container &apos;{1}&apos; is cancelled..
         /// </summary>
         internal static string SendAzureBlobCancelled {
             get {
