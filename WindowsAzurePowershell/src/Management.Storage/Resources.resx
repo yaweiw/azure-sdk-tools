@@ -399,4 +399,7 @@
   <data name="FileNameCannotEmpty" xml:space="preserve">
     <value>File name can not be empty.</value>
   </data>
+  <data name="PrepareDownloadingBlob" xml:space="preserve">
+    <value>Prepare to download blob.</value>
+  </data>
 </root>
