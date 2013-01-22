@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
+    <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />

@@ -31,6 +31,7 @@
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>!Functional</TestFilter>
+    <ScenarioTestFilter>ServiceBus;CloudService</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
   </PropertyGroup>
   <ItemGroup>
@@ -195,7 +196,7 @@
     
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:All /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="false" />
   </Target>
   
