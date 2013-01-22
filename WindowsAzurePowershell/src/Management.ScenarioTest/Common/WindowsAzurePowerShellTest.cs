@@ -12,22 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
-    using CloudService.AzureTools;
+    using System;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class CsRunTests : TestBase
+    public class WindowsAzurePowerShellTest : PowerShellTest
     {
-        [TestMethod]
-        public void RoleInfoIsExtractedFromEmulatorOutput()
+        protected TestCredentialHelper credentials;
+        protected string credentialFile;
+
+        public WindowsAzurePowerShellTest(params string[] modules)
+            : base(modules)
         {
-            var dummyEmulatorOutput = "Exported interface at http://127.0.0.1:81/.\r\nExported interface at tcp://127.0.0.1:8080/.";
-            var output = CsRun.GetRoleInfoMessage(dummyEmulatorOutput);
-            Assert.IsTrue(output.Contains("Role is running at http://127.0.0.1:81"));
-            Assert.IsTrue(output.Contains("Role is running at tcp://127.0.0.1:8080"));
+            this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
+            this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
+        }
+
+        [TestInitialize]
+        public override void TestSetup()
+        {
+            base.TestSetup();
+            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
         }
     }
 }

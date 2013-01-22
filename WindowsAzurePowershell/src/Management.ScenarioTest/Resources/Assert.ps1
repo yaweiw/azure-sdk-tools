@@ -28,22 +28,23 @@ function Assert-Throws
    }
    catch 
    {
-       Write-Output ("Caught exception: '" + $_.Exception.Message + "'")
-       if ($_.Exception.Message -eq $message)
+       $actualMessage = $_.Exception.Message
+       Write-Output ("Caught exception: '$actualMessage'")
+       if ($actualMessage -eq $message)
 	   {
 	       return $true;
 	   }
    }
 
-   throw "Expected exception not received: '$message'";
+   throw "Expected exception not received: '$message' the actual message is '$actualMessage'";
 }
 
 ###################
 #
 # Verify that the given scriptblock returns true
 #
-#    param [ScriptBlock] $script: The script to execute
-#    param [string] $message    : The message to return if the given script does not return true
+#    param [ScriptBlock] $script : The script to execute
+#    param [string] $message     : The message to return if the given script does not return true
 ####################
 function Assert-True
 {

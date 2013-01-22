@@ -16,18 +16,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
 {
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class ServiceBusNamespaceTests : PowerShellTest
     {
         public ServiceBusNamespaceTests()
-            : base("Microsoft.WindowsAzure.Management.ServiceBus.dll",
-                   "Microsoft.WindowsAzure.Management.CloudService.dll",
-                   "Microsoft.WindowsAzure.Management.Websites.dll",
-                   "Assert.ps1",
-                   "ServiceBus\\Common.ps1",
+            : base("ServiceBus\\Common.ps1",
                    "ServiceBus\\NamespaceScenarioTests.ps1")
         {
 
@@ -100,6 +96,100 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         public void TestGetAzureSBNamespaceWithWebsites()
         {
             RunPowerShellTest("Test-GetAzureSBNamespaceWithWebsites");
+        }
+
+        #endregion
+
+        #region New-AzureSBNamespace Scenario Tests
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithValidNewNamespace()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithValidNewNamespace");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithValidExistingNamespace()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithValidExistingNamespace");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithInvalidLocation()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithInvalidLocation");
+        }
+
+        /// <summary>
+        /// This scenario test does the following:
+        /// * Generates new name.
+        /// * Uses Test-AzureName to make sure name is available
+        /// * Runs Get-AzureSBLocation and pick default location object.
+        /// * Creates new namespace.
+        /// * Waits until it's status is Active
+        /// * Setup website environment variable using Set-AzureWebsite -AppSettings
+        /// </summary>
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithWebsite()
+        {
+            RunPowerShellTest("Test-NewAzureSBNamespaceWithWebsite");
+        }
+
+        #endregion
+
+        #region Remove-AzureSBNamespace Scenario Tests
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithExistingNamespace");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithNonExistingNamespace()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceWithNonExistingNamespace");
+        }
+
+        /// <summary>
+        /// This test does the following:
+        /// * Generate namespace name.
+        /// * Uses Test-AzureName to make sure it's available
+        /// * Waits for it's status to be 'Active'
+        /// * Pipe it's value to Remove-AzureSBNamespace
+        /// </summary>
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceInputPiping()
+        {
+            RunPowerShellTest("Test-RemoveAzureSBNamespaceInputPiping");
+        }
+
+        #endregion
+
+        #region General Service Bus Scenario Tests
+
+        [TestMethod]
+        public void TestGetAzureSBLocationWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBLocation}");
+        }
+
+        [TestMethod]
+        public void TestGetAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Get-AzureSBNamespace}");
+        }
+
+        [TestMethod]
+        public void TestNewAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {New-AzureSBNamespace $(Get-NamespaceName) $(Get-DefaultServiceBusLocation)}");
+        }
+
+        [TestMethod]
+        public void TestRemoveAzureSBNamespaceWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials {Remove-AzureSBNamespace \"AnyName\"}");
         }
 
         #endregion

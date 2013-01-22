@@ -283,4 +283,10 @@
   <data name="NoPublishSettingsFilesFoundMessage" xml:space="preserve">
     <value>No publish settings files with extension *.publishsettings are found in the directory "{0}".</value>
   </data>
+  <data name="RemoveSubscriptionConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove subscription '{0}'?</value>
+  </data>
+  <data name="RemoveSubscriptionMessage" xml:space="preserve">
+    <value>Removing subscription</value>
+  </data>
 </root>

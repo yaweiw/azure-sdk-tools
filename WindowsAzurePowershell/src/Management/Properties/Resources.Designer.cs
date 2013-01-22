@@ -476,6 +476,24 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove subscription &apos;{0}&apos;?.
+        /// </summary>
+        internal static string RemoveSubscriptionConfirmation {
+            get {
+                return ResourceManager.GetString("RemoveSubscriptionConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing subscription.
+        /// </summary>
+        internal static string RemoveSubscriptionMessage {
+            get {
+                return ResourceManager.GetString("RemoveSubscriptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ServiceDefinition.csdef.
         /// </summary>
         internal static string ServiceDefinitionFileName {
