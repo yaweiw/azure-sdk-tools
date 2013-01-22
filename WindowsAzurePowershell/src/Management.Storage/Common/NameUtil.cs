@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         /// <param name="blobName">blob name</param>
         /// <returns>valid file name</returns>
-        public static string ConvertBlobNameToFileName(string blobName, string snapshotTime)
+        public static string ConvertBlobNameToFileName(string blobName, DateTimeOffset? snapshotTime)
         {
             string fileName = blobName;
 
@@ -213,12 +213,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 fileName = fileName.Replace(rule.Key, rule.Value);
             }
 
-            if (!string.IsNullOrEmpty(snapshotTime))
+            if (snapshotTime != null)
             {
                 int index = fileName.LastIndexOf('.');
 
                 string prefix = string.Empty;
                 string postfix = string.Empty;
+                string timeStamp = string.Format("{0:u}", snapshotTime.Value);
+                timeStamp = timeStamp.Replace(":", string.Empty).TrimEnd(new char[] { 'Z' });
 
                 if(index == -1)
                 {
@@ -231,7 +233,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                     postfix = fileName.Substring(index);
                 }
 
-                fileName = string.Format(Resources.FileNameFormatForSnapShot, prefix, snapshotTime, postfix);
+                fileName = string.Format(Resources.FileNameFormatForSnapShot, prefix, timeStamp, postfix);
             }
 
             return fileName;
