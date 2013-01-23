@@ -187,6 +187,7 @@
     <Compile Include="UnitTests\Cmdlets\Certificates\AddAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\RemoveAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\GetAzureCertificateTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
     <Compile Include="UnitTests\Stubs\InMemorySessionManager.cs" />
     <Compile Include="Utilities\MockCommandRuntime.cs" />
