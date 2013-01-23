@@ -77,7 +77,7 @@ function Assert-NotNull
 	
 	if (!$message)
 	{
-	    $message = "Assertion failed because the object in null: " + $actual
+	    $message = "Assertion failed because the object is null: " + $actual
 	}
 	
 	if ($actual -eq $null) 
@@ -146,6 +146,30 @@ function Assert-AreEqualArray
 	$diff = Compare-Object $expected $actual -PassThru
 
 	if ($diff -ne $null) 
+	{
+	    throw $message
+	}
+	
+	return $true
+}
+
+###################
+#
+# Verify that the given value is null
+#
+#    param [object] $actual  : The actual object
+#    param [string] $message : The message to return if the given object is not null
+####################
+function Assert-Null
+{
+    param([object] $actual, [string] $message)
+	
+	if (!$message)
+	{
+	    $message = "Assertion failed because the object is not null: " + $actual
+	}
+	
+	if ($actual -ne $null) 
 	{
 	    throw $message
 	}
