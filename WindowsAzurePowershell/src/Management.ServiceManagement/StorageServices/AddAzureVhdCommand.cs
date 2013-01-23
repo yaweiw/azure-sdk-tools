@@ -60,8 +60,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
         }
 
         private int numberOfUploaderThreads = DefaultNumberOfUploaderThreads;
-
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName="Vhd", HelpMessage = "Number of uploader threads")]
+        
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, ParameterSetName = "Vhd", HelpMessage = "Number of uploader threads")]
         [ValidateNotNullOrEmpty]
         [ValidateRange(1, 64)]
         [Alias("th")]
@@ -89,23 +89,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             set;
         }
 
-        protected override void OnProcessRecord()
+
+        public UploadParameters ValidateParameters()
         {
             BlobUri destinationUri;
-            if(!BlobUri.TryParseUri(Destination, out destinationUri))
+            if (!BlobUri.TryParseUri(Destination, out destinationUri))
             {
                 throw new ArgumentOutOfRangeException("Destination", this.Destination.ToString());
             }
 
             BlobUri baseImageUri = null;
-            if(this.BaseImageUriToPatch != null)
+            if (this.BaseImageUriToPatch != null)
             {
                 if (!BlobUri.TryParseUri(BaseImageUriToPatch, out baseImageUri))
                 {
                     throw new ArgumentOutOfRangeException("BaseImageUriToPatch", this.BaseImageUriToPatch.ToString());
                 }
 
-                if(!String.IsNullOrEmpty(destinationUri.Uri.Query))
+                if (!String.IsNullOrEmpty(destinationUri.Uri.Query))
                 {
                     var message = String.Format("SAS Uri for the destination blob is not supported in patch mode:{0}", destinationUri.Uri);
                     throw new ArgumentOutOfRangeException("Destination", message);
@@ -117,6 +118,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 Cmdlet = this,
                 BlobObjectFactory = new CloudPageBlobObjectFactory(this.Channel, this.CurrentSubscription.SubscriptionId, TimeSpan.FromMinutes(1))
             };
+
+            return parameters;
+        }
+
+        protected override void OnProcessRecord()
+        {
+            var parameters = ValidateParameters();
             var vhdUploadContext = VhdUploaderModel.Upload(parameters);
             WriteObject(vhdUploadContext);
         }
