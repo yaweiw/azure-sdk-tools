@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
+    <Compile Include="CloudServiceTests\CloudServiceTests.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
@@ -99,6 +100,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="MSSharedLibKey.snk" />
+    <Resource Include="Resources\CloudService\CloudServiceTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\CloudService\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\Credentials.ps1" />
     <None Include="Resources\Credstests.ps1" />
     <None Include="Resources\CredUtils.ps1" />
