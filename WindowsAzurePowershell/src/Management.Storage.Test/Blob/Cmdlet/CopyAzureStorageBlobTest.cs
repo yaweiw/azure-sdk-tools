@@ -21,10 +21,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using Microsoft.WindowsAzure.Management.Storage.Test.Properties;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Management.Storage.Test.Properties;
 
     [TestClass]
     public class CopyAzureStorageBlobTest
@@ -190,7 +189,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             public string TestBlobFile { get; set; }
 
             /// <summary>
-            /// Initializes a new instance of the CopyAzureBlobInfo class.
+            /// Initializes a new instance of the CopyAzureStorageBlobInfo class.
             /// </summary>
             public CopyAzureStorageBlobInfo()
             {
@@ -256,8 +255,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             sourceContainer.DeleteIfExists();
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureBlob)")]
-        public void CopyAzureBlobTestCrossCluster()
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureStorageBlob)")]
+        public void CopyAzureStorageBlobTestCrossCluster()
         {
             this.testInfo = new CopyAzureStorageBlobInfo()
             {
@@ -274,8 +273,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             this.AssertCopySuccess(true);
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureBlob)")]
-        public void CopyAzureBlobTestOverwrite()
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureStorageBlob)")]
+        public void CopyAzureStorageBlobTestOverwrite()
         {
             this.testInfo = new CopyAzureStorageBlobInfo()
             {

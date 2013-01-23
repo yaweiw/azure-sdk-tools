@@ -123,7 +123,11 @@
       <Name>Sync</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Microsoft.WindowsAzure.Management.Storage.dll-Help.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>

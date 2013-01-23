@@ -12,18 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
-using System.Management.Automation;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
-using Microsoft.WindowsAzure.Management.Storage.Blob.Context;
 namespace Microsoft.WindowsAzure.Management.Storage.Test
 {
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+    using Microsoft.WindowsAzure.Management.Storage.Blob.Context;
+    using Microsoft.WindowsAzure.Management.Storage.Test.Blob.CmdletInfo;
+
     public class StorageCmdletTestHelper
     {
         public CopyAzureStorageBlobContext CopyAzureStorageBlob(string source, string destination, bool overwrite)
         {
-            var copyAzureBlobCmdletInfo = new CopyAzureBlobCmdletInfo(source, destination, overwrite);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(copyAzureBlobCmdletInfo);
+            var copyAzureStorageBlobCmdletInfo = new CopyAzureStorageBlobCmdletInfo(source, destination, overwrite);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(copyAzureStorageBlobCmdletInfo);
             Collection<PSObject> result = azurePowershellCmdlet.Run();
             if (result.Count == 1)
             {

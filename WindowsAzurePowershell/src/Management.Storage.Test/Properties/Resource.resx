@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DefaultSubscriptionName" xml:space="preserve">
-    <value>Windows Azure Internal Consumption</value>
+    <value>subscription-1</value>
     <comment>Subscription name to use in testing</comment>
   </data>
   <data name="Location" xml:space="preserve">
     <value>West US</value>
   </data>
   <data name="PublishSettingsFile" xml:space="preserve">
-    <value>C:\Users\ismetk\Documents\HSBS-Windows Azure Internal Consumption-8-28-2012-credentials.publishsettings</value>
+    <value>C:\Users\dagarv\Desktop\Subscription-1-1-10-2013-credentials.publishsettings</value>
     <comment>Path to your publishsettings file</comment>
   </data>
 </root>

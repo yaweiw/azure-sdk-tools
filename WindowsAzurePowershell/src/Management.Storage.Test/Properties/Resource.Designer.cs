@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Internal Consumption.
+        ///   Looks up a localized string similar to subscription-1.
         /// </summary>
         internal static string DefaultSubscriptionName {
             get {
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\ismetk\Documents\HSBS-Windows Azure Internal Consumption-8-28-2012-credentials.publishsettings.
+        ///   Looks up a localized string similar to C:\Users\dagarv\Desktop\Subscription-1-1-10-2013-credentials.publishsettings.
         /// </summary>
         internal static string PublishSettingsFile {
             get {

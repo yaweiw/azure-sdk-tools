@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Sync.Download;
 
-    [Cmdlet(VerbsCommon.Copy, "AzureBlob")]
+    [Cmdlet(VerbsCommon.Copy, "AzureStorageBlob")]
     public class CopyAzureStorageBlobCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public CopyAzureStorageBlobCommand()
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// Executes the Copy-AzureBlob Cmdlet.
+        /// Executes the Copy-AzureStorageBlob Cmdlet.
         /// </summary>
         internal void ExecuteCommand()
         {
@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// Aborts the execution of the Copy-AzureBlob Cmdlet.
+        /// Aborts the execution of the Copy-AzureStorageBlob Cmdlet.
         /// </summary>
         internal void AbortCommand()
         {
@@ -327,7 +327,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="status">Status string.</param>
         private void WriteOperationStatus(string status)
         {
-            this.WriteProgress(new ProgressRecord(1, "Copy-AzureBlob", string.Format("Operation Status: {0}", status)));
+            this.WriteProgress(new ProgressRecord(1, "Copy-AzureStorageBlob", string.Format("Operation Status: {0}", status)));
         }
     }
 }

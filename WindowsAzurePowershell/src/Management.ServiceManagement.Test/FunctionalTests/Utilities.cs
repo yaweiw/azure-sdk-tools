@@ -21,13 +21,14 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
-    public class Utilities 
+    internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
         public const string windowsAzurePowershellModuleCloudService = "Microsoft.WindowsAzure.Management.CloudService.dll";
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
+        public static string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Management.Storage.dll";
 
         public static string publishSettingsFile = Resource.PublishSettingsFile;
 
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureDiskCmdletName = "Get-AzureDisk";
         public static string GetAzureStorageKeyCmdletName = "Get-AzureStorageKey";
 
-        public const string CopyAzureBlobCmdletName = "Copy-AzureBlob";
+        public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
         public static string RemoveAzureStorageAccountCmdletName = "Remove-AzureStorageAccount";
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
