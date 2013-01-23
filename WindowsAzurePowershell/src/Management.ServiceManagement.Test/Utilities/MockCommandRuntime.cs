@@ -25,6 +25,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Utilities
         public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
         public List<object> WrittenObjects = new List<object>();
         public StringBuilder WarningOutput = new StringBuilder();
+        public List<string> DebugOutput = new List<string>();
+        public List<string> VerboseOutput = new List<string>();
 
         public override string ToString()
         {
@@ -88,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Utilities
 
         public void WriteDebug(string text)
         {
-            throw new NotImplementedException();
+            DebugOutput.Add(text);
         }
 
         public void WriteError(ErrorRecord errorRecord)
@@ -118,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Utilities
 
         public void WriteVerbose(string text)
         {
-            throw new NotImplementedException();
+            VerboseOutput.Add(text);
         }
 
         public void WriteWarning(string text)

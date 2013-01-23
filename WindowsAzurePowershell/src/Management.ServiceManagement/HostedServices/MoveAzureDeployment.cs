@@ -52,30 +52,51 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             try
             {
                 InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Production")));
+                if (prodDeployment != null && prodDeployment.RoleList != null)
+                {
+                    if (string.Compare(prodDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        throw new ArgumentException("Cannot Move Deployments with Virtual Machines Present in Production");
+                    }
+                }
             }
             catch (EndpointNotFoundException e)
             {
                 this.WriteDebug("No deployment found in production");
             }
 
-
             Deployment stagingDeployment = null;
-
             try
             {
                 InvokeInOperationContext(() => stagingDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Staging")));
+                if (stagingDeployment != null && stagingDeployment.RoleList != null)
+                {
+                    if (string.Compare(stagingDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        throw new ArgumentException("Cannot Move Deployments with Virtual Machines Present in Staging");
+                    }
+                }
             }
             catch (EndpointNotFoundException e)
             {
-                throw new ArgumentOutOfRangeException(String.Format("No deployment found in staging: {0}", ServiceName), e);
+                this.WriteDebug("No deployment found in staging");
             }
 
-            if (stagingDeployment != null && stagingDeployment.RoleList != null)
+            if(stagingDeployment == null && prodDeployment == null)
             {
-                if (string.Compare(stagingDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    throw new ArgumentException("Cannot Move Deployments with Virtual Machines Present");
-                }
+                throw new ArgumentOutOfRangeException(String.Format("No deployment found in Staging or Production: {0}", ServiceName));
+            }
+            else if(stagingDeployment == null && prodDeployment != null)
+            {
+                throw new ArgumentOutOfRangeException(String.Format("No deployment found in Staging: {0}", ServiceName));
+            }
+            else if(stagingDeployment != null && prodDeployment == null)
+            {
+                WriteVerbose(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
+            }
+            else if(stagingDeployment != null && prodDeployment != null)
+            {
+                WriteVerbose(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
             }
 
             String productionName = GetDeploymentName(DeploymentSlotType.Production);
