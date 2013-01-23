@@ -31,7 +31,7 @@
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>!Functional</TestFilter>
-    <ScenarioTestFilter>ServiceBus|CloudService</ScenarioTestFilter>
+    <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
   </PropertyGroup>
   <ItemGroup>
