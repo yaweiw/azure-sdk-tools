@@ -67,17 +67,31 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             OperationContext.SendingRequest += (s, e) =>
             {
-                remoteCallCounter++;
-                string message = String.Format(Resources.StartRemoteCall,
-                    remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
-                WriteDebugLog(message);
+                try
+                {
+                    remoteCallCounter++;
+                    string message = String.Format(Resources.StartRemoteCall,
+                        remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
+                    WriteDebugLog(message);
+                }
+                catch
+                {
+                    //catch the exception to forbidden storage client to sleep
+                }
             };
 
             OperationContext.ResponseReceived += (s, e) =>
             {
-                string message = String.Format(Resources.FinishRemoteCall,
-                    e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
-                WriteDebugLog(message);
+                try
+                {
+                    string message = String.Format(Resources.FinishRemoteCall,
+                        e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
+                    WriteDebugLog(message);
+                }
+                catch
+                {
+                    //catch the exception to forbidden storage client to sleep
+                }
             };
 
             WriteVerboseWithTimestamp(String.Format(Resources.InitOperationContextLog, this.GetType().Name, OperationContext.ClientRequestID));

@@ -86,10 +86,20 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
+	protected void WriteVerboseWithTimestamp(string message)
+        {
+            WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
         protected void WriteDebugWithTimestamp(string message, params object[] args)
         {
             WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
-        }
+	}
+
+        protected void WriteDebugWithTimestamp(string message)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
+	}
 
         /// <summary>
         /// Write an error message for a given exception.
