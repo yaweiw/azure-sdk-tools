@@ -13,5 +13,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         public const string ServiceBus = "ServiceBus";
 
         public const string CloudService = "CloudService";
+
+        public const string Management = "Management";
     }
 }
