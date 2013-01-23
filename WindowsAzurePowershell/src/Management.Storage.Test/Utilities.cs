@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,22 +14,20 @@
 //------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+using System;
+using System.IO;
+using System.Text.RegularExpressions;
+using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
+namespace Microsoft.WindowsAzure.Management.Storage.Test
 {
-    public class CopyAzureBlobCmdletInfo : CmdletsInfo
+    public class Utilities 
     {
-        public CopyAzureBlobCmdletInfo(string source, string destination, bool overwrite)
-        {
-            this.cmdletName = Utilities.CopyAzureBlobCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Source", source));
-            this.cmdletParams.Add(new CmdletParam("Destination", destination));
+        public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
 
-            if (overwrite)
-            {
-                this.cmdletParams.Add(new CmdletParam("Overwrite", null));
-            }
+        public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
+        {
+            return string.Format("{0}{1}{2}", prefix, Guid.NewGuid().ToString("N").Substring(0, length), suffix);
         }
     }
 }
