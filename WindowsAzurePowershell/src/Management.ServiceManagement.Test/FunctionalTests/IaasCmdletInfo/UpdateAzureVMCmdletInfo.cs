@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class UpdateAzureVMCmdletInfo : CmdletsInfo
+    public class UpdateAzureVMCmdletInfo : CmdletsInfo
     {
         public UpdateAzureVMCmdletInfo(string serviceName, string vmName, PersistentVM persistentVM)
         {

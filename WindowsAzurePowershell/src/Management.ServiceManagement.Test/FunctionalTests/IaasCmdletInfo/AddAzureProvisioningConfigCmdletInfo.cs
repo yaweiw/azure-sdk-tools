@@ -20,7 +20,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class AddAzureProvisioningConfigCmdletInfo : CmdletsInfo
+    public class AddAzureProvisioningConfigCmdletInfo : CmdletsInfo
     {
         public AddAzureProvisioningConfigCmdletInfo(AzureProvisioningConfigInfo provConfig)
         {

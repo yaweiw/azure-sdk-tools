@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class CopyAzureBlobCmdletInfo : CmdletsInfo
+    public class CopyAzureBlobCmdletInfo : CmdletsInfo
     {
         public CopyAzureBlobCmdletInfo(string source, string destination, bool overwrite)
         {

@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class AddAzureVhdCmdletInfo : CmdletsInfo
+    public class AddAzureVhdCmdletInfo : CmdletsInfo
     {
         public AddAzureVhdCmdletInfo(string destination, string locaFilePath)
         {

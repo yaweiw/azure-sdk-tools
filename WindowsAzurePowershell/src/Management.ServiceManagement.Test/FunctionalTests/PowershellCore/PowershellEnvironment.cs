@@ -22,7 +22,7 @@ using System.Management.Automation.Runspaces;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    internal abstract class PowershellEnvironment
+    public abstract class PowershellEnvironment
     {
         protected InitialSessionState initialSessionState;
         protected Runspace runspace;

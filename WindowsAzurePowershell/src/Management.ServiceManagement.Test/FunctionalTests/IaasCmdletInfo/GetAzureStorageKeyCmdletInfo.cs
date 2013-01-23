@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureStorageKeyCmdletInfo : CmdletsInfo
+    public class GetAzureStorageKeyCmdletInfo : CmdletsInfo
     {
         public GetAzureStorageKeyCmdletInfo(string storageAccountName)
         {

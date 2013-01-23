@@ -211,7 +211,6 @@
     <Compile Include="Model\AvailabilityResponseContext.cs" />
     <Compile Include="Model\CertificateConfiguration.cs" />
     <Compile Include="Model\CertificateContext.cs" />
-    <Compile Include="Model\CopyBlobContext.cs" />
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\DiskContext.cs" />
     <Compile Include="Model\GatewayConnectionContext.cs" />
@@ -250,9 +249,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="StorageServices\AddAzureVhdCommand.cs" />
-    <Compile Include="StorageServices\CopyAzureBlob.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="StorageServices\CloudPageBlobObjectFactory.cs" />
     <Compile Include="StorageServices\GetAzureStorageAccount.cs" />
     <Compile Include="StorageServices\GetAzureStorageKey.cs" />

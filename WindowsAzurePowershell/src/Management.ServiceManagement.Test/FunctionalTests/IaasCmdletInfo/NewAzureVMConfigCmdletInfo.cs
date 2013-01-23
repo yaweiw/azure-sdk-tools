@@ -20,7 +20,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class NewAzureVMConfigCmdletInfo : CmdletsInfo
+    public class NewAzureVMConfigCmdletInfo : CmdletsInfo
     {
         public NewAzureVMConfigCmdletInfo(AzureVMConfigInfo vmConfig)
         {
