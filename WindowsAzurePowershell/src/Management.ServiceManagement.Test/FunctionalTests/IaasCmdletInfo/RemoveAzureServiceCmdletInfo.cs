@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class RemoveAzureServiceCmdletInfo : CmdletsInfo
+    public class RemoveAzureServiceCmdletInfo : CmdletsInfo
     {
         public RemoveAzureServiceCmdletInfo(string serviceName)
         {

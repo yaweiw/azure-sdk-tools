@@ -21,7 +21,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
-    class Utilities 
+    public class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
         public const string windowsAzurePowershellModuleCloudService = "Microsoft.WindowsAzure.Management.CloudService.dll";

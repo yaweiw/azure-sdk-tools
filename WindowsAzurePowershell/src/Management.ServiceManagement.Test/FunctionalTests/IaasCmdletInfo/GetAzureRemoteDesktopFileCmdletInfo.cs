@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureRemoteDesktopFileCmdletInfo : CmdletsInfo
+    public class GetAzureRemoteDesktopFileCmdletInfo : CmdletsInfo
     {
         public GetAzureRemoteDesktopFileCmdletInfo(string vmName, string serviceName, string localPath, bool launch)
         {

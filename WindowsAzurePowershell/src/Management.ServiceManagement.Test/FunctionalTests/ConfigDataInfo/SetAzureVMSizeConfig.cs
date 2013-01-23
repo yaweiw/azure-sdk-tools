@@ -17,7 +17,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class SetAzureVMSizeConfig
+    public class SetAzureVMSizeConfig
     {
         public readonly InstanceSize instanceSize;
 

@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class RemoveAzureDiskCmdletInfo : CmdletsInfo
+    public class RemoveAzureDiskCmdletInfo : CmdletsInfo
     {
         public RemoveAzureDiskCmdletInfo(string diskName, bool deleteVHD)
         {

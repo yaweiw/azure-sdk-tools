@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
   
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureLocationCmdletInfo : CmdletsInfo
+    public class GetAzureLocationCmdletInfo : CmdletsInfo
     {
         public GetAzureLocationCmdletInfo()
         {

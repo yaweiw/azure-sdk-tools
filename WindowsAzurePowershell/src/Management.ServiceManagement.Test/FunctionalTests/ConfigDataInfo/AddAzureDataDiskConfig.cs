@@ -17,7 +17,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class AddAzureDataDiskConfig
+    public class AddAzureDataDiskConfig
     {
         public readonly DiskCreateOption DiskCreateOption;
         public readonly int DiskSizeGB;

@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class ImportAzurePublishSettingsFileCmdletInfo : CmdletsInfo
+    public class ImportAzurePublishSettingsFileCmdletInfo : CmdletsInfo
     {
         public ImportAzurePublishSettingsFileCmdletInfo(string publishSettingsFile)
         {

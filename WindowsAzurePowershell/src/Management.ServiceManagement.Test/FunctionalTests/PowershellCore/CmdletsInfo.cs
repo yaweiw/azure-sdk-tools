@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    internal abstract class CmdletsInfo
+    public abstract class CmdletsInfo
     {
         protected string cmdletName;
         protected List<CmdletParam> cmdletParams;

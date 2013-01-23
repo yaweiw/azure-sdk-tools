@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class SelectAzureSubscriptionCmdletInfo : CmdletsInfo
+    public class SelectAzureSubscriptionCmdletInfo : CmdletsInfo
     {
         public SelectAzureSubscriptionCmdletInfo(string subscriptionName)
         {

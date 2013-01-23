@@ -18,7 +18,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class AzureProvisioningConfigInfo
+    public class AzureProvisioningConfigInfo
     {
         public readonly OS OS;
         public readonly string Password;
