@@ -30,7 +30,7 @@ Copyright = '(c) Microsoft Corporation. All rights reserved.'
 Description = ''
 
 # Minimum version of the Windows PowerShell engine required by this module
-PowerShellVersion = '2.0'
+PowerShellVersion = '3.0'
 
 # Name of the Windows PowerShell host required by this module
 PowerShellHostName = ''
@@ -42,7 +42,7 @@ PowerShellHostVersion = ''
 DotNetFrameworkVersion = ''
 
 # Minimum version of the common language runtime (CLR) required by this module
-CLRVersion = ''
+CLRVersion='4.0'
 
 # Processor architecture (None, X86, Amd64, IA64) required by this module
 ProcessorArchitecture = ''
