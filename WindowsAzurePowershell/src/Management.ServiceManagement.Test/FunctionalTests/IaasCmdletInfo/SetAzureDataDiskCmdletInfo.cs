@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.C
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class SetAzureDataDiskCmdletInfo : CmdletsInfo
+    public class SetAzureDataDiskCmdletInfo : CmdletsInfo
     {
         public SetAzureDataDiskCmdletInfo(SetAzureDataDiskConfig discCfg)
         {

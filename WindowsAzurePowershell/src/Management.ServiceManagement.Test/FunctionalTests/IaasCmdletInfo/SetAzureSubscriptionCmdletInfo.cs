@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class SetAzureSubscriptionCmdletInfo : CmdletsInfo
+    public class SetAzureSubscriptionCmdletInfo : CmdletsInfo
     {
         public SetAzureSubscriptionCmdletInfo(string defaultSubscriptionName)
         {

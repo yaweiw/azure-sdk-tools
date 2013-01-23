@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureVMImageCmdletInfo : CmdletsInfo
+    public class GetAzureVMImageCmdletInfo : CmdletsInfo
     {
         public GetAzureVMImageCmdletInfo()
         {

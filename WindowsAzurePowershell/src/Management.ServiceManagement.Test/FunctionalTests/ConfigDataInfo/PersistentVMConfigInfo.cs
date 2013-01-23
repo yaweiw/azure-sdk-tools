@@ -16,7 +16,7 @@
 //------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class PersistentVMConfigInfo
+    public class PersistentVMConfigInfo
     {
         public readonly AzureVMConfigInfo VmConfig;
         public readonly AzureProvisioningConfigInfo ProvConfig;

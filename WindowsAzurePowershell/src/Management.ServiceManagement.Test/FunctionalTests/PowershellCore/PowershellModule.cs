@@ -18,7 +18,7 @@ using System.IO;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    internal class PowershellModule
+    public class PowershellModule
     {
         readonly string moduleName;
         readonly string modulePath;

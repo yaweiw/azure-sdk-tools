@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     [TestClass]
     public class AddAzureVhdTest
     {
-        private CmdletTestHelper vmPowershellCmdlets;
+        private ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         private SubscriptionData defaultAzureSubscription;
         private StorageServiceKeyOperationContext storageAccountKey;
         private string destination;
@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            vmPowershellCmdlets = new CmdletTestHelper();
+            vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);

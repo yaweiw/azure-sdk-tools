@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8531411A-0137-4E27-9C5E-49E07C245048}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
@@ -52,6 +52,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sync", "Sync\Sync.csproj", "{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VhdManagement", "VhdManagement\VhdManagement.csproj", "{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage", "Management.Storage\Management.Storage.csproj", "{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.Test", "Management.Storage.Test\Management.Storage.Test.csproj", "{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -337,6 +341,38 @@ Global
 		{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
 		{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|x64
 		{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}.ReleaseSigned|x64.Build.0 = ReleaseSigned|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Debug|x64.ActiveCfg = Debug|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Debug|x64.Build.0 = Debug|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.DebugVS|Any CPU.ActiveCfg = Debug|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.DebugVS|Any CPU.Build.0 = Debug|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.DebugVS|x64.ActiveCfg = Debug|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.DebugVS|x64.Build.0 = Debug|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Release|x64.ActiveCfg = Release|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.Release|x64.Build.0 = Release|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.ReleaseSigned|Any CPU.ActiveCfg = ReleaseSigned|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|x64
+		{08CF7DA7-0392-4A19-B79B-E1FF67CDB81A}.ReleaseSigned|x64.Build.0 = ReleaseSigned|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Debug|x64.ActiveCfg = Debug|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Debug|x64.Build.0 = Debug|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.DebugVS|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.DebugVS|Any CPU.Build.0 = Debug|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.DebugVS|x64.ActiveCfg = Debug|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.DebugVS|x64.Build.0 = Debug|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Release|x64.ActiveCfg = Release|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.Release|x64.Build.0 = Release|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.ReleaseSigned|Any CPU.ActiveCfg = ReleaseSigned|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.ReleaseSigned|Any CPU.Build.0 = ReleaseSigned|Any CPU
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.ReleaseSigned|x64.ActiveCfg = ReleaseSigned|x64
+		{D6F470A6-7395-4B8B-9D29-44DF0EC8F624}.ReleaseSigned|x64.Build.0 = ReleaseSigned|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,7 +18,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class SetAzureDataDiskConfig
+    public class SetAzureDataDiskConfig
     {
         public readonly HostCaching hostCaching;
 

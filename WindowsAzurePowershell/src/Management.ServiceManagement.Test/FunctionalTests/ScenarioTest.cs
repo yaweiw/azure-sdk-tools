@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,Get-AzureVM,Get-AzureLocation,Import-AzurePublishSettingsFile,Get-AzureSubscription,Set-AzureSubscription)")]
         public void NewWindowsAzureQuickVM()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
 
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (Get-AzureLocation,Test-AzureName ,Get-AzureVMImage,New-AzureQuickVM,Get-AzureVM ,Restart-AzureVM,Stop-AzureVM , Start-AzureVM)")]
         public void ProvisionLinuxVM()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             //vmPowershellCmdlets.ImportAzurePublishSettingsFile(Resource.PublishSettingsFile);
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             
@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureService,New-AzureVMConfig,Add-AzureProvisioningConfig ,Add-AzureDataDisk ,Add-AzureEndpoint,New-AzureVM)")]
         public void AdvancedProvisioning()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false);
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig ,Add-AzureDataDisk ,Add-AzureEndpoint,New-AzureVM)")]
         public void ModifyingVM()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false);
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (Get-AzureVM,Set-AzureDataDisk ,Update-AzureVM,Set-AzureVMSize)")]
         public void UpdateAndReboot()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
             string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false);
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
@@ -226,7 +226,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (Get-AzureDisk,Remove-AzureVM,Remove-AzureDisk,Get-AzureVMImage)")]
         public void ManagingDiskImages()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
@@ -302,7 +302,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM,Save-AzureVMImage)")]
         public void CaptureImagingExportingImportingVMConfig()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
@@ -377,7 +377,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (Export-AzureVM,Remove-AzureVM,Import-AzureVM,New-AzureVM)")]
         public void ExportingImportingVMConfigAsTemplateforRepeatableUsage()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
@@ -451,7 +451,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (Get-AzureVM,Get-AzureEndpoint,Get-AzureRemoteDesktopFile)")]
         public void ManagingRDPSSHConnectivity()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);

@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureDiskCmdletInfo : CmdletsInfo
+    public class GetAzureDiskCmdletInfo : CmdletsInfo
     {
         public GetAzureDiskCmdletInfo(string diskName)
         {

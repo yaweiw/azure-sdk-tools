@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureVMCmdletInfo : CmdletsInfo
+    public class GetAzureVMCmdletInfo : CmdletsInfo
     {
         public GetAzureVMCmdletInfo(string vmName, string serviceName)
         {

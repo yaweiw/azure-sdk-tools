@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class WindowsAzurePowershellCmdlet : PowershellCmdlet
+    public class WindowsAzurePowershellCmdlet : PowershellCmdlet
     {
         private static readonly string[] modules = new[]
         {
@@ -48,7 +48,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 new PowershellModule(Utilities.windowsAzurePowershellModuleManagement, Utilities.windowsAzurePowershellPath),
                 new PowershellModule(Utilities.windowsAzurePowershellModuleCloudService, Utilities.windowsAzurePowershellPath),
                 new PowershellModule(Utilities.windowsAzurePowershellModuleService, Utilities.windowsAzurePowershellPath),
-                new PowershellModule(Utilities.windowsAzurePowershellModuleServiceManagement, Utilities.windowsAzurePowershellPath)
+                new PowershellModule(Utilities.windowsAzurePowershellModuleServiceManagement, Utilities.windowsAzurePowershellPath),
+                new PowershellModule(Utilities.windowsAzurePowershellModuleStorage, Utilities.windowsAzurePowershellPath)
             };
         }
     }
