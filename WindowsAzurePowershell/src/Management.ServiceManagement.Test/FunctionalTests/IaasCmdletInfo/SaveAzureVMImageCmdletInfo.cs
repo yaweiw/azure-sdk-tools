@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class SaveAzureVMImageCmdletInfo : CmdletsInfo
+    public class SaveAzureVMImageCmdletInfo : CmdletsInfo
     {
         public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel, string postAction)
         {

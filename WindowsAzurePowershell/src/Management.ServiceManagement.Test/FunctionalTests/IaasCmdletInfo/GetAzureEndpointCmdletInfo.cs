@@ -16,7 +16,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class GetAzureEndpointCmdletInfo : CmdletsInfo
+    public class GetAzureEndpointCmdletInfo : CmdletsInfo
     {
         public GetAzureEndpointCmdletInfo(PersistentVMRoleContext vmRoleCtxt)
         {

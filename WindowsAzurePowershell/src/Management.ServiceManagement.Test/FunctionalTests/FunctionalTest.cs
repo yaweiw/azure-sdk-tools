@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlet (Get-Module)")]
         public void GetAzureVMImage()
         {
-            CmdletTestHelper vmPowershellCmdlets = new CmdletTestHelper();
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.GetAzureVMImage();
         }
     }

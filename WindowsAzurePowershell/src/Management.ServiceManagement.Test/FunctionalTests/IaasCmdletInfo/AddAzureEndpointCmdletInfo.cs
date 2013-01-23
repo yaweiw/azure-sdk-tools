@@ -19,7 +19,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.C
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class AddAzureEndpointCmdletInfo : CmdletsInfo
+    public class AddAzureEndpointCmdletInfo : CmdletsInfo
     {
         public static AddAzureEndpointCmdletInfo BuildNoLoadBalancedCmdletInfo(AzureEndPointConfigInfo endPointConfig)
         {

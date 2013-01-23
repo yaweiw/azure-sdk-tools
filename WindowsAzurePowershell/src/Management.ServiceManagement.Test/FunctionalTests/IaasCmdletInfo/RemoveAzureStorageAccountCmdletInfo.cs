@@ -18,7 +18,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class RemoveAzureStorageAccountCmdletInfo : CmdletsInfo
+    public class RemoveAzureStorageAccountCmdletInfo : CmdletsInfo
     {
         public RemoveAzureStorageAccountCmdletInfo(string storageAccountName)
         {

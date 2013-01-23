@@ -16,7 +16,7 @@
 //------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class AzureVMConfigInfo
+    public class AzureVMConfigInfo
     {
         public string vmName;
         public string imageName;

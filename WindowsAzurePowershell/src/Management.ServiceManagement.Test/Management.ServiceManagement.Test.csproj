@@ -121,13 +121,11 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\DiskCreateOption.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\ProtocolInfo.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMSizeInfo.cs" />
-    <Compile Include="FunctionalTests\CopyAzureBlobTest.cs" />
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVhdCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureEndpointCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRemoteDesktopFileCmdletInfo.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\CopyAzureBlobCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureServiceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureStorageKeyCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ImportAzureVMCmdletInfo.cs" />
@@ -143,7 +141,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureStorageAccountCmdletInfo.cs" />
     <Compile Include="FunctionalTests\ScenarioTest.cs" />
-    <Compile Include="FunctionalTests\CmdletTestHelper.cs">
+    <Compile Include="FunctionalTests\ServiceManagementCmdletTestHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureLocationCmdletInfo.cs" />

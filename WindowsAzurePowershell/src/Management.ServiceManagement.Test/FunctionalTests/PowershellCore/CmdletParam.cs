@@ -16,7 +16,7 @@
 //------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    internal class CmdletParam
+    public class CmdletParam
     {
         private readonly string cmdletParamName;
         private readonly object cmdletParamValue;

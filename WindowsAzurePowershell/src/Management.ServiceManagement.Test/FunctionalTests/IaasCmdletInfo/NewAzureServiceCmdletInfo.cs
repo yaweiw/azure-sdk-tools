@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.P
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    class NewAzureServiceCmdletInfo : CmdletsInfo 
+    public class NewAzureServiceCmdletInfo : CmdletsInfo 
     {
         public NewAzureServiceCmdletInfo(string serviceName, string serviceLabel, string servicelocation)
         {

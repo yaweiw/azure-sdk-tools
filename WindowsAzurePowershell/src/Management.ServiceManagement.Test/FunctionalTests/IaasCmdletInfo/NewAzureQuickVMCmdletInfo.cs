@@ -20,7 +20,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.C
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    internal class NewAzureQuickVMCmdletInfo : CmdletsInfo
+    public class NewAzureQuickVMCmdletInfo : CmdletsInfo
     {
         public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string password, string locationName)
         {

@@ -21,7 +21,7 @@ using System.Management.Automation;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
-    internal class PowershellCmdlet : PowershellEnvironment
+    public class PowershellCmdlet : PowershellEnvironment
     {
         private readonly CmdletsInfo cmdlet;
 

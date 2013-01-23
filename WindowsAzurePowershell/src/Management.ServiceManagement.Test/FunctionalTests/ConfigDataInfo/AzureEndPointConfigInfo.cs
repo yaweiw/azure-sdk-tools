@@ -18,7 +18,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-    class AzureEndPointConfigInfo
+    public class AzureEndPointConfigInfo
     {
         public readonly ProtocolInfo Protocol;
         public readonly int ExternalPort;
