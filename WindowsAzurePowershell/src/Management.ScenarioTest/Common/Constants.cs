@@ -15,5 +15,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         public const string CloudService = "CloudService";
 
         public const string Management = "Management";
+
+        public const string Websites = "Websites";
     }
 }
