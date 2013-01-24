@@ -4,12 +4,18 @@
   <Deployment>
     <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
     <DeploymentItem filename="Management.CloudService.Test\Resources\" />
+    <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml" />
     <DeploymentItem filename="Management.Test\Resources\" />
     <DeploymentItem filename="Management.ServiceBus.Test\Resources\" />
     <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
     <DeploymentItem filename="Management.CloudService\Resources\" />
     <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
+    <DeploymentItem filename="Management.ServiceBus\Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml" />
     <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
+    <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
+    <DeploymentItem filename="Management.CloudService\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
+    <DeploymentItem filename="Management.ScenarioTest\Resources\" />
+    <DeploymentItem filename="..\..\Package\Debug\" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>

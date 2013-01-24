@@ -14,21 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 {
-    using System.Management.Automation;
+    using System.Diagnostics;
+    using VisualStudio.TestTools.UnitTesting;
 
-    public static class PowerShellExtensions
+    /// <summary>
+    /// Base class for Windows Azure PowerShell unit tests.
+    /// </summary>
+    public abstract class TestBase
     {
         /// <summary>
-        /// Gets a powershell varibale from the current session and convernts it back to it's original type.
+        /// Gets or sets a reference to the TestContext used for interacting
+        /// with the test framework.
         /// </summary>
-        /// <typeparam name="T">The powershell object original type</typeparam>
-        /// <param name="powershell">The PowerShell instance</param>
-        /// <param name="name">The variable name</param>
-        /// <returns>The variable object</returns>
-        public static T GetPowerShellVariable<T>(this PowerShell powershell, string name)
+        public TestContext TestContext { get; set; }
+
+        /// <summary>
+        /// Log a message with the test framework.
+        /// </summary>
+        /// <param name="format">Format string.</param>
+        /// <param name="args">Arguments.</param>
+        public void Log(string format, params object[] args)
         {
-            PSObject psobject = powershell.Runspace.SessionStateProxy.GetVariable(name) as PSObject;
-            return (T)psobject.BaseObject;
+            Debug.Assert(TestContext != null);
+            TestContext.WriteLine(format, args);
         }
     }
 }
