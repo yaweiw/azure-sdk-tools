@@ -22,45 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {
-        public string GetServiceRootPath()
-        {
-            // Get the service path
-            var servicePath = FindServiceRootDirectory(CurrentPath());
-
-            // Was the service path found?
-            if (servicePath == null)
-            {
-                throw new InvalidOperationException(Resources.CannotFindServiceRoot);
-            }
-
-            return servicePath;
-        }
-
-        public string FindServiceRootDirectory(string path)
-        {
-            // Is the csdef file present in the folder
-            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
-
-            if (found)
-            {
-                return path;
-            }
-
-            // Find the last slash
-            int slash = path.LastIndexOf('\\');
-            if (slash > 0)
-            {
-                // Slash found trim off the last path
-                path = path.Substring(0, slash);
-
-                // Recurse
-                return FindServiceRootDirectory(path);
-            }
-
-            // Couldn't locate the service root, exit
-            return null;
-        }
-
         protected string CurrentPath()
         {
             // SessionState is only available within Powershell so default to
@@ -136,6 +97,25 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             catch (Exception ex)
             {
                 WriteExceptionError(ex);
+            }
+        }
+
+        /// <summary>
+        /// Asks for confirmation before executing the action.
+        /// </summary>
+        /// <param name="force">Do not ask for confirmation</param>
+        /// <param name="actionMessage">Message to describe the action</param>
+        /// <param name="processMessage">Message to prompt after the active is performed.</param>
+        /// <param name="target">The target name.</param>
+        /// <param name="action">The action code</param>
+        protected void ConfirmAction(bool force, string actionMessage, string processMessage, string target, Action action)
+        {
+            if (force || ShouldContinue(actionMessage, ""))
+            {
+                if (ShouldProcess(target, processMessage))
+                {
+                    action();
+                }
             }
         }
     }

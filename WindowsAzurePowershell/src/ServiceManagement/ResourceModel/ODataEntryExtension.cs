@@ -12,31 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 {
-    using System.Diagnostics;
-    using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.Data.OData;
+    using System.Linq;
 
-    /// <summary>
-    /// Base class for Windows Azure PowerShell unit tests.
-    /// </summary>
-    public abstract class TestBase
+    public static class ODataEntryExtension
     {
         /// <summary>
-        /// Gets or sets a reference to the TestContext used for interacting
-        /// with the test framework.
+        /// Gets a property value from the ODataEntry object.
         /// </summary>
-        public TestContext TestContext { get; set; }
-
-        /// <summary>
-        /// Log a message with the test framework.
-        /// </summary>
-        /// <param name="format">Format string.</param>
-        /// <param name="args">Arguments.</param>
-        public void Log(string format, params object[] args)
+        /// <typeparam name="T">The return value type</typeparam>
+        /// <param name="entry">The ODataEntry object</param>
+        /// <param name="name">The property name</param>
+        /// <returns>The property value</returns>
+        public static T GetPropetyValue<T>(this ODataEntry entry, string name)
         {
-            Debug.Assert(TestContext != null);
-            TestContext.WriteLine(format, args);
+            return (T)(entry.Properties.First<ODataProperty>(p => p.Name.Equals(name)).Value);
         }
     }
 }

@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The size of the role - parameter set for instances contains role name and instance size only.
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = VMSizeParameterSet, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, ParameterSetName = VMSizeParameterSet, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string VMSize { get; set; }
 
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
-            string rootPath = GetServiceRootPath();
+            string rootPath = General.GetServiceRootPath(CurrentPath());
             RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))

@@ -12,21 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class PowerShellTest
     {
+        public static string ErrorIsNotEmptyException = "Test failed due to a non-empty error stream, check the error stream in the test log for more details";
+
         protected PowerShell powershell;
-        protected string[] modules;
+        protected List<string> modules;
 
         public PowerShellTest(params string[] modules)
         {
-            this.modules = modules;
+            this.modules = new List<string>();
+            this.modules.Add("TestAzure.psd1");
+            this.modules.Add("Assert.ps1");
+            this.modules.Add("Common.ps1");
+            this.modules.AddRange(modules);
         }
 
         protected void AddScenarioScript(string script)
@@ -34,8 +43,39 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             powershell.AddScript(Testing.GetTestResourceContents(script));
         }
 
+        public virtual Collection<PSObject> RunPowerShellTest(params string[] scripts)
+        {
+            Collection<PSObject> output = null;
+            for (int i = 0; i < scripts.Length; ++i)
+            {
+                Console.WriteLine(scripts[i]);
+                powershell.AddScript(scripts[i]);
+            }
+            try
+            {
+                output = powershell.Invoke();
+                
+                if (powershell.Streams.Error.Count > 0)
+                {
+                    throw new RuntimeException(ErrorIsNotEmptyException);
+                }
+
+                return output;
+            }
+            catch (Exception psException)
+            {
+                powershell.LogPowerShellException(psException);
+                throw;
+            }
+            finally
+            {
+                Console.WriteLine("History: {0}", powershell.HistoryString);
+                powershell.LogPowerShellResults(output);
+            }
+        }
+
         [TestInitialize]
-        public virtual void SetupTest()
+        public virtual void TestSetup()
         {
             powershell = PowerShell.Create();
 
@@ -46,6 +86,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
+            powershell.AddScript("$ErrorActionPreference='Stop'");
         }
 
         [TestCleanup]

@@ -4,7 +4,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# http:#www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,28 +12,41 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$locations = Get-AzureSBLocation
+$createdWebsites = @()
 
-$available = Test-AzureName -ServiceBusNamespace $name
-
-if ($available)
+<#
+.SYNOPSIS
+Gets valid website name.
+#>
+function Get-WebsiteName
 {
-    $serviceBusNamespaceObject = New-AzureSBNamespace $name $locations[$index].FullName
-
-	do
-	{
-		$serviceBusNamespaceObject = $serviceBusNamespaceObject | Get-AzureSBNamespace
-		Start-Sleep -s 1
-	}
-	while ($serviceBusNamespaceObject.Status -ne "Active")
-
-	# Emit the service bus namespace object to the output pipeline
-	Write-Output $serviceBusNamespaceObject
-
-	# Remove the service bus namespace using piped object
-	Remove-AzureSBNamespace $name
+	return "OneSDKWebsite" + (Get-Random).ToString()
 }
-else
+
+<#
+.SYNOPSIS
+Creates websites with the count specified
+
+.PARAMETER count
+The number of websites to create.
+#>
+function New-Website
 {
-	Write-Error $("The namespace name (" + $name + ") is already used")
+	param([int] $count)
+	
+	1..$count | % {
+		$name = Get-WebsiteName
+		New-AzureWebsite $name
+		$global:createdWebsites += $name
+	}
+}
+
+<#
+.SYNOPSIS
+Removes all websites in the current subscription.
+#>
+function Initialize-WebsiteTest
+{
+	foreach ($name in $global:createdWebsites) { Remove-AzureWebsite $name }
+	$global:createdWebsites = @()
 }

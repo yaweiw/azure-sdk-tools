@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
     using Cmdlets.Common;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Model;
     using Properties;
 
@@ -41,6 +42,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             StringBuilder message = new StringBuilder();
             AzureService service = new AzureService(rootPath ,null);
+
+            if (Directory.Exists(service.Paths.LocalPackage))
+            {
+                WriteVerbose(string.Format(Resources.RemovePackage, service.Paths.LocalPackage));
+                Directory.Delete(service.Paths.LocalPackage, true);
+            }
             
             WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
             service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
@@ -63,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(base.GetServiceRootPath());
+            StartAzureEmulatorProcess(General.GetServiceRootPath(CurrentPath()));
         }
     }
 }
