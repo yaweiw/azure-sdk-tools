@@ -218,7 +218,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
                 RoleSize = String.IsNullOrEmpty(InstanceSize) ? null : InstanceSize,
                 RoleType = "PersistentVMRole",
-                Label = ServiceManagementHelper.EncodeToBase64String(ServiceName)
+                Label = ServiceManagementHelper2.EncodeToBase64String(ServiceName)
             };
 
             vm.OSVirtualHardDisk = new OSVirtualHardDisk()
@@ -315,7 +315,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             Location = this.Location,
                             ServiceName = this.ServiceName,
                             Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                            Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceName)
+                            Label = ServiceManagementHelper2.EncodeToBase64String(this.ServiceName)
                         };
 
                         ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);

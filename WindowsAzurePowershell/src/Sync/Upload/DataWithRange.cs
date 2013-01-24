@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.ServiceModel.Channels;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Tools.Vhd.Model;
 
     [CLSCompliant(false)]
     public class DataWithRange : IDisposable

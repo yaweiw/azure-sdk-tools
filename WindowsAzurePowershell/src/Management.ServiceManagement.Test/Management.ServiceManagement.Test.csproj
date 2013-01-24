@@ -189,9 +189,6 @@
     <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
-    <Compile Include="UnitTests\Stubs\InMemorySessionManager.cs" />
-    <Compile Include="Utilities\MockCommandRuntime.cs" />
-    <Compile Include="Utilities\SimpleServiceManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -234,6 +231,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
+      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
+      <Name>Management.CloudService.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
@@ -241,6 +242,10 @@
     <ProjectReference Include="..\Management.ServiceManagement\Management.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
       <Name>Management.ServiceManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Test\Management.Test.csproj">
+      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
+      <Name>Management.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>

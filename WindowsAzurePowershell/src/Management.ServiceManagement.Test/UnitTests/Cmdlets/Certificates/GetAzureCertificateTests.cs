@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.Certificates
 {
     using System.Collections;
@@ -20,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Management.Test.Stubs;
     using Samples.WindowsAzure.ServiceManagement;
     using ServiceManagement.Certificates;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class GetAzureCertificateTests
@@ -53,9 +55,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             getAzureCertificate.ThumbprintAlgorithm = thumbprintAlgorithm;
             getAzureCertificate.ExecuteCommand();
 
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline.Count);
 
-            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureCertificate.CommandRuntime).WrittenObjects);
+            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline);
             Assert.IsNotNull(enumerator);
 
             enumerator.MoveNext();
@@ -89,9 +91,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
 
             getAzureCertificate.ExecuteCommand();
 
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).WrittenObjects.Count);
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline.Count);
 
-            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureCertificate.CommandRuntime).WrittenObjects.First());
+            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureCertificate.CommandRuntime).OutputPipeline.First());
             Assert.IsNotNull(enumerator);
 
             enumerator.MoveNext();

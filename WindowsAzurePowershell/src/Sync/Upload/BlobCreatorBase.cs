@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.Collections.Generic;
@@ -27,11 +27,11 @@ namespace Microsoft.WindowsAzure.Sync.Upload
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
-    using Microsoft.WindowsAzure.Sync.Upload;
-    using Microsoft.WindowsAzure.Tools.Vhd;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model.Persistence;
-    using Microsoft.WindowsAzure.Sync.Download;
+    using Sync.Upload;
+    using Tools.Vhd;
+    using Tools.Vhd.Model;
+    using Tools.Vhd.Model.Persistence;
+    using Sync.Download;
 
     public interface ICloudPageBlobObjectFactory
     {
@@ -53,7 +53,6 @@ namespace Microsoft.WindowsAzure.Sync.Upload
         protected CloudPageBlob destinationBlob;
         protected BlobRequestOptions requestOptions;
         protected bool overWrite;
-        private readonly TimeSpan operationTimeout;
         private readonly TimeSpan delayBetweenRetries = TimeSpan.FromSeconds(10);
 
         private const int MegaByte = 1024 * 1024;

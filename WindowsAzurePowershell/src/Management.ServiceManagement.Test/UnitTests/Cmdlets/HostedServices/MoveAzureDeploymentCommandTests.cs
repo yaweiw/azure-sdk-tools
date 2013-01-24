@@ -20,10 +20,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Utilities;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Extensions;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class MoveAzureDeploymentCommandTests

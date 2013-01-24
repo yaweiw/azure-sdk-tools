@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Download
+namespace Microsoft.WindowsAzure.Management.Sync.Download
 {
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.ServiceModel.Channels;
-    using Microsoft.WindowsAzure.Sync.Threading;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Sync.Threading;
+    using Tools.Vhd.Model;
 
     public class Downloader
     {

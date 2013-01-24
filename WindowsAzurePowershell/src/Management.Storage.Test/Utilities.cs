@@ -11,16 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test
 {
+    using System;
+
     public class Utilities 
     {
         public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";

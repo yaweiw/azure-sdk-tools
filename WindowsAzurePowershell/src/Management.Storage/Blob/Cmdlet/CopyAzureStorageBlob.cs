@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Sync.Download;
+    using Sync.Download;
 
     [Cmdlet(VerbsCommon.Copy, "AzureStorageBlob")]
     public class CopyAzureStorageBlobCommand : CloudBaseCmdlet<IServiceManagement>
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 sourceBlob = sourceContainer.GetBlobReferenceFromServer(sourceUri.BlobName);
             }
-            catch (EndpointNotFoundException ex)
+            catch (EndpointNotFoundException)
             {
                 throw new ArgumentException(string.Format("Source Uri {0} could not be found.", this.Source.ToString()), "sourceBlobUri");
             }
@@ -177,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     }
                 }
             }
-            catch (EndpointNotFoundException ex)
+            catch (EndpointNotFoundException)
             {
                 throw new ArgumentException(string.Format("Destination Uri {0} could not be found.", this.Destination.ToString()), "destBlobUri");
             }
@@ -257,7 +257,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 blob.FetchAttributes();
                 return blob.Exists();
             }
-            catch (StorageException ex)
+            catch (StorageException)
             {
                 return false;
             }

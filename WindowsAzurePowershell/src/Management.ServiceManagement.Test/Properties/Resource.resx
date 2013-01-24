@@ -121,7 +121,7 @@
     <value>West US</value>
   </data>
   <data name="PublishSettingsFile" xml:space="preserve">
-    <value>C:\pstest\test.publishsettings</value>
+    <value>C:\Users\ismetk\Documents\HSBS-Windows Azure Internal Consumption-8-28-2012-credentials.publishsettings</value>
     <comment>Path to your publishsettings file</comment>
   </data>
   <data name="DefaultSubscriptionName" xml:space="preserve">

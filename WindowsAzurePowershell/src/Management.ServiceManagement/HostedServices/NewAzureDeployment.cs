@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 PackageUrl = packageUrl,
                 Configuration = Utility.GetConfiguration(this.Configuration),
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = ServiceManagementHelper2.EncodeToBase64String(this.Label),
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,
                 TreatWarningsAsError = this.TreatWarningsAsError.IsPresent

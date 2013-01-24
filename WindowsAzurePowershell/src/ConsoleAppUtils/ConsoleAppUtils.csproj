@@ -8,8 +8,8 @@
     <ProjectGuid>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Internal.Common</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.ConsoleAppUtils</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Internal.Common</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.ConsoleAppUtils</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

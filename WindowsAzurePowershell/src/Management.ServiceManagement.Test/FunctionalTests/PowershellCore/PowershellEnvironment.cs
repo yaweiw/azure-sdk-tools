@@ -12,16 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-
-using System.Collections.ObjectModel;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
+
     public abstract class PowershellEnvironment
     {
         protected InitialSessionState initialSessionState;

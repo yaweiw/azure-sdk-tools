@@ -11,6 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
     using System.Collections;
@@ -20,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Management.Test.Stubs;
     using Samples.WindowsAzure.ServiceManagement;
     using ServiceManagement.AffinityGroups;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class GetAzureAffinityGroupTests
@@ -49,8 +51,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             getAzureAffinityGroupCommand.Name = "affinity1";
             getAzureAffinityGroupCommand.ExecuteCommand();
 
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).WrittenObjects.Count);
-            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).WrittenObjects);
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.Count);
+            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline);
             Assert.IsNotNull(enumerator);
 
             enumerator.MoveNext();
@@ -73,8 +75,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
 
             getAzureAffinityGroupCommand.ExecuteCommand();
 
-            Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).WrittenObjects.Count);
-            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).WrittenObjects.First());
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.Count);
+            IEnumerator enumerator = LanguagePrimitives.GetEnumerator(((MockCommandRuntime)getAzureAffinityGroupCommand.CommandRuntime).OutputPipeline.First());
             Assert.IsNotNull(enumerator);
 
             enumerator.MoveNext();

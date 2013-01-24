@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.Diagnostics;
@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Sync.Upload
     using System.IO;
     using System.Runtime.Serialization;
     using System.Security.Cryptography;
-    using Microsoft.WindowsAzure.Sync.IO;
-    using Microsoft.WindowsAzure.Tools.Vhd;
+    using Sync.IO;
+    using Tools.Vhd;
 
     [DataContract]
     public class FileMetaData
