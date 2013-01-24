@@ -2,26 +2,25 @@
 <TestSettings name="Local" id="cdbdc350-d4c9-4e43-a4f9-37455108ceaa" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
-    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child02.vhd" />
+    <DeploymentItem filename="..\..\Package\Debug\" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
     <DeploymentItem filename="Management.Test\Resources\" />
-    <DeploymentItem filename="Management.ServiceBus.Test\Resources\" />
-    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child02.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child01.vhd" />
-    <DeploymentItem filename="Management.CloudService\Resources\" />
-    <DeploymentItem filename="Management.ServiceBus\Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml" />
-    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\Resources\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child02.vhd" />
+    <DeploymentItem filename="Management.ServiceBus\Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml" />
     <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50.vhd" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />
     <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
-    <DeploymentItem filename="Management.CloudService\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
-    <DeploymentItem filename="Management.ScenarioTest\Resources\" />
-    <DeploymentItem filename="..\..\Package\Debug\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
+    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
+    <DeploymentItem filename="Management.ServiceBus.Test\Resources\" />
+    <DeploymentItem filename="Management.CloudService\Resources\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50.vhd" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50.vhd" />
+    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>
