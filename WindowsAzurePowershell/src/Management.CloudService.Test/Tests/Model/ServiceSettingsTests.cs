@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 // Import our default publish settings
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string serviceName = null;
-                string unknownLocation = "West Jaban";
+                string unknownLocation = "Unknown Location";
 
                 ServiceSettings settings = ServiceSettings.LoadDefault(null, null, unknownLocation, null, null, null, "My-Custom-Service!", null, out serviceName);
                 Assert.AreEqual<string>(unknownLocation.ToLower(), settings.Location.ToLower());
