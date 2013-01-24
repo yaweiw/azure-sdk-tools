@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             public string Description { get; set; }
             public bool ProductionExists { get; set; }
             public bool StagingExists { get; set; }
-            public bool Fails { get; set; }
+            public bool ThrowsException { get; set; }
             public Type ExceptionType { get; set; }
             public Deployment ProductionDeployment { get; set; }
             public Deployment StagingDeployment { get; set; }
@@ -47,44 +47,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
 
         public void ExecuteTestCase(MoveAzureDeploymentTestInputParameters parameters)
         {
-            SimpleServiceManagement channel = new SimpleServiceManagement();
-            channel.GetDeploymentBySlotThunk = ar =>
+            var channel = new SimpleServiceManagement
             {
-                if (ar.Values["deploymentSlot"].ToString() == "Production")
+                GetDeploymentBySlotThunk = ar =>
                 {
-                    if (parameters.ProductionDeployment == null)
+                    if (ar.Values["deploymentSlot"].ToString() == DeploymentSlotType.Production)
                     {
-                        throw new EndpointNotFoundException("No deployment exists");
+                        if (parameters.ProductionDeployment == null)
+                        {
+                            throw new EndpointNotFoundException("No deployment exists");
+                        }
+                        return parameters.ProductionDeployment;
                     }
-                    return parameters.ProductionDeployment;
-                }
-                if (ar.Values["deploymentSlot"].ToString() == "Staging")
-                {
-                    if (parameters.StagingDeployment == null)
+                    if (ar.Values["deploymentSlot"].ToString() == DeploymentSlotType.Staging)
                     {
-                        throw new EndpointNotFoundException("No deployment exists");
+                        if (parameters.StagingDeployment == null)
+                        {
+                            throw new EndpointNotFoundException("No deployment exists");
+                        }
+                        return parameters.StagingDeployment;
                     }
-                    return parameters.StagingDeployment;
-                }
-                
-                return null;
-            };
-            channel.SwapDeploymentThunk = ar =>
-            {
-                var input = (SwapDeploymentInput)ar.Values["input"];
 
-                if (input.Production == null && parameters.ProductionDeployment == null)
+                    return null;
+                },
+                SwapDeploymentThunk = ar =>
                 {
-                    if(input.SourceDeployment != parameters.StagingDeployment.Name)
+                    var input = (SwapDeploymentInput)ar.Values["input"];
+
+                    if (input.Production == null && parameters.ProductionDeployment == null)
+                    {
+                        if (input.SourceDeployment != parameters.StagingDeployment.Name)
+                        {
+                            Assert.Fail("Expected values Staging/Prod'{0},{1}', found '{2},{3}'",
+                                parameters.StagingDeployment.Name, null, input.SourceDeployment, null);
+                        }
+                    }
+                    else if (input.Production != parameters.ProductionDeployment.Name || input.SourceDeployment != parameters.StagingDeployment.Name)
                     {
                         Assert.Fail("Expected values Staging/Prod'{0},{1}', found '{2},{3}'",
-                            parameters.StagingDeployment.Name, null, input.SourceDeployment, null);
+                            parameters.StagingDeployment.Name, parameters.ProductionDeployment.Name, input.SourceDeployment, input.Production);
                     }
-                }
-                else if(input.Production != parameters.ProductionDeployment.Name || input.SourceDeployment != parameters.StagingDeployment.Name)
-                {
-                    Assert.Fail("Expected values Staging/Prod'{0},{1}', found '{2},{3}'",
-                        parameters.StagingDeployment.Name, parameters.ProductionDeployment.Name, input.SourceDeployment, input.Production);
                 }
             };
 
@@ -103,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             try
             {
                 moveAzureDeployment.ExecuteCommand();
-                if(parameters.Fails)
+                if(parameters.ThrowsException)
                 {
                     Assert.Fail(parameters.Description);       
                 }
@@ -114,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
                 {
                     Assert.Fail("Expected exception type is {0}, however found {1}", parameters.ExceptionType, e.GetType());
                 }
-                if(!parameters.Fails)
+                if(!parameters.ThrowsException)
                 {
                     Assert.Fail("{0} fails unexpectedly: {1}", parameters.Description, e);
                 }
@@ -127,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = true,
+                ThrowsException = true,
                 ExceptionType = typeof(ArgumentOutOfRangeException),
                 ProductionDeployment = null,
                 StagingDeployment = null,
@@ -140,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = true,
+                ThrowsException = true,
                 ExceptionType = typeof(ArgumentOutOfRangeException),
                 ProductionDeployment = new Deployment
                 {
@@ -163,7 +165,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = true,
+                ThrowsException = true,
                 ExceptionType = typeof(ArgumentException),
                 ProductionDeployment = new Deployment
                 {
@@ -186,7 +188,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = true,
+                ThrowsException = true,
                 ExceptionType = typeof(ArgumentException),
                 ProductionDeployment = null,
                 StagingDeployment = new Deployment
@@ -209,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = false,
+                ThrowsException = false,
                 ExceptionType = null,
                 ProductionDeployment = null,
                 StagingDeployment = new Deployment
@@ -232,7 +234,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
             ExecuteTestCase(new MoveAzureDeploymentTestInputParameters
             {
                 Description = MethodBase.GetCurrentMethod().Name,
-                Fails = false,
+                ThrowsException = false,
                 ExceptionType = null,
                 ProductionDeployment = new Deployment
                 {
