@@ -591,8 +591,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 StorageService storageService = null;
                 do
                 {
-                    storageService = RetryCall<StorageService>(subscription =>
+                    try
+                    {
+                        storageService = RetryCall<StorageService>(subscription =>
                         Channel.GetStorageService(subscription, storageServiceInput.ServiceName));
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore the exception, keep getting the status.
+                    }
                 }
                 while (storageService.StorageServiceProperties.Status != StorageServiceStatus.Created);
             });
