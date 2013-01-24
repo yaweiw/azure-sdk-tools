@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
@@ -28,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     /// <summary>
     /// Create scaffolding for a new Python Django web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole"), OutputType(typeof(RoleSettings))]
     public class AddAzureDjangoWebRoleCommand : AddRole
     {
         const string PythonCorePath = "SOFTWARE\\Python\\PythonCore";
