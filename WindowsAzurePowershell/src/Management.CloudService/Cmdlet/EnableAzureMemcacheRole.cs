@@ -18,18 +18,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
-    using System.Linq;
     using ServiceDefinitionSchema;
     using Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
@@ -38,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Enables memcache for specific role.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
+    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole"), OutputType(typeof(bool))]
     public class EnableAzureMemcacheRoleCommand : CmdletBase
     {
         /// <summary>
