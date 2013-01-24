@@ -83,7 +83,8 @@ function Test-GetAzureSBNamespaceWithEmptyNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 0
+	$expectedCount = (Get-AzureSBNamespace).Count
+	Assert-AreEqual $namespaces.Count $expectedCount
 }
 
 <#
@@ -100,7 +101,7 @@ function Test-GetAzureSBNamespaceWithOneNamespace
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 1
+	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
 	Test-CleanupServiceBus
@@ -120,7 +121,7 @@ function Test-GetAzureSBNamespaceWithMultipleNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
-	Assert-AreEqual $namespaces.Count 3
+	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
 	Test-CleanupServiceBus
@@ -170,11 +171,11 @@ function Test-GetAzureSBNamespacePipedToRemoveAzureSBNamespace
 {
 	# Setup
 	Initialize-NamespaceTest
-	New-Namespace 5
+	New-Namespace 2
 	$actual = $true
 
 	# Test
-	Get-AzureSBNamespace | Remove-AzureSBNamespace -PassThru -Force | % {$actual = $actual -and $_}
+	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -PassThru -Force | % {$actual = $actual -and $_}
 
 	# Assert
 	Assert-True { $actual } "Piping Get-AzureSBNamespace into Remove-AzureSBNamespace failed"
@@ -362,4 +363,34 @@ function Test-RemoveAzureSBNamespaceInputPiping
 	{
 		# Succeed in case that the namespace was removed already.
 	}
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with WhatIf parameter.
+#>
+function Test-RemoveAzureSBNamespaceWhatIf
+{
+	# Setup
+	Initialize-NamespaceTest
+	$name = Get-NamespaceName
+	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
+	Wait-NamespaceStatus $name "Active"
+
+	# Test
+	$message = Remove-AzureSBNamespace $name -WhatIf -Force
+	$removed = Remove-AzureSBNamespace $name -Force -PassThru
+
+	# Assert
+	Assert-True { $removed }
+}
+
+<#
+.SYNOPSIS
+Tests running Remove-AzureSBNamespace cmdlet with WhatIf parameter.
+#>
+function Test-RemoveAzureSBNamespaceWhatIfError
+{
+	# Test
+	Assert-Throws { Remove-AzureSBNamespace "123InvalidName" -WhatIf -Force } "The provided name `"123InvalidName`" does not match the service bus namespace naming rules.`r`nParameter name: Name"
 }

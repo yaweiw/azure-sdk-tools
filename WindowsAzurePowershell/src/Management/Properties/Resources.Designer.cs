@@ -332,7 +332,7 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The subscription named &apos;{0}&apos; cannot be found. Use Set-AzureSubscription to initialize the subscription data.&quot;.
+        ///   Looks up a localized string similar to The subscription named &apos;{0}&apos; cannot be found. Use Set-AzureSubscription to initialize the subscription data..
         /// </summary>
         internal static string InvalidSubscription {
             get {
@@ -467,7 +467,7 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
+        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
         /// </summary>
         internal static string RemoveDefaultSubscription {
             get {
