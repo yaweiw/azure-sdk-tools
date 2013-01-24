@@ -86,6 +86,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
@@ -194,6 +195,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\overwrite_VHD.csv" />
+    <None Include="Resources\patch_VHD.csv" />
+    <None Include="Resources\resume_VHD.csv" />
+    <None Include="Resources\thread_VHD.csv" />
+    <None Include="Resources\upload_VHD.csv" />
     <None Include="VhdFiles\dynamic_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -217,7 +223,6 @@
     <Content Include="FunctionalTests\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="TestScripts\" />
     <Folder Include="Tests\" />
   </ItemGroup>
