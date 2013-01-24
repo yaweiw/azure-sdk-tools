@@ -31,19 +31,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Management.Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
     using Properties;
     using Services;
     using Utilities;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
     using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
-    using Microsoft.WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true), OutputType(typeof(Deployment))]
     public class PublishAzureServiceProjectCommand : CloudBaseCmdlet<IServiceManagement>
     {
         private DeploymentSettings _deploymentSettings;
