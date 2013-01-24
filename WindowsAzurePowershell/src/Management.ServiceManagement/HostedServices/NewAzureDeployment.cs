@@ -108,8 +108,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             bool removePackage = false;
 
-            AssertNoPersistenVmRoleExistsInDeployment("Production");
-            AssertNoPersistenVmRoleExistsInDeployment("Slot");
+            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Production);
+            AssertNoPersistenVmRoleExistsInDeployment(DeploymentSlotType.Staging);
 
             var storageName = CurrentSubscription.CurrentStorageAccount;
 
