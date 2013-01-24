@@ -11,14 +11,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
     using Extensions;
     using Management.Test.Stubs;
     using Samples.WindowsAzure.ServiceManagement;
     using ServiceManagement.AffinityGroups;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+
 
     [TestClass]
     public class NewAzureAffinityGroupTests

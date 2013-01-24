@@ -11,28 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.IO;
-using System.Security.Cryptography;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.Model;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Sync.Download;
-
-using System.Data;
-using System.Reflection;
-using System.Threading;
-
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
+    using System;
+    using System.IO;
+    using System.Security.Cryptography;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Sync.Download;
+
     [TestClass]
     public class AddAzureVhdTest
     {
@@ -103,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\Data\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDisk()
         {
             string testName = "UploadDisk";

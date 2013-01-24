@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Tools.Vhd.Model.Persistence
+namespace Microsoft.WindowsAzure.Management.Tools.Vhd.Model.Persistence
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Tools.Common.General;
+    using Tools.Common.General;
 
     public class BlockAllocationTableFactory
     {

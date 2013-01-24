@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Internal.Common
+namespace Microsoft.WindowsAzure.Management.Internal.Common
 {
     using System;
     using System.Collections.Generic;

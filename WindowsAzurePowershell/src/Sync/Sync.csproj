@@ -8,8 +8,8 @@
     <ProjectGuid>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Sync</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Sync</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Sync</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.Sync</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

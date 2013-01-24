@@ -11,26 +11,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Microsoft.WindowsAzure.Management.Model;
-
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-
-using System.Threading;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Threading;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+
     [TestClass]
     public class ScenarioTest
     {

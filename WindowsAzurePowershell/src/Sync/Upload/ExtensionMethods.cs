@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.Collections.Generic;
@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Sync.Upload
     using System.Text;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model.Persistence;
+    using Tools.Vhd.Model;
+    using Tools.Vhd.Model.Persistence;
 
     internal static class CloudPageBlobExtensions
     {

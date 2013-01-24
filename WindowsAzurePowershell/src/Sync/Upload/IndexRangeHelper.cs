@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Tools.Vhd.Model;
 
     internal static class IndexRangeHelper
     {

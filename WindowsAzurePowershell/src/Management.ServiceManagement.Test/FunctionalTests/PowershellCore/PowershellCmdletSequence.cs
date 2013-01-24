@@ -11,16 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Management.Automation;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+
     internal class PowershellCmdletSequence : PowershellEnvironment
     {
         private List<CmdletsInfo> cmdlets;

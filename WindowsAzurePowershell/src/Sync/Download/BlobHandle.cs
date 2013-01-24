@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Download
+namespace Microsoft.WindowsAzure.Management.Sync.Download
 {
     using System;
     using System.Collections.Generic;
@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Sync.Download
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
-    using Microsoft.WindowsAzure.Sync.Upload;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Sync.Upload;
+    using Tools.Vhd.Model;
     using Enumerable = System.Linq.Enumerable;
 
     public class BlobHandle

@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
             }
-            catch (EndpointNotFoundException e)
+            catch (EndpointNotFoundException)
             {
                 this.WriteDebug(String.Format("No deployment found in {0}", slot));
             }

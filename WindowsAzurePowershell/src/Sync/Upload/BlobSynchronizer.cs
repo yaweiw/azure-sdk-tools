@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Sync.Upload
     using System.Linq;
     using System.Security.Cryptography;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Sync.Threading;
+    using Sync.Threading;
 
     public class BlobSynchronizer
     {

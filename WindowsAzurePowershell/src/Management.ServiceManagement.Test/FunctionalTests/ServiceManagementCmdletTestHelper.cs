@@ -11,22 +11,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.Samples.WindowsAzure.ServiceManagement;
-using Microsoft.WindowsAzure.Management.Model;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
+    using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+
     public class ServiceManagementCmdletTestHelper 
     {
         public Collection<DataVirtualHardDisk> GetAzureDataDisk(string vmName, string serviceName)

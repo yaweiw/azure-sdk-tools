@@ -12,14 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using System;
+    using System.Reflection;
     using Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Extensions;
