@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Packages the service project into cloud or local package.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureServiceProjectPackage")]
+    [Cmdlet(VerbsData.Save, "AzureServiceProjectPackage"), OutputType(typeof(PSObject))]
     public class SaveAzureServiceProjectPackageCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]

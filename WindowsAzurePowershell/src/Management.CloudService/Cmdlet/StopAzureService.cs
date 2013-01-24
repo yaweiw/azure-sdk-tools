@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Stops the deployment of specified slot in the azure service
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureService")]
+    [Cmdlet(VerbsLifecycle.Stop, "AzureService"), OutputType(typeof(Deployment))]
     public class StopAzureServiceCommand : DeploymentStatusManager
     {
         /// <summary>
