@@ -16,13 +16,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
 {
     using System.IO;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
     /// <summary>
     /// Create scaffolding for a new php worker role, change cscfg file and csdef to include the added worker role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole")]
+    [Cmdlet(VerbsCommon.Add, "AzurePHPWorkerRole"), OutputType(typeof(RoleSettings))]
     public class AddAzurePHPWorkerRoleCommand : AddRole
     {
         public AddAzurePHPWorkerRoleCommand() :
