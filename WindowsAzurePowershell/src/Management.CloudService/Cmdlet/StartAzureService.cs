@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Starts the deployment of specified slot in the azure service
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureService")]
+    [Cmdlet(VerbsLifecycle.Start, "AzureService"), OutputType(typeof(Deployment))]
     public class StartAzureServiceCommand : DeploymentStatusManager
     {
         /// <summary>

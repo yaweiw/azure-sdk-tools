@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsDiagnostic.Test, "AzureName")]
+    [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public TestAzureNameCommand()
