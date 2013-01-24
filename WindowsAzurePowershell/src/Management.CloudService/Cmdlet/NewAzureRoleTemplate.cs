@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Creates new azure template for web/worker role.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRoleTemplate")]
+    [Cmdlet(VerbsCommon.New, "AzureRoleTemplate"), OutputType(typeof(PSObject))]
     public class NewAzureRoleTemplateCommand : CmdletBase
     {
         const string DefaultWebRoleTemplate = "WebRoleTemplate";
