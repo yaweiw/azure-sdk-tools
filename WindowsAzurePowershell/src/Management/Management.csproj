@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Cmdlets\GetAzureSubscription.cs" />
     <Compile Include="Cmdlets\ImportAzurePublishSettings.cs" />
+    <Compile Include="Utilities\AzureBlob.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Services\GlobalPathInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureSubscription.cs" />
