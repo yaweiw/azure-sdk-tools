@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
@@ -21,8 +22,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
     using Extensions;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Add, "AzureDataDisk", DefaultParameterSetName = "CreateNew")]
+    [Cmdlet(VerbsCommon.Add, "AzureDataDisk", DefaultParameterSetName = "CreateNew"), OutputType(typeof(IPersistentVM))]
     public class AddAzureDataDiskCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "CreateNew", HelpMessage = "Specify to create a new data disk.")]

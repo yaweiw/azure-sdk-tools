@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Service.Gateway;
     using Management.Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVNetGateway")]
+    [Cmdlet(VerbsCommon.Remove, "AzureVNetGateway"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetGatewayCommand : GatewayCmdletBase
     {
         public RemoveAzureVNetGatewayCommand()

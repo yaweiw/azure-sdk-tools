@@ -4,7 +4,7 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# http:#www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -12,34 +12,41 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 
-$available = Test-AzureName -Service $cloudService
+$createdWebsites = @()
 
-if ($available)
+<#
+.SYNOPSIS
+Gets valid website name.
+#>
+function Get-WebsiteName
 {
-	New-AzureServiceProject $cloudService
+	return "OneSDKWebsite" + (Get-Random).ToString()
+}
 
-	Add-AzureNodeWebRole WebRole
+<#
+.SYNOPSIS
+Creates websites with the count specified
 
-	Add-AzureNodeWorkerRole WorkerRole1
-
-	Add-AzureCacheWorkerRole CacheWorkerRole1
-
-	Add-AzureCacheWorkerRole CacheWorkerRole2
-
-	Enable-AzureMemcacheRole WebRole CacheWorkerRole1
-
-	Enable-AzureMemcacheRole WorkerRole1 CacheWorkerRole2
-
-	$deployment = Publish-AzureServiceProject -Force
-
-	$removed = Remove-AzureService -Force -PassThru
-
-	if (!$removed)
-	{
-		Write-Error $("Removing cloud service (" + $cloudService + ") failed")
+.PARAMETER count
+The number of websites to create.
+#>
+function New-Website
+{
+	param([int] $count)
+	
+	1..$count | % {
+		$name = Get-WebsiteName
+		New-AzureWebsite $name
+		$global:createdWebsites += $name
 	}
 }
-else
+
+<#
+.SYNOPSIS
+Removes all websites in the current subscription.
+#>
+function Initialize-WebsiteTest
 {
-	Write-Error $("The service name (" + $cloudService + ") is already used")
+	foreach ($name in $global:createdWebsites) { Remove-AzureWebsite $name }
+	$global:createdWebsites = @()
 }

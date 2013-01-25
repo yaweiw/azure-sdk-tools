@@ -46,74 +46,64 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
-        public void ExecuteCommand()
-        {
-            Deployment prodDeployment = null;
-            try
-            {
-                InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Production")));
-            }
-            catch (EndpointNotFoundException e)
-            {
-                this.WriteDebug("No deployment found in production");
-            }
-
-
-            Deployment stagingDeployment = null;
-
-            try
-            {
-                InvokeInOperationContext(() => stagingDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Staging")));
-            }
-            catch (EndpointNotFoundException e)
-            {
-                throw new ArgumentOutOfRangeException(String.Format("No deployment found in staging: {0}", ServiceName), e);
-            }
-
-            if (stagingDeployment != null && stagingDeployment.RoleList != null)
-            {
-                if (string.Compare(stagingDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    throw new ArgumentException("Cannot Move Deployments with Virtual Machines Present");
-                }
-            }
-
-            String productionName = GetDeploymentName(DeploymentSlotType.Production);
-            String stagingName = GetDeploymentName(DeploymentSlotType.Staging);
-
-            if (stagingName == null)
-            {
-                throw new ArgumentException("The Staging deployment slot is empty.");
-            }
-
-            var swapDeploymentInput = new SwapDeploymentInput();
-            swapDeploymentInput.SourceDeployment = stagingName;
-            swapDeploymentInput.Production = productionName;
-
-            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
-        }
-
         protected override void OnProcessRecord()
         {
             this.ExecuteCommand();
         }
 
-        private string GetDeploymentName(String slot)
+        public void ExecuteCommand()
         {
-            try
+            var prodDeployment = GetDeploymentBySlot(DeploymentSlotType.Production);
+            var stagingDeployment = GetDeploymentBySlot(DeploymentSlotType.Staging);
+
+            if(stagingDeployment == null && prodDeployment == null)
             {
-                Deployment deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, slot.ToString(CultureInfo.InvariantCulture)));
-                if (deployment != null)
-                {
-                    return deployment.Name;
-                }
-            }
-            catch (CommunicationException)
-            {
-                // Do nothing
+                throw new ArgumentOutOfRangeException(String.Format("No deployment found in Staging or Production: {0}", ServiceName));
             }
 
-            return null;
+            if(stagingDeployment == null && prodDeployment != null)
+            {
+                throw new ArgumentOutOfRangeException(String.Format("No deployment found in Staging: {0}", ServiceName));
+            }
+
+            if(prodDeployment == null)
+            {
+                WriteVerbose(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
+            }
+            else
+            {
+                WriteVerbose(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
+            }
+
+            var swapDeploymentInput = new SwapDeploymentInput
+            {
+                SourceDeployment = stagingDeployment.Name, 
+                Production = prodDeployment == null ? null : prodDeployment.Name
+            };
+
+            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
+        }
+
+        private Deployment GetDeploymentBySlot(string slot)
+        {
+            Deployment prodDeployment = null;
+            try
+            {
+                InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, slot)));
+                if (prodDeployment != null && prodDeployment.RoleList != null)
+                {
+                    if (string.Compare(prodDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        throw new ArgumentException(String.Format("Cannot Move Deployments with Virtual Machines Present in {0}", slot));
+                    }
+                }
+            }
+            catch (EndpointNotFoundException)
+            {
+                this.WriteDebug(String.Format("No deployment found in {0}", slot));
+            }
+
+            return prodDeployment;
         }
     }
 }

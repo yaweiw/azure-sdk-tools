@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync
+namespace Microsoft.WindowsAzure.Management.Sync
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Microsoft.WindowsAzure.Internal.Common;
+    using Internal.Common;
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Sync.Upload;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Sync.Upload;
+    using Tools.Vhd.Model;
 
     public class Program
     {

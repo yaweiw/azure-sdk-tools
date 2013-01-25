@@ -12,12 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVMSize")]
+    [Cmdlet(VerbsCommon.Set, "AzureVMSize"), OutputType(typeof(IPersistentVM))]
     public class SetAzureVMSizeCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Represents the size of the machine.")]

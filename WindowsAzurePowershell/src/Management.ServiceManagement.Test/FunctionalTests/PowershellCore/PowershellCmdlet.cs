@@ -11,16 +11,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Management.Automation;
+
+using System.Linq;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Management.Automation;
+
     public class PowershellCmdlet : PowershellEnvironment
     {
         private readonly CmdletsInfo cmdlet;
@@ -53,9 +53,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public override Collection<PSObject> Run()
         {
-            Collection<PSObject> result = null;
+            Collection<PSObject> result;
             runspace.Open();
-            using (System.Management.Automation.PowerShell powershell = System.Management.Automation.PowerShell.Create())
+            using (var powershell = PowerShell.Create())
             {
                 powershell.Runspace = runspace;
                 powershell.AddCommand(cmdlet.name);
@@ -79,12 +79,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 if (powershell.Streams.Error.Count > 0)
                 {
                     runspace.Close();
-                    List<Exception> exceptions = new List<Exception>();
-                    foreach (ErrorRecord error in powershell.Streams.Error)
-                    {
-                        exceptions.Add(new Exception(error.Exception.Message));
-                    }
 
+                    var exceptions = powershell.Streams.Error.Select(error => new Exception(error.Exception.Message)).ToList();
                     throw new AggregateException(exceptions);
                 }
             }

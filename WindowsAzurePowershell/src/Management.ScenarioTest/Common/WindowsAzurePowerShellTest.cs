@@ -12,34 +12,30 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Stubs
+namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 {
-    using System.Collections.Generic;
-    using System.Management.Automation;
-    using Services;
+    using System;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using VisualStudio.TestTools.UnitTesting;
 
-    public class InMemorySessionManager : ISessionManager
+    [TestClass]
+    public class WindowsAzurePowerShellTest : PowerShellTest
     {
-        private readonly IDictionary<string, object> _variables = new Dictionary<string, object>();
+        protected TestCredentialHelper credentials;
+        protected string credentialFile;
 
-        public object GetVariable(PSCmdlet cmdlet, string name)
+        public WindowsAzurePowerShellTest(params string[] modules)
+            : base(modules)
         {
-            if (_variables.ContainsKey(name))
-            {
-                return _variables[name];
-            }
-
-            return null;
+            this.credentials = new TestCredentialHelper(Environment.CurrentDirectory);
+            this.credentialFile = TestCredentialHelper.DefaultCredentialFile;
         }
 
-        public void SetVariable(PSCmdlet cmdlet, string name, object value)
+        [TestInitialize]
+        public override void TestSetup()
         {
-            _variables[name] = value;
-        }
-
-        public void ClearVariable(PSCmdlet cmdlet, string name)
-        {
-            _variables.Remove(name);
+            base.TestSetup();
+            this.credentials.SetupPowerShellEnvironment(powershell, this.credentialFile);
         }
     }
 }

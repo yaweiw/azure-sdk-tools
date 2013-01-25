@@ -8,8 +8,8 @@
     <ProjectGuid>{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Microsoft.WindowsAzure.Tools.Vhd</RootNamespace>
-    <AssemblyName>Microsoft.WindowsAzure.Tools.Vhd</AssemblyName>
+    <RootNamespace>Microsoft.WindowsAzure.Management.Tools.Vhd</RootNamespace>
+    <AssemblyName>Microsoft.WindowsAzure.Management.Tools.Vhd</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -134,7 +134,6 @@
     <Compile Include="Model\Persistence\DynamicDiskBlockFactory.cs" />
     <Compile Include="Model\Persistence\FixedDiskBlockFactory.cs" />
     <Compile Include="Model\Persistence\IBlockFactory.cs" />
-    <Compile Include="Model\Persistence\Persistence.cs" />
     <Compile Include="Model\Persistence\SectorFactory.cs" />
     <Compile Include="Model\Persistence\StreamHelper.cs" />
     <Compile Include="Model\Persistence\VhdConstants.cs" />

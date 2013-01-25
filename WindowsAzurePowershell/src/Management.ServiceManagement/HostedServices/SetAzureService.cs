@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             var updateHostedServiceInput = new UpdateHostedServiceInput
             {
-                Label = this.Label != null ? ServiceManagementHelper.EncodeToBase64String(this.Label): null,
+                Label = this.Label != null ? ServiceManagementHelper2.EncodeToBase64String(this.Label): null,
                 Description =  this.Description
             };
 

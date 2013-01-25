@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 
             var upaginput = new UpdateAffinityGroupInput
             {
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = ServiceManagementHelper2.EncodeToBase64String(this.Label),
                 Description = this.Description ?? null
             };
 

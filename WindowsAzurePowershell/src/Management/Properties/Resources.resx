@@ -175,7 +175,7 @@
     <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
   <data name="RemoveDefaultSubscription" xml:space="preserve">
-    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
+    <value>The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
   </data>
   <data name="ServiceNameExists" xml:space="preserve">
     <value>The provided service name {0} already exists, please pick another name</value>
@@ -199,7 +199,7 @@
     <value>Must specify a non-null subscription name.</value>
   </data>
   <data name="InvalidSubscription" xml:space="preserve">
-    <value>"The subscription named '{0}' cannot be found. Use Set-AzureSubscription to initialize the subscription data."</value>
+    <value>The subscription named '{0}' cannot be found. Use Set-AzureSubscription to initialize the subscription data.</value>
   </data>
   <data name="PublishSettingsUrl" xml:space="preserve">
     <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en</value>
@@ -282,5 +282,11 @@
   </data>
   <data name="NoPublishSettingsFilesFoundMessage" xml:space="preserve">
     <value>No publish settings files with extension *.publishsettings are found in the directory "{0}".</value>
+  </data>
+  <data name="RemoveSubscriptionConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove subscription '{0}'?</value>
+  </data>
+  <data name="RemoveSubscriptionMessage" xml:space="preserve">
+    <value>Removing subscription</value>
   </data>
 </root>

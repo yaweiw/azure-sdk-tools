@@ -892,4 +892,7 @@
   <data name="CannotFindServiceRoot" xml:space="preserve">
     <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
   </data>
+  <data name="RemoveServiceWhatIfMessage" xml:space="preserve">
+    <value>Remove cloud service and all it's deployments</value>
+  </data>
 </root>

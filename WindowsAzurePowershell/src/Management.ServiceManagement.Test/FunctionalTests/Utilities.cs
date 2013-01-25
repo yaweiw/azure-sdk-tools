@@ -11,16 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-//------------------------------------------------------------
-// Copyright (c) Microsoft Corporation.  All rights reserved.
-//------------------------------------------------------------
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
+    using System;
+    using System.IO;
+    using System.Text.RegularExpressions;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+
     internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Management.Model;
     using Model;
 
-    [Cmdlet(VerbsLifecycle.Restart, "AzureVM", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsLifecycle.Restart, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class RestartAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         public RestartAzureVMCommand()

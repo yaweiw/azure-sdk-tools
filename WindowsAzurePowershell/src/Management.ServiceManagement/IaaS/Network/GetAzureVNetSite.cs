@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Model;
     using Cmdlets.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVNetSite")]
+    [Cmdlet(VerbsCommon.Get, "AzureVNetSite"), OutputType(typeof(IEnumerable<VirtualNetworkSiteContext>))]
     public class GetAzureVNetSiteCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public GetAzureVNetSiteCommand()

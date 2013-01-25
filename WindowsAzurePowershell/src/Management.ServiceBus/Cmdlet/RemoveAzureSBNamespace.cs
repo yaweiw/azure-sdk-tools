@@ -25,14 +25,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace")]
+    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false)]
+        [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
+
+        [Parameter(Position = 3, HelpMessage = "Do not confirm the removal of the namespace")]
+        public SwitchParameter Force { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
@@ -68,13 +71,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
-                    Channel.DeleteServiceBusNamespace(subscriptionId, name);
-                    WriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
-                    
-                    if (PassThru)
-                    {
-                        WriteObject(true);
-                    }
+
+                    ConfirmAction(
+                        Force.IsPresent,
+                        string.Format(Resources.RemoveServiceBusNamespaceConfirmation, name),
+                        string.Format(Resources.RemovingNamespaceMessage),
+                        name,
+                        () =>
+                        {
+                            Channel.DeleteServiceBusNamespace(subscriptionId, name);
+
+                            if (PassThru)
+                            {
+                                WriteObject(true);
+                            }
+                        });
                 }
                 else
                 {

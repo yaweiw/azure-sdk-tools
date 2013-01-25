@@ -16,8 +16,8 @@
 #
 # Validate that the given code block throws the given exception
 #
-#    param [ScriptBlock] $script: The code to test
-#    param [string] $message    : The text of the exception that should be thrown
+#    param [ScriptBlock] $script : The code to test
+#    param [string] $message     : The text of the exception that should be thrown
 #######################
 function Assert-Throws
 {
@@ -28,22 +28,23 @@ function Assert-Throws
    }
    catch 
    {
-       Write-Output ("Caught exception: '" + $_.Exception.Message + "'")
-       if ($_.Exception.Message -eq $message)
+       $actualMessage = $_.Exception.Message
+       Write-Output ("Caught exception: '$actualMessage'")
+       if ($actualMessage -eq $message)
 	   {
 	       return $true;
 	   }
    }
 
-   throw "Expected exception not received: '$message'";
+   throw "Expected exception not received: '$message' the actual message is '$actualMessage'";
 }
 
 ###################
 #
 # Verify that the given scriptblock returns true
 #
-#    param [ScriptBlock] $script: The script to execute
-#    param [string] $message    : The message to return if the given script does not return true
+#    param [ScriptBlock] $script : The script to execute
+#    param [string] $message     : The message to return if the given script does not return true
 ####################
 function Assert-True
 {
@@ -76,7 +77,7 @@ function Assert-NotNull
 	
 	if (!$message)
 	{
-	    $message = "Assertion failed because the object in null: " + $actual
+	    $message = "Assertion failed because the object is null: " + $actual
 	}
 	
 	if ($actual -eq $null) 
@@ -106,7 +107,7 @@ function Assert-Exists
 #
 #    param [object] $expected : The expected object
 #    param [object] $actual   : The actual object
-#    param [string] $message  : The message to return if the given script does not return true
+#    param [string] $message  : The message to return if the given objects are not equal
 ####################
 function Assert-AreEqual
 {
@@ -118,6 +119,57 @@ function Assert-AreEqual
 	}
 	
 	if ($expected -ne $actual) 
+	{
+	    throw $message
+	}
+	
+	return $true
+}
+
+###################
+#
+# Verify that two given arrays are equal
+#
+#    param [array] $expected : The expected array
+#    param [array] $actual   : The actual array
+#    param [string] $message : The message to return if the given arrays are not equal.
+####################
+function Assert-AreEqualArray
+{
+    param([object] $expected, [object] $actual, [string] $message)
+	
+	if (!$message)
+	{
+	    $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
+	}
+	
+	$diff = Compare-Object $expected $actual -PassThru
+
+	if ($diff -ne $null) 
+	{
+	    throw $message
+	}
+	
+	return $true
+}
+
+###################
+#
+# Verify that the given value is null
+#
+#    param [object] $actual  : The actual object
+#    param [string] $message : The message to return if the given object is not null
+####################
+function Assert-Null
+{
+    param([object] $actual, [string] $message)
+	
+	if (!$message)
+	{
+	    $message = "Assertion failed because the object is not null: " + $actual
+	}
+	
+	if ($actual -ne $null) 
 	{
 	    throw $message
 	}

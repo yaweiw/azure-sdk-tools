@@ -16,10 +16,10 @@ using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Sync;
-using Microsoft.WindowsAzure.Sync.Upload;
-using Microsoft.WindowsAzure.Tools.Vhd.Model;
-using ProgressRecord = Microsoft.WindowsAzure.Sync.ProgressRecord;
+using Microsoft.WindowsAzure.Management.Sync;
+using Microsoft.WindowsAzure.Management.Sync.Upload;
+using Microsoft.WindowsAzure.Management.Tools.Vhd.Model;
+using ProgressRecord = Microsoft.WindowsAzure.Management.Sync.ProgressRecord;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {

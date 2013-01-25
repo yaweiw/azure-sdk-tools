@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.IO;
     using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Sync.Download;
+    using Sync.Download;
 
 
     public class BlobCreator : BlobCreatorBase

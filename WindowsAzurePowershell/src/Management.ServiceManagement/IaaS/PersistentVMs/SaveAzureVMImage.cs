@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
 
-    [Cmdlet(VerbsData.Save, "AzureVMImage")]
+    [Cmdlet(VerbsData.Save, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class SaveAzureVMImageCommand : IaaSDeploymentManagementCmdletBase
     {
         public SaveAzureVMImageCommand()

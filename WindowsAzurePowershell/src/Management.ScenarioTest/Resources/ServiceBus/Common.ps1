@@ -18,7 +18,7 @@ $createdNamespaces = @()
 .SYNOPSIS
 Gets default location from the available list of service bus locations.
 #>
-function Get-DefaultLocation
+function Get-DefaultServiceBusLocation
 {
 	$locations = Get-AzureSBLocation
 
@@ -51,7 +51,7 @@ function Remove-Namespace
 {
 	param([string]$name)
 	Wait-NamespaceStatus $name "Active"
-	Remove-AzureSBNamespace $name
+	Remove-AzureSBNamespace $name -Force
 	Wait-NamespaceRemoved $name
 }
 
@@ -66,9 +66,8 @@ function Wait-NamespaceRemoved
 {
 	param([string]$name)
 	
-	$removed = $false
-	do
-	{
+	$waitScriptBlock = {
+		$removed = $false
 		try
 		{
 			$namespace = Get-AzureSBNamespace $name
@@ -78,7 +77,11 @@ function Wait-NamespaceRemoved
 		{
 			$removed = $true
 		}
-	} while (!$removed)
+
+		return $removed;
+	}
+
+	Wait-Function $waitScriptBlock $true
 }
 
 <#
@@ -94,11 +97,9 @@ The status to wait on.
 function Wait-NamespaceStatus
 {
 	param([string] $name, [string] $status)
-	do
-	{
-		$namespace = Get-AzureSBNamespace $name
-		Start-Sleep -s 5
-	} while ($namespace.Status -ne $status)
+
+	$waitScriptBlock = { (Get-AzureSBNamespace $name).Status }
+	Wait-Function $waitScriptBlock $status
 }
 
 <#
@@ -107,7 +108,9 @@ Clears the all created resources while doing the test.
 #>
 function Test-CleanupServiceBus
 {
-	foreach ($name in $createdNamespaces) { Remove-Namespace $name }
+	try { foreach ($name in $global:createdNamespaces) { Remove-Namespace $name } }
+	catch { <# Succeed #> }
+	$global:createdNamespaces = @()
 }
 
 <#
@@ -120,10 +123,9 @@ The number of namespaces to create.
 function New-Namespace
 {
 	param([int]$count)
-	$location = Get-DefaultLocation
 	1..$count | % { 
 		$name = Get-NamespaceName;
-		New-AzureSBNamespace $name $location;
+		New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation);
 		$global:createdNamespaces += $name;
 	}
 
@@ -136,5 +138,6 @@ Removes all the active namespaces in the current subscription.
 #>
 function Initialize-NamespaceTest
 {
-	Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace
+	try { Get-AzureSBNamespace | Where {$_.Status -eq "Active"} | Remove-AzureSBNamespace -Force }
+	catch { <# Succeed #> }
 }

@@ -12,13 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Upload
+namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
     using System;
     using System.Collections.Generic;
     using System.Threading;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Tools.Vhd.Model;
+    using Tools.Vhd.Model;
 
     public class UploadContext : IDisposable
     {

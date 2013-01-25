@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 {
     using System;
@@ -21,8 +22,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
     using IaaS;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureEndpoint")]
+    [Cmdlet(VerbsCommon.Remove, "AzureEndpoint"), OutputType(typeof(IPersistentVM))]
     public class RemoveAzureInputEndpointCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Endpoint Name")]

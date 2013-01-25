@@ -12,12 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
     using Service.Gateway;
+    using Management.Model;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVNetGateway", DefaultParameterSetName = "Connect")]
+    [Cmdlet(VerbsCommon.Set, "AzureVNetGateway", DefaultParameterSetName = "Connect"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureVNetGatewayCommand : GatewayCmdletBase
     {
         public SetAzureVNetGatewayCommand()

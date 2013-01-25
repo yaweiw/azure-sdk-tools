@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Tools.Vhd.Model
+namespace Microsoft.WindowsAzure.Management.Tools.Vhd.Model
 {
     using System;
     using System.Linq;

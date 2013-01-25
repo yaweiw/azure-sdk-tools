@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Management.Model;
     using Model;
 
-    [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsLifecycle.Stop, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class StopAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         public StopAzureVMCommand()
