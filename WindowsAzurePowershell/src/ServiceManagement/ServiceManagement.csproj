@@ -143,6 +143,8 @@
     <Compile Include="Contract\ServiceBus.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
+    <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
+    <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
     <Compile Include="ResourceModel\Certificates.cs" />
@@ -174,6 +176,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Marketplace\ResourceModel\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
