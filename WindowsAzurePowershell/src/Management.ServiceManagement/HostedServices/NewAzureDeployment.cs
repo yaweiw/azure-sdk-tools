@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureDeployment", DefaultParameterSetName = "PaaS")]
+    [Cmdlet(VerbsCommon.New, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public NewAzureDeploymentCommand()

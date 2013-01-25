@@ -296,7 +296,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             catch (AggregateException ex)
             {
                 if (ex.InnerExceptions.Count != 1
-                    || !ex.InnerExceptions[0].Message.Contains("Parameter name: destBlob"))
+                    || !( ex.InnerExceptions[0].Message.Contains("Destination blob ") && ex.InnerExceptions[0].Message.Contains(" exists. Not copying.")))
                 {
                     throw;
                 }

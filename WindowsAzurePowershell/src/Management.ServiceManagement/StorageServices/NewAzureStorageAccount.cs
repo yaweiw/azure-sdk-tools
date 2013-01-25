@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     /// <summary>
     /// Creates a new storage account in Windows Azure.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureStorageAccount", DefaultParameterSetName = "ParameterSetAffinityGroup")]
+    [Cmdlet(VerbsCommon.New, "AzureStorageAccount", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureStorageAccountCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public NewAzureStorageAccountCommand()
