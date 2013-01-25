@@ -32,7 +32,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using Samples.WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Utilities;
-    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase
         where T : class

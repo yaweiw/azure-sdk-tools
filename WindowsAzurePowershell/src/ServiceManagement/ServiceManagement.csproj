@@ -166,7 +166,7 @@
     <Compile Include="ResourceModel\Role.cs" />
     <Compile Include="ResourceModel\ServiceBusHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementError.cs" />
-    <Compile Include="ResourceModel\ServiceManagementHelper2.cs" />
+    <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
     <Compile Include="ResourceModel\ODataEntryExtension.cs" />

@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 Label = Name;
             }
 
-            Label = ServiceManagementHelper2.EncodeToBase64String(Label);
+            Label = ServiceManagementHelper.EncodeToBase64String(Label);
 
             var role = new PersistentVM
             {
