@@ -12,11 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Get, "AzureOSDisk")]
+    [Cmdlet(VerbsCommon.Get, "AzureOSDisk"), OutputType(typeof(OSVirtualHardDisk))]
     public class GetAzureOSDiskCommand : VirtualMachineConfigurationCmdletBase
     {
         protected override void ProcessRecord()

@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using Extensions;
     using Microsoft.WindowsAzure.Storage;
 
-    [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService")]
+    [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         private bool createdDeployment = false;

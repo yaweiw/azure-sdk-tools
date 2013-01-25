@@ -20,8 +20,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureDataDisk")]
+    [Cmdlet(VerbsCommon.Remove, "AzureDataDisk"), OutputType(typeof(IPersistentVM))]
     public class RemoveAzureDataDiskCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Numerical value that defines the slot where the data drive is mounted in the virtual machine.")]

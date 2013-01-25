@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
-    
-    [Cmdlet(VerbsCommon.Get, "AzureDns")]
+
+    [Cmdlet(VerbsCommon.Get, "AzureDns"), OutputType(typeof(DnsServerList))]
     public class GetAzureDnsCommand : PSCmdlet
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "DnsSettings Returned from Get-AzureDeployment")]

@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureQuickVM", DefaultParameterSetName = "Windows")]
+    [Cmdlet(VerbsCommon.New, "AzureQuickVM", DefaultParameterSetName = "Windows"), OutputType(typeof(ManagementOperationContext))]
     public class NewQuickVM : IaaSDeploymentManagementCmdletBase
     {
         private bool _createdDeployment = false;

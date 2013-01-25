@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     /// <summary>
     /// Updates a persistent VM object with a provisioning configuration.
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureProvisioningConfig", DefaultParameterSetName = "Windows")]
+    [Cmdlet(VerbsCommon.Add, "AzureProvisioningConfig", DefaultParameterSetName = "Windows"), OutputType(typeof(IPersistentVM))]
     public class AddAzureProvisioningConfigCommand : ProvisioningConfigurationCmdletBase
     {
         [Parameter(Mandatory = true, ValueFromPipeline = true, HelpMessage = "Virtual Machine to update.")]

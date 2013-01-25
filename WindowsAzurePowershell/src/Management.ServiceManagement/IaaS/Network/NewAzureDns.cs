@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Network
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.New, "AzureDns")]
+    [Cmdlet(VerbsCommon.New, "AzureDns"), OutputType(typeof(DnsServer))]
     public class NewAzureDnsCommand : Cmdlet    
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Name of the DNS Server")]
@@ -39,10 +39,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Network
 
         internal void ExecuteCommand()
         {
-            DnsServer dns = new DnsServer();
-            dns.Address = IPAddress;
-            dns.Name = Name;
-            WriteObject(dns, true);
+            WriteObject(new DnsServer {Address = IPAddress, Name = Name}, true);
         }
 
         protected override void ProcessRecord()
