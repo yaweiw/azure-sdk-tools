@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.New, "AzureCertificateSetting")]
+    [Cmdlet(VerbsCommon.New, "AzureCertificateSetting"), OutputType(typeof(CertificateSetting))]
     public class NewAzureCertificateSettingCommand : Cmdlet
     {
         public string StoreLocation

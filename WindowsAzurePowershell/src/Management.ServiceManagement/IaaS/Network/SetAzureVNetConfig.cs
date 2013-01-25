@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Management.Model;
     using Cmdlets.Common;
 
-    [Cmdlet(VerbsCommon.Set, "AzureVNetConfig")]
+    [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureVNetConfigCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public SetAzureVNetConfigCommand()

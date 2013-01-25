@@ -86,6 +86,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Management" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
@@ -185,13 +186,17 @@
     <Compile Include="UnitTests\Cmdlets\Certificates\AddAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\RemoveAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\GetAzureCertificateTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
-    <Compile Include="UnitTests\Stubs\InMemorySessionManager.cs" />
-    <Compile Include="Utilities\MockCommandRuntime.cs" />
-    <Compile Include="Utilities\SimpleServiceManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\overwrite_VHD.csv" />
+    <None Include="Resources\patch_VHD.csv" />
+    <None Include="Resources\resume_VHD.csv" />
+    <None Include="Resources\thread_VHD.csv" />
+    <None Include="Resources\upload_VHD.csv" />
     <None Include="VhdFiles\dynamic_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -215,7 +220,6 @@
     <Content Include="FunctionalTests\Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="TestScripts\" />
     <Folder Include="Tests\" />
   </ItemGroup>
@@ -227,6 +231,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
+      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
+      <Name>Management.CloudService.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
@@ -234,6 +242,10 @@
     <ProjectReference Include="..\Management.ServiceManagement\Management.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
       <Name>Management.ServiceManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Test\Management.Test.csproj">
+      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
+      <Name>Management.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>

@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Get, "AzureSubnet")]
+    [Cmdlet(VerbsCommon.Get, "AzureSubnet"), OutputType(typeof(SubnetNamesCollection))]
     public class GetAzureSubnetCommand : VirtualMachineConfigurationCmdletBase
     {
         internal void ExecuteCommand()

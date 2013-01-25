@@ -112,9 +112,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ConsoleAppUtils">
-      <HintPath>..\lib\Microsoft.WindowsAzure.ConsoleAppUtils.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
@@ -122,12 +119,6 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Sync">
-      <HintPath>..\lib\Microsoft.WindowsAzure.Sync.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Tools.Vhd">
-      <HintPath>..\lib\Microsoft.WindowsAzure.Tools.Vhd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -225,9 +216,6 @@
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Management.ServiceManagement\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
-      <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
-    </Content>
     <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -500,6 +488,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
+      <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
+      <Name>ConsoleAppUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
@@ -507,6 +499,14 @@
     <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
       <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
       <Name>ServiceManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sync\Sync.csproj">
+      <Project>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</Project>
+      <Name>Sync</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VhdManagement\VhdManagement.csproj">
+      <Project>{80496B7B-068A-4A1E-B0BB-4B1FFF3FA616}</Project>
+      <Name>VhdManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

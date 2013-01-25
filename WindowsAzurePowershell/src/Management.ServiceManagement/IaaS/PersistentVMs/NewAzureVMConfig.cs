@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Management.Model;
     using Extensions;
 
-    [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName")]
+    [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
     public class NewAzureVMConfigCommand : PSCmdlet
     {
         private const string RoleType = "PersistentVMRole";
@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 Label = Name;
             }
 
-            Label = ServiceManagementHelper.EncodeToBase64String(Label);
+            Label = ServiceManagementHelper2.EncodeToBase64String(Label);
 
             var role = new PersistentVM
             {

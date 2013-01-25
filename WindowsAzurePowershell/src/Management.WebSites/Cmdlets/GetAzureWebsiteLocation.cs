@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Common;
     using Services;
@@ -22,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation")]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteLocation"), OutputType(typeof(ICollection<string>))]
     public class GetAzureWebsiteLocationCommand : WebsitesBaseCmdlet
     {
         /// <summary>

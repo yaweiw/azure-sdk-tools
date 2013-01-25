@@ -90,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
             var aginput = new CreateAffinityGroupInput
             {
                 Description = this.Description,
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = ServiceManagementHelper2.EncodeToBase64String(this.Label),
                 Location = this.Location,
                 Name = this.Name
             };

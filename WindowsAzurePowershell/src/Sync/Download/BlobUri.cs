@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.Download
+namespace Microsoft.WindowsAzure.Management.Sync.Download
 {
     using System;
     using System.Collections;

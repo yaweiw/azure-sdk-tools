@@ -16,8 +16,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Disks
 {
     using System.Linq;
     using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.Get, "AzureDataDisk")]
+    [Cmdlet(VerbsCommon.Get, "AzureDataDisk"), OutputType(typeof(DataVirtualHardDisk))]
     public class GetAzureDataDisk : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Data Disk LUN")]

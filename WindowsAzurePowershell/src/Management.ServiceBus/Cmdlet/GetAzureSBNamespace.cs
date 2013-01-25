@@ -17,14 +17,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSBNamespace")]
+    [Cmdlet(VerbsCommon.Get, "AzureSBNamespace"), OutputType(typeof(List<ServiceBusNamespace>), typeof(ServiceBusNamespace))]
     public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
@@ -57,6 +59,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         internal void GetNamespaceProcess(string subscriptionId, string name)
         {
             ServiceBusNamespace serviceBusNamespace = null;
+
+            if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
+            }
 
             try
             {

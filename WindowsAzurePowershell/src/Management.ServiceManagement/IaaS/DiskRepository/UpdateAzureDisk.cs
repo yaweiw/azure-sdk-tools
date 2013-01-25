@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Cmdlets.Common;
     using Extensions;
 
-    [Cmdlet(VerbsData.Update, "AzureDisk")]
+    [Cmdlet(VerbsData.Update, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class UpdateAzureDiskCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the disk in the disk library.")]

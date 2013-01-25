@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Service.Gateway;
     using Model;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVNetConnection")]
+    [Cmdlet(VerbsCommon.Get, "AzureVNetConnection"), OutputType(typeof(GatewayConnectionContext))]
     public class GetAzureVNetConnectionCommand : GatewayCmdletBase
     {
         public GetAzureVNetConnectionCommand()

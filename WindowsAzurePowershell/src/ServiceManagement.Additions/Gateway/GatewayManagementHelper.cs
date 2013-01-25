@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Service.Gateway
         public static IGatewayServiceManagement CreateGatewayManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
         {
             WebChannelFactory<IGatewayServiceManagement> factory = new WebChannelFactory<IGatewayServiceManagement>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
             factory.Credentials.ClientCertificate.Certificate = cert;
             return factory.CreateChannel();
         }

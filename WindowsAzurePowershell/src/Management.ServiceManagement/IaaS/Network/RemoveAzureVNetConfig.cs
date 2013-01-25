@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Cmdlets.Common;
     using Management.Model;
 
-    [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig")]
+    [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVNetConfigCommand : CloudBaseCmdlet<IServiceManagement>
     {
         private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";

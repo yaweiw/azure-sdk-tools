@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using Model;
     using IaaS;
 
-    [Cmdlet(VerbsCommon.Get, "AzureEndpoint")]
+    [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, HelpMessage = "Endpoint name")]

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync.IO
+namespace Microsoft.WindowsAzure.Management.Sync.IO
 {
     using System;
     using System.IO;

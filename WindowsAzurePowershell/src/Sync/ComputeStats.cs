@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Sync
+namespace Microsoft.WindowsAzure.Management.Sync
 {
     using System.Collections.Generic;
 

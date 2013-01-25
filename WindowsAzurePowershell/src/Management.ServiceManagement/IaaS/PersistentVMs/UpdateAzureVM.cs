@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Extensions;
     using Microsoft.WindowsAzure.Storage;
 
-    [Cmdlet(VerbsData.Update, "AzureVM")]
+    [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class UpdateAzureVMCommand : IaaSDeploymentManagementCmdletBase
     {
         public UpdateAzureVMCommand()

@@ -16,13 +16,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
 {
     using System.IO;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureNodeWebRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureNodeWebRole"), OutputType(typeof(RoleSettings))]
     public class AddAzureNodeWebRoleCommand : AddRole
     {
         public AddAzureNodeWebRoleCommand() :

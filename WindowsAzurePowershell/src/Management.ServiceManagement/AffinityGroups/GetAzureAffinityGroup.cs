@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
                     OperationDescription = CommandRuntime.ToString(),
                     OperationStatus = operation.Status,
                     Name = affinityGroup.Name,
-                    Label = string.IsNullOrEmpty(affinityGroup.Label) ? null : ServiceManagementHelper.DecodeFromBase64String(affinityGroup.Label),
+                    Label = string.IsNullOrEmpty(affinityGroup.Label) ? null : ServiceManagementHelper2.DecodeFromBase64String(affinityGroup.Label),
                     Description = affinityGroup.Description,
                     Location = affinityGroup.Location,
                     HostedServices = affinityGroup.HostedServices != null ? affinityGroup.HostedServices.Select(p => new AffinityGroupContext.Service { Url = p.Url, ServiceName = p.ServiceName }) : new AffinityGroupContext.Service[0],

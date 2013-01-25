@@ -22,6 +22,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
 
     [TestClass]
     public class ServiceSettingsTests : TestBase
@@ -56,9 +58,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
 
                 string serviceName = null;
-                Testing.AssertThrows<ArgumentException>(() =>
+                ManagementTesting.AssertThrows<ArgumentException>(() =>
                     ServiceSettings.LoadDefault(null, null, null, null, null, "I HAVE INVALID CHARACTERS !@#$%", null, null, out serviceName));
-                Testing.AssertThrows<ArgumentException>(() =>
+                ManagementTesting.AssertThrows<ArgumentException>(() =>
                     ServiceSettings.LoadDefault(null, null, null, null, null, "ihavevalidcharsbutimjustwaytooooooooooooooooooooooooooooooooooooooooolong", null, null, out serviceName));
             }
         }
@@ -102,6 +104,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[Location.WestUS]) || 
                     settings.Location.Equals(ArgumentConstants.Locations[Location.EastUS]));
                 
+            }
+        }
+
+        /// <summary>
+        /// Verify that ServicSettings will accept unknown Windows Azure RDFE location.
+        /// </summary>
+        [TestMethod]
+        public void GetDefaultLocationWithUnknwonLocation()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string serviceName = null;
+                string unknownLocation = "Unknown Location";
+
+                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, unknownLocation, null, null, null, "My-Custom-Service!", null, out serviceName);
+                Assert.AreEqual<string>(unknownLocation.ToLower(), settings.Location.ToLower());
+
             }
         }
     }
