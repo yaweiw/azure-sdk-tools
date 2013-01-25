@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     /// Regenerates storage keys with the key-type parameter specifying 
     /// which key to regenerate. Should have the storage account resource specified.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureStorageKey")]
+    [Cmdlet(VerbsCommon.New, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
     public class NewAzureStorageKeyCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public NewAzureStorageKeyCommand()

@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// <summary>
     /// Walks the specified upgrade domain.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureWalkUpgradeDomain")]
+    [Cmdlet(VerbsCommon.Set, "AzureWalkUpgradeDomain"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureWalkUpgradeDomainCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public SetAzureWalkUpgradeDomainCommand()

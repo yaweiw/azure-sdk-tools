@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     /// <summary>
     /// Lists all storage services underneath the subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStorageAccount")]
+    [Cmdlet(VerbsCommon.Get, "AzureStorageAccount"), OutputType(typeof(StorageServicePropertiesOperationContext))]
     public class GetAzureStorageAccountCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public GetAzureStorageAccountCommand()

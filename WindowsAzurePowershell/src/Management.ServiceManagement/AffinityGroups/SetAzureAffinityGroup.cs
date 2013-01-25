@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     /// <summary>
     /// Updates the label and/or the description for an affinity group for the specified subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureAffinityGroup")]
+    [Cmdlet(VerbsCommon.Set, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
     {
         public SetAzureAffinityGroup()

@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     /// <summary>
     /// Retrieve a specified service certificate.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureCertificate")]
+    [Cmdlet(VerbsCommon.Get, "AzureCertificate"), OutputType(typeof(CertificateContext))]
     public class GetAzureCertificate : CloudBaseCmdlet<IServiceManagement>
     {
         public GetAzureCertificate()

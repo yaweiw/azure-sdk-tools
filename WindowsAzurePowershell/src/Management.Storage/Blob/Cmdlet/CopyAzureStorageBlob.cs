@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using Sync.Download;
 
-    [Cmdlet(VerbsCommon.Copy, "AzureStorageBlob")]
+    [Cmdlet(VerbsCommon.Copy, "AzureStorageBlob"), OutputType(typeof(CopyAzureStorageBlobContext))]
     public class CopyAzureStorageBlobCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public CopyAzureStorageBlobCommand()
@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 BlobUri sourceUri;
                 if (!BlobUri.TryParseUri(this.Source, out sourceUri) || string.IsNullOrEmpty(sourceUri.StorageAccountName))
                 {
-                    throw new ArgumentException(string.Format("Source blob Uri {0} is invalid.", this.Source.ToString()), "sourceBlobUri");
+                    throw new ArgumentException(string.Format("Source blob Uri {0} is invalid.", this.Source.ToString()));
                 }
 
                 var sourceAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, sourceUri.StorageAccountName).StorageServiceKeys;
@@ -130,12 +130,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             catch (EndpointNotFoundException)
             {
-                throw new ArgumentException(string.Format("Source Uri {0} could not be found.", this.Source.ToString()), "sourceBlobUri");
+                throw new ArgumentException(string.Format("Source Uri {0} could not be found.", this.Source.ToString()));
             }
-
+            catch(StorageException ex)
+            {
+                throw new ArgumentException(string.Format("Source blob {0} could not be found.", this.Source.ToString()));
+            }
+            
             if (!this.BlobExists(sourceBlob))
             {
-                throw new ArgumentException(string.Format("Source blob {0} doesn't exist. Not copying", this.Source.AbsoluteUri), "sourceBlob");
+                throw new ArgumentException(string.Format("Source blob {0} doesn't exist. Not copying", this.Source.AbsoluteUri));
             }
 
             // Parse and validate the destination info.
@@ -144,7 +148,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 BlobUri destUri;
                 if (!BlobUri.TryParseUri(this.Destination, out destUri) || string.IsNullOrEmpty(destUri.StorageAccountName))
                 {
-                    throw new ArgumentException(string.Format("Destination blob Uri {0} is invalid.", this.Destination.ToString()), "destBlobUri");
+                    throw new ArgumentException(string.Format("Destination blob Uri {0} is invalid.", this.Destination.ToString()));
                 }
 
                 var destAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, destUri.StorageAccountName).StorageServiceKeys;
@@ -179,25 +183,40 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             catch (EndpointNotFoundException)
             {
-                throw new ArgumentException(string.Format("Destination Uri {0} could not be found.", this.Destination.ToString()), "destBlobUri");
+                throw new ArgumentException(string.Format("Destination Uri {0} could not be found.", this.Destination.ToString()));
             }
 
             // Begin copying
             if (this.BlobExists(destBlob))
             {
-                if(!this.Overwrite.IsPresent)
-                {
-                    throw new ArgumentException(string.Format("Destination blob {0} exists. Not copying.", this.Destination.AbsoluteUri), "destBlob");
-                }
-
                 // Begin copying blob, overwriting existing blob, or resume monitoring the copy already in progress.
                 if (destBlob.CopyState.Status != CopyStatus.Pending)
                 {
+                    if (!this.Overwrite.IsPresent)
+                    {
+                        throw new ArgumentException(string.Format("Destination blob {0} exists. Not copying.", this.Destination.AbsoluteUri));
+                    }
+
                     this.CopyBlob(sourceBlob, destBlob);
                 }
                 else
                 {
-                    this.WriteOperationStatus("Monitoring copy already in progress.");
+                    BlobUri source1;
+                    BlobUri source2;
+
+                    BlobUri.TryParseUri(destBlob.CopyState.Source, out source1);
+                    BlobUri.TryParseUri(this.Source, out source2);
+
+                    if (source1.StorageAccountName == source2.StorageAccountName
+                        && source1.BlobContainerName == source2.BlobContainerName
+                        && source1.BlobName == source2.BlobName)
+                    {
+                        this.WriteOperationStatus("Monitoring copy already in progress.");
+                    }
+                    else
+                    {
+                        throw new ArgumentException(string.Format("A different copy operation to destination '{0}' is already in progress.", this.Destination.AbsoluteUri));
+                    }
                 }
             }
             else
@@ -238,7 +257,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 this.destBlob.FetchAttributes();
                 if (!string.IsNullOrEmpty(this.destBlob.CopyState.CopyId))
                 {
-                    this.destBlob.AbortCopy(this.destBlob.CopyState.CopyId);
+                    try
+                    {
+                        this.destBlob.AbortCopy(this.destBlob.CopyState.CopyId);
+                    }
+                    catch (StorageException ex)
+                    {
+                        if (ex.RequestInformation.HttpStatusCode != 409)
+                        {
+                            throw;
+                        }
+                        else
+                        {
+                            // The storage API always returns 409 from this call
+                            // so swallow the exception so we can hit the delete call.
+                        }
+                    }
+
+                    this.destBlob.DeleteIfExists();
                 }
             }
 

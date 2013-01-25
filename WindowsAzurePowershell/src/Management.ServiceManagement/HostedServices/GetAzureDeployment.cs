@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// <summary>
     /// View details of a specified deployment.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureDeployment")]
+    [Cmdlet(VerbsCommon.Get, "AzureDeployment"), OutputType(typeof(DeploymentInfoContext))]
     public class GetAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public GetAzureDeploymentCommand()
