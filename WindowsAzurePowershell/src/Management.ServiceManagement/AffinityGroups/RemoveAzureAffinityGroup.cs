@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     /// <summary>
     /// Deletes an affinity group.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureAffinityGroup")]
+    [Cmdlet(VerbsCommon.Remove, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
     {
         public RemoveAzureAffinityGroup()

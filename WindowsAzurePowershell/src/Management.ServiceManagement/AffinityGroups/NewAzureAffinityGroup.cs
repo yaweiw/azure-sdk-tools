@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     /// <summary>
     /// Creates and returns a new affinity group in the specified data center location.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureAffinityGroup")]
+    [Cmdlet(VerbsCommon.New, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
     {
         public NewAzureAffinityGroup()
