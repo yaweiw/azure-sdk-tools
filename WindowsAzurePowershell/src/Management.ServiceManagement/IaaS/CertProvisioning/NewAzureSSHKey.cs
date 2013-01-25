@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
 
-    [Cmdlet(VerbsCommon.New, "AzureSSHKey")]
+    [Cmdlet(VerbsCommon.New, "AzureSSHKey"), OutputType(typeof(LinuxProvisioningConfigurationSet.SSHKeyPair), typeof(LinuxProvisioningConfigurationSet.SSHPublicKey))]
     public class NewAzureSSHKeyCommand : Cmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "keypair", HelpMessage = "Add a key pair")]

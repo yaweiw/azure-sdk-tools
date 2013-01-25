@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using Model;
     using Cmdlets.Common;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVMImage")]
+    [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
     public class GetAzureVMImage : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]

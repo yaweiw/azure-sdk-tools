@@ -18,8 +18,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Set, "AzureSubnet")]
+    [Cmdlet(VerbsCommon.Set, "AzureSubnet"), OutputType(typeof(IPersistentVM))]
     public class SetAzureSubnetCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "The list of subnet names.")]

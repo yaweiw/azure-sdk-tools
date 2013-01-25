@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Helpers;
     using Model;
 
-    [Cmdlet(VerbsData.Import, "AzureVM")]
+    [Cmdlet(VerbsData.Import, "AzureVM"), OutputType(typeof(PersistentVM))]
     public class ImportAzureVMCommand : Cmdlet
     {   
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path to the file with the persistent VM role state previously serialized.")]

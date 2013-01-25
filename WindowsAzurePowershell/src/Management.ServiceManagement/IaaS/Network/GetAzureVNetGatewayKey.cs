@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Service.Gateway;
     using Model;
 
-    [Cmdlet(VerbsCommon.Get, "AzureVNetGatewayKey")]
+    [Cmdlet(VerbsCommon.Get, "AzureVNetGatewayKey"), OutputType(typeof(SharedKeyContext))]
     public class GetAzureVNetGatewayKeyCommand : GatewayCmdletBase
     {
         public GetAzureVNetGatewayKeyCommand()

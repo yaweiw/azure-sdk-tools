@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
@@ -20,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
+    using Model;
 
-    [Cmdlet(VerbsCommon.Set, "AzureDataDisk")]
+    [Cmdlet(VerbsCommon.Set, "AzureDataDisk"), OutputType(typeof(IPersistentVM))]
     public class SetAzureDataDiskCommand : VirtualMachineConfigurationCmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Controls the platform caching behavior of data disk blob for read efficiency.")]
