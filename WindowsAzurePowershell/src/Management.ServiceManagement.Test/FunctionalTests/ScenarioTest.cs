@@ -35,9 +35,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             var defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
-
-
-
+            
             string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false);
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
 
@@ -45,9 +43,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
 
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "p@ssw0rd", locationName);
-            OS newAzureQuickVMOS = OS.Windows;
-
-            vmPowershellCmdlets.NewAzureQuickVM(newAzureQuickVMOS, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "p@ssw0rd", locationName);
 
             // Verify
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
@@ -69,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
             string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
-            Assert.IsFalse(vmPowershellCmdlets.TestAzureServiceName(newAzureQuickVMSvcName));
+            //Assert.IsFalse(vmPowershellCmdlets.TestAzureServiceName(newAzureQuickVMSvcName));
 
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSLinuxVM");
             string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Linux", "testvmimage" }, false);
@@ -143,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureVM1Name, newAzureSvcName);
             vmPowershellCmdlets.RemoveAzureVM(newAzureVM2Name, newAzureSvcName);
-            /* RemoveAzureService is failing. Need to investigate furnter */
+            /* RemoveAzureService doesn't work */
             //vmPowershellCmdlets.RemoveAzureService(newAzureSvcName);
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, newAzureSvcName));
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM2Name, newAzureSvcName));
@@ -177,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
-            // RemoveAzureService is failing. Need to investigate furnter */
+            /* RemoveAzureService doesn't work */
             //vmPowershellCmdlets.RemoveAzureService(newAzureQuickVMSvcName);
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName));
 
@@ -211,8 +206,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
-            // RemoveAzureService is failing. Need to investigate furnter
-            //vmPowershellCmdlets.RemoveAzureService(newAzureQuickVMSvcName); */
+            /* RemoveAzureService doesn't work */
+            //vmPowershellCmdlets.RemoveAzureService(newAzureQuickVMSvcName); 
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName));
         }
 
@@ -310,7 +305,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
             }
         }
-
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (New-AzureVMConfig,Add-AzureProvisioningConfig,New-AzureVM,Save-AzureVMImage)")]
         public void CaptureImagingExportingImportingVMConfig()
