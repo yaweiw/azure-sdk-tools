@@ -20,14 +20,14 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
 
     public static class MarketplaceExtensionMethods
     {
-        public static List<Offer> GetWindowsAzureOffers(this IMarketplaceManagement proxy)
+        public static List<Offer> ListWindowsAzureOffers(this IMarketplaceManagement proxy)
         {
-            return proxy.EndGetWindowsAzureOffers(proxy.BeginGetWindowsAzureOffers(null, null));
+            return proxy.EndListWindowsAzureOffers(proxy.BeginListWindowsAzureOffers(null, null));
         }
 
-        public static List<Plan> GetOfferPlans(this IMarketplaceManagement proxy, string Id, string countryCode)
+        public static List<Plan> ListOfferPlans(this IMarketplaceManagement proxy, string Id, string query)
         {
-            return proxy.EndGetOfferPlans(proxy.BeginGetOfferPlans(Id, countryCode,null, null));
+            return proxy.EndListOfferPlans(proxy.BeginListOfferPlans(Id, query, null, null));
         }
     }
 }

@@ -42,13 +42,13 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            List<Offer> offers = MarketplaceChannel.GetWindowsAzureOffers();
+            List<Offer> offers = MarketplaceChannel.ListWindowsAzureOffers();
             List<PSObject> output = new List<PSObject>();
 
             foreach (Offer offer in offers)
             {
                 string plansQuery = string.Format("CountryCode eq '{0}'", Country);
-                List<Plan> plans = MarketplaceChannel.GetOfferPlans(offer.Id.ToString(), plansQuery);
+                List<Plan> plans = MarketplaceChannel.ListOfferPlans(offer.Id.ToString(), plansQuery);
 
                 if (plans.Count > 0)
                 {
