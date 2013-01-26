@@ -145,6 +145,8 @@
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
     <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
+    <Compile Include="Marketplace\ResourceModel\Offer.cs" />
+    <Compile Include="Marketplace\ResourceModel\Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
     <Compile Include="ResourceModel\Certificates.cs" />
@@ -177,9 +179,7 @@
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Marketplace\ResourceModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

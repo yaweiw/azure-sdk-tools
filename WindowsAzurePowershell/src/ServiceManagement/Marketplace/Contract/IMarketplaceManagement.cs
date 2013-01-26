@@ -14,8 +14,34 @@
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+
+    [ServiceContract]
     public interface IMarketplaceManagement
     {
+        /// <summary>
+        /// Gets available Windows Azure plans.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [ODataBehavior(typeof(Offer))]
+        [WebGet(UriTemplate = @"Offers?$filter=IsAvailableInAzureStores eq true")]
+        IAsyncResult BeginGetWindowsAzureOffers(AsyncCallback callback, object state);
 
+        List<Offer> EndGetWindowsAzureOffers(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Gets offer plans
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [ODataBehavior(typeof(Plan))]
+        [WebGet(UriTemplate = @"Offers(guid'{Id}')/Plans?$filter={countryCode}")]
+        IAsyncResult BeginGetOfferPlans(string Id, string countryCode, AsyncCallback callback, object state);
+
+        List<Plan> EndGetOfferPlans(IAsyncResult asyncResult);
     }
 }

@@ -12,22 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
+namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
-
-    public static class MarketplaceExtensionMethods
+    class Parameter
     {
-        public static List<Offer> GetWindowsAzureOffers(this IMarketplaceManagement proxy)
-        {
-            return proxy.EndGetWindowsAzureOffers(proxy.BeginGetWindowsAzureOffers(null, null));
-        }
+        public const string Provider = "Provider";
 
-        public static List<Plan> GetOfferPlans(this IMarketplaceManagement proxy, string Id, string countryCode)
-        {
-            return proxy.EndGetOfferPlans(proxy.BeginGetOfferPlans(Id, countryCode,null, null));
-        }
+        public const string Addon = "Addon";
+
+        public const string Plans = "Plans";
     }
 }
