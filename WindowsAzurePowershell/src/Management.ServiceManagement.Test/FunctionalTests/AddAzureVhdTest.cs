@@ -37,6 +37,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string destinationSasUri;
         private string patchDestinationSasUri;
 
+        private string perfFile;
+
 
         private string blobUrlRoot;
         private TestContext testContextInstance;
@@ -89,6 +91,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             blobUrlRoot = string.Format(@"http://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccount);
+
+            perfFile = "perf.csv";
         }
 
 
@@ -100,7 +104,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDisk()
         {
             string testName = "UploadDisk";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}.", testName, testStartTime);
+            
 
 
             // Choose the vhd file from local machine
@@ -119,7 +125,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload.
             AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0} {1},{2}", testName, vhdName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
         /// <summary>
@@ -130,7 +140,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskSasUri()
         {
             string testName = "UploadDiskSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -161,11 +172,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Assert.Fail("Test failed.  Permission: {0}", i);
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
                     }
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0} {1},{2}", testName, vhdName, (testEndTime - testStartTime).TotalSeconds) });
+
         }
 
         private string CreateSasUriWithPermission(string vhdName, int p)
@@ -195,7 +212,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskOverwrite()
         {
             string testName = "UploadDiskOverwrite";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -215,18 +233,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload.
             AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime-testStartTime).TotalSeconds);
+            
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime-testStartTime).TotalSeconds) });
+
         }
 
         /// <summary>
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskOverwriteSasUri()
         {
             string testName = "UploadDiskOverwriteSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -258,11 +283,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Assert.Fail("Test failed.  Permission: {0}", i);
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
                     }
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
 
@@ -274,7 +304,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskSecondWithoutOverwrite()
         {
             string testName = "UploadDiskSecondWithoutOverwrite";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -303,7 +334,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload.
             AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
         /// <summary>
@@ -314,7 +350,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskSecondWithoutOverwriteSasUri()
         {
             string testName = "UploadDiskSecondWithoutOverwriteSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -359,7 +396,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
 
@@ -372,7 +414,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskThreadNumber()
         {
             string testName = "UploadDiskThreadNumber";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -391,7 +434,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload.
             AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
         /// <summary>
@@ -402,7 +450,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskThreadNumberSasUri()
         {
             string testName = "UploadDiskThreadNumberSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -433,11 +482,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Assert.Fail("Test failed.  Permission: {0}", i);
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
                     }
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
 
@@ -449,7 +503,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskThreadNumberOverwrite()
         {
             string testName = "UploadDiskThreadNumber";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -469,7 +524,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload.
             AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
         /// <summary>
@@ -480,7 +540,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void UploadDiskThreadNumberOverwriteSasUri()
         {
             string testName = "UploadDiskThreadNumberSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -512,11 +573,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                     else
                     {
-                        Assert.Fail("Test failed.  Permission: {0}", i);
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
                     }
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
 
@@ -528,7 +594,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void PatchFirstLevelDifferencingDisk()
         {
             string testName = "PatchFirstLevelDifferencingDisk";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -565,7 +632,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Verify the upload
             AssertUploadContextAndContentMD5(childVhdDestUri, childVhdLocalPath, patchVhdUploadContext);
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
         /// <summary>
@@ -576,7 +648,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void PatchFirstLevelDifferencingDiskSasUri()
         {
             string testName = "PatchFirstLevelDifferencingDiskSasUri";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the base vhd file from local machine
@@ -619,7 +692,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     continue;                    
                 }
             }
-            Console.WriteLine("{0} test passed.", testName);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
 
@@ -628,7 +706,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void WrongProtocolShouldFail()
         {
             string testName = "WrongProtocolShouldFail";
-            Console.WriteLine("{0} test starts...", testName);
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
 
 
             // Choose the vhd file from local machine
@@ -656,6 +735,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 TimeSpan duration = DateTime.Now - startTime;
                 Console.WriteLine("error message: {0}", e);
                 Console.WriteLine("{0} test passed after {1} seconds", testName, duration.Seconds);
+
+                DateTime testEndTime = DateTime.Now;
+                Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+                Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+                System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
             }
         }
 
