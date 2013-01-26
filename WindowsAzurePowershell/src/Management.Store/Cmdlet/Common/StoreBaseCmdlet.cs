@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
 
     public class StoreBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
-        protected IMarketplaceManagement MarketplaceChannel { get; set; }
+        public IMarketplaceManagement MarketplaceChannel { get; set; }
 
         public StoreBaseCmdlet()
         {

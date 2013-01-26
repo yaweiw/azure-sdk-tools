@@ -30,18 +30,18 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
         [OperationContract(AsyncPattern = true)]
         [ODataBehavior(typeof(Offer))]
         [WebGet(UriTemplate = @"Offers?$filter=IsAvailableInAzureStores eq true")]
-        IAsyncResult BeginGetWindowsAzureOffers(AsyncCallback callback, object state);
+        IAsyncResult BeginListWindowsAzureOffers(AsyncCallback callback, object state);
 
-        List<Offer> EndGetWindowsAzureOffers(IAsyncResult asyncResult);
+        List<Offer> EndListWindowsAzureOffers(IAsyncResult asyncResult);
 
         /// <summary>
         /// Gets offer plans
         /// </summary>
         [OperationContract(AsyncPattern = true)]
         [ODataBehavior(typeof(Plan))]
-        [WebGet(UriTemplate = @"Offers(guid'{Id}')/Plans?$filter={countryCode}")]
-        IAsyncResult BeginGetOfferPlans(string Id, string countryCode, AsyncCallback callback, object state);
+        [WebGet(UriTemplate = @"Offers(guid'{Id}')/Plans?$filter={query}")]
+        IAsyncResult BeginListOfferPlans(string Id, string query, AsyncCallback callback, object state);
 
-        List<Plan> EndGetOfferPlans(IAsyncResult asyncResult);
+        List<Plan> EndListOfferPlans(IAsyncResult asyncResult);
     }
 }
