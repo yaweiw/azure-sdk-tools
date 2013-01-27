@@ -29,14 +29,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     [Cmdlet(VerbsCommon.Copy, "AzureStorageBlob"), OutputType(typeof(CopyAzureStorageBlobContext))]
     public class CopyAzureStorageBlobCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        public CopyAzureStorageBlobCommand()
-        {
-        }
+        #region Fields
 
-        public CopyAzureStorageBlobCommand(IServiceManagement channel)
-        {
-            this.Channel = channel;
-        }
+        /// <summary>
+        /// Reference to the destination blob.
+        /// </summary>
+        private ICloudBlob destBlob;
+        
+        #endregion Fields
+
+        #region Parameters
 
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "Specifies the URI of the source blob.")]
         [ValidateNotNullOrEmpty]
@@ -56,6 +58,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             set;
         }
 
+        [Parameter(Position = 2, Mandatory = false, HelpMessage = "Specified the storage key for the destination account.")]
+        [Alias("Key")]
+        public string DestinationStorageKey
+        {
+            get;
+            set;
+        }
+
         [Parameter(HelpMessage = "Indicates whether the blob at the destination URI should be overwritten if it exists.")]
         public SwitchParameter Overwrite
         {
@@ -64,15 +74,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool overwrite = false;
 
-        /// <summary>
-        /// Reference to the destination blob.
-        /// </summary>
-        private ICloudBlob destBlob;
+        #endregion Parameters
 
-        /// <summary>
-        /// Reference to the source blob .
-        /// </summary>
-        private ICloudBlob sourceBlob;
+        public CopyAzureStorageBlobCommand()
+        {
+        }
+
+        public CopyAzureStorageBlobCommand(IServiceManagement channel)
+        {
+            this.Channel = channel;
+        }
 
         /// <summary>
         /// Provides a record-by-record processing functionality for the cmdlet.
@@ -102,127 +113,126 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             this.WriteOperationStatus("Validating");
 
-            // Parse and validate the source info.
-            try
+            // Validate the destination URI.
+            BlobUri destUri;
+            if (!BlobUri.TryParseUri(this.Destination, out destUri) 
+                || string.IsNullOrEmpty(destUri.StorageAccountName))
             {
-                BlobUri sourceUri;
-                if (!BlobUri.TryParseUri(this.Source, out sourceUri) || string.IsNullOrEmpty(sourceUri.StorageAccountName))
-                {
-                    throw new ArgumentException(string.Format("Source blob Uri {0} is invalid.", this.Source.ToString()));
-                }
-
-                var sourceAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, sourceUri.StorageAccountName).StorageServiceKeys;
-                var sourceCredentials = new StorageCredentials(sourceUri.StorageAccountName, sourceAccountKeys.Primary);
-                var sourceAccount = new CloudStorageAccount(sourceCredentials, false);
-                var sourceClient = sourceAccount.CreateCloudBlobClient();
-                var sourceContainer = sourceClient.GetContainerReference(sourceUri.BlobContainerName);
-
-                if (sourceContainer.GetPermissions().PublicAccess != BlobContainerPublicAccessType.Blob)
-                {
-                    var sharedAccessPolicy = new SharedAccessBlobPolicy() {Permissions = SharedAccessBlobPermissions.Read, SharedAccessExpiryTime = DateTime.UtcNow.AddDays(1)};
-                    var sourceSas = sourceContainer.GetSharedAccessSignature(sharedAccessPolicy);
-                    var sourceSasCreds = new StorageCredentials(sourceSas);
-                    var sourceSasClient = new CloudBlobClient(sourceAccount.BlobEndpoint, sourceSasCreds);
-                    sourceContainer = sourceSasClient.GetContainerReference(sourceUri.BlobContainerName);
-                }
-
-                sourceBlob = sourceContainer.GetBlobReferenceFromServer(sourceUri.BlobName);
-            }
-            catch (EndpointNotFoundException)
-            {
-                throw new ArgumentException(string.Format("Source Uri {0} could not be found.", this.Source.ToString()));
-            }
-            catch(StorageException ex)
-            {
-                throw new ArgumentException(string.Format("Source blob {0} could not be found.", this.Source.ToString()));
-            }
-            
-            if (!this.BlobExists(sourceBlob))
-            {
-                throw new ArgumentException(string.Format("Source blob {0} doesn't exist. Not copying", this.Source.AbsoluteUri));
+                throw new ArgumentException(
+                    string.Format(
+                        "Destination blob Uri {0} is invalid.", 
+                        this.Destination.ToString()));
             }
 
-            // Parse and validate the destination info.
-            try
+            // Get destination storage credentials.
+            StorageCredentials destCredentials;
+            if (string.IsNullOrEmpty(this.DestinationStorageKey))
             {
-                BlobUri destUri;
-                if (!BlobUri.TryParseUri(this.Destination, out destUri) || string.IsNullOrEmpty(destUri.StorageAccountName))
-                {
-                    throw new ArgumentException(string.Format("Destination blob Uri {0} is invalid.", this.Destination.ToString()));
-                }
-
-                var destAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, destUri.StorageAccountName).StorageServiceKeys;
-                var destCredentials = new StorageCredentials(destUri.StorageAccountName, destAccountKeys.Primary);
-                var destAccount = new CloudStorageAccount(destCredentials, false);
-                var destClient = destAccount.CreateCloudBlobClient();
-                var destContainer = destClient.GetContainerReference(destUri.BlobContainerName);
-                destContainer.CreateIfNotExists();
-
                 try
                 {
-                    destBlob = destContainer.GetBlobReferenceFromServer(destUri.BlobName);
-
-                    if (destBlob.BlobType != sourceBlob.BlobType)
-                    {
-                        destBlob.Delete();
-                        destBlob = this.GetBlobReference(destContainer, destUri.BlobName, sourceBlob.BlobType);
-                    }
+                    var destAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, destUri.StorageAccountName).StorageServiceKeys;
+                    destCredentials = new StorageCredentials(destUri.StorageAccountName, destAccountKeys.Primary);
                 }
-                catch (StorageException ex2)
+                catch (EndpointNotFoundException ex)
                 {
-                    if (ex2.RequestInformation.HttpStatusCode == 404)
-                    {
-                        // The dest blob does not exist so we need to get our own reference.
-                        destBlob = this.GetBlobReference(destContainer, destUri.BlobName, sourceBlob.BlobType);
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-            }
-            catch (EndpointNotFoundException)
-            {
-                throw new ArgumentException(string.Format("Destination Uri {0} could not be found.", this.Destination.ToString()));
-            }
-
-            // Begin copying
-            if (this.BlobExists(destBlob))
-            {
-                // Begin copying blob, overwriting existing blob, or resume monitoring the copy already in progress.
-                if (destBlob.CopyState.Status != CopyStatus.Pending)
-                {
-                    if (!this.Overwrite.IsPresent)
-                    {
-                        throw new ArgumentException(string.Format("Destination blob {0} exists. Not copying.", this.Destination.AbsoluteUri));
-                    }
-
-                    this.CopyBlob(sourceBlob, destBlob);
-                }
-                else
-                {
-                    BlobUri source1;
-                    BlobUri source2;
-
-                    BlobUri.TryParseUri(destBlob.CopyState.Source, out source1);
-                    BlobUri.TryParseUri(this.Source, out source2);
-
-                    if (source1.StorageAccountName == source2.StorageAccountName
-                        && source1.BlobContainerName == source2.BlobContainerName
-                        && source1.BlobName == source2.BlobName)
-                    {
-                        this.WriteOperationStatus("Monitoring copy already in progress.");
-                    }
-                    else
-                    {
-                        throw new ArgumentException(string.Format("A different copy operation to destination '{0}' is already in progress.", this.Destination.AbsoluteUri));
-                    }
+                    // The destination Storage account was not found in the current subscription.
+                    throw new ArgumentException(
+                        string.Format(
+                            "The storage account '{0}' was not found in the subscription '{1}'. Try specifying a storage account key.", 
+                            destUri.StorageAccountName,
+                            this.CurrentSubscription.SubscriptionName));
                 }
             }
             else
             {
-                // Copy the blob
-                this.CopyBlob(sourceBlob, destBlob);
+                destCredentials = new StorageCredentials(destUri.StorageAccountName, this.DestinationStorageKey);
+            }
+
+            // Get the destination blob container reference.
+            CloudBlobContainer destContainer;
+            try
+            {
+                var destAccount = new CloudStorageAccount(destCredentials, false);
+                var destClient = destAccount.CreateCloudBlobClient();
+                destContainer = destClient.GetContainerReference(destUri.BlobContainerName);
+                destContainer.CreateIfNotExists();
+            }
+            catch (StorageException ex)
+            {
+                if (ex.RequestInformation.HttpStatusCode == 502) // Bad Gateway.
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            "The storage account '{0}' was not found", 
+                            destUri.StorageAccountName));
+                }
+                else if (ex.RequestInformation.HttpStatusCode == 403) // Forbidden
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            "The given storage account key was not valid for storage account '{0}.", 
+                            destUri.StorageAccountName));
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Get the destination blob reference.
+            try
+            {
+                destBlob = destContainer.GetBlobReferenceFromServer(destUri.BlobName);
+            }
+            catch (StorageException ex)
+            {
+                if (ex.RequestInformation.HttpStatusCode == 404) // Not Found
+                {
+                    // The dest blob does not exist so we need to get our own reference.
+                    destBlob = destContainer.GetBlockBlobReference(destUri.BlobName);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Validate that we can perform the copy.
+            bool monitorCopyInProgress = false;
+            if(this.BlobExists(destBlob))
+            {
+                if (destBlob.CopyState.Status == CopyStatus.Pending)
+                {
+                    if (destBlob.CopyState.Source.Host == this.Source.Host
+                        && destBlob.CopyState.Source.AbsolutePath == this.Source.AbsolutePath)
+                    {
+                        monitorCopyInProgress = true;
+                        this.WriteOperationStatus("Monitoring copy already in progress.");
+                    }
+                    else
+                    {
+                        throw new ArgumentException(
+                            string.Format(
+                                "A different copy operation to destination '{0}' is already in progress.",
+                                this.Destination.AbsoluteUri));
+                    }
+                }
+                else
+                {
+                    if (!this.overwrite)
+                    {
+                        throw new ArgumentException(
+                            string.Format(
+                                "Destination blob {0} already exists. Not copying.",
+                                this.Destination.AbsoluteUri));
+                    }
+                }
+            }
+
+            // Start the copy
+            if (!monitorCopyInProgress)
+            {
+                destBlob.StartCopyFromBlob(this.Source);
 
                 // Wait for the copy operation to start
                 while (!this.BlobExists(destBlob))
@@ -237,7 +247,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 Thread.Sleep(1000);
                 destBlob.FetchAttributes();
                 this.UpdateProgress(destBlob.CopyState.BytesCopied, destBlob.CopyState.TotalBytes);
-            } 
+
+                if (destBlob.CopyState.Status == CopyStatus.Failed)
+                {
+                    throw new ArgumentException("Could not copy blob. The operation failed.");
+                }
+            }
             while (destBlob.CopyState.Status == CopyStatus.Pending && !this.Stopping);
 
             if (!this.Stopping)
@@ -252,33 +267,38 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         internal void AbortCommand()
         {
-            if (this.destBlob != null)
+            try
             {
-                this.destBlob.FetchAttributes();
-                if (!string.IsNullOrEmpty(this.destBlob.CopyState.CopyId))
+                if (this.destBlob != null)
                 {
-                    try
+                    this.destBlob.FetchAttributes();
+                    if (!string.IsNullOrEmpty(this.destBlob.CopyState.CopyId))
                     {
-                        this.destBlob.AbortCopy(this.destBlob.CopyState.CopyId);
-                    }
-                    catch (StorageException ex)
-                    {
-                        if (ex.RequestInformation.HttpStatusCode != 409)
+                        try
                         {
-                            throw;
+                            this.destBlob.AbortCopy(this.destBlob.CopyState.CopyId);
                         }
-                        else
+                        catch (StorageException ex)
                         {
-                            // The storage API always returns 409 from this call
-                            // so swallow the exception so we can hit the delete call.
+                            if (ex.RequestInformation.HttpStatusCode != 409)
+                            {
+                                throw;
+                            }
+                            else
+                            {
+                                // The storage API always returns 409 from this call
+                                // so swallow the exception so we can hit the delete call.
+                            }
                         }
-                    }
 
-                    this.destBlob.DeleteIfExists();
+                        this.destBlob.DeleteIfExists();
+                    }
                 }
             }
-
-            base.StopProcessing();
+            finally
+            {
+                base.StopProcessing();
+            }
         }
 
         /// <summary>
@@ -297,52 +317,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Copies a blob.
-        /// </summary>
-        /// <param name="source">The source blob.</param>
-        /// <param name="destination">The destination blob.</param>
-        private void CopyBlob(ICloudBlob source, ICloudBlob destination)
-        {
-            switch (source.BlobType)
-            {
-                case BlobType.BlockBlob:
-                    ((CloudBlockBlob)destination).StartCopyFromBlob((CloudBlockBlob)source);
-                    break;
-                case BlobType.PageBlob:
-                    ((CloudPageBlob)destination).StartCopyFromBlob((CloudPageBlob)source);
-                    break;
-                default:
-                    throw new ArgumentException(string.Format("Unsupported block blob type '{0}'.", source.BlobType.ToString()));
-            }
-        }
-
-        /// <summary>
-        /// Gets a reference to the given blob.
-        /// </summary>
-        /// <param name="container">The blob's parent container.</param>
-        /// <param name="blobName">The blob's name.</param>
-        /// <param name="blobType">The blob's blob type.</param>
-        /// <returns>Returns a reference to the given blob.</returns>
-        private ICloudBlob GetBlobReference(CloudBlobContainer container, string blobName, BlobType blobType)
-        {
-            ICloudBlob ret;
-
-            switch (blobType)
-            {
-                case BlobType.BlockBlob:
-                    ret = container.GetBlockBlobReference(blobName);
-                    break;
-                case BlobType.PageBlob:
-                    ret = container.GetPageBlobReference(blobName);
-                    break;
-                default:
-                    throw new ArgumentException(string.Format("Unsupported block blob type '{0}'.", blobType.ToString()));
-            }
-
-            return ret;
         }
 
         /// <summary>
