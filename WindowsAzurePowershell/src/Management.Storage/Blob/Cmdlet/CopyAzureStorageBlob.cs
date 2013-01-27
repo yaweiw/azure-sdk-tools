@@ -201,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             bool monitorCopyInProgress = false;
             if(this.BlobExists(destBlob))
             {
-                if (destBlob.CopyState.Status == CopyStatus.Pending)
+                if (destBlob.CopyState != null && destBlob.CopyState.Status == CopyStatus.Pending)
                 {
                     if (destBlob.CopyState.Source.Host == this.Source.Host
                         && destBlob.CopyState.Source.AbsolutePath == this.Source.AbsolutePath)
@@ -232,7 +232,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             // Start the copy
             if (!monitorCopyInProgress)
             {
-                destBlob.StartCopyFromBlob(this.Source);
+                try
+                {
+                    destBlob.StartCopyFromBlob(this.Source);
+                }
+                catch (StorageException ex)
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            "Source Uri '{0}' is invalid.",
+                            this.Source.AbsoluteUri));
+                }
 
                 // Wait for the copy operation to start
                 while (!this.BlobExists(destBlob))
