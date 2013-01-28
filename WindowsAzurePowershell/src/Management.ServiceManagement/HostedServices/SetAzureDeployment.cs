@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Utilities;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
@@ -165,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, "Please wait...", "Uploading package to blob storage");
                     WriteProgress(progress);
                     removePackage = true;
-                    InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.Channel, storageName, s, Package)));
+                    InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.Channel, storageName, s, Package, null)));
                 }
 
                 var upgradeDeploymentInput = new UpgradeDeploymentInput
@@ -173,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
                     PackageUrl = packageUrl,
-                    Label = (Label != null) ? ServiceManagementHelper2.EncodeToBase64String(Label) : ServiceManagementHelper2.EncodeToBase64String(ServiceName),
+                    Label = (Label != null) ? ServiceManagementHelper.EncodeToBase64String(Label) : ServiceManagementHelper.EncodeToBase64String(ServiceName),
                     Force = Force.IsPresent
                 };
 

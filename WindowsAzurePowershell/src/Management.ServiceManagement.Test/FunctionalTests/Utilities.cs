@@ -26,7 +26,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
-        public static string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Management.Storage.dll";
 
         public static string publishSettingsFile = Resource.PublishSettingsFile;
 
