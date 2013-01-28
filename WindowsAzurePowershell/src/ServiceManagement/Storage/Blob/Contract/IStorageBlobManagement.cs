@@ -140,5 +140,13 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// fetch blob attributes
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
 }
