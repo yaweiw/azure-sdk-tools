@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
         [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]

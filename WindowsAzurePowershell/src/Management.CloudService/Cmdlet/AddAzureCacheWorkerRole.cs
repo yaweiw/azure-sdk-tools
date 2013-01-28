@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Adds dedicated caching node worker role.
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureCacheWorkerRole"), OutputType(typeof(WorkerRole))]
     public class AddAzureCacheWorkerRoleCommand : CmdletBase
     {
         [Parameter(Position = 0, HelpMessage = "Role name")]

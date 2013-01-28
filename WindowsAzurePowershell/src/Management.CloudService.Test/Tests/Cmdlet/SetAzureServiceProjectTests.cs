@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         }
 
         [TestMethod]
-        public void SetAzureServiceProjectTestsLocationInvalidFail()
+        public void SetAzureServiceProjectTestsUnknownLocation()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -135,8 +135,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 ServicePathInfo paths = new ServicePathInfo(files.RootPath);
                 ServiceSettings settings = new ServiceSettings();
                 settings.Save(paths.Settings);
+                string unknownLocation = "Unknown Location";
 
-                Testing.AssertThrows<ArgumentException>(() => setServiceProjectCmdlet.SetAzureServiceProjectProcess("MyHome", null, null, null, paths.Settings), string.Format(Resources.InvalidServiceSettingElement, "Location"));
+                settings = setServiceProjectCmdlet.SetAzureServiceProjectProcess(unknownLocation, null, null, null, paths.Settings);
+
+                // Assert location is changed
+                //
+                Assert.AreEqual<string>(unknownLocation, settings.Location);
+                ServiceSettings actualOutput = mockCommandRuntime.OutputPipeline[0] as ServiceSettings;
+                Assert.AreEqual<string>(unknownLocation, settings.Location);
             }
         }
 
