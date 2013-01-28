@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     var destAccountKeys = this.Channel.GetStorageKeys(this.CurrentSubscription.SubscriptionId, destUri.StorageAccountName).StorageServiceKeys;
                     destCredentials = new StorageCredentials(destUri.StorageAccountName, destAccountKeys.Primary);
                 }
-                catch (EndpointNotFoundException ex)
+                catch (EndpointNotFoundException)
                 {
                     // The destination Storage account was not found in the current subscription.
                     throw new ArgumentException(
@@ -236,7 +236,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 {
                     destBlob.StartCopyFromBlob(this.Source);
                 }
-                catch (StorageException ex)
+                catch (StorageException)
                 {
                     throw new ArgumentException(
                         string.Format(
