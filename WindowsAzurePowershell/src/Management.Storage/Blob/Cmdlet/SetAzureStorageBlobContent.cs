@@ -21,13 +21,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// download blob from azure
@@ -268,6 +265,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 {
                     WriteProgress(pr);
                     System.Threading.Thread.Sleep(interval);
+
+                    if (ShouldForceQuit)
+                    {
+                        //can't output verbose log for this operation since the Output stream is already stopped.
+                        transferManager.CancelWork();
+                        break;
+                    }
                 }
 
                 transferManager.WaitForCompletion();

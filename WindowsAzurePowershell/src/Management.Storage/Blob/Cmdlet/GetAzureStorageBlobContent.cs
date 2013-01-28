@@ -259,6 +259,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 {
                     WriteProgress(pr);
                     System.Threading.Thread.Sleep(interval);
+
+                    if (ShouldForceQuit)
+                    {
+                        //can't output verbose log for this operation since the Output stream is already stopped.
+                        transferManager.CancelWork();
+                        break;
+                    }
                 }
                 
                 transferManager.WaitForCompletion();
