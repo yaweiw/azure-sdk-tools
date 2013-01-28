@@ -231,8 +231,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
 
             fileName = @"c:\Windows\System32\cmd.exe";
             command.Confirmed = false;
-            AssertThrows<ArgumentException>(() => command.GetBlobContent(blockBlob, fileName, false),
-                String.Format(Resources.FileAlreadyExists, fileName));
+            Assert.IsNull(command.GetBlobContent(blockBlob, fileName, false));
         }
 
         [TestMethod]
