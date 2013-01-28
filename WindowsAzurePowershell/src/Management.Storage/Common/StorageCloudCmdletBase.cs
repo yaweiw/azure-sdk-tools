@@ -14,28 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.Service;
-    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Queue;
-    using Microsoft.WindowsAzure.Storage.RetryPolicies;
-    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using System.Text;
-    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// base cmdlet for all storage cmdlet that works with cloud
@@ -56,6 +43,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// remote call counter
         /// </summary>
         private int remoteCallCounter = 0;
+
+        /// <summary>
+        /// whether stop processing
+        /// </summary>
+        protected bool ShouldForceQuit = false;
 
         /// <summary>
         /// init storage client operation context
@@ -341,6 +333,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
             WriteDebugLog(message);
             base.EndProcessing();
+        }
+
+        /// <summary>
+        /// stop processing
+        /// time-consuming operation should work with ShouldForceQuit
+        /// </summary>
+        protected override void StopProcessing()
+        {
+            //ctrl + c and etc
+            ShouldForceQuit = true;
+            base.StopProcessing();
         }
     }
 }
