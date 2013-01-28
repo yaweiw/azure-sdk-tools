@@ -69,11 +69,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             if(prodDeployment == null)
             {
-                this.WriteVerboseOutputForObject(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
+                this.WriteVerbose(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
             }
             else
             {
-                this.WriteVerboseOutputForObject(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
+                this.WriteVerbose(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
             }
 
             var swapDeploymentInput = new SwapDeploymentInput

@@ -147,7 +147,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 }
             }
 
-            this.WriteVerboseOutputForObject(VM);
             WriteObject(VM, true);
         }
 

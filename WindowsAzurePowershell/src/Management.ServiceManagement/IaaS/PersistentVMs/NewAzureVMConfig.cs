@@ -131,7 +131,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 DiskLabel = string.IsNullOrEmpty(DiskLabel) ? null : DiskLabel
             };
 
-            this.WriteVerboseOutputForObject(role);
             WriteObject(role, true);
         }
 
