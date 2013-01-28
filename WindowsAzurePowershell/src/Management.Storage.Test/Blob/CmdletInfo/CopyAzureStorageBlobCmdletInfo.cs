@@ -20,9 +20,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.CmdletInfo
     {
         public CopyAzureStorageBlobCmdletInfo(string source, string destination, bool overwrite)
         {
+            this.Initialize(source, destination, string.Empty, overwrite);
+        }
+
+        public CopyAzureStorageBlobCmdletInfo(string source, string destination, string destinationKey, bool overwrite)
+        {
+            this.Initialize(source, destination, destinationKey, overwrite);
+        }
+
+        private void Initialize(string source, string destination, string destinationKey, bool overwrite)
+        {
             this.cmdletName = Utilities.CopyAzureStorageBlobCmdletName;
             this.cmdletParams.Add(new CmdletParam("Source", source));
             this.cmdletParams.Add(new CmdletParam("Destination", destination));
+
+            if (!string.IsNullOrEmpty(destinationKey))
+            {
+                this.cmdletParams.Add(new CmdletParam("DestinationStorageKey", destinationKey));
+            }
 
             if (overwrite)
             {

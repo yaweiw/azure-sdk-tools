@@ -22,10 +22,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
 
     public class StorageCmdletTestHelper
     {
-        public CopyAzureStorageBlobContext CopyAzureStorageBlob(string source, string destination, bool overwrite)
+        public CopyAzureStorageBlobContext CopyAzureStorageBlob(CopyAzureStorageBlobCmdletInfo info)
         {
-            var copyAzureStorageBlobCmdletInfo = new CopyAzureStorageBlobCmdletInfo(source, destination, overwrite);
-            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(copyAzureStorageBlobCmdletInfo);
+            var azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(info);
             Collection<PSObject> result = azurePowershellCmdlet.Run();
             if (result.Count == 1)
             {

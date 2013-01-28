@@ -18,165 +18,43 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+    using Microsoft.WindowsAzure.Management.Storage.Test.Blob.CmdletInfo;
     using Microsoft.WindowsAzure.Management.Storage.Test.Properties;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     [TestClass]
     public class CopyAzureStorageBlobTest
     {
-        private class CopyAzureStorageBlobInfo
+        #region Helper Classes
+
+        /// <summary>
+        /// Contains information about this test run.
+        /// </summary>
+        private class TestInfo
         {
             /// <summary>
-            /// Gets or sets the source account name.
+            /// The URI of the source for the copy.
             /// </summary>
-            public static string SourceAccountName { get; set; }
+            public TestUri Source { get; set; }
 
             /// <summary>
-            /// Gets or sets the destination account name.
+            /// The URI of the destination for the copy.
             /// </summary>
-            public static string DestAccountName { get; set; }
+            public TestUri Destination { get; set; }
 
             /// <summary>
-            /// Indicates whether the source URI needs to be updated.
+            /// The storage account key for the destination account. Must be specified if UseStorageKey == true.
             /// </summary>
-            private bool updateSourceUri;
+            public string DestStorageAccountKey { get; set; }
 
             /// <summary>
-            /// Gets or sets the name of the source container.
+            /// Indicates whether to use the DestinationStorageAccountKey parameter.
             /// </summary>
-            public string SourceContainerName
-            {
-                get { return this.sourceContainerName; }
-                set
-                {
-                    this.updateSourceUri = true;
-                    this.sourceContainerName = value;
-                }
-            }
-            private string sourceContainerName;
-
-            /// <summary>
-            /// Gets or sets the name of the source blob.
-            /// </summary>
-            public string SourceBlobName
-            {
-                get { return this.sourceBlobName; }
-                set
-                {
-                    this.updateSourceUri = true;
-                    this.sourceBlobName = value;
-                }
-            }
-            private string sourceBlobName;
-
-            /// <summary>
-            /// Gets the complete URI to the source blob.
-            /// </summary>
-            public string SourceBlobUri
-            {
-                get
-                {
-                    if (this.updateSourceUri)
-                    {
-                        this.UpdateSourceUri();
-                        this.updateSourceUri = false;
-                    }
-
-                    return this.sourceBlobUri;
-                }
-            }
-            private string sourceBlobUri;
-
-            /// <summary>
-            /// Gets the source storage account key.
-            /// </summary>
-            public StorageServiceKeyOperationContext SourceStorageAccountKey
-            {
-                get
-                {
-                    if (this.updateSourceUri)
-                    {
-                        this.UpdateSourceUri();
-                        this.updateSourceUri = false;
-                    }
-
-                    return this.sourceStorageAccountKey;
-                }
-            }
-            private StorageServiceKeyOperationContext sourceStorageAccountKey;
-
-            /// <summary>
-            /// Indicates whether the destination URI needs to be updated.
-            /// </summary>
-            private bool updateDestUri;
-
-            /// <summary>
-            /// Gets or sets the name of the destination container.
-            /// </summary>
-            public string DestContainerName
-            {
-                get { return this.destContainerName; }
-                set
-                {
-                    this.updateDestUri = true;
-                    this.destContainerName = value;
-                }
-            }
-            private string destContainerName;
-
-            /// <summary>
-            /// Gets or sets the name of the destination blob.
-            /// </summary>
-            public string DestBlobName
-            {
-                get { return this.destBlobName; }
-                set
-                {
-                    this.updateDestUri = true;
-                    this.destBlobName = value;
-                }
-            }
-            private string destBlobName;
-
-            /// <summary>
-            /// Gets the complete URI to the destination blob.
-            /// </summary>
-            public string DestBlobUri
-            {
-                get
-                {
-                    if (this.updateDestUri)
-                    {
-                        this.UpdateDestUri();
-                        this.updateDestUri = false;
-                    }
-
-                    return this.destBlobUri;
-                }
-            }
-            private string destBlobUri;
-
-            /// <summary>
-            /// Gets the destination storage account key.
-            /// </summary>
-            public StorageServiceKeyOperationContext DestStorageAccountKey
-            {
-                get
-                {
-                    if (this.updateDestUri)
-                    {
-                        this.UpdateDestUri();
-                        this.updateDestUri = false;
-                    }
-
-                    return destStorageAccountKey;
-                }
-            }
-            private StorageServiceKeyOperationContext destStorageAccountKey;
+            public bool UseStorageKey { get; set; }
 
             /// <summary>
             /// Gets or sets a value indicating whether the copy operation should overwrite the destination blob.
@@ -191,38 +69,95 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             /// <summary>
             /// Initializes a new instance of the CopyAzureStorageBlobInfo class.
             /// </summary>
-            public CopyAzureStorageBlobInfo()
+            public TestInfo()
             {
-                this.updateSourceUri = true;
-                this.updateDestUri = true;
-
                 this.Overwrite = false;
-            }
-
-            /// <summary>
-            /// Updates the source URI and keys using the given account, container and blob names.
-            /// </summary>
-            private void UpdateSourceUri()
-            {
-                this.sourceStorageAccountKey = CopyAzureStorageBlobTest.smPowershellCmdlets.GetAzureStorageAccountKey(CopyAzureStorageBlobInfo.SourceAccountName);
-                this.sourceBlobUri = string.Format(@"http://{0}.blob.core.windows.net/{1}/{2}", CopyAzureStorageBlobInfo.SourceAccountName, this.SourceContainerName, this.SourceBlobName);
-            }
-
-            /// <summary>
-            /// Updates the destination URI and keys using the given account, container and blob names.
-            /// </summary>
-            private void UpdateDestUri()
-            {
-                this.destStorageAccountKey = CopyAzureStorageBlobTest.smPowershellCmdlets.GetAzureStorageAccountKey(CopyAzureStorageBlobInfo.DestAccountName);
-                this.destBlobUri = string.Format(@"http://{0}.blob.core.windows.net/{1}/{2}", CopyAzureStorageBlobInfo.DestAccountName, this.DestContainerName, this.DestBlobName);
             }
         }
 
+        /// <summary>
+        /// Contains information about a URI used the source or destination in a test.
+        /// </summary>
+        private class TestUri
+        {
+            /// <summary>
+            /// The URI.
+            /// </summary>
+            public string Uri { get; private set; }
+
+            /// <summary>
+            /// The account name in this URI.
+            /// </summary>
+            public string AccountName { get; private set; }
+
+            /// <summary>
+            /// The container name in this URI.
+            /// </summary>
+            public string ContainerName { get; private set; }
+
+            /// <summary>
+            /// The blob name in this URI.
+            /// </summary>
+            public string BlobName { get; private set; }
+
+            /// <summary>
+            /// Initializes a new instance of the TestUri class from the given URI.
+            /// </summary>
+            /// <param name="uri">The URI to use to initialize this instance.</param>
+            public TestUri(string uri)
+            {
+                this.Uri = uri;
+                this.AccountName = string.Empty;
+                this.ContainerName = string.Empty;
+                this.BlobName = string.Empty;
+            }
+
+            /// <summary>
+            /// Initializes a new instance of the TestUri class from the given account, container and blob names.
+            /// </summary>
+            /// <param name="accountName">The storage account name to use in this URI.</param>
+            /// <param name="containerName">The container name to use in this URI.</param>
+            /// <param name="blobName">The blob name to use in this URI.</param>
+            public TestUri (string accountName, string containerName, string blobName)
+            {
+                this.Uri = string.Format(@"http://{0}.blob.core.windows.net/{1}/{2}", accountName, containerName, blobName);
+                this.AccountName = accountName;
+                this.ContainerName = containerName;
+                this.BlobName = blobName;
+            }
+        }
+
+        #endregion Helper Classes
+
+        /// <summary>
+        /// Reference to the service management cmdlet helper.
+        /// </summary>
         private static ServiceManagementCmdletTestHelper smPowershellCmdlets;
+
+        /// <summary>
+        /// Reference to the storage cmdlet helper.
+        /// </summary>
         private static StorageCmdletTestHelper storePowershellCmdlets;
+
+        /// <summary>
+        /// Reference to the default subscription data.
+        /// </summary>
         private static SubscriptionData defaultAzureSubscription;
 
-        private CopyAzureStorageBlobInfo testInfo;
+        /// <summary>
+        /// Name of the US West account created for testing.
+        /// </summary>
+        private static string AccountNameWest;
+
+        /// <summary>
+        /// Name of the US East account created for testing.
+        /// </summary>
+        private static string AccountNameEast;
+
+        /// <summary>
+        /// The info used for a specific test case.
+        /// </summary>
+        private TestInfo testInfo;
 
         [ClassInitialize]
         public static void ClassInit(TestContext context)
@@ -234,64 +169,104 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             CopyAzureStorageBlobTest.defaultAzureSubscription = CopyAzureStorageBlobTest.smPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
             Assert.AreEqual(Resource.DefaultSubscriptionName, CopyAzureStorageBlobTest.defaultAzureSubscription.SubscriptionName);
 
-            CopyAzureStorageBlobInfo.SourceAccountName = CopyAzureStorageBlobTest.CreateStorageAccount("West US");
-            CopyAzureStorageBlobInfo.DestAccountName = CopyAzureStorageBlobTest.CreateStorageAccount("East US");
+            CopyAzureStorageBlobTest.AccountNameWest = CopyAzureStorageBlobTest.CreateStorageAccount("West US");
+            CopyAzureStorageBlobTest.AccountNameEast = CopyAzureStorageBlobTest.CreateStorageAccount("East US");
         }
 
         [ClassCleanup]
         public static void ClassCleanUp()
         {
-            CopyAzureStorageBlobTest.smPowershellCmdlets.RemoveAzureStorageAccount(CopyAzureStorageBlobInfo.SourceAccountName);
-            CopyAzureStorageBlobTest.smPowershellCmdlets.RemoveAzureStorageAccount(CopyAzureStorageBlobInfo.DestAccountName);
+            CopyAzureStorageBlobTest.smPowershellCmdlets.RemoveAzureStorageAccount(CopyAzureStorageBlobTest.AccountNameWest);
+            CopyAzureStorageBlobTest.smPowershellCmdlets.RemoveAzureStorageAccount(CopyAzureStorageBlobTest.AccountNameEast);
         }
 
-        [TestCleanup]
-        public void TestCleanup()
+        #region Test Cases
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "Storage"), Priority(1), Owner("dagarv")]
+        [Description("Tests Copy-AzureStorageBlob in the same storage account.")]
+        public void CopyAzureStorageBlobTestCopy()
         {
-            var sourceCredentials = new StorageCredentials(CopyAzureStorageBlobInfo.SourceAccountName, this.testInfo.SourceStorageAccountKey.Primary);
-            var sourceAccount = new CloudStorageAccount(sourceCredentials, false);
-            var sourceClient = sourceAccount.CreateCloudBlobClient();
-            var sourceContainer = sourceClient.GetContainerReference(this.testInfo.SourceContainerName);
-            sourceContainer.DeleteIfExists();
+            string containerName = "copytest";
+            this.testInfo = new TestInfo()
+            {
+                Source = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest,
+                    containerName,
+                    Utilities.GetUniqueShortName("testblob")),
+                Destination = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest,
+                    containerName,
+                    Utilities.GetUniqueShortName("testblob")),
+                DestStorageAccountKey = string.Empty,
+                TestBlobFile = @".\fixed_50.vhd",
+                UseStorageKey = false,
+                Overwrite = false
+            };
+
+            CopyAzureStorageBlobTest.UploadBlob(this.testInfo.TestBlobFile, this.testInfo.Source.Uri);
+            CopyAzureStorageBlobTest.MakeContainerPublic(CopyAzureStorageBlobTest.AccountNameWest, containerName);
+            CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
+
+            CopyAzureStorageBlobTest.AssertMD5Matches(this.testInfo);
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureStorageBlob)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "Storage"), Priority(1), Owner("dagarv")]
+        [Description("Tests Copy-AzureStorageBlob between two different storage accounts.")]
         public void CopyAzureStorageBlobTestCrossCluster()
         {
-            this.testInfo = new CopyAzureStorageBlobInfo()
+            string containerName = "crossclustertest";
+            this.testInfo = new TestInfo()
             {
-                SourceContainerName = "crossclustertest",
-                SourceBlobName = Utilities.GetUniqueShortName("testblob"),
-                DestContainerName = "crossclustertest",
-                DestBlobName = Utilities.GetUniqueShortName("testblob"),
+                Source = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                Destination = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameEast, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                DestStorageAccountKey = string.Empty,
                 TestBlobFile = @".\fixed_50.vhd",
+                UseStorageKey = false,
                 Overwrite = false
             };
 
-            this.RunTest();
+            CopyAzureStorageBlobTest.UploadBlob(this.testInfo.TestBlobFile, this.testInfo.Source.Uri);
+            CopyAzureStorageBlobTest.MakeContainerPublic(CopyAzureStorageBlobTest.AccountNameWest, containerName);
+            CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
 
-            this.AssertCopySuccess(true);
+            CopyAzureStorageBlobTest.AssertMD5Matches(this.testInfo);
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("dagarv"), Description("Test the cmdlet (Copy-AzureStorageBlob)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "Storage"), Priority(1), Owner("dagarv")]
+        [Description("Tests Copy-AzureStorageBlob overwrite behavior.")]
         public void CopyAzureStorageBlobTestOverwrite()
         {
-            this.testInfo = new CopyAzureStorageBlobInfo()
+            string containerName = "overwritetest";
+            this.testInfo = new TestInfo()
             {
-                SourceContainerName = "overwritetest",
-                SourceBlobName = Utilities.GetUniqueShortName("testblob"),
-                DestContainerName = "overwritetest",
-                DestBlobName = Utilities.GetUniqueShortName("testblob"),
+                Source = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                Destination = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                DestStorageAccountKey = string.Empty,
                 TestBlobFile = @".\fixed_50.vhd",
+                UseStorageKey = false,
                 Overwrite = false
             };
 
-            CopyAzureStorageBlobTest.UploadBlob(@".\dynamic_50.vhd", this.testInfo.DestBlobUri);
+            CopyAzureStorageBlobTest.UploadBlob(this.testInfo.TestBlobFile, this.testInfo.Source.Uri);
+            CopyAzureStorageBlobTest.UploadBlob(@".\dynamic_50.vhd", this.testInfo.Destination.Uri);
+            CopyAzureStorageBlobTest.MakeContainerPublic(CopyAzureStorageBlobTest.AccountNameWest, containerName);
 
             // Test that copy will fail if overwrite not specified.
             try
             {
-                this.RunTest();
+                CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
             }
             catch (AggregateException ex)
             {
@@ -302,30 +277,96 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
                 }
             }
 
-            this.AssertCopyFailed(false);
-
-            this.testInfo = new CopyAzureStorageBlobInfo()
-            {
-                SourceContainerName = "overwritetest",
-                SourceBlobName = Utilities.GetUniqueShortName("testblob"),
-                DestContainerName = "overwritetest",
-                DestBlobName = Utilities.GetUniqueShortName("testblob"),
-                TestBlobFile = @".\fixed_50.vhd",
-                Overwrite = true
-            };
+            CopyAzureStorageBlobTest.AssertMD5DoesNotMatch(this.testInfo);
 
             // Test that copy will succeed if overwrite specified.
-            this.RunTest();
-            this.AssertCopySuccess(true);
+            this.testInfo.Overwrite = true;
+            CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
+            CopyAzureStorageBlobTest.AssertMD5Matches(this.testInfo);
         }
 
-        /// <summary>
-        /// Uploads the test blob and runs the cmdlet.
-        /// </summary>
-        public void RunTest()
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "Storage"), Priority(1), Owner("dagarv")]
+        [Description("Tests Copy-AzureStorageBlob using a SAS URI for the source.")]
+        public void CopyAzureStorageBlobTestSAS()
         {
-            CopyAzureStorageBlobTest.UploadBlob(this.testInfo.TestBlobFile, this.testInfo.SourceBlobUri);
-            CopyAzureStorageBlobTest.storePowershellCmdlets.CopyAzureStorageBlob(this.testInfo.SourceBlobUri, this.testInfo.DestBlobUri, this.testInfo.Overwrite);
+            string containerName = "sastest";
+            var sourceBlobName = Utilities.GetUniqueShortName("testblob");
+            var uploadUri = new TestUri(CopyAzureStorageBlobTest.AccountNameWest, containerName, sourceBlobName);
+            CopyAzureStorageBlobTest.UploadBlob(@".\fixed_50.vhd", uploadUri.Uri);
+
+            this.testInfo = new TestInfo()
+            {
+                Source = new TestUri(
+                    CopyAzureStorageBlobTest.GetSasUri(
+                        CopyAzureStorageBlobTest.AccountNameWest, 
+                        containerName,
+                        sourceBlobName)),
+                Destination = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameEast, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                DestStorageAccountKey = string.Empty,
+                TestBlobFile = @".\fixed_50.vhd",
+                UseStorageKey = false,
+                Overwrite = false
+            };
+
+
+            CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
+
+            this.testInfo.Source = uploadUri;
+
+            CopyAzureStorageBlobTest.AssertMD5Matches(this.testInfo);
+        }
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "Storage"), Priority(1), Owner("dagarv")]
+        [Description("Tests Copy-AzureStorageBlob with a user specified storage account key.")]
+        public void CopyAzureStorageBlobTestStorageKey()
+        {
+            string containerName = "storagekeytest";
+            this.testInfo = new TestInfo()
+            {
+                Source = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameWest, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                Destination = new TestUri(
+                    CopyAzureStorageBlobTest.AccountNameEast, 
+                    containerName, 
+                    Utilities.GetUniqueShortName("testblob")),
+                DestStorageAccountKey = CopyAzureStorageBlobTest.GetStorageKey(CopyAzureStorageBlobTest.AccountNameEast),
+                TestBlobFile = @".\fixed_50.vhd",
+                UseStorageKey = true,
+                Overwrite = false
+            };
+
+            CopyAzureStorageBlobTest.UploadBlob(this.testInfo.TestBlobFile, this.testInfo.Source.Uri);
+            CopyAzureStorageBlobTest.MakeContainerPublic(CopyAzureStorageBlobTest.AccountNameWest, containerName);
+            CopyAzureStorageBlobTest.RunCmdlet(this.testInfo);
+
+            CopyAzureStorageBlobTest.AssertMD5Matches(this.testInfo);
+        }
+
+        #endregion Test Cases
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Runs the cmdlet.
+        /// </summary>
+        private static void RunCmdlet(TestInfo testInfo)
+        {
+            CopyAzureStorageBlobCmdletInfo cmdletInfo;
+            if (testInfo.UseStorageKey)
+            {
+                cmdletInfo = new CopyAzureStorageBlobCmdletInfo(testInfo.Source.Uri, testInfo.Destination.Uri, testInfo.DestStorageAccountKey, testInfo.Overwrite);
+            }
+            else
+            {
+                cmdletInfo = new CopyAzureStorageBlobCmdletInfo(testInfo.Source.Uri, testInfo.Destination.Uri, testInfo.Overwrite);
+            }
+
+            CopyAzureStorageBlobTest.storePowershellCmdlets.CopyAzureStorageBlob(cmdletInfo);
         }
 
         /// <summary>
@@ -341,6 +382,38 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         }
 
         /// <summary>
+        /// Gets a sas uri for the given blob.
+        /// </summary>
+        /// <param name="accountName">The blob's storage account name.</param>
+        /// <param name="containerName">The blob's container.</param>
+        /// <param name="blobName">The blob's name.</param>
+        /// <returns></returns>
+        private static string GetSasUri(string accountName, string containerName, string blobName)
+        {
+            var primaryKey = GetStorageKey(accountName);
+            var credentials = new StorageCredentials(accountName, primaryKey);
+            var account = new CloudStorageAccount(credentials, false);
+            var client = account.CreateCloudBlobClient();
+            var container = client.GetContainerReference(containerName);
+            var blob = container.GetBlobReferenceFromServer(blobName);
+
+            var sharedAccessPolicy = new SharedAccessBlobPolicy() { Permissions = SharedAccessBlobPermissions.Read, SharedAccessExpiryTime = DateTime.UtcNow.AddDays(1) };
+            var sas = container.GetSharedAccessSignature(sharedAccessPolicy);
+
+            return blob.Uri.AbsoluteUri + sas;
+        }
+
+        /// <summary>
+        /// Gets the primary storage key for the given account in this subscription.
+        /// </summary>
+        /// <param name="accountName">The name of the account to get the primary storage key for.</param>
+        /// <returns></returns>
+        private static string GetStorageKey(string accountName)
+        {
+            return CopyAzureStorageBlobTest.smPowershellCmdlets.GetAzureStorageAccountKey(accountName).Primary;
+        }
+
+        /// <summary>
         /// Uploads a file to the given blob URI.
         /// </summary>
         /// <param name="fileName">The file to upload.</param>
@@ -352,51 +425,72 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         }
 
         /// <summary>
+        /// Changes the specified container's permissions to public.
+        /// </summary>
+        /// <param name="accountName">The container's storage account name.</param>
+        /// <param name="containerName">The container's name.</param>
+        private static void MakeContainerPublic(string accountName, string containerName)
+        {
+            var primaryKey = GetStorageKey(accountName);
+            var credentials = new StorageCredentials(accountName, primaryKey);
+            var account = new CloudStorageAccount(credentials, false);
+            var client = account.CreateCloudBlobClient();
+            var container = client.GetContainerReference(containerName);
+            var permissions = new BlobContainerPermissions()
+            {
+                PublicAccess = BlobContainerPublicAccessType.Blob
+            };
+            container.SetPermissions(permissions);
+        }
+
+        #endregion Helper Methods
+
+        #region Asserts
+
+        /// <summary>
         /// Asserts that the copy operation was successful.
         /// </summary>
-        /// <param name="deleteBlob">Indicates if the dest blob should be deleted after assertion.</param>
-        private void AssertCopySuccess(bool deleteBlob)
+        private static void AssertMD5Matches(TestInfo testInfo)
         {
-            var sourceCredentials = new StorageCredentials(CopyAzureStorageBlobInfo.SourceAccountName, this.testInfo.SourceStorageAccountKey.Primary);
+            var sourceCredentials = new StorageCredentials(
+                    CopyAzureStorageBlobTest.AccountNameWest, 
+                    CopyAzureStorageBlobTest.GetStorageKey(CopyAzureStorageBlobTest.AccountNameWest));
             var sourceAccount = new CloudStorageAccount(sourceCredentials, false);
             var sourceClient = sourceAccount.CreateCloudBlobClient();
-            var sourceBlob = sourceClient.GetBlobReferenceFromServer(new Uri(this.testInfo.SourceBlobUri));
+            var sourceBlob = sourceClient.GetBlobReferenceFromServer(new Uri(testInfo.Source.Uri));
 
-            var destCredentials = new StorageCredentials(CopyAzureStorageBlobInfo.DestAccountName, this.testInfo.DestStorageAccountKey.Primary);
+            var destCredentials = new StorageCredentials(
+                    testInfo.Destination.AccountName,
+                    CopyAzureStorageBlobTest.GetStorageKey(testInfo.Destination.AccountName));
             var destAccount = new CloudStorageAccount(destCredentials, false);
             var destClient = destAccount.CreateCloudBlobClient();
-            var destBlob = destClient.GetBlobReferenceFromServer(new Uri(this.testInfo.DestBlobUri));
+            var destBlob = destClient.GetBlobReferenceFromServer(new Uri(testInfo.Destination.Uri));
 
             Assert.AreEqual(sourceBlob.Properties.ContentMD5, destBlob.Properties.ContentMD5);
-
-            if (deleteBlob)
-            {
-                destBlob.Delete();
-            }
         }
 
         /// <summary>
         /// Asserts that the copy operation was not successful.
         /// </summary>
-        /// <param name="deleteBlob">Indicates if the dest blob should be deleted after assertion.</param>
-        private void AssertCopyFailed(bool deleteBlob)
+        private static void AssertMD5DoesNotMatch(TestInfo testInfo)
         {
-            var sourceCredentials = new StorageCredentials(CopyAzureStorageBlobInfo.SourceAccountName, this.testInfo.SourceStorageAccountKey.Primary);
+            var sourceCredentials = new StorageCredentials(
+                    CopyAzureStorageBlobTest.AccountNameWest,
+                    CopyAzureStorageBlobTest.GetStorageKey(CopyAzureStorageBlobTest.AccountNameWest));
             var sourceAccount = new CloudStorageAccount(sourceCredentials, false);
             var sourceClient = sourceAccount.CreateCloudBlobClient();
-            var sourceBlob = sourceClient.GetBlobReferenceFromServer(new Uri(this.testInfo.SourceBlobUri));
+            var sourceBlob = sourceClient.GetBlobReferenceFromServer(new Uri(testInfo.Source.Uri));
 
-            var destCredentials = new StorageCredentials(CopyAzureStorageBlobInfo.DestAccountName, this.testInfo.DestStorageAccountKey.Primary);
+            var destCredentials = new StorageCredentials(
+                    testInfo.Destination.AccountName,
+                    CopyAzureStorageBlobTest.GetStorageKey(testInfo.Destination.AccountName));
             var destAccount = new CloudStorageAccount(destCredentials, false);
             var destClient = destAccount.CreateCloudBlobClient();
-            var destBlob = destClient.GetBlobReferenceFromServer(new Uri(this.testInfo.DestBlobUri));
+            var destBlob = destClient.GetBlobReferenceFromServer(new Uri(testInfo.Destination.Uri));
 
             Assert.AreNotEqual(sourceBlob.Properties.ContentMD5, destBlob.Properties.ContentMD5);
-
-            if (deleteBlob)
-            {
-                destBlob.Delete();
-            }
         }
+
+        #endregion Asserts
     }
 }
