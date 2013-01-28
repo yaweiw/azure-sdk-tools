@@ -286,6 +286,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Downloading blob &apos;{0}&apos; in container &apos;{1}&apos; is cancelled..
+        /// </summary>
+        internal static string DownloadBlobCancelled {
+            get {
+                return ResourceManager.GetString("DownloadBlobCancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot download the blob &apos;{0}&apos; in container &apos;{1}&apos; into local file &apos;{2}&apos;. Error: {3}.
         /// </summary>
         internal static string DownloadBlobFailed {
