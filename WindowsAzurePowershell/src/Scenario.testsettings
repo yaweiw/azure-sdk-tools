@@ -7,10 +7,12 @@
     <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
     <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml" />
     <DeploymentItem filename="Management.CloudService.Test\Resources\" />
-    <DeploymentItem filename="..\..\Package\Debug\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\Resources\" />
     <DeploymentItem filename="Management.CloudService\Resources\" />
     <DeploymentItem filename="Management.Test\Resources\" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
+    <DeploymentItem filename="..\..\Package\Debug\" />
     <DeploymentItem filename="Management.CloudService\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
   </Deployment>
   <Execution>

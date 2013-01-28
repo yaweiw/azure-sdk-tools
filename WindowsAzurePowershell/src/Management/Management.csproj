@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Cmdlets\GetAzureSubscription.cs" />
     <Compile Include="Cmdlets\ImportAzurePublishSettings.cs" />
+    <Compile Include="Utilities\AzureBlob.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Services\GlobalPathInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureSubscription.cs" />
@@ -222,9 +223,9 @@
     <Content Include="Azure.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Startup.ps1">
+    <Content Include="Startup.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="MSSharedLibKey.snk" />
     <None Include="XmlSchema\SubscriptionsData.xsd">
       <SubType>Designer</SubType>
