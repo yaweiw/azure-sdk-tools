@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.IO;
     using System.Management.Automation;
+    using System.Reflection;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
@@ -51,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Path.Combine(CurrentPath(), DefaultWorkerRoleTemplate);
             string source = Web.IsPresent ? Path.Combine(Resources.GeneralScaffolding, Resources.WebRole) : Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole);
 
-            General.DirectoryCopy(source, output, true);
+            General.DirectoryCopy(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), source), output, true);
 
             SafeWriteOutputPSObject(null, Parameters.Path, output);
         }
