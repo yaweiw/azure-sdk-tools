@@ -15,14 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
-    using Extensions;
     using Management.Model;
-    using Microsoft.WindowsAzure.Management.Extensions;
+    using Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Swaps the deployments in production and stage.
