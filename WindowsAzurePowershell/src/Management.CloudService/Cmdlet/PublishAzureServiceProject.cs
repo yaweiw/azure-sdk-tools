@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Utilities;
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
@@ -37,7 +39,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Services;
     using Utilities;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
-    using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

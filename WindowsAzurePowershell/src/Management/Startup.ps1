@@ -11,7 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ----------------------------------------------------------------------------------
+function Get-ScriptDirectory
+{
+    $Invocation = (Get-Variable MyInvocation -Scope 1).Value
+    Split-Path $Invocation.MyCommand.Path
+}
 
-Import-Module .\Azure.psd1
+$modulePath = Join-Path (Get-ScriptDirectory) Azure.psd1
+Import-Module $modulePath
 $VerbosePreference="Continue"
 Write-Output "For a list of all Azure cmdlets type 'help azure'.`r`nFor Node.js cmdlets type 'help node-dev'.`r`nFor PHP cmdlets type 'help php-dev'.`r`nFor Python cmdlets type 'help python-dev'."
