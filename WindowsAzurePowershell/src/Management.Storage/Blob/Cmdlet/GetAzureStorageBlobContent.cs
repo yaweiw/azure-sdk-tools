@@ -349,7 +349,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 if (!ConfirmOverwrite(filePath))
                 {
-                    throw new ArgumentException(String.Format(Resources.FileAlreadyExists, filePath));
+                    WriteWarning(String.Format(Resources.FileAlreadyExists, filePath));
+                    return null;
                 }
             }
 
@@ -426,23 +427,39 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             AzureStorageBlob azureBlob = null;
+            string blobName = string.Empty;
+            string containerName = string.Empty;
 
             switch (ParameterSetName)
             {
                 case BlobParameterSet:
                     azureBlob = GetBlobContent(ICloudBlob, FileName, false);
+                    blobName = ICloudBlob.Name;
+                    containerName = ICloudBlob.Container.Name;
                     break;
 
                 case ContainerParameterSet:
                     azureBlob = GetBlobContent(CloudBlobContainer, BlobName, FileName);
+                    blobName = BlobName;
+                    containerName = CloudBlobContainer.Name;
                     break;
 
                 case ManuallyParameterSet:
                     azureBlob = GetBlobContent(ContainerName, BlobName, FileName);
+                    blobName = BlobName;
+                    containerName = ContainerName;
                     break;
             }
 
-            WriteObjectWithStorageContext(azureBlob);
+            if (azureBlob == null)
+            {
+                String result = String.Format(Resources.DownloadBlobCancelled, blobName, containerName);
+                WriteObject(result);
+            }
+            else
+            {
+                WriteObjectWithStorageContext(azureBlob);
+            }
         }
     }
 }
