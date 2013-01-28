@@ -486,6 +486,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             try
             {
                 Upload2Blob(filePath, blob);
+
+                Channel.FetchBlobAttributes(blob, accessCondition, requestOptions, OperationContext);
             }
             catch (Exception e)
             {

@@ -366,9 +366,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 Directory.CreateDirectory(dirPath);
             }
 
+            AccessCondition accessCondition = null;
+            BlobRequestOptions requestOptions = null; ;
+
             try
             {
                 DownloadBlob(blob, filePath);
+
+                Channel.FetchBlobAttributes(blob, accessCondition, requestOptions, OperationContext);
             }
             catch (Exception e)
             {
