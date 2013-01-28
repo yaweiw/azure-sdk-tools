@@ -32,7 +32,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using Samples.WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Utilities;
-    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase
         where T : class
@@ -385,11 +384,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
         {
-            if (input != null)
-            {
-                this.WriteVerboseOutputForObject(input);
-            }
-
             RetryCall(action);
             Operation operation = waitOperation(operationDescription);
             var context = new ManagementOperationContext
@@ -404,11 +398,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
         {
-            if (input != null)
-            {
-                this.WriteVerboseOutputForObject(input);
-            }
-
             IContextChannel contextChannel = Channel as IContextChannel;
             if (contextChannel != null)
             {
@@ -441,11 +430,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
         {
-            if (input != null)
-            {
-                this.WriteVerboseOutputForObject(input);
-            }
-
             IContextChannel contextChannel = Channel as IContextChannel;
             if (contextChannel != null)
             {

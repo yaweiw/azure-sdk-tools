@@ -1,0 +1,7 @@
+Size,vhdName,vhdBlobName
+50MB,dynamic_50.vhd,vhdstore/$guid$.vhd
+50MB,dynamic_50_child01.vhd,vhdstore/$guid$.vhd
+50MB,dynamic_50_child02.vhd,vhdstore/$guid$.vhd
+50MB,fixed_50.vhd,vhdstore/$guid$.vhd
+50MB,fixed_50_child01.vhd,vhdstore/$guid$.vhd
+50MB,fixed_50_child02.vhd,vhdstore/$guid$.vhd

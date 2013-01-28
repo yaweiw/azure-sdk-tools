@@ -69,10 +69,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 if (_shouldValidate)
                 {
                     Validate.ValidateStringIsNullOrEmpty(value, "Location");
-                    if (!ArgumentConstants.Locations.ContainsValue(value.ToLower()))
-                    {
-                        throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Location"));
-                    }
                 }
 
                 _location = value ?? string.Empty;
@@ -304,12 +300,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             //
             if (!string.IsNullOrEmpty(location))
             {
-                if (ArgumentConstants.Locations.ContainsValue(location.ToLower()))
-                {
-                    return location.ToLower();
-                }
-
-                throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Location"));
+                return location.ToLower();
             }
             
             // User already has value in local service settings

@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Enable Remote Desktop by adding appropriate imports and settings to
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
+    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop"), OutputType(typeof(bool))]
     public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false)]
