@@ -21,20 +21,23 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// <summary>
     /// Selects a subscription from the previously imported ones.
     /// </summary>
-    [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Set")]
+    [Cmdlet(VerbsCommon.Select, "AzureSubscription", DefaultParameterSetName = "Set"), OutputType(typeof(bool))]
     public class SelectAzureSubscriptionCommand : PSCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "Set")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
 
-        [Parameter(Mandatory = true, HelpMessage = "Specify to clear the current selection.", ParameterSetName = "Clear")]
+        [Parameter(Position = 1, Mandatory = true, HelpMessage = "Specify to clear the current selection.", ParameterSetName = "Clear")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter Clear { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Subscription data file.")]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Subscription data file.")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionDataFile { get; set; }
+
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         internal void SelectSubscriptionProcess(string parameterSetName, string subscriptionName, string subscriptionsDataFile)
         {
@@ -60,6 +63,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                     ParameterSetName,
                     SubscriptionName,
                     this.ResolvePath(SubscriptionDataFile));
+
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
             catch (Exception exception)
             {
