@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         /// channel supports it.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
-        protected void InvokeInOperationContext(Action action)
+        protected override void InvokeInOperationContext(Action action)
         {
             IContextChannel contextChannel = Channel as IContextChannel;
             if (contextChannel != null)
