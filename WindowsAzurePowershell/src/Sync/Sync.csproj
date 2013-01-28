@@ -122,7 +122,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ComputeStats.cs" />
     <Compile Include="Download\BlobHandle.cs" />
     <Compile Include="Download\BlobUri.cs" />
