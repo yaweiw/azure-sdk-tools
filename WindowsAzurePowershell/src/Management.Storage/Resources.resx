@@ -382,4 +382,8 @@
   <data name="SkipDownloadSnapshot" xml:space="preserve">
     <value>Skip to download blob '{0}' with snapshot time '{0}'.</value>
   </data>
+  <data name="DownloadBlobCancelled" xml:space="preserve">
+    <value>Downloading blob '{0}' in container '{1}' is cancelled.</value>
+    <comment>0 blob name, 1 container name</comment>
+  </data>
 </root>
