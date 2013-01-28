@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 OperationStatus = operation.Status,
                 AffinityGroup = service.StorageServiceProperties.AffinityGroup,
                 StorageAccountDescription = service.StorageServiceProperties.Description,
-                Label = (service.StorageServiceProperties.Label != null) ? ServiceManagementHelper2.DecodeFromBase64String(service.StorageServiceProperties.Label) : string.Empty,
+                Label = (service.StorageServiceProperties.Label != null) ? ServiceManagementHelper.DecodeFromBase64String(service.StorageServiceProperties.Label) : string.Empty,
                 Location = service.StorageServiceProperties.Location,
                 Endpoints = service.StorageServiceProperties.Endpoints,
                 StorageAccountStatus = service.StorageServiceProperties.Status,

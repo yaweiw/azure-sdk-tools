@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,32 +12,32 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System;
     using System.Globalization;
     using System.IO;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
-    using Storage;
-    using Storage.Blob;
-    using WindowsAzure;
-    using IServiceManagement = Microsoft.Samples.WindowsAzure.ServiceManagement.IServiceManagement;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public static class AzureBlob
     {
         private const string BlobEndpointIdentifier = ".blob.";
         private const string ContainerName = "mydeployments";
 
-        public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath)
+        public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath, BlobRequestOptions blobRequestOptions)
         {
+            string storageKey;
+            string blobEndpointUri;
+
             StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            string storageKey = storageService.StorageServiceKeys.Primary;
-
+            storageKey = storageService.StorageServiceKeys.Primary;
             storageService = channel.GetStorageService(subscriptionId, storageName);
-            var blobStorageEndpoint = new Uri(storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
+            blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
 
-            return UploadFile(storageName, storageKey, blobStorageEndpoint, packagePath);
+            return UploadFile(storageName, blobEndpointUri, storageKey, packagePath, blobRequestOptions);
         }
 
         public static void DeletePackageFromBlob(IServiceManagement channel, string storageName, string subscriptionId, Uri packageUri)
@@ -52,11 +52,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             blob.DeleteIfExists();
         }
 
-        private static Uri UploadFile(string storageName, string storageKey, Uri blobStorageEndpoint, string filePath)
+        public static Uri UploadFile(string storageName, string blobEndpointUri, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
         {
-            var credentials = new StorageCredentials(storageName, storageKey);
-            var client = new CloudBlobClient(blobStorageEndpoint, credentials);
-
+            StorageCredentials credentials = new StorageCredentials(storageName, storageKey);
+            CloudBlobClient client = new CloudBlobClient(new Uri(blobEndpointUri), credentials);
             string blobName = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}_{1}",
@@ -65,21 +64,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 
             CloudBlobContainer container = client.GetContainerReference(ContainerName);
             container.CreateIfNotExists();
+            CloudBlockBlob blob = container.GetBlockBlobReference(blobName);
 
-            var destination = new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, ContainerName, client.DefaultDelimiter, blobName));
-            var blob = new CloudBlockBlob(destination, credentials);
-
-            UploadBlobStream(blob, filePath);
-
-            return destination;
-        }
-
-        private static void UploadBlobStream(ICloudBlob blob, string sourceFile)
-        {
-            using (FileStream readStream = File.OpenRead(sourceFile))
+            using (FileStream readStream = File.OpenRead(filePath))
             {
-                blob.UploadFromStream(readStream);
+                blob.UploadFromStream(readStream, AccessCondition.GenerateEmptyCondition(), blobRequestOptions);
             }
+
+            return new Uri(string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}{3}", client.BaseUri, ContainerName, client.DefaultDelimiter, blobName));
         }
     }
 }

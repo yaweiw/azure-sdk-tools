@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Utilities;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
@@ -129,14 +131,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     this.Channel,
                     storageName,
                     s,
-                    this.Package));
+                    this.Package,
+                    null));
             }
             
             var deploymentInput = new CreateDeploymentInput
             {
                 PackageUrl = packageUrl,
                 Configuration = Utility.GetConfiguration(this.Configuration),
-                Label = ServiceManagementHelper2.EncodeToBase64String(this.Label),
+                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,
                 TreatWarningsAsError = this.TreatWarningsAsError.IsPresent

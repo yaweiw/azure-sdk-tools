@@ -25,27 +25,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
     public class GatewayCmdletBase : CloudBaseCmdlet<IGatewayServiceManagement>
     {
-        /// <summary>
-        /// Invoke the given operation within an OperationContextScope if the
-        /// channel supports it.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        protected void InvokeInOperationContext(Action action)
-        {
-            IContextChannel contextChannel = Channel as IContextChannel;
-            if (contextChannel != null)
-            {
-                using (new OperationContextScope(contextChannel))
-                {
-                    action();
-                }
-            }
-            else
-            {
-                action();
-            }
-        }
-
         protected override IGatewayServiceManagement CreateChannel()
         {
             if (ServiceBinding == null)

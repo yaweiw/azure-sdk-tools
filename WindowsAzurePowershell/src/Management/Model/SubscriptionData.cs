@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Model
             string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
                 Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint :
                 ServiceEndpoint;
-            IServiceManagement channel = ServiceManagementHelper2.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
+            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
 
             return GetCurrentStorageAccount(channel);
         }

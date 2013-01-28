@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 Label = Name;
             }
 
-            Label = ServiceManagementHelper2.EncodeToBase64String(Label);
+            Label = ServiceManagementHelper.EncodeToBase64String(Label);
 
             var role = new PersistentVM
             {
@@ -131,7 +131,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 DiskLabel = string.IsNullOrEmpty(DiskLabel) ? null : DiskLabel
             };
 
-            this.WriteVerboseOutputForObject(role);
             WriteObject(role, true);
         }
 

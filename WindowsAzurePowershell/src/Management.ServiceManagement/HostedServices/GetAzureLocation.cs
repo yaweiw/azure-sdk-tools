@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Samples.WindowsAzure.ServiceManagement;
@@ -44,14 +43,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
                 WaitForOperation,
                 (op, locations) => locations.Select(location => new LocationsContext
-                                                                    {
-                                                                        OperationId = op.OperationTrackingId,
-                                                                        OperationDescription = CommandRuntime.ToString(),
-                                                                        OperationStatus = op.Status,
-                                                                        DisplayName = location.DisplayName,
-                                                                        Name = location.Name,
-                                                                        AvailableServices = location.AvailableServices
-                                                                    }));
+                {
+                    OperationId = op.OperationTrackingId,
+                    OperationDescription = CommandRuntime.ToString(),
+                    OperationStatus = op.Status,
+                    DisplayName = location.DisplayName,
+                    Name = location.Name,
+                    AvailableServices = location.AvailableServices
+                }));
         }
 
         protected override void OnProcessRecord()

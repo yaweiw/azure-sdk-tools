@@ -15,13 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
-    using Extensions;
     using Management.Model;
+    using Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Swaps the deployments in production and stage.
@@ -68,11 +66,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             if(prodDeployment == null)
             {
-                WriteVerbose(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
+                this.WriteVerbose(string.Format("Moving deployment from Staging to Production:{0}", ServiceName));
             }
             else
             {
-                WriteVerbose(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
+                this.WriteVerbose(string.Format("VIP Swap is taking place between Staging and Production deployments.:{0}", ServiceName));
             }
 
             var swapDeploymentInput = new SwapDeploymentInput

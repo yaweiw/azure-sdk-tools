@@ -28,14 +28,14 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     using System.Text;
     using System.Xml;
 
-    public static class ServiceManagementHelper2
+    public static class ServiceManagementHelper
     {
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
         public static T CreateServiceManagementChannel<T>(X509Certificate2 cert)
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>();
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -47,7 +47,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(binding);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -59,7 +59,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(endpoint);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -71,7 +71,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -83,7 +83,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(channelType);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -95,7 +95,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -129,7 +129,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
             foreach (IEndpointBehavior behavior in behaviors)
             {
@@ -145,7 +145,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector2());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -259,7 +259,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         }
     }
 
-    public class ClientOutputMessageInspector2 : IClientMessageInspector, IEndpointBehavior
+    public class ServiceManagementClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
         public const string UserAgentHeaderName = "User-Agent";
         public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.9";
