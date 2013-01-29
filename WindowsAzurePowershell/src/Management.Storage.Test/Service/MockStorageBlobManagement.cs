@@ -358,5 +358,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
                 }
             }
         }
+
+        /// <summary>
+        /// fetch container attributes
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            return;
+        }
     }
 }
