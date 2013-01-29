@@ -91,6 +91,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
             RunPowerShellTest("Test-RemoveAzureServiceWhatIfWithInvalidName");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestRemoveAzureServicePipedFromGetAzureService()
+        {
+            RunPowerShellTest("Test-RemoveAzureServicePipedFromGetAzureService");
+        }
+
         #endregion
     }
 }

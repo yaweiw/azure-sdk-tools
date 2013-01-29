@@ -31,6 +31,15 @@ function Get-CloudServiceName
 
 <#
 .SYNOPSIS
+Gets the default location
+#>
+function Get-DefaultLocation
+{
+	return (Get-AzureLocation)[0].Name
+}
+
+<#
+.SYNOPSIS
 Creates cloud services with the count specified
 
 .PARAMETER count
