@@ -40,11 +40,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        [Alias("PublicAccess")]
         [Parameter(Position = 1, Mandatory = true,
             HelpMessage = "Permission string Off/Blob/Container")]
         [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer, IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
-        public string PublicAccess
+        public string Permission
         {
             get { return accessLevel; }
             set { accessLevel = value; }
