@@ -135,3 +135,20 @@ function Test-RemoveAzureServiceWhatIfWithInvalidName
 	# Assert
 	Assert-True { $true }
 }
+
+<#
+.SYNOPSIS
+Tests Remove-AzureService with service piped from Get-AzureService cmdlet
+#>
+function Test-RemoveAzureServicePipedFromGetAzureService
+{
+	# Setup
+	$name = Get-CloudServiceName
+	New-AzureService $name -Location $(Get-DefaultLocation)
+
+	# Test
+	$removed = Get-AzureService $name | Remove-AzureService -Force -PassThru
+
+	# Assert
+	Assert-True { $removed }
+}
