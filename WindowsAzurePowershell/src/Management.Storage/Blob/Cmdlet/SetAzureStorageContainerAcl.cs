@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -39,11 +40,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
+        [Alias("PublicAccess")]
         [Parameter(Position = 1, Mandatory = true,
-            HelpMessage = "Permission string off/blob/container")]
-        [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer)]
+            HelpMessage = "Permission string Off/Blob/Container")]
+        [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer, IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
-        public string PublicAccess
+        public string Permission
         {
             get { return accessLevel; }
             set { accessLevel = value; }
@@ -82,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
 
             BlobContainerPermissions permissions = new BlobContainerPermissions();
 
-            switch (accessLevel.ToLower())
+            switch (CultureInfo.CurrentCulture.TextInfo.ToTitleCase(accessLevel))
             {
                 case StorageNouns.ContainerAclOff:
                     permissions.PublicAccess = BlobContainerPublicAccessType.Off;
