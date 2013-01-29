@@ -59,5 +59,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://api.datamarket.azure.com/CatalogService.svc.
+        /// </summary>
+        internal static string MarketplaceEndpoint {
+            get {
+                return ResourceManager.GetString("MarketplaceEndpoint", resourceCulture);
+            }
+        }
     }
 }
