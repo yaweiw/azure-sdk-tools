@@ -40,7 +40,7 @@
     <DeleteDeploymentDirectoryAfterTestRunIsComplete>False</DeleteDeploymentDirectoryAfterTestRunIsComplete>
     <DeploymentEnabled>True</DeploymentEnabled>
     <ForcedLegacyMode>True</ForcedLegacyMode>
-    <SettingsFile>.\local.testsettings</SettingsFile>
+    <SettingsFile>.\Scenario.testsettings</SettingsFile>
   </MSTest>
   
   

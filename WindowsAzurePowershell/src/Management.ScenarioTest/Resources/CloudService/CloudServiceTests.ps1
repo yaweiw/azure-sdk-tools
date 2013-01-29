@@ -29,6 +29,19 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
+########################################################################### Publish-AzureServiceProject Scenario Tests ###################################################################
+
+<#
+.SYNOPSIS
+Tests Publishing a Cache Service.
+#>
+
+function Test-PublishCacheService
+{
+    Verify-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+}
+
+
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
 
 <#
