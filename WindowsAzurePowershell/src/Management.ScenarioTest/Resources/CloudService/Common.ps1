@@ -57,10 +57,9 @@ Creates cloud services and runs validation the count specified
 .PARAMETER count
 The number of cloud services to create.
 #>
-function Verify-CloudService
+function PublishAndUpdate-CloudService
 {
-	param([int] $count, [ScriptBlock] $cloudServiceProject, [ScriptBlock] $verifier)
-	$success = $true
+	param([int] $count, [ScriptBlock] $cloudServiceProject, [ScriptBlock] $verifier, [ScriptBlock] $updater)
 	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
 	if ($verifier -eq $null) {$verifier = {return $true}}
 	1..$count | % { 
@@ -68,11 +67,16 @@ function Verify-CloudService
 		Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
 		$service = Publish-AzureServiceProject -Force;
 		$global:createdCloudServices += $name;
-		Invoke-Command -ScriptBlock $verifier -ArgumentList $service -OutVariable $worked
-		$success = $success -and $worked
+		$worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
+		Assert-True {$worked -eq $true} "Error verifying first application deployment"
+        if ($updater -ne $null)
+		{
+		    Invoke-Command -ScriptBlock $updater
+		    $service = Publish-AzureServiceProject -Force;
+		    $worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
+		    Assert-True {$worked -eq $true} "Error verifying application update"
+		}
 	}
-
-	return $success
 }
 
 <#
@@ -127,4 +131,16 @@ function Verify-CacheApp
 	$toss = $client.UploadString("/add", "key=key1&value=value1")
 	$check = $client.UploadString("/get", "key=key1")
 	return $check.Contains("key1") -and $check.Contains("value1")
+}
+
+<#
+.SYNOPSIS
+Updates a service definition by adding remote desktop
+#>
+
+function Test-RemoteDesktop
+{
+    $password = New-Object System.Security.SecureString
+	foreach ($c in "P@ssw0rd!".ToCharArray()) {$password.AppendChar($c)}
+	Enable-AzureServiceProjectRemoteDesktop -Username user1 -Password $password
 }

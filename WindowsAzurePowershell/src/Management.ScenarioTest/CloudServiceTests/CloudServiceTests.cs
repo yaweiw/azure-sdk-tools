@@ -39,6 +39,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
             RunPowerShellTest("Test-PublishCacheService");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestUpdateAzureCacheService()
+        {
+            RunPowerShellTest("Test-UpdateCacheService");
+        }
+
         #endregion
 
  #region Remove-AzureService Scenario Tests

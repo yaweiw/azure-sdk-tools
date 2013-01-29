@@ -35,12 +35,19 @@ function Test-WithInvalidCredentials
 .SYNOPSIS
 Tests Publishing a Cache Service.
 #>
-
 function Test-PublishCacheService
 {
-    Verify-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
 }
 
+<#
+.SYNOPSIS
+Tests Publishing and updating a Cache Service.
+#>
+function Test-UpdateCacheService
+{
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+}
 
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
 
