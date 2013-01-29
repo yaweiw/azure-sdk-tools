@@ -29,9 +29,21 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 
         }
 
-        #region Remove-AzureService Scenario Tests
+        #region Publish-AzureServiceProject Scenario Tests
 
         [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestPublishAzureCacheService()
+        {
+            RunPowerShellTest("Test-PublishCacheService");
+        }
+
+        #endregion
+
+ #region Remove-AzureService Scenario Tests
+
+ [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
         public void TestRemoveAzureServiceWithInvalidCredentials()

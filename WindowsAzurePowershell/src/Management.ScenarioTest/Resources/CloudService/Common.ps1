@@ -52,6 +52,31 @@ function New-CloudService
 
 <#
 .SYNOPSIS
+Creates cloud services and runs validation the count specified
+
+.PARAMETER count
+The number of cloud services to create.
+#>
+function Verify-CloudService
+{
+	param([int] $count, [ScriptBlock] $cloudServiceProject, [ScriptBlock] $verifier)
+	$success = $true
+	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+	if ($verifier -eq $null) {$verifier = {return $true}}
+	1..$count | % { 
+		$name = Get-CloudServiceName;
+		Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
+		$service = Publish-AzureServiceProject -Force;
+		$global:createdCloudServices += $name;
+		Invoke-Command -ScriptBlock $verifier -ArgumentList $service -OutVariable $worked
+		$success = $success -and $worked
+	}
+
+	return $success
+}
+
+<#
+.SYNOPSIS
 Removes all cloud services/storage accounts in the current subscription.
 #>
 function Initialize-CloudServiceTest
@@ -70,4 +95,36 @@ function New-TinyCloudServiceProject
 
 	New-AzureServiceProject $name
 	Add-AzureNodeWebRole
+}
+
+<#
+.SYNOPSIS
+Creates new cloud service project with a web role connected to a cache.
+#>
+function New-CacheCloudServiceProject
+{
+	param([string] $name)
+
+	New-AzureServiceProject $name
+	Add-AzureNodeWebRole ClientRole
+	copy ..\CloudService\Cache\*.js .\ClientRole\
+	cd .\ClientRole
+	npm install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz
+	cd ..
+	Add-AzureCacheWorkerRole CacheRole
+	Enable-AzureMemcacheRole ClientRole CacheRole
+}
+
+<#
+.SYNOPSIS
+Places and retrieves a key value pair from a cache app
+#>
+function Verify-CacheApp
+{
+    param([string]$uri)
+	$client = New-Object System.Net.WebClient
+	$client.BaseAddress = $uri
+	$toss = $client.UploadString("/add", "key=key1&value=value1")
+	$check = $client.UploadString("/get", "key=key1")
+	return $check.Contains("key1") -and $check.Contains("value1")
 }
