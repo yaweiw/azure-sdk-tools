@@ -22,6 +22,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Globalization;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -127,6 +129,35 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             set { AsyncTasksPerCodeMultiplier = value; }
         }
         private int AsyncTasksPerCodeMultiplier = 8;
+
+        [Parameter(HelpMessage = "Blob Properties", Mandatory = false)]
+        public Hashtable Properties
+        {
+            get
+            {
+                return BlobProerties;
+            }
+            set
+            {
+                BlobProerties = value;
+            }
+        }
+        private Hashtable BlobProerties = null;
+
+        [Parameter(HelpMessage = "Blob Metadata", Mandatory = false)]
+        public Hashtable Metadata
+        {
+            get
+            {
+                return BlobMetadata;
+            }
+            set
+            {
+                BlobMetadata = value;
+            }
+        }
+
+        private Hashtable BlobMetadata = null;
 
         /// <summary>
         /// Initializes a new instance of the SetAzureBlobContentCommand class.
@@ -464,7 +495,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null; ;
+            BlobRequestOptions requestOptions = null;
             ICloudBlob blobRef = Channel.GetBlobReferenceFromServer(blob.Container, blob.Name, accessCondition, requestOptions, OperationContext);
 
             if (null != blobRef)
@@ -498,6 +529,125 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             return new AzureStorageBlob(blob);
         }
 
+        //only support the common blob properties for block blob and page blob
+        //http://msdn.microsoft.com/en-us/library/windowsazure/ee691966.aspx
+        private Dictionary<string, Action<BlobProperties, string>> validICloudBlobProperties = new Dictionary<string,Action<BlobProperties,string>>(StringComparer.OrdinalIgnoreCase)
+            {
+                {"CacheControl", (p, v) => p.CacheControl = v},
+                {"ContentEncoding", (p, v) => p.ContentEncoding = v},
+                {"ContentLanguage", (p, v) => p.ContentLanguage = v},
+                {"ContentMD5", (p, v) => p.ContentMD5 = v},
+                {"ContentType", (p, v) => p.ContentType = v},
+            };
+
+        /// <summary>
+        /// check whether the blob properties is valid
+        /// </summary>
+        /// <param name="properties">Blob properties table</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private void ValidateBlobProperties(Hashtable properties)
+        {
+            if(properties == null)
+            {
+                return ;
+            }
+
+            foreach (DictionaryEntry entry in properties)
+            {
+                if (!validICloudBlobProperties.ContainsKey(entry.Key.ToString()))
+                {
+                    throw new ArgumentException(String.Format(Resources.InvalidBlobProperties, entry.Key.ToString(), entry.Value.ToString()));
+                }
+            }
+        }
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="azureBlob">ICloudBlob object</param>
+        /// <param name="meta">blob properties hashtable</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private void SetBlobProperties(ICloudBlob blob, Hashtable properties)
+        {
+            if (properties == null)
+            {
+                return;
+            }
+
+            foreach (DictionaryEntry entry in properties)
+            {
+                string key = entry.Key.ToString();
+                string value = entry.Value.ToString();
+                Action<BlobProperties, string> action = validICloudBlobProperties[key];
+
+                if (action != null)
+                {
+                    action(blob.Properties, value);
+                }
+            }
+
+            AccessCondition accessCondition = null;
+            BlobRequestOptions requestOptions = null;
+
+            Channel.SetBlobProperties(blob, accessCondition, requestOptions, OperationContext);
+        }
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="azureBlob">azure storage blob object</param>
+        /// <param name="meta">blob properties hashtable</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private void SetBlobProperties(AzureStorageBlob azureBlob, Hashtable properties)
+        {
+            SetBlobProperties(azureBlob.ICloudBlob, properties);
+        }
+
+        /// <summary>
+        /// set blob meta
+        /// </summary>
+        /// <param name="azureBlob">ICloudBlob object</param>
+        /// <param name="meta">meta data hashtable</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private void SetBlobMeta(ICloudBlob blob, Hashtable meta)
+        {
+            if (meta == null)
+            {
+                return;
+            }
+
+            foreach (DictionaryEntry entry in meta)
+            {
+                string key = entry.Key.ToString();
+                string value = entry.Value.ToString();
+
+                if (blob.Metadata.ContainsKey(key))
+                {
+                    blob.Metadata[key] = value;
+                }
+                else
+                {
+                    blob.Metadata.Add(key, value);
+                }
+            }
+
+            AccessCondition accessCondition = null;
+            BlobRequestOptions requestOptions = null;
+
+            Channel.SetBlobMetadata(blob, accessCondition, requestOptions, OperationContext);
+        }
+
+        /// <summary>
+        /// set blob meta
+        /// </summary>
+        /// <param name="azureBlob">azure storage blob object</param>
+        /// <param name="meta">meta data hashtable</param>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        private void SetBlobMeta(AzureStorageBlob azureBlob, Hashtable meta)
+        {
+            SetBlobMeta(azureBlob.ICloudBlob, meta);
+        }
+
         /// <summary>
         /// execute command
         /// </summary>
@@ -507,16 +657,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             AzureStorageBlob blob = null;
             string containerName = string.Empty;
 
+            if (BlobProerties != null)
+            {
+                ValidateBlobProperties(BlobProerties);
+            }
+
             switch (ParameterSetName)
             {
                 case ContainerParameterSet:
                     blob = SetAzureBlobContent(FileName, CloudBlobContainer, BlobName);
                     containerName = CloudBlobContainer.Name;
                     break;
+
                 case BlobParameterSet:
                     blob = SetAzureBlobContent(FileName, ICloudBlob);
                     containerName = ICloudBlob.Container.Name;
                     break;
+
                 case ManuallyParameterSet:
                 default:
                     blob = SetAzureBlobContent(FileName, ContainerName, BlobName);
@@ -531,6 +688,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
             else
             {
+                //set the properties and meta
+                SetBlobProperties(blob, BlobProerties);
+                SetBlobMeta(blob, Metadata);
+
                 WriteObjectWithStorageContext(blob);
             }
         }

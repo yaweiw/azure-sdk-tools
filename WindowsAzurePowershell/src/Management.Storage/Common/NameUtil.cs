@@ -229,7 +229,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 else
                 {
-                    prefix = fileName.Substring(0, index - 1);
+                    prefix = fileName.Substring(0, index);
                     postfix = fileName.Substring(index);
                 }
 

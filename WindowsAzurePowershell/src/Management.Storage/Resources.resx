@@ -413,4 +413,23 @@
     <value>Downloading blob '{0}' in container '{1}' is cancelled.</value>
     <comment>0 blob name, 1 container name</comment>
   </data>
+  <data name="GetAzureStorageContainerAclCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainerAcl</value>
+  </data>
+  <data name="GetAzureStorageContainerCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainer</value>
+  </data>
+  <data name="NewAlias" xml:space="preserve">
+    <value>New-Alias</value>
+  </data>
+  <data name="NewAliasName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewAliasValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="InvalidBlobProperties" xml:space="preserve">
+    <value>Blob properties '{0}' with value '{1}' is invalid</value>
+    <comment>0 for property name, 1 for property value</comment>
+  </data>
 </root>

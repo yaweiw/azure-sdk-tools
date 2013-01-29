@@ -232,5 +232,28 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         {
             blob.FetchAttributes(accessCondition, options, operationContext);
         }
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobProperties(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.SetProperties(accessCondition, options, operationContext);
+        }
+
+        /// <summary>
+        /// set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.SetMetadata(accessCondition, options, operationContext);
+        }
     }
 }
