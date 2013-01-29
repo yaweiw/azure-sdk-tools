@@ -65,14 +65,16 @@ TypesToProcess = @(
 FormatsToProcess = @(
 	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml',
-  'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml'
+	'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml',
+	'Microsoft.WindowsAzure.Management.Store.format.ps1xml'
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
-				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll'
+				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
+				'.\Microsoft.WindowsAzure.Management.Store.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
