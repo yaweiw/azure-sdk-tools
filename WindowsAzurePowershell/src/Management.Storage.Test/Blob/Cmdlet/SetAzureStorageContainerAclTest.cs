@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         {
             AddTestContainers();
             command.Name = "publicblob";
-            command.PublicAccess = "container";
+            command.Permission = "container";
             command.ExecuteCmdlet();
             AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Container, container.PublicAccess);
