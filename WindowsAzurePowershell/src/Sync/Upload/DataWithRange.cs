@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Sync.Upload
     using System.ServiceModel.Channels;
     using Tools.Vhd.Model;
 
-    [CLSCompliant(false)]
     public class DataWithRange : IDisposable
     {
         private readonly BufferManager manager;

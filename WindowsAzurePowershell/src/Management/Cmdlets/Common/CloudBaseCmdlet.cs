@@ -366,7 +366,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         /// channel supports it.
         /// </summary>
         /// <param name="action">The action to invoke.</param>
-        protected void InvokeInOperationContext(Action action)
+        protected virtual void InvokeInOperationContext(Action action)
         {
             IContextChannel contextChannel = Channel as IContextChannel;
             if (contextChannel != null)
