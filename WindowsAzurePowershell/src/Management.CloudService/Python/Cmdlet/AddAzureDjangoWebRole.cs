@@ -49,6 +49,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             {
                 string stdOut, stdErr;
 
+                string originalDir = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(Path.Combine(RootPath, roleInfo.Name));
+
                 ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
@@ -57,6 +60,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
                     out stdOut,
                     out stdErr
                 );
+
+                Directory.SetCurrentDirectory(originalDir);
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
