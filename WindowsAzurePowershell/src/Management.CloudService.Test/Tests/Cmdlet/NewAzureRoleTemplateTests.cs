@@ -95,5 +95,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), outputPath);
             }
         }
+
+        [TestMethod]
+        public void NewAzureRoleTemplateWithRunningOutsideDefaultDirectory()
+        {
+            string outputPath = Path.Combine(Directory.GetCurrentDirectory(), "TestDir", "WebRoleTemplate");
+            addTemplateCmdlet = new NewAzureRoleTemplateCommand() { Web = true, CommandRuntime = mockCommandRuntime };
+            string originalDir = Directory.GetCurrentDirectory();
+            Directory.CreateDirectory("TestDir");
+            Directory.SetCurrentDirectory("TestDir");
+
+            addTemplateCmdlet.ExecuteCmdlet();
+
+            Directory.SetCurrentDirectory(originalDir);
+            Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+            Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), outputPath);
+        }
     }
 }
