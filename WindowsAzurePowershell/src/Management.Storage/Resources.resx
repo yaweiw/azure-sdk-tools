@@ -401,4 +401,8 @@
   <data name="NewAliasValue" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="InvalidBlobProperties" xml:space="preserve">
+    <value>Blob properties '{0}' with value '{1}' is invalid</value>
+    <comment>0 for property name, 1 for property value</comment>
+  </data>
 </root>
