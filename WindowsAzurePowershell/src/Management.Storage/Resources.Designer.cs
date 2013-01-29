@@ -482,6 +482,13 @@ namespace Microsoft.WindowsAzure.Management.Storage {
                 return ResourceManager.GetString("InvalidBlobType", resourceCulture);
             }
         }
+        ///   Looks up a localized string similar to Blob properties &apos;{0}&apos; with value &apos;{1}&apos; is invalid.
+        /// </summary>
+        internal static string InvalidBlobProperties {
+            get {
+                return ResourceManager.GetString("InvalidBlobProperties", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to ICloudBlob &quot;{0}&quot; should contain container properties..

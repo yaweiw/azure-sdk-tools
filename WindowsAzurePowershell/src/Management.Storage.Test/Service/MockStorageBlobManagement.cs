@@ -379,6 +379,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
+            return ;
+        }
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobProperties(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            return;
+        }
+
+        /// <summary>
+        /// set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
             return;
         }
     }
