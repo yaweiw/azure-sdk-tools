@@ -86,11 +86,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public string GetStatus(string serviceName, string slot)
         {
-            Deployment deployment;
+            Deployment deployment = new Deployment();
 
             try
             {
-                deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                InvokeInOperationContext(() =>
+                {
+                    deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                });
             }
             catch (EndpointNotFoundException)
             {
