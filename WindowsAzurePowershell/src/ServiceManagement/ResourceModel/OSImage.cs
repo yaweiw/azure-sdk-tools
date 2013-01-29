@@ -14,8 +14,6 @@
 
 using System;
 
-[assembly: CLSCompliant(true)]
-
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
     using System.Collections.ObjectModel;
