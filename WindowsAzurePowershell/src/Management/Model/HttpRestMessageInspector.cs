@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
     using System.Text;
+    using System.Xml;
     using Microsoft.WindowsAzure.Management.Utilities;
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
@@ -57,11 +58,12 @@ namespace Microsoft.WindowsAzure.Management.Model
             {
                 HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
                 StringBuilder httpResponse = new StringBuilder();
+                string body = ReadBody(ref reply);
 
                 httpResponse.AppendLine("============================ HTTP RESPONSE ============================" + Environment.NewLine);
                 httpResponse.AppendLine("Status Code:\n" + responseProperties.StatusCode.ToString() + Environment.NewLine);
                 httpResponse.AppendLine("Headers:\n" + MessageHeadersToString(responseProperties.Headers));
-                httpResponse.AppendLine("Body:\n" + reply.ToString() + Environment.NewLine);
+                httpResponse.AppendLine("Body:\n" + General.Beautify(body) + Environment.NewLine);
                 cmdlet.WriteDebug(httpResponse.ToString());
             }
         }
@@ -72,16 +74,36 @@ namespace Microsoft.WindowsAzure.Management.Model
             {
                 HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
                 StringBuilder httpRequest = new StringBuilder();
+                string body = ReadBody(ref request);
 
                 httpRequest.AppendLine("============================ HTTP REQUEST ============================" + Environment.NewLine);
                 httpRequest.AppendLine("HTTP Method:\n" + requestProperties.Method + Environment.NewLine);
                 httpRequest.AppendLine("Absolute Uri:\n" + request.Headers.To.AbsoluteUri + Environment.NewLine);
                 httpRequest.AppendLine("Headers:\n" + MessageHeadersToString(requestProperties.Headers));
-                httpRequest.AppendLine("Body:\n" + request.ToString() + Environment.NewLine);
+                httpRequest.AppendLine("Body:\n" + General.Beautify(body) + Environment.NewLine);
                 cmdlet.WriteDebug(httpRequest.ToString());
             }
 
             return request;
+        }
+
+        private string ReadBody(ref Message originalMessage)
+        {
+            StringBuilder strBuilder = new StringBuilder();
+
+            using (MessageBuffer messageBuffer = originalMessage.CreateBufferedCopy(int.MaxValue))
+            {
+                Message message = messageBuffer.CreateMessage();
+                XmlWriter writer = XmlWriter.Create(strBuilder);
+                using (XmlDictionaryWriter dictionaryWriter = XmlDictionaryWriter.CreateDictionaryWriter(writer))
+                {
+                    message.WriteBodyContents(dictionaryWriter);   
+                }
+
+                originalMessage = messageBuffer.CreateMessage();
+            }
+
+            return strBuilder.ToString();
         }
 
         #endregion
