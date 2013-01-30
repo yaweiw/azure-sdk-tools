@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Model
                 httpResponse.AppendLine("============================ HTTP RESPONSE ============================" + Environment.NewLine);
                 httpResponse.AppendLine("Status Code:\n" + responseProperties.StatusCode.ToString() + Environment.NewLine);
                 httpResponse.AppendLine("Headers:\n" + MessageHeadersToString(responseProperties.Headers));
-                httpResponse.AppendLine("Body:\n" + General.Beautify(body) + Environment.NewLine);
+                httpResponse.AppendLine("Body:\n" + body + Environment.NewLine);
                 cmdlet.WriteDebug(httpResponse.ToString());
             }
         }
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Model
                 httpRequest.AppendLine("HTTP Method:\n" + requestProperties.Method + Environment.NewLine);
                 httpRequest.AppendLine("Absolute Uri:\n" + request.Headers.To.AbsoluteUri + Environment.NewLine);
                 httpRequest.AppendLine("Headers:\n" + MessageHeadersToString(requestProperties.Headers));
-                httpRequest.AppendLine("Body:\n" + General.Beautify(body) + Environment.NewLine);
+                httpRequest.AppendLine("Body:\n" + body + Environment.NewLine);
                 cmdlet.WriteDebug(httpRequest.ToString());
             }
 
@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.Model
                 originalMessage = messageBuffer.CreateMessage();
             }
 
-            return strBuilder.ToString();
+            return General.Beautify(strBuilder.ToString());
         }
 
         #endregion
