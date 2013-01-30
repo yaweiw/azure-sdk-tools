@@ -25,7 +25,6 @@
           <Variable name="WORKER" value="true"/>
         </Environment>
       </Task>
-      <Task executionContext="elevated" commandLine="php_entry.cmd .\startup.php" />
     </Startup>
     <Runtime>
       <Environment>
