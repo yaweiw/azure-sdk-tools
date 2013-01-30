@@ -29,7 +29,7 @@
     <!-- per machine install-->
 
     <Property Id="POWERSHELLVERSION">
-      <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
+      <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
 
     <Condition Message="PowerShell 3.0 must be installed before Windows Azure PowerShell installation.">
@@ -38,10 +38,8 @@
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
     <PropertyRef Id="NETFRAMEWORK40CLIENT" />
-    <PropertyRef Id="NETFRAMEWORK45FULL" />
-    <PropertyRef Id="NETFRAMEWORK45CLIENT" />
     <Condition Message="This setup requires the .NET Framework 4.0 or higher to be installed.">
-      Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT OR NETFRAMEWORK45FULL OR NETFRAMEWORK45CLIENT
+      Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
     </Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
