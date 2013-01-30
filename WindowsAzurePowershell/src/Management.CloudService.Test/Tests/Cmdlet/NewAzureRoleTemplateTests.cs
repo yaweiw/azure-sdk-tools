@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
     using System.Management.Automation;
+    using System.Reflection;
     using CloudService.Cmdlet;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
@@ -24,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -105,11 +105,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             Directory.CreateDirectory("TestDir");
             Directory.SetCurrentDirectory("TestDir");
 
-            addTemplateCmdlet.ExecuteCmdlet();
+            try
+            {
+                addTemplateCmdlet.ExecuteCmdlet();
 
-            Directory.SetCurrentDirectory(originalDir);
-            Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
-            Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WebRole.ToString()), outputPath);
+                Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Resources.GeneralScaffolding, RoleType.WebRole.ToString())), outputPath);
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(originalDir);
+            }
         }
     }
 }
