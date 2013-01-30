@@ -263,6 +263,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     {
         public const string UserAgentHeaderName = "User-Agent";
         public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.9";
+        public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
 
         #region IClientMessageInspector Members
 
@@ -272,6 +273,13 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
             if (request.Properties.ContainsKey(HttpRequestMessageProperty.Name))
             {
                 var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+
+                // Remove VSDebuggerCausalityData header which is added by WCF.
+                if (property.Headers[VSDebuggerCausalityDataHeaderName] != null)
+                {
+                    property.Headers.Remove(VSDebuggerCausalityDataHeaderName);
+                }
+
                 if (property.Headers[Constants.VersionHeaderName] == null)
                 {
                     property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20120301);
