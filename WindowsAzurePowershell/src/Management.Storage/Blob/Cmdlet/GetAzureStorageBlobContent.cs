@@ -21,15 +21,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
-    using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security;
-    using System.Security.AccessControl;
     using System.Security.Permissions;
-    using System.Security.Principal;
-    using System.Text;
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
         OutputType(typeof(AzureStorageBlob))]
@@ -288,7 +283,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         internal AzureStorageBlob GetBlobContent(string containerName, string blobName, string fileName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            return GetBlobContent(container, blobName, fileName);
+            BlobRequestOptions requestOptions = null;
+            AccessCondition accessCondition = null;
+
+            ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, requestOptions, OperationContext);
+                
+            if (null == blob)
+            {
+                throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, containerName));
+            }
+
+            return GetBlobContent(blob, fileName, true);
         }
 
         /// <summary>
