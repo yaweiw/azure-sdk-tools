@@ -6,7 +6,7 @@
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
   <?define version="0.6.10" ?>
-  <?define azureSdkVersion="1.7" ?>
+  <?define azureSdkVersion="1.8" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
   <Product Id="*"
@@ -32,15 +32,16 @@
       <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
 
-    <Condition Message="PowerShell 2.0 must be installed before Windows Azure PowerShell installation.">
-      <![CDATA[Installed or (POWERSHELLVERSION = "2.0")]]>
+    <Condition Message="PowerShell 3.0 must be installed before Windows Azure PowerShell installation.">
+      <![CDATA[Installed or (POWERSHELLVERSION = "3.0")]]>
     </Condition>
 
-    <PropertyRef Id="NETFRAMEWORK35" />
     <PropertyRef Id="NETFRAMEWORK40FULL" />
     <PropertyRef Id="NETFRAMEWORK40CLIENT" />
-    <Condition Message="This setup requires the .NET Framework 3.5 or higher to be installed.">
-      Installed OR NETFRAMEWORK35 OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
+    <PropertyRef Id="NETFRAMEWORK45FULL" />
+    <PropertyRef Id="NETFRAMEWORK45CLIENT" />
+    <Condition Message="This setup requires the .NET Framework 4.0 or higher to be installed.">
+      Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT OR NETFRAMEWORK45FULL OR NETFRAMEWORK45CLIENT
     </Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
