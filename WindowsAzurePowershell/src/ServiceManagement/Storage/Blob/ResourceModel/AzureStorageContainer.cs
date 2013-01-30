@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
         /// <summary>
         /// the public accesss level of CloudBlobContainer
         /// </summary>
-        public BlobContainerPublicAccessType PublicAccess { get; private set; }
+        public BlobContainerPublicAccessType? PublicAccess { get; private set; }
 
         /// <summary>
         /// last modified of CloudBlobContainer
@@ -56,7 +56,16 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
             CloudBlobContainer = container;
             Permissions = permissions;
             Name = container.Name;
-            PublicAccess = permissions.PublicAccess;
+
+            if (permissions == null)
+            {
+                PublicAccess = null;
+            }
+            else
+            {
+                PublicAccess = permissions.PublicAccess;
+            }
+
             LastModified = container.Properties.LastModified;
         }
     }

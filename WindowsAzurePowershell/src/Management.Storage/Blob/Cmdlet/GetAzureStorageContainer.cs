@@ -164,7 +164,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             foreach (CloudBlobContainer container in containerList)
             {
-                BlobContainerPermissions permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                BlobContainerPermissions permissions = null;
+                
+                try
+                {
+                    permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                }
+                catch
+                { 
+                    //do nothing for permission exception or anything else
+                }
+
                 AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
                 yield return azureContainer;
             }
