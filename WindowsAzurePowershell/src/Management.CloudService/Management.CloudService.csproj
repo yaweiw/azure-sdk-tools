@@ -275,9 +275,6 @@
     <Content Include="Resources\Scaffolding\PHP\WebRole\Scaffold.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\startup.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\WebRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -289,9 +286,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\startup.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
