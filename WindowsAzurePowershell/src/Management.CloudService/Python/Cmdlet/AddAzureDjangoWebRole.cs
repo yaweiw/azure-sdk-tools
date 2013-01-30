@@ -49,14 +49,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             {
                 string stdOut, stdErr;
 
-                ProcessHelper.StartAndWaitForProcess(
+                string originalDir = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(Path.Combine(RootPath, roleInfo.Name));
+
+                try
+                {
+                    ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
                         String.Format(DjangoStartProjectCommand, roleInfo.Name)
                     ),
                     out stdOut,
-                    out stdErr
-                );
+                    out stdErr);
+                }
+                finally
+                {
+                    Directory.SetCurrentDirectory(originalDir);
+                }
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
