@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public string Name { get; set; }
 
         [Alias("PublicAccess")]
-        [Parameter(Position = 1, Mandatory = true,
+        [Parameter(Position = 1, Mandatory = false,
             HelpMessage = "Permission string Off/Blob/Container")]
         [ValidateSet(StorageNouns.ContainerAclOff, StorageNouns.ContainerAclBlob, StorageNouns.ContainerAclContainer, IgnoreCase = true)]
         [ValidateNotNullOrEmpty]
