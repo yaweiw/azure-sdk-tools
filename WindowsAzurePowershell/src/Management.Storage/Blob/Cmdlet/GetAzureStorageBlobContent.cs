@@ -448,7 +448,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             switch (ParameterSetName)
             {
                 case BlobParameterSet:
-                    azureBlob = GetBlobContent(ICloudBlob, FileName, false);
+                    azureBlob = GetBlobContent(ICloudBlob, FileName, true);
                     blobName = ICloudBlob.Name;
                     containerName = ICloudBlob.Container.Name;
                     break;
