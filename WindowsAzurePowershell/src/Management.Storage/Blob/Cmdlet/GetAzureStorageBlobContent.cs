@@ -282,6 +282,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob GetBlobContent(string containerName, string blobName, string fileName)
         {
+            if (!NameUtil.IsValidBlobName(blobName))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
+            }
+
+            if (!NameUtil.IsValidContainerName(containerName))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidContainerName, containerName));
+            }
+
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
             BlobRequestOptions requestOptions = null;
             AccessCondition accessCondition = null;

@@ -108,11 +108,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             AssertThrows<ArgumentException>(() => command.GetBlobContent(containerName, blobName, fileName),
                 String.Format(Resources.InvalidBlobName, blobName));
 
-            containerName = "container1";
+            containerName = "ab";
             blobName = "blob0";
             fileName = "blob*";
             AssertThrows<ArgumentException>(() => command.GetBlobContent(containerName, blobName, fileName),
-                String.Format(Resources.InvalidFileName, fileName));
+                String.Format(Resources.InvalidContainerName, containerName));
         }
 
         [TestMethod]
