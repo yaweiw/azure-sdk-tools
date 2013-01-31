@@ -1,7 +1,6 @@
 ﻿<Scaffold>
   <ScaffoldFile PathExpression="bin\\.*" />
   <ScaffoldFile Path="index.php" />
-  <ScaffoldFile Path="startup.php" />
   <ScaffoldFile Path="Web.config" />
   <ScaffoldFile Path="Web.cloud.config" />
   <ScaffoldFile Path="RoleSettings.xml" Copy="false">
