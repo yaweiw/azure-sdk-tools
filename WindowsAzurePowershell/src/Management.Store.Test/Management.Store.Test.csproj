@@ -81,6 +81,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stubs\SimpleMarketplaceManagement.cs" />
+    <Compile Include="UnitTests\Cmdlet\GetAzureStoreAvailableAddOnTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
@@ -88,7 +90,7 @@
       <Name>Management.CloudService.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Store\Management.Store.csproj">
-      <Project>{8BBE3C78-69C6-42FE-B1FE-B3AA24771ECE}</Project>
+      <Project>{2AC37C6A-41DE-4341-88A4-A79F209BBA83}</Project>
       <Name>Management.Store</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
@@ -104,9 +106,7 @@
       <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UnitTests\Cmdlet\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
