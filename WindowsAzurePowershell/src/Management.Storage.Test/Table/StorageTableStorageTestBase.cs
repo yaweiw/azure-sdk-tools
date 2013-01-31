@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
     using System.Linq;
     using System.Text;
 
+    [TestClass]
     public class StorageTableStorageTestBase : StorageTestBase
     {
         public MockStorageTableManagement tableMock = null;

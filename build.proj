@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned">
+  DefaultTargets="Clean;BuildReleaseSigned;BuildSetup;Test">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -175,13 +175,19 @@
     <Message Importance="high" Text="You are required to have installed the a version of Visual Studio with support for MSTest (and MSTest on your path)." />
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     
-    <Message Importance="high" Text="Debug tests:" />
+    <!--<Message Importance="high" Text="Debug tests:" />
     <Exec
       Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="false" />
     <Message Importance="high" Text="Release tests:" />
     <Exec
       Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Release.trx"
+      ContinueOnError="false" />
+	-->
+	
+	<Message Importance="high" Text="Storage Release tests:" />
+	<Exec
+      Command="MSTest.exe /testcontainer:.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Release\Microsoft.WindowsAzure.Management.Storage.Test.dll /resultsfile:$(TestOutputDirectory)\Release.trx"
       ContinueOnError="false" />
   </Target>
   
