@@ -12,22 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
 {
-    class Parameters
+    class Parameter
     {
-        public const string ServiceName = "ServiceName";
+        public const string Provider = "Provider";
 
-        public const string RootPath = "RootPath";
+        public const string Addon = "Addon";
 
-        public const string CacheWorkerRoleName = "CacheWorkerRoleName";
-     
-        public const string Instances = "Instances";
-
-        public const string RoleName = "RoleName";
-
-        public const string PackagePath = "PackagePath";
-
-        public const string Path = "Path";
+        public const string Plans = "Plans";
     }
 }
