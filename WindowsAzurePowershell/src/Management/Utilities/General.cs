@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Text;
+    using System.Xml;
     using System.Xml.Serialization;
     using Properties;
 
@@ -411,6 +412,36 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }
+        }
+
+        /// <summary>
+        /// Formats given string into well formatted XML.
+        /// </summary>
+        /// <param name="unformattedXml">The unformatted xml string</param>
+        /// <returns>The formatted XML string</returns>
+        public static string Beautify(string unformattedXml)
+        {
+            string formattedXml = string.Empty;
+            if (!string.IsNullOrEmpty(unformattedXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(unformattedXml);
+                StringBuilder stringBuilder = new StringBuilder();
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Indent = true,
+                    IndentChars = "\t",
+                    NewLineChars = Environment.NewLine,
+                    NewLineHandling = NewLineHandling.Replace
+                };
+                using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
+                {
+                    doc.Save(writer);
+                }
+                formattedXml = stringBuilder.ToString();
+            }
+
+            return formattedXml;
         }
     }
 }
