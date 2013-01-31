@@ -419,7 +419,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         /// </summary>
         /// <param name="unformattedXml">The unformatted xml string</param>
         /// <returns>The formatted XML string</returns>
-        static public string Beautify(string unformattedXml)
+        public static string Beautify(string unformattedXml)
         {
             string formattedXml = string.Empty;
             if (!string.IsNullOrEmpty(unformattedXml))
@@ -427,16 +427,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(unformattedXml);
                 StringBuilder stringBuilder = new StringBuilder();
-                XmlWriterSettings settings = new XmlWriterSettings();
-                settings.Indent = true;
-                settings.IndentChars = "\t";
-                settings.NewLineChars = Environment.NewLine;
-                settings.NewLineHandling = NewLineHandling.Replace;
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Indent = true,
+                    IndentChars = "\t",
+                    NewLineChars = Environment.NewLine,
+                    NewLineHandling = NewLineHandling.Replace
+                };
                 using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
                 {
                     doc.Save(writer);
                 }
-                return stringBuilder.ToString();
+                formattedXml = stringBuilder.ToString();
             }
 
             return formattedXml;
