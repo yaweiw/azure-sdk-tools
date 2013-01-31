@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Services
         {
             var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
 
-            return ServiceManagementHelper2.EncodeToBase64String(configuration);
+            return ServiceManagementHelper.EncodeToBase64String(configuration);
         }
     }
 }

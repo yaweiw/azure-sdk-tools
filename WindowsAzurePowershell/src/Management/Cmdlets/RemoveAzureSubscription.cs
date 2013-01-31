@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// <summary>
     /// Removes a previously imported subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true), OutputType(typeof(bool))]
     public class RemoveAzureSubscriptionCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
@@ -40,6 +40,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
 
         [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of subscription")]
         public SwitchParameter Force { get; set; }
+
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
         {
@@ -76,6 +79,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
 
                 globalComponents.Subscriptions.Remove(subscriptionName);
                 globalComponents.SaveSubscriptions();
+
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
             else
             {
