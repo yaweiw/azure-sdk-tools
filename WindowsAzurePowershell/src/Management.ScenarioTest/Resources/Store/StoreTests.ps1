@@ -29,7 +29,7 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
-########################################################################### Get-AzureSBLocation Scenario Tests ###########################################################################
+########################################################################### Get-AzureStoreAvailableAddOn Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
