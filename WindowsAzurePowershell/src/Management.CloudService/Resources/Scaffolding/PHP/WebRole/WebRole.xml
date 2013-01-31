@@ -32,7 +32,6 @@
           <Variable name="RUNTIMEURL" value=""/>
         </Environment>
       </Task>
-      <Task executionContext="elevated" commandLine="php_entry.cmd ..\startup.php" />
     </Startup>
   </WebRole>
 </ServiceDefinition>

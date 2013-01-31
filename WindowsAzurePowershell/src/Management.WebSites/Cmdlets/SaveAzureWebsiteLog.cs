@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
+    [Cmdlet(VerbsData.Save, "AzureWebsiteLog"), OutputType(typeof(bool))]
     public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
         internal const string DefaultOutput = "./logs.zip";
@@ -33,6 +33,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             get;
             set;
         }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
@@ -90,6 +93,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             websiteLogs.Dispose();
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         /// <summary>
