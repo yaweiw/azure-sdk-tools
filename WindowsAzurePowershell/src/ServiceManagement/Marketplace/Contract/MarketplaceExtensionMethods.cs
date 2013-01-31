@@ -12,22 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
 {
-    class Parameters
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+
+    public static class MarketplaceExtensionMethods
     {
-        public const string ServiceName = "ServiceName";
+        public static List<Offer> ListWindowsAzureOffers(this IMarketplaceManagement proxy)
+        {
+            return proxy.EndListWindowsAzureOffers(proxy.BeginListWindowsAzureOffers(null, null));
+        }
 
-        public const string RootPath = "RootPath";
-
-        public const string CacheWorkerRoleName = "CacheWorkerRoleName";
-     
-        public const string Instances = "Instances";
-
-        public const string RoleName = "RoleName";
-
-        public const string PackagePath = "PackagePath";
-
-        public const string Path = "Path";
+        public static List<Plan> ListOfferPlans(this IMarketplaceManagement proxy, string Id, string query)
+        {
+            return proxy.EndListOfferPlans(proxy.BeginListOfferPlans(Id, query, null, null));
+        }
     }
 }
