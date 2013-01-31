@@ -60,10 +60,10 @@ namespace Microsoft.WindowsAzure.Management.Model
                 StringBuilder httpResponse = new StringBuilder();
                 string body = ReadBody(ref reply);
 
-                httpResponse.AppendLine("============================ HTTP RESPONSE ============================" + Environment.NewLine);
-                httpResponse.AppendLine("Status Code:\n" + responseProperties.StatusCode.ToString() + Environment.NewLine);
-                httpResponse.AppendLine("Headers:\n" + MessageHeadersToString(responseProperties.Headers));
-                httpResponse.AppendLine("Body:\n" + body + Environment.NewLine);
+                httpResponse.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
+                httpResponse.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
+                httpResponse.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
+                httpResponse.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
                 cmdlet.WriteDebug(httpResponse.ToString());
             }
         }
@@ -76,11 +76,11 @@ namespace Microsoft.WindowsAzure.Management.Model
                 StringBuilder httpRequest = new StringBuilder();
                 string body = ReadBody(ref request);
 
-                httpRequest.AppendLine("============================ HTTP REQUEST ============================" + Environment.NewLine);
-                httpRequest.AppendLine("HTTP Method:\n" + requestProperties.Method + Environment.NewLine);
-                httpRequest.AppendLine("Absolute Uri:\n" + request.Headers.To.AbsoluteUri + Environment.NewLine);
-                httpRequest.AppendLine("Headers:\n" + MessageHeadersToString(requestProperties.Headers));
-                httpRequest.AppendLine("Body:\n" + body + Environment.NewLine);
+                httpRequest.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
+                httpRequest.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
+                httpRequest.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
+                httpRequest.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
+                httpRequest.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
                 cmdlet.WriteDebug(httpRequest.ToString());
             }
 
