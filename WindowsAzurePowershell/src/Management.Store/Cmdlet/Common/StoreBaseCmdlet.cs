@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     public class StoreBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
