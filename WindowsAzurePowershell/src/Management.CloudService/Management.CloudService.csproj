@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,6 +48,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
@@ -83,6 +85,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;$(ProgramFiles)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|x64'">
     <OutputPath>..\..\..\Package\Release\</OutputPath>
@@ -102,6 +105,7 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
     <DelaySign>true</DelaySign>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -112,22 +116,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.ConsoleAppUtils">
-      <HintPath>..\lib\Microsoft.WindowsAzure.ConsoleAppUtils.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Management.ServiceManagement">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Sync">
-      <HintPath>..\lib\Microsoft.WindowsAzure.Sync.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Tools.Vhd">
-      <HintPath>..\lib\Microsoft.WindowsAzure.Tools.Vhd.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -210,7 +201,6 @@
     <Compile Include="Cmdlet\SetAzureServiceProjectRole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cmdlet\PublishAzureServiceProject.cs" />
-    <Compile Include="Services\AzureBlob.cs" />
     <Compile Include="Services\CmdLetExtensions.cs" />
     <Compile Include="Services\InnerDataServiceException.cs" />
     <Compile Include="Services\Utility.cs" />
@@ -225,10 +215,6 @@
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\lib\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml">
-      <Link>Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -289,9 +275,6 @@
     <Content Include="Resources\Scaffolding\PHP\WebRole\Scaffold.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Scaffolding\PHP\WebRole\startup.php">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\WebRole.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -303,9 +286,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\Scaffold.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Scaffolding\PHP\WorkerRole\startup.php">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WorkerRole\WorkerRole.xml">
