@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     using System.Linq;
     using System.Text;
 
+    [TestClass]
     public class StorageQueueTestBase : StorageTestBase
     {
         public MockStorageQueueManagement queueMock = null;

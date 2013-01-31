@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     /// <summary>
     /// test base class for storage blob
     /// </summary>
+    [TestClass]
     public class StorageBlobTestBase : StorageTestBase
     {
         /// <summary>
