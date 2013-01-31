@@ -72,7 +72,8 @@ FormatsToProcess = @(
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
-				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll'
+				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
+				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
