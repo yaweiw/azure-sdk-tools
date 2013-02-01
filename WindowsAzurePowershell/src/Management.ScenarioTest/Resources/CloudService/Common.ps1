@@ -22,7 +22,7 @@ function Get-CloudServiceName
 {
 	do
 	{
-		$name = "OneSDK" + (Get-Random).ToString()
+		$name = "onesdk" + (Get-Random).ToString()
 		$available = Test-AzureName -Service $name
 	} while (!$available)
 
@@ -65,7 +65,8 @@ Removes all cloud services/storage accounts in the current subscription.
 #>
 function Initialize-CloudServiceTest
 {
-	<# To Do: implement when we have unsigned version from Management.ServiceManagement assembly #>
+	try { Get-AzureService | Remove-AzureService -Force } catch { <# Succeed #> }
+	try { Get-AzureStorageAccount | Remove-AzureStorageAccount } catch { <# Succeed #> }
 	$global:createdCloudServices = @()
 }
 
@@ -77,6 +78,30 @@ function New-TinyCloudServiceProject
 {
 	param([string] $name)
 
-	New-AzureServiceProject $name
+	$service = New-AzureServiceProject $name
 	Add-AzureNodeWebRole
+
+	return $service.RootPath
+}
+
+<#
+.SYNOPSIS
+Creates new cloud service deployment with the specified slot.
+#>
+function New-Deployment
+{
+	param([string] $slot, [string] $name, [ScriptBlock] $cloudServiceProject)
+
+	if (!$name) { $name = Get-CloudServiceName }
+	if (!$cloudServiceProject) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+	if (!$slot) { $slot = "Staging" }
+
+	$rootPath = Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name
+	$config = "$rootPath\ServiceConfiguration.Cloud.cscfg"
+	$package = Save-AzureServiceProjectPackage
+	New-AzureService $name -Location $(Get-DefaultLocation)
+	Set-AzureSubscription (Get-AzureSubscription -Default).SubscriptionName -CurrentStorageAccount $name
+	New-AzureStorageAccount $name -Location $(Get-DefaultLocation)
+	New-AzureDeployment -ServiceName $name -Slot $slot -Package $package.PackagePath -Configuration $config
+	$global:createdCloudServices += $name;
 }
