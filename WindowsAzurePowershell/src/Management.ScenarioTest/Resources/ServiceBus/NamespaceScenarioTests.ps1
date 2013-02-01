@@ -101,6 +101,7 @@ function Test-GetAzureSBNamespaceWithOneNamespace
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
+	if ($namespaces.Count -gt 1) { Write-Warning "The test initialization did not succeed"; exit }
 	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
@@ -121,6 +122,7 @@ function Test-GetAzureSBNamespaceWithMultipleNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
+	if ($namespaces.Count -gt 3) { Write-Warning "The test initialization did not succeed"; exit }
 	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
