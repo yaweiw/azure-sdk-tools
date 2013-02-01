@@ -12,16 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities
 {
     using Microsoft.Data.OData;
+    using System.Linq;
 
-    public interface IODataResolvable
+    public static class ODataEntryExtension
     {
         /// <summary>
-        /// Resolves ODataEntry to the actual POCO object
+        /// Gets a property value from the ODataEntry object.
         /// </summary>
+        /// <typeparam name="T">The return value type</typeparam>
         /// <param name="entry">The ODataEntry object</param>
-        void Resolve(ODataEntry entry);
+        /// <param name="name">The property name</param>
+        /// <returns>The property value</returns>
+        public static T GetPropetyValue<T>(this ODataEntry entry, string name)
+        {
+            return (T)(entry.Properties.First<ODataProperty>(p => p.Name.Equals(name)).Value);
+        }
     }
 }

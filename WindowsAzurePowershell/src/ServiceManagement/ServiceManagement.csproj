@@ -155,9 +155,9 @@
     <Compile Include="ResourceModel\AffinityGroup.cs" />
     <Compile Include="ResourceModel\Certificates.cs" />
     <Compile Include="ResourceModel\Constants.cs" />
-    <Compile Include="ResourceModel\HttpResponseAdapterMessage.cs" />
-    <Compile Include="ResourceModel\IODataResolvable.cs" />
-    <Compile Include="ResourceModel\ODataHelper.cs" />
+    <Compile Include="Utilities\HttpResponseAdapterMessage.cs" />
+    <Compile Include="Utilities\IODataResolvable.cs" />
+    <Compile Include="Utilities\ODataHelper.cs" />
     <Compile Include="ResourceModel\ServiceBus.cs" />
     <Compile Include="ResourceModel\Deployment.cs" />
     <Compile Include="ResourceModel\Disk.cs" />
@@ -172,12 +172,13 @@
     <Compile Include="ResourceModel\OperationTracking.cs" />
     <Compile Include="ResourceModel\OSImage.cs" />
     <Compile Include="ResourceModel\Role.cs" />
-    <Compile Include="ResourceModel\ServiceBusHelper.cs" />
+    <Compile Include="Utilities\ServiceBusHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementError.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
-    <Compile Include="ResourceModel\ODataEntryExtension.cs" />
+    <Compile Include="Utilities\ODataEntryExtension.cs" />
+    <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
