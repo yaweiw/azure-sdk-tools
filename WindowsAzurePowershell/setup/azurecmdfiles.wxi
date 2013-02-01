@@ -113,9 +113,6 @@
             <Component Id="cmp6C35C10C6CBDC9E7A7F6FC02E89CE61C" Guid="8BEBE5C8-E121-4D81-B9D7-91F81CFED0FD">
                 <File Id="fil7EE6500E5E2CE6757DC9835EEE119BE7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Storage.dll" />
             </Component>
-            <Component Id="cmpCFA59589F2CC16EE22F56115F6528626" Guid="2BC6F9B6-F600-4656-97E0-506B8FD9922E">
-                <File Id="filA80710E77656A35E601BBBEE673AB335" KeyPath="yes" Source="$(var.sourceDir)\Startup.ps1" />
-            </Component>
             <Component Id="cmp8DA6BA38A1C41A17880E8F7A86760A95" Guid="CA194520-914D-47E0-9CD2-D6EC14F02096">
                 <File Id="fil4356DB0440161FE7BA2D53A775D94995" KeyPath="yes" Source="$(var.sourceDir)\System.Spatial.dll" />
             </Component>
@@ -438,7 +435,6 @@
             <ComponentRef Id="cmp1B6FF7421275B77BECFC4C6CB0785222" />
             <ComponentRef Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" />
             <ComponentRef Id="cmp6C35C10C6CBDC9E7A7F6FC02E89CE61C" />
-            <ComponentRef Id="cmpCFA59589F2CC16EE22F56115F6528626" />
             <ComponentRef Id="cmp8DA6BA38A1C41A17880E8F7A86760A95" />
             <ComponentRef Id="cmpDC72B41F5B487349A102F3EAF5ADA829" />
             <ComponentRef Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" />
