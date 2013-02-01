@@ -29,6 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 
         }
 
+        [TestInitialize]
         public override void TestSetup()
         {
             base.TestSetup();
