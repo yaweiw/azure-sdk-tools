@@ -38,49 +38,49 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithInvalidCredentials()
+        public void TestRemoveAzureServiceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Start-AzureService $(Get-CloudServiceName) }");
+            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureService $(Get-CloudServiceName) }");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithNonExistingService()
+        public void TestRemoveAzureServiceWithNonExistingService()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithNonExistingService");
+            RunPowerShellTest("Test-RemoveAzureServiceWithNonExistingService");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithProductionDeployment()
+        public void TestRemoveAzureServiceWithProductionDeployment()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithProductionDeployment");
+            RunPowerShellTest("Test-RemoveAzureServiceWithProductionDeployment");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWhatIf()
+        public void TestRemoveAzureServiceWhatIf()
         {
-            RunPowerShellTest("Test-StartAzureServiceWhatIf");
+            RunPowerShellTest("Test-RemoveAzureServiceWhatIf");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWhatIfWithInvalidName()
+        public void TestRemoveAzureServiceWhatIfWithInvalidName()
         {
-            RunPowerShellTest("Test-StartAzureServiceWhatIfWithInvalidName");
+            RunPowerShellTest("Test-RemoveAzureServiceWhatIfWithInvalidName");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServicePipedFromGetAzureService()
+        public void TestRemoveAzureServicePipedFromGetAzureService()
         {
-            RunPowerShellTest("Test-StartAzureServicePipedFromGetAzureService");
+            RunPowerShellTest("Test-RemoveAzureServicePipedFromGetAzureService");
         }
     }
 }

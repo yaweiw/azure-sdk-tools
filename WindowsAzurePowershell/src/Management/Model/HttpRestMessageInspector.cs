@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
     using System.Text;
-    using System.Xml;
     using Microsoft.WindowsAzure.Management.Utilities;
+    using GeneralSM = Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities.General;
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
@@ -57,14 +57,14 @@ namespace Microsoft.WindowsAzure.Management.Model
             if (cmdlet.SessionState != null)
             {
                 HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-                StringBuilder httpResponse = new StringBuilder();
-                string body = ReadBody(ref reply);
+                StringBuilder httpResponseLog = new StringBuilder();
+                string body = GeneralSM.ReadBody(ref reply);
 
-                httpResponse.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
-                httpResponse.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
-                httpResponse.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
-                httpResponse.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-                cmdlet.WriteDebug(httpResponse.ToString());
+                httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
+                httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
+                httpResponseLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
+                httpResponseLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+                cmdlet.WriteDebug(httpResponseLog.ToString());
             }
         }
 
@@ -73,37 +73,18 @@ namespace Microsoft.WindowsAzure.Management.Model
             if (cmdlet.SessionState != null)
             {
                 HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-                StringBuilder httpRequest = new StringBuilder();
-                string body = ReadBody(ref request);
+                StringBuilder httpRequestLog = new StringBuilder();
+                string body = GeneralSM.ReadBody(ref request);
 
-                httpRequest.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
-                httpRequest.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
-                httpRequest.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
-                httpRequest.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
-                httpRequest.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-                cmdlet.WriteDebug(httpRequest.ToString());
+                httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
+                httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
+                httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
+                httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
+                httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+                cmdlet.WriteDebug(httpRequestLog.ToString());
             }
 
             return request;
-        }
-
-        private string ReadBody(ref Message originalMessage)
-        {
-            StringBuilder strBuilder = new StringBuilder();
-
-            using (MessageBuffer messageBuffer = originalMessage.CreateBufferedCopy(int.MaxValue))
-            {
-                Message message = messageBuffer.CreateMessage();
-                XmlWriter writer = XmlWriter.Create(strBuilder);
-                using (XmlDictionaryWriter dictionaryWriter = XmlDictionaryWriter.CreateDictionaryWriter(writer))
-                {
-                    message.WriteBodyContents(dictionaryWriter);   
-                }
-
-                originalMessage = messageBuffer.CreateMessage();
-            }
-
-            return General.Beautify(strBuilder.ToString());
         }
 
         #endregion
