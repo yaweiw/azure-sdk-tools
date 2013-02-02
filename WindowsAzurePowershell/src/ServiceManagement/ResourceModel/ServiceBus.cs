@@ -14,10 +14,8 @@
 
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
-    using System.Collections.Generic;
-    using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
 
     /// <summary>
     /// Represents service bus namespace

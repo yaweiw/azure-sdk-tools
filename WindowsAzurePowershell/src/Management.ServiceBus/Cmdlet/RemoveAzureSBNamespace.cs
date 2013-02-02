@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Management.Automation;
     using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
