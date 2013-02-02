@@ -26,9 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Starts an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Start, "AzureWebsite"), OutputType(typeof(bool))]
     public class StartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the StartAzureWebsiteCommand class.
         /// </summary>
@@ -87,6 +90,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     WriteErrorDetails(ex);
                 }
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
     }
 }
