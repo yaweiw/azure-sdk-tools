@@ -35,21 +35,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 this.cmdletParams.Add(new CmdletParam("Description", description));
             }
-        }
-
-        //public SetAzureStorageAccountCmdletInfo(string accountName, string label, string description)
-        //{
-        //    cmdletName = Utilities.GetAzureStorageAccountCmdletName;
-
-        //    this.cmdletParams.Add(new CmdletParam("StorageAccountName", accountName));            
-        //    if (label != null)
-        //    {
-        //        this.cmdletParams.Add(new CmdletParam("Label", label));
-        //    }
-        //    if (description != null)
-        //    {
-        //        this.cmdletParams.Add(new CmdletParam("Description", description));
-        //    }
-        //}
+        }        
     }
 }
