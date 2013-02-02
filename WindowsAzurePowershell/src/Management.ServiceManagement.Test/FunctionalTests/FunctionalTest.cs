@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void GetAzureVMImage()
         {
             ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
-            vmPowershellCmdlets.GetAzureVMImage(null);
+            vmPowershellCmdlets.GetAzureVMImage();
         }        
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New, Get, Set, Remove)-AzureAffinityGroup)")]
