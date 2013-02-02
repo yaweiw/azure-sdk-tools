@@ -27,12 +27,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator")]
+    [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator"), OutputType(typeof(bool))]
     public class StopAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
-        [Alias("ln")]
-        public SwitchParameter Launch { get; set; }
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void StopAzureEmulatorProcess()
@@ -45,13 +44,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             service.StopEmulator(out standardOutput, out standardError);
             
             WriteVerbose(Resources.StoppedEmulatorMessage);
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureTool.Validate();
-            base.ExecuteCmdlet();
             StopAzureEmulatorProcess();
         }
     }
