@@ -38,18 +38,52 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     {
         private SubscriptionData _currentSubscription;
 
+        private Binding _serviceBinding;
+
+        private string _serviceEndpoint;
+
         public string CurrentServiceEndpoint { get; set; }
 
         public Binding ServiceBinding
         {
-            get;
-            set;
+            get
+            {
+                if (_serviceBinding == null)
+                {
+                    _serviceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
+                }
+
+                return _serviceBinding;
+            }
+
+            set { _serviceBinding = value; }
         }
 
         public string ServiceEndpoint
         {
-            get;
-            set;
+            get
+            {
+                if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
+                {
+                    _serviceEndpoint = CurrentServiceEndpoint;
+                }
+                else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+                {
+                    _serviceEndpoint = CurrentSubscription.ServiceEndpoint;
+                }
+                else
+                {
+                    // Use default endpoint
+                    _serviceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
+                }
+
+                return _serviceEndpoint;
+            }
+
+            set
+            {
+                _serviceEndpoint = value;
+            }
         }
 
         protected T Channel
@@ -173,28 +207,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 return Channel;
             }
 
-            if (ServiceBinding == null)
-            {
-                ServiceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
-            }
-
-            if (!string.IsNullOrEmpty(CurrentServiceEndpoint))
-            {
-                ServiceEndpoint = CurrentServiceEndpoint;
-            }
-            else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
-            {
-                ServiceEndpoint = CurrentSubscription.ServiceEndpoint;
-            }
-            else
-            {
-                // Use default endpoint
-                ServiceEndpoint = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint;
-            }
-
             return ServiceManagementHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
-                new Uri(ServiceEndpoint), CurrentSubscription.Certificate,
+                new Uri(ServiceEndpoint),
+                CurrentSubscription.Certificate,
                 new HttpRestMessageInspector(this));
         }
 

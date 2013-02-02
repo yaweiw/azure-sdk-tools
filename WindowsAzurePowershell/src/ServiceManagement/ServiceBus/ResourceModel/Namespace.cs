@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel
 {
     using System.Xml.Serialization;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;

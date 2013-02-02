@@ -80,6 +80,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Stubs\SimpleServiceBusManagement.cs" />
     <Compile Include="UnitTests\Cmdlet\RemoveAzureSBNamespaceTest.cs" />
     <Compile Include="UnitTests\Cmdlet\NewAzureSBNamespaceTest.cs" />
     <Compile Include="UnitTests\Cmdlet\GetAzureSBLocationTest.cs" />
@@ -87,10 +88,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
-      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
-      <Name>Management.CloudService.Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
