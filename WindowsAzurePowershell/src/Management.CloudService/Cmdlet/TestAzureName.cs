@@ -15,19 +15,27 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
+    using System;
+    using Microsoft.WindowsAzure.Management.Model;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
     {
+        private IServiceBusManagement serviceBusChannel;
+
         public TestAzureNameCommand()
         {
+            
         }
 
-        public TestAzureNameCommand(IServiceManagement channel)
+        public TestAzureNameCommand(IServiceManagement channel, IServiceBusManagement serviceBusChannel)
         {
             Channel = channel;
+            this.serviceBusChannel = serviceBusChannel;
         }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
@@ -81,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public ServiceBusNamespaceAvailabiliyResponse IsServiceBusNamespaceAvailable(string subscriptionId, string name)
         {
-            ServiceBusNamespaceAvailabiliyResponse result = Channel.IsServiceBusNamespaceAvailable(subscriptionId, name);
+            ServiceBusNamespaceAvailabiliyResponse result = serviceBusChannel.IsServiceBusNamespaceAvailable(subscriptionId, name);
             
             WriteObject(result.Result);
 
@@ -102,6 +110,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
+                if (serviceBusChannel == null)
+                {
+                    serviceBusChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceBusManagement>(
+                        ServiceBinding,
+                        new Uri(ServiceEndpoint),
+                        CurrentSubscription.Certificate,
+                        new HttpRestMessageInspector(this));
+                }
+
                 IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
         }

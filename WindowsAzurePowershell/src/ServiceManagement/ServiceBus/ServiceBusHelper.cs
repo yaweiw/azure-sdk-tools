@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus
 {
     using System;
     using System.Collections.Generic;

@@ -38,9 +38,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
             Validate.ValidateInternetConnection();
             InitChannelCurrentSubscription();
 
-            Binding serviceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(MaxStringContentLength);
             MarketplaceChannel = ServiceManagementHelper.CreateServiceManagementChannel<IMarketplaceManagement>(
-                serviceBinding,
+                ServiceBinding,
                 new Uri(Resources.MarketplaceEndpoint),
                 CurrentSubscription.Certificate,
                 new HttpRestMessageInspector(this));
