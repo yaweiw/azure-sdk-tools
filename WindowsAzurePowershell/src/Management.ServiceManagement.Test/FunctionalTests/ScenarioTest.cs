@@ -508,7 +508,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // starting the test.
 
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName); // Get-AzureVM
-            InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndpoint(vmRoleCtxt); // Get-AzureEndpoint
+            InputEndpointContext inputEndpointCtxt = vmPowershellCmdlets.GetAzureEndPoint(vmRoleCtxt)[0]; // Get-AzureEndpoint
             Console.WriteLine("InputEndpointContext Name: {0}", inputEndpointCtxt.Name);
             Console.WriteLine("InputEndpointContext port: {0}", inputEndpointCtxt.Port);
             Console.WriteLine("InputEndpointContext protocol: {0}", inputEndpointCtxt.Protocol);
