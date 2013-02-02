@@ -16,7 +16,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceM
 {
     using System;
     using Microsoft.Data.OData;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
 
     public class Plan : IODataResolvable
     {
