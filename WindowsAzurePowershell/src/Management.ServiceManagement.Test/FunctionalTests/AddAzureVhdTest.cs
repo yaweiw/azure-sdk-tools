@@ -32,10 +32,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         private SubscriptionData defaultAzureSubscription;
         private StorageServiceKeyOperationContext storageAccountKey;
-        private string destination;
-        private string patchDestination;
-        private string destinationSasUri;
-        private string patchDestinationSasUri;
+        //private string destination;
+        //private string patchDestination;
+        //private string destinationSasUri;
+        //private string patchDestinationSasUri;
 
         private string perfFile;
 
@@ -68,26 +68,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
             Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
 
-            destination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
-            patchDestination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //destination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //patchDestination = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
 
-            destinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
-            patchDestinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
-            var destinationBlob = new CloudPageBlob(new Uri(destinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
-            var patchDestinationBlob = new CloudPageBlob(new Uri(patchDestinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
-            var policy = new SharedAccessBlobPolicy()
-            {
-                Permissions =
-                    SharedAccessBlobPermissions.Delete |
-                    SharedAccessBlobPermissions.Read |
-                    SharedAccessBlobPermissions.Write |
-                    SharedAccessBlobPermissions.List,
-                SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromHours(1)
-            };
-            var destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
-            var patchDestinationBlobToken = patchDestinationBlob.GetSharedAccessSignature(policy);
-            destinationSasUri += destinationBlobToken;
-            patchDestinationSasUri += patchDestinationBlobToken;
+            //destinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //patchDestinationSasUri = string.Format(@"http://{0}.blob.core.windows.net/vhdstore/{1}", defaultAzureSubscription.CurrentStorageAccount, Utilities.GetUniqueShortName("PSTestAzureVhd"));
+            //var destinationBlob = new CloudPageBlob(new Uri(destinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
+            //var patchDestinationBlob = new CloudPageBlob(new Uri(patchDestinationSasUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
+            //var policy = new SharedAccessBlobPolicy()
+            //{
+            //    Permissions =
+            //        SharedAccessBlobPermissions.Delete |
+            //        SharedAccessBlobPermissions.Read |
+            //        SharedAccessBlobPermissions.Write |
+            //        SharedAccessBlobPermissions.List,
+            //    SharedAccessExpiryTime = DateTime.UtcNow + TimeSpan.FromHours(1)
+            //};
+            //var destinationBlobToken = destinationBlob.GetSharedAccessSignature(policy);
+            //var patchDestinationBlobToken = patchDestinationBlob.GetSharedAccessSignature(policy);
+            //destinationSasUri += destinationBlobToken;
+            //patchDestinationSasUri += patchDestinationBlobToken;
 
 
             blobUrlRoot = string.Format(@"http://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccount);
@@ -149,7 +149,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             var vhdLocalPath = new FileInfo(@".\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
-            for (int i = 0; i < 16; i++)
+            int i = 0;
+            //while ( i = 0; i < 16; i++)
+            while (i < 16)
             {
                 string destinationSasUri2 = CreateSasUriWithPermission(vhdName, i);
                 try
@@ -161,13 +163,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     // Verify the upload.
                     AssertUploadContextAndContentMD5(destinationSasUri2, vhdLocalPath, vhdUploadContext);
                     Console.WriteLine("Test success with permission: {0}", i);
+                    i++;
                 }
                 catch (Exception e)
                 {
+                    if (e.ToString().Contains("already running"))
+                    {
+                        Console.WriteLine(e.InnerException.Message);
+                        continue;
+                    }
                     if (i != 3 && i != 7 && i != 11 && i != 15)
                     {
                         Console.WriteLine("Error as expected.  Permission: {0}", i);
                         Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                        i++;
                         continue;
                     }
                     else
@@ -242,6 +251,55 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        public void UploadDiskResume()
+        {
+            string testName = "UploadDiskResume";
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
+
+
+            // Choose the vhd file from local machine
+            var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
+
+            // Set the destination
+            string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
+            string vhdDestUri = blobUrlRoot + vhdBlobName;
+
+            // Start uploading...
+            Console.WriteLine("uploads {0} to {1}", vhdName, vhdBlobName);
+            string result = vmPowershellCmdlets.AddAzureVhdStop(new AddAzureVhdCmdletInfo(vhdDestUri, vhdLocalPath.FullName), 500);
+
+            if (result.ToLowerInvariant() == "stopped")
+            {
+                Console.WriteLine("successfully stopped");
+
+                var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(vhdDestUri, vhdLocalPath.FullName));
+                Console.WriteLine("uploading completed: {0}", vhdName);
+
+                // Verify the upload.
+                AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
+            }
+            else
+            {
+                Console.WriteLine("didn't stop!");
+            }            
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
+        }
+        
+
         /// <summary>
         /// 
         /// </summary>
@@ -259,7 +317,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             var vhdLocalPath = new FileInfo(@".\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
-            for (int i = 0; i < 16; i++)
+            int i = 0;
+            while (i < 16)
             {
                 string destinationSasUri2 = CreateSasUriWithPermission(vhdName, i);
                 try
@@ -272,13 +331,120 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     // Verify the upload.
                     AssertUploadContextAndContentMD5(destinationSasUri2, vhdLocalPath, vhdUploadContext);
                     Console.WriteLine("Test success with permission: {0}", i);
+                    i++;
                 }
                 catch (Exception e)
                 {
+                    if (e.ToString().Contains("already running"))
+                    {
+                        Console.WriteLine(e.InnerException.Message);
+                        continue;
+                    }
                     if (i != 7 && i != 15)
                     {
                         Console.WriteLine("Error as expected.  Permission: {0}", i);
                         Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
+                    }
+                }
+            }
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        public void UploadDiskOverwriteNonExist()
+        {
+            string testName = "UploadDiskOverwriteNonExist";
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
+
+
+            // Choose the vhd file from local machine
+            var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
+
+            // Set the destination
+            string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
+            string vhdDestUri = blobUrlRoot + vhdBlobName;
+
+            // Start uploading...
+            Console.WriteLine("uploads {0} to {1}", vhdName, vhdBlobName);
+            //vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(vhdDestUri, vhdLocalPath.FullName));
+            var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(vhdDestUri, vhdLocalPath.FullName, true));
+            Console.WriteLine("uploading completed: {0}", vhdName);
+
+            // Verify the upload.
+            AssertUploadContextAndContentMD5(vhdDestUri, vhdLocalPath, vhdUploadContext);
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        public void UploadDiskOverwriteNonExistSasUri()
+        {
+            string testName = "UploadDiskOverwriteNonExistSasUri";
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
+
+
+            // Choose the vhd file from local machine
+            var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
+
+            int i = 0;
+            while (i < 16)
+            {
+                string destinationSasUri2 = CreateSasUriWithPermission(vhdName, i);
+                try
+                {
+                    Console.WriteLine("uploads {0} to {1}", vhdName, destinationSasUri2);
+                    //vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUri2, vhdLocalPath.FullName));
+                    var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUri2, vhdLocalPath.FullName, true));
+                    Console.WriteLine("Finished uploading: {0}", destinationSasUri2);
+
+                    // Verify the upload.
+                    AssertUploadContextAndContentMD5(destinationSasUri2, vhdLocalPath, vhdUploadContext);
+                    Console.WriteLine("Test success with permission: {0}", i);
+                    i++;
+                }
+                catch (Exception e)
+                {
+                    if (e.ToString().Contains("already running"))
+                    {
+                        Console.WriteLine(e.InnerException.Message);
+                        continue;
+                    }
+                    if (i != 7 && i != 15)
+                    {
+                        Console.WriteLine("Error as expected.  Permission: {0}", i);
+                        Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                        i++;
                         continue;
                     }
                     else
@@ -359,7 +525,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             var vhdLocalPath = new FileInfo(@".\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
+            //int i = 0;
             for (int i = 0; i < 16; i++)
+            //while (i < 16)
             {
                 string destinationSasUri2 = CreateSasUriWithPermission(vhdName, i);
                 try
@@ -371,11 +539,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     {
                         Console.WriteLine("uploads {0} to {1} second times", vhdName, destinationSasUri2);
                         vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUri2, vhdLocalPath.FullName));
-                        Assert.Fail("Must have failed!  Test failed for: {0}", vhdLocalPath.FullName);
+                        Assert.Fail("Must have failed!  Test failed for: {0}", vhdLocalPath.FullName);                        
                     }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Failed as expected while uploading {0} second time without overwrite", vhdLocalPath.Name);
+                    catch (Exception e)
+                    {                        
+                        Console.WriteLine("Failed as expected while uploading {0} second time without overwrite: {1}", vhdLocalPath.Name, e.InnerException.Message);
+
                     }
 
                     // Verify the upload.
@@ -459,7 +628,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             var vhdLocalPath = new FileInfo(@".\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
-            for (int i = 0; i < 16; i++)
+            int i = 0;
+            //for (int i = 0; i < 16; i++)
+            while (i < 16)
             {
                 string destinationSasUri2 = CreateSasUriWithPermission(vhdName, i);
                 try
@@ -471,13 +642,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     // Verify the upload.
                     AssertUploadContextAndContentMD5(destinationSasUri2, vhdLocalPath, vhdUploadContext);
                     Console.WriteLine("Test success with permission: {0}", i);
+                    i++;
                 }
                 catch (Exception e)
                 {
+                    if (e.ToString().Contains("already running"))
+                    {
+                        Console.WriteLine(e.InnerException.Message);
+                        continue;
+                    }
                     if (i != 3 && i != 7 && i != 11 && i != 15)
                     {
                         Console.WriteLine("Error as expected.  Permission: {0}", i);
                         Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                        i++;
                         continue;
                     }
                     else
@@ -556,8 +734,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     Console.WriteLine("uploads {0} to {1}", vhdName, destinationSasUri2);
                     vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUri2, vhdLocalPath.FullName));
+                    Console.WriteLine("uploaded: {0}", vhdName); 
                     var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUri2, vhdLocalPath.FullName, 16, true));
-                    Console.WriteLine("uploading completed: {0}", vhdName);
+                    Console.WriteLine("uploading overwrite completed: {0}", vhdName);
 
                     // Verify the upload.
                     AssertUploadContextAndContentMD5(destinationSasUri2, vhdLocalPath, vhdUploadContext);
@@ -690,6 +869,137 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     Console.WriteLine("Error as expected.  Permission: {0}", i);
                     Console.WriteLine("Error message: {0}", e.InnerException.Message);
                     continue;                    
+                }
+            }
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        public void PatchSasUriNormalBaseShouldFail()
+        {
+            string testName = "PatchSasUriNormalBase";
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
+
+
+            // Choose the base vhd file from local machine
+            var baseVhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
+            var baseVhdLocalPath = new FileInfo(@".\" + baseVhdName);
+            Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
+
+            // Set the destination
+            string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(baseVhdName)));
+            string vhdDestUri = blobUrlRoot + vhdBlobName;
+
+            Console.WriteLine("uploads {0} to {1}", baseVhdName, vhdDestUri);
+            var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(vhdDestUri, baseVhdLocalPath.FullName, true));
+            Console.WriteLine("uploading the parent vhd completed: {0}", baseVhdName);
+
+            // Choose the child vhd file from the local machine
+            var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            Assert.IsTrue(File.Exists(childVhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
+
+            for (int i = 0; i < 16; i++)
+            {
+                string destinationSasUriParent = CreateSasUriWithPermission(baseVhdName, i);
+                string destinationSasUriChild = CreateSasUriWithPermission(childVhdName, i);
+                try
+                {
+                    Console.WriteLine("uploads {0} to {1} with patching from {2}", childVhdName, destinationSasUriChild, vhdDestUri);
+                    var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUriChild, childVhdLocalPath.FullName, vhdDestUri));
+                    Console.WriteLine("uploading the child vhd completed: {0}", childVhdName);
+
+                    // Verify the upload.
+                    AssertUploadContextAndContentMD5(destinationSasUriChild, childVhdLocalPath, patchVhdUploadContext);
+                    Console.WriteLine("Test success with permission: {0}", i);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Error as expected.  Permission: {0}", i);
+                    Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                    continue;
+                }
+            }
+
+            DateTime testEndTime = DateTime.Now;
+            Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
+            Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
+
+            System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        public void PatchNormalSasUriBase()
+        {
+            string testName = "PatchSasUriNormalBase";
+            DateTime testStartTime = DateTime.Now;
+            Console.WriteLine("{0} test starts at {1}", testName, testStartTime);
+
+            // Choose the base vhd file from local machine
+            var baseVhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
+            var baseVhdLocalPath = new FileInfo(@".\" + baseVhdName);
+            Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
+        
+            // Choose the child vhd file from the local machine
+            var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            Assert.IsTrue(File.Exists(childVhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
+
+            int i = 0;
+            while (i < 16)
+            {
+                string destinationSasUriParent = CreateSasUriWithPermission(baseVhdName, i); // the destination of the parent vhd is a Sas Uri
+
+                // Set the destination of child vhd
+                string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(childVhdName)));
+                string vhdDestUri = blobUrlRoot + vhdBlobName;
+
+                try
+                {
+                    // Upload the parent vhd using Sas Uri
+                    Console.WriteLine("uploads {0} to {1}", baseVhdName, destinationSasUriParent);
+                    var vhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(destinationSasUriParent, baseVhdLocalPath.FullName, true));
+                    Console.WriteLine("uploading completed: {0}", baseVhdName);
+
+                    // Verify the upload.
+                    AssertUploadContextAndContentMD5(destinationSasUriParent, baseVhdLocalPath, vhdUploadContext, false);
+
+                    Console.WriteLine("uploads {0} to {1} with patching from {2}", childVhdName, vhdDestUri, destinationSasUriParent);
+                    var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(vhdDestUri, childVhdLocalPath.FullName, destinationSasUriParent));
+                    Console.WriteLine("uploading the child vhd completed: {0}", childVhdName);
+
+                    // Verify the upload.
+                    AssertUploadContextAndContentMD5(vhdDestUri, childVhdLocalPath, patchVhdUploadContext);
+                    Console.WriteLine("Test success with permission: {0}", i);
+                    i++;
+                }
+                catch (Exception e)
+                {
+                    if (i != 3 && i != 7 && i != 11 && i != 15)
+                    {
+                        Console.WriteLine("Error as expected.  Permission: {0}", i);
+                        Console.WriteLine("Error message: {0}", e.InnerException.Message);
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        Assert.Fail("Test failed Permission: {0} \n {1}", i, e.ToString());
+                    }                   
                 }
             }
 
