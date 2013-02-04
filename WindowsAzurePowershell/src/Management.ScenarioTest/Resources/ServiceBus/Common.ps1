@@ -35,7 +35,7 @@ function Get-NamespaceName
 	{
 		$name = "OneSDK" + (Get-Random).ToString()
 		$available = Test-AzureName -ServiceBusNamespace $name
-	} while (!$available)
+	} while ($available)
 
 	return $name
 }

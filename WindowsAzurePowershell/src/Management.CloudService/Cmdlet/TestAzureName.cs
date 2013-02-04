@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
 
-            WriteObject(result.Result);
+            WriteObject(!result.Result);
 
             return result;
         }
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
             
-            WriteObject(result.Result);
+            WriteObject(!result.Result);
 
             return result;
         }
@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             ServiceBusNamespaceAvailabiliyResponse result = Channel.IsServiceBusNamespaceAvailable(subscriptionId, name);
             
-            WriteObject(result.Result);
+            WriteObject(!result.Result);
 
             return result;
         }
