@@ -21,32 +21,32 @@
 #######################
 function Assert-Throws
 {
-   param([ScriptBlock] $script, [string] $message)
-   try 
-   {
-      &$script
-   }
-   catch 
-   {
-	   if ($message -ne "")
-	   {
-		   $actualMessage = $_.Exception.Message
-		   Write-Output ("Caught exception: '$actualMessage'")
+  param([ScriptBlock] $script, [string] $message)
+  try 
+  {
+    &$script
+  }
+  catch 
+  {
+    if ($message -ne "")
+    {
+      $actualMessage = $_.Exception.Message
+      Write-Output ("Caught exception: '$actualMessage'")
 
-	       if ($actualMessage -eq $message)
-		   {
-				return $true;
-		   }
-		   else
-		   {
-			    throw "Expected exception not received: '$message' the actual message is '$actualMessage'";
-		   }
-	   }
-	   else
-	   {
-			return $true;
-	   }
-   }
+      if ($actualMessage -eq $message)
+      {
+        return $true;
+      }
+      else
+      {
+        throw "Expected exception not received: '$message' the actual message is '$actualMessage'";
+      }
+    }
+    else
+    {
+      return $true;
+    }
+  }
 }
 
 ###################
@@ -58,20 +58,20 @@ function Assert-Throws
 ####################
 function Assert-True
 {
-    param([ScriptBlock] $script, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed: " + $script
-	}
-	
-    $result = &$script
-	if (-not $result) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  param([ScriptBlock] $script, [string] $message)
+  
+  if (!$message)
+  {
+    $message = "Assertion failed: " + $script
+  }
+  
+  $result = &$script
+  if (-not $result) 
+  {
+    throw $message
+  }
+  
+  return $true
 }
 
 ###################
@@ -83,20 +83,20 @@ function Assert-True
 ####################
 function Assert-False
 {
-    param([ScriptBlock] $script, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed: " + $script
-	}
-	
-    $result = &$script
-	if ($result) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  param([ScriptBlock] $script, [string] $message)
+  
+  if (!$message)
+  {
+    $message = "Assertion failed: " + $script
+  }
+  
+  $result = &$script
+  if ($result) 
+  {
+    throw $message
+  }
+  
+  return $true
 }
 
 ###################
@@ -108,19 +108,19 @@ function Assert-False
 ####################
 function Assert-NotNull
 {
-    param([object] $actual, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed because the object is null: " + $actual
-	}
-	
-	if ($actual -eq $null) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  param([object] $actual, [string] $message)
+  
+  if (!$message)
+  {
+    $message = "Assertion failed because the object is null: " + $actual
+  }
+  
+  if ($actual -eq $null) 
+  {
+    throw $message
+  }
+  
+  return $true
 }
 
 ######################
@@ -133,7 +133,7 @@ function Assert-NotNull
 function Assert-Exists
 {
     param([string] $path, [string] $message) 
-	return Assert-True {Test-Path $path} $message
+  return Assert-True {Test-Path $path} $message
 }
 
 ###################
@@ -147,18 +147,18 @@ function Assert-Exists
 function Assert-AreEqual
 {
     param([object] $expected, [object] $actual, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
-	}
-	
-	if ($expected -ne $actual) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  
+  if (!$message)
+  {
+      $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
+  }
+  
+  if ($expected -ne $actual) 
+  {
+      throw $message
+  }
+  
+  return $true
 }
 
 ###################
@@ -172,20 +172,20 @@ function Assert-AreEqual
 function Assert-AreEqualArray
 {
     param([object] $expected, [object] $actual, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
-	}
-	
-	$diff = Compare-Object $expected $actual -PassThru
+  
+  if (!$message)
+  {
+      $message = "Assertion failed because expected '$expected' does not match actual '$actual'"
+  }
+  
+  $diff = Compare-Object $expected $actual -PassThru
 
-	if ($diff -ne $null) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  if ($diff -ne $null) 
+  {
+      throw $message
+  }
+  
+  return $true
 }
 
 ###################
@@ -198,16 +198,16 @@ function Assert-AreEqualArray
 function Assert-Null
 {
     param([object] $actual, [string] $message)
-	
-	if (!$message)
-	{
-	    $message = "Assertion failed because the object is not null: " + $actual
-	}
-	
-	if ($actual -ne $null) 
-	{
-	    throw $message
-	}
-	
-	return $true
+  
+  if (!$message)
+  {
+      $message = "Assertion failed because the object is not null: " + $actual
+  }
+  
+  if ($actual -ne $null) 
+  {
+      throw $message
+  }
+  
+  return $true
 }
