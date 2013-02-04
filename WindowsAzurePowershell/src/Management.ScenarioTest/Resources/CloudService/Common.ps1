@@ -23,8 +23,8 @@ function Get-CloudServiceName
 	do
 	{
 		$name = "onesdk" + (Get-Random).ToString()
-		$available = Test-AzureName -Service $name
-	} while ($available)
+		$used = Test-AzureName -Service $name
+	} while ($used)
 
 	return $name
 }
