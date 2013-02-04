@@ -61,13 +61,6 @@ TypesToProcess = @(
 	'Microsoft.WindowsAzure.Management.Websites.Types.ps1xml'
 )
 
-# Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = @(
-	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
-	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml',
-  'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml'
-)
-
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
