@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CloudServiceTests\CloudServiceTests.cs" />
     <Compile Include="Common\Constants.cs" />
