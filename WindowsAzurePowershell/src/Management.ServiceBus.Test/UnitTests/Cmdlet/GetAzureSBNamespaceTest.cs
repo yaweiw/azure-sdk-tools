@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
-        SimpleServiceManagement channel;
+        SimpleServiceBusManagement channel;
         MockCommandRuntime mockCommandRuntime;
         GetAzureSBNamespaceCommand cmdlet;
 
@@ -37,7 +37,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-            channel = new SimpleServiceManagement();
+            new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
+            channel = new SimpleServiceBusManagement();
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new GetAzureSBNamespaceCommand(channel) { CommandRuntime = mockCommandRuntime };
         }
@@ -64,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             // Setup
             string expected = Resources.ServiceBusNamespaceMissingMessage;
-            cmdlet.Name = "not existing name";
+            cmdlet.Name = "notExistingName";
             channel.GetNamespaceThunk = gn => {  throw new Exception(Resources.InternalServerErrorMessage); };
 
             // Test

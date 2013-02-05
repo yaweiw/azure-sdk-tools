@@ -12,18 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement
+namespace Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract
 {
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
 
     /// <summary>
     /// The service bus-related part of the API
     /// </summary>
-    public partial interface IServiceManagement
+    [ServiceContract]
+    public partial interface IServiceBusManagement
     {
         /// <summary>
         /// Gets a service bus namespace.
@@ -78,41 +80,41 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
         /// Checks if service bus namespace exists or not.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ServiceBusBehavior(typeof(ServiceBusNamespaceAvailabiliyResponse))]
+        [ServiceBusBehavior(typeof(ServiceBusNamespaceAvailabilityResponse))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/CheckNamespaceAvailability/?namespace={name}")]
         IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string name, AsyncCallback callback, object state);
 
-        ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult);
+        ServiceBusNamespaceAvailabilityResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult);
     }
 
-    public static partial class ServiceManagementExtensionMethods
+    public static partial class ServiceBusManagementExtensionMethods
     {
-        public static ServiceBusNamespace GetServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, string name)
+        public static ServiceBusNamespace GetServiceBusNamespace(this IServiceBusManagement proxy, string subscriptionId, string name)
         {
             return proxy.EndGetServiceBusNamespace(proxy.BeginGetServiceBusNamespace(subscriptionId, name, null, null));
         }
 
-        public static List<ServiceBusNamespace> ListServiceBusNamespaces(this IServiceManagement proxy, string subscriptionId)
+        public static List<ServiceBusNamespace> ListServiceBusNamespaces(this IServiceBusManagement proxy, string subscriptionId)
         {
             return proxy.EndListServiceBusNamespaces(proxy.BeginListServiceBusNamespaces(subscriptionId, null, null));
         }
 
-        public static List<ServiceBusRegion> ListServiceBusRegions(this IServiceManagement proxy, string subscriptionId)
+        public static List<ServiceBusRegion> ListServiceBusRegions(this IServiceBusManagement proxy, string subscriptionId)
         {
             return proxy.EndListServiceBusRegions(proxy.BeginListServiceBusRegions(subscriptionId, null, null));
         }
 
-        public static ServiceBusNamespace CreateServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, ServiceBusNamespace namespaceDescription, string name)
+        public static ServiceBusNamespace CreateServiceBusNamespace(this IServiceBusManagement proxy, string subscriptionId, ServiceBusNamespace namespaceDescription, string name)
         {
             return proxy.EndCreateServiceBusNamespace(proxy.BeginCreateServiceBusNamespace(subscriptionId, namespaceDescription, name, null, null));
         }
 
-        public static void DeleteServiceBusNamespace(this IServiceManagement proxy, string subscriptionId, string name)
+        public static void DeleteServiceBusNamespace(this IServiceBusManagement proxy, string subscriptionId, string name)
         {
             proxy.EndDeleteServiceBusNamespace(proxy.BeginDeleteServiceBusNamespace(subscriptionId, name, null, null));
         }
 
-        public static ServiceBusNamespaceAvailabiliyResponse IsServiceBusNamespaceAvailable(this IServiceManagement proxy, string subscriptionId, string name)
+        public static ServiceBusNamespaceAvailabilityResponse IsServiceBusNamespaceAvailable(this IServiceBusManagement proxy, string subscriptionId, string name)
         {
             return proxy.EndIsServiceBusNamespaceAvailable(proxy.BeginIsServiceBusNamespaceAvailable(subscriptionId, name, null, null));
         }

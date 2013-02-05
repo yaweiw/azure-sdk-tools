@@ -199,3 +199,131 @@ function Test-StartAzureServiceWithStagingDeployment
 	# Assert
 	Assert-True { $started }
 }
+
+########################################################################### Test-AzureName Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with not existing hosted service and expects $false.
+#>
+function Test-AzureNameWithNotExistingHostedService
+{
+	# Test
+	$actual = Test-AzureName -Service "onesdknotexisting"
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with existing hosted service and expects $true.
+#>
+function Test-AzureNameWithExistingHostedService
+{
+	# Setup
+	$name = $(Get-CloudServiceName)
+	New-AzureService $name -Location $(Get-DefaultLocation)
+
+	# Test
+	$actual = Test-AzureName -Service $name
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with invalid hosted service name and expects $false
+#>
+function Test-AzureNameWithInvalidHostedService
+{
+	# Test
+	$actual = Test-AzureName -Service "Invalid Name"
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with not existing Storage service and expects $false.
+#>
+function Test-AzureNameWithNotExistingStorageService
+{
+	# Test
+	$actual = Test-AzureName -Storage "onesdknotexisting"
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with existing Storage service and expects $true.
+#>
+function Test-AzureNameWithExistingStorageService
+{
+	# Setup
+	$name = $(Get-CloudServiceName)
+	New-AzureStorageAccount $name -Location $(Get-DefaultLocation)
+
+	# Test
+	$actual = Test-AzureName -Storage $name
+
+	# Assert
+	Assert-True { $actual }
+
+	# Cleanup
+	Initialize-CloudServiceTest
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with invalid Storage service name and expects $false
+#>
+function Test-AzureNameWithInvalidStorageService
+{
+	# Test
+	Assert-Throws { Test-AzureName -Storage "Invalid Name" }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with not existing service bus namespace and expects $false.
+#>
+function Test-AzureNameWithNotExistingServiceBusNamespace
+{
+	# Test
+	$actual = Test-AzureName -ServiceBusNamespace "onesdknotexisting"
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with existing service bus namespace and expects $true.
+#>
+function Test-AzureNameWithExistingServiceBusNamespace
+{
+	# Setup
+	$name = $(Get-NamespaceName)
+	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
+
+	# Test
+	$actual = Test-AzureName -ServiceBusNamespace $name
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Test-AzureName with invalid service bus namespace name and expects $false
+#>
+function Test-AzureNameWithInvalidServiceBusNamespace
+{
+	# Test
+	Assert-Throws { Test-AzureName -ServiceBusNamespace "Invalid Name" }
+}
