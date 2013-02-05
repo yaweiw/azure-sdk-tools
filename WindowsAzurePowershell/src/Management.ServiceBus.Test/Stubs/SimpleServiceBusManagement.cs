@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Simple implementation of teh IServiceBusManagement interface that can be
+    /// Simple implementation of the IServiceBusManagement interface that can be
     /// used for mocking basic interactions without involving Azure directly.
     /// </summary>
     public class SimpleServiceBusManagement : IServiceBusManagement
@@ -56,21 +56,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> GetNamespaceThunk { get; set; }
         public ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult)
         {
-            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+            ServiceBusNamespace serviceBusNamespace = new ServiceBusNamespace();
 
             if (GetNamespaceThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                serviceBusNamespase = GetNamespaceThunk(result);
+                serviceBusNamespace = GetNamespaceThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("GetNamespaceThunk is not implemented!");
             }
 
-            return serviceBusNamespase;
+            return serviceBusNamespace;
         }
 
         public Func<SimpleServiceManagementAsyncResult, List<ServiceBusNamespace>> ListNamespacesThunk { get; set; }
@@ -86,21 +86,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public List<ServiceBusNamespace> EndListServiceBusNamespaces(IAsyncResult asyncResult)
         {
-            List<ServiceBusNamespace> serviceBusNamespase = new List<ServiceBusNamespace>();
+            List<ServiceBusNamespace> serviceBusNamespace = new List<ServiceBusNamespace>();
 
             if (ListNamespacesThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                serviceBusNamespase = ListNamespacesThunk(result);
+                serviceBusNamespace = ListNamespacesThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("ListNamespacesThunk is not implemented!");
             }
 
-            return serviceBusNamespase;
+            return serviceBusNamespace;
         }
 
         public Func<SimpleServiceManagementAsyncResult, List<ServiceBusRegion>> ListServiceBusRegionsThunk { get; set; }
@@ -116,21 +116,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public List<ServiceBusRegion> EndListServiceBusRegions(IAsyncResult asyncResult)
         {
-            List<ServiceBusRegion> serviceBusNamespase = new List<ServiceBusRegion>();
+            List<ServiceBusRegion> serviceBusNamespace = new List<ServiceBusRegion>();
 
             if (ListServiceBusRegionsThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                serviceBusNamespase = ListServiceBusRegionsThunk(result);
+                serviceBusNamespace = ListServiceBusRegionsThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("ListServiceBusRegionsThunk is not implemented!");
             }
 
-            return serviceBusNamespase;
+            return serviceBusNamespace;
         }
 
         public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> CreateServiceBusNamespaceThunk { get; set; }
@@ -148,21 +148,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult)
         {
-            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
+            ServiceBusNamespace serviceBusNamespace = new ServiceBusNamespace();
 
             if (CreateServiceBusNamespaceThunk != null)
             {
                 SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
                 Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
 
-                serviceBusNamespase = CreateServiceBusNamespaceThunk(result);
+                serviceBusNamespace = CreateServiceBusNamespaceThunk(result);
             }
             else if (ThrowsIfNotImplemented)
             {
                 throw new NotImplementedException("CreateServiceBusNamespaceThunk is not implemented!");
             }
 
-            return serviceBusNamespase;
+            return serviceBusNamespace;
         }
 
         public Action<SimpleServiceManagementAsyncResult> DeleteServiceBusNamespaceThunk { get; set; }
@@ -192,7 +192,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             }
         }
 
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceAvailabiliyResponse> IsServiceBusNamespaceAvailableThunk { get; set; }
+        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceAvailabilityResponse> IsServiceBusNamespaceAvailableThunk { get; set; }
         public IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -204,9 +204,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             return result;
         }
 
-        public ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult)
+        public ServiceBusNamespaceAvailabilityResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult)
         {
-            ServiceBusNamespaceAvailabiliyResponse availabilityResponse = new ServiceBusNamespaceAvailabiliyResponse();
+            ServiceBusNamespaceAvailabilityResponse availabilityResponse = new ServiceBusNamespaceAvailabilityResponse();
 
             if (IsServiceBusNamespaceAvailableThunk != null)
             {

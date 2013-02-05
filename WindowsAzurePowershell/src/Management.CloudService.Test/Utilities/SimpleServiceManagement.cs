@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Simple implementation of teh IServiceManagement interface that can be
+    /// Simple implementation of the IServiceManagement interface that can be
     /// used for mocking basic interactions without involving Azure directly.
     /// </summary>
     public class SimpleServiceManagement : IServiceManagement
