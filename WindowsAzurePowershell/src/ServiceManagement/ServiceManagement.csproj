@@ -144,7 +144,7 @@
     <Compile Include="Contract\OperatingSystem.cs" />
     <Compile Include="Contract\OperationTracking.cs" />
     <Compile Include="Contract\OSImage.cs" />
-    <Compile Include="Contract\ServiceBus.cs" />
+    <Compile Include="ServiceBus\Contract\Namespace.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
@@ -158,7 +158,7 @@
     <Compile Include="Utilities\HttpResponseAdapterMessage.cs" />
     <Compile Include="Utilities\IODataResolvable.cs" />
     <Compile Include="Utilities\ODataHelper.cs" />
-    <Compile Include="ResourceModel\ServiceBus.cs" />
+    <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
     <Compile Include="ResourceModel\Deployment.cs" />
     <Compile Include="ResourceModel\Disk.cs" />
     <Compile Include="ResourceModel\DurableVMRole.cs" />
@@ -172,7 +172,7 @@
     <Compile Include="ResourceModel\OperationTracking.cs" />
     <Compile Include="ResourceModel\OSImage.cs" />
     <Compile Include="ResourceModel\Role.cs" />
-    <Compile Include="Utilities\ServiceBusHelper.cs" />
+    <Compile Include="ServiceBus\ServiceBusHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementError.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />

@@ -12,17 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test
+namespace Microsoft.WindowsAzure.Management.Test.Stubs
 {
     using System;
     using System.Diagnostics;
     using System.IO;
-    using Cmdlet;
     using Cmdlets;
     using Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Model;
     using TestData;
+    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
 
     /// <summary>
     /// Utility used to create files and directories and clean them up when
@@ -67,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             get { return _watcher != null; }
             set
             {
-               if (!value && _watcher != null)
+                if (!value && _watcher != null)
                 {
                     // Dispose of the watcher if we're turning it off
                     DisposeWatcher();
@@ -84,10 +85,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                     _watcher.Renamed += (s, e) => Log("<Watcher>  Renamed {0} to {1}", GetRelativePath(e.OldFullPath), GetRelativePath(e.FullPath));
                     _watcher.EnableRaisingEvents = true;
                 }
-                
+
             }
         }
-        
+
         /// <summary>
         /// Initializes a new FileSystemHelper to a random temp directory.
         /// </summary>
@@ -98,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             : this(testInstance, GetTemporaryDirectoryName())
         {
         }
-        
+
         /// <summary>
         /// Initialize a new FileSystemHelper to a specific directory.
         /// </summary>
@@ -110,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         {
             Debug.Assert(testInstance != null);
             Debug.Assert(!string.IsNullOrEmpty(rootPath));
-            
+
             TestInstance = testInstance;
 
             // Set the directory and create it if necessary.
@@ -121,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 Directory.CreateDirectory(rootPath);
             }
         }
-        
+
         /// <summary>
         /// Destroy the files and directories created during the test.
         /// </summary>
@@ -132,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 // Cleanup any certificates added during the test
                 if (!string.IsNullOrEmpty(AzureSdkPath))
                 {
-                    new Microsoft.WindowsAzure.Management.CloudService.Test.Model.RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
+                    new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
                     GlobalPathInfo.GlobalSettingsDirectory = null;
                     AzureSdkPath = null;
                 }
@@ -145,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
                 Log("Deleting directory {0}", RootPath);
                 Directory.Delete(RootPath, true);
-                
+
                 DisposeWatcher();
 
                 // Note: We can't clear the RootPath until we've disposed the
@@ -154,7 +155,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 RootPath = null;
             }
         }
-        
+
         /// <summary>
         /// Dispose of the FileSystemWatcher we're using to monitor changes to
         /// the FileSystem.
@@ -168,7 +169,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 _watcher = null;
             }
         }
-        
+
         /// <summary>
         /// Log a message from the FileSytemHelper.
         /// </summary>
@@ -178,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         {
             TestInstance.Log("[FileSystemHelper]  " + format, args);
         }
-        
+
         /// <summary>
         /// Get the path of a file relative to the FileSystemHelper's rootPath.
         /// </summary>
@@ -202,7 +203,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             Debug.Assert(!string.IsNullOrEmpty(relativePath));
             return Path.Combine(RootPath, relativePath);
         }
-        
+
         /// <summary>
         /// Create a random directory name that doesn't yet exist on disk.
         /// </summary>
@@ -214,10 +215,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             }
-            
+
             return path;
         }
-        
+
         /// <summary>
         /// Create a new directory relative to the rootPath.
         /// </summary>
@@ -226,17 +227,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         public string CreateDirectory(string relativePath)
         {
             Debug.Assert(!string.IsNullOrEmpty(relativePath));
-            
+
             string path = Path.Combine(RootPath, relativePath);
             if (!Directory.Exists(path))
             {
                 Log("Creating directory {0}", path);
                 Directory.CreateDirectory(path);
             }
-            
+
             return path;
         }
-        
+
         /// <summary>
         /// Create an empty file relative to the rootPath.
         /// </summary>
@@ -245,14 +246,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         public string CreateEmptyFile(string relativePath)
         {
             Debug.Assert(!string.IsNullOrEmpty(relativePath));
-            
+
             string path = Path.Combine(RootPath, relativePath);
             if (!File.Exists(path))
             {
                 Log("Creating empty file {0}", path);
                 File.WriteAllText(path, "");
             }
-            
+
             return path;
         }
 
@@ -277,7 +278,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             Debug.Assert(!string.IsNullOrEmpty(publishSettingsPath));
             Debug.Assert(File.Exists(publishSettingsPath));
             Debug.Assert(string.IsNullOrEmpty(AzureSdkPath));
-            
+
             AzureSdkPath = CreateDirectory("AzureSdk");
             GlobalPathInfo.GlobalSettingsDirectory = AzureSdkPath;
             new ImportAzurePublishSettingsCommand()
@@ -295,10 +296,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <returns>Directory created for the service.</returns>
         public string CreateNewService(string serviceName)
         {
-            NewAzureServiceProjectCommand cmdlet = new NewAzureServiceProjectCommand();
-            cmdlet.CommandRuntime = new MockCommandRuntime();
-            cmdlet.NewAzureServiceProcess(RootPath, serviceName);
-
+            AzureService newService = new AzureService(RootPath, serviceName, null);
             string path = Path.Combine(RootPath, serviceName);
             _previousDirectory = Environment.CurrentDirectory;
             Environment.CurrentDirectory = path;

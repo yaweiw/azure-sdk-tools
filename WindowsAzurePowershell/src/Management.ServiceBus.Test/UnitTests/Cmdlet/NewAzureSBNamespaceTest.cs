@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
@@ -31,13 +31,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
         [TestMethod]
         public void NewAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "West US";
@@ -79,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void NewAzureSBNamespaceWithInternalServerError()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "West US";
@@ -100,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void NewAzureSBNamespaceWithInvalidLocation()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             string location = "Invalid location";

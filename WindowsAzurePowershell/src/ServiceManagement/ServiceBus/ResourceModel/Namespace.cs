@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel
 {
     using System.Xml.Serialization;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
@@ -88,13 +88,13 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     }
 
     [XmlRoot("NamespaceAvailability", Namespace = ServiceBusConstants.ServiceBusXNamespace)]
-    public class ServiceBusNamespaceAvailabiliyResponse
+    public class ServiceBusNamespaceAvailabilityResponse
     {
         public bool Result { get; set; }
 
         public override bool Equals(object obj)
         {
-            ServiceBusNamespaceAvailabiliyResponse rhs = obj as ServiceBusNamespaceAvailabiliyResponse;
+            ServiceBusNamespaceAvailabilityResponse rhs = obj as ServiceBusNamespaceAvailabilityResponse;
 
             return this.Result.Equals(rhs.Result);
         }
