@@ -80,11 +80,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contrac
         /// Checks if service bus namespace exists or not.
         /// </summary>
         [OperationContract(AsyncPattern = true)]
-        [ServiceBusBehavior(typeof(ServiceBusNamespaceAvailabiliyResponse))]
+        [ServiceBusBehavior(typeof(ServiceBusNamespaceAvailabilityResponse))]
         [WebGet(UriTemplate = @"{subscriptionId}/services/servicebus/CheckNamespaceAvailability/?namespace={name}")]
         IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string name, AsyncCallback callback, object state);
 
-        ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult);
+        ServiceBusNamespaceAvailabilityResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult);
     }
 
     public static partial class ServiceBusManagementExtensionMethods
@@ -114,7 +114,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contrac
             proxy.EndDeleteServiceBusNamespace(proxy.BeginDeleteServiceBusNamespace(subscriptionId, name, null, null));
         }
 
-        public static ServiceBusNamespaceAvailabiliyResponse IsServiceBusNamespaceAvailable(this IServiceBusManagement proxy, string subscriptionId, string name)
+        public static ServiceBusNamespaceAvailabilityResponse IsServiceBusNamespaceAvailable(this IServiceBusManagement proxy, string subscriptionId, string name)
         {
             return proxy.EndIsServiceBusNamespaceAvailable(proxy.BeginIsServiceBusNamespaceAvailable(subscriptionId, name, null, null));
         }

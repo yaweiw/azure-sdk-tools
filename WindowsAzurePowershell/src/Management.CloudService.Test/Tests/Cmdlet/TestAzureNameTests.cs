@@ -42,19 +42,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         }
 
         [TestMethod]
-        public void TestAzureServiceNameAvailable()
-        {
-            string name = "test";
-            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
-
-            cmdlet.IsDNSAvailable(subscriptionId, name);
-
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
-            Assert.IsTrue(actual);
-        }
-
-        [TestMethod]
-        public void TestAzureServiceNameIsNotAvailable()
+        public void TestAzureServiceNameUsed()
         {
             string name = "test";
             channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
@@ -62,23 +50,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
-            Assert.IsFalse(actual);
-        }
-
-        [TestMethod]
-        public void TestAzureStorageNameAvailable()
-        {
-            string name = "test";
-            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
-
-            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
-
-            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureStorageNameIsNotAvailable()
+        public void TestAzureServiceNameIsNotUsed()
+        {
+            string name = "test";
+            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+
+            cmdlet.IsDNSAvailable(subscriptionId, name);
+
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureStorageNameUsed()
         {
             string name = "test";
             channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
@@ -86,14 +74,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureStorageNameIsNotUsed()
+        {
+            string name = "test";
+            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+
+            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
+
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsFalse(actual);
         }
 
         [TestMethod]
-        public void TestAzureServiceBusNamespaceAvailable()
+        public void TestAzureServiceBusNamespaceUsed()
         {
             string name = "test";
-            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = true }; };
+            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabilityResponse { Result = false }; };
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
@@ -103,16 +103,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         }
 
         [TestMethod]
-        public void TestAzureServiceBusNamespaceIsNotAvailable()
+        public void TestAzureServiceBusNamespaceIsNotUsed()
         {
             string name = "test";
-            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = false }; };
+            serviceBusChannel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabilityResponse { Result = false }; };
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
             bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             
-            Assert.IsFalse(actual);
+            Assert.IsTrue(actual);
         }
     }
 }
