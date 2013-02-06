@@ -508,11 +508,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-                
+                /*
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,
                     () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; return storageService; });
+                 * */
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
@@ -929,13 +930,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 // Create a new channel to mock the calls to Azure and
                 // determine all of the results that we'll need.
-
+                /*
                 channel.GetStorageServiceThunk = MultiCallResponseBuilder(
                     () => null,
                     () => storageService,
                     () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; 
                             storageService.StorageServiceProperties.AffinityGroup = affinityGroup;
                             return storageService; });
+                 * */
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => { createdHostedService = true; cloudService = new HostedService() { HostedServiceProperties = new HostedServiceProperties() { AffinityGroup = affinityGroup } }; };
                 channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
