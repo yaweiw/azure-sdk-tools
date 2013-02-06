@@ -12,32 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
 {
-    class Parameter
+    using System;
+    using System.Collections.Generic;
+    using System.ServiceModel;
+    using System.ServiceModel.Web;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+
+    [ServiceContract]
+    public interface IStoreManagement
     {
-        public const string Provider = "Provider";
+        /// <summary>
+        /// Lists the cloud services associated with a given subscription.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebGet(UriTemplate = @"{subscriptionId}/CloudServices")]
+        IAsyncResult BeginListCloudServices(string subscriptionId, AsyncCallback callback, object state);
 
-        public const string Addon = "Addon";
-
-        public const string Plans = "Plans";
-
-        public const string Name = "Name";
-
-        public const string AddOn = "AddOn";
-
-        public const string Plan = "Plan";
-
-        public const string Location = "Location";
-
-        public const string SchemaVersion = "SchemaVersion";
-
-        public const string State = "State";
-
-        public const string OperationStatus = "OperationStatus";
-
-        public const string UsageMeters = "UsageMeters";
-
-        public const string OutputItems = "OutputItems";
+        CloudServiceList EndListCloudServices(IAsyncResult asyncResult);
     }
 }

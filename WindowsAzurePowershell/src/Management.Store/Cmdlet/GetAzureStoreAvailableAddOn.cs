@@ -20,13 +20,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Security.Permissions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<PSObject>))]
-    public class GetAzureStoreAvailableAddOnCommand : StoreBaseCmdlet
+    public class GetAzureStoreAvailableAddOnCommand : CloudBaseCmdlet<IMarketplaceManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
         public string Country { get; set; }
@@ -37,18 +39,27 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         public GetAzureStoreAvailableAddOnCommand()
         {
             Country = "US";
+            CurrentServiceEndpoint = Resources.MarketplaceEndpoint;
+        }
+
+        /// <summary>
+        /// Creates new instance from GetAzureStoreAvailableAddOnCommand with mock channel.
+        /// </summary>
+        public GetAzureStoreAvailableAddOnCommand(IMarketplaceManagement channel): this()
+        {
+            Channel = channel;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            List<Offer> offers = MarketplaceChannel.ListWindowsAzureOffers();
+            List<Offer> offers = Channel.ListWindowsAzureOffers();
             List<PSObject> output = new List<PSObject>();
 
             foreach (Offer offer in offers)
             {
                 string plansQuery = string.Format("CountryCode eq '{0}'", Country);
-                List<Plan> plans = MarketplaceChannel.ListOfferPlans(offer.Id.ToString(), plansQuery);
+                List<Plan> plans = Channel.ListOfferPlans(offer.Id.ToString(), plansQuery);
 
                 if (plans.Count > 0)
                 {
@@ -65,7 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 
             if (output.Count > 0)
             {
-                WriteObject(output, true);                
+                WriteObject(output, true);
             }
         }
     }
