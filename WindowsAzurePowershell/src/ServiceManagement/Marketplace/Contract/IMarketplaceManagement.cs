@@ -19,7 +19,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
 
     [ServiceContract]
     public interface IMarketplaceManagement

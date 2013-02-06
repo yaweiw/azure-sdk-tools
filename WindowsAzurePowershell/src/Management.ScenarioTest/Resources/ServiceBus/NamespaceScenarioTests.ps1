@@ -101,6 +101,7 @@ function Test-GetAzureSBNamespaceWithOneNamespace
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
+	if ($namespaces.Count -gt 1) { Write-Warning "The test initialization did not succeed"; exit }
 	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
@@ -121,6 +122,7 @@ function Test-GetAzureSBNamespaceWithMultipleNamespaces
 	$namespaces = Get-AzureSBNamespace
 
 	# Assert
+	if ($namespaces.Count -gt 3) { Write-Warning "The test initialization did not succeed"; exit }
 	Assert-AreEqualArray $global:createdNamespaces $($namespaces | Select -ExpandProperty Name)
 
 	# Cleanup
@@ -280,8 +282,8 @@ function Test-NewAzureSBNamespaceWithWebsite
 	$namespaceName = Get-NamespaceName
 
 	# Test
-	$available = Test-AzureName -ServiceBusNamespace $namespaceName
-	Assert-True { $available } "The service bus name '$namespaceName' is not available"
+	$used = Test-AzureName -ServiceBusNamespace $namespaceName
+	Assert-False { $used } "The service bus name '$namespaceName' is not available"
 	
 	Get-AzureSBLocation | Select @{Name="Location";Expression={$_."Code"}} | Where {$_.Location -eq $(Get-DefaultServiceBusLocation)} | New-AzureSBNamespace $namespaceName
 	
@@ -344,8 +346,8 @@ function Test-RemoveAzureSBNamespaceInputPiping
 	$name = Get-NamespaceName
 
 	# Test
-	$available = Test-AzureName -ServiceBusNamespace $name
-	Assert-True { $available } "The service bus name '$name' is not available"
+	$used = Test-AzureName -ServiceBusNamespace $name
+	Assert-False { $used } "The service bus name '$name' is not available"
 
 	New-AzureSBNamespace $name $(Get-DefaultServiceBusLocation)
 	

@@ -98,7 +98,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\RemoveAzurePublishSettings.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,7 +135,6 @@
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
     <Compile Include="Utilities\AzureAssert.cs" />
-    <Compile Include="Utilities\FileSystemHelper.cs" />
     <Compile Include="Utilities\RuntimePackageHelper.cs" />
     <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -210,6 +208,10 @@
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceBus.Test\Management.ServiceBus.Test.csproj">
+      <Project>{16098AC2-5C1D-4D3C-B499-80A61D1AB7E2}</Project>
+      <Name>Management.ServiceBus.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
