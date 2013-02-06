@@ -1,9 +1,12 @@
 2013.02.11 Version 0.6.10
- * Moved from PowerShell 2.0 to PowerShell 3.0
+ * Upgrade to use PowerShell 3.0
  * Released source code for VM and Cloud Services cmdlets
- * Add -TemplateFolder option to Add-AzureWeb/WorkerRole cmdlets to support Cloud Services scaffolding customization
+ * Added a few new cmdlets for cloud service scaffolding (Add-AzureWebRole, Add-AzureWorkerRole, NewAzureRoleTemplate, Save-AzureServiceProjectPackage, Set-AzureServiceProjectRole -VMSize), See Web Camps TV (http://channel9.msdn.com/Shows/Web+Camps+TV/Whats-Coming-in-the-Command-Line-Tools-for-Windows-Azure-with-Glenn-Block) for more on these new cmdlets.
  * Added Support for SAS in destination Uri for Add-AzureVhd
  * Added -Confirm and -WhatIf support for Remove-Azure* cmdlets
+ * Added configurable startup task for Node.js and generic roles
+ * Enabled emulator support when running roles with memcache
+ * Role based cmdlets don't require role name if run in a role folder
  * Added scenario test framework and started adding automated scenario tests
  * Multiple bug fixes
 
