@@ -205,7 +205,20 @@
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="false" />
   </Target>
-  <Target Name="AzureRTScenarioTest" DependsOnTargets="Clean;BuildDebug">
+  
+  <!-- Run the scenario tests -->
+  <Target Name="AzureRTScenarioTest2" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+    
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:ServiceManagemenet /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="AzureRTScenarioTest1" DependsOnTargets="Clean;BuildDebug">
     <Message Importance="high" Text="Running AzureRT scenario tests..." />
     <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
