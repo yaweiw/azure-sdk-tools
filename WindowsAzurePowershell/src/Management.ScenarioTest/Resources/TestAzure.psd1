@@ -56,7 +56,7 @@ RequiredAssemblies = @()
 # Script files (.ps1) that are run in the caller's environment prior to importing this module
 ScriptsToProcess = @()
 
-)# Modules to import as nested modules of the module specified in ModuleToProcess
+# Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Service.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
