@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities
 {
     using System;
     using System.Collections.Generic;

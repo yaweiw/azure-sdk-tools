@@ -20,16 +20,21 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class CloudServiceTests : WindowsAzurePowerShellTest
+    public class RemoveAzureServiceScenarioTests : WindowsAzurePowerShellTest
     {
-        public CloudServiceTests()
+        public RemoveAzureServiceScenarioTests()
             : base("CloudService\\Common.ps1",
                    "CloudService\\CloudServiceTests.ps1")
         {
 
         }
 
-        #region Remove-AzureService Scenario Tests
+        [TestInitialize]
+        public override void TestSetup()
+        {
+            base.TestSetup();
+            powershell.AddScript("Initialize-CloudServiceTest");
+        }
 
         [TestMethod]
         [TestCategory(Category.All)]
@@ -78,7 +83,5 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         {
             RunPowerShellTest("Test-RemoveAzureServicePipedFromGetAzureService");
         }
-
-        #endregion
     }
 }

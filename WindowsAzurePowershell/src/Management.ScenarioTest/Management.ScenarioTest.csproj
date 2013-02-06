@@ -78,8 +78,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
+    <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
-    <Compile Include="CloudServiceTests\CloudServiceTests.cs" />
+    <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
