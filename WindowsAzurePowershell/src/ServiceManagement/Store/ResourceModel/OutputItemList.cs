@@ -12,32 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
 {
-    class Parameter
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+
+    [CollectionDataContract(Name = "OutputItems", ItemName = "OutputItem", Namespace = Constants.ServiceManagementNS)]
+    public class OutputItemList : List<OutputItem>
     {
-        public const string Provider = "Provider";
+        public OutputItemList()
+        {
+        }
 
-        public const string Addon = "Addon";
-
-        public const string Plans = "Plans";
-
-        public const string Name = "Name";
-
-        public const string AddOn = "AddOn";
-
-        public const string Plan = "Plan";
-
-        public const string Location = "Location";
-
-        public const string SchemaVersion = "SchemaVersion";
-
-        public const string State = "State";
-
-        public const string OperationStatus = "OperationStatus";
-
-        public const string UsageMeters = "UsageMeters";
-
-        public const string OutputItems = "OutputItems";
+        public OutputItemList(IEnumerable<OutputItem> outputItems)
+            : base(outputItems)
+        {
+        }
     }
 }

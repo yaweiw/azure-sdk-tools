@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 {
                     _serviceEndpoint = CurrentServiceEndpoint;
                 }
-                else if (!string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
+                else if (CurrentSubscription != null && !string.IsNullOrEmpty(CurrentSubscription.ServiceEndpoint))
                 {
                     _serviceEndpoint = CurrentSubscription.ServiceEndpoint;
                 }

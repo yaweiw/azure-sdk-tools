@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
   <ViewDefinitions>
+    <View>
+      <Name>Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel.Resource</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel.Resource</TypeName>
+      </ViewSelectedBy>
+      <ListControl>
+        <ListEntries>
+          <ListEntry>
+            <ListItems>
+              <ListItem>
+                <Label>Name</Label>
+                <PropertyName>Name</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Provider</Label>
+                <PropertyName>Provider</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>AddOn</Label>
+                <PropertyName>AddOn</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Plan</Label>
+                <PropertyName>Plan</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Location</Label>
+                <PropertyName>Location</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>Settings</Label>
+                <ScriptBlock>
+                  $format = "{0}{2,-20}: {3}{0}{4,-20}: {5}{0}{6}:{0}{1}{7,-10}: {8}{0}{1}{9,-10}: {10}{0}{11}:"
+                  $objects = @("`r`n", "`t", "SchemaVersion", $_.SchemaVersion, "State", $_.State, "OperationStatus", "Type", $_.OperationStatus.Type, "Result", $_.OperationStatus.Result, "OutputItems")
+                  foreach ($outputItem in $_.OutputItems)
+                  {
+                    # Add key
+                    $format += "{0}{1}{" + $objects.Count + ",-20}"
+                    $objects += $outputItem.Key
+
+                    # Add value
+                    $format += ": {" + $objects.Count + "}"
+                    $objects += $outputItem.Value
+                  }
+                  [string]::Format($format, $objects)
+                </ScriptBlock>
+              </ListItem>
+            </ListItems>
+          </ListEntry>
+        </ListEntries>
+      </ListControl>
+    </View>
   </ViewDefinitions>
 </Configuration>

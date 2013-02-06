@@ -38,10 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             // Setup
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             SimpleMarketplaceManagement channel = new SimpleMarketplaceManagement();
-            GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand() {
-                CommandRuntime = mockCommandRuntime,
-                MarketplaceChannel = channel
-            };
+            GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand(channel) { CommandRuntime = mockCommandRuntime };
             List<Plan> expectedPlans = new List<Plan>();
             expectedPlans.Add(new Plan() { PlanIdentifier = "Bronze" });
             expectedPlans.Add(new Plan() { PlanIdentifier = "Silver" });
