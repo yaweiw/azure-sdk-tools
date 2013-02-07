@@ -783,10 +783,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             BlobUri blobUri;
             BlobUri.TryParseUri(new Uri(destination), out blobUri);
 
-            var downloader = new Downloader(blobUri, storageAccountKey.Primary);
-            var downloadedFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
-            downloader.Download(downloadedFile);
-            return downloadedFile;
+            var localFilePath = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
+            var downloader = new Downloader(blobUri, storageAccountKey.Primary, localFilePath);
+            downloader.Download();
+            return localFilePath;
         }
 
         private static string CalculateContentMd5(Stream stream)
