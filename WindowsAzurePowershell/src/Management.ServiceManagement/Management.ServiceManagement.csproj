@@ -228,6 +228,7 @@
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
+    <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
     <Compile Include="Model\RoleInstanceContext.cs" />
@@ -240,6 +241,8 @@
     <Compile Include="Model\StorageServiceOperationContext.cs" />
     <Compile Include="Model\StorageServicePropertiesOperationContext.cs" />
     <Compile Include="Model\UploadParameters.cs" />
+    <Compile Include="Model\VhdDownloadContext.cs" />
+    <Compile Include="Model\VhdDownloaderModel.cs" />
     <Compile Include="Model\VhdUploadContext.cs" />
     <Compile Include="Model\VirtualNetworkConfigContext.cs" />
     <Compile Include="Model\VirtualNetworkGatewayContext.cs" />
@@ -258,6 +261,7 @@
     <Compile Include="StorageServices\NewAzureStorageAccount.cs" />
     <Compile Include="StorageServices\NewAzureStorageKey.cs" />
     <Compile Include="StorageServices\RemoveAzureStorageAccount.cs" />
+    <Compile Include="StorageServices\SaveAzureVhdCommand.cs" />
     <Compile Include="StorageServices\SetAzureStorageAccount.cs" />
     <Compile Include="Model\VhdUploaderModel.cs" />
   </ItemGroup>

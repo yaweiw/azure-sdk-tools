@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,14 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Management.Sync.Download
 {
     using System;
-    using System.IO;
 
-    public class VhdUploadContext
+    public class DownloaderParameters
     {
-        public FileInfo LocalFilePath { get; set; }
-        public Uri DestinationUri { get; set; }
+        public BlobUri BlobUri { get; set; }
+        public string LocalFilePath { get; set; }
+        public int ConnectionLimit { get; set; }
+        public string StorageAccountKey { get; set; }
+        public bool ValidateFreeDiskSpace { get; set; }
+        public bool OverWrite { get; set; }
+        public Action<ProgressRecord> ProgressDownloadStatus { get; set; }
+        public Action<TimeSpan> ProgressDownloadComplete { get; set; }
     }
 }

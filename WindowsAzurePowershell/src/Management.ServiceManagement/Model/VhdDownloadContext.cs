@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
     using System;
     using System.IO;
 
-    public class VhdUploadContext
+    public class VhdDownloadContext
     {
         public FileInfo LocalFilePath { get; set; }
-        public Uri DestinationUri { get; set; }
+        public Uri Source { get; set; }
     }
 }

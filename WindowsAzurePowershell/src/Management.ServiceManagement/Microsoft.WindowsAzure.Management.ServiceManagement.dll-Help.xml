@@ -14204,7 +14204,7 @@
           <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>NumberOfUploaderThreads</maml:name>
+          <maml:name>NumberOfThreads</maml:name>
           <maml:description>
             <maml:para>Determines the number of uploader threads that will be used during upload.</maml:para>
           </maml:description>
@@ -14254,7 +14254,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>NumberOfUploaderThreads</maml:name>
+        <maml:name>NumberOfThreads</maml:name>
         <maml:description>
           <maml:para>Determines the number of uploader threads that will be used during upload.</maml:para>
 
@@ -14389,12 +14389,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Add-AzureVhd -Destination http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfUploaderThreads 32
+          Add-AzureVhd -Destination http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfThreads 32
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>NumberOfUploaderThreads allows to change the default number of uploader threads, which is 8.</maml:para>
+          <maml:para>NumberOfThreads allows to change the default number of uploader threads, which is 8.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -14441,4 +14441,294 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Save-AzureVhd
+      </command:name>
+      <maml:description>
+        <maml:para></maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Save</command:verb>
+      <command:noun>AzureVhd</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>
+        The Save-AzureVhd cmdlet allows to download VHD images stored in a blob in to a file. It has parameters to configure the download process such as specifying the number of downloader threads that will be used or overwriting the file which already exists in the specified file path. Save-AzureVhd doesn't do any VHD format conversion and the blob is downloaded as it is.
+      </maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Save-AzureVhd</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Source</maml:name>
+          <maml:description>
+            <maml:para>Uri to the blob in Windows Azure.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>StorageKey</maml:name>
+          <maml:description>
+            <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>OverWrite</maml:name>
+          <maml:description>
+            <maml:para>Determines to delete the file specified by LocalFilePath file if it exists.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>LocalFilePath</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NumberOfThreads</maml:name>
+          <maml:description>
+            <maml:para>Determines the number of download threads that will be used during download.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>LocalFilePath</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
+        <dev:type>
+          <maml:name>FileInfo</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>2</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NumberOfThreads</maml:name>
+        <maml:description>
+          <maml:para>Determines the number of download threads that will be used during download.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>8</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>OverWrite</maml:name>
+        <maml:description>
+          <maml:para>Determines to delete the file specified by LocalFilePath file if it exists.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>Source</maml:name>
+        <maml:description>
+          <maml:para>Uri to the blob in Windows Azure.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>StorageKey</maml:name>
+        <maml:description>
+          <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Downloads the specified blob to the specified local file path.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -Overwrite
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Overwrite options tells to delete if local file exists.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfThreads 32
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>NumberOfThreads allows to override the default number of threads, which is 8, used to download.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -StorageKey zNvcH0r5vAGmC5AbwEtpcyWCMyBd3eMDbdaa4ua6kwxq6vTZH3Y+sw==
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>If storage key is specified, Save-AzureVhd doesn't attempt to get the storage key from Windows Azure Cloud and uses the provided the key in download.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
 </helpItems>
