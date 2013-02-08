@@ -400,6 +400,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Create a unique Service Name
             string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
+            
+            
 
             // Create a new Azure quick VM
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "p@ssw0rd", locationName); // New-AzureQuickVM
