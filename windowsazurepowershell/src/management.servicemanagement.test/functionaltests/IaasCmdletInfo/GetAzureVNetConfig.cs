@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +11,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
+    public class GetAzureVNetConfigCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)
+        public GetAzureVNetConfigCmdletInfo(string filePath)
         {
-            this.cmdletName = Utilities.RemoveAzureEndpointCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", epName));
-            this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
+            cmdletName = Utilities.GetAzureVNetConfigCmdletName;
+            if (filePath != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("ExportToFile", filePath));
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+
+    public class SetAzureSubnetCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)
+        public SetAzureSubnetCmdletInfo(PersistentVM vm, string[] subnetNames)
         {
-            this.cmdletName = Utilities.RemoveAzureEndpointCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", epName));
-            this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
+            this.cmdletName = Utilities.SetAzureSubnetCmdletName;
+            
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
+            this.cmdletParams.Add(new CmdletParam("SubnetNames", subnetNames));
         }
     }
 }

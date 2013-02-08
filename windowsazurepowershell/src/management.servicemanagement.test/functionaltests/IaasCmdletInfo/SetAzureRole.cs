@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +11,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    
+    public class SetAzureRoleCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)
+        public SetAzureRoleCmdletInfo(string serviceName, string slot, string roleName, int count)
         {
-            this.cmdletName = Utilities.RemoveAzureEndpointCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", epName));
-            this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
+            cmdletName = Utilities.SetAzureRoleCmdletName;
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            this.cmdletParams.Add(new CmdletParam("Slot", slot));
+            this.cmdletParams.Add(new CmdletParam("RoleName", roleName));
+            this.cmdletParams.Add(new CmdletParam("Count", count));            
         }
     }
 }
