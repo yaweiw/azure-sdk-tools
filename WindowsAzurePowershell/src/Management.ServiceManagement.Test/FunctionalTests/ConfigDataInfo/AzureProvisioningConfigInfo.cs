@@ -15,16 +15,60 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
+     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
     public class AzureProvisioningConfigInfo
     {
-        public readonly OS OS;
+        public OS OS;
         public readonly string Password;
+        public CertificateSettingList Certs =  new CertificateSettingList();
+        public string LinuxUser = (string) null;
+        public string Option = (string) null;
+        public string JoinDomain = (string)null;
+        public string Domain = (string)null;
+        public string DomainUserName = (string)null;
+        public string DomainPassword = (string)null;
+        public bool Reset = false;
+        public bool DisableAutomaticUpdate = false;
+        public bool DisableSSH = false;
+        public bool NoRDPEndpoint = false;
+        public bool NoSSHEndpoint = false;
+
+        public AzureProvisioningConfigInfo(string option, string joinDomain, string domain, string domainUserName, string domainPassword,  string password, bool resetPasswordFirstLogon)
+        {
+            this.Option = option;
+            this.Password = password;
+            this.Domain = domain;
+            this.JoinDomain = joinDomain;
+            this.DomainUserName = domainUserName;
+            this.DomainPassword = domainPassword;
+            this.Reset = resetPasswordFirstLogon;
+        }
+
+        public AzureProvisioningConfigInfo(OS os, string user, string password)
+        {
+            this.OS = os;
+            this.Password = password;
+            this.LinuxUser = user;
+        }
+
 
         public AzureProvisioningConfigInfo(OS os, string password)
         {
             this.OS = os;
             this.Password = password;
         }
+
+        public AzureProvisioningConfigInfo(OS os, CertificateSettingList certs, string password)
+        {
+            this.OS = os;            
+            this.Password = password;
+            foreach (CertificateSetting cert in certs)
+            {
+                Certs.Add(cert);
+            }
+        }
+
 
         public Model.PersistentVM Vm { get; set; }
     }
