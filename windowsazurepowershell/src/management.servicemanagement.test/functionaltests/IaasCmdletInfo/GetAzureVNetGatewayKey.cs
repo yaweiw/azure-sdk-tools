@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +11,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
+    public class GetAzureVNetGatewayKeyCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)
+        public GetAzureVNetGatewayKeyCmdletInfo(string vnetName, string localNetwork)
         {
-            this.cmdletName = Utilities.RemoveAzureEndpointCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", epName));
-            this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
+            this.cmdletName = Utilities.GetAzureVNetGatewayKeyCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
+            this.cmdletParams.Add(new CmdletParam("LocalNetworkSiteName", localNetwork));
         }
     }
 }

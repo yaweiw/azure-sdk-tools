@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +11,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
-using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+
+    public class SetAzureOSDiskCmdletInfo : CmdletsInfo
     {
-        public RemoveAzureEndpointCmdletInfo(string epName, PersistentVMRoleContext vmRoleCtxt)
+        public SetAzureOSDiskCmdletInfo(HostCaching hs, PersistentVM vm)
         {
-            this.cmdletName = Utilities.RemoveAzureEndpointCmdletName;
-            this.cmdletParams.Add(new CmdletParam("Name", epName));
-            this.cmdletParams.Add(new CmdletParam("VM", vmRoleCtxt));
+            cmdletName = Utilities.SetAzureOSDiskCmdletName;
+            this.cmdletParams.Add(new CmdletParam("HostCaching", hs.ToString()));
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
         }
     }
 }
