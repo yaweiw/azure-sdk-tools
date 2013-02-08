@@ -15,6 +15,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
+using System.Threading;
+
 
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
@@ -27,6 +29,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;    
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+
+    using System.IO;
     
 
     [TestClass]
@@ -44,6 +48,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string imageName;
         private string serviceName = "DefaultServiceName";
         private string vmName = "DefaultVmName";
+
+
+
+        private TestContext testContextInstance;
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
         
         
         //private string perfFile;
@@ -54,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
             Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount); // Get-AzureStorageAccountKey
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount); // Get-AzureStorageKey
             Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
 
             locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false); // Get-AzureLocation
@@ -86,11 +109,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             //PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);            
             //PersistentVM[] VMs = { persistentVM };
             //vmPowershellCmdlets.NewAzureVM(serviceName, VMs);
+
+
+
+         
             
 
         }
               
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-Module)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureStorageAccount)")]
         public void ScriptTestSample()
         {
             
@@ -104,9 +131,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.GetAzureVMImage();
         }        
     
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New, Get, Set, Remove)-AzureAffinityGroup)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         public void AzureAffinityGroupTest()
         {
+            cleanup = false;
             testName = "AzureAffinityGroupTest";
 
             string affinityName1 = "affinityName1";
@@ -140,7 +168,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Get-AzureAffinityGroup
                 foreach (var aff in vmPowershellCmdlets.GetAzureAffinityGroup(affinityName1))
                 {
-                    Console.WriteLine("Get-AzureAffinityGroup returned: {0}", aff.ToString());
+                    Console.WriteLine("Get-AzureAffinityGroup returned: Name - {0}, Location - {1}, Label - {2}, Description - {3}", aff.Name, aff.Location, aff.Label, aff.Description);
                     Assert.AreEqual(aff.Name, affinityName1, "Error: Affinity Name is not equal!");
                     Assert.AreEqual(aff.Label, affinityLabel1, "Error: Affinity Label is not equal!");
                     Assert.AreEqual(aff.Location, location1, "Error: Affinity Location is not equal!");
@@ -149,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 foreach (var aff in vmPowershellCmdlets.GetAzureAffinityGroup(affinityName2))
                 {
-                    Console.WriteLine("Get-AzureAffinityGroup returned: {0}", aff.ToString());
+                    Console.WriteLine("Get-AzureAffinityGroup returned: Name - {0}, Location - {1}, Label - {2}, Description - {3}", aff.Name, aff.Location, aff.Label, aff.Description);
                     Assert.AreEqual(aff.Name, affinityName2, "Error: Affinity Name is not equal!");
                     Assert.AreEqual(aff.Label, affinityLabel2, "Error: Affinity Label is not equal!");
                     Assert.AreEqual(aff.Location, location2, "Error: Affinity Location is not equal!");
@@ -162,7 +190,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 foreach (var aff in vmPowershellCmdlets.GetAzureAffinityGroup(affinityName2))
                 {
-                    Console.WriteLine("Get-AzureAffinityGroup returned: {0}", aff.ToString());
+                    Console.WriteLine("Get-AzureAffinityGroup returned: Name - {0}, Location - {1}, Label - {2}, Description - {3}", aff.Name, aff.Location, aff.Label, aff.Description);
                     Assert.AreEqual(aff.Name, affinityName2, "Error: Affinity Name is not equal!");
                     Assert.AreEqual(aff.Label, affinityLabel1, "Error: Affinity Label is not equal!");
                     Assert.AreEqual(aff.Location, location2, "Error: Affinity Location is not equal!");
@@ -198,15 +226,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 Assert.Fail(e.ToString());
             }
-        }
+        }       
         
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureAffinityGroup)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
         public void AzureCertificateTest()
         {
-            
-            testName = "AzureCertificateTest";
             cleanup = false;
-
+            testName = "AzureCertificateTest";
+            
             string certLocation = "cert:\\CurrentUser\\My\\";
 
             string thumbprint1 = "C5AF4AEE8FD278F9D9FCFAB7DC5436B8DF3A5074";            
@@ -223,11 +250,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 CertificateContext getCert1 = vmPowershellCmdlets.GetAzureCertificate(serviceName, thumbprint1, "sha1")[0];
                 Console.WriteLine("Cert is added: {0}", getCert1.Thumbprint);
-                //Assert.AreEqual(getCert1.Thumbprint, thumbprint1);  // Currently fails because of a bug
+                Assert.AreEqual(getCert1.Thumbprint, thumbprint1);  // Currently fails because of a bug
 
                 CertificateContext getCert2 = vmPowershellCmdlets.GetAzureCertificate(serviceName, thumbprint2, "sha1")[0];
                 Console.WriteLine("Cert is added: {0}", getCert2.Thumbprint);
-                //Assert.AreEqual(getCert2.Thumbprint, thumbprint2);
+                Assert.AreEqual(getCert2.Thumbprint, thumbprint2);
 
                 vmPowershellCmdlets.RemoveAzureCertificate(serviceName, thumbprint1, "sha1");
                 foreach (var cert in vmPowershellCmdlets.GetAzureCertificate(serviceName))
@@ -244,12 +271,59 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.Fail(e.ToString());
             }
         }
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureAffinityGroup)")]
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlet (Get-Module)")]
+        public void AzureCertificateSettingTest()
+        {
+            cleanup = true;
+            testName = "AzureCertificateSettingTest";
+
+            string thumbprint = "C5AF4AEE8FD278F9D9FCFAB7DC5436B8DF3A5074";
+            string store = "My";
+
+            
+            try
+            {
+                vmName = Utilities.GetUniqueShortName("PSTestVM");
+                serviceName = Utilities.GetUniqueShortName("PSTestService");
+
+                vmPowershellCmdlets.NewAzureService(serviceName, locationName);
+               
+                CertificateSetting cert = vmPowershellCmdlets.NewAzureCertificateSetting(thumbprint, store);
+
+                CertificateSettingList certList = new CertificateSettingList();
+                certList.Add(cert);
+                
+                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, VMSizeInfo.Small, imageName);               
+                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, certList, "Cert1234!");                                
+
+                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);           
+                
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);            
+               
+                vmPowershellCmdlets.NewAzureVM(serviceName, new [] {vm});
+
+                PersistentVMRoleContext result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                Console.WriteLine("{0} is created", result.Name);
+
+
+
+            }
+            catch (Exception e)
+            {
+
+
+            }
+            
+        }    
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
         public void AzureDataDiskTest()
         {
-            testName = "AzureDataDiskTest";
             cleanup = false;
-
+            testName = "AzureDataDiskTest";
+            
             string diskLabel1 = "disk1";
             int diskSize1 = 30;            
             int lunSlot1 = 0;
@@ -267,13 +341,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.AddDataDisk(vmName, serviceName, new [] {dataDiskInfo1, dataDiskInfo2}); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm  
                 
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo1, HostCaching.None), "Data disk is not properly added");
-                Console.WriteLine("Date disk added correctly.\n");
+                Console.WriteLine("Date disk added correctly.");
                
                                                 
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo2, HostCaching.None), "Data disk is not properly added");
-                Console.WriteLine("Date disk added correctly.\n");
+                Console.WriteLine("Date disk added correctly.");
 
-                vmPowershellCmdlets.SetDataDisk(serviceName, vmName, HostCaching.ReadOnly, lunSlot1);                
+                vmPowershellCmdlets.SetDataDisk(vmName, serviceName, HostCaching.ReadOnly, lunSlot1);                
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo1, HostCaching.ReadOnly), "Data disk is not properly changed");
                 pass = true;
 
@@ -285,7 +359,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             finally
             {
                 // Remove DataDisks created
-                vmPowershellCmdlets.RemoveDataDisk(serviceName, vmName, new [] {lunSlot1, lunSlot2}); // Remove-AzureEndpoint
+                vmPowershellCmdlets.RemoveDataDisk(vmName, serviceName, new [] {lunSlot1, lunSlot2}); // Remove-AzureEndpoint
             }
         }
 
@@ -307,12 +381,239 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return found;
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureAffinityGroup)")]
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
+        public void AzureDiskTest()
+        {
+            testName = "AzureDiskTest";
+            cleanup = false;
+
+
+            // Choose the vhd file from local machine
+            string vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
+            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
+
+            try
+            {
+                vmPowershellCmdlets.AddAzureDisk(vhdName, vhdLocalPath.FullName, vhdName, null);
+
+                bool found = false;
+                foreach (DiskContext disk in vmPowershellCmdlets.GetAzureDisk(vhdName))
+                {
+                    Console.WriteLine("Disk: Name - {0}, Label - {1}, Size - {2},", disk.DiskName, disk.Label, disk.DiskSizeInGB);
+                    if (disk.DiskName == vhdName && disk.Label == vhdName)
+                    {
+                        found = true;
+                        Console.WriteLine("{0} is found", disk.DiskName);
+                    }
+
+                }
+                Assert.IsTrue(found, "Error: Disk is not added");
+
+                vmPowershellCmdlets.RemoveAzureDisk(vhdName, false);
+                Assert.IsTrue(CheckRemove(vmPowershellCmdlets.GetAzureDisk, vhdName), "The disk was not removed");
+
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Console.WriteLine("Exception occurs: {0}", e.ToString());
+            }
+            finally
+            {
+
+
+            }
+
+        }
+
+
+        // ToDo:
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureDeploymentTest()
+        {
+            testName = "AzureDeploymentTest";
+            cleanup = true;
+
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
+            string configName = Convert.ToString(TestContext.DataRow["configName"]);
+            string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+
+
+            var packagePath1 = new FileInfo(@".\" + packageName);
+            var configPath1 = new FileInfo(@".\" + configName);
+            var packagePath2 = new FileInfo(@".\" + upgradePackageName);
+            var configPath2 = new FileInfo(@".\" + upgradeConfigName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+            
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName("PSTestService");
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Staging, deploymentLabel, deploymentName, false, false);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Staging);
+                PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Staging, null, 1);
+                Console.WriteLine("successfully deployed the package");
+
+
+                // Move the deployment from 'Staging' to 'Production'
+                vmPowershellCmdlets.MoveAzureDeployment(serviceName);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 1);                
+                Console.WriteLine("successfully moved");
+
+
+                // Set the deployment status to 'Suspended'
+                vmPowershellCmdlets.SetAzureDeploymentStatus(serviceName, DeploymentSlotType.Production, DeploymentStatus.Suspended);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, DeploymentStatus.Suspended, 1);
+                Console.WriteLine("successfully changed the status");
+
+
+                // Update the deployment
+                vmPowershellCmdlets.SetAzureDeploymentConfig(serviceName, DeploymentSlotType.Production, configPath2.FullName);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully updated the deployment");
+
+
+                // Upgrade the deployment
+                vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Auto, packagePath2.FullName, configPath2.FullName);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully updated the deployment");
+
+                               
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                try
+                {
+                    vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                    Assert.Fail("the deployment is not removed!");
+                }
+                catch(Exception e1)
+                {
+                    if (e1.ToString().ToLowerInvariant().Contains("does not exist"))
+                    {
+                        Console.WriteLine("Successfully removed the deployment");
+                    }
+                    else
+                    {
+                        Assert.Fail("Exception occurred: {0}", e1.ToString());
+                    }
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {                
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+
+            }
+        }
+
+        private bool PrintAndCompareDeployment(DeploymentInfoContext deployment, string serviceName, string deploymentName, string deploymentLabel, string slot, string status, int instanceCount)
+        {
+            Console.WriteLine("ServiceName:{0}, DeploymentID: {1}, Uri: {2}", deployment.ServiceName, deployment.DeploymentId, deployment.Url.AbsoluteUri);
+            Console.WriteLine("Name - {0}, Label - {1}, Slot - {2}, Status - {3}", 
+                deployment.DeploymentName, deployment.Label, deployment.Slot, deployment.Status);
+            Console.WriteLine("RoleInstance: {0}", deployment.RoleInstanceList.Count);
+            foreach (var instance in deployment.RoleInstanceList)
+            {
+                Console.WriteLine("InstanceName - {0}, InstanceStatus - {1}", instance.InstanceName, instance.InstanceStatus);
+            }
+            
+
+            Assert.AreEqual(deployment.ServiceName, serviceName);
+            Assert.AreEqual(deployment.DeploymentName, deploymentName);
+            Assert.AreEqual(deployment.Label, deploymentLabel);
+            Assert.AreEqual(deployment.Slot, slot);
+            if (status != null)
+            {
+                Assert.AreEqual(deployment.Status, status);
+            }
+            
+            Assert.AreEqual(deployment.RoleInstanceList.Count, instanceCount);
+            
+            return true;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureDns)")]
+        public void AzureDnsTest()
+        {
+            cleanup = true;
+            testName = "AzureDnsTest";
+
+
+            string dnsName = "OpenDns1";
+            string ipAddress = "208.67.222.222";
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName("PSTestService");
+                vmPowershellCmdlets.NewAzureService(serviceName, locationName);
+
+                DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
+
+                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, VMSizeInfo.ExtraSmall, imageName);
+                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, "password1234!");     
+           
+                PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);           
+                
+                PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
+           
+                vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null, null, null);
+
+                DnsServerList dnsList =  vmPowershellCmdlets.GetAzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production).DnsSettings);
+                foreach (DnsServer dnsServer in dnsList)
+                {
+                    Console.WriteLine("DNS Server Name: {0}, DNS Server Address: {1}", dnsServer.Name, dnsServer.Address);
+                    Assert.AreEqual(dnsServer.Name, dns.Name);
+                    Assert.AreEqual(dnsServer.Address, dns.Address);
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+
+            }
+        }
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
         public void AzureEndpointTest()
         {
-            testName = "AzureEndpointTest";
             cleanup = false;
-            
+            testName = "AzureEndpointTest";
+
             string epName1 = "tcp1";
             int localPort1 = 60010;
             int port1 = 60011;
@@ -322,28 +623,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             int port2 = 60021;
 
 
-            try                        
+            try
             {
                 // Add two new endpoints
                 AzureEndPointConfigInfo epInfo1 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, localPort1, port1, epName1);
                 AzureEndPointConfigInfo epInfo2 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, localPort2, port2, epName2);
 
-                vmPowershellCmdlets.AddEndPoint(vmName, serviceName, new [] {epInfo1, epInfo2}); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm                             
+                vmPowershellCmdlets.AddEndPoint(vmName, serviceName, new[] { epInfo1, epInfo2 }); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm                             
                 Assert.IsTrue(CheckEndpoint(vmName, serviceName, epInfo1), "Error: Endpoint was not added!");
                 Assert.IsTrue(CheckEndpoint(vmName, serviceName, epInfo2), "Error: Endpoint was not added!");
 
                 // Change the endpoint
                 AzureEndPointConfigInfo epInfo3 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 60030, 60031, epName2);
-                vmPowershellCmdlets.SetEndPoint(serviceName, vmName, epInfo3); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
+                vmPowershellCmdlets.SetEndPoint(vmName, serviceName, epInfo3); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
                 Assert.IsTrue(CheckEndpoint(vmName, serviceName, epInfo3), "Error: Endpoint was not changed!");
 
                 // Remove Endpoint
-                vmPowershellCmdlets.RemoveEndPoint(serviceName, vmName, new[] { epName1, epName2 }); // Remove-AzureEndpoint
+                vmPowershellCmdlets.RemoveEndPoint(vmName, serviceName, new[] { epName1, epName2 }); // Remove-AzureEndpoint
                 Assert.IsFalse(CheckEndpoint(vmName, serviceName, epInfo1), "Error: Endpoint was not removed!");
                 Assert.IsFalse(CheckEndpoint(vmName, serviceName, epInfo3), "Error: Endpoint was not removed!");
 
                 pass = true;
-                
+
             }
             catch (Exception e)
             {
@@ -351,12 +652,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             finally
             {
-                
+
             }
         }
 
         private bool CheckEndpoint(string vmName, string serviceName, AzureEndPointConfigInfo epInfo)
-        {            
+        {
             bool found = false;
             foreach (InputEndpointContext ep in vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName)))
             {
@@ -364,24 +665,59 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 if (ep.Name == epInfo.EndpointName && ep.LocalPort == epInfo.InternalPort && ep.Port == epInfo.ExternalPort && ep.Protocol == epInfo.Protocol.ToString())
                 {
                     found = true;
-                    Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);                    
+                    Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
                 }
             }
             return found;
         }
 
-        // ToDo:
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureAffinityGroup)")]
-        public void AzureDeployemtTest()
-        {
-            testName = "AzureDeployemtnTest";
-            cleanup = false;
 
-            
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
+        public void AzureLocationTest()
+        {
+            cleanup = false;
+            testName = "AzureLocationTest";
 
             try
             {
-                
+                foreach (LocationsContext loc in vmPowershellCmdlets.GetAzureLocation())
+                {
+                    Console.WriteLine("Location: Name - {0}, DisplayName - {1}", loc.Name, loc.DisplayName);
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }            
+        }
+
+
+
+  
+
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
+        public void AzureOSDiskTest()
+        {
+            cleanup = false;
+            testName = "AzureOSDiskTest";
+
+            try
+            {
+                PersistentVM vm = vmPowershellCmdlets.GetAzureVM(vmName, serviceName).VM;
+                OSVirtualHardDisk osdisk = vmPowershellCmdlets.GetAzureOSDisk(vm);
+                Console.WriteLine("OS Disk: Name - {0}, Label - {1}, HostCaching - {2}, OS - {3}", osdisk.DiskName, osdisk.DiskLabel, osdisk.HostCaching, osdisk.OS);
+                Assert.IsTrue(osdisk.Equals(vm.OSVirtualHardDisk), "OS disk returned is not the same!");
+
+                PersistentVM vm2 = vmPowershellCmdlets.SetAzureOSDisk(HostCaching.ReadOnly, vm);
+                osdisk = vmPowershellCmdlets.GetAzureOSDisk(vm2);
+                Console.WriteLine("OS Disk: Name - {0}, Label - {1}, HostCaching - {2}, OS - {3}", osdisk.DiskName, osdisk.DiskLabel, osdisk.HostCaching, osdisk.OS);
+                Assert.IsTrue(osdisk.Equals(vm2.OSVirtualHardDisk), "OS disk returned is not the same!");
+
                 pass = true;
 
             }
@@ -389,17 +725,165 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
-            finally
-            {
+        }
 
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
+        public void AzureOSVersionTest()
+        {
+            cleanup = false;
+            testName = "AzureOSVersionTest";          
+
+            try
+            {
+                foreach (OSVersionsContext osVersions in vmPowershellCmdlets.GetAzureOSVersion())
+                {
+                    Console.WriteLine("OS Version: Family - {0}, FamilyLabel - {1}, Version - {2}", osVersions.Family, osVersions.FamilyLabel, osVersions.Version);
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
             }
         }
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureAffinityGroup)")]
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureRoleTest()
+        {
+            cleanup = true;
+            testName = "AzureRoleTest";
+
+
+
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
+            string configName = Convert.ToString(TestContext.DataRow["configName"]);
+            string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+
+
+            var packagePath1 = new FileInfo(@".\" + packageName);
+            var configPath1 = new FileInfo(@".\" + configName);
+
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+            
+
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            string slot = DeploymentSlotType.Production;
+
+            //DeploymentInfoContext result;
+            string roleName = "";
+
+
+
+            try
+            {
+            
+
+                serviceName = Utilities.GetUniqueShortName("PSTestService");
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, slot, deploymentLabel, deploymentName, false, false);
+
+            
+                foreach (RoleContext role in vmPowershellCmdlets.GetAzureRole(serviceName, slot, null, false))
+                {
+                    Console.WriteLine("Role: Name - {0}, ServiceName - {1}, DeploymenntID - {2}, InstanceCount - {3}", role.RoleName, role.ServiceName, role.DeploymentID, role.InstanceCount);
+                    Assert.AreEqual(serviceName, role.ServiceName);
+                    roleName = role.RoleName;
+                }
+                
+                vmPowershellCmdlets.SetAzureRole(serviceName, slot, roleName, 2);
+
+                foreach (RoleContext role in vmPowershellCmdlets.GetAzureRole(serviceName, slot, null, false))
+                {
+                    Console.WriteLine("Role: Name - {0}, ServiceName - {1}, DeploymenntID - {2}, InstanceCount - {3}", role.RoleName, role.ServiceName, role.DeploymentID, role.InstanceCount);
+                    Assert.AreEqual(serviceName, role.ServiceName);
+                    Assert.AreEqual(2, role.InstanceCount);                   
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
+        public void AzureSubnetTest()
+        {
+            cleanup = true;
+            testName = "AzureSubnetTest";
+
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName("PSTestService");
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                
+                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, VMSizeInfo.Small, imageName));
+                AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, "password1234!");
+                azureProvisioningConfig.Vm = vm;
+
+                string [] subs = new []  {"subnet1", "subnet2", "subnet3"};
+                vm = vmPowershellCmdlets.SetAzureSubnet(vmPowershellCmdlets.AddAzureProvisioningConfig(azureProvisioningConfig), subs);
+                
+                SubnetNamesCollection subnets = vmPowershellCmdlets.GetAzureSubnet(vm);
+                foreach (string subnet in subnets)
+                {
+                    Console.WriteLine("Subnet: {0}", subnet);
+                }                
+                CollectionAssert.AreEqual(subnets, subs);
+                
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
+        public void AzureStorageKeyTest()
+        {
+            cleanup = false;
+            testName = "AzureStorageKeyTest";
+            
+            try
+            {
+                StorageServiceKeyOperationContext key1 = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount); // Get-AzureStorageAccountKey
+                Console.WriteLine("Primary - {0}", key1.Primary);
+                Console.WriteLine("Secondary - {0}", key1.Secondary);
+
+                StorageServiceKeyOperationContext key2 = vmPowershellCmdlets.NewAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount, KeyType.Primary);
+                Console.WriteLine("Primary - {0}", key2.Primary);
+                Console.WriteLine("Secondary - {0}", key2.Secondary);
+
+                Assert.AreNotEqual(key1.Primary, key2.Primary);
+                Assert.AreEqual(key1.Secondary, key2.Secondary);
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }            
+        }
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
         public void AzureStorageAccountTest()
         {
-            testName = "AzureStorageAccountTest";
             cleanup = false;
+            testName = "AzureStorageAccountTest";
+            
 
             string storageName1 = Utilities.GetUniqueShortName("psteststorage");
             string locationName1 = "West US";
@@ -442,6 +926,173 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureVNetGateway)")]
+        public void AzureVNetGatewayTest()
+        {
+            cleanup = false;
+            testName = "AzureVNetGatewayTest";
+
+
+            string vnetName = "DefaultVirtualNetwork";
+            string localNet = "MyLocal"; // Your local network site name.  (
+
+            try
+            {
+
+                vmPowershellCmdlets.NewAzureVNetGateway(vnetName);
+
+
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                }
+                
+                foreach (VirtualNetworkSiteContext site in vmPowershellCmdlets.GetAzureVNetSite(vnetName))
+                {
+                    Console.WriteLine("Name: {0}, AffinityGroup: {1}", site.Name, site.AffinityGroup);
+                }
+
+
+                // AzureVNetGateway -Connect
+                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnetName, localNet);
+
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                }
+
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
+                {
+                    Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
+                    Assert.IsFalse(connection.ConnectivityState.ToLowerInvariant().Contains("notconnected"));
+                }
+
+                // AzureVNetGateway -Disconnect
+                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnetName, localNet);
+
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);                
+                }
+
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
+                {
+                    Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
+                    if (connection.LocalNetworkSiteName == localNet)
+                    {
+                        Assert.IsTrue(connection.ConnectivityState.ToLowerInvariant().Contains("notconnected"));
+                    }
+                }
+
+                vmPowershellCmdlets.RemoveAzureVNetGateway(vnetName);
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                }
+
+                
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// Note: You have to manually create a virtual network, a Local network, a gateway, and connect them.
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureVNetGatewayKey, Get-AzureVNetConnection)")]
+        public void AzureVNetGatewayKeyTest()
+        {
+            cleanup = false;
+            testName = "AzureVNetGatewayKeyTest";
+            
+            string vnetName = "NewVNet1";
+            
+
+            try
+            {                
+                SharedKeyContext result = vmPowershellCmdlets.GetAzureVNetGatewayKey(vnetName, vmPowershellCmdlets.GetAzureVNetConnection(vnetName)[0].LocalNetworkSiteName);
+                Console.WriteLine(result.Value);
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }            
+        }
+
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
+        public void AzureVNetConfigTest()
+        {
+            cleanup = false;
+            testName = "AzureVNetConfigTest";
+
+
+            string filePath = "C:\\vnetconfig.netcfg";            
+
+            try
+            {
+
+                var result = vmPowershellCmdlets.GetAzureVNetConfig(filePath);
+
+                vmPowershellCmdlets.SetAzureVNetConfig(filePath);
+
+                Collection<VirtualNetworkSiteContext> vnetSites = vmPowershellCmdlets.GetAzureVNetSite(null);
+                foreach (var re in vnetSites)
+                {
+                    Console.WriteLine("VNet: {0}", re.Name);
+                }
+
+                vmPowershellCmdlets.RemoveAzureVNetConfig();
+
+                Collection<VirtualNetworkSiteContext> vnetSitesAfter = vmPowershellCmdlets.GetAzureVNetSite(null);
+
+                Assert.AreNotEqual(vnetSites.Count, vnetSitesAfter.Count, "No Vnet is removed");
+                
+                foreach (var re in vnetSitesAfter)
+                {
+                    Console.WriteLine("VNet: {0}", re.Name);
+                }
+
+                pass = true;
+
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("while in use"))
+                {
+                    Console.WriteLine(e.InnerException.ToString());
+                }
+                else
+                {
+                    Assert.Fail("Exception occurred: {0}", e.ToString());
+                }
+            }
+            finally
+            {
+
+            }
+        }
+
+
+
+
+        
+
+
+        // CheckRemove checks if 'fn(name)' exists.    'fn(name)' is usually 'Get-AzureXXXXX name'
         private bool CheckRemove<T>(Func<string, T> fn, string name)
         {
             try
