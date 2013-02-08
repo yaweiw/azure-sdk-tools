@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,15 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Model
+namespace Microsoft.WindowsAzure.Management.Sync.Download
 {
-    using Management.Services;
+    using System;
 
-    public class RemoveAzurePublishSettingsCommand
+    public class DownloaderParameters
     {
-        public void RemovePublishSettingsProcess(string azureSdkDirPath)
-        {
-            GlobalComponents.Load(azureSdkDirPath).DeleteGlobalComponents();
-        }
+        public BlobUri BlobUri { get; set; }
+        public string LocalFilePath { get; set; }
+        public int ConnectionLimit { get; set; }
+        public string StorageAccountKey { get; set; }
+        public bool ValidateFreeDiskSpace { get; set; }
+        public bool OverWrite { get; set; }
+        public Action<ProgressRecord> ProgressDownloadStatus { get; set; }
+        public Action<TimeSpan> ProgressDownloadComplete { get; set; }
     }
 }

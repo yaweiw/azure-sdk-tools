@@ -126,6 +126,7 @@
     <Compile Include="Download\BlobHandle.cs" />
     <Compile Include="Download\BlobUri.cs" />
     <Compile Include="Download\Downloader.cs" />
+    <Compile Include="Download\DownloaderParameters.cs" />
     <Compile Include="IO\StreamWithReadProgress.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressRecord.cs" />

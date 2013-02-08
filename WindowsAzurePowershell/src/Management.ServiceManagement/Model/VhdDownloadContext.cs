@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Microsoft.Data.OData;
+    using System;
+    using System.IO;
 
-    public interface IODataResolvable
+    public class VhdDownloadContext
     {
-        /// <summary>
-        /// Resolves ODataEntry to the actual POCO object
-        /// </summary>
-        /// <param name="entry">The ODataEntry object</param>
-        void Resolve(ODataEntry entry);
+        public FileInfo LocalFilePath { get; set; }
+        public Uri Source { get; set; }
     }
 }

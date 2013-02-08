@@ -12,23 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
 {
-    using Microsoft.Data.OData;
-    using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
 
-    public static class ODataEntryExtension
+    public static class MarketplaceExtensionMethods
     {
-        /// <summary>
-        /// Gets a property value from the ODataEntry object.
-        /// </summary>
-        /// <typeparam name="T">The return value type</typeparam>
-        /// <param name="entry">The ODataEntry object</param>
-        /// <param name="name">The property name</param>
-        /// <returns>The property value</returns>
-        public static T GetPropetyValue<T>(this ODataEntry entry, string name)
+        public static List<Offer> ListWindowsAzureOffers(this IMarketplaceManagement proxy)
         {
-            return (T)(entry.Properties.First<ODataProperty>(p => p.Name.Equals(name)).Value);
+            return proxy.EndListWindowsAzureOffers(proxy.BeginListWindowsAzureOffers(null, null));
+        }
+
+        public static List<Plan> ListOfferPlans(this IMarketplaceManagement proxy, string Id, string query)
+        {
+            return proxy.EndListOfferPlans(proxy.BeginListOfferPlans(Id, query, null, null));
         }
     }
 }

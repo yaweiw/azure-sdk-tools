@@ -68,9 +68,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 outputObject.TypeNames.Add(typeName);
             }
 
-            for (int i = 0; i <= args.Length / 2; i += 2)
+            for (int i = 0, j = 0; i < args.Length / 2; i++, j += 2)
             {
-                outputObject.Properties.Add(new PSNoteProperty(args[i].ToString(), args[i + 1]));
+                outputObject.Properties.Add(new PSNoteProperty(args[j].ToString(), args[j + 1]));
             }
 
             return outputObject;

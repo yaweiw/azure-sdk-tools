@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities
 {
     using System;
     using System.Collections.Generic;
@@ -51,7 +51,6 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
             memoryStream.Position = 0;
             Stream responseStream = memoryStream;
             var sr = new StreamReader(memoryStream);
-            var myStr = sr.ReadToEnd();
 
             using (ODataMessageReader responseReader = new ODataMessageReader(new HttpResponseAdapterMessage(message, responseStream), readerSettings))
             {
@@ -94,16 +93,16 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
             while (reader.State == ODataReaderState.EntryStart)
             {
-                ODataEntry entry = (ODataEntry)reader.Item;
-                // EntryStart => EntryEnd
-                reader.Read();
+                do
+                {
+                    reader.Read();
+                } while (!(reader.Item is ODataEntry));
 
-                entry = (ODataEntry)reader.Item;
+                ODataEntry entry = (ODataEntry)reader.Item;
                 T item = new T();
-                //item.Resolve(entry);
+                item.Resolve(entry);
                 resultList.Add(item);
 
-                // Entry End => ?
                 reader.Read();
             }
         }
