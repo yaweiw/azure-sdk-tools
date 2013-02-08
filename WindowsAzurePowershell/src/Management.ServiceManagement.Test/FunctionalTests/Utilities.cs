@@ -70,6 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         // AzureDns
         public const string NewAzureDnsCmdletName = "New-AzureDns";
+        public const string GetAzureDnsCmdletName = "Get-AzureDns";
 
         // AzureEndpoint
         public const string AddAzureEndpointCmdletName = "Add-AzureEndpoint";        
@@ -87,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureOSDiskCmdletName = "Get-AzureOSDisk";
         public const string SetAzureOSDiskCmdletName = "Set-AzureOSDisk";
 
-        public const string GetAzureOSDiskVersionCmdletName = "Get-AzureOSDiskVersion";
+        public const string GetAzureOSVersionCmdletName = "Get-AzureOSVersion";
 
         // AzureProvisioningConfig
         public const string AddAzureProvisioningConfigCmdletName = "Add-AzureProvisioningConfig";
