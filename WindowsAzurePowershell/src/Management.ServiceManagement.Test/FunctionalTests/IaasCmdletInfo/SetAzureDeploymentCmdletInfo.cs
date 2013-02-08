@@ -16,10 +16,58 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     public class SetAzureDeploymentCmdletInfo : CmdletsInfo
     {
-        public SetAzureDeploymentCmdletInfo(string option, string serviceName, string packagePath, string newStatus, string configName, string slot, string mode, string label, string roleName, bool force)
+
+        private SetAzureDeploymentCmdletInfo(string serviceName, string slot)
+        {
+            this.cmdletName = Utilities.SetAzureDeploymentCmdletName;
+
+            this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            this.cmdletParams.Add(new CmdletParam("Slot", slot));
+        }
+
+        public static SetAzureDeploymentCmdletInfo SetAzureDeploymentStatusCmdletInfo(string serviceName, string slot, string newStatus)
+        {
+            SetAzureDeploymentCmdletInfo result = new SetAzureDeploymentCmdletInfo(serviceName, slot);
+
+            result.cmdletParams.Add(new CmdletParam("Status"));
+            result.cmdletParams.Add(new CmdletParam("NewStatus", newStatus));
+
+            return result;
+        }
+
+
+        public static SetAzureDeploymentCmdletInfo SetAzureDeploymentConfigCmdletInfo(string serviceName, string slot, string configPath)
+        {
+            SetAzureDeploymentCmdletInfo result = new SetAzureDeploymentCmdletInfo(serviceName, slot);
+
+            result.cmdletParams.Add(new CmdletParam("Config"));
+            result.cmdletParams.Add(new CmdletParam("Configuration", configPath));
+
+            return result;
+        }
+
+        public static SetAzureDeploymentCmdletInfo SetAzureDeploymentUpgradeCmdletInfo(string serviceName, string slot, string mode, string packagePath, string configPath)
+        {
+            SetAzureDeploymentCmdletInfo result = new SetAzureDeploymentCmdletInfo(serviceName, slot);
+
+            result.cmdletParams.Add(new CmdletParam("Upgrade"));
+
+            result.cmdletParams.Add(new CmdletParam("Mode", mode));
+            result.cmdletParams.Add(new CmdletParam("Package", packagePath));
+            result.cmdletParams.Add(new CmdletParam("Configuration", configPath));
+
+            return result;
+        }
+
+
+
+
+
+        public SetAzureDeploymentCmdletInfo(string option, string serviceName, string packagePath, string configPath, string newStatus, string slot, string mode, string label, string roleName, bool force)
         {
             cmdletName = Utilities.SetAzureDeploymentCmdletName;
 
@@ -37,26 +85,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
 
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+
+
             if (packagePath != null)
             {
                 cmdletParams.Add(new CmdletParam("Package", packagePath));
             }
-            if (newStatus != null)
+            if (configPath != null)
             {
-                cmdletParams.Add(new CmdletParam("NewStatus", newStatus));
-            }
-            if (configName != null)
-            {
-                cmdletParams.Add(new CmdletParam("Configuration", configName));
-            }
-            if (slot != null)
-            {
-                cmdletParams.Add(new CmdletParam("Slot", slot));
+                cmdletParams.Add(new CmdletParam("Configuration", configPath));
             }
             if (mode != null)
             {
                 cmdletParams.Add(new CmdletParam("Mode", mode));
             }
+
+            if (newStatus != null)
+            {
+                cmdletParams.Add(new CmdletParam("NewStatus", newStatus));
+            }
+
+            if (slot != null)
+            {
+                cmdletParams.Add(new CmdletParam("Slot", slot));
+            }
+
             if (label != null)
             {
                 cmdletParams.Add(new CmdletParam("Label", label));
@@ -68,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (force)
             {
                 cmdletParams.Add(new CmdletParam("Force"));
-            }  
+            }
         }
     }
 }
