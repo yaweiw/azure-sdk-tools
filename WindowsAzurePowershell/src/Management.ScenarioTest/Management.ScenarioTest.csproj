@@ -78,13 +78,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
+    <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
-    <Compile Include="CloudServiceTests\CloudServiceTests.cs" />
+    <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
+    <Compile Include="Store\StoreTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="ManagementTests\ManagementTests.cs" />
@@ -131,6 +134,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\ServiceBus\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Store\StoreTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\tipsf001.publishsettings" />

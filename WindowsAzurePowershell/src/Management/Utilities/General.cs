@@ -23,7 +23,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
+    using System.ServiceModel.Channels;
     using System.Text;
+    using System.Xml;
     using System.Xml.Serialization;
     using Properties;
 
@@ -87,9 +89,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         {
             // TODO: fix and uncomment. second parameter is wrong
             // Validate.ValidateFileFull(fileName, string.Format(Resources.PathDoesNotExistForElement, string.Empty, fileName));
-            
+
             T item = default(T);
-            
+
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             using (Stream s = new FileStream(fileName, FileMode.Open))
             {
@@ -106,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     }
                 }
             }
-            
+
             return item;
         }
 
@@ -172,7 +174,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             Debug.Assert(!string.IsNullOrEmpty(path));
             Debug.Assert(Enum.IsDefined(typeof(FileMode), mode));
             Debug.Assert(bytes != null && bytes.Length > 0);
-            
+
             // Note: We're not wrapping the file in a using statement because
             // that could lead to a double dispose when the writer is disposed.
             FileStream file = null;
@@ -216,7 +218,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         {
             Validate.ValidateStringIsNullOrEmpty(thumbprint, "certificate thumbprint");
             X509Certificate2Collection certificates;
-            if (TryFindCertificatesInStore(thumbprint, StoreLocation.CurrentUser, out certificates) || 
+            if (TryFindCertificatesInStore(thumbprint, StoreLocation.CurrentUser, out certificates) ||
                 TryFindCertificatesInStore(thumbprint, StoreLocation.LocalMachine, out certificates))
             {
                 return certificates[0];
@@ -412,5 +414,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                 }
             }
         }
+
     }
 }

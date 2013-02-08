@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         {
             if (Directory.Exists(Data.AzureSdkAppDir))
             {
-                new Microsoft.WindowsAzure.Management.CloudService.Test.Model.RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(Data.AzureSdkAppDir);
+                new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(Data.AzureSdkAppDir);
             }
         }
 

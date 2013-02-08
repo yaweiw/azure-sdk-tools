@@ -12,9 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
@@ -22,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using System.Management.Automation;
     using Cmdlets.Common;
     using Samples.WindowsAzure.ServiceManagement;
+    using Model;
     using Sync.Download;
 
     /// <summary>

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus
 {
     using System;
     using System.Collections.Generic;
@@ -25,6 +25,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
 
     public class ServiceBusConstants
     {
@@ -61,7 +62,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public object DeserializeReply(Message message, object[] parameters)
         {
-            XDocument response = XDocument.Parse(message.ToString());
+            XDocument response = XDocument.Parse(General.ReadBody(ref message));
             List<T> results = new List<T>();
             IEnumerable<XElement> contents = response.Descendants(XName.Get("content", ServiceBusConstants.AtomNamespaceName));
             XmlSerializer serializer = new XmlSerializer(typeof(T));

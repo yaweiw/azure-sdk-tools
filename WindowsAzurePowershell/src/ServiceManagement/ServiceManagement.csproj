@@ -144,17 +144,21 @@
     <Compile Include="Contract\OperatingSystem.cs" />
     <Compile Include="Contract\OperationTracking.cs" />
     <Compile Include="Contract\OSImage.cs" />
-    <Compile Include="Contract\ServiceBus.cs" />
+    <Compile Include="ServiceBus\Contract\Namespace.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
+    <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
+    <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
+    <Compile Include="Marketplace\ResourceModel\Offer.cs" />
+    <Compile Include="Marketplace\ResourceModel\Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
     <Compile Include="ResourceModel\Certificates.cs" />
     <Compile Include="ResourceModel\Constants.cs" />
-    <Compile Include="ResourceModel\HttpResponseAdapterMessage.cs" />
-    <Compile Include="ResourceModel\IODataResolvable.cs" />
-    <Compile Include="ResourceModel\ODataHelper.cs" />
-    <Compile Include="ResourceModel\ServiceBus.cs" />
+    <Compile Include="Utilities\HttpResponseAdapterMessage.cs" />
+    <Compile Include="Utilities\IODataResolvable.cs" />
+    <Compile Include="Utilities\ODataHelper.cs" />
+    <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
     <Compile Include="ResourceModel\Deployment.cs" />
     <Compile Include="ResourceModel\Disk.cs" />
     <Compile Include="ResourceModel\DurableVMRole.cs" />
@@ -168,16 +172,18 @@
     <Compile Include="ResourceModel\OperationTracking.cs" />
     <Compile Include="ResourceModel\OSImage.cs" />
     <Compile Include="ResourceModel\Role.cs" />
-    <Compile Include="ResourceModel\ServiceBusHelper.cs" />
+    <Compile Include="ServiceBus\ServiceBusHelper.cs" />
     <Compile Include="ResourceModel\ServiceManagementError.cs" />
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
-    <Compile Include="ResourceModel\ODataEntryExtension.cs" />
+    <Compile Include="Utilities\ODataEntryExtension.cs" />
+    <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
