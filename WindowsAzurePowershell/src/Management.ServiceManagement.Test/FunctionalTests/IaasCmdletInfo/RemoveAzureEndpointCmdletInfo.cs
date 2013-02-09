@@ -14,6 +14,7 @@
 using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     public class RemoveAzureEndpointCmdletInfo : CmdletsInfo
