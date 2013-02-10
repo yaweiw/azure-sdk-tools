@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;    
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
@@ -84,37 +84,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Location Name: {0}", locationName);
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false); // Get-AzureVMImage
             Console.WriteLine("Image Name: {0}", imageName);
-                       
-            // Create a unique Service Name
-            //serviceName = Utilities.GetUniqueShortName("PSTestService");
-            //vmName = Utilities.GetUniqueShortName("PSTestVM");
-            //vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, "p@ssw0rd", locationName);
-
+                                  
             if (vmPowershellCmdlets.TestAzureServiceName(serviceName))
-            {                
-                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, "p@ssw0rd", locationName);                
-                Console.WriteLine("Service Name: {0} is created.", serviceName);
+            {
+                Console.WriteLine("Service Name: {0} already exists.", serviceName);
+                if (vmPowershellCmdlets.GetAzureVM(vmName, serviceName) == null)
+                {
+                    vmPowershellCmdlets.RemoveAzureService(serviceName);
+                    vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, "p@ssw0rd", locationName);
+                }               
             }
             else
             {
-                Console.WriteLine("Service Name: {0} already exists.", serviceName);
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, "p@ssw0rd", locationName);
+                Console.WriteLine("Service Name: {0} is created.", serviceName);                
             }
-
-
-      
-            //string vmName2 = "MyVM";
-            //AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName2, VMSizeInfo.Small, imageName);            
-            //AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, "p@ssw0rd");            
-            //PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);           
-            //PersistentVM persistentVM = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);            
-            //PersistentVM[] VMs = { persistentVM };
-            //vmPowershellCmdlets.NewAzureVM(serviceName, VMs);
-
-
-
-         
-            
-
         }
               
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureStorageAccount)")]
@@ -341,14 +325,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.AddDataDisk(vmName, serviceName, new [] {dataDiskInfo1, dataDiskInfo2}); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm  
                 
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo1, HostCaching.None), "Data disk is not properly added");
-                Console.WriteLine("Date disk added correctly.");
-               
-                                                
+                Console.WriteLine("Data disk added correctly.");
+                                                               
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo2, HostCaching.None), "Data disk is not properly added");
-                Console.WriteLine("Date disk added correctly.");
+                Console.WriteLine("Data disk added correctly.");
 
                 vmPowershellCmdlets.SetDataDisk(vmName, serviceName, HostCaching.ReadOnly, lunSlot1);                
                 Assert.IsTrue(CheckDataDisk(vmName, serviceName, dataDiskInfo1, HostCaching.ReadOnly), "Data disk is not properly changed");
+                Console.WriteLine("Data disk is changed correctly.");
+
                 pass = true;
 
             }
@@ -359,7 +344,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             finally
             {
                 // Remove DataDisks created
-                vmPowershellCmdlets.RemoveDataDisk(vmName, serviceName, new [] {lunSlot1, lunSlot2}); // Remove-AzureEndpoint
+                vmPowershellCmdlets.RemoveDataDisk(vmName, serviceName, new [] {lunSlot1, lunSlot2}); // Remove-AzureDataDisk
+                // ToDo: Verify removal
             }
         }
 
@@ -387,16 +373,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             testName = "AzureDiskTest";
             cleanup = false;
-
-
-            // Choose the vhd file from local machine
-            string vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
-            Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
+           
+            string vhdName = "128GBOS.vhd";
+            string vhdLocalPath = "http://"+defaultAzureSubscription.CurrentStorageAccount+".blob.core.windows.net/vhdstore/"+vhdName;
 
             try
             {
-                vmPowershellCmdlets.AddAzureDisk(vhdName, vhdLocalPath.FullName, vhdName, null);
+                vmPowershellCmdlets.AddAzureDisk(vhdName, vhdLocalPath, vhdName, null);
 
                 bool found = false;
                 foreach (DiskContext disk in vmPowershellCmdlets.GetAzureDisk(vhdName))
@@ -410,6 +393,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 }
                 Assert.IsTrue(found, "Error: Disk is not added");
+
+                string newLabel = "NewLabel";
+                vmPowershellCmdlets.UpdateAzureDisk(vhdName, newLabel);
+
+                DiskContext disk2 = vmPowershellCmdlets.GetAzureDisk(vhdName)[0];
+
+                Console.WriteLine("Disk: Name - {0}, Label - {1}, Size - {2},", disk2.DiskName, disk2.Label, disk2.DiskSizeInGB);
+                Assert.AreEqual(newLabel, disk2.Label);
+                Console.WriteLine("Disk Label is successfully updated");
 
                 vmPowershellCmdlets.RemoveAzureDisk(vhdName, false);
                 Assert.IsTrue(CheckRemove(vmPowershellCmdlets.GetAzureDisk, vhdName), "The disk was not removed");
@@ -428,8 +420,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         }
 
-
-        // ToDo:
+    
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureDeploymentTest()
@@ -926,56 +917,61 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
-
+        /// <summary>
+        /// AzureVNetGatewayTest()       
+        /// </summary>
+        /// Note: Create a VNet, a LocalNet from the portal without creating a gateway.
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureVNetGateway)")]
         public void AzureVNetGatewayTest()
         {
             cleanup = false;
             testName = "AzureVNetGatewayTest";
 
-
-            string vnetName = "DefaultVirtualNetwork";
-            string localNet = "MyLocal"; // Your local network site name.  (
+            string vnetName = "NewVNet3"; // Set your VNet name.
+            string localNet = "LocalNet1"; // Your local network site name.
 
             try
             {
 
-                vmPowershellCmdlets.NewAzureVNetGateway(vnetName);
+                //vmPowershellCmdlets.NewAzureVNetGateway(vnetName);
 
-
-                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
-                {
-                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
-                }
-                
                 foreach (VirtualNetworkSiteContext site in vmPowershellCmdlets.GetAzureVNetSite(vnetName))
                 {
                     Console.WriteLine("Name: {0}, AffinityGroup: {1}", site.Name, site.AffinityGroup);
                 }
-
-
-                // AzureVNetGateway -Connect
-                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnetName, localNet);
-
-                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                
+                while (true)
                 {
+                    VirtualNetworkGatewayContext gateway = vmPowershellCmdlets.GetAzureVNetGateway(vnetName)[0];
                     Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
-                }
+                    if (gateway.State.ToString().ToLowerInvariant() == "provisioning")
+                    {                        
+                        Thread.Sleep(60000);
+                    }
+                    else
+                    {
+                        Thread.Sleep(120000);
+                        break;
+                    }
+                }    
 
+                // Set-AzureVNetGateway -Connect
+                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnetName, localNet);
+                
                 foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
                 {
                     Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
                     Assert.IsFalse(connection.ConnectivityState.ToLowerInvariant().Contains("notconnected"));
                 }
-
-                // AzureVNetGateway -Disconnect
-                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnetName, localNet);
-
                 foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
                 {
-                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);                
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
                 }
 
+
+                // Set-AzureVNetGateway -Disconnect
+                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnetName, localNet);
+               
                 foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
                 {
                     Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
@@ -985,6 +981,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
 
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                }
+
+                // Remove-AzureVnetGateway
                 vmPowershellCmdlets.RemoveAzureVNetGateway(vnetName);
                 foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
                 {

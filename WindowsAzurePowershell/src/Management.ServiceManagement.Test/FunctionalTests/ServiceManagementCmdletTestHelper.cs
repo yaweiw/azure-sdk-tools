@@ -331,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return hardDisks;
         }
 
-        private ManagementOperationContext RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
+        private PersistentVM RemoveAzureDataDisk(RemoveAzureDataDiskConfig discCfg)
         {
             RemoveAzureDataDiskCmdletInfo removeAzureDataDiskCmdletInfo = new RemoveAzureDataDiskCmdletInfo(discCfg);
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(removeAzureDataDiskCmdletInfo);
@@ -339,7 +339,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Collection<PSObject> result = azurePowershellCmdlet.Run();
             if (result.Count == 1)
             {
-                return (ManagementOperationContext)result[0].BaseObject;
+                return (PersistentVM)result[0].BaseObject;
             }
             return null;
         }
@@ -659,7 +659,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public PersistentVMRoleContext RemoveAzureEndPoint(string epName, PersistentVMRoleContext vmRoleCtxt)
         {
-            RemoveAzureEndpointCmdletInfo removeAzureEndPointCmdletInfo = new RemoveAzureEndpointCmdletInfo(epName, vmRoleCtxt);
+            RemoveAzureEndpointCmdletInfo removeAzureEndPointCmdletInfo = new RemoveAzureEndpointCmdletInfo(epName, vmRoleCtxt);            
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(removeAzureEndPointCmdletInfo);
 
             Collection<PSObject> result = azurePowershellCmdlet.Run();
@@ -1091,16 +1091,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
         internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] VMs)
         {
-            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, null);            
-            //NewAzureVMCmdletInfo newAzureVMCmdletInfo = new NewAzureVMCmdletInfo(serviceName, VMs);
-            //WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(newAzureVMCmdletInfo);
-
-            //Collection<ManagementOperationContext> newAzureVMs = new Collection<ManagementOperationContext>();
-            //foreach (PSObject result in azurePowershellCmdlet.Run())
-            //{
-            //    newAzureVMs.Add((ManagementOperationContext)result.BaseObject);
-            //}
-            //return newAzureVMs;
+            return NewAzureVM(serviceName, VMs, null, null, null, null, null, null, null, null);                        
         }
 
         internal Collection<ManagementOperationContext> NewAzureVM(string serviceName, PersistentVM[] vms, string vnetName, DnsServer[] dnsSettings, string affinityGroup,
@@ -1502,7 +1493,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 if (configInfo.EndPointConfig != null)
                 {
                     configInfo.EndPointConfig.Vm = vm;
-                    vm = SetAzureEndPoint(configInfo.EndPointConfig);
+                    vm = AddAzureEndPoint(configInfo.EndPointConfig);
                 }
             }
 
