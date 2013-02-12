@@ -27,11 +27,11 @@ namespace Microsoft.WindowsAzure.Management.Model
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
-        private PSCmdlet cmdlet;
+        private Action<string> logger;
 
-        public HttpRestMessageInspector(PSCmdlet cmdlet)
+        public HttpRestMessageInspector(Action<string> logger)
         {
-            this.cmdlet = cmdlet;
+            this.logger = logger;
         }
 
         private string MessageHeadersToString(WebHeaderCollection headers)
@@ -52,37 +52,31 @@ namespace Microsoft.WindowsAzure.Management.Model
 
         #region IClientMessageInspector
 
-        public void AfterReceiveReply(ref Message reply, object correlationState)
+        public virtual void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            if (cmdlet.SessionState != null)
-            {
-                HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-                StringBuilder httpResponseLog = new StringBuilder();
-                string body = GeneralSM.ReadBody(ref reply);
+            HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
+            StringBuilder httpResponseLog = new StringBuilder();
+            string body = GeneralSM.ReadBody(ref reply);
 
-                httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
-                httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
-                httpResponseLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
-                httpResponseLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-                cmdlet.WriteDebug(httpResponseLog.ToString());
-            }
+            httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
+            httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
+            httpResponseLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
+            httpResponseLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+            logger(httpResponseLog.ToString());
         }
 
-        public object BeforeSendRequest(ref Message request, IClientChannel channel)
+        public virtual object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-            if (cmdlet.SessionState != null)
-            {
-                HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-                StringBuilder httpRequestLog = new StringBuilder();
-                string body = GeneralSM.ReadBody(ref request);
+            HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+            StringBuilder httpRequestLog = new StringBuilder();
+            string body = GeneralSM.ReadBody(ref request);
 
-                httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
-                httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
-                httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
-                httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
-                httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-                cmdlet.WriteDebug(httpRequestLog.ToString());
-            }
+            httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
+            httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
+            httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
+            httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
+            httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+            logger(httpRequestLog.ToString());
 
             return request;
         }

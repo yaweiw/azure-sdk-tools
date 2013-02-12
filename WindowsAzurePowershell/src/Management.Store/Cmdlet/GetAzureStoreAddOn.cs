@@ -15,14 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
-    using System.Globalization;
+    using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>
     /// Gets all purchased Add-Ons or specific Add-On
@@ -30,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>), typeof(PSObject))]
     public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IStoreManagement>
     {
-        const string StoreServicePrefix = "Azure-Stores";
+        public StoreClient StoreClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
         public string Name { get; set; }
@@ -42,40 +41,24 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         public string Location { get; set; }
 
         /// <summary>
-        /// Comapres two strings with handling special case that base string can be empty.
-        /// </summary>
-        /// <param name="leftHandSide">The base string.</param>
-        /// <param name="rightHandSide">The comparer string.</param>
-        /// <returns>True if equals or leftHandSide is null/empty, false otherwise.</returns>
-        private bool TryEquals(string leftHandSide, string rightHandSide)
-        {
-            if (string.IsNullOrEmpty(leftHandSide) || leftHandSide.Equals(rightHandSide))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Converts an AddOn object into PSObject
         /// </summary>
         /// <param name="location">The add on location</param>
         /// <param name="addOn">The add on object</param>
         /// <returns>The PSObject</returns>
-        private PSObject AddOnToPSObject(string location, Resource addOn)
+        internal PSObject AddOnToPSObject(AddOn addOn)
         {
             PSObject psObject = ConstructPSObject(typeof(Resource).FullName,
-                Parameter.Name, addOn.Name,
-                Parameter.Provider, addOn.ResourceProviderNamespace,
-                Parameter.AddOn, addOn.Type,
-                Parameter.Plan, addOn.Plan,
-                Parameter.Location, location,
-                Parameter.SchemaVersion, addOn.SchemaVersion,
-                Parameter.State, addOn.State,
-                Parameter.OperationStatus, addOn.OperationStatus,
-                Parameter.OutputItems, addOn.OutputItems ?? new OutputItemList(),
-                Parameter.UsageMeters, addOn.UsageMeters ?? new UsageMeterList());
+                Parameter.Name, addOn.Info.Name,
+                Parameter.Provider, addOn.Info.ResourceProviderNamespace,
+                Parameter.AddOn, addOn.Info.Type,
+                Parameter.Plan, addOn.Info.Plan,
+                Parameter.Location, addOn.GeoRegion,
+                Parameter.SchemaVersion, addOn.Info.SchemaVersion,
+                Parameter.State, addOn.Info.State,
+                Parameter.LastOperationStatus, addOn.Info.OperationStatus,
+                Parameter.OutputItems, addOn.Info.OutputItems ?? new OutputItemList(),
+                Parameter.UsageMeters, addOn.Info.UsageMeters ?? new UsageMeterList());
 
             return psObject;
         }
@@ -83,23 +66,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            CloudServiceList cloudServices = Channel.ListCloudServices(CurrentSubscription.SubscriptionId);
-            List<CloudService> storeServices = cloudServices.FindAll(c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
+            StoreClient = StoreClient ?? new StoreClient(
+                CurrentSubscription.SubscriptionId,
+                ServiceEndpoint,
+                CurrentSubscription.Certificate,
+                text => this.WriteDebug(text));
+            List<AddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
             List<PSObject> outputObject = new List<PSObject>();
-
-            foreach (CloudService storeService in storeServices)
-            {
-                if (TryEquals(Location, storeService.GeoRegion))
-                {
-                    foreach (Resource addOn in storeService.Resources)
-                    {
-                        if (TryEquals(Name, addOn.Name) && TryEquals(Provider, addOn.ResourceProviderNamespace))
-                        {
-                            outputObject.Add(AddOnToPSObject(storeService.GeoRegion, addOn));
-                        }
-                    }
-                }
-            }
+            addOns.ForEach(addOn => outputObject.Add(AddOnToPSObject(addOn)));
 
             if (outputObject.Count.Equals(1))
             {
@@ -107,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
             }
             else
             {
-                WriteObject(outputObject);
+                WriteObject(outputObject, true);
             }
         }
     }

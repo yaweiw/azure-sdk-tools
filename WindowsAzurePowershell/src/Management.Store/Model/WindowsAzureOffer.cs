@@ -12,20 +12,27 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    using System.Runtime.Serialization;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using System.Collections.Generic;
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class OperationStatus
+    public class WindowsAzureOffer
     {
-        [DataMember(Order = 1, EmitDefaultValue = false)]
-        public string Type { get; set; }
+        public Offer Info { get; set; }
 
-        [DataMember(Order = 2, EmitDefaultValue = false)]
-        public string Result { get; set; }
+        public List<Plan> Plans { get; set; }
 
-        [DataMember(Order = 3, EmitDefaultValue = false)]
-        public Error Error { get; set; }
+        /// <summary>
+        /// Creates new instance from WindowsAzureOffer
+        /// </summary>
+        /// <param name="offer">The offer details</param>
+        /// <param name="plans">The offer plans</param>
+        public WindowsAzureOffer(Offer info, List<Plan> plans)
+        {
+            Info = info;
+
+            Plans = plans;
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
 
         public const string State = "State";
 
-        public const string OperationStatus = "OperationStatus";
+        public const string LastOperationStatus = "LastOperationStatus";
 
         public const string UsageMeters = "UsageMeters";
 
