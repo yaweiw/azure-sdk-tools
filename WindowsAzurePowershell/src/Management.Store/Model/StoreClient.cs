@@ -56,16 +56,16 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         public StoreClient(string subscriptionId, string storeEndpointUri, X509Certificate2 cert, Action<string> logger)
         {
             this.subscriptionId = subscriptionId;
-            Binding serviceBinding = ConfigurationConstants.WebHttpBinding(0);
+            Binding storeBinding = ConfigurationConstants.WebHttpBinding(0);
+            Binding marketplaceBinding = ConfigurationConstants.AnonymousWebHttpBinding();
             
             marketplaceChannel = ServiceManagementHelper.CreateServiceManagementChannel<IMarketplaceManagement>(
-                serviceBinding,
+                marketplaceBinding,
                 new Uri(Resources.MarketplaceEndpoint),
-                cert,
                 new HttpRestMessageInspector(logger));
 
             storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
-                serviceBinding,
+                storeBinding,
                 new Uri(storeEndpointUri),
                 cert,
                 new HttpRestMessageInspector(logger));
