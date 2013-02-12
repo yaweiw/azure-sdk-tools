@@ -12,20 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    using System.Runtime.Serialization;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using System.Collections.Generic;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
 
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class OperationStatus
+    public class AddOn
     {
-        [DataMember(Order = 1, EmitDefaultValue = false)]
-        public string Type { get; set; }
+        public Resource Info { get; set; }
 
-        [DataMember(Order = 2, EmitDefaultValue = false)]
-        public string Result { get; set; }
+        public string GeoRegion { get; set; }
 
-        [DataMember(Order = 3, EmitDefaultValue = false)]
-        public Error Error { get; set; }
+        /// <summary>
+        /// Creates new instance from AddOn
+        /// </summary>
+        /// <param name="info">The add on details</param>
+        /// <param name="geoRegion">The add on region</param>
+        public AddOn(Resource info, string geoRegion)
+        {
+            Info = info;
+
+            GeoRegion = geoRegion;
+        }
     }
 }

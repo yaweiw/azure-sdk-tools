@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        protected T Channel
+        public T Channel
         {
             get;
             set;
@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,
-                new HttpRestMessageInspector(this));
+                new HttpRestMessageInspector(text => this.WriteDebug(text)));
         }
 
         protected void RetryCall(Action<string> call)

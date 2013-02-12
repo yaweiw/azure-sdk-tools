@@ -31,19 +31,110 @@
                 <PropertyName>Location</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>Settings</Label>
+                <Label>SchemaVersion</Label>
+                <PropertyName>SchemaVersion</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>State</Label>
+                <PropertyName>State</PropertyName>
+              </ListItem>
+              <ListItem>
+                <Label>LastOperationStatus</Label>
                 <ScriptBlock>
-                  $format = "{0}{2,-20}: {3}{0}{4,-20}: {5}{0}{6}:{0}{1}{7,-10}: {8}{0}{1}{9,-10}: {10}{0}{11}:"
-                  $objects = @("`r`n", "`t", "SchemaVersion", $_.SchemaVersion, "State", $_.State, "OperationStatus", "Type", $_.OperationStatus.Type, "Result", $_.OperationStatus.Result, "OutputItems")
+                  $format = "{0}{2, -7}: {3}{0}{4, -7}: {5}"
+                  $objects = @("`r`n", "`t", "Type", $_.LastOperationStatus.Type, "Result", $_.LastOperationStatus.Result)
+                  if ($_.LastOperationStatus.Error -ne $null)
+                  {
+                    $format += "{0}{6, -7}:{0}{1}{7, -9}: {8}{0}{1}{9, -9}: {10}"
+                    $objects += @("Error", "HttpCode", $_.LastOperationStatus.Error.HttpCode, "Message", $_.LastOperationStatus.Error.Message)
+                  }
+                  [string]::Format($format, $objects)
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>OutputItems</Label>
+                <ScriptBlock>
+                  $format = ""
+                  $objects = @("`r`n")
+                  $max = 0
+                  foreach ($outputItem in $_.OutputItems)
+                  {
+                    if ($outputItem.Key.Length -gt $max)
+                    {
+                      $max = $outputItem.Key.Length
+                    }
+                  }
+                  
+                  $max++
+                  
                   foreach ($outputItem in $_.OutputItems)
                   {
                     # Add key
-                    $format += "{0}{1}{" + $objects.Count + ",-20}"
+                    $format += "{0}{" + $objects.Count + ",-" + $max + "}"
                     $objects += $outputItem.Key
 
                     # Add value
                     $format += ": {" + $objects.Count + "}"
-                    $objects += $outputItem.Value
+                    $value = $outputItem.Value
+                    if ($value.Length -gt 80)
+                    {
+                      $value = $value.Substring(0, 80)
+                      $value += "..."
+                    }
+                    $objects += $value
+                  }
+                  [string]::Format($format, $objects)
+                </ScriptBlock>
+              </ListItem>
+              <ListItem>
+                <Label>UsageMeters</Label>
+                <ScriptBlock>
+                  $format = ""
+                  $objects = @("`r`n")
+                  $count = 0
+                  foreach ($usageMeter in $_.UsageMeters)
+                  {
+                    # Add Name
+                    $format += "{0}{" + $objects.Count + ",-9}"
+                    $objects += "Name"
+                    $format += ": {" + $objects.Count + "}"
+                    $objects += $usageMeter.Name
+
+                    # Add Unit
+                    $format += "{0}{" + $objects.Count + ",-9}"
+                    $objects += "Unit"
+                    $format += ": {" + $objects.Count + "}"
+                    $objects += $usageMeter.Unit
+
+                    # Add Included
+                    $format += "{0}{" + $objects.Count + ",-9}"
+                    $objects += "Included"
+                    $format += ": {" + $objects.Count + "}"
+                    $included = $usageMeter.Included
+                    if ($included.Length -gt 80)
+                    {
+                      $included = $included.Substring(0, 80)
+                      $included += "..."
+                    }
+                    $objects += $included
+
+                    # Add Used
+                    $format += "{0}{" + $objects.Count + ",-9}"
+                    $objects += "Used"
+                    $format += ": {" + $objects.Count + "}"
+                    $used = $usageMeter.Used
+                    if ($used.Length -gt 80)
+                    {
+                      $used = $used.Substring(0, 80)
+                      $used += "..."
+                    }
+                    $objects += $used
+                    
+                    if ($count++ -lt ($_.UsageMeters.Count - 1))
+                    {
+                      # Add separator
+                      $format += "{0}"
+                    }
                   }
                   [string]::Format($format, $objects)
                 </ScriptBlock>

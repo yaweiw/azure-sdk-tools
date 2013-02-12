@@ -144,13 +144,13 @@
     <Compile Include="Contract\OperatingSystem.cs" />
     <Compile Include="Contract\OperationTracking.cs" />
     <Compile Include="Contract\OSImage.cs" />
+    <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
     <Compile Include="Store\Contract\IStoreManagement.cs" />
     <Compile Include="Store\Contract\StoreExtensionMethods.cs" />
     <Compile Include="ServiceBus\Contract\Namespace.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
     <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
-    <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
     <Compile Include="Marketplace\ResourceModel\Offer.cs" />
     <Compile Include="Marketplace\ResourceModel\Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +159,7 @@
     <Compile Include="ResourceModel\Constants.cs" />
     <Compile Include="Store\ResourceModel\CloudService.cs" />
     <Compile Include="Store\ResourceModel\CloudServiceList.cs" />
+    <Compile Include="Store\ResourceModel\Error.cs" />
     <Compile Include="Store\ResourceModel\OperationStatus.cs" />
     <Compile Include="Store\ResourceModel\OutputItem.cs" />
     <Compile Include="Store\ResourceModel\OutputItemList.cs" />

@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.Store.Properties;
+    using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
@@ -30,44 +31,33 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<PSObject>))]
     public class GetAzureStoreAvailableAddOnCommand : CloudBaseCmdlet<IMarketplaceManagement>
     {
+        public StoreClient StoreClient { get; set; }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
         public string Country { get; set; }
-
-        /// <summary>
-        /// Creates new instance from GetAzureStoreAvailableAddOnCommand
-        /// </summary>
-        public GetAzureStoreAvailableAddOnCommand()
-        {
-            Country = "US";
-            CurrentServiceEndpoint = Resources.MarketplaceEndpoint;
-        }
-
-        /// <summary>
-        /// Creates new instance from GetAzureStoreAvailableAddOnCommand with mock channel.
-        /// </summary>
-        public GetAzureStoreAvailableAddOnCommand(IMarketplaceManagement channel): this()
-        {
-            Channel = channel;
-        }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            List<Offer> offers = Channel.ListWindowsAzureOffers();
+            StoreClient = StoreClient ?? new StoreClient(
+                CurrentSubscription.SubscriptionId,
+                ServiceEndpoint,
+                CurrentSubscription.Certificate,
+                text => this.WriteDebug(text));
+            List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
             List<PSObject> output = new List<PSObject>();
 
-            foreach (Offer offer in offers)
+            foreach (WindowsAzureOffer windowsAzureOffer in result)
             {
-                string plansQuery = string.Format("CountryCode eq '{0}'", Country);
-                List<Plan> plans = Channel.ListOfferPlans(offer.Id.ToString(), plansQuery);
-
+                List<Plan> plans = windowsAzureOffer.Plans;
+                
                 if (plans.Count > 0)
                 {
                     IEnumerable<string> planIdentifiers = plans.Select<Plan, string>(p => p.PlanIdentifier).Distinct<string>();
                     string joinResult = string.Join<string>(", ", planIdentifiers);
                     PSObject obj = ConstructPSObject(null,
-                        Parameter.Provider, offer.ProviderIdentifier,
-                        Parameter.Addon, offer.OfferIdentifier,
+                        Parameter.Provider, windowsAzureOffer.Info.ProviderIdentifier,
+                        Parameter.Addon, windowsAzureOffer.Info.OfferIdentifier,
                         Parameter.Plans, joinResult);
 
                     output.Add(obj);
