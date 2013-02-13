@@ -416,7 +416,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         }
 
         /// <summary>
-        /// Comapres two strings with handling special case that base string can be empty.
+        /// Compares two strings with handling special case that base string can be empty.
         /// </summary>
         /// <param name="leftHandSide">The base string.</param>
         /// <param name="rightHandSide">The comparer string.</param>

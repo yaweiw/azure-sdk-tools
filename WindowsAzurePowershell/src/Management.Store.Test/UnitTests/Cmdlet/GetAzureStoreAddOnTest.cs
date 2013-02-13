@@ -29,22 +29,32 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     [TestClass]
     public class GetAzureStoreAddOnTests : TestBase
     {
+        Mock<ICommandRuntime> mockCommandRuntime;
+
+        Mock<StoreClient> mockStoreClient;
+
+        GetAzureStoreAddOnCommand cmdlet;
+
         [TestInitialize]
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
+            mockCommandRuntime = new Mock<ICommandRuntime>();
+            mockStoreClient = new Mock<StoreClient>();
+            cmdlet = new GetAzureStoreAddOnCommand()
+            {
+                StoreClient = mockStoreClient.Object,
+                CommandRuntime = mockCommandRuntime.Object
+            };
         }
 
         [TestMethod]
         public void GetAzureStoreAddOnWithEmptyCloudService()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
             List<AddOn> expected = new List<AddOn>();
-            mockStoreClient.Setup(f => f.GetAddOn(It.IsAny<AddOnSearchOptions>())).Returns(new List<AddOn>());
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand() { StoreClient = mockStoreClient.Object, CommandRuntime = mockCommandRuntime.Object };
+            mockStoreClient.Setup(f => f.GetAddOn(It.IsAny<AddOnSearchOptions>())).Returns(expected);
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -58,13 +68,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         public void GetAzureStoreAddOnWithoutSearchOptions()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
-            List<AddOn> expected = new List<AddOn>();
-            expected.Add(new AddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"));
-            expected.Add(new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US"));
+            List<AddOn> expected = new List<AddOn>()
+            { 
+                new AddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"),
+                new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
+            };
             mockStoreClient.Setup(f => f.GetAddOn(It.IsAny<AddOnSearchOptions>())).Returns(expected);
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand() { StoreClient = mockStoreClient.Object, CommandRuntime = mockCommandRuntime.Object };
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -78,22 +87,21 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         public void GetAzureStoreAddOnWithNameFilter()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
-            List<AddOn> expected = new List<AddOn>();
-            expected.Add(new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US"));
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null))).Returns(expected);
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand() { 
-                StoreClient = mockStoreClient.Object,
-                CommandRuntime = mockCommandRuntime.Object,
-                Name = "BingTranslateAddOn"
+            List<AddOn> expected = new List<AddOn>()
+            {
+                new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
             };
+            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null)))
+                .Returns(expected);
+            cmdlet.Name = "BingTranslateAddOn";
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null)), Times.Once());
+            mockStoreClient.Verify(
+                f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null)),
+                Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Once());
         }
 
@@ -101,18 +109,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         public void GetAzureStoreAddOnWithLocationFilter()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
-            List<AddOn> expected = new List<AddOn>();
-            expected.Add(new AddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"));
-            expected.Add(new AddOn(new Resource() { Name = "MongoDB" }, "West US"));
-            expected.Add(new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US"));
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, null, "West US"))).Returns(expected);
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand() { 
-                StoreClient = mockStoreClient.Object,
-                CommandRuntime = mockCommandRuntime.Object,
-                Location = "West US"
+            List<AddOn> expected = new List<AddOn>()
+            {
+                new AddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"),
+                new AddOn(new Resource() { Name = "MongoDB" }, "West US"),
+                new AddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
             };
+            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, null, "West US"))).Returns(expected);
+            cmdlet.Location = "West US";
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -126,18 +130,19 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         public void GetAzureStoreAddOnWithProviderFilter()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
-            List<AddOn> expected = new List<AddOn>();
-            expected.Add(new AddOn(new Resource() { Name = "BingSearchAddOn", ResourceProviderNamespace = "Microsoft" }, "West US"));
-            expected.Add(new AddOn(new Resource() { Name = "BingTranslateAddOn", ResourceProviderNamespace = "Microsoft" }, "West US"));
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, "Microsoft", null))).Returns(expected);
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand()
+            List<AddOn> expected = new List<AddOn>()
             {
-                StoreClient = mockStoreClient.Object,
-                CommandRuntime = mockCommandRuntime.Object,
-                Provider = "Microsoft"
+                new AddOn(new Resource() { 
+                    Name = "BingSearchAddOn", 
+                    ResourceProviderNamespace = "Microsoft" }, 
+                    "West US"),
+                new AddOn(new Resource() { 
+                    Name = "BingTranslateAddOn", 
+                    ResourceProviderNamespace = "Microsoft" }, 
+                    "West US")
             };
+            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, "Microsoft", null))).Returns(expected);
+            cmdlet.Provider = "Microsoft";
 
             // Test
             cmdlet.ExecuteCmdlet();
@@ -151,25 +156,25 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         public void GetAzureStoreAddOnWithCompleteSearchOptions()
         {
             // Setup
-            Mock<ICommandRuntime> mockCommandRuntime = new Mock<ICommandRuntime>();
-            Mock<StoreClient> mockStoreClient = new Mock<StoreClient>();
-            List<AddOn> expected = new List<AddOn>();
-            expected.Add(new AddOn(new Resource() { Name = "BingSearchAddOn", ResourceProviderNamespace = "Microsoft" }, "West US"));
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US"))).Returns(expected);
-            GetAzureStoreAddOnCommand cmdlet = new GetAzureStoreAddOnCommand()
+            List<AddOn> expected = new List<AddOn>()
             {
-                StoreClient = mockStoreClient.Object,
-                CommandRuntime = mockCommandRuntime.Object,
-                Provider = "Microsoft",
-                Name = "BingSearchAddOn",
-                Location = "West US"
+                new AddOn(new Resource() { 
+                    Name = "BingSearchAddOn", 
+                    ResourceProviderNamespace = "Microsoft" }, 
+                    "West US")
             };
+            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")))
+                .Returns(expected);
+            cmdlet.Provider = "Microsoft";
+            cmdlet.Name = "BingSearchAddOn";
+            cmdlet.Location = "West US";
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")), Times.Once());
+            mockStoreClient.Verify(
+                f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Once());
         }
     }

@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         const string StoreServicePrefix = "Azure-Stores";
 
         /// <summary>
-        /// Parametless constructor added for mocking framework.
+        /// Parameterless constructor added for mocking framework.
         /// </summary>
         public StoreClient()
         {
@@ -107,7 +107,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         {
             List<AddOn> addOns = new List<AddOn>();
             CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
-            List<CloudService> storeServices = cloudServices.FindAll(c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
+            List<CloudService> storeServices = cloudServices.FindAll(
+                c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
 
             foreach (CloudService storeService in storeServices)
             {
@@ -115,7 +116,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 {
                     foreach (Resource resource in storeService.Resources)
                     {
-                        if (General.TryEquals(searchOptions.Name, resource.Name) && General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
+                        if (General.TryEquals(searchOptions.Name, resource.Name) && 
+                            General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
                         {
                             addOns.Add(new AddOn(resource, storeService.GeoRegion));
                         }

@@ -9,11 +9,11 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>Name</Label>
+            <Label>OfferIdentifier</Label>
             <Width>80</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Provider</Label>
+            <Label>ProviderIdentifier</Label>
             <Width>50</Width>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -25,10 +25,10 @@
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
-                <ScriptBlock>$_.Name</ScriptBlock>
+                <ScriptBlock>$_.OfferIdentifier</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
-                <ScriptBlock>$_.ProviderName</ScriptBlock>
+                <ScriptBlock>$_.ProviderIdentifier</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>

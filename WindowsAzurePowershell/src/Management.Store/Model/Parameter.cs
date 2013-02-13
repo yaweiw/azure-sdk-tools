@@ -18,13 +18,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     {
         public const string Provider = "Provider";
 
-        public const string Addon = "Addon";
-
         public const string Plans = "Plans";
 
         public const string Name = "Name";
-
-        public const string AddOn = "AddOn";
 
         public const string Plan = "Plan";
 

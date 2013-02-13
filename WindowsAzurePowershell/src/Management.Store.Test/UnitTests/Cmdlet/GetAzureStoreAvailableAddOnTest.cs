@@ -48,17 +48,23 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             plans.Add(new Plan() { PlanIdentifier = "Silver" });
             plans.Add(new Plan() { PlanIdentifier = "Gold" });
 
-            List<Offer> expectedOffers = new List<Offer>();
-            expectedOffers.Add(new Offer() { ProviderIdentifier = "Microsoft", OfferIdentifier = "Bing Translate" });
-            expectedOffers.Add(new Offer() { ProviderIdentifier = "NotExistingCompany", OfferIdentifier = "Not Existing Name" });
-            expectedOffers.Add(new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell" });
+            List<Offer> expectedOffers = new List<Offer>()
+            {
+                new Offer() { ProviderIdentifier = "Microsoft", OfferIdentifier = "Bing Translate" },
+                new Offer() { ProviderIdentifier = "NotExistingCompany", OfferIdentifier = "Not Existing Name" },
+                new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell" }
+            };
             List<WindowsAzureOffer> expectedWindowsAzureOffers = new List<WindowsAzureOffer>();
             expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(o, plans)));
-            
+
             Mock<StoreClient> mock = new Mock<StoreClient>();
             mock.Setup(f => f.GetAvailableWindowsAzureAddOns(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
 
-            GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand() { StoreClient = mock.Object, CommandRuntime = mockCommandRuntime.Object };
+            GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand()
+            {
+                StoreClient = mock.Object,
+                CommandRuntime = mockCommandRuntime.Object
+            };
 
             // Test
             cmdlet.ExecuteCmdlet();
