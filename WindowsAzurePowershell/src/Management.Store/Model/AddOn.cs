@@ -20,20 +20,56 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class AddOn
     {
-        public Resource Info { get; set; }
+        public string Provider { get; set; }
 
-        public string GeoRegion { get; set; }
+        public string Type { get; set; }
+
+        public string Name { get; set; }
+
+        public string Plan { get; set; }
+
+        public string SchemaVersion { get; set; }
+
+        public string ETag { get; set; }
+
+        public string State { get; set; }
+
+        public UsageMeterList UsageMeters { get; set; }
+
+        public OutputItemList OutputItems { get; set; }
+
+        public OperationStatus OperationStatus { get; set; }
+
+        public string Location { get; set; }
 
         /// <summary>
         /// Creates new instance from AddOn
         /// </summary>
-        /// <param name="info">The add on details</param>
+        /// <param name="resource">The add on details</param>
         /// <param name="geoRegion">The add on region</param>
-        public AddOn(Resource info, string geoRegion)
+        public AddOn(Resource resource, string geoRegion)
         {
-            Info = info;
+            Provider = resource.ResourceProviderNamespace;
+            
+            Type = resource.Type;
+            
+            Name = resource.Name;
+            
+            Plan = resource.Plan;
+            
+            SchemaVersion = resource.SchemaVersion;
+            
+            ETag = resource.ETag;
+            
+            State = resource.State;
 
-            GeoRegion = geoRegion;
+            UsageMeters = resource.UsageMeters;
+
+            OutputItems = resource.OutputItems;
+
+            OperationStatus = resource.OperationStatus;
+
+            Location = geoRegion;
         }
     }
 }
