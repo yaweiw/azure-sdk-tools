@@ -20,7 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>

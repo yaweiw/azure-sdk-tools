@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
+namespace Microsoft.WindowsAzure.Management.Store.Model
 {
     class Parameter
     {
