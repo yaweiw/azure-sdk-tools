@@ -64,11 +64,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 new Uri(Resources.MarketplaceEndpoint),
                 new HttpRestMessageInspector(logger));
 
-            storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
+            if (!string.IsNullOrEmpty(storeEndpointUri) && !string.IsNullOrEmpty(subscriptionId) && cert != null)
+            {
+                storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
                 storeBinding,
                 new Uri(storeEndpointUri),
                 cert,
                 new HttpRestMessageInspector(logger));
+            }
         }
 
         /// <summary>
