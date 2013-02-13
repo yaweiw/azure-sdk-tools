@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<WindowsAzureOffer>))]
-    public class GetAzureStoreAvailableAddOnCommand : CloudBaseCmdlet<IMarketplaceManagement>
+    public class GetAzureStoreAvailableAddOnCommand : CmdletBase
     {
         public StoreClient StoreClient { get; set; }
 
@@ -39,11 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            StoreClient = StoreClient ?? new StoreClient(
-                CurrentSubscription.SubscriptionId,
-                ServiceEndpoint,
-                CurrentSubscription.Certificate,
-                text => this.WriteDebug(text));
+            StoreClient = StoreClient ?? new StoreClient(string.Empty, string.Empty, null, text => this.WriteDebug(text));
             List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
 
             if (result.Count > 0)
