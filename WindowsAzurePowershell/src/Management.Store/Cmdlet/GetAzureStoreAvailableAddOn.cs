@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         public StoreClient StoreClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
+        [ValidateLength(2, 2)]
         public string Country { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
