@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Store.Model;
 

@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
 
     [TestClass]
     public class GetAzureStoreAvailableAddOnTests : TestBase

@@ -117,7 +117,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cmdlet\Common\Parameter.cs" />
+    <Compile Include="Model\Parameter.cs" />
     <Compile Include="Cmdlet\GetAzureStoreAddOn.cs" />
     <Compile Include="Cmdlet\GetAzureStoreAvailableAddOn.cs" />
     <Compile Include="Model\AddOnSearchOptions.cs" />
