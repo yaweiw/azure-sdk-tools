@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Model;
     using Extensions;
     using Management.Test.Stubs;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             channel.GetDeploymentBySlotThunk = ar =>
             {
                 if (deploymentDeleted) throw new EndpointNotFoundException();
-                return new Deployment(serviceName, ArgumentConstants.Slots[Slot.Production], DeploymentStatus.Suspended);
+                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
             channel.DeleteDeploymentBySlotThunk = ar =>
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             channel.GetDeploymentBySlotThunk = ar =>
             {
                 if (deploymentDeleted) throw new EndpointNotFoundException();
-                return new Deployment(serviceName, ArgumentConstants.Slots[Slot.Production], DeploymentStatus.Suspended);
+                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
             channel.DeleteDeploymentBySlotThunk = ar =>
@@ -114,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             channel.GetDeploymentBySlotThunk = ar =>
             {
                 if (deploymentDeleted) throw new EndpointNotFoundException();
-                return new Deployment(serviceName, ArgumentConstants.Slots[Slot.Production], DeploymentStatus.Suspended);
+                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
             channel.DeleteDeploymentBySlotThunk = ar =>

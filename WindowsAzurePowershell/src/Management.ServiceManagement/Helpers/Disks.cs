@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 {
     using System;
     using System.ServiceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Auth;
 
@@ -28,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             var blobEndpoint = new Uri(mediaLink.GetComponents(UriComponents.SchemeAndServer, UriFormat.Unescaped));
 
             StorageService storageService;
-            using (new OperationContextScope((IContextChannel)channel))
+            using (new OperationContextScope(channel.ToContextChannel()))
             {
                 storageService = channel.GetStorageKeys(subscriptionId, accountName);
             }

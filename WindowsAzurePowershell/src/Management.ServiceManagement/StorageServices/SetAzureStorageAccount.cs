@@ -16,16 +16,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
-    using Extensions;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Updates the label and/or the description for a storage account in Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureStorageAccount"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureStorageAccountCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureStorageAccountCommand : CloudServiceManagementBaseCmdlet
     {
         public SetAzureStorageAccountCommand()
         {
@@ -93,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             {
                 GeoReplicationEnabled = this.GeoReplicationEnabled.HasValue,
                 Description = this.Description,
-                Label = this.Label != null ? ServiceManagementHelper.EncodeToBase64String(this.Label) : null
+                Label = this.Label == null ? ServiceManagementHelper.EncodeToBase64String(this.Label) : null
             };
 
             ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput), WaitForOperation);

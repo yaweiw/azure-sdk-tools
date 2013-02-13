@@ -1,4 +1,4 @@
-﻿// ----------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Net;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using System.Net;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
-    public class IaaSDeploymentManagementCmdletBase : CloudBaseCmdlet<IServiceManagement>
+    public class IaaSDeploymentManagementCmdletBase : CloudServiceManagementBaseCmdlet
     {
         public IaaSDeploymentManagementCmdletBase()
         {

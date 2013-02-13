@@ -12,27 +12,25 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities;
+using System.Net;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Collections.Generic;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using System.Management.Automation;
     using Helpers;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Management.Model;
-    using Extensions;
+    using WindowsAzure.ServiceManagement;
+    using Utilities;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    public class NewAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
     {
         public NewAzureDeploymentCommand()
         {
@@ -145,7 +143,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 TreatWarningsAsError = this.TreatWarningsAsError.IsPresent
             };
             
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -164,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                                 packageUrl));
                     }
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
                     this.WriteErrorDetails(ex);
                 }
@@ -173,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         private void AssertNoPersistenVmRoleExistsInDeployment(string slot)
         {
-            using (new OperationContextScope((IContextChannel) Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -186,9 +184,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         }
                     }
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
-                    if ((ex is EndpointNotFoundException) == false && IsVerbose() == false)
+                    if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
                     {
                         this.WriteErrorDetails(ex);
                     }

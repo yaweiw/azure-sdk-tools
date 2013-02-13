@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.Stubs
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Marketplace.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 

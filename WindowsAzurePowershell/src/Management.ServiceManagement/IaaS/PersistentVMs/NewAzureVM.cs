@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
@@ -19,11 +21,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Management.Model;
     using Extensions;
-    using Microsoft.WindowsAzure.Storage;
+    using Storage;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
     public class NewAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -136,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     CloudStorageAccount currentStorage = null;
                     try
                     {
-                        currentStorage = currentSubscription.GetCurrentStorageAccount(Channel);
+                        currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
                     }
                     catch (EndpointNotFoundException) // couldn't access
                     {
@@ -169,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
                     {
-                        CloudStorageAccount currentStorage = currentSubscription.GetCurrentStorageAccount(Channel);
+                        CloudStorageAccount currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
                         if (currentStorage == null)
                         {
                             throw new ArgumentException("CurrentStorageAccount is not set or not accessible. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
@@ -218,7 +220,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
             Operation lastOperation = null;
 
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -253,7 +255,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
                     }
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
                     this.WriteErrorDetails(ex);
                     return;
@@ -268,7 +270,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             // If the current deployment doesn't exist set it create it
             if (CurrentDeployment == null)
             {
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
@@ -303,9 +305,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                         ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
                     }
-                    catch (CommunicationException ex)
+                    catch (ServiceManagementClientException ex)
                     {
-                        if (ex is EndpointNotFoundException)
+                        if (ex.HttpStatus == HttpStatusCode.NotFound)
                         {
                             throw new Exception("Cloud Service does not exist. Specify -Location or -AffinityGroup to create one.");
                         }
@@ -411,17 +413,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
         protected bool DoesCloudServiceExist(string serviceName)
         {
             bool isPresent = false;
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
                     AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    Operation operation = WaitForOperation(CommandRuntime.ToString(), true);
+                    WaitForOperation(CommandRuntime.ToString(), true);
                     isPresent = !response.Result;
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
-                    if (ex is EndpointNotFoundException)
+                    if (ex.HttpStatus == HttpStatusCode.NotFound)
                     {
                         isPresent = false;
                     }

@@ -1,0 +1,283 @@
+// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Management.Automation;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.ServiceModel.Dispatcher;
+    using System.Threading;
+    using ServiceManagement;
+    using Model;
+
+    public abstract class CloudServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
+    {
+        protected override IServiceManagement CreateChannel()
+        {
+            // If ShareChannel is set by a unit test, use the same channel that
+            // was passed into out constructor.  This allows the test to submit
+            // a mock that we use for all network calls.
+            if (ShareChannel)
+            {
+                return Channel;
+            }
+
+            var endpointBehaviors = new List<IEndpointBehavior>
+            {
+                new ServiceManagementClientOutputMessageInspector(),
+                new HttpRestMessageInspector(this)
+            };
+
+            var clientOptions = new ServiceManagementClientOptions(endpointBehaviors);
+            var smClient = new ServiceManagementClient(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, clientOptions);
+            return smClient.Service;
+        }
+
+        /// <summary>
+        /// Invoke the given operation within an OperationContextScope if the
+        /// channel supports it.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected override void InvokeInOperationContext(Action action)
+        {
+            IContextChannel contextChannel = Channel.ToContextChannel();
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    action();
+                }
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
+        {
+            RetryCall(action);
+            Operation operation = waitOperation(operationDescription);
+            var context = new ManagementOperationContext
+            {
+                OperationDescription = operationDescription,
+                OperationId = operation.OperationTrackingId,
+                OperationStatus = operation.Status
+            };
+
+            WriteObject(context, true);
+        }
+
+        protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
+        {
+            IContextChannel contextChannel = Channel.ToContextChannel();
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    try
+                    {
+                        RetryCall(action);
+                        Operation operation = waitOperation(operationDescription);
+                        var context = new ManagementOperationContext
+                        {
+                            OperationDescription = operationDescription,
+                            OperationId = operation.OperationTrackingId,
+                            OperationStatus = operation.Status
+                        };
+
+                        WriteObject(context, true);
+                    }
+                    catch (ServiceManagementClientException  ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
+                }
+            }
+            else
+            {
+                RetryCall(action);
+            }
+        }
+
+        protected virtual void WriteErrorDetails(ServiceManagementClientException exception)
+        {
+            if (CommandRuntime != null)
+            {
+                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+            }
+        }
+
+        protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
+        {
+            IContextChannel contextChannel = Channel.ToContextChannel();
+            if (contextChannel != null)
+            {
+                using (new OperationContextScope(contextChannel))
+                {
+                    try
+                    {
+                        TResult result = RetryCall(action);
+                        Operation operation = waitOperation(operationDescription);
+                        if (result != null)
+                        {
+                            object context = contextFactory(operation, result);
+                            WriteObject(context, true);
+                        }
+                    }
+                    catch (ServiceManagementClientException ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
+                }
+            }
+            else
+            {
+                TResult result = RetryCall(action);
+                if (result != null)
+                {
+                    WriteObject(result, true);
+                }
+            }
+        }
+
+        protected override Operation GetOperationStatus(string subscriptionId, string operationId)
+        {
+            var channel = (IServiceManagement)Channel;
+            return channel.GetOperationStatus(subscriptionId, operationId);
+        }
+
+        protected override Operation WaitForOperation(string opdesc)
+        {
+            return WaitForOperation(opdesc, false);
+        }
+
+        protected override Operation WaitForOperation(string opdesc, bool silent)
+        {
+            string operationId = RetrieveOperationId();
+            Operation operation = null;
+
+            if (!string.IsNullOrEmpty(operationId))
+            {
+                try
+                {
+                    SubscriptionData currentSubscription = this.CurrentSubscription;
+
+                    operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
+
+                    var activityId = new Random().Next(1, 999999);
+                    var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
+
+                    while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
+                            string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
+                    {
+                        if (silent == false)
+                        {
+                            WriteProgress(progress);
+                        }
+
+                        Thread.Sleep(1 * 1000);
+                        operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
+                    }
+
+                    if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
+                        var exception = new Exception(errorMessage);
+                        WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+                    }
+
+                    if (silent == false)
+                    {
+                        progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
+                        WriteProgress(progress);
+                    }
+                }
+                catch (ServiceManagementClientException ex)
+                {
+                    WriteErrorDetails(ex);
+                }
+            }
+            else
+            {
+                operation = new Operation
+                {
+                    OperationTrackingId = string.Empty,
+                    Status = OperationState.Failed
+                };
+            }
+
+            return operation;
+        }
+    }
+
+    public class ServiceManagementClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
+    {
+        public const string UserAgentHeaderName = "User-Agent";
+        public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.10";
+        public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
+
+        #region IClientMessageInspector Members
+
+        public void AfterReceiveReply(ref Message reply, object correlationState) { }
+        public object BeforeSendRequest(ref Message request, IClientChannel channel)
+        {
+            if (request.Properties.ContainsKey(HttpRequestMessageProperty.Name))
+            {
+                var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+
+                // Remove VSDebuggerCausalityData header which is added by WCF.
+                if (property.Headers[VSDebuggerCausalityDataHeaderName] != null)
+                {
+                    property.Headers.Remove(VSDebuggerCausalityDataHeaderName);
+                }
+
+                if (property.Headers[Constants.VersionHeaderName] == null)
+                {
+                    property.Headers.Add(Constants.VersionHeaderName, Microsoft.WindowsAzure.Management.Service.Constants.VersionHeaderContent20120301);
+                }
+
+                if (property.Headers[UserAgentHeaderName] == null)
+                {
+                    property.Headers.Add(UserAgentHeaderName, UserAgentHeaderContent);
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region IEndpointBehavior Members
+
+        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
+
+        public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
+        {
+            clientRuntime.MessageInspectors.Add(this);
+        }
+
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }
+
+        public void Validate(ServiceEndpoint endpoint) { }
+
+        #endregion
+    }
+
+}

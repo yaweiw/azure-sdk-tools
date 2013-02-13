@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Marketplace.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet.Common;
 
     /// <summary>

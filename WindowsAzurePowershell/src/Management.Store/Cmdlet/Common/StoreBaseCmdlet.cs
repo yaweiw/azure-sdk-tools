@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
     using System;
     using System.Security.Permissions;
     using System.ServiceModel.Channels;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
+    using WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement.Marketplace.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Store.Properties;

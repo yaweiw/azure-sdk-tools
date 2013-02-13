@@ -18,15 +18,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using System.IO;
     using System.Management.Automation;
     using Cmdlets.Common;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Sync.Download;
+    using WindowsAzure.ServiceManagement;
+
 
     /// <summary>
     /// Uploads a vhd as fixed disk format vhd to a blob in Windows Azure Storage
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureVhd"), OutputType(typeof(VhdUploadContext))]
-    public class AddAzureVhdCommand : CloudBaseCmdlet<IServiceManagement>
+    public class AddAzureVhdCommand : CloudServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
 
