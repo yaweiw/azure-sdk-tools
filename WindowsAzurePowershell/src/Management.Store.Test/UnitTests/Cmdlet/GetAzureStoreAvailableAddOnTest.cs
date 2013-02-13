@@ -48,7 +48,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             plans.Add(new Plan() { PlanIdentifier = "Gold" });
             plans.Add(new Plan() { PlanIdentifier = "Silver" });
             plans.Add(new Plan() { PlanIdentifier = "Gold" });
-            string expectedPlansString = "Bronze, Silver, Gold";
 
             List<Offer> expectedOffers = new List<Offer>();
             expectedOffers.Add(new Offer() { ProviderIdentifier = "Microsoft", OfferIdentifier = "Bing Translate" });
@@ -56,20 +55,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             expectedOffers.Add(new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell" });
             List<WindowsAzureOffer> expectedWindowsAzureOffers = new List<WindowsAzureOffer>();
             expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(o, plans)));
-            List<PSObject> expectedOutput = new List<PSObject>();
-            foreach (Offer offer in expectedOffers)
-	        {
-		        PSObject psObject = new PSObject();
-                psObject.Properties.Add(new PSNoteProperty(Parameter.Provider, offer.ProviderIdentifier));
-                psObject.Properties.Add(new PSNoteProperty(Parameter.Addon, offer.OfferIdentifier));
-                psObject.Properties.Add(new PSNoteProperty(Parameter.Plans, expectedPlansString));
-                expectedOutput.Add(psObject);
-	        }
-            List<PSObject> actual = new List<PSObject>();
+            
             Mock<StoreClient> mock = new Mock<StoreClient>();
             mock.Setup(f => f.GetAvailableWindowsAzureAddOns(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<List<PSObject>>(), true))
-                .Callback((object obj, bool isCollection) => actual = (List<PSObject>)obj);
 
             GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand() { StoreClient = mock.Object, CommandRuntime = mockCommandRuntime.Object };
 
@@ -77,15 +65,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mock.Verify(f => f.GetAvailableWindowsAzureAddOns("US"), Times.Exactly(1));
-            Assert.AreEqual<int>(expectedOffers.Count, actual.Count);
-
-            for (int i = 0; i < expectedOffers.Count; i++)
-            {
-                Assert.AreEqual<string>(expectedOffers[i].ProviderIdentifier, actual[i].GetVariableValue<string>("Provider"));
-                Assert.AreEqual<string>(expectedOffers[i].OfferIdentifier, actual[i].GetVariableValue<string>("Addon"));
-                Assert.AreEqual<string>(expectedPlansString, actual[i].GetVariableValue<string>("Plans"));
-            }
+            mock.Verify(f => f.GetAvailableWindowsAzureAddOns("US"), Times.Once());
+            mockCommandRuntime.Verify(f => f.WriteObject(expectedWindowsAzureOffers, true), Times.Once());
         }
     }
 }

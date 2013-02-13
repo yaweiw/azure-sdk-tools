@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<PSObject>))]
+    [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<WindowsAzureOffer>))]
     public class GetAzureStoreAvailableAddOnCommand : CloudBaseCmdlet<IMarketplaceManagement>
     {
         public StoreClient StoreClient { get; set; }
@@ -45,28 +45,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text));
             List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
-            List<PSObject> output = new List<PSObject>();
 
-            foreach (WindowsAzureOffer windowsAzureOffer in result)
+            if (result.Count > 0)
             {
-                List<Plan> plans = windowsAzureOffer.Plans;
-                
-                if (plans.Count > 0)
-                {
-                    IEnumerable<string> planIdentifiers = plans.Select<Plan, string>(p => p.PlanIdentifier).Distinct<string>();
-                    string joinResult = string.Join<string>(", ", planIdentifiers);
-                    PSObject obj = ConstructPSObject(null,
-                        Parameter.Provider, windowsAzureOffer.Info.ProviderIdentifier,
-                        Parameter.Addon, windowsAzureOffer.Info.OfferIdentifier,
-                        Parameter.Plans, joinResult);
-
-                    output.Add(obj);
-                }
-            }
-
-            if (output.Count > 0)
-            {
-                WriteObject(output, true);
+                WriteObject(result, true);
             }
         }
     }

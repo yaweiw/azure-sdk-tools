@@ -14,12 +14,45 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using System;
     using System.Collections.Generic;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
 
     public class WindowsAzureOffer
     {
-        public Offer Info { get; set; }
+        public Guid Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string ShortDescription { get; set; }
+
+        public string Description { get; set; }
+
+        public DateTime PublishDate { get; set; }
+
+        public string IconUrl { get; set; }
+
+        public string MarketplaceDetailUrl { get; set; }
+
+        public string OfferType { get; set; }
+
+        public string ProviderName { get; set; }
+
+        public Guid ProviderId { get; set; }
+
+        public string WebsiteUrl { get; set; }
+
+        public string Country { get; set; }
+
+        public string EulaUrl { get; set; }
+
+        public string PrivacyPolicyUrl { get; set; }
+
+        public string ProviderIdentifier { get; set; }
+
+        public string OfferIdentifier { get; set; }
+
+        public bool IsAvailableInAzureStores { get; set; }
 
         public List<Plan> Plans { get; set; }
 
@@ -28,9 +61,41 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// </summary>
         /// <param name="offer">The offer details</param>
         /// <param name="plans">The offer plans</param>
-        public WindowsAzureOffer(Offer info, List<Plan> plans)
+        public WindowsAzureOffer(Offer offer, List<Plan> plans)
         {
-            Info = info;
+            Id = offer.Id;
+            
+            Name = offer.Name;
+            
+            ShortDescription = offer.ShortDescription;
+            
+            Description = offer.Description;
+            
+            PublishDate = offer.PublishDate;
+            
+            IconUrl = offer.IconUrl;
+            
+            MarketplaceDetailUrl = offer.MarketplaceDetailUrl;
+            
+            OfferType = offer.OfferType;
+            
+            ProviderName = offer.ProviderName;
+            
+            ProviderId = offer.ProviderId;
+            
+            WebsiteUrl = offer.WebsiteUrl;
+            
+            Country = offer.Country;
+            
+            EulaUrl = offer.EulaUrl;
+            
+            PrivacyPolicyUrl = offer.PrivacyPolicyUrl;
+            
+            ProviderIdentifier = offer.ProviderIdentifier;
+
+            OfferIdentifier = offer.OfferIdentifier;
+
+            IsAvailableInAzureStores = offer.IsAvailableInAzureStores;
 
             Plans = plans;
         }

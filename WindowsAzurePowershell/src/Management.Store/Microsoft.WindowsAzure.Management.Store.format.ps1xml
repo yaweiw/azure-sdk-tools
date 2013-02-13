@@ -2,9 +2,53 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel.Resource</Name>
+      <Name>Microsoft.WindowsAzure.Management.Store.Model.WindowsAzureOffer</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel.Resource</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Store.Model.WindowsAzureOffer</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>80</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Provider</Label>
+            <Width>50</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+          <Label>Plans</Label>
+            <Width>100</Width>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.Name</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.ProviderName</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
+                  $plans = @()
+                  foreach ($plan in $_.Plans)
+                  {
+                    $plans += $plan.PlanIdentifier
+                  }
+                  $plans
+                </ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Microsoft.WindowsAzure.Management.Store.Model.AddOn</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.WindowsAzure.Management.Store.Model.AddOn</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
@@ -19,8 +63,8 @@
                 <PropertyName>Provider</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>AddOn</Label>
-                <PropertyName>AddOn</PropertyName>
+                <Label>Type</Label>
+                <PropertyName>Type</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>Plan</Label>
@@ -39,14 +83,14 @@
                 <PropertyName>State</PropertyName>
               </ListItem>
               <ListItem>
-                <Label>LastOperationStatus</Label>
+                <Label>OperationStatus</Label>
                 <ScriptBlock>
                   $format = "{0}{2, -7}: {3}{0}{4, -7}: {5}"
-                  $objects = @("`r`n", "`t", "Type", $_.LastOperationStatus.Type, "Result", $_.LastOperationStatus.Result)
-                  if ($_.LastOperationStatus.Error -ne $null)
+                  $objects = @("`r`n", "`t", "Type", $_.OperationStatus.Type, "Result", $_.OperationStatus.Result)
+                  if ($_.OperationStatus.Error -ne $null)
                   {
                     $format += "{0}{6, -7}:{0}{1}{7, -9}: {8}{0}{1}{9, -9}: {10}"
-                    $objects += @("Error", "HttpCode", $_.LastOperationStatus.Error.HttpCode, "Message", $_.LastOperationStatus.Error.Message)
+                    $objects += @("Error", "HttpCode", $_.OperationStatus.Error.HttpCode, "Message", $_.OperationStatus.Error.Message)
                   }
                   [string]::Format($format, $objects)
                 </ScriptBlock>
@@ -64,9 +108,9 @@
                       $max = $outputItem.Key.Length
                     }
                   }
-                  
+
                   $max++
-                  
+
                   foreach ($outputItem in $_.OutputItems)
                   {
                     # Add key
@@ -129,7 +173,7 @@
                       $used += "..."
                     }
                     $objects += $used
-                    
+
                     if ($count++ -lt ($_.UsageMeters.Count - 1))
                     {
                       # Add separator

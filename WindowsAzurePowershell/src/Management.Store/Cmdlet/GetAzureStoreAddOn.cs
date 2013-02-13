@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// <summary>
     /// Gets all purchased Add-Ons or specific Add-On
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>), typeof(PSObject))]
+    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<AddOn>), typeof(AddOn))]
     public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IStoreManagement>
     {
         public StoreClient StoreClient { get; set; }
@@ -40,29 +40,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On location")]
         public string Location { get; set; }
 
-        /// <summary>
-        /// Converts an AddOn object into PSObject
-        /// </summary>
-        /// <param name="location">The add on location</param>
-        /// <param name="addOn">The add on object</param>
-        /// <returns>The PSObject</returns>
-        internal PSObject AddOnToPSObject(AddOn addOn)
-        {
-            PSObject psObject = ConstructPSObject(typeof(Resource).FullName,
-                Parameter.Name, addOn.Info.Name,
-                Parameter.Provider, addOn.Info.ResourceProviderNamespace,
-                Parameter.AddOn, addOn.Info.Type,
-                Parameter.Plan, addOn.Info.Plan,
-                Parameter.Location, addOn.GeoRegion,
-                Parameter.SchemaVersion, addOn.Info.SchemaVersion,
-                Parameter.State, addOn.Info.State,
-                Parameter.LastOperationStatus, addOn.Info.OperationStatus,
-                Parameter.OutputItems, addOn.Info.OutputItems ?? new OutputItemList(),
-                Parameter.UsageMeters, addOn.Info.UsageMeters ?? new UsageMeterList());
-
-            return psObject;
-        }
-
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -72,16 +49,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text));
             List<AddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
-            List<PSObject> outputObject = new List<PSObject>();
-            addOns.ForEach(addOn => outputObject.Add(AddOnToPSObject(addOn)));
 
-            if (outputObject.Count.Equals(1))
+            if (addOns.Count.Equals(1))
             {
-                WriteObject(outputObject[0]);
+                WriteObject(addOns);
             }
             else
             {
-                WriteObject(outputObject, true);
+                WriteObject(addOns, true);
             }
         }
     }
