@@ -12,18 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Management.Model;
     using Model;
     using Cmdlets.Common;
-    using Extensions;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
-    public class UpdateAzureVMImage : CloudBaseCmdlet<IServiceManagement>
+    public class UpdateAzureVMImage : CloudServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Service;
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
@@ -28,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Properties;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
@@ -687,7 +689,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 {
                     if (createdOrUpdatedDeployment)
                     {
-                        Deployment deployment = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
+                        Deployment deployment = new Deployment{Name = "TEST_SERVICE_NAME", DeploymentSlot = "Production", Status = DeploymentStatus.Running};
                         deployment.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
                         return deployment;
                     }
@@ -951,7 +953,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 {
                     if (createdHostedService)
                     {
-                        Deployment deploymentCreated = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
+                        Deployment deploymentCreated = new Deployment{Name = "TEST_SERVICE_NAME", DeploymentSlot = "Production", Status = DeploymentStatus.Running};
                         deploymentCreated.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
                         return deployment;
                     }

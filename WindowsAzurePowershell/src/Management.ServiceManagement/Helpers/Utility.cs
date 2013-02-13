@@ -15,15 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 {
     using System.IO;
-
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-
+    using WindowsAzure.ServiceManagement;
+    
     public static class Utility
     {
         public static string GetConfiguration(string configurationPath)
         {
             var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
-
             return ServiceManagementHelper.EncodeToBase64String(configuration);
         }
     }

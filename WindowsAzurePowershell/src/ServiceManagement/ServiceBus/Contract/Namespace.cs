@@ -18,8 +18,8 @@ namespace Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contrac
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
+    using ServiceManagement.ServiceBus;
+    using ServiceManagement.ServiceBus.ResourceModel;
 
     /// <summary>
     /// The service bus-related part of the API

@@ -205,6 +205,10 @@
     <None Include="Test References\AzureDeploymentTool.accessor" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\Microsoft.WindowsAzure.ServiceManagement.Client.csproj">
+      <Project>{CDBBC94D-FA60-4AEA-B9CC-EFED585904F0}</Project>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
@@ -221,9 +225,9 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
+    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
+      <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
+      <Name>ServiceManagement.Additions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +237,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

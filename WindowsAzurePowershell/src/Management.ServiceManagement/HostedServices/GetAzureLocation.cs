@@ -16,15 +16,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Model;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Retrieve a Windows Azure Location.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureLocation"), OutputType(typeof(LocationsContext))]
-    public class GetAzureLocationCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureLocationCommand : CloudServiceManagementBaseCmdlet
     {
         public GetAzureLocationCommand()
         {

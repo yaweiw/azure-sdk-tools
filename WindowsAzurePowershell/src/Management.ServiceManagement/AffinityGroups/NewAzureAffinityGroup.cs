@@ -14,18 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
-    using Extensions;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates and returns a new affinity group in the specified data center location.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
+    public class NewAzureAffinityGroup : CloudServiceManagementBaseCmdlet
     {
         public NewAzureAffinityGroup()
         {

@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Store.Test.Stubs;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
 
     [TestClass]
     public class GetAzureStoreAvailableAddOnTests : TestBase

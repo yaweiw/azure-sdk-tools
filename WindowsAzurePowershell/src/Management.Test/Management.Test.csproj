@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Tests\MSSharedLibKey.snk" />
     <None Include="Resources\ValidProfile2.PublishSettings" />
     <None Include="Resources\ValidProfile.PublishSettings" />
   </ItemGroup>

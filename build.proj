@@ -214,16 +214,16 @@
       Properties="Configuration=ReleaseSigned"
       ContinueOnError="false" />
       
-    <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>
-    <CreateItem Include="$(ScaffoldingReleaseSourceDir)\**\*.*">
-      <Output TaskParameter="Include" ItemName="ReleaseResources" />
-    </CreateItem>
-    <Copy SourceFiles="@(ReleaseResources)"
-    			DestinationFiles="@(ReleaseResources->'$(ScaffoldingReleaseDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    
-    <Message Importance="high" Text="Delete Release Resources folder..."/>
-    <Delete Files="@(ReleaseResources)" ContinueOnError="false" />
-    <RemoveDir Directories="$(ScaffoldingReleaseSourceDir)" ContinueOnError="false"/>
+<!--    <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>-->
+<!--    <CreateItem Include="$(ScaffoldingReleaseSourceDir)\**\*.*">-->
+<!--      <Output TaskParameter="Include" ItemName="ReleaseResources" />-->
+<!--    </CreateItem>-->
+<!--    <Copy SourceFiles="@(ReleaseResources)"-->
+<!--    			DestinationFiles="@(ReleaseResources->'$(ScaffoldingReleaseDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />-->
+<!--    -->
+<!--    <Message Importance="high" Text="Delete Release Resources folder..."/>-->
+<!--    <Delete Files="@(ReleaseResources)" ContinueOnError="false" />-->
+<!--    <RemoveDir Directories="$(ScaffoldingReleaseSourceDir)" ContinueOnError="false"/>-->
   </Target>
 
   <!-- Build the Cmdlets in Debug configuration -->
