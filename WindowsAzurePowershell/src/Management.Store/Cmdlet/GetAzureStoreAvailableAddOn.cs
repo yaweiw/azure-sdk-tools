@@ -39,7 +39,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            StoreClient = StoreClient ?? new StoreClient(string.Empty, string.Empty, null, text => this.WriteDebug(text));
+            StoreClient = StoreClient ?? new StoreClient(
+                string.Empty,
+                string.Empty,
+                null,
+                text => this.WriteDebug(text));
             List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
 
             if (result.Count > 0)

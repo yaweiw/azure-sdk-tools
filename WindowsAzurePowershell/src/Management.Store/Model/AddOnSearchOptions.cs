@@ -44,7 +44,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         public override bool Equals(object obj)
         {
-            AddOnSearchOptions rhs = (AddOnSearchOptions)obj;
+            AddOnSearchOptions rhs = obj as AddOnSearchOptions;
+            if (rhs == null) { return false; }
+
             return
                 General.TryEquals(this.Name, rhs.Name) &&
                 General.TryEquals(this.Provider, rhs.Provider) &&

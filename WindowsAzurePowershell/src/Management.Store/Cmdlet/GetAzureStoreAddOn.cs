@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 text => this.WriteDebug(text));
             List<AddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
 
-            if (addOns.Count.Equals(1))
+            if (addOns.Count == 1)
             {
                 WriteObject(addOns);
             }
