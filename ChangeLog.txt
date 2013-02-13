@@ -1,7 +1,7 @@
 2013.02.11 Version 0.6.10
  * Upgrade to use PowerShell 3.0
  * Released source code for VM and Cloud Services cmdlets
- * Added a few new cmdlets for cloud service scaffolding (Add-AzureWebRole, Add-AzureWorkerRole, NewAzureRoleTemplate, Save-AzureServiceProjectPackage, Set-AzureServiceProjectRole -VMSize), See Web Camps TV (http://channel9.msdn.com/Shows/Web+Camps+TV/Whats-Coming-in-the-Command-Line-Tools-for-Windows-Azure-with-Glenn-Block) for more on these new cmdlets.
+ * Added a few new cmdlets for Cloud Services (Add-AzureWebRole, Add-AzureWorkerRole, NewAzureRoleTemplate, Save-AzureServiceProjectPackage, Set-AzureServiceProjectRole -VMSize), See Web Camps TV (http://channel9.msdn.com/Shows/Web+Camps+TV/Whats-Coming-in-the-Command-Line-Tools-for-Windows-Azure-with-Glenn-Block) for more on these new cmdlets.
  * Added Support for SAS in destination Uri for Add-AzureVhd
  * Added -Confirm and -WhatIf support for Remove-Azure* cmdlets
  * Added configurable startup task for Node.js and generic roles
