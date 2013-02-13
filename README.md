@@ -70,7 +70,10 @@ To get the source code of the SDK via git just type:
 ## Install Prerequisites
 
 * [Windows Azure SDK](http://www.microsoft.com/windowsazure/sdk/)
-* [Windows PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
+* 0.6.9 or less
+  * [Windows PowerShell 2.0](http://technet.microsoft.com/en-us/scriptcenter/dd742419)
+* 0.6.10 or more
+  * [Windows PowerShell 3.0](http://www.microsoft.com/en-us/download/details.aspx?id=34595)
 * [WiX](http://wix.sourceforge.net/) (Only needed if you want to build the setup project)
 
 ### Node.js Prerequisites (developer only)
