@@ -77,5 +77,23 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
                 return ResourceManager.GetString("MarketplaceEndpoint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove AddOn Confirmation.
+        /// </summary>
+        internal static string RemoveAddOnConformation {
+            get {
+                return ResourceManager.GetString("RemoveAddOnConformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you delete this addon, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm..
+        /// </summary>
+        internal static string RemoveAddOnMessage {
+            get {
+                return ResourceManager.GetString("RemoveAddOnMessage", resourceCulture);
+            }
+        }
     }
 }

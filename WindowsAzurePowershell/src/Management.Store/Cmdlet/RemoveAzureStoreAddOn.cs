@@ -15,11 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Management.Automation;
+    using System.Management.Automation.Host;
     using System.Security.Permissions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
     /// <summary>
     /// Removes all purchased Add-Ons or specific Add-On
@@ -38,17 +41,33 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
+            const int Yes = 0;
+            const int No = 1;
+
             StoreClient = StoreClient ?? new StoreClient(
                 CurrentSubscription.SubscriptionId,
                 ServiceEndpoint,
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text));
-            
-            StoreClient.RemoveAddOn(Name);
 
-            if (PassThru.IsPresent)
+            int userChoice = Host.UI.PromptForChoice(
+                Resources.RemoveAddOnConformation,
+                Resources.RemoveAddOnMessage,
+                new Collection<ChoiceDescription>(
+                    new List<ChoiceDescription>(2)
+                    {
+                        new ChoiceDescription("Yes", "Yes, I agree"),
+                        new ChoiceDescription("No", "No, I don not agree")
+                    }), No);
+
+            if (userChoice == Yes)
             {
-                WriteObject(true);
+                StoreClient.RemoveAddOn(Name);
+
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
         }
     }
