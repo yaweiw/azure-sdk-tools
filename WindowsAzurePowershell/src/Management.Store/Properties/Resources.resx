@@ -123,4 +123,7 @@
   <data name="MarketplaceEndpoint" xml:space="preserve">
     <value>http://api.datamarket.azure.com/CatalogService.svc</value>
   </data>
+  <data name="NullCertificateMessage" xml:space="preserve">
+    <value>Certificate can't be null.</value>
+  </data>
 </root>

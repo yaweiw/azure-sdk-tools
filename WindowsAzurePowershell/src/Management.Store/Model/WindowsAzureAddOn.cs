@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using System.Collections.Generic;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
 

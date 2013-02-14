@@ -17,16 +17,18 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
+    using System.Linq;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<WindowsAzureOffer>))]
-    public class GetAzureStoreAvailableAddOnCommand : CmdletBase
+    public class GetAzureStoreAvailableAddOnCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        public StoreClient StoreClient { get; set; }
+        public MarketplaceClient MarketplaceClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
         [ValidateCountryLengthAttribute()]
@@ -35,12 +37,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            StoreClient = StoreClient ?? new StoreClient(
-                string.Empty,
-                string.Empty,
-                null,
-                text => this.WriteDebug(text));
-            List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
+            LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
+            MarketplaceClient = new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
+            List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country ?? "US");
 
             if (result.Count > 0)
             {
