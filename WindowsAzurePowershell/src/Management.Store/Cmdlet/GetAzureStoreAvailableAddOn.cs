@@ -15,13 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>
@@ -33,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         public StoreClient StoreClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
-        [ValidateLength(2, 2)]
+        [ValidateCountryLengthAttribute()]
         public string Country { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

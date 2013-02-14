@@ -48,9 +48,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         public string PrivacyPolicyUrl { get; set; }
 
-        public string ProviderIdentifier { get; set; }
+        public string Provider { get; set; }
 
-        public string OfferIdentifier { get; set; }
+        public string AddOn { get; set; }
 
         public bool IsAvailableInAzureStores { get; set; }
 
@@ -91,9 +91,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             
             PrivacyPolicyUrl = offer.PrivacyPolicyUrl;
             
-            ProviderIdentifier = offer.ProviderIdentifier;
+            Provider = offer.ProviderIdentifier;
 
-            OfferIdentifier = offer.OfferIdentifier;
+            AddOn = offer.OfferIdentifier;
 
             IsAvailableInAzureStores = offer.IsAvailableInAzureStores;
 
