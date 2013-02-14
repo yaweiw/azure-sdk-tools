@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,27 +12,76 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Node.Cmdlet
+namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
+    using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class AddAzureNodeWebRoleTests : TestBase
     {
+        private MockCommandRuntime mockCommandRuntime;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+        }
+
         [TestMethod]
         public void AddAzureNodeWebRoleProcess()
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                new NewAzureServiceProjectCommand().NewAzureServiceProcess(files.RootPath, "AzureService");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, Path.Combine(files.RootPath, "AzureService"));
+                string roleName = "WebRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
 
-                AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WebRole"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
+                addNodeWebCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
+            }
+        }
+
+        [TestMethod]
+        public void AddAzureNodeWebRoleWillRecreateDeploymentSettings()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string roleName = "WebRole1";
+                string serviceName = "AzureService";
+                string rootPath = files.CreateNewService(serviceName);
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime };
+                string expectedVerboseMessage = string.Format(Resources.AddRoleMessageCreateNode, rootPath, roleName);
+                string settingsFilePath = Path.Combine(rootPath, Resources.SettingsFileName);
+                File.Delete(settingsFilePath);
+                Assert.IsFalse(File.Exists(settingsFilePath));
+
+                addNodeWebCmdlet.ExecuteCmdlet();
+
+                AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
+                Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
+                Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
+                Assert.IsTrue(File.Exists(settingsFilePath));
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,27 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System;
+    using System.IO;
     using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using System.IO;
-    using System;
 
     [TestClass]
     public class NewAzureServiceTests : TestBase
     {
-        FakeWriter writer;
         NewAzureServiceProjectCommand cmdlet;
+
+        MockCommandRuntime mockCommandRuntime;
 
         [TestInitialize]
         public void SetupTest()
         {
-            writer = new FakeWriter();
             cmdlet = new NewAzureServiceProjectCommand();
-            cmdlet.Writer = writer;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         [TestMethod]
@@ -52,8 +54,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 cmdlet.NewAzureServiceProcess(files.RootPath, expectedName);
 
                 // Assert
-                PSObject actualPSObject = writer.OutputChannel[0] as PSObject;
-                string actualServiceCreatedMessage = writer.VerboseChannel[0];
+                PSObject actualPSObject = mockCommandRuntime.OutputPipeline[0] as PSObject;
+                string actualServiceCreatedMessage = mockCommandRuntime.VerboseStream[0];
                 
                 Assert.AreEqual<string>(expectedName, actualPSObject.Members[Parameters.ServiceName].Value.ToString());
                 Assert.AreEqual<string>(expectedRootPath, actualPSObject.Members[Parameters.RootPath].Value.ToString());

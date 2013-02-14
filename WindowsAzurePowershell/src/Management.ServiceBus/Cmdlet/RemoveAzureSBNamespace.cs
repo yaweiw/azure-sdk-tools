@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -19,17 +19,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Text.RegularExpressions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace")]
-    public class RemoveAzureSBNamespaceCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        [Parameter(Position = 3, HelpMessage = "Do not confirm the removal of the namespace")]
+        public SwitchParameter Force { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
@@ -56,36 +62,43 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="subscriptionId">The user subscription id</param>
         /// <param name="name">The namespace name</param>
         /// <summary>
-        internal void RemoveServiceBusNamespaceProcess(string subscriptionId, string name)
+        public override void ExecuteCmdlet()
         {
+            string subscriptionId = CurrentSubscription.SubscriptionId;
+            string name = Name;
+
             try
             {
                 if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
-                    Channel.DeleteServiceBusNamespace(subscriptionId, name);
-                    SafeWriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
+
+                    ConfirmAction(
+                        Force.IsPresent,
+                        string.Format(Resources.RemoveServiceBusNamespaceConfirmation, name),
+                        string.Format(Resources.RemovingNamespaceMessage),
+                        name,
+                        () =>
+                        {
+                            Channel.DeleteServiceBusNamespace(subscriptionId, name);
+
+                            if (PassThru)
+                            {
+                                WriteObject(true);
+                            }
+                        });
                 }
                 else
                 {
-                    SafeWriteError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
+                    WriteExceptionError(new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name"));
                 }
             }
             catch (Exception ex)
             {
                 if (ex.Message.Equals(Resources.InternalServerErrorMessage))
                 {
-                    SafeWriteError(new Exception(Resources.RemoveNamespaceErrorMessage));
+                    WriteExceptionError(new Exception(Resources.RemoveNamespaceErrorMessage));
                 }
             }
-        }
-
-        /// <summary>
-        /// Executes the cmdlet.
-        /// </summary>
-        public override void ExecuteCmdlet()
-        {
-            base.ExecuteCmdlet();
-            RemoveServiceBusNamespaceProcess(CurrentSubscription.SubscriptionId, Name);
         }
     }
 }

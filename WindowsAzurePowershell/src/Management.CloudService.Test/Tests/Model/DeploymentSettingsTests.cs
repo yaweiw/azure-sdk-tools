@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,12 +16,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
     using System;
     using System.IO;
+    using System.Linq;
     using CloudService.Model;
     using CloudService.Properties;
     using Cmdlets;
     using Management.Services;
     using Management.Test.Stubs;
-    using Test.Model;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -30,10 +31,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     public class DeploymentSettingsTests : TestBase
     {
         static AzureServiceWrapper service;
+
         static string packagePath;
+
         static string configPath;
+
         static ServiceSettings settings;
+
         string serviceName;
+
+        MockCommandRuntime mockCommandRuntime;
+
+        ImportAzurePublishSettingsCommand importCmdlet;
 
         /// <summary>
         /// When running this test double check that the certificate used in Azure.PublishSettings has not expired.
@@ -50,7 +59,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             packagePath = service.Paths.CloudPackage;
             configPath = service.Paths.CloudConfiguration;
             settings = ServiceSettingsTestData.Instance.Data[ServiceSettingsState.Default];
-            new ImportAzurePublishSettingsCommand().ImportSubscriptionProcess(Resources.PublishSettingsFileName, null);
+            mockCommandRuntime = new MockCommandRuntime();
+            importCmdlet = new ImportAzurePublishSettingsCommand();
+            importCmdlet.CommandRuntime = mockCommandRuntime;
+            importCmdlet.ImportSubscriptionFile(Data.ValidPublishSettings.First(), null);
         }
 
         [TestCleanup()]
@@ -58,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         {
             if (Directory.Exists(Data.AzureSdkAppDir))
             {
-                new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(Data.AzureSdkAppDir);
+                new Microsoft.WindowsAzure.Management.CloudService.Test.Model.RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(Data.AzureSdkAppDir);
             }
         }
 

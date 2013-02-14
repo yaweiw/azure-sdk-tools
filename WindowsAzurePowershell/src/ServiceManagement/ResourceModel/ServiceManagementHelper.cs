@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,6 +15,8 @@
 namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using System.Net;
     using System.Runtime.Serialization;
     using System.Security.Cryptography.X509Certificates;
@@ -28,80 +30,122 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 
     public static class ServiceManagementHelper
     {
-        public static IServiceManagement CreateServiceManagementChannel(X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>();
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>();
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(Binding binding, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Binding binding, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(binding);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(binding);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(ServiceEndpoint endpoint, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(ServiceEndpoint endpoint, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpoint);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpoint);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(string endpointConfigurationName, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(string endpointConfigurationName, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpointConfigurationName);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(Type channelType, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Type channelType, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(channelType);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(channelType);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(Uri remoteUri, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
+
+            WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
+            wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
+            wb.Security.Mode = WebHttpSecurityMode.Transport;
+            
+            if (!string.IsNullOrEmpty(username))
+            {
+                factory.Credentials.UserName.UserName = username;
+            }
+            if (!string.IsNullOrEmpty(password))
+            {
+                factory.Credentials.UserName.Password = password;
+            }
+
+            return factory.CreateChannel();
+        }
+
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(Binding binding, Uri remoteUri, X509Certificate2 cert, params IEndpointBehavior[] behaviors)
+            where T : class
+        {
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(binding, remoteUri);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
+            foreach (IEndpointBehavior behavior in behaviors)
+            {
+                factory.Endpoint.Behaviors.Add(behavior);
+            }
 
             var channel = factory.CreateChannel();
             return channel;
         }
 
-        public static IServiceManagement CreateServiceManagementChannel(string endpointConfigurationName, Uri remoteUri, X509Certificate2 cert)
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
+        public static T CreateServiceManagementChannel<T>(string endpointConfigurationName, Uri remoteUri, X509Certificate2 cert)
+            where T : class
         {
-            WebChannelFactory<IServiceManagement> factory = new WebChannelFactory<IServiceManagement>(endpointConfigurationName, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            WebChannelFactory<T> factory = new WebChannelFactory<T>(endpointConfigurationName, remoteUri);
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
 
             var channel = factory.CreateChannel();
@@ -145,43 +189,37 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
                 return false;
             }
 
-            httpStatusCode = response.StatusCode;
-            if (httpStatusCode == HttpStatusCode.Forbidden)
-            {
-                try
-                {
-                    using (var s = response.GetResponseStream())
-                    {
-                        using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(s, new XmlDictionaryReaderQuotas()))
-                        {
-                            DataContractSerializer ser = new DataContractSerializer(typeof(ServiceManagementError));
-                            errorDetails = (ServiceManagementError)ser.ReadObject(reader, true);
-                        }
-                    }
-                }
-                catch
-                {
-                }
-
-                return true;
-            }
+            //httpStatusCode = response.StatusCode;
+            //if (httpStatusCode == HttpStatusCode.Forbidden)
+            //{
+            //    return true;
+            //}
 
             if (response.Headers != null)
             {
                 operationId = response.Headers[Constants.OperationTrackingIdHeader];
             }
 
-            using (var s = response.GetResponseStream())
+            // Don't wrap responseStream in a using statement to prevent it
+            // from being disposed twice (as it's disposed by reader if it is
+            // successfully disposed).
+            Stream responseStream = null;
+            try
             {
-                if (s.Length == 0)
+                responseStream = response.GetResponseStream();
+                if (responseStream.Length == 0)
                 {
                     return false;
                 }
 
                 try
                 {
-                    using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(s, new XmlDictionaryReaderQuotas()))
+                    using (XmlDictionaryReader reader = XmlDictionaryReader.CreateTextReader(responseStream, new XmlDictionaryReaderQuotas()))
                     {
+                        // Release the reference to responseStream since it
+                        // will be closed when the reader is diposed
+                        responseStream = null;
+
                         DataContractSerializer ser = new DataContractSerializer(typeof(ServiceManagementError));
                         errorDetails = (ServiceManagementError)ser.ReadObject(reader, true);
                     }
@@ -191,35 +229,66 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
                     return false;
                 }
             }
-
+            finally
+            {
+                if (responseStream != null)
+                {
+                    responseStream.Dispose();
+                }
+            }
+            
             return true;
         }
 
         public static string EncodeToBase64String(string original)
         {
+            if (string.IsNullOrEmpty(original))
+            {
+                return original;
+            }
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(original));
         }
 
         public static string DecodeFromBase64String(string original)
         {
+            if (string.IsNullOrEmpty(original))
+            {
+                return original;
+            }
             return Encoding.UTF8.GetString(Convert.FromBase64String(original));
         }
     }
 
-    public class ClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
+    public class ServiceManagementClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
+        public const string UserAgentHeaderName = "User-Agent";
+        public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.10";
+        public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
+
         #region IClientMessageInspector Members
 
-        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState)
+        public void AfterReceiveReply(ref Message reply, object correlationState) { }
+        public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-        }
-
-        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
-        {
-            var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-            if (property.Headers[Constants.VersionHeaderName] == null)
+            if (request.Properties.ContainsKey(HttpRequestMessageProperty.Name))
             {
-                property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20120301);
+                var property = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+
+                // Remove VSDebuggerCausalityData header which is added by WCF.
+                if (property.Headers[VSDebuggerCausalityDataHeaderName] != null)
+                {
+                    property.Headers.Remove(VSDebuggerCausalityDataHeaderName);
+                }
+
+                if (property.Headers[Constants.VersionHeaderName] == null)
+                {
+                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContent20120301);
+                }
+
+                if (property.Headers[UserAgentHeaderName] == null)
+                {
+                    property.Headers.Add(UserAgentHeaderName, UserAgentHeaderContent);
+                }
             }
 
             return null;
@@ -229,22 +298,16 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
 
         #region IEndpointBehavior Members
 
-        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters)
-        {
-        }
+        public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
 
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
         {
             clientRuntime.MessageInspectors.Add(this);
         }
 
-        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher)
-        {
-        }
+        public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }
 
-        public void Validate(ServiceEndpoint endpoint)
-        {
-        }
+        public void Validate(ServiceEndpoint endpoint) { }
 
         #endregion
     }

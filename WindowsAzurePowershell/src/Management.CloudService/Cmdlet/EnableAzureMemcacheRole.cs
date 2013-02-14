@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,32 +18,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceDefinitionSchema;
     using Utilities;
-    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
 
     /// <summary>
     /// Enables memcache for specific role.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
-    public class EnableAzureMemcacheRoleCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole"), OutputType(typeof(bool))]
+    public class EnableAzureMemcacheRoleCommand : CmdletBase
     {
         /// <summary>
         /// The role name to edit.
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("rn")]
         [ValidateNotNullOrEmpty]
         public string RoleName { get; set; }
@@ -51,21 +51,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The dedicated caching worker role name.
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("cn")]
         [ValidateNotNullOrEmpty]
         public string CacheWorkerRoleName { get; set; }
 
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        /// <summary>
+        /// Cache runtime version
+        /// </summary>
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("cv")]
+        public string CacheRuntimeVersion { get; set; }
+
         public EnableAzureMemcacheRoleCommand()
         {
-            SkipChannelInit = true;
+            CacheRuntimeVersion = new AzureTool().AzureSdkVersion;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
+            string rootPath = General.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
+            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -79,6 +91,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public WebRole EnableAzureMemcacheRoleProcess(string roleName, string cacheWorkerRoleName, string rootPath)
         {
             AzureService azureService = new AzureService(rootPath, null);
+
+            if (string.IsNullOrEmpty(cacheWorkerRoleName))
+            {
+                WorkerRole defaultCache = azureService.Components.Definition.WorkerRole.FirstOrDefault<WorkerRole>(
+                    w => w.Imports != null && w.Imports.Any(i => i.moduleName.Equals(Resources.CachingModuleName)));
+
+                if (defaultCache == null)
+                {
+                    throw new Exception(Resources.NoCacheWorkerRoles);
+                }
+
+                cacheWorkerRoleName = defaultCache.name;
+            }
 
             // Verify cache worker role exists
             if (!azureService.Components.RoleExists(cacheWorkerRoleName))
@@ -94,31 +119,34 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 throw new Exception(string.Format(Resources.NotCacheWorkerRole, cacheWorkerRoleName));
             }
 
+            // Verify that user is not trying to enable cache on a cache worker role.
+            if (roleName.Equals(cacheWorkerRole))
+            {
+                throw new Exception(string.Format(Resources.InvalidCacheRoleName, roleName));
+            }
+
             // Verify role to enable cache on exists
             if (!azureService.Components.RoleExists(roleName))
             {
                 throw new Exception(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
-            WebRole webRole = azureService.Components.GetWebRole(roleName);
-
-            // Verift role to enable cache is web role
-            if (webRole == null)
-            {
-                throw new Exception(string.Format(Resources.EnableMemcacheOnWorkerRoleErrorMsg, roleName));
-            }
-
             // Verify that caching is not enabled for the role
-            if (IsCacheEnabled(webRole))
+            if (IsCacheEnabled(azureService.Components.GetRoleStartup(roleName)))
             {
-                throw new Exception(string.Format(Resources.CacheAlreadyEnabledMsg, roleName));
+                throw new Exception(string.Format(Resources.CacheAlreadyEnabledMessage, roleName));
             }
 
             // All validations passed, enable caching.
             string message = string.Empty;
-            EnableMemcacheForWebRole(roleName, cacheWorkerRoleName, ref message, ref azureService);
+            EnableMemcache(roleName, cacheWorkerRoleName, ref message, ref azureService);
 
-            SafeWriteVerbose(message);
+            WriteVerbose(message);
+
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
 
             return azureService.Components.GetWebRole(roleName);
         }
@@ -132,22 +160,54 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="message">The resulted message</param>
         /// <param name="azureService">The azure service instance</param>
         /// <param name="webRole">The web role to enable caching one</param>
-        private void EnableMemcacheForWebRole(string roleName, string cacheWorkerRoleName, ref string message, ref AzureService azureService)
+        private void EnableMemcache(string roleName, string cacheWorkerRoleName, ref string message, ref AzureService azureService)
         {
-            string currentVersion = new AzureTool().AzureSdkVersion;
-
             // Add MemcacheShim runtime installation.
-            new SetAzureServiceProjectRoleCommand().SetAzureRuntimesProcess(roleName, Resources.CacheRuntimeValue, currentVersion, azureService.Paths.RootPath);
+            azureService.AddRoleRuntime(azureService.Paths, roleName, Resources.CacheRuntimeValue, CacheRuntimeVersion);
 
             // Fetch web role information.
-            azureService = new AzureService(azureService.Paths.RootPath, null);
-            WebRole webRole = azureService.Components.GetWebRole(roleName);
+            Startup startup = azureService.Components.GetRoleStartup(roleName);
 
             // Assert that cache runtime is added to the runtime startup.
-            Debug.Assert(Array.Exists<Variable>(CloudRuntime.GetRuntimeStartupTask(webRole.Startup).Environment,
+            Debug.Assert(Array.Exists<Variable>(CloudRuntime.GetRuntimeStartupTask(startup).Environment,
                 v => v.name.Equals(Resources.RuntimeTypeKey) && v.value.Contains(Resources.CacheRuntimeValue)));
 
-            CachingConfigurationFactoryMethod(azureService, webRole, cacheWorkerRoleName, currentVersion);
+            if (azureService.Components.IsWebRole(roleName))
+            {
+                WebRole webRole = azureService.Components.GetWebRole(roleName);
+                webRole.LocalResources = General.InitializeIfNull<LocalResources>(webRole.LocalResources);
+                DefConfigurationSetting[] configurationSettings = webRole.ConfigurationSettings;
+
+                CachingConfigurationFactoryMethod(
+                        azureService,
+                        roleName,
+                        true,
+                        cacheWorkerRoleName,
+                        webRole.Startup,
+                        webRole.Endpoints,
+                        webRole.LocalResources,
+                        ref configurationSettings,
+                        CacheRuntimeVersion);
+                webRole.ConfigurationSettings = configurationSettings;
+            }
+            else
+            {
+                WorkerRole workerRole = azureService.Components.GetWorkerRole(roleName);
+                workerRole.LocalResources = General.InitializeIfNull<LocalResources>(workerRole.LocalResources);
+                DefConfigurationSetting[] configurationSettings = workerRole.ConfigurationSettings;
+
+                CachingConfigurationFactoryMethod(
+                        azureService,
+                        roleName,
+                        false,
+                        cacheWorkerRoleName,
+                        workerRole.Startup,
+                        workerRole.Endpoints,
+                        workerRole.LocalResources,
+                        ref configurationSettings,
+                        CacheRuntimeVersion);
+                workerRole.ConfigurationSettings = configurationSettings;
+            }
 
             // Save changes
             azureService.Components.Save(azureService.Paths);
@@ -160,18 +220,40 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         /// <param name="azureService">The azure service instance</param>
         /// <param name="webRole">The web role to enable caching on</param>
+        /// <param name="isWebRole">Flag indicating if the provided role is web or not</param>
         /// <param name="cacheWorkerRole">The memcache worker role name</param>
+        /// <param name="startup">The role startup</param>
+        /// <param name="endpoints">The role endpoints</param>
+        /// <param name="localResources">The role local resources</param>
+        /// <param name="configurationSettings">The role configuration settings</param>
         /// <param name="sdkVersion">The current SDK version</param>
-        private void CachingConfigurationFactoryMethod(AzureService azureService, WebRole webRole, string cacheWorkerRole, string sdkVersion)
+        private void CachingConfigurationFactoryMethod(
+            AzureService azureService,
+            string roleName,
+            bool isWebRole,
+            string cacheWorkerRole,
+            Startup startup,
+            Endpoints endpoints,
+            LocalResources localResources,
+            ref DefConfigurationSetting[] configurationSettings,
+            string sdkVersion)
         {
             switch (sdkVersion)
             {
                 case SDKVersion.Version180:
-                    Version180Configuration(azureService, webRole, cacheWorkerRole);
+                    Version180Configuration(
+                        azureService,
+                        roleName,
+                        isWebRole,
+                        cacheWorkerRole,
+                        startup,
+                        endpoints,
+                        localResources,
+                        ref configurationSettings);
                     break;
 
                 default:
-                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported, 
+                    throw new Exception(string.Format(Resources.AzureSdkVersionNotSupported,
                         Resources.MinSupportAzureSdkVersion, Resources.MaxSupportAzureSdkVersion));
             }
         }
@@ -187,19 +269,53 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         /// <param name="azureService">The azure service instance</param>
         /// <param name="webRole">The web role to enable caching on</param>
+        /// <param name="isWebRole">Flag indicating if the provided role is web or not</param>
         /// <param name="cacheWorkerRole">The memcache worker role name</param>
-        private void Version180Configuration(AzureService azureService, WebRole webRole, string cacheWorkerRole)
+        /// <param name="startup">The role startup</param>
+        /// <param name="endpoints">The role endpoints</param>
+        /// <param name="localResources">The role local resources</param>
+        /// <param name="configurationSettings">The role configuration settings</param>
+        private void Version180Configuration(
+            AzureService azureService,
+            string roleName,
+            bool isWebRole,
+            string cacheWorkerRole,
+            Startup startup,
+            Endpoints endpoints,
+            LocalResources localResources,
+            ref DefConfigurationSetting[] configurationSettings)
         {
-            string roleName = webRole.name;
+            if (isWebRole)
+            {
+                // Generate cache scaffolding for web role
+                azureService.GenerateScaffolding(Path.Combine(Resources.CacheScaffolding, RoleType.WebRole.ToString()),
+                    roleName, new Dictionary<string, object>());
 
-            // Generate cache caffolding for web role
-            azureService.GenerateScaffolding(Path.Combine(Resources.CacheScaffolding, RoleType.WebRole.ToString()),
-                roleName, new Dictionary<string, object>());
+                // Adjust web.config to enable auto discovery for the caching role.
+                string webCloudConfigPath = Path.Combine(azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
+                string webConfigPath = Path.Combine(azureService.Paths.RootPath, roleName, Resources.WebConfigTemplateFileName);
+
+                UpdateWebConfig(roleName, cacheWorkerRole, webCloudConfigPath);
+                UpdateWebConfig(roleName, cacheWorkerRole, webConfigPath);
+            }
+            else
+            {
+                // Generate cache scaffolding for worker role
+                Dictionary<string, object> parameters = new Dictionary<string, object>();
+                parameters[ScaffoldParams.RoleName] = cacheWorkerRole;
+
+                azureService.GenerateScaffolding(Path.Combine(Resources.CacheScaffolding, RoleType.WorkerRole.ToString()),
+                    roleName, parameters);
+            }
 
             // Add startup task to install memcache shim on the client side.
-            Task shimStartupTask = new Task { commandLine = Resources.CacheStartupCommand, executionContext = ExecutionContext.elevated };
-            webRole.Startup.Task = General.ExtendArray<Task>(webRole.Startup.Task, shimStartupTask);
-                
+            string cacheRuntimeUri = CloudRuntimeCollection.GetRuntimeUrl(Resources.CacheRuntimeValue, CacheRuntimeVersion);
+            Debug.Assert(!string.IsNullOrEmpty(cacheRuntimeUri));
+            Variable emulated = new Variable { name = Resources.EmulatedKey, RoleInstanceValue = new RoleInstanceValueElement { xpath = "/RoleEnvironment/Deployment/@emulated" } };
+            Variable[] env = { emulated, new Variable { name = Resources.CacheRuntimeUrl, value = cacheRuntimeUri } };
+            Task shimStartupTask = new Task { Environment = env, commandLine = Resources.CacheStartupCommand, executionContext = ExecutionContext.elevated };
+            startup.Task = General.ExtendArray<Task>(startup.Task, shimStartupTask);
+
             // Add default memcache internal endpoint.
             InternalEndpoint memcacheEndpoint = new InternalEndpoint
             {
@@ -207,7 +323,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 protocol = InternalProtocol.tcp,
                 port = Resources.MemcacheEndpointPort
             };
-            webRole.Endpoints.InternalEndpoint = General.ExtendArray<InternalEndpoint>(webRole.Endpoints.InternalEndpoint, memcacheEndpoint);
+            endpoints.InternalEndpoint = General.ExtendArray<InternalEndpoint>(endpoints.InternalEndpoint, memcacheEndpoint);
 
             // Enable cache diagnostic
             LocalStore localStore = new LocalStore
@@ -215,19 +331,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 name = Resources.CacheDiagnosticStoreName,
                 cleanOnRoleRecycle = false
             };
-            webRole.LocalResources = General.InitializeIfNull<LocalResources>(webRole.LocalResources);
-            webRole.LocalResources.LocalStorage = General.ExtendArray<LocalStore>(webRole.LocalResources.LocalStorage, localStore);
+            localResources.LocalStorage = General.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
 
             DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
-            webRole.ConfigurationSettings = General.ExtendArray<DefConfigurationSetting>(webRole.ConfigurationSettings, diagnosticLevel);
+            configurationSettings = General.ExtendArray<DefConfigurationSetting>(configurationSettings, diagnosticLevel);
 
             // Add ClientDiagnosticLevel setting to service configuration.
-            RoleSettings roleSettings = azureService.Components.GetCloudConfigRole(roleName);
+            AddClientDiagnosticLevelToConfig(azureService.Components.GetCloudConfigRole(roleName));
+            AddClientDiagnosticLevelToConfig(azureService.Components.GetLocalConfigRole(roleName));
+        }
+
+        private static void AddClientDiagnosticLevelToConfig(RoleSettings roleSettings)
+        {
             ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
             roleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(roleSettings.ConfigurationSettings, clientDiagnosticLevel);
-
-            // Adjust web.config to enable auto discovery for the caching role.
-            UpdateWebCloudConfig(roleName, cacheWorkerRole, azureService);
         }
 
         /// <summary>
@@ -236,9 +353,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="roleName">The role name</param>
         /// <param name="cacheWorkerRoleName">The cache worker role name</param>
         /// <param name="azureService">The azure service instance for the role</param>
-        private void UpdateWebCloudConfig(string roleName, string cacheWorkerRoleName, AzureService azureService)
+        private void UpdateWebConfig(string roleName, string cacheWorkerRoleName, string webConfigPath)
         {
-            string webConfigPath = string.Format(@"{0}\{1}\{2}", azureService.Paths.RootPath, roleName, Resources.WebCloudConfig);
             XDocument webConfig = XDocument.Load(webConfigPath);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -256,15 +372,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         }
 
         /// <summary>
-        /// Checks if memcache is already enabled or not for the web role. It does the check by looking for the memcache internal endpoint.
+        /// Checks if memcache is already enabled or not for the given role startup.
+        /// It does this by checking the role startup task.
         /// </summary>
-        /// <param name="webRole">Web role to check</param>
+        /// <param name="startup">The role startup</param>
         /// <returns>Either enabled or not</returns>
-        private bool IsCacheEnabled(WebRole webRole)
+        private bool IsCacheEnabled(Startup startup)
         {
-            if (webRole.Endpoints.InternalEndpoint != null)
+            if (startup.Task != null)
             {
-                return Array.Exists<InternalEndpoint>(webRole.Endpoints.InternalEndpoint, i => i.name == Resources.MemcacheEndpointName);
+                return Array.Exists<Variable>(CloudRuntime.GetRuntimeStartupTask(startup).Environment,
+                v => v.name.Equals(Resources.RuntimeTypeKey) && v.value.Contains(Resources.CacheRuntimeValue));
             }
 
             return false;

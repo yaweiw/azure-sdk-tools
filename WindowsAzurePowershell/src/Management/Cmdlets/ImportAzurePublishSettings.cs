@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,27 +15,31 @@
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Model;
     using Properties;
     using Services;
 
     /// <summary>
     /// Imports publish profiles.
     /// </summary>
-    [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
-    public class ImportAzurePublishSettingsCommand : PSCmdlet
+    [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile"), OutputType(typeof(string))]
+    public class ImportAzurePublishSettingsCommand : CmdletBase
     {
-        [Parameter(Position = 0, Mandatory = true, HelpMessage = "Path to the publish settings file.")]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the publish settings file.")]
         [ValidateNotNullOrEmpty]
         public string PublishSettingsFile { get; set; }
 
-        [Parameter(Mandatory = false, HelpMessage = "Path to the subscription data output file.")]
-        [ValidateNotNullOrEmpty]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the subscription data output file.")]
         public string SubscriptionDataFile { get; set; }
 
-        internal void ImportSubscriptionProcess(string publishSettingsFile, string subscriptionsDataFile)
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal SubscriptionData ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
         {
             GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
                 GlobalPathInfo.GlobalSettingsDirectory,
@@ -63,24 +67,53 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                 // into the subscriptions data file and the default subscription is updated.
                 globalComponents.SaveSubscriptions(subscriptionsDataFile);
 
-                this.SafeWriteObject(string.Format(
-                    Resources.DefaultAndCurrentSubscription,
-                    currentDefaultSubscription.SubscriptionName));
+                return currentDefaultSubscription;
             }
+
+            return null;
         }
 
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
         {
-            try
+            string publishSettingsFile = this.TryResolvePath(PublishSettingsFile);
+            string subscriptionDataFile = this.TryResolvePath(SubscriptionDataFile);
+            string searchDirectory = Directory.Exists(publishSettingsFile) ? publishSettingsFile :
+                string.IsNullOrEmpty(publishSettingsFile) ? base.CurrentPath() : string.Empty;
+            bool multipleFilesFound = false;
+            
+            if (!string.IsNullOrEmpty(searchDirectory))
             {
-                base.ProcessRecord();
-                ImportSubscriptionProcess(
-                    this.ResolvePath(PublishSettingsFile),
-                    this.TryResolvePath(SubscriptionDataFile));
+                string[] publishSettingsFiles = Directory.GetFiles(searchDirectory, "*.publishsettings");
+
+                if (publishSettingsFiles.Length > 0)
+                {
+                    publishSettingsFile = publishSettingsFiles[0];
+                    multipleFilesFound = publishSettingsFiles.Length > 1;
+                }
+                else
+                {
+                    throw new Exception(string.Format(Resources.NoPublishSettingsFilesFoundMessage, searchDirectory));
+                }
             }
-            catch (Exception exception)
+
+            SubscriptionData defaultSubscription = ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+
+            if (defaultSubscription != null)
             {
-                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
+                WriteVerbose(string.Format(
+                    Resources.DefaultAndCurrentSubscription,
+                    defaultSubscription.SubscriptionName));
+            }
+
+            if (multipleFilesFound)
+            {
+                WriteWarning(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, publishSettingsFile));
+            }
+
+            if (!string.IsNullOrEmpty(searchDirectory))
+            {
+                WriteObject(publishSettingsFile);
             }
         }
     }

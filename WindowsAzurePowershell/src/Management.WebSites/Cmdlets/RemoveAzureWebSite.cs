@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Removes an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
+    [Cmdlet(VerbsCommon.Remove, "AzureWebsite", SupportsShouldProcess = true), OutputType(typeof(Site))]
     public class RemoveAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
         [Parameter(HelpMessage = "Do not confirm web site deletion")]
@@ -58,29 +58,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(website, true);
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
-            if (!Force.IsPresent &&
-                !ShouldProcess("", string.Format(Resources.RemoveWebsiteWarning, Name),
-                                Resources.ShouldProcessCaption))
-            {
-                return;
-            }
-
-            InvokeInOperationContext(() =>
-            {
-                // Find out in which webspace is the website
-                Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
-                if (websiteObject == null)
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemoveWebsiteWarning, Name),
+                Resources.RemoveWebsiteMessage,
+                Name,
+                () =>
                 {
-                    throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-                }
+                    InvokeInOperationContext(() =>
+                    {
+                        // Find out in which webspace is the website
+                        Site websiteObject = RetryCall(s => Channel.GetSite(s, Name, null));
+                        if (websiteObject == null)
+                        {
+                            throw new Exception(string.Format(Resources.InvalidWebsite, Name));
+                        }
 
-                RetryCall(s => Channel.DeleteSite(s, websiteObject.WebSpace, websiteObject.Name, string.Empty));
-                WaitForOperation(CommandRuntime.ToString());
+                        RetryCall(s => Channel.DeleteSite(s, websiteObject.WebSpace, websiteObject.Name, string.Empty));
+                        WaitForOperation(CommandRuntime.ToString());
 
-                Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
-            });
+                        Cache.RemoveSite(CurrentSubscription.SubscriptionId, websiteObject);
+                    });
+                });
         }
     }
 }

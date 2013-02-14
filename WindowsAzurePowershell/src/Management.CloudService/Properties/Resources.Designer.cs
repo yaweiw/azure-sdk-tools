@@ -61,11 +61,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}..
         /// </summary>
         internal static string AddRoleMessageCreate {
             get {
                 return ResourceManager.GetString("AddRoleMessageCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’..
+        /// </summary>
+        internal static string AddRoleMessageCreateNode {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreateNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running &quot;pear WindowsAzure/WindowsAzure&quot;..
+        /// </summary>
+        internal static string AddRoleMessageCreatePHP {
+            get {
+                return ResourceManager.GetString("AddRoleMessageCreatePHP", resourceCulture);
             }
         }
         
@@ -187,11 +205,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Memcache is already enabled for web role &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Memcache is already enabled for role &apos;{0}&apos;..
         /// </summary>
-        internal static string CacheAlreadyEnabledMsg {
+        internal static string CacheAlreadyEnabledMessage {
             get {
-                return ResourceManager.GetString("CacheAlreadyEnabledMsg", resourceCulture);
+                return ResourceManager.GetString("CacheAlreadyEnabledMessage", resourceCulture);
             }
         }
         
@@ -205,7 +223,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         ///    &lt;dataCacheClient name=&quot;DefaultShimConfig&quot; useLegacyProtocol=&quot;false&quot;&gt;
         ///      &lt;autoDiscover isEnabled=&quot;true&quot; identifier=&quot;$RoleName$&quot; /&gt;
         ///    &lt;/dataCacheClient&gt;
-        ///  &lt;/da [rest of string was truncated]&quot;;.
+        ///  &lt;/dataCacheCl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CacheAutoDiscoveryConfig {
             get {
@@ -232,11 +250,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CACHERUNTIMEURL.
+        /// </summary>
+        internal static string CacheRuntimeUrl {
+            get {
+                return ResourceManager.GetString("CacheRuntimeUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cache.
         /// </summary>
         internal static string CacheRuntimeValue {
             get {
                 return ResourceManager.GetString("CacheRuntimeValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CacheRuntimeVersion.
+        /// </summary>
+        internal static string CacheRuntimeVersionKey {
+            get {
+                return ResourceManager.GetString("CacheRuntimeVersionKey", resourceCulture);
             }
         }
         
@@ -313,6 +349,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find valid Windows Azure role in current directory {0}.
+        /// </summary>
+        internal static string CannotFindRole {
+            get {
+                return ResourceManager.GetString("CannotFindRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn&apos;t exist.
         /// </summary>
         internal static string CannotFindServiceConfigurationFile {
@@ -322,7 +367,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
+        ///   Looks up a localized string similar to Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders..
         /// </summary>
         internal static string CannotFindServiceRoot {
             get {
@@ -381,6 +426,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string ChangeDeploymentStateWaitMessage {
             get {
                 return ResourceManager.GetString("ChangeDeploymentStateWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cloud service {0} is in {1} state..
+        /// </summary>
+        internal static string ChangeDeploymentStatusCompleteMessage {
+            get {
+                return ResourceManager.GetString("ChangeDeploymentStatusCompleteMessage", resourceCulture);
             }
         }
         
@@ -692,6 +746,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EMULATED.
+        /// </summary>
+        internal static string EmulatedKey {
+            get {
+                return ResourceManager.GetString("EmulatedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UseDevelopmentStorage=true.
+        /// </summary>
+        internal static string EmulatorConnectionString {
+            get {
+                return ResourceManager.GetString("EmulatorConnectionString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ((http|tcp)://[0-9.:/]*).
         /// </summary>
         internal static string EmulatorOutputSitesRegex {
@@ -733,15 +805,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string EnableMemcacheMessage {
             get {
                 return ResourceManager.GetString("EnableMemcacheMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enable-AzureMemcacheRole is supported for web roles only. Verify that &apos;{0}&apos; is a web role..
-        /// </summary>
-        internal static string EnableMemcacheOnWorkerRoleErrorMsg {
-            get {
-                return ResourceManager.GetString("EnableMemcacheOnWorkerRoleErrorMsg", resourceCulture);
             }
         }
         
@@ -841,6 +904,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string IllegalPath {
             get {
                 return ResourceManager.GetString("IllegalPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot enable memcach protocol on a cache worker role {0}..
+        /// </summary>
+        internal static string InvalidCacheRoleName {
+            get {
+                return ResourceManager.GetString("InvalidCacheRoleName", resourceCulture);
             }
         }
         
@@ -1034,6 +1106,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge..
+        /// </summary>
+        internal static string InvalidVMSize {
+            get {
+                return ResourceManager.GetString("InvalidVMSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to engines.
         /// </summary>
         internal static string JsonEnginesSectionName {
@@ -1066,6 +1147,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string LocalServiceConfigurationFileName {
             get {
                 return ResourceManager.GetString("LocalServiceConfigurationFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for {0} deployment for {1} cloud service....
+        /// </summary>
+        internal static string LookingForDeploymentMessage {
+            get {
+                return ResourceManager.GetString("LookingForDeploymentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Looking for cloud service {0}....
+        /// </summary>
+        internal static string LookingForServiceMessage {
+            get {
+                return ResourceManager.GetString("LookingForServiceMessage", resourceCulture);
             }
         }
         
@@ -1156,6 +1255,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string NewServiceCreatedMessage {
             get {
                 return ResourceManager.GetString("NewServiceCreatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole..
+        /// </summary>
+        internal static string NoCacheWorkerRoles {
+            get {
+                return ResourceManager.GetString("NoCacheWorkerRoles", resourceCulture);
             }
         }
         
@@ -1291,6 +1399,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string Package {
             get {
                 return ResourceManager.GetString("Package", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package is created at service root path {0}..
+        /// </summary>
+        internal static string PackageCreated {
+            get {
+                return ResourceManager.GetString("PackageCreated", resourceCulture);
             }
         }
         
@@ -1597,7 +1714,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uploading Package....
+        ///   Looks up a localized string similar to Uploading Package to storage service {0}....
         /// </summary>
         internal static string PublishUploadingPackageMessage {
             get {
@@ -1624,20 +1741,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing service {0}.
+        ///   Looks up a localized string similar to Removing cloud service {0}....
         /// </summary>
         internal static string RemoveAzureServiceWaitMessage {
             get {
                 return ResourceManager.GetString("RemoveAzureServiceWaitMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing deployment.
-        /// </summary>
-        internal static string RemoveDeploymentMessage {
-            get {
-                return ResourceManager.GetString("RemoveDeploymentMessage", resourceCulture);
             }
         }
         
@@ -1651,20 +1759,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removing service....
+        ///   Looks up a localized string similar to Removing old package {0}....
         /// </summary>
-        internal static string RemoveServiceMessage {
+        internal static string RemovePackage {
             get {
-                return ResourceManager.GetString("RemoveServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Removing service {0}....
-        /// </summary>
-        internal static string RemoveServiceStartMessage {
-            get {
-                return ResourceManager.GetString("RemoveServiceStartMessage", resourceCulture);
+                return ResourceManager.GetString("RemovePackage", resourceCulture);
             }
         }
         
@@ -1674,6 +1773,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string RemoveServiceWarning {
             get {
                 return ResourceManager.GetString("RemoveServiceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove cloud service and all it&apos;s deployments.
+        /// </summary>
+        internal static string RemoveServiceWhatIfMessage {
+            get {
+                return ResourceManager.GetString("RemoveServiceWhatIfMessage", resourceCulture);
             }
         }
         
@@ -1885,7 +1993,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified service does not exist..
+        ///   Looks up a localized string similar to The specified cloud service &quot;{0}&quot; does not exist..
         /// </summary>
         internal static string ServiceDoesNotExist {
             get {
@@ -1975,7 +2083,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Service {0} doesn&apos;t exist or it doesn&apos;t have {1} slot.
+        ///   Looks up a localized string similar to The {0} slot for cloud service {1} doesn&apos;t exist..
         /// </summary>
         internal static string ServiceSlotDoesNotExist {
             get {
@@ -2074,15 +2182,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starting service {0}....
-        /// </summary>
-        internal static string StartServiceMessage {
-            get {
-                return ResourceManager.GetString("StartServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Stopping emulator....
         /// </summary>
         internal static string StopEmulatorMessage {
@@ -2097,15 +2196,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string StoppedEmulatorMessage {
             get {
                 return ResourceManager.GetString("StoppedEmulatorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Stopping service {0}....
-        /// </summary>
-        internal static string StopServiceMessage {
-            get {
-                return ResourceManager.GetString("StopServiceMessage", resourceCulture);
             }
         }
         

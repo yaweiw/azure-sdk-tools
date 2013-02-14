@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,12 +22,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
     {
         SimpleServiceManagement channel;
-        FakeWriter writer;
+        MockCommandRuntime mockCommandRuntime;
         TestAzureNameCommand cmdlet;
         string subscriptionId = "my subscription Id";
 
@@ -35,83 +36,83 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         public void SetupTest()
         {
             channel = new SimpleServiceManagement();
-            writer = new FakeWriter();
-            cmdlet = new TestAzureNameCommand (channel) { Writer = writer };
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new TestAzureNameCommand (channel) { CommandRuntime = mockCommandRuntime };
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]
-        public void TestAzureServiceNameAvailable()
-        {
-            string name = "test";
-            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
-
-            cmdlet.IsDNSAvailable(subscriptionId, name);
-
-            bool actual = (bool)writer.OutputChannel[0];
-            Assert.IsTrue(actual);
-        }
-
-        [TestMethod]
-        public void TestAzureServiceNameIsNotAvailable()
+        public void TestAzureServiceNameUsed()
         {
             string name = "test";
             channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
 
             cmdlet.IsDNSAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
-            Assert.IsFalse(actual);
-        }
-
-        [TestMethod]
-        public void TestAzureStorageNameAvailable()
-        {
-            string name = "test";
-            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
-
-            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
-
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureStorageNameIsNotAvailable()
+        public void TestAzureServiceNameIsNotUsed()
+        {
+            string name = "test";
+            channel.IsDNSAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+
+            cmdlet.IsDNSAvailable(subscriptionId, name);
+
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureStorageNameUsed()
         {
             string name = "test";
             channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = false }; };
 
             cmdlet.IsStorageServiceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
-            Assert.IsFalse(actual);
-        }
-
-        [TestMethod]
-        public void TestAzureServiceBusNamespaceAvailable()
-        {
-            string name = "test";
-            channel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = true }; };
-
-            cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
-
-            bool actual = (bool)writer.OutputChannel[0];
-
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             Assert.IsTrue(actual);
         }
 
         [TestMethod]
-        public void TestAzureServiceBusNamespaceIsNotAvailable()
+        public void TestAzureStorageNameIsNotUsed()
+        {
+            string name = "test";
+            channel.IsStorageServiceAvailableThunk = idnsa => { return new AvailabilityResponse { Result = true }; };
+
+            cmdlet.IsStorageServiceAvailable(subscriptionId, name);
+
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureServiceBusNamespaceUsed()
         {
             string name = "test";
             channel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = false }; };
 
             cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
 
-            bool actual = (bool)writer.OutputChannel[0];
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
+
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void TestAzureServiceBusNamespaceIsNotUsed()
+        {
+            string name = "test";
+            channel.IsServiceBusNamespaceAvailableThunk = idnsa => { return new ServiceBusNamespaceAvailabiliyResponse { Result = false }; };
+
+            cmdlet.IsServiceBusNamespaceAvailable(subscriptionId, name);
+
+            bool actual = (bool)mockCommandRuntime.OutputPipeline[0];
             
-            Assert.IsFalse(actual);
+            Assert.IsTrue(actual);
         }
     }
 }

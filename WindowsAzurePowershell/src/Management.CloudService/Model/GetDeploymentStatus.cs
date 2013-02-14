@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,15 +17,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Properties;
-    using Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Properties;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
     /// </summary>
-    public class GetDeploymentStatus : CloudCmdlet<IServiceManagement>
+    public class GetDeploymentStatus : CloudBaseCmdlet<IServiceManagement>
     {
         public GetDeploymentStatus()
         {
@@ -71,23 +71,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = base.GetDefaultSettings(rootPath, inServiceName, inSlot, null, null, subscription, out serviceName);
+            ServiceSettings settings = General.GetDefaultSettings(
+                rootPath,
+                inServiceName,
+                inSlot,
+                null,
+                null,
+                null,
+                subscription,
+                out serviceName);
+
             slot = settings.Slot;
         }
 
         public string GetStatus(string serviceName, string slot)
         {
-            Deployment deployment;
+            Deployment deployment = new Deployment();
 
             try
             {
-                deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                InvokeInOperationContext(() =>
+                {
+                    deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                });
             }
             catch (EndpointNotFoundException)
             {
                 // If we reach here that means the service or slot doesn't exist
                 //
-                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, serviceName, slot));
+                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName));
             }
 
             return deployment.Status;
@@ -98,12 +110,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string result = this.GetDeploymentStatusProcess(base.GetServiceRootPath(), ServiceName, Slot, Subscription);
-                SafeWriteObject(result);
+                string result = this.GetDeploymentStatusProcess(General.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                WriteObject(result);
             }
             catch (Exception ex)
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
         

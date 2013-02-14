@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,15 +16,14 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.ServiceModel.Dispatcher;
-    using System.ServiceModel.Channels;
-    using System.Xml;
     using System.IO;
-    using System.ServiceModel.Description;
-    using System.Xml.Linq;
+    using System.Linq;
     using System.Reflection;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Description;
+    using System.ServiceModel.Dispatcher;
+    using System.Xml;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
 
     public class ServiceBusConstants
@@ -34,11 +33,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         public const string NamespaceNamePattern = "^[a-zA-Z][a-zA-Z0-9-]*$";
     }
 
-    public class ODataBodyWriter : BodyWriter
+    public class CustomBodyWriter : BodyWriter
     {
         string body;
 
-        public ODataBodyWriter(string body)
+        public CustomBodyWriter(string body)
             : base(true)
         {
             this.body = body;
@@ -51,11 +50,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ODataFormatter<T> : IClientMessageFormatter where T : class, new()
+    public class ServiceBusFormatter<T> : IClientMessageFormatter where T : class, new()
     {
         private IClientMessageFormatter originalFormatter;
 
-        public ODataFormatter(IClientMessageFormatter originalFormatter)
+        public ServiceBusFormatter(IClientMessageFormatter originalFormatter)
         {
             this.originalFormatter = originalFormatter;
         }
@@ -117,7 +116,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
                     new XElement(XName.Get("content", ServiceBusConstants.AtomNamespaceName),
                             new XAttribute("type", "application/xml"),
                             XDocument.Parse(body).Root))).ToString();
-            Message finalMessage = Message.CreateMessage(messageVersion, null, new ODataBodyWriter(body));
+            Message finalMessage = Message.CreateMessage(messageVersion, null, new CustomBodyWriter(body));
             finalMessage.Headers.CopyHeadersFrom(originalMessage);
             finalMessage.Properties.CopyProperties(originalMessage.Properties);
             HttpRequestMessageProperty property = finalMessage.Properties[HttpRequestMessageProperty.Name] as HttpRequestMessageProperty;
@@ -129,11 +128,11 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
         }
     }
 
-    public class ODataBehaviorAttribute : Attribute, IOperationBehavior
+    public class ServiceBusBehaviorAttribute : Attribute, IOperationBehavior
     {
         private Type dataContractType;
 
-        public ODataBehaviorAttribute(Type formatterType)
+        public ServiceBusBehaviorAttribute(Type formatterType)
         {
             this.dataContractType = formatterType;
         }
@@ -145,7 +144,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel
 
         public void ApplyClientBehavior(OperationDescription operationDescription, ClientOperation clientOperation)
         {
-            Type genericFormatterType = typeof(ODataFormatter<>);
+            Type genericFormatterType = typeof(ServiceBusFormatter<>);
             Type formatterType = genericFormatterType.MakeGenericType(new Type[] { dataContractType });
             ConstructorInfo ctor = formatterType.GetConstructor(new Type[] { typeof(IClientMessageFormatter) });
             IClientMessageFormatter newFormatter = ctor.Invoke(new object[] { clientOperation.Formatter }) as IClientMessageFormatter;

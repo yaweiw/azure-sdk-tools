@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
@@ -77,6 +77,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A previous site configuration.")]
         public SiteWithConfig SiteWithConfig { get; set; }
 
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
         /// </summary>
@@ -96,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Site website = null;
             SiteConfig websiteConfig = null;
@@ -119,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             bool changes = false;
-            SiteWithConfig websiteConfigUpdate = new SiteWithConfig();
+            SiteWithConfig websiteConfigUpdate = new SiteWithConfig(website, websiteConfig);
             if (SiteWithConfig != null)
             {
                 websiteConfigUpdate = SiteWithConfig;
@@ -234,6 +237,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                         WriteErrorDetails(ex);
                     }
                 });
+            }
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
             }
         }
     }
