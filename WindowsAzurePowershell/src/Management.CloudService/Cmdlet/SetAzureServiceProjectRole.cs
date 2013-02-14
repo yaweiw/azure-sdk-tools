@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,40 +16,57 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Common;
+    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole")]
-    public class SetAzureServiceProjectRoleCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole"), OutputType(typeof(RoleSettings))]
+    public class SetAzureServiceProjectRoleCommand : CmdletBase
     {
+        const string InstancesParameterSet = "Instances";
+
+        const string RuntimeParameterSet = "Runtime";
+
+        const string VMSizeParameterSet = "VMSize";
+
         /// <summary>
         /// The role name to edit
         /// </summary>
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string RoleName { get; set; }
 
         /// <summary>
         /// The number of instances for the role - parameter set for instances contains role name and instances only
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = "Instances", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = InstancesParameterSet, ValueFromPipelineByPropertyName = true)]
         public int Instances { get; set; }
 
         /// <summary>
         /// Runtime identifier for the runtime to add. The Runtime parameter set takes rolename, runtime, and version
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = RuntimeParameterSet, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
 
         /// <summary>
         /// The version of the runtime to install
         /// </summary>
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "Runtime", ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = RuntimeParameterSet, ValueFromPipelineByPropertyName = true)]
         public string Version { get; set; }
+
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        /// <summary>
+        /// The size of the role - parameter set for instances contains role name and instance size only.
+        /// </summary>
+        [Parameter(Mandatory = true, ParameterSetName = VMSizeParameterSet, ValueFromPipelineByPropertyName = true)]
+        [ValidateNotNullOrEmpty]
+        public string VMSize { get; set; }
 
         /// <summary>
         /// The code to run if setting azure instances
@@ -57,10 +74,38 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="roleName">The name of the role to update</param>
         /// <param name="instances">The new number of instances for the role</param>
         /// <param name="rootPath">The root path to the service containing the role</param>
-        public void SetAzureInstancesProcess(string roleName, int instances, string rootPath)
+        /// <returns>Role after updating instance count</returns>
+        public RoleSettings SetAzureInstancesProcess(string roleName, int instances, string rootPath)
         {
             AzureService service = new AzureService(rootPath, null);
             service.SetRoleInstances(service.Paths, roleName, instances);
+
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
+
+            return service.Components.GetCloudConfigRole(roleName);
+        }
+
+        /// <summary>
+        /// Sets the VM size of the role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="vmSize">The vm size</param>
+        /// <param name="rootPath">The service root path</param>
+        /// <returns>Role after updating VM size</returns>
+        public RoleSettings SetAzureVMSizeProcess(string roleName, string vmSize, string rootPath)
+        {
+            AzureService service = new AzureService(rootPath, null);
+            service.SetRoleVMSize(service.Paths, roleName, vmSize);
+
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
+
+            return service.Components.GetCloudConfigRole(roleName);
         }
 
         /// <summary>
@@ -72,33 +117,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The path to the service containing the role</param>
         /// <param name="manifest">The manifest containing available runtimes, defaults to the cloud manifest
         /// mainly used a s a test hook</param>
-        public void SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public RoleSettings SetAzureRuntimesProcess(string roleName, string runtimeType, string runtimeVersion, string rootPath, string manifest = null)
         {
             AzureService service = new AzureService(rootPath, null);
             service.AddRoleRuntime(service.Paths, roleName, runtimeType, runtimeVersion, manifest);
+
+            if (PassThru)
+            {
+                SafeWriteOutputPSObject(typeof(RoleSettings).FullName, Parameters.RoleName, roleName);
+            }
+
+            return service.Components.GetCloudConfigRole(roleName);
         }
 
-        /// <summary>
-        /// Do pipeline processing
-        /// </summary>
-        protected override void ProcessRecord()
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void  ExecuteCmdlet()
         {
-            try
+            string rootPath = General.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+
+            if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                if (string.Equals(this.ParameterSetName, "Instances", StringComparison.OrdinalIgnoreCase))
-                {
-                    this.SetAzureInstancesProcess(RoleName, Instances, base.GetServiceRootPath());
-                }
-                else
-                {
-                    this.SetAzureRuntimesProcess(RoleName, Runtime, Version, base.GetServiceRootPath());
-                }
+                this.SetAzureInstancesProcess(RoleName, Instances, rootPath);
             }
-            catch (Exception ex)
+            else if (string.Equals(this.ParameterSetName, VMSizeParameterSet, StringComparison.OrdinalIgnoreCase))
             {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                this.SetAzureVMSizeProcess(RoleName, VMSize, rootPath);
+            }
+            else
+            {
+                this.SetAzureRuntimesProcess(RoleName, Runtime, Version, rootPath);
             }
         }
     }

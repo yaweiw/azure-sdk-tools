@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,38 +14,46 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System;
     using System.Management.Automation;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Stops the deployment of specified slot in the azure service
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureService")]
-    public class StopAzureService : DeploymentStatusManager
+    [Cmdlet(VerbsLifecycle.Stop, "AzureService"), OutputType(typeof(Deployment))]
+    public class StopAzureServiceCommand : DeploymentStatusManager
     {
         /// <summary>
         /// SetDeploymentStatus will handle the execution of this cmdlet
         /// </summary>
-        public StopAzureService()
+        public StopAzureServiceCommand()
         {
             Status = DeploymentStatus.Suspended;
         }
 
-        public StopAzureService(IServiceManagement channel)
+        public StopAzureServiceCommand(IServiceManagement channel)
             : base(channel)
         {
             Status = DeploymentStatus.Suspended;
         }
 
-        public override string SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
+        public override void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
         {
-            SafeWriteObjectWithTimestamp(Resources.StopServiceMessage, serviceName);
-            var message = base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            SafeWriteObjectWithTimestamp(string.IsNullOrEmpty(message) ? Resources.CompleteMessage : message);
-            return message;
+            // Check that cloud service exists
+            WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
+            bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
+
+            if (found)
+            {
+                base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
+            }
+            else
+            {
+                WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
+            }
         }
     }
 }

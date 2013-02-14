@@ -81,17 +81,13 @@
   <PropertyGroup />
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.WindowsAzure.StorageClient, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.StorageClient.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Services.Client" />
-    <Reference Include="System.Management.Automation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
@@ -126,11 +122,16 @@
     <Compile Include="UnitTests\Utilities\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleGithubManagement.cs" />
     <Compile Include="UnitTests\Utilities\SimpleWebsitesManagement.cs" />
+    <Compile Include="UnitTests\Utilities\WebsitesTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
+      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
+      <Name>Management.CloudService.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
       <Name>Management.Test</Name>

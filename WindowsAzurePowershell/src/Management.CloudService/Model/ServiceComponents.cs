@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using Properties;
     using ServiceConfigurationSchema;
@@ -82,8 +82,43 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
             }
 
-            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
-            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName)).Instances.count = instances;
+            CloudConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
+            LocalConfig.Role.First<RoleSettings>(r => r.name.Equals(roleName, StringComparison.OrdinalIgnoreCase)).Instances.count = instances;
+        }
+
+        /// <summary>
+        /// Sets the VM size of a role
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <param name="vmSize">The VM size</param>
+        public void SetRoleVMSize(string roleName, string vmSize)
+        {
+            Validate.ValidateStringIsNullOrEmpty(roleName, Resources.RoleName);
+
+            bool isDefined = Enum.GetNames(typeof(RoleSize)).Any(x => x.ToLower() == vmSize.ToLower());
+
+            if (!isDefined)
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidVMSize, roleName));
+            }
+
+            if (!RoleExists(roleName))
+            {
+                throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
+            }
+
+            WebRole webRole = GetWebRole(roleName);
+            RoleSize size = (RoleSize)Enum.Parse(typeof(RoleSize), vmSize, true);
+
+            if (webRole != null)
+            {
+                webRole.vmsize = size;
+            }
+            else
+            {
+                WorkerRole workerRole = GetWorkerRole(roleName);
+                workerRole.vmsize = size;
+            }
         }
 
         /// <summary>
@@ -275,6 +310,37 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Gets role startup.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <returns>The role startup</returns>
+        public Startup GetRoleStartup(string roleName)
+        {
+            if (!RoleExists(roleName))
+            {
+                throw new ArgumentException(string.Format(Resources.RoleNotFoundMessage, roleName));
+            }
+
+            WebRole webRole = GetWebRole(roleName);
+            WorkerRole workerRole = GetWorkerRole(roleName);
+            Startup startup = webRole != null ? webRole.Startup : workerRole.Startup;
+
+            return startup;
+        }
+
+        /// <summary>
+        /// Decides if the given role is web or worker role.
+        /// </summary>
+        /// <param name="roleName">The role name</param>
+        /// <returns>Boolean flag indicates if the role is web or not</returns>
+        public bool IsWebRole(string roleName)
+        {
+            WebRole webRole = GetWebRole(roleName);
+            WorkerRole workerRole = GetWorkerRole(roleName);
+            return webRole != null ? true : false;
         }
     }
 }

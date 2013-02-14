@@ -143,20 +143,20 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot locate deploymentSettings.json in parent folders.
-        /// </summary>
-        internal static string CannotFindServiceRoot {
-            get {
-                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No certificate was found in the certificate store with thumbprint {0}.
         /// </summary>
         internal static string CertificateNotFoundInStore {
             get {
                 return ResourceManager.GetString("CertificateNotFoundInStore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose which publish settings file to use:.
+        /// </summary>
+        internal static string ChoosePublishSettingsFile {
+            get {
+                return ResourceManager.GetString("ChoosePublishSettingsFile", resourceCulture);
             }
         }
         
@@ -332,7 +332,7 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The subscription named &apos;{0}&apos; cannot be found. Use Set-AzureSubscription to initialize the subscription data.&quot;.
+        ///   Looks up a localized string similar to The subscription named &apos;{0}&apos; cannot be found. Use Set-AzureSubscription to initialize the subscription data..
         /// </summary>
         internal static string InvalidSubscription {
             get {
@@ -368,11 +368,29 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The first publish settings file &quot;{0}&quot; is used. If you want to use another file specify the file name..
+        /// </summary>
+        internal static string MultiplePublishSettingsFilesFoundMessage {
+            get {
+                return ResourceManager.GetString("MultiplePublishSettingsFilesFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please connect to internet before executing this cmdlet.
         /// </summary>
         internal static string NoInternetConnection {
             get {
                 return ResourceManager.GetString("NoInternetConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No publish settings files with extension *.publishsettings are found in the directory &quot;{0}&quot;..
+        /// </summary>
+        internal static string NoPublishSettingsFilesFoundMessage {
+            get {
+                return ResourceManager.GetString("NoPublishSettingsFilesFoundMessage", resourceCulture);
             }
         }
         
@@ -449,11 +467,29 @@ namespace Microsoft.WindowsAzure.Management.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
+        ///   Looks up a localized string similar to The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription..
         /// </summary>
         internal static string RemoveDefaultSubscription {
             get {
                 return ResourceManager.GetString("RemoveDefaultSubscription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove subscription &apos;{0}&apos;?.
+        /// </summary>
+        internal static string RemoveSubscriptionConfirmation {
+            get {
+                return ResourceManager.GetString("RemoveSubscriptionConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing subscription.
+        /// </summary>
+        internal static string RemoveSubscriptionMessage {
+            get {
+                return ResourceManager.GetString("RemoveSubscriptionMessage", resourceCulture);
             }
         }
         

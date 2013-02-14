@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,9 +25,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Stops an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite"), OutputType(typeof(bool))]
     public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
@@ -47,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Site website = null;
 
@@ -72,6 +75,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
     }
 }

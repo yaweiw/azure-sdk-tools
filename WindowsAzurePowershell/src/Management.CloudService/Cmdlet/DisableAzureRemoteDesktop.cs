@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,43 +14,38 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
-    using Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
-    public class DisableAzureServiceProjectRemoteDesktopCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop"), OutputType(typeof(bool))]
+    public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
-        public DisableAzureServiceProjectRemoteDesktopCommand()
-        {
-            SkipChannelInit = true;
-        }
+        [Parameter(Position = 0, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            base.ExecuteCmdlet();
-
             AzureTool.Validate();
+
             DisableRemoteDesktop();
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void DisableRemoteDesktop()
         {
-            AzureService service = new AzureService(GetServiceRootPath(), null);
+            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -59,6 +54,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 UpdateServiceConfigurations(service, forwarderName);
                 service.Components.Save(service.Paths);
+            }
+
+            if (PassThru)
+            {
+                WriteObject(true);
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -15,11 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.Management.Automation;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
 
-    public class SetSettings : CloudCmdlet<IServiceManagement>
+    public class SetSettings : CmdletBase
     {
         // Uncomment this to enable global set for settings
         //[Parameter(Position = 1, Mandatory = false)]
@@ -28,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         internal string GetServiceSettingsPath(bool global)
         {
-            return new AzureService(GetServiceRootPath(), null).Paths.Settings;
+            return new AzureService(General.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
         }
     }
 }

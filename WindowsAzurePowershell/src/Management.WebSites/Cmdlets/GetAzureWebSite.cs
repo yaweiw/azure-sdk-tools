@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets an azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(Site))]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
     public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
@@ -60,8 +60,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             WriteObject(websites, true);
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
+            if (CurrentSubscription == null)
+            {
+                throw new Exception(Resources.NoDefaultSubscriptionMessage);
+            }
+
             if (!string.IsNullOrEmpty(Name))
             {
                 // Show website

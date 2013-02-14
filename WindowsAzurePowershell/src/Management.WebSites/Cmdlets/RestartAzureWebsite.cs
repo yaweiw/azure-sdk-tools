@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,9 +27,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.ServiceModel;
 
     
-    [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]
     public class RestartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RestartAzureWebsiteCommand class.
         /// </summary>
@@ -43,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Site website = GetWebSite();
             Site siteUpdate = new Site
@@ -60,6 +63,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 siteUpdate.State = "Running";
                 RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, siteUpdate));
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         private Site GetWebSite()

@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CompleteMessage" xml:space="preserve">
     <value>Complete</value>
@@ -145,10 +145,16 @@ Please follow these steps in the portal:
     <value>Workspaces/WebsiteExtension/Website/{0}/dashboard/</value>
   </data>
   <data name="InvalidGitCredentials" xml:space="preserve">
-    <value>Git credentials needs to be setup on the portal.</value>
+    <value>You must create your git publishing credentials using the Windows Azure portal.
+Please follow these steps in the portal:
+1. On the left side open "Web Sites"
+2. Click on any website
+3. Choose "Setup Git Publishing" or "Reset deployment credentials"
+4. Back in the PowerShell window, rerun this command by typing "New-AzureWebSite {site name} -Git -PublishingUsername {username}
+Launch portal now?</value>
   </data>
   <data name="MultiplePublishingUsernames" xml:space="preserve">
-    <value>Multiple possible publishing users. Please specify one using the argument PublishingUsername.</value>
+    <value>Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click 'set/reset deployment credentials' to set up a new user account, then reurn this cmdlet and specify PublishingUsername.</value>
   </data>
   <data name="NeedPublishingUsernames" xml:space="preserve">
     <value>A publishing username is required. Please specify one using the argument PublishingUsername.</value>
@@ -172,7 +178,7 @@ Please follow these steps in the portal:
     <value>Deployment with {0} does not exist</value>
   </data>
   <data name="RepositoryNotSetup" xml:space="preserve">
-    <value>Repository is not setup</value>
+    <value>Repository is not setup. You need to pass a valid site name.</value>
   </data>
   <data name="RedeployCommit" xml:space="preserve">
     <value>Reploy deployment with {0} Id ?</value>
@@ -182,5 +188,17 @@ Please follow these steps in the portal:
   </data>
   <data name="LinkAlreadyEstablished" xml:space="preserve">
     <value>Link already established</value>
+  </data>
+  <data name="NoDefaultSubscriptionMessage" xml:space="preserve">
+    <value>There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;</value>
+  </data>
+  <data name="DefaultHostnamesValidation" xml:space="preserve">
+    <value>There are no hostnames which could be used for validation.</value>
+  </data>
+  <data name="InvalidHostnameValidation" xml:space="preserve">
+    <value>The specified hostname does not exist. Please specify a valid hostname for the site.</value>
+  </data>
+  <data name="RemoveWebsiteMessage" xml:space="preserve">
+    <value>Removing website</value>
   </data>
 </root>

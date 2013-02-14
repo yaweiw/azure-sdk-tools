@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,9 +20,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
     public class MockCommandRuntime : ICommandRuntime
     {
-        public List<ErrorRecord> ErrorRecords = new List<ErrorRecord>();
-        public List<object> WrittenObjects = new List<object>(); 
-        public StringBuilder WarningOutput = new StringBuilder();
+        public List<ErrorRecord> ErrorStream = new List<ErrorRecord>();
+        public List<object> OutputPipeline = new List<object>();
+        public List<string> WarningStream = new List<string>();
+        public List<string> VerboseStream = new List<string>();
+        public List<string> DebugStream = new List<string>();
 
         public override string ToString()
         {
@@ -41,12 +43,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldContinue(string query, string caption, ref bool yesToAll, ref bool noToAll)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldContinue(string query, string caption)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldProcess(string verboseDescription, string verboseWarning, string caption, out ShouldProcessReason shouldProcessReason)
@@ -61,12 +63,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldProcess(string target, string action)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldProcess(string target)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public void ThrowTerminatingError(ErrorRecord errorRecord)
@@ -86,22 +88,22 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteDebug(string text)
         {
-            throw new System.NotImplementedException();
+            DebugStream.Add(text);
         }
 
         public void WriteError(ErrorRecord errorRecord)
         {
-            ErrorRecords.Add(errorRecord);
+            ErrorStream.Add(errorRecord);
         }
 
         public void WriteObject(object sendToPipeline, bool enumerateCollection)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteObject(object sendToPipeline)
         {
-            WrittenObjects.Add(sendToPipeline);
+            OutputPipeline.Add(sendToPipeline);
         }
 
         public void WriteProgress(long sourceId, ProgressRecord progressRecord)
@@ -116,12 +118,23 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public void WriteVerbose(string text)
         {
-            throw new System.NotImplementedException();
+            VerboseStream.Add(text);
         }
 
         public void WriteWarning(string text)
         {
-            this.WarningOutput.AppendLine(text);
+            this.WarningStream.Add(text);
+        }
+
+        /// <summary>
+        /// Clears all command runtime pipelines.
+        /// </summary>
+        public void ResetPipelines()
+        {
+            ErrorStream.Clear();
+            OutputPipeline.Clear();
+            WarningStream.Clear();
+            VerboseStream.Clear();
         }
     }
 }

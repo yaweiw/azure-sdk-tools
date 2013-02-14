@@ -79,7 +79,7 @@
     <maml:alertSet>
       <maml:title></maml:title>
       <maml:alert>
-        <maml:para>node-dev, php-dev</maml:para>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>
@@ -529,7 +529,7 @@
     <maml:alertSet>
       <maml:title></maml:title>
       <maml:alert>
-        <maml:para>node-dev, php-dev</maml:para>
+        <maml:para>node-dev, php-dev, python-dev</maml:para>
       </maml:alert>
     </maml:alertSet>
     <command:examples>

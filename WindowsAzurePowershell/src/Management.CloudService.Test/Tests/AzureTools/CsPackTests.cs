@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
     using System.IO;
     using CloudService.Model;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -33,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                RoleInfo webRoleInfo = service.AddWebRole(Resources.NodeScaffolding);
+                RoleInfo webRoleInfo = service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
@@ -54,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                RoleInfo webRoleInfo = service.AddWebRole(Resources.PHPScaffolding);
+                RoleInfo webRoleInfo = service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 string logsDir = Path.Combine(service.Paths.RootPath, webRoleInfo.Name, "server.js.logs");
                 string logFile = Path.Combine(logsDir, "0.txt");
                 string targetLogsFile = Path.Combine(service.Paths.LocalPackage, "roles", webRoleInfo.Name, @"approot\server.js.logs\0.txt");
@@ -75,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.NodeScaffolding);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));
@@ -90,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
@@ -105,10 +107,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.AzureTools
                 string standardOutput;
                 string standardError;
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                service.AddWorkerRole(Resources.NodeScaffolding);
-                service.AddWebRole(Resources.NodeScaffolding);
-                service.AddWorkerRole(Resources.PHPScaffolding);
-                service.AddWebRole(Resources.PHPScaffolding);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
                 service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WorkerRole));

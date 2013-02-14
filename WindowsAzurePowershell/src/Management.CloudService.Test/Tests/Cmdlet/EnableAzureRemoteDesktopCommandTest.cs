@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,22 +26,42 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
 
     /// <summary>
-    /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop command.
+    /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.
     /// </summary>
     [TestClass]
     public class EnableAzureRemoteDesktopCommandTest : TestBase
     {
+        static private MockCommandRuntime mockCommandRuntime;
+
+        static private EnableAzureServiceProjectRemoteDesktopCommand enableRDCmdlet;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
         [TestInitialize]
         public void SetupTest()
         {
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            addNodeWebCmdlet = new AddAzureNodeWebRoleCommand();
+            addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand();
+            enableRDCmdlet = new EnableAzureServiceProjectRemoteDesktopCommand();
+
+            addNodeWorkerCmdlet.CommandRuntime = mockCommandRuntime;
+            addNodeWebCmdlet.CommandRuntime = mockCommandRuntime;
+            enableRDCmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         /// <summary>
-        /// Invoke the Enable-AzureServiceProjectRemoteDesktop command.
+        /// Invoke the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.
         /// </summary>
         /// <param name="username">Username.</param>
         /// <param name="password">Password.</param>
@@ -58,10 +78,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 securePassword.MakeReadOnly();
             }
 
-            EnableAzureServiceProjectRemoteDesktopCommand command = new EnableAzureServiceProjectRemoteDesktopCommand();
-            command.Username = username;
-            command.Password = securePassword;
-            command.EnableRemoteDesktop();
+            if (enableRDCmdlet == null)
+            {
+                enableRDCmdlet = new EnableAzureServiceProjectRemoteDesktopCommand();
+                if (mockCommandRuntime == null)
+                {
+                    mockCommandRuntime = new MockCommandRuntime();
+                }
+                enableRDCmdlet.CommandRuntime = mockCommandRuntime;
+            }
+
+            enableRDCmdlet.Username = username;
+            enableRDCmdlet.Password = securePassword;
+            enableRDCmdlet.EnableRemoteDesktop();
         }
 
         public static void VerifyWebRole(ServiceDefinitionSchema.WebRole role, bool isForwarder)
@@ -104,21 +133,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
 
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(null, null));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(string.Empty, string.Empty));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", null));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", string.Empty));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "short"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "onlylower"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "ONLYUPPER"));
-                Testing.AssertThrows<ArgumentException>(
+                ManagementTesting.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "1234567890"));
             }
         }
@@ -133,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
-                Testing.AssertThrows<InvalidOperationException>(() =>
+                ManagementTesting.AssertThrows<InvalidOperationException>(() =>
                     EnableRemoteDesktop("user", "GoodPassword!"));
             }
         }
@@ -147,13 +176,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WebRole", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the role has been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(root, null);
+                AzureService service = new AzureService(rootPath, null);
                 VerifyWebRole(service.Components.Definition.WebRole[0], true);
                 VerifyRoleSettings(service);
             }
@@ -168,17 +198,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole", 1, root);
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WebRole", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WorkerRole", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
+                mockCommandRuntime.ResetPipelines();
                 EnableRemoteDesktop("user", "GoodPassword!");
 
                 // Verify the roles have been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(root, null);
+                AzureService service = new AzureService(rootPath, null);
                 VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyRoleSettings(service);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
             }
         }
 
@@ -191,23 +225,33 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                string root = files.CreateNewService("NEW_SERVICE");
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole_1", 1, root);
-                new AddAzureNodeWebRoleCommand().AddAzureNodeWebRoleProcess("WebRole_2", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole_1", 1, root);
-                new AddAzureNodeWorkerRoleCommand().AddAzureNodeWorkerRoleProcess("WorkerRole_2", 1, root);
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WebRole_1", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WebRole_2", Instances = 1 };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WorkerRole_1", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WorkerRole_2", Instances = 1 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
+                mockCommandRuntime.ResetPipelines();
                 
+                enableRDCmdlet.PassThru = true;
                 EnableRemoteDesktop("user", "GoodPassword!");
+
+                enableRDCmdlet.PassThru = false;
                 EnableRemoteDesktop("other", "OtherPassword!");
 
                 // Verify the roles have been setup with forwarding, access,
                 // and certs
-                AzureService service = new AzureService(root, null);
+                AzureService service = new AzureService(rootPath, null);
                 VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 VerifyWebRole(service.Components.Definition.WebRole[0], false);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[0], true);
                 VerifyWorkerRole(service.Components.Definition.WorkerRole[1], false);
                 VerifyRoleSettings(service);
+                Assert.AreEqual<int>(1, mockCommandRuntime.OutputPipeline.Count);
+                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
             }
         }
     }
