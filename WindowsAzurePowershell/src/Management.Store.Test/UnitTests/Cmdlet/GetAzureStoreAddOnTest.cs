@@ -72,8 +72,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             // Setup
             List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
             { 
-                new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"),
-                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
+                new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US", "StoreCloudService"),
+                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
             };
             mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
                 .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             // Setup
             List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
             {
-                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
+                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
             };
             mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
                 .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
@@ -121,9 +121,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             // Setup
             List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
             {
-                new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US"),
-                new WindowsAzureAddOn(new Resource() { Name = "MongoDB" }, "West US"),
-                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US")
+                new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US", "StoreCloudService"),
+                new WindowsAzureAddOn(new Resource() { Name = "MongoDB" }, "West US", "StoreCloudService"),
+                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
             };
             mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
                 .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
@@ -149,11 +149,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 new WindowsAzureAddOn(new Resource() { 
                     Name = "BingSearchAddOn", 
                     ResourceProviderNamespace = "Microsoft" }, 
-                    "West US"),
+                    "West US", "StoreCloudService"),
                 new WindowsAzureAddOn(new Resource() { 
                     Name = "BingTranslateAddOn", 
                     ResourceProviderNamespace = "Microsoft" }, 
-                    "West US")
+                    "West US", "StoreCloudService")
             };
             mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
                 .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 new WindowsAzureAddOn(new Resource() { 
                     Name = "BingSearchAddOn", 
                     ResourceProviderNamespace = "Microsoft" }, 
-                    "West US")
+                    "West US", "StoreCloudService")
             };
             mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
                 .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
