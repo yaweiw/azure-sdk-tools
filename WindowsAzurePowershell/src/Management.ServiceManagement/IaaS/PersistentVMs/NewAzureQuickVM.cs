@@ -203,7 +203,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
             }
-            catch (EndpointNotFoundException) // couldn't access
+            catch (ServiceManagementClientException) // couldn't access
             {
                 throw new ArgumentException("CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.");
             }

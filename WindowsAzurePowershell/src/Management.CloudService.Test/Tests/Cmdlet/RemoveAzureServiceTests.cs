@@ -12,8 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
+    using System.Net; 
     using System.ServiceModel;
     using CloudService.Cmdlet;
     using CloudService.Model;
@@ -56,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             bool deploymentDeleted = false;
             channel.GetDeploymentBySlotThunk = ar =>
             {
-                if (deploymentDeleted) throw new EndpointNotFoundException();
+                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                 return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
@@ -85,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             bool deploymentDeleted = false;
             channel.GetDeploymentBySlotThunk = ar =>
             {
-                if (deploymentDeleted) throw new EndpointNotFoundException();
+                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                 return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
@@ -113,7 +115,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             bool deploymentDeleted = false;
             channel.GetDeploymentBySlotThunk = ar =>
             {
-                if (deploymentDeleted) throw new EndpointNotFoundException();
+                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                 return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[Slot.Production], Status = DeploymentStatus.Suspended};
             };
             channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;

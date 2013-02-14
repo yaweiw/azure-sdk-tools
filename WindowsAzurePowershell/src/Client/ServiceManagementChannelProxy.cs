@@ -215,9 +215,22 @@ namespace Microsoft.WindowsAzure.ServiceManagement
 
         #endregion
 
-        public bool CanCastTo(Type fromType, object o)
+        public bool CanCastTo(Type toType, object o)
         {
-            return fromType.IsAssignableFrom(this._proxiedType);
+            bool result = true;
+            if(!toType.IsAssignableFrom(this._proxiedType))
+            {
+                RealProxy objRef = RemotingServices.GetRealProxy(this._sink);
+                if(objRef is IRemotingTypeInfo)
+                {
+                    result = ((IRemotingTypeInfo) objRef).CanCastTo(toType, o);
+                }
+                else
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
 
         public string TypeName

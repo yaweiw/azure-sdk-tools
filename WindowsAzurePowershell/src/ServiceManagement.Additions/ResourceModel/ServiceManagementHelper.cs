@@ -280,9 +280,9 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                     property.Headers.Remove(VSDebuggerCausalityDataHeaderName);
                 }
 
-                if (property.Headers[Microsoft.WindowsAzure.Management.Service.Constants.VersionHeaderName] == null)
+                if (property.Headers[Constants.VersionHeaderName] == null)
                 {
-                    property.Headers.Add(Microsoft.WindowsAzure.Management.Service.Constants.VersionHeaderName, Microsoft.WindowsAzure.Management.Service.Constants.VersionHeaderContent20120301);
+                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContentLatest);
                 }
 
                 if (property.Headers[UserAgentHeaderName] == null)

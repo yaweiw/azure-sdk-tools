@@ -250,7 +250,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
                 if (property.Headers[Constants.VersionHeaderName] == null)
                 {
-                    property.Headers.Add(Constants.VersionHeaderName, Microsoft.WindowsAzure.Management.Service.Constants.VersionHeaderContent20120301);
+                    property.Headers.Add(Constants.VersionHeaderName, Constants.VersionHeaderContentLatest);
                 }
 
                 if (property.Headers[UserAgentHeaderName] == null)

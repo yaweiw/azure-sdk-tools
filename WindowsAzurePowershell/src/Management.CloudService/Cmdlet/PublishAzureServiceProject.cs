@@ -437,7 +437,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 RetryCall(subscription => Channel.GetHostedServiceWithDetails(subscription, _hostedServiceName, true));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 return false;
             }
@@ -554,7 +554,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 storageService = RetryCall<StorageService>(subscription =>
                     Channel.GetStorageService(subscription, name));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 // Don't write error message.  This catch block is used to
                 // detect that there's no such endpoint which indicates that
@@ -852,7 +852,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
 
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 throw new InvalidOperationException(
                     string.Format(
