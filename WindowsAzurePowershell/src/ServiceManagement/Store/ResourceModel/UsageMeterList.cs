@@ -12,14 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store.Cmdlet.Common
+namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
 {
-    class Parameter
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+
+    [CollectionDataContract(Name = "UsageMeters", ItemName = "UsageMeter", Namespace = Constants.ServiceManagementNS)]
+    public class UsageMeterList : List<UsageMeter>
     {
-        public const string Provider = "Provider";
+        public UsageMeterList()
+        {
+        }
 
-        public const string Addon = "Addon";
-
-        public const string Plans = "Plans";
+        public UsageMeterList(IEnumerable<UsageMeter> usageMeters)
+            : base(usageMeters)
+        {
+        }
     }
 }

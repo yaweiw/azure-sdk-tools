@@ -87,7 +87,7 @@
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
-    <Compile Include="Store\StoreTests.cs" />
+    <Compile Include="StoreTests\StoreTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="ManagementTests\ManagementTests.cs" />
