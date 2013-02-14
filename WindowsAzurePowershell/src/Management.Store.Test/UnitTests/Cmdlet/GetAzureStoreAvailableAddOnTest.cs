@@ -14,12 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 {
-    using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet;
+    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
@@ -55,14 +53,17 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell" }
             };
             List<WindowsAzureOffer> expectedWindowsAzureOffers = new List<WindowsAzureOffer>();
-            expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(o, plans)));
+            expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(
+                o,
+                plans,
+                new List<string>() { "West US", "East US" })));
 
-            Mock<StoreClient> mock = new Mock<StoreClient>();
-            mock.Setup(f => f.GetAvailableWindowsAzureAddOns(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
+            Mock<MarketplaceClient> mock = new Mock<MarketplaceClient>();
+            mock.Setup(f => f.GetAvailableWindowsAzureOffers(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
 
             GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand()
             {
-                StoreClient = mock.Object,
+                MarketplaceClient = mock.Object,
                 CommandRuntime = mockCommandRuntime.Object
             };
 
@@ -70,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mock.Verify(f => f.GetAvailableWindowsAzureAddOns("US"), Times.Once());
+            mock.Verify(f => f.GetAvailableWindowsAzureOffers("US"), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expectedWindowsAzureOffers, true), Times.Once());
         }
     }
