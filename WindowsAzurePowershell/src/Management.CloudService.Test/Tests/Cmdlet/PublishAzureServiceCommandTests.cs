@@ -17,6 +17,7 @@ using Microsoft.WindowsAzure.Management.Service;
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
+    using System.Net;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
@@ -356,7 +357,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
@@ -421,7 +422,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
@@ -517,7 +518,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; return storageService; });
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar =>
                 {
@@ -526,7 +527,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 () => deployment,
                 () => { deployment.Status = DeploymentStatus.Starting; return deployment; });
                 };
-                channel.GetDeploymentBySlotThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetDeploymentBySlotThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
@@ -626,7 +627,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.UpgradeDeploymentThunk = ar => createdOrUpdatedDeployment = true;
@@ -695,7 +696,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     }
                     else
                     {
-                        throw new EndpointNotFoundException();
+                        throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                     }
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -940,7 +941,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                             return storageService; });
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => { createdHostedService = true; cloudService = new HostedService() { HostedServiceProperties = new HostedServiceProperties() { AffinityGroup = affinityGroup } }; };
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar =>
                 {
@@ -959,7 +960,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     }
                     else
                     {
-                        throw new EndpointNotFoundException();
+                        throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                     }
                 };
 

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         public const string PrincipalHeader = "x-ms-principal-id";
         public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";    
         public const string VersionHeaderName = "x-ms-version";
-        public const string VersionHeaderContentLatest = "2013-03-01";
+        public const string VersionHeaderContentLatest = "2012-12-01";
     }
 
     public static class DeploymentStatus

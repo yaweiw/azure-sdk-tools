@@ -12,8 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
+    using System.Net;
     using System.ServiceModel;
     using CloudService.Model;
     using CloudService.Properties;
@@ -145,7 +147,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 statusUpdated = true;
                 channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => { throw new EndpointNotFoundException(); };
+            channel.GetDeploymentBySlotThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {

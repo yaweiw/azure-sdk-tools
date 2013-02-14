@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
                     PackageUrl = packageUrl,
-                    Label = Label == null ? ServiceManagementHelper.EncodeToBase64String(Label) : ServiceManagementHelper.EncodeToBase64String(ServiceName),
+                    Label = Label != null ? ServiceManagementHelper.EncodeToBase64String(Label) : ServiceManagementHelper.EncodeToBase64String(ServiceName),
                     Force = Force.IsPresent
                 };
 
