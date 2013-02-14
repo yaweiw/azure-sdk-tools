@@ -121,7 +121,7 @@
     <Compile Include="Cmdlet\GetAzureStoreAddOn.cs" />
     <Compile Include="Cmdlet\GetAzureStoreAvailableAddOn.cs" />
     <Compile Include="Model\AddOnSearchOptions.cs" />
-    <Compile Include="Model\AddOn.cs" />
+    <Compile Include="Model\WindowsAzureAddOn.cs" />
     <Compile Include="Model\StoreClient.cs" />
     <Compile Include="Model\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Model\WindowsAzureOffer.cs" />
