@@ -14,16 +14,25 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    class Parameter
+    using System;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public sealed class ValidateCountryLengthAttribute : ValidateEnumeratedArgumentsAttribute
     {
-        public const string Provider = "Provider";
+        const int MaxLength = 2;
 
-        public const string Name = "Name";
+        const int MinLength = 2;
 
-        public const string Plan = "Plan";
+        protected override void ValidateElement(object element)
+        {
+            string country = (string)element;
 
-        public const string Location = "Location";
-
-        public const string AddOn = "AddOn";
+            if (country.Length > MaxLength || country.Length < MinLength)
+            {
+                throw new ArgumentException(Resources.InvalidCountryNameMessage);
+            }
+        }
     }
 }

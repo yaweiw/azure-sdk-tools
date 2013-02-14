@@ -9,35 +9,36 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>OfferIdentifier</Label>
-            <Width>80</Width>
+            <Label>AddOn</Label>
+            <Width>40</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>ProviderIdentifier</Label>
-            <Width>50</Width>
+            <Label>Provider</Label>
+            <Width>40</Width>
           </TableColumnHeader>
           <TableColumnHeader>
           <Label>Plans</Label>
-            <Width>100</Width>
+            <Width>200</Width>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
-                <ScriptBlock>$_.OfferIdentifier</ScriptBlock>
+                <ScriptBlock>$_.AddOn</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
-                <ScriptBlock>$_.ProviderIdentifier</ScriptBlock>
+                <ScriptBlock>$_.Provider</ScriptBlock>
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
                   $plans = @()
                   foreach ($plan in $_.Plans)
                   {
-                    $plans += $plan.PlanIdentifier
+                    $plans += $plan.PlanIdentifier.Trim()
                   }
-                  $plans
+                  $string = $plans -join ', '
+                  $string
                 </ScriptBlock>
               </TableColumnItem>
             </TableColumnItems>
