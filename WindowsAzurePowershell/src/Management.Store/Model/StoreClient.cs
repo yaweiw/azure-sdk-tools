@@ -119,13 +119,37 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                         if (General.TryEquals(searchOptions.Name, resource.Name) && 
                             General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
                         {
-                            addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion));
+                            addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion, storeService.Name));
                         }
                     }
                 }
             }
 
             return addOns;
+        }
+
+        /// <summary>
+        /// Removes given Add-On
+        /// </summary>
+        /// <param name="Name">The add-on name</param>
+        public virtual void RemoveAddOn(string Name)
+        {
+            List<WindowsAzureAddOn> addOns = GetAddOn(new AddOnSearchOptions(Name, null, null));
+
+            if (addOns.Count != 1)
+	        {
+		        throw new Exception("The Add on is not found");
+	        }
+
+            WindowsAzureAddOn addOn = addOns[0];
+
+            storeChannel.DeleteResource(
+                subscriptionId,
+                addOn.CloudService,
+                addOn.Type,
+                addOn.AddOn,
+                addOn.Name
+            );
         }
     }
 }

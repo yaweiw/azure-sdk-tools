@@ -31,5 +31,21 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
         IAsyncResult BeginListCloudServices(string subscriptionId, AsyncCallback callback, object state);
 
         CloudServiceList EndListCloudServices(IAsyncResult asyncResult);
+        
+        /// <summary>
+        /// Removes given resource from the Cloud Service.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "DELETE", UriTemplate = @"{subscriptionId}/CloudServices/{cloudServiceName}/resources/{resourceProviderNamespace}/{resourceType}/{resourceName}")]
+        IAsyncResult BeginDeleteResource(
+            string subscriptionId,
+            string cloudServiceName,
+            string resourceProviderNamespace,
+            string resourceType,
+            string resourceName,
+            AsyncCallback callback,
+            object state);
+
+        void EndDeleteResource(IAsyncResult asyncResult);
     }
 }

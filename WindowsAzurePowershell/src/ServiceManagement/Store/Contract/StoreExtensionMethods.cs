@@ -23,5 +23,23 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
         {
             return proxy.EndListCloudServices(proxy.BeginListCloudServices(subscriptionId, null, null));
         }
+
+        public static void DeleteResource(
+            this IStoreManagement proxy,
+            string subscriptionId,
+            string cloudServiceName,
+            string resourceProviderNamespace,
+            string resourceType,
+            string resourceName)
+        {
+            proxy.EndDeleteResource(proxy.BeginDeleteResource(
+                subscriptionId,
+                cloudServiceName,
+                resourceProviderNamespace,
+                resourceType,
+                resourceName,
+                null,
+                null));
+        }
     }
 }
