@@ -15,40 +15,47 @@
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>
-    /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
+    /// Gets all purchased Add-Ons or specific Add-On
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStoreAvailableAddOn"), OutputType(typeof(List<WindowsAzureOffer>))]
-    public class GetAzureStoreAvailableAddOnCommand : CmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<AddOn>), typeof(AddOn))]
+    public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IStoreManagement>
     {
         public StoreClient StoreClient { get; set; }
 
-        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Country code")]
-        [ValidateLength(2, 2)]
-        public string Country { get; set; }
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
+        public string Name { get; set; }
+
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On provider")]
+        public string Provider { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On location")]
+        public string Location { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             StoreClient = StoreClient ?? new StoreClient(
-                string.Empty,
-                string.Empty,
-                null,
+                CurrentSubscription.SubscriptionId,
+                ServiceEndpoint,
+                CurrentSubscription.Certificate,
                 text => this.WriteDebug(text));
-            List<WindowsAzureOffer> result = StoreClient.GetAvailableWindowsAzureAddOns(Country ?? "US");
+            List<AddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
 
-            if (result.Count > 0)
+            if (addOns.Count == 1)
             {
-                WriteObject(result, true);
+                WriteObject(addOns);
+            }
+            else
+            {
+                WriteObject(addOns, true);
             }
         }
     }

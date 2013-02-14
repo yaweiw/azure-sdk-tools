@@ -33,9 +33,9 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestGetAzureStoreAvailableAddOnWithInvalidCredentials()
+        public void TestWithInvalidCredentialsWorks()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureStoreAvailableAddOn }");
+            RunPowerShellTest("Test-WithInvalidCredentialsWorks");
         }
 
         [TestMethod]
@@ -52,6 +52,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         public void TestGetAzureStoreAvailableAddOnWithNoAddOns()
         {
             RunPowerShellTest("Test-GetAzureStoreAvailableAddOnWithNoAddOns");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAvailableAddOnWithInvalidCountryName()
+        {
+            RunPowerShellTest("Test-GetAzureStoreAvailableAddOnWithInvalidCountryName");
         }
 
         #endregion
