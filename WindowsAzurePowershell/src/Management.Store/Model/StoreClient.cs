@@ -103,9 +103,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// </summary>
         /// <param name="searchOptions">The add on search options</param>
         /// <returns>The list of filtered add ons</returns>
-        public virtual List<AddOn> GetAddOn(AddOnSearchOptions searchOptions = null)
+        public virtual List<WindowsAzureAddOn> GetAddOn(AddOnSearchOptions searchOptions = null)
         {
-            List<AddOn> addOns = new List<AddOn>();
+            List<WindowsAzureAddOn> addOns = new List<WindowsAzureAddOn>();
             CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
             List<CloudService> storeServices = cloudServices.FindAll(
                 c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                         if (General.TryEquals(searchOptions.Name, resource.Name) && 
                             General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
                         {
-                            addOns.Add(new AddOn(resource, storeService.GeoRegion));
+                            addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion));
                         }
                     }
                 }
