@@ -14,15 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using System.Collections.Generic;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
 
-    public class AddOn
+    public class WindowsAzureAddOn
     {
-        public string Provider { get; set; }
-
         public string Type { get; set; }
+
+        public string AddOn { get; set; }
 
         public string Name { get; set; }
 
@@ -38,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         public OutputItemList OutputItems { get; set; }
 
-        public OperationStatus OperationStatus { get; set; }
+        public OperationStatus LastOperationStatus { get; set; }
 
         public string Location { get; set; }
 
@@ -47,11 +46,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// </summary>
         /// <param name="resource">The add on details</param>
         /// <param name="geoRegion">The add on region</param>
-        public AddOn(Resource resource, string geoRegion)
+        public WindowsAzureAddOn(Resource resource, string geoRegion)
         {
-            Provider = resource.ResourceProviderNamespace;
+            Type = resource.ResourceProviderNamespace;
             
-            Type = resource.Type;
+            AddOn = resource.Type;
             
             Name = resource.Name;
             
@@ -67,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
             OutputItems = resource.OutputItems;
 
-            OperationStatus = resource.OperationStatus;
+            LastOperationStatus = resource.OperationStatus;
 
             Location = geoRegion;
         }
