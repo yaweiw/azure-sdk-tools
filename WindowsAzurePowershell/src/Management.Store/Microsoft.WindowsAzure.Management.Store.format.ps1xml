@@ -14,15 +14,15 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Provider</Label>
-            <Width>20</Width>
+            <Width>25</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Locations</Label>
-            <Width>80</Width>
+            <Width>30</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Plans</Label>
-            <Width>200</Width>
+            <Width>35</Width>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
