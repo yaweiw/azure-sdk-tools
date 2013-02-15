@@ -17,7 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
@@ -592,6 +593,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public PersistentVM AddAzureEndPoint(AzureEndPointConfigInfo endPointConfig)
         {
+            AddAzureEndpointCmdletInfo addAzureEndPointCmdletInfo = new AddAzureEndpointCmdletInfo(endPointConfig);
+            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(addAzureEndPointCmdletInfo);
+
+            Collection<PSObject> result = azurePowershellCmdlet.Run();
+            if (result.Count == 1)
+            {
+                return (PersistentVM)result[0].BaseObject;
+            }
+            return null;
+        }
+
+        public PersistentVM AddAzureEndPointNoLB(AzureEndPointConfigInfo endPointConfig)
+        {
             AddAzureEndpointCmdletInfo addAzureEndPointCmdletInfo = AddAzureEndpointCmdletInfo.BuildNoLoadBalancedCmdletInfo(endPointConfig);
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(addAzureEndPointCmdletInfo);
 
@@ -611,7 +625,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             foreach (AzureEndPointConfigInfo config in endPointConfigs)
             {
                 config.Vm = vm;
-                vm = AddAzureEndPoint(config);
+                vm = AddAzureEndPointNoLB(config);
             }
             UpdateAzureVM(vmName, serviceName, vm);
         }

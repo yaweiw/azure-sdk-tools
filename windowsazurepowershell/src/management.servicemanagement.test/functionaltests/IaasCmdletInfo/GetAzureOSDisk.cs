@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     public class GetAzureOSDiskCmdletInfo : CmdletsInfo
     {
