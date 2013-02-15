@@ -15,7 +15,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
-     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public class AzureProvisioningConfigInfo
     {
