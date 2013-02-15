@@ -38,13 +38,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         public override void ExecuteCmdlet()
         {
             LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
-            MarketplaceClient = new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
-            List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country ?? "US");
-
-            if (result.Count > 0)
-            {
-                WriteObject(result, true);
-            }
+            MarketplaceClient = MarketplaceClient ?? 
+                new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
+            List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country);
+            WriteObject(result ?? new List<WindowsAzureOffer>(), true);
         }
     }
 }
