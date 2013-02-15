@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         ServiceBinding,
                         new Uri(ServiceEndpoint),
                         CurrentSubscription.Certificate,
-                        new HttpRestMessageInspector(this));
+                        new HttpRestMessageInspector(text => this.WriteDebug(text)));
                 }
 
                 IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);

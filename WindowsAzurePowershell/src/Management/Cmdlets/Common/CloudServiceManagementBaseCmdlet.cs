@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             var endpointBehaviors = new List<IEndpointBehavior>
             {
                 new ServiceManagementClientOutputMessageInspector(),
-                new HttpRestMessageInspector(this)
+                new HttpRestMessageInspector(text => this.WriteDebug(text))
             };
 
             var clientOptions = new ServiceManagementClientOptions(endpointBehaviors);
