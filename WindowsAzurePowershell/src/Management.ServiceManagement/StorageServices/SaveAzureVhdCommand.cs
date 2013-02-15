@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Model;
     using Sync.Download;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsData.Save, "AzureVhd"), OutputType(typeof (VhdDownloadContext))]
-    public class SaveAzureVhdCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SaveAzureVhdCommand : CloudServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
 

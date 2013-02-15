@@ -14,17 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
+
 
     /// <summary>
     /// Deletes the specified deployment.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    public class RemoveAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
     {
         public RemoveAzureDeploymentCommand()
         {

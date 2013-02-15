@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
     using System.ServiceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
+    using ServiceManagement;
+    using Cmdlets.Common;
+    using Services;
+    using Services.Common;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets

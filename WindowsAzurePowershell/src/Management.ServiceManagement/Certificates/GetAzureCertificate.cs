@@ -18,16 +18,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Properties;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
+
 
     /// <summary>
     /// Retrieve a specified service certificate.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureCertificate"), OutputType(typeof(CertificateContext))]
-    public class GetAzureCertificate : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureCertificate : CloudServiceManagementBaseCmdlet
     {
         public GetAzureCertificate()
         {

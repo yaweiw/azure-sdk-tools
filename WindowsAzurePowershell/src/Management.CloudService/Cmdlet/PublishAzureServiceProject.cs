@@ -12,7 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Service;
 using Microsoft.WindowsAzure.Management.Utilities;
+using Microsoft.WindowsAzure.ServiceManagement;
+using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
+using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
+using UpgradeType = Microsoft.WindowsAzure.ServiceManagement.UpgradeType;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
@@ -31,21 +36,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using AzureTools;
     using Extensions;
     using Management.Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
     using Properties;
     using Services;
     using Utilities;
-    using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
+    using ServiceManagementCertificate = Microsoft.WindowsAzure.ServiceManagement.Certificate;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true), OutputType(typeof(Deployment))]
-    public class PublishAzureServiceProjectCommand : CloudBaseCmdlet<IServiceManagement>
+    public class PublishAzureServiceProjectCommand : CloudServiceManagementBaseCmdlet
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
@@ -311,9 +315,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         /// <param name="service">The service to prepare</param>
         /// <param name="settings">The runtime settings to use to determine location</param>
+        /// <param name="manifest"> </param>
         /// <returns>True if requested runtimes were successfully resolved, otherwise false</returns>
-        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings,
-            string manifest = null)
+        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings, string manifest = null)
         {
             CloudRuntimeCollection availableRuntimePackages;
             Model.Location deploymentLocation = GetSettingsLocation(settings);
@@ -433,7 +437,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 RetryCall(subscription => Channel.GetHostedServiceWithDetails(subscription, _hostedServiceName, true));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 return false;
             }
@@ -550,7 +554,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 storageService = RetryCall<StorageService>(subscription =>
                     Channel.GetStorageService(subscription, name));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 // Don't write error message.  This catch block is used to
                 // detect that there's no such endpoint which indicates that
@@ -848,7 +852,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
 
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 throw new InvalidOperationException(
                     string.Format(
@@ -865,7 +869,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
                     SelectMany(r => r.Certificates ?? new ServiceConfigurationSchema.Certificate[0]).Distinct())
                 {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count<ServiceManagementCertificate>(c => c.Thumbprint.Equals(
+                    if (uploadedCertificates == null || (uploadedCertificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
                         X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);

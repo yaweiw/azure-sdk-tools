@@ -12,19 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
-    using System;
     using System.IO;
     using System.Management.Automation;
     using System.Xml;
     using System.Xml.Linq;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Management.Model;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureVNetConfigCommand : CloudBaseCmdlet<IServiceManagement>
+    public class RemoveAzureVNetConfigCommand : CloudServiceManagementBaseCmdlet
     {
         private static readonly XNamespace NetconfigNamespace = "http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration";
         private static readonly XNamespace InstanceNamespace = "http://www.w3.org/2001/XMLSchema-instance";

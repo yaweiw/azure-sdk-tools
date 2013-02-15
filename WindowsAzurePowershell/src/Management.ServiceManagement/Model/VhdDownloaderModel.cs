@@ -12,18 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.IO;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Sync;
     using Sync.Download;
+    using System.IO;
 
     public class VhdDownloaderModel
     {
-        public static VhdDownloadContext Download(DownloaderParameters downloadParameters, CloudBaseCmdlet<IServiceManagement> cmdlet)
+        public static VhdDownloadContext Download(DownloaderParameters downloadParameters, CloudServiceManagementBaseCmdlet cmdlet)
         {
             Program.SyncOutput = new PSSyncOutputEvents(cmdlet);
 

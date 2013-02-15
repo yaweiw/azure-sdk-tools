@@ -17,7 +17,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+   
+    using WindowsAzure.ServiceManagement;
+    using Management.Model;
+    using Model;
+    using IaasCmdletInfo;
+    using ConfigDataInfo;
+
+
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;

@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://api.datamarket.azure.com/CatalogService.svc.
+        ///   Looks up a localized string similar to http://api.datamarket.azure.com/CatalogService.svc.
         /// </summary>
         internal static string MarketplaceEndpoint {
             get {

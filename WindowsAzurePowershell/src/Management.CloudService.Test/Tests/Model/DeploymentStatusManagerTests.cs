@@ -12,18 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
+    using System.Net;
     using System.ServiceModel;
     using CloudService.Model;
     using CloudService.Properties;
     using Extensions;
     using Management.Test.Stubs;
-    using Services;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
@@ -45,13 +46,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             string newStatus = DeploymentStatus.Suspended;
             string currentStatus = DeploymentStatus.Running;
             bool statusUpdated = false;
-            Deployment expectedDeployment = new Deployment(serviceName, slot, newStatus);
+            Deployment expectedDeployment = new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             channel.UpdateDeploymentStatusBySlotThunk = ar => 
             {
                 statusUpdated = true;
                 channel.GetDeploymentBySlotThunk = ar2 => expectedDeployment;
             };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -83,9 +84,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             channel.UpdateDeploymentStatusBySlotThunk = ar =>
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -114,9 +115,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             channel.UpdateDeploymentStatusBySlotThunk = ar =>
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
@@ -144,9 +145,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
             channel.UpdateDeploymentStatusBySlotThunk = ar =>
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => { throw new EndpointNotFoundException(); };
+            channel.GetDeploymentBySlotThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {

@@ -17,12 +17,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Set, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureVNetConfigCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureVNetConfigCommand : CloudServiceManagementBaseCmdlet
     {
         public SetAzureVNetConfigCommand()
         {
