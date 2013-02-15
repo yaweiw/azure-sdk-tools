@@ -415,5 +415,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             }
         }
 
+        /// <summary>
+        /// Compares two strings with handling special case that base string can be empty.
+        /// </summary>
+        /// <param name="leftHandSide">The base string.</param>
+        /// <param name="rightHandSide">The comparer string.</param>
+        /// <returns>True if equals or leftHandSide is null/empty, false otherwise.</returns>
+        public static bool TryEquals(string leftHandSide, string rightHandSide)
+        {
+            if (string.IsNullOrEmpty(leftHandSide) || leftHandSide.Equals(rightHandSide))
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

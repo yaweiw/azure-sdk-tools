@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned">
+  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -110,6 +110,23 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="Configuration=ReleaseSigned"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Build the Setup -->
+  <Target Name="BuildSetupDebug">
+    <Message
+      Importance="high"
+      Text="Building Setup..."
+      ContinueOnError="false" />
+    <Message
+      Importance="high"
+      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
+      ContinueOnError="false" />
+    <MSBuild
+      Projects="@(SetupSln)"
+      Targets="Build"
+      Properties="Configuration=Debug"
       ContinueOnError="false" />
   </Target>
   
