@@ -10,19 +10,24 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>AddOn</Label>
-            <Width>40</Width>
+            <Width>30</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Provider</Label>
-            <Width>40</Width>
+            <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
-          <Label>Plans</Label>
+            <Label>Locations</Label>
+            <Width>80</Width>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Plans</Label>
             <Width>200</Width>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
+            <Wrap/>
             <TableColumnItems>
               <TableColumnItem>
                 <ScriptBlock>$_.AddOn</ScriptBlock>
@@ -32,15 +37,26 @@
               </TableColumnItem>
               <TableColumnItem>
                 <ScriptBlock>
+                  $locations = @()
+                  foreach ($location in $_.Locations)
+                  {
+                    $locations += $location.Trim()
+                  }
+                  $string = $locations -join ', '
+                  $string
+                </ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>
                   $plans = @()
                   foreach ($plan in $_.Plans)
                   {
-                    $plans += $plan.PlanIdentifier.Trim()
+                  $plans += $plan.PlanIdentifier.Trim()
                   }
                   $string = $plans -join ', '
                   $string
                 </ScriptBlock>
-              </TableColumnItem>
+            </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
@@ -62,10 +78,6 @@
               <ListItem>
                 <Label>AddOn</Label>
                 <PropertyName>AddOn</PropertyName>
-              </ListItem>
-              <ListItem>
-                <Label>Type</Label>
-                <PropertyName>Type</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>Plan</Label>
@@ -205,10 +217,6 @@
               <ListItem>
                 <Label>AddOn</Label>
                 <PropertyName>AddOn</PropertyName>
-              </ListItem>
-              <ListItem>
-                <Label>Type</Label>
-                <PropertyName>Type</PropertyName>
               </ListItem>
               <ListItem>
                 <Label>Plan</Label>

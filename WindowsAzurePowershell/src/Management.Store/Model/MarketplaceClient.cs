@@ -25,7 +25,13 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     {
         public List<string> SubscriptionLocations { get; private set; }
 
-        private const string DataMarket = "DataMarket";
+        /// <summary>
+        /// Parameterless constructor added for mocking framework.
+        /// </summary>
+        public MarketplaceClient()
+        {
+
+        }
 
         public MarketplaceClient(IEnumerable<string> subscriptionLocations)
         {
@@ -33,49 +39,50 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         }
 
         /// <summary>
-        /// Lists all available Windows Azure offers in the Marketplace.
+        /// Gets available Windows Azure offers from the Marketplace.
         /// </summary>
-        /// <param name="country">The country code</param>
-        /// <returns>The available Windows Azure offers in Marketplace</returns>
-        //public virtual List<WindowsAzureOffer> GetAvailableWindowsAzureAddOns(string country)
-        //{
-        //    List<WindowsAzureOffer> result = new List<WindowsAzureOffer>();
-        //    List<Offer> offers = marketplaceChannel.ListWindowsAzureOffers(country);
-
-        //    //foreach (Offer offer in offers)
-        //    //{
-        //    //    string plansQuery = string.Format("CountryCode eq '{0}'", country);
-        //    //    List<Plan> plans = marketplaceChannel.ListOfferPlans(offer.Id.ToString(), plansQuery);
-
-        //    //    if (plans.Count > 0)
-        //    //    {
-        //    //        result.Add(new WindowsAzureOffer(offer, plans));
-        //    //    }
-        //    //}
-
-        //    return result;
-        //}
-
-        public List<WindowsAzureOffer> GetAvailableWindowsAzureOffers(string countryCode)
+        /// <param name="countryCode">The country two character code. Uses 'US' by default </param>
+        /// <returns>The list of offers</returns>
+        public virtual List<WindowsAzureOffer> GetAvailableWindowsAzureOffers(string countryCode)
         {
+            countryCode = string.IsNullOrEmpty(countryCode) ? "US" : countryCode;
             List<WindowsAzureOffer> result = new List<WindowsAzureOffer>();
             List<Offer> windowsAzureOffers = new List<Offer>();
             CatalogServiceContext context = new CatalogServiceContext(new Uri(Resources.MarketplaceEndpoint));
-            IQueryable<Offer> offers = from o in context.Offers.Expand("Plans").Expand("Categories")
-                         where o.IsAvailableInAzureStores
-                         select o;
-            //context.Execute(context.Offers.Expand("Plans, Categories")).get
+            DataServiceQueryContinuation<Offer> nextOfferLink = null;
 
-            foreach (Offer offer in offers.AsEnumerable())
+            do
             {
-                IEnumerable<Plan> validPlans = offer.Plans.Where<Plan>(p => p.CountryCode == countryCode);
-                IEnumerable<string> offerLocations = offer.Categories.Select<Category, string>(c => c.Name)
-                    .Intersect<string>(SubscriptionLocations);
-                result.Add(new WindowsAzureOffer(
+                DataServiceQuery<Offer> query = context.Offers
+                    .AddQueryOption("$filter", "IsAvailableInAzureStores")
+                    .Expand("Plans, Categories");
+                QueryOperationResponse<Offer> offerResponse = query.Execute() as QueryOperationResponse<Offer>;
+                foreach (Offer offer in offerResponse)
+                {
+                    List<Plan> allPlans = new List<Plan>(offer.Plans);
+                    DataServiceQueryContinuation<Plan> nextPlanLink = null;
+
+                    do
+                    {
+                        QueryOperationResponse<Plan> planResponse = context.LoadProperty(
+                            offer,
+                            "Plans",
+                            nextPlanLink) as QueryOperationResponse<Plan>;
+                        nextPlanLink = planResponse.GetContinuation();
+                        allPlans.AddRange(offer.Plans);
+                    } while (nextPlanLink != null);
+                    
+                    IEnumerable<Plan> validPlans = offer.Plans.Where<Plan>(p => p.CountryCode == countryCode);
+                    IEnumerable<string> offerLocations = offer.Categories.Select<Category, string>(c => c.Name)
+                        .Intersect<string>(SubscriptionLocations);
+                    result.Add(new WindowsAzureOffer(
                     offer,
                     validPlans,
                     offerLocations.Count() == 0 ? SubscriptionLocations : offerLocations));
-            }
+                }
+
+                nextOfferLink = offerResponse.GetContinuation();
+            } while (nextOfferLink != null);
 
             return result;
         }
