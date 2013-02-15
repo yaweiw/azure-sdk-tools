@@ -18,12 +18,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
-    public class GetAzureVMImage : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureVMImage : CloudServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]

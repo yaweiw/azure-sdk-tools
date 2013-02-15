@@ -16,17 +16,15 @@
 
 <#
 .SYNOPSIS
-Tests any cloud based cmdlet with invalid credentials and expect it'll throw an exception.
+Tests Get-AzureStoreAvailableAddOn with invalid credentials and make sure it works.
 #>
-function Test-WithInvalidCredentials
+function Test-WithInvalidCredentialsWorks
 {
-	param([ScriptBlock] $cloudCmdlet)
-	
 	# Setup
 	Remove-AllSubscriptions
 
 	# Test
-	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
+	Test-GetAzureStoreAvailableAddOnWithDefaultCountry
 }
 
 ########################################################################### Get-AzureStoreAvailableAddOn Scenario Tests ###########################################################################
@@ -42,7 +40,7 @@ function Test-GetAzureStoreAvailableAddOnWithDefaultCountry
 
 	# Assert
 	Assert-True { $actual.Count -gt 0 }
-	$actual | % { Assert-NotNull $_.Provider; Assert-NotNull $_.AddOn; Assert-NotNull $_.Plans }
+	$actual | % { Assert-NotNull $_.ProviderName; Assert-NotNull $_.Name; Assert-NotNull $_.Plans }
 }
 
 <#
@@ -52,8 +50,18 @@ Tests using Get-AzureStoreAvailableAddOn with specified country that will not re
 function Test-GetAzureStoreAvailableAddOnWithNoAddOns
 {
 	# Test
-	$actual = Get-AzureStoreAvailableAddOn "OneSDK"
+	$actual = Get-AzureStoreAvailableAddOn "E1"
 
 	# Assert
 	Assert-True { $actual.Count -eq 0 }
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAvailableAddOn with invalid country name.
+#>
+function Test-GetAzureStoreAvailableAddOnWithInvalidCountryName
+{
+	# Test
+	Assert-Throws { Get-AzureStoreAvailableAddOn "UnitedStates" } "Cannot validate argument on parameter 'Country'. The argument length of 12 is too long. Shorten the length of the argument to less than or equal to `"2`" and then try the command again."
 }

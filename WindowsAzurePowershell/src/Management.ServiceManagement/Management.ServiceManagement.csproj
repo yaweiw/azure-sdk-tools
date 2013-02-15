@@ -126,6 +126,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -176,7 +177,6 @@
     <Compile Include="IaaS\Endpoints\GetAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\RemoveAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
-    <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
@@ -192,6 +192,7 @@
     <Compile Include="IaaS\Network\SetAzureSubnet.cs" />
     <Compile Include="IaaS\Network\SetAzureVNetConfig.cs" />
     <Compile Include="IaaS\Network\SetAzureVNetGateway.cs" />
+    <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\PersistentVMs\AddAzureProvisioningConfig.cs" />
     <Compile Include="IaaS\PersistentVMs\ExportAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureOSDisk.cs" />
@@ -281,6 +282,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\Microsoft.WindowsAzure.ServiceManagement.Client.csproj">
+      <Project>{CDBBC94D-FA60-4AEA-B9CC-EFED585904F0}</Project>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConsoleAppUtils\ConsoleAppUtils.csproj">
       <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
       <Name>ConsoleAppUtils</Name>
@@ -292,10 +297,6 @@
     <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
       <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
       <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559A16C7-B11C-4AA6-8C16-8ADECA6ABED7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sync\Sync.csproj">
       <Project>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</Project>

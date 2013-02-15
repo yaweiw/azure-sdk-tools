@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Model;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsLifecycle.Restart, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]
     public class RestartAzureVMCommand : IaaSDeploymentManagementCmdletBase

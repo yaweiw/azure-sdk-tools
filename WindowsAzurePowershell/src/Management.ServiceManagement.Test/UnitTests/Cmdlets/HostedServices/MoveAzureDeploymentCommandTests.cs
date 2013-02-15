@@ -12,12 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
     using System;
+    using System.Net;
     using System.Reflection;
     using System.ServiceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -56,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
                     {
                         if (parameters.ProductionDeployment == null)
                         {
-                            throw new EndpointNotFoundException("No deployment exists");
+                            throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), String.Empty);
                         }
                         return parameters.ProductionDeployment;
                     }
@@ -64,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
                     {
                         if (parameters.StagingDeployment == null)
                         {
-                            throw new EndpointNotFoundException("No deployment exists");
+                            throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), String.Empty);
                         }
                         return parameters.StagingDeployment;
                     }

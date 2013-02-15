@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Model;
 
@@ -60,9 +61,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ShutdownRole(s, this.ServiceName, CurrentDeployment.Name, roleName), WaitForOperation);
-
         }
-
-
     }
 }

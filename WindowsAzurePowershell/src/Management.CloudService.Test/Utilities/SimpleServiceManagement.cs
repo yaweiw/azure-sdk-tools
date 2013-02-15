@@ -15,10 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;
+    using ServiceManagement;
+    using Service.ResourceModel;
 
     /// <summary>
     /// Simple implementation of the IServiceManagement interface that can be
@@ -142,7 +142,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         #region ListCertificates
 
         public Func<SimpleServiceManagementAsyncResult, CertificateList> ListCertificatesThunk { get; set; }
-        
+
+        public void EndDeleteDiskEx(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginListCertificates(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -985,6 +990,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         #region GetOperationStatus
         public Func<SimpleServiceManagementAsyncResult, Operation> GetOperationStatusThunk { get; set; }
 
+        public OSImageDetails EndGetOSImageWithDetails(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginGetOperationStatus(string subscriptionId, string operationTrackingId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -1560,6 +1570,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
+        public IAsyncResult BeginDeleteDiskEx(string subscriptionID, string diskName, string comp, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginAddRole(string subscriptionID, string serviceName, string deploymentName, Role role, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
@@ -1857,6 +1872,61 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         public void EndDeleteOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteOSImageEx(string subscriptionID, string imageName, string comp, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteOSImageEx(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginReplicateOSImage(string subscriptionID, string imageName, ReplicationInput replicationInput, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string EndReplicateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginShareOSImage(string subscriptionID, string imageName, string permission, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EndShareOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUnReplicateOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUnReplicateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginQueryOSImages(string subscriptionID, string location, string publisher, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImageList EndQueryOSImages(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetOSImageWithDetails(string subscriptionID, string imageName, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }

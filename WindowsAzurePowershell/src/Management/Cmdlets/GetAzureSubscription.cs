@@ -23,13 +23,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using Extensions;
     using Model;
     using Properties;
-    using Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     /// <summary>
     /// Gets details about subscriptions.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName"), OutputType(typeof(SubscriptionData))]
-    public class GetAzureSubscriptionCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureSubscriptionCommand : CloudServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
             this.SetCurrentSubscription(subscriptionData.SubscriptionName, subscriptionsDataFile);
             InitChannelCurrentSubscription();
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {

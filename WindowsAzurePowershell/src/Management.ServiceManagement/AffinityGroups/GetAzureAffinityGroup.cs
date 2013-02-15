@@ -18,15 +18,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
+
 
     /// <summary>
     /// List the properties for the specified affinity group.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureAffinityGroup"), OutputType(typeof(AffinityGroupContext))]
-    public class GetAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureAffinityGroup : CloudServiceManagementBaseCmdlet
     {
         public GetAzureAffinityGroup()
         {
