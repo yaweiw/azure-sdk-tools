@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             runspace.Close();
 
-            return result;
+            return result;  
         }
 
         public PSInvocationState RunAndStop(int ms)

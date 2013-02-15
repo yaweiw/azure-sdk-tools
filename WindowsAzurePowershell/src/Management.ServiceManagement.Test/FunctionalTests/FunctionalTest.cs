@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     //using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
@@ -498,7 +498,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
                 catch(Exception e1)
                 {
-                    if (e1.ToString().ToLowerInvariant().Contains("does not exist"))
+                    if (e1.ToString().Contains("ResourceNotFound"))
                     {
                         Console.WriteLine("Successfully removed the deployment");
                     }
@@ -576,6 +576,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);  
            
                 vmPowershellCmdlets.NewAzureVM(serviceName, new []{vm}, null, new[]{dns}, null, null, null, null, null, null);
+                
+
 
                 DnsServerList dnsList =  vmPowershellCmdlets.GetAzureDns(vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production).DnsSettings);
                 foreach (DnsServer dnsServer in dnsList)
@@ -927,52 +929,49 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             cleanup = false;
             testName = "AzureVNetGatewayTest";
 
-            string vnetName = "NewVNet3"; // Set your VNet name.
+            string vnetName1 = "NewVNet1"; // For connect test
+            string vnetName2 = "NewVNet2"; // For disconnect test
+            string vnetName3 = "NewVNet3"; // For create test
+
             string localNet = "LocalNet1"; // Your local network site name.
 
             try
             {
+                // New-AzureVNetGateway
+                vmPowershellCmdlets.NewAzureVNetGateway(vnetName3);
 
-                //vmPowershellCmdlets.NewAzureVNetGateway(vnetName);
-
-                foreach (VirtualNetworkSiteContext site in vmPowershellCmdlets.GetAzureVNetSite(vnetName))
+                foreach (VirtualNetworkSiteContext site in vmPowershellCmdlets.GetAzureVNetSite(vnetName3))
                 {
                     Console.WriteLine("Name: {0}, AffinityGroup: {1}", site.Name, site.AffinityGroup);
                 }
-                
-                while (true)
-                {
-                    VirtualNetworkGatewayContext gateway = vmPowershellCmdlets.GetAzureVNetGateway(vnetName)[0];
-                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
-                    if (gateway.State.ToString().ToLowerInvariant() == "provisioning")
-                    {                        
-                        Thread.Sleep(60000);
-                    }
-                    else
-                    {
-                        Thread.Sleep(120000);
-                        break;
-                    }
-                }    
 
-                // Set-AzureVNetGateway -Connect
-                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnetName, localNet);
+                // Remove-AzureVnetGateway
+                vmPowershellCmdlets.RemoveAzureVNetGateway(vnetName3);
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName3))
+                {
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                }
                 
-                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
+                
+
+                // Set-AzureVNetGateway -Connect Test
+                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnetName1, localNet);
+                
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName1))
                 {
                     Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
                     Assert.IsFalse(connection.ConnectivityState.ToLowerInvariant().Contains("notconnected"));
                 }
-                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName1))
                 {
                     Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
                 }
 
 
                 // Set-AzureVNetGateway -Disconnect
-                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnetName, localNet);
+                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnetName2, localNet);
                
-                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName))
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnetName2))
                 {
                     Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
                     if (connection.LocalNetworkSiteName == localNet)
@@ -981,19 +980,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     }
                 }
 
-                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
+                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName2))
                 {
                     Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
                 }
 
-                // Remove-AzureVnetGateway
-                vmPowershellCmdlets.RemoveAzureVNetGateway(vnetName);
-                foreach (VirtualNetworkGatewayContext gateway in vmPowershellCmdlets.GetAzureVNetGateway(vnetName))
-                {
-                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
-                }
-
-                
                 pass = true;
 
             }
@@ -1104,7 +1095,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             catch (Exception e)
             {
-                if (e.ToString().ToLowerInvariant().Contains("does not exist"))
+                if (e.ToString().Contains("ResourceNotFound"))
                 {
                     Console.WriteLine("{0} is successfully removed", name);
                     return true;

@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     public class NewAzureVNetGatewayCmdletInfo : CmdletsInfo
     {
