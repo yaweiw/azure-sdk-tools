@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet;
+    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
@@ -55,22 +55,36 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 new Offer() { ProviderIdentifier = "OneSDKCompany", OfferIdentifier = "Windows Azure PowerShell" }
             };
             List<WindowsAzureOffer> expectedWindowsAzureOffers = new List<WindowsAzureOffer>();
-            expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(o, plans)));
+            expectedOffers.ForEach(o => expectedWindowsAzureOffers.Add(new WindowsAzureOffer(
+                o,
+                plans,
+                new List<string>() { "West US", "East US" })));
 
-            Mock<StoreClient> mock = new Mock<StoreClient>();
-            mock.Setup(f => f.GetAvailableWindowsAzureAddOns(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
+            Mock<MarketplaceClient> mock = new Mock<MarketplaceClient>();
+            mock.Setup(f => f.GetAvailableWindowsAzureOffers(It.IsAny<string>())).Returns(expectedWindowsAzureOffers);
+
+            Mock<IServiceManagement> mockChannel = new Mock<IServiceManagement>();
+            mockChannel.Setup(
+                f => f.BeginListLocations(It.IsAny<string>(), It.IsAny<AsyncCallback>(), It.IsAny<object>()));
+            mockChannel.Setup(f => f.EndListLocations(It.IsAny<IAsyncResult>()))
+                .Returns(new LocationList() 
+                {
+                    new Location() { Name = "West US" },
+                    new Location() { Name = "East US" } 
+                });
 
             GetAzureStoreAvailableAddOnCommand cmdlet = new GetAzureStoreAvailableAddOnCommand()
             {
-                StoreClient = mock.Object,
-                CommandRuntime = mockCommandRuntime.Object
+                MarketplaceClient = mock.Object,
+                CommandRuntime = mockCommandRuntime.Object,
+                Channel = mockChannel.Object
             };
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mock.Verify(f => f.GetAvailableWindowsAzureAddOns("US"), Times.Once());
+            mock.Verify(f => f.GetAvailableWindowsAzureOffers(null), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expectedWindowsAzureOffers, true), Times.Once());
         }
     }
