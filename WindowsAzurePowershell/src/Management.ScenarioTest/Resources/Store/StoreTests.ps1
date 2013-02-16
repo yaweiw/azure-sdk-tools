@@ -40,7 +40,7 @@ function Test-GetAzureStoreAvailableAddOnWithDefaultCountry
 
 	# Assert
 	Assert-True { $actual.Count -gt 0 }
-	$actual | % { Assert-NotNull $_.ProviderName; Assert-NotNull $_.Name; Assert-NotNull $_.Plans }
+	$actual | % { Assert-NotNull $_.Provider; Assert-NotNull $_.AddOn; Assert-NotNull $_.Plans }
 }
 
 <#
@@ -63,5 +63,5 @@ Tests using Get-AzureStoreAvailableAddOn with invalid country name.
 function Test-GetAzureStoreAvailableAddOnWithInvalidCountryName
 {
 	# Test
-	Assert-Throws { Get-AzureStoreAvailableAddOn "UnitedStates" } "Cannot validate argument on parameter 'Country'. The argument length of 12 is too long. Shorten the length of the argument to less than or equal to `"2`" and then try the command again."
+	Assert-Throws { Get-AzureStoreAvailableAddOn "UnitedStates" } "Cannot validate argument on parameter 'Country'. The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2."
 }

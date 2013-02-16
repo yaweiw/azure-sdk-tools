@@ -12,22 +12,27 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract
+namespace Microsoft.WindowsAzure.Management.Store.Model
 {
     using System;
-    using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
-    public static class MarketplaceExtensionMethods
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public sealed class ValidateCountryLengthAttribute : ValidateEnumeratedArgumentsAttribute
     {
-        public static List<Offer> ListWindowsAzureOffers(this IMarketplaceManagement proxy)
-        {
-            return proxy.EndListWindowsAzureOffers(proxy.BeginListWindowsAzureOffers(null, null));
-        }
+        const int MaxLength = 2;
 
-        public static List<Plan> ListOfferPlans(this IMarketplaceManagement proxy, string Id, string query)
+        const int MinLength = 2;
+
+        protected override void ValidateElement(object element)
         {
-            return proxy.EndListOfferPlans(proxy.BeginListOfferPlans(Id, query, null, null));
+            string country = (string)element;
+
+            if (country.Length > MaxLength || country.Length < MinLength)
+            {
+                throw new ArgumentException(Resources.InvalidCountryNameMessage);
+            }
         }
     }
 }
