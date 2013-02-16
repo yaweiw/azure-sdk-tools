@@ -77,5 +77,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
                 return ResourceManager.GetString("MarketplaceEndpoint", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate can&apos;t be null..
+        /// </summary>
+        internal static string NullCertificateMessage {
+            get {
+                return ResourceManager.GetString("NullCertificateMessage", resourceCulture);
+            }
+        }
     }
 }
