@@ -77,6 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
                 return ResourceManager.GetString("MarketplaceEndpoint", resourceCulture);
             }
         }
+
         
         /// <summary>
         ///   Looks up a localized string similar to Remove AddOn Confirmation.
@@ -93,6 +94,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         internal static string RemoveAddOnMessage {
             get {
                 return ResourceManager.GetString("RemoveAddOnMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Certificate can&apos;t be null..
+        /// </summary>
+        internal static string NullCertificateMessage {
+            get {
+                return ResourceManager.GetString("NullCertificateMessage", resourceCulture);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
 
     public class WindowsAzureOffer
     {
@@ -56,12 +56,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         public List<Plan> Plans { get; set; }
 
+        public List<string> Locations { get; set; }
+
         /// <summary>
         /// Creates new instance from WindowsAzureOffer
         /// </summary>
         /// <param name="offer">The offer details</param>
         /// <param name="plans">The offer plans</param>
-        public WindowsAzureOffer(Offer offer, List<Plan> plans)
+        public WindowsAzureOffer(Offer offer, IEnumerable<Plan> plans, IEnumerable<string> locations)
         {
             Id = offer.Id;
             
@@ -97,7 +99,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
             IsAvailableInAzureStores = offer.IsAvailableInAzureStores;
 
-            Plans = plans;
+            Plans = new List<Plan>(plans);
+
+            Locations = new List<string>(locations);
         }
     }
 }

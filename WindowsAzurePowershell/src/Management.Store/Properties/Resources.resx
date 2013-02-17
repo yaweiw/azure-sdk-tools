@@ -129,4 +129,7 @@
   <data name="RemoveAddOnMessage" xml:space="preserve">
     <value>If you delete this addon, your data may be deleted and the operation may not be undone.  You may have to purchase it again from the Azure Store to use it. The price of the add-on  may not be refunded. Are you sure you want to delete this add-on? Enter “Yes” to confirm.</value>
   </data>
+  <data name="NullCertificateMessage" xml:space="preserve">
+    <value>Certificate can't be null.</value>
+  </data>
 </root>

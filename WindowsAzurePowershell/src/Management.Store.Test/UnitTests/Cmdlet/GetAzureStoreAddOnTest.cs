@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, null, null)), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
             Assert.AreEqual<int>(expected.Count, actual.Count);
-            Assert.IsTrue(AddOnListEqualsPSObjectList(expected, actual));
+            AssertAssonListEqualsPSObjectList(expected, actual);
         }
 
         [TestMethod]
@@ -112,7 +112,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
             Assert.AreEqual<int>(expected.Count, actual.Count);
-            Assert.IsTrue(AddOnListEqualsPSObjectList(expected, actual));
+            AssertAssonListEqualsPSObjectList(expected, actual);
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, null, "West US")), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
             Assert.AreEqual<int>(expected.Count, actual.Count);
-            Assert.IsTrue(AddOnListEqualsPSObjectList(expected, actual));
+            AssertAssonListEqualsPSObjectList(expected, actual);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, "Microsoft", null)), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
             Assert.AreEqual<int>(expected.Count, actual.Count);
-            Assert.IsTrue(AddOnListEqualsPSObjectList(expected, actual));
+            AssertAssonListEqualsPSObjectList(expected, actual);
         }
 
         [TestMethod]
@@ -197,22 +197,17 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
             Assert.AreEqual<int>(expected.Count, actual.Count);
-            Assert.IsTrue(AddOnListEqualsPSObjectList(expected, actual));
+            AssertAssonListEqualsPSObjectList(expected, actual);
         }
 
-        private bool AddOnListEqualsPSObjectList(List<WindowsAzureAddOn> expectedList, List<PSObject> actualList)
+        private void AssertAssonListEqualsPSObjectList(List<WindowsAzureAddOn> expectedList, List<PSObject> actualList)
         {
-            bool equals = true;
-
-            for (int i = 0; i < expectedList.Count && equals; i++)
+            for (int i = 0; i < expectedList.Count; i++)
             {
                 WindowsAzureAddOn expected = expectedList[i];
                 WindowsAzureAddOn actual = (WindowsAzureAddOn)actualList[i].BaseObject;
-
-                equals &= expected.Name == actual.Name;
+                Assert.AreEqual<string>(expected.Name, actual.Name);
             }
-
-            return equals;
         }
     }
 }
