@@ -18,11 +18,9 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Locations</Label>
-            <Width>30</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Plans</Label>
-            <Width>35</Width>
           </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
