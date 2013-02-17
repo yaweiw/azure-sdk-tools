@@ -20,18 +20,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel.Channels;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Marketplace.ResourceModel;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Utilities;
 
     public class StoreClient
     {
-        private IMarketplaceManagement marketplaceChannel;
-
         private IStoreManagement storeChannel;
 
         private string subscriptionId;
@@ -55,47 +52,16 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <param name="logger">The logger for http request/response</param>
         public StoreClient(string subscriptionId, string storeEndpointUri, X509Certificate2 cert, Action<string> logger)
         {
-            this.subscriptionId = subscriptionId;
-            Binding storeBinding = ConfigurationConstants.WebHttpBinding(0);
-            Binding marketplaceBinding = ConfigurationConstants.AnonymousWebHttpBinding();
-            
-            marketplaceChannel = ServiceManagementHelper.CreateServiceManagementChannel<IMarketplaceManagement>(
-                marketplaceBinding,
-                new Uri(Resources.MarketplaceEndpoint),
-                new HttpRestMessageInspector(logger));
+            Validate.ValidateStringIsNullOrEmpty(storeEndpointUri, null, true);
+            Validate.ValidateStringIsNullOrEmpty(subscriptionId, null, true);
+            Validate.ValidateNullArgument(cert, Resources.NullCertificateMessage);
 
-            if (!string.IsNullOrEmpty(storeEndpointUri) && !string.IsNullOrEmpty(subscriptionId) && cert != null)
-            {
-                storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
-                storeBinding,
+            this.subscriptionId = subscriptionId;
+            storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
+                ConfigurationConstants.WebHttpBinding(0),
                 new Uri(storeEndpointUri),
                 cert,
                 new HttpRestMessageInspector(logger));
-            }
-        }
-
-        /// <summary>
-        /// Lists all available Windows Azure offers in the Marketplace.
-        /// </summary>
-        /// <param name="country">The country code</param>
-        /// <returns>The available Windows Azure offers in Marketplace</returns>
-        public virtual List<WindowsAzureOffer> GetAvailableWindowsAzureAddOns(string country)
-        {
-            List<WindowsAzureOffer> result = new List<WindowsAzureOffer>();
-            List<Offer> offers = marketplaceChannel.ListWindowsAzureOffers();
-
-            foreach (Offer offer in offers)
-            {
-                string plansQuery = string.Format("CountryCode eq '{0}'", country);
-                List<Plan> plans = marketplaceChannel.ListOfferPlans(offer.Id.ToString(), plansQuery);
-
-                if (plans.Count > 0)
-                {
-                    result.Add(new WindowsAzureOffer(offer, plans));
-                }
-            }
-
-            return result;
         }
 
         /// <summary>
