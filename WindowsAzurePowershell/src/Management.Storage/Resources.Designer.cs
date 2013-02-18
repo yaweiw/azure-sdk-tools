@@ -241,38 +241,11 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://{0}.blob.core.windows.net/.
-        /// </summary>
-        internal static string DefaultBlobEndPointFormat {
-            get {
-                return ResourceManager.GetString("DefaultBlobEndPointFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://{0}.queue.core.windows.net/.
-        /// </summary>
-        internal static string DefaultQueueEndPointFormat {
-            get {
-                return ResourceManager.GetString("DefaultQueueEndPointFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can not find your azure storage credential. Please set current storage account using &quot;Set-AzureSubscription&quot; or set the &quot;AZURE_STORAGE_CONNECTION_STRING&quot; environment variable..
         /// </summary>
         internal static string DefaultStorageCredentialsNotFound {
             get {
                 return ResourceManager.GetString("DefaultStorageCredentialsNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://{0}.table.core.windows.net/.
-        /// </summary>
-        internal static string DefaultTableEndPointFormat {
-            get {
-                return ResourceManager.GetString("DefaultTableEndPointFormat", resourceCulture);
             }
         }
         
@@ -421,6 +394,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://{0}.blob.core.windows.net/.
+        /// </summary>
+        internal static string HttpBlobEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpBlobEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://.
         /// </summary>
         internal static string HTTPPrefix {
@@ -430,11 +412,56 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to http://{0}.queue.core.windows.net/.
+        /// </summary>
+        internal static string HttpQueueEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpQueueEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://{0}.blob.core.windows.net/.
+        /// </summary>
+        internal static string HttpsBlobEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpsBlobEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://.
         /// </summary>
         internal static string HTTPSPrefix {
             get {
                 return ResourceManager.GetString("HTTPSPrefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://{0}.queue.core.windows.net/.
+        /// </summary>
+        internal static string HttpsQueueEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpsQueueEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://{0}.table.core.windows.net/.
+        /// </summary>
+        internal static string HttpsTableEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpsTableEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://{0}.table.core.windows.net/.
+        /// </summary>
+        internal static string HttpTableEndPointFormat {
+            get {
+                return ResourceManager.GetString("HttpTableEndPointFormat", resourceCulture);
             }
         }
         
@@ -475,18 +502,20 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to blob &apos;{0}&apos; &apos;s type should be block or page..
-        /// </summary>
-        internal static string InvalidBlobType {
-            get {
-                return ResourceManager.GetString("InvalidBlobType", resourceCulture);
-            }
-        }
         ///   Looks up a localized string similar to Blob properties &apos;{0}&apos; with value &apos;{1}&apos; is invalid.
         /// </summary>
         internal static string InvalidBlobProperties {
             get {
                 return ResourceManager.GetString("InvalidBlobProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to blob &apos;{0}&apos; &apos;s type should be block or page..
+        /// </summary>
+        internal static string InvalidBlobType {
+            get {
+                return ResourceManager.GetString("InvalidBlobType", resourceCulture);
             }
         }
         
