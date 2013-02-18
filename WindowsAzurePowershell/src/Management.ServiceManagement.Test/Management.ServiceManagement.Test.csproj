@@ -78,6 +78,10 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -231,10 +235,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\Microsoft.WindowsAzure.ServiceManagement.Client.csproj">
-      <Project>{CDBBC94D-FA60-4AEA-B9CC-EFED585904F0}</Project>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
       <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
       <Name>Management.CloudService.Test</Name>

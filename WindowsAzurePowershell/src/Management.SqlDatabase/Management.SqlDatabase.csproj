@@ -108,6 +108,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -189,10 +193,6 @@
     <None Include="Services\Server\UpdateServerDataServiceMetadata.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\Microsoft.WindowsAzure.ServiceManagement.Client.csproj">
-      <Project>{CDBBC94D-FA60-4AEA-B9CC-EFED585904F0}</Project>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
