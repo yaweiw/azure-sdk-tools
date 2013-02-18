@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         [TestMethod]
         public void GetAnonymousStorageAccountTest()
         {
-            Assert.IsNotNull(command.GetAnonymousStorageAccount("a"));
+            Assert.IsNotNull(command.GetAnonymousStorageAccount("a", false));
         }
 
         [TestMethod]
@@ -88,10 +88,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         {
             string name = string.Empty;
             StorageCredentials credential = new StorageCredentials();
-            AssertThrows<ArgumentException>(() => command.GetStorageAccountWithEndPoint(credential, name), String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
+            AssertThrows<ArgumentException>(() => command.GetStorageAccountWithEndPoint(credential, name, false), String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
 
             name = "test";
-            Assert.IsNotNull(command.GetStorageAccountWithEndPoint(credential, name));
+            Assert.IsNotNull(command.GetStorageAccountWithEndPoint(credential, name, false));
         }
 
         [TestMethod]

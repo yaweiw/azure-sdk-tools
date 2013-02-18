@@ -75,8 +75,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "fileName")]
-        public string File 
+        [Alias("Path")]
+        [Parameter(HelpMessage = "File Path")]
+        public string Destination
         {
             get { return FileName; }
             set { FileName = value; }
