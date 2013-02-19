@@ -168,6 +168,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVNetConfig.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVNetGateway.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SaveAzureVhdCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SaveAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SelectAzureSubscriptionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RestartAzureVMCmdletInfo.cs" />
@@ -240,6 +241,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="Resources\download_VHD.csv" />
     <None Include="Resources\overwrite_VHD.csv" />
     <None Include="Resources\patch_VHD.csv" />
     <None Include="Resources\resume_VHD.csv" />
