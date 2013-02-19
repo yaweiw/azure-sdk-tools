@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using ServiceManagement;
     using Model;
 
-    public abstract class CloudServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
+    public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
         protected override IServiceManagement CreateChannel()
         {

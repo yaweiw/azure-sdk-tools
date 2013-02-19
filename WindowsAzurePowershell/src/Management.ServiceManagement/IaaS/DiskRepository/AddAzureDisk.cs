@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Extensions;
 
     [Cmdlet(VerbsCommon.Add, "AzureDisk"), OutputType(typeof(DiskContext))]
-    public class AddAzureDiskCommand : CloudServiceManagementBaseCmdlet
+    public class AddAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the disk in the disk library.")]
         [ValidateNotNullOrEmpty]

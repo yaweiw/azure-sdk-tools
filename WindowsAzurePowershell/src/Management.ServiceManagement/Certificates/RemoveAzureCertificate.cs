@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     /// Deletes the specified certificate.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureCertificate : CloudServiceManagementBaseCmdlet
+    public class RemoveAzureCertificate : ServiceManagementBaseCmdlet
     {
         public RemoveAzureCertificate()
         {

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
-    public class GetAzureRoleCommand : CloudServiceManagementBaseCmdlet
+    public class GetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureRoleCommand()
         {

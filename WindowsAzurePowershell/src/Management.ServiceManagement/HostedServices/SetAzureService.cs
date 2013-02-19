@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Sets the label and description of the specified hosted service
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureService"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceCommand : CloudServiceManagementBaseCmdlet
+    public class SetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureServiceCommand()
         {

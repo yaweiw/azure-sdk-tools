@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
-    public class IaaSDeploymentManagementCmdletBase : CloudServiceManagementBaseCmdlet
+    public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
         public IaaSDeploymentManagementCmdletBase()
         {

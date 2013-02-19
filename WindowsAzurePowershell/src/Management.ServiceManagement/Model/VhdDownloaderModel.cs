@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
     public class VhdDownloaderModel
     {
-        public static VhdDownloadContext Download(DownloaderParameters downloadParameters, CloudServiceManagementBaseCmdlet cmdlet)
+        public static VhdDownloadContext Download(DownloaderParameters downloadParameters, ServiceManagementBaseCmdlet cmdlet)
         {
             Program.SyncOutput = new PSSyncOutputEvents(cmdlet);
 

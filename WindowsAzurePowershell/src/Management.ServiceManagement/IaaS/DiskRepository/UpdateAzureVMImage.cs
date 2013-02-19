@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using Cmdlets.Common;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
-    public class UpdateAzureVMImage : CloudServiceManagementBaseCmdlet
+    public class UpdateAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]

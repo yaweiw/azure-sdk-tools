@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Retrieve a specified hosted account.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureService"), OutputType(typeof(HostedServiceDetailedContext))]
-    public class GetAzureServiceCommand : CloudServiceManagementBaseCmdlet
+    public class GetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureServiceCommand()
         {

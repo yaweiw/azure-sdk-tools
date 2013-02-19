@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureDeployment", DefaultParameterSetName = "PaaS"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
+    public class NewAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public NewAzureDeploymentCommand()
         {
