@@ -373,19 +373,17 @@ namespace Microsoft.WindowsAzure.ServiceManagement
             this._logger = new TraceSourceHelper(clientOptions.Logger, clientOptions.ErrorEventId, ServiceManagementClient.ComponentTraceName);
             this._logger.LogDebugInformation("Logger has been successfully initialized for the ServiceManagementClient.");
 
-            if(clientOptions.EndpointBehaviors.Count > 0)
+            this._logger.LogDebugInformation("Adding custom ClientOutputMessageInspector.");
+            this._factory.Endpoint.Behaviors.Add(new ClientMessageInspector(clientOptions.UserAgentString, clientOptions.ClientRequestIdGenerator,
+                clientOptions.Logger, clientOptions.ErrorEventId));
+
+            if (clientOptions.EndpointBehaviors.Count > 0)
             {
                 this._logger.LogDebugInformation("Adding custom EndpointBehaviors.");
                 foreach (var endpointBehavior in clientOptions.EndpointBehaviors)
                 {
                     this._factory.Endpoint.Behaviors.Add(endpointBehavior);
                 }
-            }
-            else
-            {
-                this._logger.LogDebugInformation("Adding custom ClientOutputMessageInspector.");
-                this._factory.Endpoint.Behaviors.Add(new ClientMessageInspector(clientOptions.UserAgentString, clientOptions.ClientRequestIdGenerator,
-                    clientOptions.Logger, clientOptions.ErrorEventId));
             }
 
             this._logger.LogInformation("Using client certificate with thumbprint {0}.", this._clientCert.Thumbprint);
