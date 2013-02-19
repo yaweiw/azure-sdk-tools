@@ -76,6 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         public void SetContainerAclSucessfullyTest()
         {
             AddTestContainers();
+            command.PassThru = true;
 
             string name = "test";
             string accessLevel = StorageNouns.ContainerAclOff;
@@ -113,6 +114,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             AddTestContainers();
             command.Name = "publicblob";
             command.Permission = "container";
+            command.PassThru = true;
             command.ExecuteCmdlet();
             AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
             Assert.AreEqual(BlobContainerPublicAccessType.Container, container.PublicAccess);
