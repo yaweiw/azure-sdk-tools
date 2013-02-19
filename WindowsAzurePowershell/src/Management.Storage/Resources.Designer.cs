@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;.
+        ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;..
         /// </summary>
         internal static string BeginProcessingWithParameterSetLog {
             get {
@@ -142,15 +142,6 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CloudBlobClient is null..
-        /// </summary>
-        internal static string CloudBlobClientIsNull {
-            get {
-                return ResourceManager.GetString("CloudBlobClientIsNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure to remove container &apos;{0}&apos;?.
         /// </summary>
         internal static string ConfirmRemoveContainer {
@@ -196,7 +187,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not found current storage account &apos;{0}&apos; on azure, please check whether your storage account exists..
+        ///   Looks up a localized string similar to Can not find current storage account &apos;{0}&apos; on azure, please check whether your storage account exists..
         /// </summary>
         internal static string CurrentStorageAccountNotFoundOnAzure {
             get {
@@ -268,7 +259,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} end processing, Used {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.
+        ///   Looks up a localized string similar to {0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}..
         /// </summary>
         internal static string EndProcessingLog {
             get {
@@ -322,7 +313,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finish remote call with status code {0} and service request id {1}..
+        ///   Looks up a localized string similar to Finish remote call for {0} with status code {1} and service request id {2}..
         /// </summary>
         internal static string FinishRemoteCall {
             get {
@@ -358,7 +349,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Init service channel from current subscription.
+        ///   Looks up a localized string similar to Init service channel from current subscription..
         /// </summary>
         internal static string InitChannelFromSubscription {
             get {
@@ -583,7 +574,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload local file &apos;{0}&apos; to blob &apos;{1}&apos; cancelled..
+        ///   Looks up a localized string similar to Upload file &apos;{0}&apos; to blob &apos;{1}&apos; cancelled..
         /// </summary>
         internal static string SendAzureBlobCancelled {
             get {
@@ -619,7 +610,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.
+        ///   Looks up a localized string similar to {0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}..
         /// </summary>
         internal static string StopProcessingLog {
             get {
@@ -664,7 +655,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not upload local file to azure blob. Error: {0}..
+        ///   Looks up a localized string similar to Can not upload file to azure blob. Error: {0}..
         /// </summary>
         internal static string Upload2BlobFailed {
             get {
@@ -700,7 +691,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use storage account &apos;{0}&apos; from storage context.
+        ///   Looks up a localized string similar to Use storage account &apos;{0}&apos; from storage context..
         /// </summary>
         internal static string UseStorageAccountFromContext {
             get {
