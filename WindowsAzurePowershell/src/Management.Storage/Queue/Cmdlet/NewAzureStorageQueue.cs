@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
         /// <returns>an AzureStorageQueue object</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageQueue CreateAzureQueue(string name)
-        { 
+        {
             if (!NameUtil.IsValidQueueName(name))
             {
                 throw new ArgumentException(String.Format(Resources.InvalidQueueName, name));
@@ -74,6 +74,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
             {
                 throw new ResourceAlreadyExistException(String.Format(Resources.QueueAlreadyExists, name));
             }
+
+            //set msg count
+            Channel.FetchAttributes(queue, requestOptions, OperationContext);
 
             return new AzureStorageQueue(queue);
         }

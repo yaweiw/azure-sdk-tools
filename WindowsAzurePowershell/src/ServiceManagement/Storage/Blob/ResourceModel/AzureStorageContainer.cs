@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
         /// <summary>
         /// the permission of CloudBlobContainer
         /// </summary>
-        public BlobContainerPermissions Permissions { get; private set; }
+        public BlobContainerPermissions Permission { get; private set; }
 
         /// <summary>
         /// the public accesss level of CloudBlobContainer
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
         public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
         {
             CloudBlobContainer = container;
-            Permissions = permissions;
+            Permission = permissions;
             Name = container.Name;
 
             if (permissions == null)
