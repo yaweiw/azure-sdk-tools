@@ -52,6 +52,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
         }
         private string accessLevel = StorageNouns.ContainerAclOff;
 
+        [Parameter(Mandatory = false, HelpMessage = "Display Container Information")]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SetAzureStorageContainerAclCommand class.
         /// </summary>
@@ -112,7 +115,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             Channel.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
             AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
 
-            WriteObjectWithStorageContext(azureContainer);
+            if (PassThru)
+            {
+                WriteObjectWithStorageContext(azureContainer);
+            }
         }
 
         /// <summary>
