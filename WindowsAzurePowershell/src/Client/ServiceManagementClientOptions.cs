@@ -13,14 +13,13 @@
 * limitations under the License.
 */
 
-using System.Collections.Generic;
-using System.ServiceModel.Description;
-using System.ServiceModel.Dispatcher;
-
 namespace Microsoft.WindowsAzure.ServiceManagement
 {
     using System;
     using System.Diagnostics;
+    using System.Collections.Generic;
+    using System.ServiceModel.Description;
+    using System.ServiceModel.Dispatcher;
 
     /// <summary>
     /// Options for how to initialize the ServiceManagementClient.
@@ -81,7 +80,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         /// </summary>
         /// <param name="logger">.Net TraceSource to use for logging.</param>
         /// <param name="errorEventId">ID for the event to use when logging errors.</param>
-        /// <summary>
         public ServiceManagementClientOptions(TraceSource logger, int errorEventId)
             : this(null, null, logger, errorEventId)
         {
@@ -95,7 +93,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         /// <param name="clientRequestIdGenerator">Function delegate for returning a x-ms-clientid value.</param>
         /// <param name="logger">.Net TraceSource to use for logging.</param>
         /// <param name="errorEventId">ID for the event to use when logging errors.</param>
-        /// <summary>
         public ServiceManagementClientOptions(string userAgent, Func<string> clientRequestIdGenerator, TraceSource logger, int errorEventId)
         {
             this.UserAgentString = userAgent;
@@ -109,11 +106,27 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         /// Creates a new instance of ServiceManagementClientOptions with .Net TraceSource for logging.
         /// </summary>
         /// <param name="messageInspectors">List of custom endpoint behaviors.</param>
-        /// <summary>
         public ServiceManagementClientOptions(IList<IEndpointBehavior> messageInspectors)
+            : this(null, null, null, 0, new List<IEndpointBehavior>())
         {
             this.EndpointBehaviors = messageInspectors;
         }
 
+        /// <summary>
+        /// Creates a new instance of ServiceManagementClientOptions with .Net TraceSource for logging.
+        /// </summary>
+        /// <param name="userAgent">User agent string to supply with requests.</param>
+        /// <param name="clientRequestIdGenerator">Function delegate for returning a x-ms-clientid value.</param>
+        /// <param name="logger">.Net TraceSource to use for logging.</param>
+        /// <param name="errorEventId">ID for the event to use when logging errors.</param>
+        /// <param name="endpointBehaviors">List of custom endpoint behaviors.</param>
+        public ServiceManagementClientOptions(string userAgent, Func<string> clientRequestIdGenerator, TraceSource logger, int errorEventId, IList<IEndpointBehavior> endpointBehaviors)
+        {
+            this.UserAgentString = userAgent;
+            this.ClientRequestIdGenerator = clientRequestIdGenerator;
+            this.Logger = logger;
+            this.ErrorEventId = errorEventId;
+            this.EndpointBehaviors = endpointBehaviors;
+        }
     }
 }

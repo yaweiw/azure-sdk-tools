@@ -34,12 +34,12 @@ namespace Microsoft.WindowsAzure.ServiceManagement
     /// <remarks>
     /// The proxy is used to trap exceptions along the WCF channel that cannot be caught using the IClientMessageInspector hook.
     /// </remarks>
-    public sealed class ServiceManagementChannelProxy : RealProxy, IRemotingTypeInfo
+    public sealed class ServiceManagementChannelProxy : RealProxy
     {
         #region Member Variables
 
         private IServiceManagement _sink;
-        private Type _proxiedType;
+
         private TraceSourceHelper _logger = null;
         private const string ComponentTraceName = "ServiceManagemenChannelProxy";
 
@@ -59,7 +59,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
             ArgumentValidator.CheckIfNull("sink", sink);
             
             this._sink = sink;
-            this._proxiedType = typeof(IServiceManagement);
             this._logger = new TraceSourceHelper(logger, errorEventId, ServiceManagementChannelProxy.ComponentTraceName);
         }
 
@@ -171,7 +170,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                     }
                 }
             }
-          
             catch (ObjectDisposedException)
             {
                 // When using .Net 4.0, there are certain error codes { 404, 415, 503, 504 and sometimes 400 } which can make it difficult to get the body of the 
@@ -214,34 +212,5 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         }
 
         #endregion
-
-        public bool CanCastTo(Type toType, object o)
-        {
-            bool result = true;
-            if(!toType.IsAssignableFrom(this._proxiedType))
-            {
-                RealProxy objRef = RemotingServices.GetRealProxy(this._sink);
-                if(objRef is IRemotingTypeInfo)
-                {
-                    result = ((IRemotingTypeInfo) objRef).CanCastTo(toType, o);
-                }
-                else
-                {
-                    result = false;
-                }
-            }
-            return result;
-        }
-
-        public string TypeName
-        {
-            get
-            {
-                return this._proxiedType.FullName;
-            } 
-            set
-            {
-            }
-        }
     }
 }

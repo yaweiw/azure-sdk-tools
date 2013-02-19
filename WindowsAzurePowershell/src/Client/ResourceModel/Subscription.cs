@@ -122,8 +122,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement
                                              typeof(DataVirtualHardDisk),
                                              typeof(OSImage),
                                              typeof(Disk),
-                                             typeof(ExtendedProperty),
-                                             typeof(ExtensionConfiguration)
+                                             typeof(ExtendedProperty)
                                            });
 
         public string GetSerializedValue()

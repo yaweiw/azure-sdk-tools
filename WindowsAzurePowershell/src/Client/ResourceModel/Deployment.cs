@@ -97,9 +97,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         [DataMember(Order = 22, EmitDefaultValue = false)]
         public VirtualIPList VirtualIPs { get; set; }
 
-        [DataMember(Order = 23, EmitDefaultValue = false)]
-        public ExtensionConfiguration ExtensionConfiguration { get; set; }
-
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
@@ -237,9 +234,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
         [DataMember(Order = 7, EmitDefaultValue = false)]
         public ExtendedPropertiesList ExtendedProperties { get; set; }
 
-        [DataMember(Order = 8, EmitDefaultValue = false)]
-        public ExtensionConfiguration ExtensionConfiguration { get; set; }
-
         public ExtensionDataObject ExtensionData { get; set; }
     }
 
@@ -257,9 +251,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
 
         [DataMember(Order = 4, EmitDefaultValue = false)]
         public ExtendedPropertiesList ExtendedProperties { get; set; }
-
-        [DataMember(Order = 5, EmitDefaultValue = false)]
-        public ExtensionConfiguration ExtensionConfiguration { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }
@@ -299,9 +290,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement
 
         [DataMember(Order = 8, EmitDefaultValue = false)]
         public ExtendedPropertiesList ExtendedProperties { get; set; }
-
-        [DataMember(Order = 9, EmitDefaultValue = false)]
-        public ExtensionConfiguration ExtensionConfiguration { get; set; }
 
         public ExtensionDataObject ExtensionData { get; set; }
     }
@@ -365,103 +353,4 @@ namespace Microsoft.WindowsAzure.ServiceManagement
 
         public ExtensionDataObject ExtensionData { get; set; }
     }
-
-    #region Extension related classes
-    /// <summary>
-    /// Extension used in deployment APIs
-    /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class Extension: IExtensibleDataObject
-    {
-        public Extension(string id)
-        {
-            Id = id;
-        }
-        [DataMember(Order = 1)]
-        public string Id { get; set; }
-
-        public ExtensionDataObject ExtensionData { get; set; }
-    }
-
-    /// <summary>
-    /// Extension List used in deployment APIs
-    /// </summary>
-    [CollectionDataContract(Name = "Extensions", ItemName = "Extension", Namespace = Constants.ServiceManagementNS)]
-    public class ExtensionList : List<Extension>
-    {
-        public ExtensionList()
-        {
-        }
-        public ExtensionList(IEnumerable<Extension> list)
-            : base(list)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Extension Setting used in deployment APIs
-    /// </summary>
-    [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class RoleExtensions : IExtensibleDataObject
-    {
-        /// <summary>
-        /// Name of the role
-        /// </summary>
-        [DataMember(Order = 1)]
-        public string RoleName;
-
-        /// <summary>
-        /// List of extension Ids
-        /// </summary>
-        [DataMember(Order = 2)]
-        public ExtensionList Extensions;
-
-        public ExtensionDataObject ExtensionData { get; set; }
-    }
-
-    /// <summary>
-    /// A default Extension List used in deployment APIs
-    /// </summary>
-    [CollectionDataContract(Name = "AllRoles", ItemName = "Extension", Namespace = Constants.ServiceManagementNS)]
-    public class AllRoles : List<Extension>
-    {
-        public AllRoles()
-        {
-        }
-        public AllRoles(IEnumerable<Extension> list)
-            : base(list)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Extension Setting List used in deployment APIs to override extensions specified in AllRoles
-    /// </summary>
-    [CollectionDataContract(Name = "NamedRoles", ItemName = "Role", Namespace = Constants.ServiceManagementNS)]
-    public class NamedRoles : List<RoleExtensions>
-    {
-        public NamedRoles()
-        {
-        }
-        public NamedRoles(IEnumerable<RoleExtensions> list)
-            : base(list)
-        {
-        }
-    }
-
-    /// <summary>
-    /// Extension Setting List used in deployment APIs
-    /// </summary>
-    [DataContract(Name = "ExtensionConfiguration", Namespace = Constants.ServiceManagementNS)]
-    public class ExtensionConfiguration: IExtensibleDataObject
-    {
-        [DataMember(EmitDefaultValue = false, Order = 1)]
-        public AllRoles AllRoles;
-
-        [DataMember(EmitDefaultValue = false, Order = 2)]
-        public NamedRoles NamedRoles;
-
-        public ExtensionDataObject ExtensionData { get; set; }
-    }
-    #endregion
 }
