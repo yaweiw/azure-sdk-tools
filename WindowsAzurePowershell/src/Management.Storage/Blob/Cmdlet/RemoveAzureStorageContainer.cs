@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             get { return force; }
             set { force = value; }
         }
-        private bool force = false;
+        private bool force;
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageContainerCommand class.
