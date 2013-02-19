@@ -12,20 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
-    [CollectionDataContract(Name = "OutputItems", ItemName = "OutputItem", Namespace = Constants.ServiceManagementNS)]
-    public class OutputItemList : List<OutputItem>
+    [CollectionDataContract(Name = "Resources", ItemName = "Resource", Namespace = Constants.ServiceManagementNS)]
+    public class ResourceList : List<Resource>
     {
-        public OutputItemList()
+        public ResourceList()
         {
         }
 
-        public OutputItemList(IEnumerable<OutputItem> outputItems)
-            : base(outputItems)
+        public ResourceList(IEnumerable<Resource> resources)
+            : base(resources)
         {
         }
     }

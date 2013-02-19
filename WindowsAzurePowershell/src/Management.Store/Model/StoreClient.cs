@@ -22,10 +22,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Text;
     using System.Threading;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Management.Store.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Utilities;
     using ServiceManagementConstants = Microsoft.Samples.WindowsAzure.ServiceManagement.Constants;
