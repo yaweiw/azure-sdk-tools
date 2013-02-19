@@ -21,12 +21,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// operation context utility
+    /// Operation context utility
     /// </summary>
     public static class OperationContextUtil
     {
         /// <summary>
-        /// init storage client operation context
+        /// Init storage client operation context
         /// </summary>
         public static void Init(this OperationContext operationContext)
         {
@@ -35,9 +35,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get an unique client request id
+        /// Get an unique client request id
         /// </summary>
-        /// <returns>a unique request id</returns>
+        /// <returns>A unique request id</returns>
         internal static string GenClientRequestID(this OperationContext operationContext)
         {
             string uniqueId = System.Guid.NewGuid().ToString();
@@ -45,9 +45,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get the running ms from when operationcontext started
+        /// Get the running ms from when operationcontext started
         /// </summary>
-        /// <returns>a time string in ms</returns>
+        /// <returns>A time string in ms</returns>
         public static double GetRunningMilliseconds(this OperationContext operationContext)
         {
             TimeSpan span = DateTime.Now - operationContext.StartTime;

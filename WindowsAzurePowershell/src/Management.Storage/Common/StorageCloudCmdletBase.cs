@@ -14,31 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.Service;
-    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.Queue;
-    using Microsoft.WindowsAzure.Storage.RetryPolicies;
-    using Microsoft.WindowsAzure.Storage.Shared.Protocol;
-    using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using System.Text;
-    using ServiceManagementHelper = Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
+    using System.Threading;
+    using ServiceModel = System.ServiceModel;
 
     /// <summary>
-    /// base cmdlet for all storage cmdlet that works with cloud
+    /// Base cmdlet for all storage cmdlet that works with cloud
     /// </summary>
     public class StorageCloudCmdletBase<T> : CloudBaseCmdlet<T>
         where T : class
@@ -48,17 +36,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public AzureStorageContext Context {get; set;}
 
         /// <summary>
-        /// cmdlet operation context.
+        /// Cmdlet operation context.
         /// </summary>
-        protected Microsoft.WindowsAzure.Storage.OperationContext OperationContext { get; private set; }
+        protected OperationContext OperationContext { get; private set; }
 
         /// <summary>
-        /// remote call counter
+        /// Remote call counter
         /// </summary>
-        private int remoteCallCounter = 0;
+        private int startRemoteCallCounter = 0;
 
         /// <summary>
-        /// init storage client operation context
+        /// Remote call counter
+        /// </summary>
+        private int finishRemoteCallCounter = 0;
+
+        /// <summary>
+        /// Init storage client operation context
         /// </summary>
         internal void InitOperationContext()
         {
@@ -67,16 +60,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             OperationContext.SendingRequest += (s, e) =>
             {
-                remoteCallCounter++;
+                Interlocked.Increment(ref startRemoteCallCounter);
                 string message = String.Format(Resources.StartRemoteCall,
-                    remoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
+                    startRemoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
                 WriteVerboseLog(message);
             };
 
             OperationContext.ResponseReceived += (s, e) =>
             {
+                Interlocked.Increment(ref finishRemoteCallCounter);
                 string message = String.Format(Resources.FinishRemoteCall,
-                    e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
+                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
                 WriteVerboseLog(message);
             };
 
@@ -84,18 +78,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// write log in verbose mode
+        /// Write log in verbose mode
         /// </summary>
-        /// <param name="msg">verbose log</param>
+        /// <param name="msg">Verbose log</param>
         internal void WriteVerboseLog(string msg)
         {
             WriteVerboseWithTimestamp(msg);
         }
 
         /// <summary>
-        /// get cloud storage account 
+        /// Get cloud storage account 
         /// </summary>
-        /// <returns>storage account</returns>
+        /// <returns>Storage account</returns>
         internal CloudStorageAccount GetCloudStorageAccount()
         {
             if (Context != null)
@@ -116,18 +110,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                     account = GetStorageAccountFromEnvironmentVariable();
                 }
 
-                //set the storage context and use it in pipeline
-                AzureStorageContext context = new AzureStorageContext(account);
-                Context = context;
+                //Set the storage context and use it in pipeline
+                Context = new AzureStorageContext(account);
 
                 return account;
             }
         }
 
         /// <summary>
-        /// output azure storage object with storage context
+        /// Output azure storage object with storage context
         /// </summary>
-        /// <param name="item">an AzureStorageBase object</param>
+        /// <param name="item">An AzureStorageBase object</param>
         internal void WriteObjectWithStorageContext(AzureStorageBase item)
         {
             item.Context = Context;
@@ -135,19 +128,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// init channel with or without subscription in storage cmdlet
+        /// Init channel with or without subscription in storage cmdlet
         /// </summary>
-        /// <param name="force">force to create a new channel</param>
+        /// <param name="force">Force to create a new channel</param>
         protected override void InitChannelCurrentSubscription(bool force)
         {
-            //create storage management channel
+            //Create storage management channel
             CreateChannel();
         }
 
         /// <summary>
-        /// whether should init the service channel or not
+        /// Whether should init the service channel or not
         /// </summary>
-        /// <returns>true if it need to init the service channel, otherwise false</returns>
+        /// <returns>True if it need to init the service channel, otherwise false</returns>
         internal virtual bool ShouldInitServiceChannel()
         {
             //Storage Context is empty and have already set the current storage account in subscription
@@ -163,10 +156,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// output azure storage object with storage context
+        /// Output azure storage object with storage context
         /// </summary>
-        /// <param name="item">an eunmerable collection fo azurestorage object</param>
-        internal void WriteObjectWithStorageContext(IEnumerable<AzureStorageBase>  itemList)
+        /// <param name="item">An enumerable collection fo azurestorage object</param>
+        internal void WriteObjectWithStorageContext(IEnumerable<AzureStorageBase> itemList)
         {
             if (null == itemList)
             {
@@ -180,9 +173,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get current storage account from azure subscription
+        /// Get current storage account from azure subscription
         /// </summary>
-        /// <returns>a storage account</returns>
+        /// <returns>A storage account</returns>
         private CloudStorageAccount GetStorageAccountFromSubscription()
         {
             string CurrentStorageAccount = CurrentSubscription.CurrentStorageAccount;
@@ -197,16 +190,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
                 try
                 {
-                    //the service channel initialized by subscription
+                    //The service channel initialized by subscription
                     return CurrentSubscription.GetCurrentStorageAccount();
                 }
-                catch (CommunicationException e)
+                catch (ServiceModel.CommunicationException e)
                 {
                     if (e.IsNotFoundException())
                     {
-                        //repack the 404 error
+                        //Repack the 404 error
                         string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount);
-                        CommunicationException exception = new CommunicationException(errorMessage, e);
+                        ServiceModel.CommunicationException exception = new ServiceModel.CommunicationException(errorMessage, e);
                         throw exception;
                     }
                     else
@@ -218,9 +211,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get storage account from environment variable "AZURE_STORAGE_CONNECTION_STRING"
+        /// Get storage account from environment variable "AZURE_STORAGE_CONNECTION_STRING"
         /// </summary>
-        /// <returns>cloud storage account</returns>
+        /// <returns>Cloud storage account</returns>
         private CloudStorageAccount GetStorageAccountFromEnvironmentVariable()
         {
             String connectionString = System.Environment.GetEnvironmentVariable(Resources.EnvConnectionString);
@@ -237,7 +230,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// write error detials for storageexception
+        /// Write error details for storageexception
         /// </summary>
         /// <param name="exception">StorageException from storage client</param>
         protected void WriteErrorDetails(StorageException exception)
@@ -247,7 +240,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// write error with category and identifier
+        /// Write error with category and identifier
         /// </summary>
         /// <param name="e">an exception object</param>
         protected override void WriteExceptionError(Exception e)
@@ -279,7 +272,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
 
         /// <summary>
-        /// cmdlet begin process
+        /// Cmdlet begin process
         /// </summary>
         protected override void BeginProcessing()
         {
@@ -289,13 +282,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// end processing
+        /// End processing
         /// </summary>
         protected override void EndProcessing()
         {
             double timespan = OperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
-                this.GetType().Name, remoteCallCounter, timespan, OperationContext.ClientRequestID);
+                this.GetType().Name, startRemoteCallCounter, finishRemoteCallCounter, timespan, OperationContext.ClientRequestID);
             WriteVerboseLog(message);
             base.EndProcessing();
         }
