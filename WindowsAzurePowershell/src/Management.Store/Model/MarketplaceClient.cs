@@ -86,5 +86,32 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
             return result;
         }
+
+        /// <summary>
+        /// Gets instance of an offer.
+        /// </summary>
+        /// <param name="offerId">The offer identifier</param>
+        /// <returns>The offer instance</returns>
+        public virtual Offer GetOffer(string offerId)
+        {
+            CatalogServiceContext context = new CatalogServiceContext(new Uri(Resources.MarketplaceEndpoint));
+            var offers = from o in context.Offers where o.OfferIdentifier == offerId select o;
+            foreach (Offer offer in offers.AsEnumerable())
+            {
+                return offer;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Detects if the given offer is Microsoft offer or not.
+        /// </summary>
+        /// <param name="offer">The offer instance</param>
+        /// <returns>True if Microsoft offer, false otherwise</returns>
+        public virtual bool IsMicrosoftOffer(Offer offer)
+        {
+            return true;
+        }
     }
 }

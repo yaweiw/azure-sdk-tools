@@ -61,6 +61,78 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add-On {0} is created successfully..
+        /// </summary>
+        internal static string AddOnCreatedMessage {
+            get {
+                return ResourceManager.GetString("AddOnCreatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add-On {0} not found..
+        /// </summary>
+        internal static string AddOnNotFound {
+            get {
+                return ResourceManager.GetString("AddOnNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add-on {0} is removed successfully..
+        /// </summary>
+        internal static string AddOnRemovedMessage {
+            get {
+                return ResourceManager.GetString("AddOnRemovedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add-On {0} is updated successfully..
+        /// </summary>
+        internal static string AddOnUpdatedMessage {
+            get {
+                return ResourceManager.GetString("AddOnUpdatedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.windowsazure.com/en-us/store/service/?id={0}.
+        /// </summary>
+        internal static string AddOnUrl {
+            get {
+                return ResourceManager.GetString("AddOnUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add-ons for {0}.
+        /// </summary>
+        internal static string CloudServiceDescription {
+            get {
+                return ResourceManager.GetString("CloudServiceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The HTTP request was forbidden with client authentication scheme &apos;Anonymous&apos;..
+        /// </summary>
+        internal static string FirstPurchaseErrorMessage {
+            get {
+                return ResourceManager.GetString("FirstPurchaseErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This add-on requires you to purchase the first instance through the Windows Azure Portal. Subsequent purchases can be performed through PowerShell..
+        /// </summary>
+        internal static string FirstPurchaseMessage {
+            get {
+                return ResourceManager.GetString("FirstPurchaseMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2..
         /// </summary>
         internal static string InvalidCountryNameMessage {
@@ -79,11 +151,80 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multiple Add-Ons found holding name {0}.
+        /// </summary>
+        internal static string MultipleAddOnsFoundMessage {
+            get {
+                return ResourceManager.GetString("MultipleAddOnsFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Add-On Confirmation.
+        /// </summary>
+        internal static string NewAddOnConformation {
+            get {
+                return ResourceManager.GetString("NewAddOnConformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By typing &quot;Yes&quot;, I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+        ///for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+        ///agree to the {2}&apos;s terms of user and privacy statement at {0} and (c) agree to sharing my 
+        ///contact information with {2}..
+        /// </summary>
+        internal static string NewMicrosoftAddOnMessage {
+            get {
+                return ResourceManager.GetString("NewMicrosoftAddOnMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to By typing &quot;Yes&quot;, I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+        ///for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+        ///acknowledge the offering is provided by {2}, not Microsoft, and agree to {2}&apos;s terms of 
+        ///use and privacy statement at {0} and (c) agree to sharing my contact information with {2}..
+        /// </summary>
+        internal static string NewNonMicrosoftAddOnMessage {
+            get {
+                return ResourceManager.GetString("NewNonMicrosoftAddOnMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Certificate can&apos;t be null..
         /// </summary>
         internal static string NullCertificateMessage {
             get {
                 return ResourceManager.GetString("NullCertificateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The request offer &apos;{0}&apos; is not found..
+        /// </summary>
+        internal static string OfferNotFoundMessage {
+            get {
+                return ResourceManager.GetString("OfferNotFoundMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The REST operation failed with message &apos;{0}&apos; and error code &apos;{1}&apos;.
+        /// </summary>
+        internal static string OperationFailedMessage {
+            get {
+                return ResourceManager.GetString("OperationFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotion code can be used only when updating to a new plan..
+        /// </summary>
+        internal static string PromotionCodeWithCurrentPlanMessage {
+            get {
+                return ResourceManager.GetString("PromotionCodeWithCurrentPlanMessage", resourceCulture);
             }
         }
         
@@ -102,6 +243,43 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         internal static string RemoveAddOnMessage {
             get {
                 return ResourceManager.GetString("RemoveAddOnMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Add-On Confirmation.
+        /// </summary>
+        internal static string SetAddOnConformation {
+            get {
+                return ResourceManager.GetString("SetAddOnConformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note - You will be charged the amount for the new plan, without being refunded for time remaining 
+        ///in the existing plan.
+        ///By typing &quot;Yes&quot;, I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+        ///for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+        ///agree to the {2}&apos;s terms of user and privacy statement at {0} and (c) agree to sharing my 
+        ///contact information with {2}..
+        /// </summary>
+        internal static string SetMicrosoftAddOnMessage {
+            get {
+                return ResourceManager.GetString("SetMicrosoftAddOnMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note - You will be charged the amount for the new plan, without being refunded for time remaining 
+        ///in the existing plan.
+        ///By typing &quot;Yes&quot;, I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+        ///for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+        ///acknowledge the offering is provided by {2}, not Microsoft, and agree to {2}&apos;s terms of 
+        ///use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact information with {2}..
+        /// </summary>
+        internal static string SetNonMicrosoftAddOnMessage {
+            get {
+                return ResourceManager.GetString("SetNonMicrosoftAddOnMessage", resourceCulture);
             }
         }
     }

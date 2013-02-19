@@ -17,8 +17,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel.Channels;
+    using System.Text;
+    using System.Threading;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
@@ -26,14 +28,124 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagementConstants = Microsoft.Samples.WindowsAzure.ServiceManagement.Constants;
 
     public class StoreClient
     {
+        private const int SleepDuration = 1000;
+
+        private const string DataMarketResourceProviderNamespace = "DataMarket";
+
+        private const string DataService = "Data";
+
+        private const string AppService = "AzureDevService";
+
+        private const string StoreServicePrefix = "Azure-Stores";
+
+        private const string IfMatchHeader = "If-Match";
+
         private IStoreManagement storeChannel;
+
+        private IServiceManagement serviceManagementChannel;
 
         private string subscriptionId;
 
-        const string StoreServicePrefix = "Azure-Stores";
+        private HeadersInspector headersInspector;
+
+        private MarketplaceClient marketplaceClient;
+
+        private List<CloudService> GetStoreCloudServices()
+        {
+            CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
+            List<CloudService> storeServices = cloudServices.FindAll(
+                c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
+            return storeServices;
+        }
+
+        private string GetCloudServiceName(string subscriptionId, string region)
+        {
+            string hashedSubId = String.Empty;
+            using (SHA256 sha256 = SHA256Managed.Create())
+            {
+                hashedSubId = Base32NoPaddingEncode(sha256.ComputeHash(UTF8Encoding.UTF8.GetBytes(subscriptionId)));
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}-{1}-{2}", StoreServicePrefix, hashedSubId, region.Replace(' ', '-'));
+        }
+
+        private string Base32NoPaddingEncode(byte[] data)
+        {
+            const string base32StandardAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+            StringBuilder result = new StringBuilder(Math.Max((int)Math.Ceiling(data.Length * 8 / 5.0), 1));
+
+            byte[] emptyBuffer = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            byte[] workingBuffer = new byte[8];
+
+            // Process input 5 bytes at a time
+            for (int i = 0; i < data.Length; i += 5)
+            {
+                int bytes = Math.Min(data.Length - i, 5);
+                Array.Copy(emptyBuffer, workingBuffer, emptyBuffer.Length);
+                Array.Copy(data, i, workingBuffer, workingBuffer.Length - (bytes + 1), bytes);
+                Array.Reverse(workingBuffer);
+                ulong val = BitConverter.ToUInt64(workingBuffer, 0);
+
+                for (int bitOffset = ((bytes + 1) * 8) - 5; bitOffset > 3; bitOffset -= 5)
+                {
+                    result.Append(base32StandardAlphabet[(int)((val >> bitOffset) & 0x1f)]);
+                }
+            }
+
+            return result.ToString();
+        }
+
+        private string CreateCloudServiceIfNotExists(string location)
+        {
+            string cloudServiceName = GetCloudServiceName(subscriptionId, location);
+            CloudService cloudService = new CloudService()
+            {
+                Name = cloudServiceName,
+                Label = cloudServiceName,
+                Description = string.Format(Resources.CloudServiceDescription, location),
+                GeoRegion = location
+            };
+            try
+            {
+                storeChannel.CreateCloudService(subscriptionId, cloudServiceName, cloudService);
+                WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
+            }
+            catch (Exception)
+            {
+                // The CloudService is already created, ignore exception.
+            }
+
+            return cloudServiceName;
+        }
+
+        private void WaitForOperation(string operationId)
+        {
+            Operation operation = new Operation();
+            do
+            {
+                operation = serviceManagementChannel.GetOperationStatus(subscriptionId, operationId);
+                Thread.Sleep(SleepDuration);
+            }
+            while (operation.Status == OperationState.InProgress);
+
+            if (operation.Status == OperationState.Failed)
+            {
+                throw new Exception(string.Format(
+                    Resources.OperationFailedMessage,
+                    operation.Error.Message,
+                    operation.Error.Code));
+            }
+        }
+
+        private bool IsDataService(string type)
+        {
+            return type.Equals(DataService, StringComparison.OrdinalIgnoreCase);
+        }
 
         /// <summary>
         /// Parameterless constructor added for mocking framework.
@@ -50,18 +162,28 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <param name="storeEndpointUri">The service management endpoint uri</param>
         /// <param name="cert">The authentication certificate</param>
         /// <param name="logger">The logger for http request/response</param>
-        public StoreClient(string subscriptionId, string storeEndpointUri, X509Certificate2 cert, Action<string> logger)
+        /// <param name="serviceManagementChannel">The service management channel</param>
+        public StoreClient(
+            string subscriptionId,
+            string storeEndpointUri,
+            X509Certificate2 cert,
+            Action<string> logger,
+            IServiceManagement serviceManagementChannel)
         {
             Validate.ValidateStringIsNullOrEmpty(storeEndpointUri, null, true);
             Validate.ValidateStringIsNullOrEmpty(subscriptionId, null, true);
             Validate.ValidateNullArgument(cert, Resources.NullCertificateMessage);
 
             this.subscriptionId = subscriptionId;
+            headersInspector = new HeadersInspector();
             storeChannel = ServiceManagementHelper.CreateServiceManagementChannel<IStoreManagement>(
                 ConfigurationConstants.WebHttpBinding(0),
                 new Uri(storeEndpointUri),
                 cert,
-                new HttpRestMessageInspector(logger));
+                new HttpRestMessageInspector(logger),
+                headersInspector);
+            this.serviceManagementChannel = serviceManagementChannel;
+            marketplaceClient = new MarketplaceClient();
         }
 
         /// <summary>
@@ -72,9 +194,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         public virtual List<WindowsAzureAddOn> GetAddOn(AddOnSearchOptions searchOptions = null)
         {
             List<WindowsAzureAddOn> addOns = new List<WindowsAzureAddOn>();
-            CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
-            List<CloudService> storeServices = cloudServices.FindAll(
-                c => CultureInfo.CurrentCulture.CompareInfo.IsPrefix(c.Name, StoreServicePrefix));
+            List<CloudService> storeServices = GetStoreCloudServices();
 
             foreach (CloudService storeService in storeServices)
             {
@@ -97,14 +217,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <summary>
         /// Removes given Add-On
         /// </summary>
-        /// <param name="Name">The add-on name</param>
-        public virtual void RemoveAddOn(string Name)
+        /// <param name="name">The add-on name</param>
+        public virtual void RemoveAddOn(string name)
         {
-            List<WindowsAzureAddOn> addOns = GetAddOn(new AddOnSearchOptions(Name, null, null));
+            List<WindowsAzureAddOn> addOns = GetAddOn(new AddOnSearchOptions(name, null, null));
 
             if (addOns.Count != 1)
 	        {
-		        throw new Exception("The Add on is not found");
+		        throw new Exception(string.Format(Resources.AddOnNotFound, name));
 	        }
 
             WindowsAzureAddOn addOn = addOns[0];
@@ -116,6 +236,126 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 addOn.AddOn,
                 addOn.Name
             );
+
+            WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
         }
+
+        public virtual void NewAddOn(
+            string name,
+            string addon,
+            string plan,
+            string location,
+            string promotionCode)
+        {
+            Offer offer = marketplaceClient.GetOffer(addon);
+            string type = offer.OfferType;
+            string provider = offer.ProviderIdentifier;
+            string cloudService = CreateCloudServiceIfNotExists(location);
+            type = IsDataService(type) ? DataMarketResourceProviderNamespace : provider;
+            Resource resource = new Resource()
+            {
+                Plan = plan,
+                Type = type,
+                PromotionCode = promotionCode
+            };
+
+            if (type.Equals(DataMarketResourceProviderNamespace, StringComparison.OrdinalIgnoreCase))
+            {
+                addon = string.Format("{0}-{1}", provider, addon);
+            }
+
+            try
+            {
+                storeChannel.CreateResource(subscriptionId, cloudService, type, addon, name, resource);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Equals(Resources.FirstPurchaseErrorMessage, StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception(Resources.FirstPurchaseMessage);
+                }
+            }
+
+            WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
+        }
+
+        public virtual string GetConfirmationMessage(OperationType operation, string addon = null, string plan = null)
+        {
+            Offer offer = null;
+            bool microsoftOffer = false;
+            string addOnUrl = null;
+            string message = null;
+
+            if (!string.IsNullOrEmpty(plan))
+            {
+                offer = marketplaceClient.GetOffer(addon);
+
+                if (offer == null)
+                {
+                    throw new Exception(string.Format(Resources.AddOnNotFound, addon));
+                }
+
+                microsoftOffer = marketplaceClient.IsMicrosoftOffer(offer);
+                addOnUrl = string.Format(Resources.AddOnUrl, offer.Id);
+            }
+
+            switch (operation)
+            {
+                case OperationType.New:
+                    message = microsoftOffer ? Resources.NewMicrosoftAddOnMessage : 
+                        Resources.NewNonMicrosoftAddOnMessage;
+                    break;
+                case OperationType.Set:
+                    message = microsoftOffer ? Resources.SetMicrosoftAddOnMessage : 
+                        Resources.SetNonMicrosoftAddOnMessage;
+                    break;
+                case OperationType.Remove:
+                    message = Resources.RemoveAddOnMessage;
+                    break;
+                default:
+                    throw new Exception();
+            }
+
+            if (!string.IsNullOrEmpty(addOnUrl) && !string.IsNullOrEmpty(plan) && offer != null)
+            {
+                return string.Format(message, addOnUrl, plan, offer.ProviderIdentifier);
+            }
+            else
+            {
+                return message;
+            }
+        }
+
+        public virtual bool IsAddOnNameUsed(string name)
+        {
+            return (GetAddOn(new AddOnSearchOptions(name, null, null)).Count > 0);
+        }
+
+        public virtual void UpdateAddOn(string name, string plan, string promotionCode)
+        {
+            List<WindowsAzureAddOn> addons = GetAddOn(new AddOnSearchOptions(name));
+            if (addons.Count != 1)
+            {
+                throw new Exception(string.Format(Resources.AddOnNotFound, name));
+            }
+
+            WindowsAzureAddOn addon = addons[0];
+
+            if (!string.IsNullOrEmpty(promotionCode) && addon.Plan.Equals(plan, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new Exception(Resources.PromotionCodeWithCurrentPlanMessage);
+            }
+
+            headersInspector.RequestHeaders.Add(IfMatchHeader, addon.ETag);
+
+            NewAddOn(name, addon.AddOn, plan, addon.Location, promotionCode);
+        }
+    }
+
+    public enum OperationType
+    {
+        New,
+        Set,
+        Remove
     }
 }

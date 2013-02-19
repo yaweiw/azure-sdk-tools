@@ -41,5 +41,39 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
                 null,
                 null));
         }
+
+        public static void CreateCloudService(
+            this IStoreManagement proxy,
+            string subscriptionId,
+            string cloudServiceName,
+            CloudService cloudService)
+        {
+            proxy.EndCreateCloudService(proxy.BeginCreateCloudService(
+                subscriptionId,
+                cloudServiceName,
+                cloudService,
+                null,
+                null));
+        }
+
+        public static void CreateResource(
+            this IStoreManagement proxy,
+            string subscriptionId,
+            string cloudServiceName,
+            string resourceProviderNamespace,
+            string resourceType,
+            string resourceName,
+            Resource resource)
+        {
+            proxy.EndCreateResource(proxy.BeginCreateResource(
+                subscriptionId,
+                cloudServiceName,
+                resourceProviderNamespace,
+                resourceType,
+                resourceName,
+                resource,
+                null,
+                null));
+        }
     }
 }

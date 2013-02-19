@@ -132,4 +132,74 @@
   <data name="NullCertificateMessage" xml:space="preserve">
     <value>Certificate can't be null.</value>
   </data>
+  <data name="AddOnUrl" xml:space="preserve">
+    <value>http://www.windowsazure.com/en-us/store/service/?id={0}</value>
+  </data>
+  <data name="NewAddOnConformation" xml:space="preserve">
+    <value>New Add-On Confirmation</value>
+  </data>
+  <data name="NewMicrosoftAddOnMessage" xml:space="preserve">
+    <value>By typing "Yes", I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+agree to the {2}'s terms of user and privacy statement at {0} and (c) agree to sharing my 
+contact information with {2}.</value>
+  </data>
+  <data name="CloudServiceDescription" xml:space="preserve">
+    <value>Add-ons for {0}</value>
+  </data>
+  <data name="OfferNotFoundMessage" xml:space="preserve">
+    <value>The request offer '{0}' is not found.</value>
+  </data>
+  <data name="OperationFailedMessage" xml:space="preserve">
+    <value>The REST operation failed with message '{0}' and error code '{1}'</value>
+  </data>
+  <data name="FirstPurchaseErrorMessage" xml:space="preserve">
+    <value>The HTTP request was forbidden with client authentication scheme 'Anonymous'.</value>
+  </data>
+  <data name="FirstPurchaseMessage" xml:space="preserve">
+    <value>This add-on requires you to purchase the first instance through the Windows Azure Portal. Subsequent purchases can be performed through PowerShell.</value>
+  </data>
+  <data name="AddOnCreatedMessage" xml:space="preserve">
+    <value>Add-On {0} is created successfully.</value>
+  </data>
+  <data name="AddOnNotFound" xml:space="preserve">
+    <value>Add-On {0} not found.</value>
+  </data>
+  <data name="NewNonMicrosoftAddOnMessage" xml:space="preserve">
+    <value>By typing "Yes", I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+acknowledge the offering is provided by {2}, not Microsoft, and agree to {2}'s terms of 
+use and privacy statement at {0} and (c) agree to sharing my contact information with {2}.</value>
+  </data>
+  <data name="SetMicrosoftAddOnMessage" xml:space="preserve">
+    <value>Note - You will be charged the amount for the new plan, without being refunded for time remaining 
+in the existing plan.
+By typing "Yes", I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+agree to the {2}'s terms of user and privacy statement at {0} and (c) agree to sharing my 
+contact information with {2}.</value>
+  </data>
+  <data name="SetNonMicrosoftAddOnMessage" xml:space="preserve">
+    <value>Note - You will be charged the amount for the new plan, without being refunded for time remaining 
+in the existing plan.
+By typing "Yes", I (a) authorize Microsoft to charge my current payment method on a monthly basis 
+for the amount indicated at {0} for {1} until my service is cancelled or terminated, and (b) 
+acknowledge the offering is provided by {2}, not Microsoft, and agree to {2}'s terms of 
+use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact information with {2}.</value>
+  </data>
+  <data name="AddOnRemovedMessage" xml:space="preserve">
+    <value>Add-on {0} is removed successfully.</value>
+  </data>
+  <data name="SetAddOnConformation" xml:space="preserve">
+    <value>Set Add-On Confirmation</value>
+  </data>
+  <data name="AddOnUpdatedMessage" xml:space="preserve">
+    <value>Add-On {0} is updated successfully.</value>
+  </data>
+  <data name="PromotionCodeWithCurrentPlanMessage" xml:space="preserve">
+    <value>Promotion code can be used only when updating to a new plan.</value>
+  </data>
+  <data name="MultipleAddOnsFoundMessage" xml:space="preserve">
+    <value>Multiple Add-Ons found holding name {0}</value>
+  </data>
 </root>
