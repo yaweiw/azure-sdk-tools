@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Update deployment configuration, upgrade or status
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
+    public class SetAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureDeploymentCommand()
         {

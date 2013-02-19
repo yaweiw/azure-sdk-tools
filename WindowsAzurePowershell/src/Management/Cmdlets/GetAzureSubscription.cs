@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// Gets details about subscriptions.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName"), OutputType(typeof(SubscriptionData))]
-    public class GetAzureSubscriptionCommand : CloudServiceManagementBaseCmdlet
+    public class GetAzureSubscriptionCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]

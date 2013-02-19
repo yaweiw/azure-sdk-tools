@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true), OutputType(typeof(Deployment))]
-    public class PublishAzureServiceProjectCommand : CloudServiceManagementBaseCmdlet
+    public class PublishAzureServiceProjectCommand : ServiceManagementBaseCmdlet
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;

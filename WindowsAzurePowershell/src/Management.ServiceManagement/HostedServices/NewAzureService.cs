@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Creates a new hosted service in Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureService", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureServiceCommand : CloudServiceManagementBaseCmdlet
+    public class NewAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public NewAzureServiceCommand()
         {

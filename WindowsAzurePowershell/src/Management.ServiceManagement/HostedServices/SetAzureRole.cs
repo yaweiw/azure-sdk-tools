@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Sets the instance count for the selected role.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureRole", DefaultParameterSetName = "ParameterSetDeploymentSlot"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureRoleCommand : CloudServiceManagementBaseCmdlet
+    public class SetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureRoleCommand()
         {

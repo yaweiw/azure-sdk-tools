@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Lists the versions of the guest operating system that are currently available in Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureOSVersion"), OutputType(typeof(OSVersionsContext))]
-    public class GetAzureOSVersionCommand : CloudServiceManagementBaseCmdlet
+    public class GetAzureOSVersionCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureOSVersionCommand()
         {

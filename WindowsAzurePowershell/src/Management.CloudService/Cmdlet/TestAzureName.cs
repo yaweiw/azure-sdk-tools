@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : CloudServiceManagementBaseCmdlet
+    public class TestAzureNameCommand : ServiceManagementBaseCmdlet
     {
         private IServiceBusManagement serviceBusChannel;
 
