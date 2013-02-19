@@ -47,5 +47,36 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
             object state);
 
         void EndDeleteResource(IAsyncResult asyncResult);
+
+        /// <summary>
+        /// Creates a cloud service
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/CloudServices/{cloudServiceName}")]
+        IAsyncResult BeginCreateCloudService(
+            string subscriptionId,
+            string cloudServiceName,
+            CloudService input,
+            AsyncCallback callback,
+            object state);
+
+        void EndCreateCloudService(IAsyncResult asyncResult);
+        
+        /// <summary>
+        /// Creates a new resource.
+        /// </summary>
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "PUT", UriTemplate = @"{subscriptionId}/CloudServices/{cloudServiceName}/resources/{resourceProviderNamespace}/{resourceType}/{resourceName}")]
+        IAsyncResult BeginCreateResource(
+            string subscriptionId,
+            string cloudServiceName,
+            string resourceProviderNamespace,
+            string resourceType,
+            string resourceName,
+            Resource resource,
+            AsyncCallback callback,
+            object state);
+
+        void EndCreateResource(IAsyncResult asyncResult);
     }
 }

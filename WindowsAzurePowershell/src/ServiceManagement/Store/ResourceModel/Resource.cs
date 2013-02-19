@@ -32,21 +32,24 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
         public string Plan { get; set; }
 
         [DataMember(Order = 5, EmitDefaultValue = false)]
-        public string SchemaVersion { get; set; }
+        public string PromotionCode { get; set; }
 
         [DataMember(Order = 6, EmitDefaultValue = false)]
-        public string ETag { get; set; }
+        public string SchemaVersion { get; set; }
 
         [DataMember(Order = 7, EmitDefaultValue = false)]
-        public string State { get; set; }
+        public string ETag { get; set; }
 
         [DataMember(Order = 8, EmitDefaultValue = false)]
-        public UsageMeterList UsageMeters { get; set; }
+        public string State { get; set; }
 
         [DataMember(Order = 9, EmitDefaultValue = false)]
-        public OutputItemList OutputItems { get; set; }
+        public UsageMeterList UsageMeters { get; set; }
 
         [DataMember(Order = 10, EmitDefaultValue = false)]
+        public OutputItemList OutputItems { get; set; }
+
+        [DataMember(Order = 11, EmitDefaultValue = false)]
         public OperationStatus OperationStatus { get; set; }
     }
 }

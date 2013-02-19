@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
+    using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -23,18 +24,21 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using Microsoft.WindowsAzure.Management.Store.Properties;
 
     /// <summary>
-    /// Removes all purchased Add-Ons or specific Add-On
+    /// Purchase a new Add-On from Windows Azure Store.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>))]
-    public class RemoveAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Set, "AzureStoreAddOn"), OutputType(typeof(bool))]
+    public class SetAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
     {
         public StoreClient StoreClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Get result of the cmdlet")]
-        public SwitchParameter PassThru { get; set; }
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On plan id")]
+        public string Plan { get; set; }
+
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On promotion code")]
+        public string PromotionCode { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -46,16 +50,26 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 text => this.WriteDebug(text),
                 Channel);
 
-            string message = StoreClient.GetConfirmationMessage(OperationType.Remove);
-            bool remove = Utilities.ShouldProcess(Host, Resources.RemoveAddOnConformation, message);
-            if (remove)
+            List<WindowsAzureAddOn> addons = StoreClient.GetAddOn(new AddOnSearchOptions(Name));
+            if (addons.Count == 1)
             {
-                StoreClient.RemoveAddOn(Name);
-                WriteVerbose(string.Format(Resources.AddOnRemovedMessage, Name));
-                if (PassThru.IsPresent)
+                string message = StoreClient.GetConfirmationMessage(OperationType.Set, addons[0].AddOn, Plan);
+                bool purchase = Utilities.ShouldProcess(Host, Resources.SetAddOnConformation, message);
+
+                if (purchase)
                 {
+                    StoreClient.UpdateAddOn(Name, Plan, PromotionCode);
+                    WriteVerbose(string.Format(Resources.AddOnUpdatedMessage, Name));
                     WriteObject(true);
                 }
+            }
+            else if(addons.Count == 0)
+            {
+                throw new Exception(string.Format(Resources.AddOnNotFound, Name));
+            }
+            else
+            {
+                throw new Exception(string.Format(Resources.MultipleAddOnsFoundMessage, Name));
             }
         }
     }

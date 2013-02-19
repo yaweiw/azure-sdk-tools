@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
+    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
 
@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// Gets all purchased Add-Ons or specific Add-On
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>))]
-    public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IStoreManagement>
+    public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
     {
         const string ShortType = "Microsoft.WindowsAzure.Management.Store.Model.AddOnWindowsAzureAddOn.Short";
 
@@ -50,7 +50,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.SubscriptionId,
                 ServiceEndpoint,
                 CurrentSubscription.Certificate,
-                text => this.WriteDebug(text));
+                text => this.WriteDebug(text),
+                Channel);
             List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
 
             if (Detailed.IsPresent)
