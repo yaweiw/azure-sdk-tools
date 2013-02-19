@@ -18,16 +18,17 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.ServiceManagement.Store.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
 
     /// <summary>
     /// Gets all purchased Add-Ons or specific Add-On
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<AddOn>), typeof(AddOn))]
+    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>))]
     public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IStoreManagement>
     {
+        const string ShortType = "Microsoft.WindowsAzure.Management.Store.Model.AddOnWindowsAzureAddOn.Short";
+
         public StoreClient StoreClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
@@ -39,6 +40,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On location")]
         public string Location { get; set; }
 
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Show add-on details")]
+        public SwitchParameter Detailed { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -47,15 +51,23 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 ServiceEndpoint,
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text));
-            List<AddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
+            List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
 
-            if (addOns.Count == 1)
+            if (Detailed.IsPresent)
             {
-                WriteObject(addOns);
+                WriteObject(addOns, true);
             }
             else
             {
-                WriteObject(addOns, true);
+                List<PSObject> shortObjects = new List<PSObject>();
+                addOns.ForEach(a =>
+                {
+                    PSObject psObject = new PSObject(a);
+                    psObject.TypeNames.Add(ShortType);
+                    psObject.TypeNames.Remove(typeof(WindowsAzureAddOn).FullName);
+                    shortObjects.Add(psObject);
+                });
+                WriteObject(shortObjects, true);
             }
         }
     }

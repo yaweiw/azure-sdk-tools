@@ -18,22 +18,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     {
         public const string Provider = "Provider";
 
-        public const string Plans = "Plans";
-
         public const string Name = "Name";
 
         public const string Plan = "Plan";
 
         public const string Location = "Location";
 
-        public const string SchemaVersion = "SchemaVersion";
-
-        public const string State = "State";
-
-        public const string LastOperationStatus = "LastOperationStatus";
-
-        public const string UsageMeters = "UsageMeters";
-
-        public const string OutputItems = "OutputItems";
+        public const string AddOn = "AddOn";
     }
 }
