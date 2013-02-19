@@ -12,9 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class OutputItem

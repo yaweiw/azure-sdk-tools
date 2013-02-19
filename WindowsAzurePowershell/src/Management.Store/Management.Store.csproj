@@ -126,6 +126,18 @@
   <ItemGroup>
     <Compile Include="Cmdlet\NewAzureStoreAddOn.cs" />
     <Compile Include="Cmdlet\SetAzureStoreAddOn.cs" />
+    <Compile Include="Model\Contract\IStoreManagement.cs" />
+    <Compile Include="Model\Contract\StoreExtensionMethods.cs" />
+    <Compile Include="Model\ResourceModel\CloudService.cs" />
+    <Compile Include="Model\ResourceModel\CloudServiceList.cs" />
+    <Compile Include="Model\ResourceModel\Error.cs" />
+    <Compile Include="Model\ResourceModel\OperationStatus.cs" />
+    <Compile Include="Model\ResourceModel\OutputItem.cs" />
+    <Compile Include="Model\ResourceModel\OutputItemList.cs" />
+    <Compile Include="Model\ResourceModel\Resource.cs" />
+    <Compile Include="Model\ResourceModel\ResourceList.cs" />
+    <Compile Include="Model\ResourceModel\UsageMeter.cs" />
+    <Compile Include="Model\ResourceModel\UsageMeterList.cs" />
     <Compile Include="Model\SetHeaderInspector.cs" />
     <Compile Include="Model\MarketplaceClient.cs" />
     <Compile Include="Cmdlet\RemoveAzureStoreAddOn.cs" />

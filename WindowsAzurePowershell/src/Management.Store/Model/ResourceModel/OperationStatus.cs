@@ -12,21 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
-    [CollectionDataContract(Name = "Resources", ItemName = "Resource", Namespace = Constants.ServiceManagementNS)]
-    public class ResourceList : List<Resource>
+    [DataContract(Namespace = Constants.ServiceManagementNS)]
+    public class OperationStatus
     {
-        public ResourceList()
-        {
-        }
+        [DataMember(Order = 1, EmitDefaultValue = false)]
+        public string Type { get; set; }
 
-        public ResourceList(IEnumerable<Resource> resources)
-            : base(resources)
-        {
-        }
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Result { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public Error Error { get; set; }
     }
 }
