@@ -163,6 +163,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -190,12 +194,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Client\Microsoft.WindowsAzure.ServiceManagement.Client.csproj">
-      <Project>{CDBBC94D-FA60-4AEA-B9CC-EFED585904F0}</Project>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Client</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />

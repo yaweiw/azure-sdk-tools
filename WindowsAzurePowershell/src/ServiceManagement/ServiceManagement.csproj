@@ -85,14 +85,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Data.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
@@ -107,19 +99,12 @@
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\System.Spatial.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Data.Services">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.Services.Client">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.IdentityModel">
@@ -144,15 +129,11 @@
     <Compile Include="Contract\OperatingSystem.cs" />
     <Compile Include="Contract\OperationTracking.cs" />
     <Compile Include="Contract\OSImage.cs" />
-    <Compile Include="Marketplace\Contract\MarketplaceExtensionMethods.cs" />
     <Compile Include="Store\Contract\IStoreManagement.cs" />
     <Compile Include="Store\Contract\StoreExtensionMethods.cs" />
     <Compile Include="ServiceBus\Contract\Namespace.cs" />
     <Compile Include="Contract\StorageService.cs" />
     <Compile Include="Contract\Subscription.cs" />
-    <Compile Include="Marketplace\Contract\IMarketplaceManagement.cs" />
-    <Compile Include="Marketplace\ResourceModel\Offer.cs" />
-    <Compile Include="Marketplace\ResourceModel\Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceModel\AffinityGroup.cs" />
     <Compile Include="ResourceModel\Certificates.cs" />
@@ -167,9 +148,6 @@
     <Compile Include="Store\ResourceModel\Resource.cs" />
     <Compile Include="Store\ResourceModel\ResourceList.cs" />
     <Compile Include="Store\ResourceModel\UsageMeter.cs" />
-    <Compile Include="Utilities\HttpResponseAdapterMessage.cs" />
-    <Compile Include="Utilities\IODataResolvable.cs" />
-    <Compile Include="Utilities\ODataHelper.cs" />
     <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
     <Compile Include="ResourceModel\Deployment.cs" />
     <Compile Include="ResourceModel\Disk.cs" />
@@ -189,13 +167,11 @@
     <Compile Include="ResourceModel\ServiceManagementHelper.cs" />
     <Compile Include="ResourceModel\StorageService.cs" />
     <Compile Include="ResourceModel\Subscription.cs" />
-    <Compile Include="Utilities\ODataEntryExtension.cs" />
     <Compile Include="Utilities\General.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
