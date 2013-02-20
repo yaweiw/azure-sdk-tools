@@ -213,6 +213,10 @@
       <Project>{16098AC2-5C1D-4D3C-B499-80A61D1AB7E2}</Project>
       <Name>Management.ServiceBus.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
+      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
+      <Name>Management.ServiceBus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
       <Name>Management.Test</Name>

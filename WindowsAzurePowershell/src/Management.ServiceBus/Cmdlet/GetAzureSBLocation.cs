@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.
