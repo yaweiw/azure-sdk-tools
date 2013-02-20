@@ -202,7 +202,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 {
                     foreach (Resource resource in storeService.Resources)
                     {
-                        if (General.TryEquals(searchOptions.Name, resource.Name) && 
+                        if (General.TryEquals(searchOptions.Name, resource.Name) &&
                             General.TryEquals(searchOptions.Provider, resource.ResourceProviderNamespace))
                         {
                             addOns.Add(new WindowsAzureAddOn(resource, storeService.GeoRegion, storeService.Name));
@@ -223,9 +223,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             List<WindowsAzureAddOn> addOns = GetAddOn(new AddOnSearchOptions(name, null, null));
 
             if (addOns.Count != 1)
-	        {
-		        throw new Exception(string.Format(Resources.AddOnNotFound, name));
-	        }
+            {
+                throw new Exception(string.Format(Resources.AddOnNotFound, name));
+            }
 
             WindowsAzureAddOn addOn = addOns[0];
 
@@ -314,11 +314,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             switch (operation)
             {
                 case OperationType.New:
-                    message = microsoftOffer ? Resources.NewMicrosoftAddOnMessage : 
+                    message = microsoftOffer ? Resources.NewMicrosoftAddOnMessage :
                         Resources.NewNonMicrosoftAddOnMessage;
                     break;
                 case OperationType.Set:
-                    message = microsoftOffer ? Resources.SetMicrosoftAddOnMessage : 
+                    message = microsoftOffer ? Resources.SetMicrosoftAddOnMessage :
                         Resources.SetNonMicrosoftAddOnMessage;
                     break;
                 case OperationType.Remove:
@@ -332,10 +332,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             {
                 return string.Format(message, addOnUrl, plan, offer.ProviderIdentifier);
             }
-            else
-            {
-                return message;
-            }
+
+            return message;
         }
 
         /// <summary>
@@ -353,11 +351,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 addon = addons[0];
                 return true;
             }
-            else
-            {
-                addon = null;
-                return false;
-            }
+
+            addon = null;
+            return false;
         }
 
         /// <summary>

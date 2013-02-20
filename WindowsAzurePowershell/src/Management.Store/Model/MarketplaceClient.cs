@@ -96,12 +96,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         {
             CatalogServiceContext context = new CatalogServiceContext(new Uri(Resources.MarketplaceEndpoint));
             var offers = from o in context.Offers where o.OfferIdentifier == offerId select o;
-            foreach (Offer offer in offers.AsEnumerable())
-            {
-                return offer;
-            }
-
-            return null;
+            
+            return offers.FirstOrDefault<Offer>();
         }
 
         /// <summary>
