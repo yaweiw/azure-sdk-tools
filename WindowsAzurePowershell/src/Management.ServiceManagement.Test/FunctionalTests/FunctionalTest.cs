@@ -16,12 +16,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 using System.Threading;
+using System.Reflection;
 
 
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
-{
-    //using System.Collections.Generic;
+{    
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.ServiceManagement;
@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         //private string perfFile;
         [TestInitialize]
         public void Initialize()
-        {
+        {            
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile(); // Import-AzurePublishSettingsFile
             defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName); // Set-AzureSubscription
@@ -105,22 +105,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void ScriptTestSample()
         {
             
-            var result = vmPowershellCmdlets.RunPSScript("Get-AzureStorageAccount | Select Label");
+            var result = vmPowershellCmdlets.RunPSScript("Get-Help Save-AzureVhd -full");
         }  
 
-        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("priya"), Description("Test the cmdlet (Get-Module)")]
-        public void GetAzureVMImage()
-        {
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
-            vmPowershellCmdlets.GetAzureVMImage();
-        }        
+        
+        
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         public void AzureAffinityGroupTest()
         {
             cleanup = false;
-            testName = "AzureAffinityGroupTest";
-
+            testName = MethodBase.GetCurrentMethod().Name;
             string affinityName1 = "affinityName1";
             string affinityLabel1 = affinityName1;
             string location1 = "West US";
@@ -216,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureCertificateTest()
         {
             cleanup = false;
-            testName = "AzureCertificateTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             
             string certLocation = "cert:\\CurrentUser\\My\\";
 
@@ -261,7 +256,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureCertificateSettingTest()
         {
             cleanup = true;
-            testName = "AzureCertificateSettingTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             string thumbprint = "C5AF4AEE8FD278F9D9FCFAB7DC5436B8DF3A5074";
             string store = "My";
@@ -296,8 +291,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             catch (Exception e)
             {
-
-
+                Console.WriteLine(e.ToString());
             }
             
         }    
@@ -306,7 +300,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureDataDiskTest()
         {
             cleanup = false;
-            testName = "AzureDataDiskTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             
             string diskLabel1 = "disk1";
             int diskSize1 = 30;            
@@ -371,7 +365,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
         public void AzureDiskTest()
         {
-            testName = "AzureDiskTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             cleanup = false;
            
             string vhdName = "128GBOS.vhd";
@@ -425,7 +419,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureDeploymentTest()
         {
-            testName = "AzureDeploymentTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             cleanup = true;
 
 
@@ -555,7 +549,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureDnsTest()
         {
             cleanup = true;
-            testName = "AzureDnsTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
 
             string dnsName = "OpenDns1";
@@ -605,7 +599,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureEndpointTest()
         {
             cleanup = false;
-            testName = "AzureEndpointTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             string epName1 = "tcp1";
             int localPort1 = 60010;
@@ -669,7 +663,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureLocationTest()
         {
             cleanup = false;
-            testName = "AzureLocationTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             try
             {
@@ -697,7 +691,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureOSDiskTest()
         {
             cleanup = false;
-            testName = "AzureOSDiskTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             try
             {
@@ -724,7 +718,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureOSVersionTest()
         {
             cleanup = false;
-            testName = "AzureOSVersionTest";          
+            testName = MethodBase.GetCurrentMethod().Name;       
 
             try
             {
@@ -746,10 +740,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureRoleTest()
         {
-            cleanup = true;
-            testName = "AzureRoleTest";
-
-
+            cleanup = false;
+            testName = MethodBase.GetCurrentMethod().Name;
 
             // Choose the package and config files from local machine
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
@@ -771,8 +763,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             //DeploymentInfoContext result;
             string roleName = "";
-
-
 
             try
             {
@@ -813,7 +803,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureSubnetTest()
         {
             cleanup = true;
-            testName = "AzureSubnetTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             try
             {
@@ -847,7 +837,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureStorageKeyTest()
         {
             cleanup = false;
-            testName = "AzureStorageKeyTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             
             try
             {
@@ -875,7 +865,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureStorageAccountTest()
         {
             cleanup = false;
-            testName = "AzureStorageAccountTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             
 
             string storageName1 = Utilities.GetUniqueShortName("psteststorage");
@@ -919,6 +909,62 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
+        public void AzureVMImageTest()
+        {
+
+            cleanup = false;
+            testName = MethodBase.GetCurrentMethod().Name;
+
+            string newImageName = Utilities.GetUniqueShortName("vmimage");
+            string blobUrlRoot = string.Format(@"http://{0}.blob.core.windows.net/", defaultAzureSubscription.CurrentStorageAccount);
+            string mediaLocation = string.Format("{0}vhdstore/128GBOS.vhd", blobUrlRoot);
+
+            string oldLabel = "old label";
+            string newLabel = "new label";            
+
+            try
+            {
+                OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OSType.Windows, oldLabel);
+
+                OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
+
+                if (!result.Equals(resultReturned))
+                {
+                    pass = false;                    
+                }
+
+
+
+                result = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, newLabel);
+
+
+                resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
+
+                //Assert.AreEqual(result, resultReturned);
+
+                if (!result.Equals(resultReturned))
+                {
+                    pass = false;
+                }
+
+
+                vmPowershellCmdlets.RemoveAzureVMImage(newImageName);
+
+                //pass = true;
+
+            }
+            catch (Exception e)
+            {
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+
+            }
+        }
+
         /// <summary>
         /// AzureVNetGatewayTest()       
         /// </summary>
@@ -927,7 +973,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureVNetGatewayTest()
         {
             cleanup = false;
-            testName = "AzureVNetGatewayTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
             string vnetName1 = "NewVNet1"; // For connect test
             string vnetName2 = "NewVNet2"; // For disconnect test
@@ -1006,7 +1052,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureVNetGatewayKeyTest()
         {
             cleanup = false;
-            testName = "AzureVNetGatewayKeyTest";
+            testName = MethodBase.GetCurrentMethod().Name;
             
             string vnetName = "NewVNet1";
             
@@ -1030,7 +1076,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void AzureVNetConfigTest()
         {
             cleanup = false;
-            testName = "AzureVNetConfigTest";
+            testName = MethodBase.GetCurrentMethod().Name;
 
 
             string filePath = "C:\\vnetconfig.netcfg";            

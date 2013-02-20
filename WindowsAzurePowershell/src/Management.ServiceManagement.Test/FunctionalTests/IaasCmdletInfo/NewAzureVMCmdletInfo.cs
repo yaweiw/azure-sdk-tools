@@ -15,20 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;    
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class NewAzureVMCmdletInfo : CmdletsInfo
     {
-        //public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs)
-        //{
-        //    this.cmdletName = Utilities.NewAzureVMCmdletName;
-
-        //    this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-        //    this.cmdletParams.Add(new CmdletParam("VMs", vMs));            
-        //}
-
+        
         public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings, string affinityGroup, 
             string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location)
         {

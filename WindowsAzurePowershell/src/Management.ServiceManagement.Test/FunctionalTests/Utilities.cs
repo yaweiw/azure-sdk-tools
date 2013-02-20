@@ -145,6 +145,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         // AzureVhd
         public static string AddAzureVhdCmdletName = "Add-AzureVhd";
+        public static string SaveAzureVhdCmdletName = "Save-AzureVhd";
 
         // AzureVM
         public const string NewAzureVMCmdletName = "New-AzureVM";

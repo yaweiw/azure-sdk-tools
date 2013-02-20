@@ -154,7 +154,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             PersistentVM persistentVM1 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo1);
             PersistentVM persistentVM2 = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo2);
 
-            PersistentVM[] VMs = { persistentVM1, persistentVM2 };            
+            //PersistentVM[] VMs = { persistentVM1, persistentVM2 };            
+            PersistentVM[] VMs = { persistentVM1};            
             vmPowershellCmdlets.NewAzureVM(newAzureSvcName, VMs);
 
             // Cleanup
