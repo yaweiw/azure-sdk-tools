@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
 
     public class WindowsAzureAddOn
     {
@@ -41,12 +41,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         public string Location { get; set; }
 
+        public string CloudService { get; set; }
+
         /// <summary>
         /// Creates new instance from AddOn
         /// </summary>
         /// <param name="resource">The add on details</param>
         /// <param name="geoRegion">The add on region</param>
-        public WindowsAzureAddOn(Resource resource, string geoRegion)
+        public WindowsAzureAddOn(Resource resource, string geoRegion, string cloudService)
         {
             Type = resource.ResourceProviderNamespace;
             
@@ -69,6 +71,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             LastOperationStatus = resource.OperationStatus;
 
             Location = geoRegion;
+
+            CloudService = cloudService;
         }
     }
 }

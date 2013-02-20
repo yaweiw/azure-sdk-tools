@@ -423,7 +423,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         /// <returns>True if equals or leftHandSide is null/empty, false otherwise.</returns>
         public static bool TryEquals(string leftHandSide, string rightHandSide)
         {
-            if (string.IsNullOrEmpty(leftHandSide) || leftHandSide.Equals(rightHandSide))
+            if (string.IsNullOrEmpty(leftHandSide) ||
+                leftHandSide.Equals(rightHandSide, StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }

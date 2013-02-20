@@ -12,41 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class Resource
+    public class CloudService
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
-        public string ResourceProviderNamespace { get; set; }
-
-        [DataMember(Order = 2, EmitDefaultValue = false)]
-        public string Type { get; set; }
-
-        [DataMember(Order = 3, EmitDefaultValue = false)]
         public string Name { get; set; }
 
+        [DataMember(Order = 2, EmitDefaultValue = false)]
+        public string Label { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Description { get; set; }
+
         [DataMember(Order = 4, EmitDefaultValue = false)]
-        public string Plan { get; set; }
+        public string GeoRegion { get; set; }
 
         [DataMember(Order = 5, EmitDefaultValue = false)]
-        public string SchemaVersion { get; set; }
-
-        [DataMember(Order = 6, EmitDefaultValue = false)]
-        public string ETag { get; set; }
-
-        [DataMember(Order = 7, EmitDefaultValue = false)]
-        public string State { get; set; }
-
-        [DataMember(Order = 8, EmitDefaultValue = false)]
-        public UsageMeterList UsageMeters { get; set; }
-
-        [DataMember(Order = 9, EmitDefaultValue = false)]
-        public OutputItemList OutputItems { get; set; }
-
-        [DataMember(Order = 10, EmitDefaultValue = false)]
-        public OperationStatus OperationStatus { get; set; }
+        public ResourceList Resources { get; set; }
     }
 }

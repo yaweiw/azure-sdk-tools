@@ -12,17 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
-    public class Error
+    public class UsageMeter
     {
         [DataMember(Order = 1, EmitDefaultValue = false)]
-        public string HttpCode { get; set; }
+        public string Name { get; set; }
 
         [DataMember(Order = 2, EmitDefaultValue = false)]
-        public string Message { get; set; }
+        public string Unit { get; set; }
+
+        [DataMember(Order = 3, EmitDefaultValue = false)]
+        public string Included { get; set; }
+
+        [DataMember(Order = 4, EmitDefaultValue = false)]
+        public string Used { get; set; }
     }
 }

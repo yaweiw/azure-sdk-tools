@@ -15,12 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
-    using System.Linq;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
@@ -40,8 +41,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
             LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
             MarketplaceClient = MarketplaceClient ?? 
                 new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
+
+            WriteVerbose(Resources.GetAllAddOnsWaitMessage);
             List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country);
-            WriteObject(result ?? new List<WindowsAzureOffer>(), true);
+            List<WindowsAzureOffer> knownProviders = result.Where<WindowsAzureOffer>(
+                o => MarketplaceClient.IsKnownProvider(o.ProviderId)).ToList<WindowsAzureOffer>();
+            WriteObject(knownProviders, true);
         }
     }
 }
