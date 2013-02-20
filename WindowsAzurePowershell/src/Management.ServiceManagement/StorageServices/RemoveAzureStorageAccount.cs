@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     /// Deletes the specified storage account from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureStorageAccount"), OutputType(typeof(StorageServiceOperationContext))]
-    public class RemoveAzureStorageAccountCommand : CloudServiceManagementBaseCmdlet
+    public class RemoveAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
         public RemoveAzureStorageAccountCommand()
         {
