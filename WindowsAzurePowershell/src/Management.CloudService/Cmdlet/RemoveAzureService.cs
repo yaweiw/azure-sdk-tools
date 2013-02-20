@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true), OutputType(typeof(bool))]
-    public class RemoveAzureServiceCommand : CloudServiceManagementBaseCmdlet
+    public class RemoveAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName
@@ -122,7 +122,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)
         {
-            var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+            var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = true, CurrentSubscription = CurrentSubscription };
             if (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription))
             {
                 InvokeInOperationContext(() =>
