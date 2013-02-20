@@ -69,6 +69,11 @@
       Targets="Clean"
       Properties="Configuration=Release"
       ContinueOnError="false" />
+	<MSBuild
+      Projects="@(SetupSln)"
+      Targets="Clean"
+      Properties="Configuration=Debug"
+      ContinueOnError="false" />
     
     <!-- Delete scaffolding files-->
     <Message Importance="high" Text="Cleaning scaffolding files..." ContinueOnError="false" />
