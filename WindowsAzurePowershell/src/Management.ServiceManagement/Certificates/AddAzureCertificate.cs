@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     /// Upload a service certificate for the specified hosted service.
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
-    public class AddAzureCertificate : CloudServiceManagementBaseCmdlet
+    public class AddAzureCertificate : ServiceManagementBaseCmdlet
     {
         public AddAzureCertificate()
         {
