@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             var messageInspectors = new List<IClientMessageInspector>
             {
                 new ServiceManagementClientOutputMessageInspector(),
-                new HttpRestMessageInspector(text => this.WriteDebug(text))
+                new HttpRestMessageInspector(this.WriteDebug)
             };
 
             var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, messageInspectors);
