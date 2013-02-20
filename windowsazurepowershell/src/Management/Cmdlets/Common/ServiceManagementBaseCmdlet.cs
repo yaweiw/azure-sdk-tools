@@ -19,14 +19,12 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
     using System.Threading;
     using ServiceManagement;
     using Model;
 
-    public abstract class CloudServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
+    public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
         protected override IServiceManagement CreateChannel()
         {
@@ -38,13 +36,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 return Channel;
             }
 
-            var endpointBehaviors = new List<IEndpointBehavior>
+            var messageInspectors = new List<IClientMessageInspector>
             {
                 new ServiceManagementClientOutputMessageInspector(),
-                new HttpRestMessageInspector(text => this.WriteDebug(text))
+                new HttpRestMessageInspector(this.WriteDebug)
             };
 
-            var clientOptions = new ServiceManagementClientOptions(endpointBehaviors);
+            var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, messageInspectors);
             var smClient = new ServiceManagementClient(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, clientOptions);
             return smClient.Service;
         }
@@ -56,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         /// <param name="action">The action to invoke.</param>
         protected override void InvokeInOperationContext(Action action)
         {
-            IContextChannel contextChannel = Channel.ToContextChannel();
+            IContextChannel contextChannel = ToContextChannel();
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))
@@ -68,6 +66,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 action();
             }
+        }
+
+        protected virtual IContextChannel ToContextChannel()
+        {
+            return Channel.ToContextChannel();
         }
 
         protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
