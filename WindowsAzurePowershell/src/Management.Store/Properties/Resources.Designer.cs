@@ -300,5 +300,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
                 return ResourceManager.GetString("SetNonMicrosoftAddOnMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provider {0} is unknown..
+        /// </summary>
+        internal static string UnknownProviderMessage {
+            get {
+                return ResourceManager.GetString("UnknownProviderMessage", resourceCulture);
+            }
+        }
     }
 }

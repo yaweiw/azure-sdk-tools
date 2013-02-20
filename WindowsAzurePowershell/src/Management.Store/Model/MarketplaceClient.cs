@@ -23,23 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class MarketplaceClient
     {
-        //
-        // These are the Microsoft Providers - We display special legal terms for them
-        //
-        private static HashSet<Guid> MicrosoftProviderIds = new HashSet<Guid>() { 
-            // Bing
-             new Guid("f8ede0df-591f-4722-b646-e5eb86f0ae52"),
- 
-            // Microsoft
-            new Guid("43e059fd-14ba-4297-939f-d428bbc74d0a"),
- 
-            // Microsoft Research
-            new Guid("b5e616d3-34f4-4ebe-a02d-c56a62a4a2f2"),
- 
-            // Microsoft Translator
-            new Guid("059afc24-07de-4126-b004-4e42a51816fe")
-        };
-
         public List<string> SubscriptionLocations { get; private set; }
 
         /// <summary>
@@ -122,13 +105,25 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         }
 
         /// <summary>
+        /// Checks if the given provider id is known provider or not.
+        /// </summary>
+        /// <param name="providerId">The provider id</param>
+        /// <returns>True if known, false otherwise.</returns>
+        public virtual bool IsKnownProvider(Guid providerId)
+        {
+            return
+                Constants.MicrosoftProviderIds.Contains(providerId) ||
+                Constants.NonMicrosoftProviderIds.Contains(providerId);
+        }
+
+        /// <summary>
         /// Detects if the given offer is Microsoft offer or not.
         /// </summary>
         /// <param name="offer">The offer instance</param>
         /// <returns>True if Microsoft offer, false otherwise</returns>
         public virtual bool IsMicrosoftOffer(Offer offer)
         {
-            return MicrosoftProviderIds.Contains(offer.ProviderId);
+            return Constants.MicrosoftProviderIds.Contains(offer.ProviderId);
         }
     }
 }
