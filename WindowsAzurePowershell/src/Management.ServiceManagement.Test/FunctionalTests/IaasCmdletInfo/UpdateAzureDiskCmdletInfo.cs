@@ -14,16 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
+    using Microsoft.WindowsAzure.ServiceManagement;
 
-    public class GetAzureOSDiskCmdletInfo : CmdletsInfo
+    public class UpdateAzureDiskCmdletInfo : CmdletsInfo
     {
-        public GetAzureOSDiskCmdletInfo(PersistentVM vm)
+        public UpdateAzureDiskCmdletInfo(string diskName, string label)
         {
-            cmdletName = Utilities.GetAzureOSDiskCmdletName;
-            this.cmdletParams.Add(new CmdletParam("VM", vm));           
+            cmdletName = Utilities.UpdateAzureDiskCmdletName;
+            
+            this.cmdletParams.Add(new CmdletParam("DiskName", diskName));
+            this.cmdletParams.Add(new CmdletParam("Label", label));            
         }
     }
 }

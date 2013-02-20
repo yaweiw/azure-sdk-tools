@@ -14,27 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
 
-    public class AddAzureDiskCmdletInfo : CmdletsInfo
+    public class GetAzureVNetConnectionCmdletInfo : CmdletsInfo
     {
-        public AddAzureDiskCmdletInfo(string diskName, string mediaLocation, string label, string os)
+        public GetAzureVNetConnectionCmdletInfo(string vnetName)
         {
-            cmdletName = Utilities.AddAzureDiskCmdletName;
-            
-            this.cmdletParams.Add(new CmdletParam("DiskName", diskName));
-            this.cmdletParams.Add(new CmdletParam("MediaLocation", mediaLocation));
-            
-            if (label != null)
-            {
-                this.cmdletParams.Add(new CmdletParam("Label", label));
-            }
-
-            if (os != null)
-            {
-                this.cmdletParams.Add(new CmdletParam("OS", os));
-            }
+            cmdletName = Utilities.GetAzureVNetConnectionCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
         }
     }
 }

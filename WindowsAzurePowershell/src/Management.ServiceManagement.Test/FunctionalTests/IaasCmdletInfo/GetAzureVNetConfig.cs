@@ -14,15 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
 
-    public class NewAzureVNetGatewayCmdletInfo : CmdletsInfo
+    public class GetAzureVNetConfigCmdletInfo : CmdletsInfo
     {
-        public NewAzureVNetGatewayCmdletInfo(string vnetName)
+        public GetAzureVNetConfigCmdletInfo(string filePath)
         {
-            cmdletName = Utilities.NewAzureVNetGatewayCmdletName;
-            this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
+            cmdletName = Utilities.GetAzureVNetConfigCmdletName;
+            if (filePath != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("ExportToFile", filePath));
+            }
         }
     }
 }

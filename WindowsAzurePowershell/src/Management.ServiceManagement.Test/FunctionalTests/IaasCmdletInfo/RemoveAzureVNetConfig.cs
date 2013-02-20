@@ -15,17 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.ServiceManagement;
-
-    public class UpdateAzureDiskCmdletInfo : CmdletsInfo
+    
+    public class RemoveAzureVNetConfigCmdletInfo : CmdletsInfo
     {
-        public UpdateAzureDiskCmdletInfo(string diskName, string label)
+        public RemoveAzureVNetConfigCmdletInfo()
         {
-            cmdletName = Utilities.UpdateAzureDiskCmdletName;
-            
-            this.cmdletParams.Add(new CmdletParam("DiskName", diskName));
-            this.cmdletParams.Add(new CmdletParam("Label", label));            
+            cmdletName = Utilities.RemoveAzureVNetConfigCmdletName;            
         }
     }
 }
