@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.
     /// </summary>
-    class RemoveAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
+    class RemoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         public string Slot
