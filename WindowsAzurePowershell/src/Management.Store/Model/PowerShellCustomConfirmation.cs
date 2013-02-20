@@ -18,16 +18,30 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Collections.ObjectModel;
     using System.Management.Automation.Host;
 
-    class Utilities
+    public class PowerShellCustomConfirmation
     {
+        private PSHost host;
+
+        /// <summary>
+        /// Parameterless constructor for mock framework
+        /// </summary>
+        public PowerShellCustomConfirmation()
+        {
+
+        }
+
+        public PowerShellCustomConfirmation(PSHost host)
+        {
+            this.host = host;
+        }
+
         /// <summary>
         /// Asks user for confirming the given  action.
         /// </summary>
-        /// <param name="host">The PSCmdlet host object</param>
         /// <param name="caption">The confirmation caption</param>
         /// <param name="message">The confirmation message</param>
         /// <returns>True if user entered Yes, otherwise false</returns>
-        public static bool ShouldProcess(PSHost host, string caption, string message)
+        public virtual bool ShouldProcess(string caption, string message)
         {
             const int Yes = 0;
             const int No = 1;

@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     {
         public StoreClient StoreClient { get; set; }
 
+        public PowerShellCustomConfirmation CustomConfirmation;
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
         public string Name { get; set; }
 
@@ -45,9 +47,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
+            CustomConfirmation = CustomConfirmation ?? new PowerShellCustomConfirmation(Host);
 
             string message = StoreClient.GetConfirmationMessage(OperationType.Remove);
-            bool remove = Utilities.ShouldProcess(Host, Resources.RemoveAddOnConformation, message);
+            bool remove = CustomConfirmation.ShouldProcess(Resources.RemoveAddOnConformation, message);
             if (remove)
             {
                 StoreClient.RemoveAddOn(Name);

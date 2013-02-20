@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add-on name {0} is already used..
+        /// </summary>
+        internal static string AddOnNameAlreadyUsed {
+            get {
+                return ResourceManager.GetString("AddOnNameAlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add-On {0} not found..
         /// </summary>
         internal static string AddOnNotFound {
