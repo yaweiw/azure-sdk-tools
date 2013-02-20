@@ -14,29 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
 
-    public class SetAzureVNetGatewayCmdletInfo : CmdletsInfo
+    public class RemoveAzureVNetGatewayCmdletInfo : CmdletsInfo
     {
-        public SetAzureVNetGatewayCmdletInfo(string option, string vnetName, string localNetwork)
+        public RemoveAzureVNetGatewayCmdletInfo(string vnetName)
         {
-            cmdletName = Utilities.SetAzureVNetGatewayCmdletName;
-            switch (option)
-            {
-                case "test":
-                    this.cmdletParams.Add(new CmdletParam("Test"));
-                    break;
-                case "connect":
-                    this.cmdletParams.Add(new CmdletParam("Connect"));
-                    break;
-                case "disconnect":
-                    this.cmdletParams.Add(new CmdletParam("Disconnect"));
-                    break;
-            }
-
+            cmdletName = Utilities.RemoveAzureVNetGatewayCmdletName;
             this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
-            this.cmdletParams.Add(new CmdletParam("LocalNetworkSiteName", localNetwork));
         }
     }
 }

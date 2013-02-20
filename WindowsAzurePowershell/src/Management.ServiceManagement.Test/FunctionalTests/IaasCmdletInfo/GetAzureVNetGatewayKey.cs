@@ -14,19 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
 
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
-
-    public class SetAzureOSDiskCmdletInfo : CmdletsInfo
+    public class GetAzureVNetGatewayKeyCmdletInfo : CmdletsInfo
     {
-        public SetAzureOSDiskCmdletInfo(HostCaching hs, PersistentVM vm)
+        public GetAzureVNetGatewayKeyCmdletInfo(string vnetName, string localNetwork)
         {
-            cmdletName = Utilities.SetAzureOSDiskCmdletName;
-            this.cmdletParams.Add(new CmdletParam("HostCaching", hs.ToString()));
-            this.cmdletParams.Add(new CmdletParam("VM", vm));
+            this.cmdletName = Utilities.GetAzureVNetGatewayKeyCmdletName;
+            this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
+            this.cmdletParams.Add(new CmdletParam("LocalNetworkSiteName", localNetwork));
         }
     }
 }

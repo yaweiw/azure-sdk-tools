@@ -14,8 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    //using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class AddAzureVMImageCmdletInfo : CmdletsInfo
@@ -28,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             cmdletParams.Add(new CmdletParam("MediaLocation", mediaLocation));
             cmdletParams.Add(new CmdletParam("OS", os.ToString()));
                 
-            if (label != null)
+            if (System.String.IsNullOrWhiteSpace(label))
             {
                 cmdletParams.Add(new CmdletParam("Label", label));
             }
