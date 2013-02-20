@@ -42,6 +42,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On promotion code")]
         public string PromotionCode { get; set; }
 
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Pass output")]
+        public SwitchParameter PassThru { get; set; }
+
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
@@ -63,7 +66,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 {
                     StoreClient.UpdateAddOn(Name, Plan, PromotionCode);
                     WriteVerbose(string.Format(Resources.AddOnUpdatedMessage, Name));
-                    WriteObject(true);
+
+                    if (PassThru.IsPresent)
+                    {
+                        WriteObject(true);
+                    }
                 }
             }
         }
