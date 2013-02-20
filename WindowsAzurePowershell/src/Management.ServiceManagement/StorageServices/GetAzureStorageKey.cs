@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     /// the storage account resource specified.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
-    public class GetAzureStorageKeyCommand : CloudServiceManagementBaseCmdlet
+    public class GetAzureStorageKeyCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureStorageKeyCommand()
         {

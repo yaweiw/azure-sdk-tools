@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsData.Save, "AzureVhd"), OutputType(typeof (VhdDownloadContext))]
-    public class SaveAzureVhdCommand : CloudServiceManagementBaseCmdlet
+    public class SaveAzureVhdCommand : ServiceManagementBaseCmdlet
     {
         private const int DefaultNumberOfUploaderThreads = 8;
 
