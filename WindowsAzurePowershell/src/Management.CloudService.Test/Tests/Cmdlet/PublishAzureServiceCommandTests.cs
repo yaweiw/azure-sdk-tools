@@ -71,11 +71,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
             addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
-            publishServiceCmdlet = new PublishAzureServiceProjectCommand(channel) { ShareChannel = true };
+            publishServiceCmdlet = new PublishAzureServiceProjectCommandTestStub(channel) { ShareChannel = true };
 
             addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
             enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
             publishServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
+        class PublishAzureServiceProjectCommandTestStub : PublishAzureServiceProjectCommand
+        {
+            public PublishAzureServiceProjectCommandTestStub(IServiceManagement channel)
+                : base(channel)
+            {
+            }
+
+            protected override IContextChannel ToContextChannel()
+            {
+                return Channel as IContextChannel;
+            }
         }
 
         /// <summary>
