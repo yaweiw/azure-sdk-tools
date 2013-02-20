@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Requests a reboot/reimage of a single role instance or for all role instances of a role.
     /// </summary>
     [Cmdlet(VerbsCommon.Reset, "AzureRoleInstance", DefaultParameterSetName = "ParameterSetGetDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class ResetAzureRoleInstanceCommand : CloudServiceManagementBaseCmdlet
+    public class ResetAzureRoleInstanceCommand : ServiceManagementBaseCmdlet
     {
         public ResetAzureRoleInstanceCommand()
         {

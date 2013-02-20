@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     /// Swaps the deployments in production and stage.
     /// </summary>
     [Cmdlet(VerbsCommon.Move, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class MoveAzureDeploymentCommand : CloudServiceManagementBaseCmdlet
+    public class MoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public MoveAzureDeploymentCommand()
         {
