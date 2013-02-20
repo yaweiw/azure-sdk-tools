@@ -487,6 +487,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
+      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
+      <Name>Management.ServiceBus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>

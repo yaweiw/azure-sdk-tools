@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
