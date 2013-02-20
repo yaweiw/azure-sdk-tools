@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
     /// List the properties for the specified affinity group.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureAffinityGroup"), OutputType(typeof(AffinityGroupContext))]
-    public class GetAzureAffinityGroup : CloudServiceManagementBaseCmdlet
+    public class GetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
         public GetAzureAffinityGroup()
         {
