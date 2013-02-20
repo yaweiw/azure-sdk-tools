@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract
+namespace Microsoft.WindowsAzure.Management.ServiceBus.Contract
 {
     using System;
     using System.Collections.Generic;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// The service bus-related part of the API

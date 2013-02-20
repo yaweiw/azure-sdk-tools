@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus
+namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus
     using System.Xml;
     using System.Xml.Linq;
     using System.Xml.Serialization;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     public class ServiceBusConstants
     {
