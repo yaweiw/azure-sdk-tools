@@ -126,6 +126,7 @@
   <ItemGroup>
     <Compile Include="Cmdlet\NewAzureStoreAddOn.cs" />
     <Compile Include="Cmdlet\SetAzureStoreAddOn.cs" />
+    <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\Contract\IStoreManagement.cs" />
     <Compile Include="Model\Contract\StoreExtensionMethods.cs" />
     <Compile Include="Model\ResourceModel\CloudService.cs" />

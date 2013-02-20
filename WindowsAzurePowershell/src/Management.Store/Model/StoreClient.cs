@@ -302,6 +302,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                     throw new Exception(string.Format(Resources.AddOnNotFound, addon));
                 }
 
+                if (!MarketplaceClient.IsKnownProvider(offer.ProviderId))
+                {
+                    throw new Exception(string.Format(Resources.UnknownProviderMessage, offer.ProviderId));
+                }
+
                 microsoftOffer = MarketplaceClient.IsMicrosoftOffer(offer);
                 addOnUrl = string.Format(Resources.AddOnUrl, offer.Id);
             }

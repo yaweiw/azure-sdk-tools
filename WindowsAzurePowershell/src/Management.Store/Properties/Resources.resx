@@ -208,4 +208,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="AddOnNameAlreadyUsed" xml:space="preserve">
     <value>Add-on name {0} is already used.</value>
   </data>
+  <data name="UnknownProviderMessage" xml:space="preserve">
+    <value>The provider {0} is unknown.</value>
+  </data>
 </root>

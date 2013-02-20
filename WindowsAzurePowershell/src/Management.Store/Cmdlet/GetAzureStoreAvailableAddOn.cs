@@ -44,7 +44,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 
             WriteVerbose(Resources.GetAllAddOnsWaitMessage);
             List<WindowsAzureOffer> result = MarketplaceClient.GetAvailableWindowsAzureOffers(Country);
-            WriteObject(result ?? new List<WindowsAzureOffer>(), true);
+            List<WindowsAzureOffer> knownProviders = result.Where<WindowsAzureOffer>(
+                o => MarketplaceClient.IsKnownProvider(o.ProviderId)).ToList<WindowsAzureOffer>();
+            WriteObject(knownProviders, true);
         }
     }
 }
