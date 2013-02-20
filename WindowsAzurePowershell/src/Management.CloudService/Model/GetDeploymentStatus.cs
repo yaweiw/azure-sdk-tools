@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
     /// </summary>
-    public class GetDeploymentStatus : CloudServiceManagementBaseCmdlet
+    public class GetDeploymentStatus : ServiceManagementBaseCmdlet
     {
         public GetDeploymentStatus()
         {

@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// <summary>
     /// Change deployment status to running or suspended.
     /// </summary>
-    public class DeploymentStatusManager : CloudServiceManagementBaseCmdlet
+    public class DeploymentStatusManager : ServiceManagementBaseCmdlet
     {
         public DeploymentStatusManager() { }
 
