@@ -156,7 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\CloudBaseCmdlet.cs" />
-    <Compile Include="Cmdlets\Common\CloudServiceManagementBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\ServiceManagementBaseCmdlet.cs" />
     <Compile Include="Cmdlets\GetAzurePublishSettings.cs" />
     <Compile Include="Extensions\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Extensions\CmdletExtensions.cs" />
