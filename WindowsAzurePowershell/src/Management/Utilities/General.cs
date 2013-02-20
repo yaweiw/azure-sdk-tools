@@ -431,5 +431,54 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
             return false;
         }
+
+        public static string ReadBody(ref Message originalMessage)
+        {
+            StringBuilder strBuilder = new StringBuilder();
+
+            using (MessageBuffer messageBuffer = originalMessage.CreateBufferedCopy(int.MaxValue))
+            {
+                Message message = messageBuffer.CreateMessage();
+                XmlWriter writer = XmlWriter.Create(strBuilder);
+                using (XmlDictionaryWriter dictionaryWriter = XmlDictionaryWriter.CreateDictionaryWriter(writer))
+                {
+                    message.WriteBodyContents(dictionaryWriter);
+                }
+
+                originalMessage = messageBuffer.CreateMessage();
+            }
+
+            return Beautify(strBuilder.ToString());
+        }
+
+        /// <summary>
+        /// Formats given string into well formatted XML.
+        /// </summary>
+        /// <param name="unformattedXml">The unformatted xml string</param>
+        /// <returns>The formatted XML string</returns>
+        public static string Beautify(string unformattedXml)
+        {
+            string formattedXml = string.Empty;
+            if (!string.IsNullOrEmpty(unformattedXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(unformattedXml);
+                StringBuilder stringBuilder = new StringBuilder();
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Indent = true,
+                    IndentChars = "\t",
+                    NewLineChars = Environment.NewLine,
+                    NewLineHandling = NewLineHandling.Replace
+                };
+                using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
+                {
+                    doc.Save(writer);
+                }
+                formattedXml = stringBuilder.ToString();
+            }
+
+            return formattedXml;
+        }
     }
 }
