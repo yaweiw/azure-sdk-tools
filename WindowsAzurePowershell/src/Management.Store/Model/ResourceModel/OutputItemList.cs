@@ -12,24 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
-    using System;
     using System.Collections.Generic;
-    using System.ServiceModel;
-    using System.ServiceModel.Web;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+    using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
-    [ServiceContract]
-    public interface IStoreManagement
+    [CollectionDataContract(Name = "OutputItems", ItemName = "OutputItem", Namespace = Constants.ServiceManagementNS)]
+    public class OutputItemList : List<OutputItem>
     {
-        /// <summary>
-        /// Lists the cloud services associated with a given subscription.
-        /// </summary>
-        [OperationContract(AsyncPattern = true)]
-        [WebGet(UriTemplate = @"{subscriptionId}/CloudServices")]
-        IAsyncResult BeginListCloudServices(string subscriptionId, AsyncCallback callback, object state);
+        public OutputItemList()
+        {
+        }
 
-        CloudServiceList EndListCloudServices(IAsyncResult asyncResult);
+        public OutputItemList(IEnumerable<OutputItem> outputItems)
+            : base(outputItems)
+        {
+        }
     }
 }

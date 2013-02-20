@@ -12,16 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract
+namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+    using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
-    public static class StoreExtensionMethods
+    [CollectionDataContract(Name = "UsageMeters", ItemName = "UsageMeter", Namespace = Constants.ServiceManagementNS)]
+    public class UsageMeterList : List<UsageMeter>
     {
-        public static CloudServiceList ListCloudServices(this IStoreManagement proxy, string subscriptionId)
+        public UsageMeterList()
         {
-            return proxy.EndListCloudServices(proxy.BeginListCloudServices(subscriptionId, null, null));
+        }
+
+        public UsageMeterList(IEnumerable<UsageMeter> usageMeters)
+            : base(usageMeters)
+        {
         }
     }
 }
