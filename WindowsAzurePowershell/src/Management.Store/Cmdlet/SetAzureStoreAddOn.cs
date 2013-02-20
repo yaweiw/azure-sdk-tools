@@ -31,6 +31,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     {
         public StoreClient StoreClient { get; set; }
 
+        public PowerShellCustomConfirmation CustomConfirmation;
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
         public string Name { get; set; }
 
@@ -49,12 +51,13 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
+            CustomConfirmation = CustomConfirmation ?? new PowerShellCustomConfirmation(Host);
             WindowsAzureAddOn addon;
 
             if (StoreClient.TryGetAddOn(Name, out addon))
             {
                 string message = StoreClient.GetConfirmationMessage(OperationType.Set, addon.AddOn, Plan);
-                bool purchase = Utilities.ShouldProcess(Host, Resources.SetAddOnConformation, message);
+                bool purchase = CustomConfirmation.ShouldProcess(Resources.SetAddOnConformation, message);
 
                 if (purchase)
                 {

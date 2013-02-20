@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     {
         public StoreClient StoreClient { get; set; }
 
+        public PowerShellCustomConfirmation CustomConfirmation;
+
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Add-On name")]
         public string Name { get; set; }
 
@@ -55,14 +57,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 text => this.WriteDebug(text),
                 Channel);
             WindowsAzureAddOn addon;
+            CustomConfirmation = CustomConfirmation ?? new PowerShellCustomConfirmation(Host);
 
-            if (!StoreClient.TryGetAddOn(Name, out addon))
+            if (StoreClient.TryGetAddOn(Name, out addon))
             {
-                throw new Exception(string.Format("Add-on name {0} is already used.", Name));
+                throw new Exception(string.Format(Resources.AddOnNameAlreadyUsed, Name));
             }
 
             string message = StoreClient.GetConfirmationMessage(OperationType.New, AddOn, Plan);
-            bool purchase = Utilities.ShouldProcess(Host, Resources.NewAddOnConformation, message);
+            bool purchase = CustomConfirmation.ShouldProcess(Resources.NewAddOnConformation, message);
 
             if (purchase)
 	        {

@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
@@ -21,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.Store.Cmdlet;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Moq;
@@ -33,11 +35,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 
         Mock<StoreClient> mockStoreClient;
 
-        Mock<PSHost> mockHost;
+        Mock<PowerShellCustomConfirmation> mockConfirmation;
 
         NewAzureStoreAddOnCommand cmdlet;
-
-        List<PSObject> actual;
 
         [TestInitialize]
         public void SetupTest()
@@ -46,11 +46,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
             mockCommandRuntime = new Mock<ICommandRuntime>();
             mockStoreClient = new Mock<StoreClient>();
-            mockHost = new Mock<PSHost>();
+            mockConfirmation = new Mock<PowerShellCustomConfirmation>();
             cmdlet = new NewAzureStoreAddOnCommand()
             {
                 StoreClient = mockStoreClient.Object,
-                CommandRuntime = mockCommandRuntime.Object
+                CommandRuntime = mockCommandRuntime.Object,
+                CustomConfirmation = mockConfirmation.Object
             };
         }
 
@@ -60,15 +61,81 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             // Setup
             bool expected = true;
             WindowsAzureAddOn addon;
-            mockHost.Setup(f => f.UI.PromptForChoice(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Collection<ChoiceDescription>>(), It.IsAny<int>())).Returns(0);
-            mockStoreClient.Setup(f => f.TryGetAddOn(It.IsAny<string>(), out addon)).Returns(true);
+            string name = "TestAddOn";
+            string location = "West US";
+            string addonId = "Search";
+            string plan = "free";
+            string message = "Expected message for new";
+            cmdlet.Name = name;
+            cmdlet.AddOn = addonId;
+            cmdlet.Plan = plan;
+            cmdlet.Location = location;
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(true);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
+            mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            //mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, null, null)), Times.Once());
-            //mockCommandRuntime.Verify(f => f.WriteObject(expected, true), Times.Once());
+            mockStoreClient.Verify(f => f.NewAddOn(name, addonId, plan, location, null), Times.Once());
+            mockConfirmation.Verify(f => f.ShouldProcess(Resources.NewAddOnConformation, message), Times.Once());
+            mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Once());
+        }
+
+        [TestMethod]
+        public void NewAzureStoreAddOnWithNoConfirmation()
+        {
+            // Setup
+            bool expected = true;
+            WindowsAzureAddOn addon;
+            string name = "TestAddOn";
+            string location = "West US";
+            string addonId = "Search";
+            string plan = "free";
+            string message = "Expected message for new";
+            cmdlet.Name = name;
+            cmdlet.AddOn = addonId;
+            cmdlet.Plan = plan;
+            cmdlet.Location = location;
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(false);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
+            mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
+
+            // Test
+            cmdlet.ExecuteCmdlet();
+
+            // Assert
+            mockStoreClient.Verify(f => f.NewAddOn(name, addonId, plan, location, null), Times.Never());
+            mockConfirmation.Verify(f => f.ShouldProcess(Resources.NewAddOnConformation, message), Times.Once());
+            mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Never());
+        }
+
+        [TestMethod]
+        public void NewAzureStoreAddOnWithNameAlreadyUsed()
+        {
+            // Setup
+            WindowsAzureAddOn addon;
+            string name = "TestAddOn";
+            string location = "West US";
+            string addonId = "Search";
+            string plan = "free";
+            string message = "Expected message for new";
+            cmdlet.Name = name;
+            cmdlet.AddOn = addonId;
+            cmdlet.Plan = plan;
+            cmdlet.Location = location;
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(true);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(false);
+            mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
+
+            // Test
+            Testing.AssertThrows<Exception>(
+                () => cmdlet.ExecuteCmdlet(),
+                string.Format(Resources.AddOnNameAlreadyUsed, name));
         }
     }
 }
