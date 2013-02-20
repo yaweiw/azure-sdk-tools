@@ -87,6 +87,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTests\Cmdlet\RemoveAzureStoreAddOnTest.cs" />
     <Compile Include="UnitTests\Cmdlet\SetAzureStoreAddOnTest.cs" />
     <Compile Include="UnitTests\Cmdlet\NewAzureStoreAddOnTest.cs" />
     <Compile Include="UnitTests\Cmdlet\GetAzureStoreAddOnTest.cs" />

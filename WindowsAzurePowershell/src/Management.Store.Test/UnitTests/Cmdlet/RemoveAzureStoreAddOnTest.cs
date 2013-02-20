@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class SetAzureStoreAddOnTests : TestBase
+    public class RemoveAzureStoreAddOnTests : TestBase
     {
         Mock<ICommandRuntime> mockCommandRuntime;
 
@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 
         Mock<PowerShellCustomConfirmation> mockConfirmation;
 
-        SetAzureStoreAddOnCommand cmdlet;
+        RemoveAzureStoreAddOnCommand cmdlet;
 
         [TestInitialize]
         public void SetupTest()
@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             mockCommandRuntime = new Mock<ICommandRuntime>();
             mockStoreClient = new Mock<StoreClient>();
             mockConfirmation = new Mock<PowerShellCustomConfirmation>();
-            cmdlet = new SetAzureStoreAddOnCommand()
+            cmdlet = new RemoveAzureStoreAddOnCommand()
             {
                 StoreClient = mockStoreClient.Object,
                 CommandRuntime = mockCommandRuntime.Object,
@@ -56,81 +56,77 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         }
 
         [TestMethod]
-        public void SetAzureStoreAddOnWithSuccessful()
+        public void RemoveAzureStoreAddOnWithSuccessful()
         {
             // Setup
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
             string plan = "free";
-            string message = "Expected message for set";
+            string message = "Expected message for remove";
             cmdlet.Name = name;
-            cmdlet.Plan = plan;
             WindowsAzureAddOn addon = new WindowsAzureAddOn(new Resource() { Type = addonId }, "West US", null);
-            mockConfirmation.Setup(f => f.ShouldProcess(Resources.SetAddOnConformation, message)).Returns(true);
-            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
-            mockStoreClient.Setup(f => f.UpdateAddOn(name, plan, null));
-            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Set, addonId, plan)).Returns(message);
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message)).Returns(true);
+            mockStoreClient.Setup(f => f.RemoveAddOn(name));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Remove, null, null)).Returns(message);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mockStoreClient.Verify(f => f.UpdateAddOn(name, plan, null), Times.Once());
-            mockConfirmation.Verify(f => f.ShouldProcess(Resources.SetAddOnConformation, message), Times.Once());
+            mockStoreClient.Verify(f => f.RemoveAddOn(name), Times.Once());
+            mockConfirmation.Verify(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Never());
         }
 
         [TestMethod]
-        public void SetAzureStoreAddOnWithPassThru()
+        public void RemoveAzureStoreAddOnWithPassThru()
         {
             // Setup
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
             string plan = "free";
-            string message = "Expected message for set";
+            string message = "Expected message for remove";
             cmdlet.Name = name;
-            cmdlet.Plan = plan;
             cmdlet.PassThru = true;
             WindowsAzureAddOn addon = new WindowsAzureAddOn(new Resource() { Type = addonId }, "West US", null);
-            mockConfirmation.Setup(f => f.ShouldProcess(Resources.SetAddOnConformation, message)).Returns(true);
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message)).Returns(true);
             mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
-            mockStoreClient.Setup(f => f.UpdateAddOn(name, plan, null));
-            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Set, addonId, plan)).Returns(message);
+            mockStoreClient.Setup(f => f.RemoveAddOn(name));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Remove, null, null)).Returns(message);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mockStoreClient.Verify(f => f.UpdateAddOn(name, plan, null), Times.Once());
-            mockConfirmation.Verify(f => f.ShouldProcess(Resources.SetAddOnConformation, message), Times.Once());
+            mockStoreClient.Verify(f => f.RemoveAddOn(name), Times.Once());
+            mockConfirmation.Verify(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Once());
         }
 
         [TestMethod]
-        public void SetAzureStoreAddOnWithNo()
+        public void RemoveAzureStoreAddOnWithNo()
         {
             // Setup
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
             string plan = "free";
-            string message = "Expected message for set";
+            string message = "Expected message for remove";
             cmdlet.Name = name;
-            cmdlet.Plan = plan;
             WindowsAzureAddOn addon = new WindowsAzureAddOn(new Resource() { Type = addonId }, "West US", null);
-            mockConfirmation.Setup(f => f.ShouldProcess(Resources.SetAddOnConformation, message)).Returns(false);
+            mockConfirmation.Setup(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message)).Returns(false);
             mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
-            mockStoreClient.Setup(f => f.UpdateAddOn(name, plan, null));
-            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Set, addonId, plan)).Returns(message);
+            mockStoreClient.Setup(f => f.RemoveAddOn(name));
+            mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.Remove, null, null)).Returns(message);
 
             // Test
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            mockStoreClient.Verify(f => f.UpdateAddOn(name, plan, null), Times.Never());
-            mockConfirmation.Verify(f => f.ShouldProcess(Resources.SetAddOnConformation, message), Times.Once());
+            mockStoreClient.Verify(f => f.RemoveAddOn(name), Times.Never());
+            mockConfirmation.Verify(f => f.ShouldProcess(Resources.RemoveAddOnConformation, message), Times.Once());
             mockCommandRuntime.Verify(f => f.WriteObject(expected), Times.Never());
         }
     }
