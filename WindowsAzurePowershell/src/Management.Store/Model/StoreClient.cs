@@ -279,6 +279,13 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
         }
 
+        /// <summary>
+        /// Gets confirmation message for the given operation.
+        /// </summary>
+        /// <param name="operation">The operation type</param>
+        /// <param name="addon">The add-on id</param>
+        /// <param name="plan">The plan id</param>
+        /// <returns>The confirmation message</returns>
         public virtual string GetConfirmationMessage(OperationType operation, string addon = null, string plan = null)
         {
             Offer offer = null;
@@ -326,6 +333,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             }
         }
 
+        /// <summary>
+        /// Tries to get an add-on using it's name.
+        /// </summary>
+        /// <param name="name">The add-on name</param>
+        /// <param name="addon">The add-on instance. Will be null if not found</param>
+        /// <returns>Boolean if the add-on is found, false otherwise</returns>
         public virtual bool TryGetAddOn(string name, out WindowsAzureAddOn addon)
         {
             List<WindowsAzureAddOn> addons = GetAddOn(new AddOnSearchOptions(name, null, null));
@@ -342,6 +355,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             }
         }
 
+        /// <summary>
+        /// Updates an add-on plan.
+        /// </summary>
+        /// <param name="name">The add-on name</param>
+        /// <param name="plan">The add-on new plan id</param>
+        /// <param name="promotionCode">The plan promotion code</param>
         public virtual void UpdateAddOn(string name, string plan, string promotionCode)
         {
             List<WindowsAzureAddOn> addons = GetAddOn(new AddOnSearchOptions(name));
