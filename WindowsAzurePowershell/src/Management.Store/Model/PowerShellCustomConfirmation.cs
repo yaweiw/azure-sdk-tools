@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation.Host;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
     public class PowerShellCustomConfirmation
     {
@@ -51,8 +52,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 new Collection<ChoiceDescription>(
                     new List<ChoiceDescription>(2)
                     {
-                        new ChoiceDescription("Yes", "Yes, I agree"),
-                        new ChoiceDescription("No", "No, I don not agree")
+                        new ChoiceDescription(Resources.Yes, Resources.YesHint),
+                        new ChoiceDescription(Resources.No, Resources.NoHint)
                     }), No);
 
             return userChoice == Yes;

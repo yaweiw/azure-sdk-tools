@@ -211,4 +211,16 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="UnknownProviderMessage" xml:space="preserve">
     <value>The provider {0} is unknown.</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NoHint" xml:space="preserve">
+    <value>No, I do not agree</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="YesHint" xml:space="preserve">
+    <value>Yes, I agree</value>
+  </data>
 </root>

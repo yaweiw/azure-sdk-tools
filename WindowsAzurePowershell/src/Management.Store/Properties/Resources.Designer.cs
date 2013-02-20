@@ -211,6 +211,24 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No, I do not agree.
+        /// </summary>
+        internal static string NoHint {
+            get {
+                return ResourceManager.GetString("NoHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Certificate can&apos;t be null..
         /// </summary>
         internal static string NullCertificateMessage {
@@ -307,6 +325,24 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         internal static string UnknownProviderMessage {
             get {
                 return ResourceManager.GetString("UnknownProviderMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes, I agree.
+        /// </summary>
+        internal static string YesHint {
+            get {
+                return ResourceManager.GetString("YesHint", resourceCulture);
             }
         }
     }

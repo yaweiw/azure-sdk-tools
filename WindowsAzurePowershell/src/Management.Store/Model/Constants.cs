@@ -8,7 +8,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     public class Constants
     {
         //
-        // These are the Non-Microsoft Providers - We display special legal terms for them
+        // Non-Microsoft Providers
         //
         public static HashSet<Guid> NonMicrosoftProviderIds = new HashSet<Guid>() { 
              new Guid("e110fba1-0c8a-45a4-b64e-0bebb3fcb85e"),
@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         };
 
         //
-        // These are the Microsoft Providers - We display special legal terms for them
+        // Microsoft Providers
         //
         public static HashSet<Guid> MicrosoftProviderIds = new HashSet<Guid>() { 
             // Bing
