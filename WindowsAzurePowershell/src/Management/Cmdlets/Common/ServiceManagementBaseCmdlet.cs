@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         /// <param name="action">The action to invoke.</param>
         protected override void InvokeInOperationContext(Action action)
         {
-            IContextChannel contextChannel = Channel.ToContextChannel();
+            IContextChannel contextChannel = ToContextChannel();
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))
@@ -66,6 +66,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 action();
             }
+        }
+
+        protected virtual IContextChannel ToContextChannel()
+        {
+            return Channel.ToContextChannel();
         }
 
         protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
