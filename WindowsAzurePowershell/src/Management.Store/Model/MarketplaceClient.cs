@@ -23,6 +23,23 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class MarketplaceClient
     {
+        //
+        // These are the Microsoft Providers - We display special legal terms for them
+        //
+        private static HashSet<Guid> MicrosoftProviderIds = new HashSet<Guid>() { 
+            // Bing
+             new Guid("f8ede0df-591f-4722-b646-e5eb86f0ae52"),
+ 
+            // Microsoft
+            new Guid("43e059fd-14ba-4297-939f-d428bbc74d0a"),
+ 
+            // Microsoft Research
+            new Guid("b5e616d3-34f4-4ebe-a02d-c56a62a4a2f2"),
+ 
+            // Microsoft Translator
+            new Guid("059afc24-07de-4126-b004-4e42a51816fe")
+        };
+
         public List<string> SubscriptionLocations { get; private set; }
 
         /// <summary>
@@ -111,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <returns>True if Microsoft offer, false otherwise</returns>
         public virtual bool IsMicrosoftOffer(Offer offer)
         {
-            return true;
+            return MicrosoftProviderIds.Contains(offer.ProviderId);
         }
     }
 }

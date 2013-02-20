@@ -52,8 +52,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         private HeadersInspector headersInspector;
 
-        private MarketplaceClient marketplaceClient;
-
         private List<CloudService> GetStoreCloudServices()
         {
             CloudServiceList cloudServices = storeChannel.ListCloudServices(subscriptionId);
@@ -147,6 +145,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             return type.Equals(DataService, StringComparison.OrdinalIgnoreCase);
         }
 
+        public MarketplaceClient MarketplaceClient { get; set; }
+
         /// <summary>
         /// Parameterless constructor added for mocking framework.
         /// </summary>
@@ -183,7 +183,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 new HttpRestMessageInspector(logger),
                 headersInspector);
             this.serviceManagementChannel = serviceManagementChannel;
-            marketplaceClient = new MarketplaceClient();
+            MarketplaceClient = new MarketplaceClient();
         }
 
         /// <summary>
@@ -247,7 +247,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             string location,
             string promotionCode)
         {
-            Offer offer = marketplaceClient.GetOffer(addon);
+            Offer offer = MarketplaceClient.GetOffer(addon);
             string type = offer.OfferType;
             string provider = offer.ProviderIdentifier;
             string cloudService = CreateCloudServiceIfNotExists(location);
@@ -288,14 +288,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
             if (!string.IsNullOrEmpty(plan))
             {
-                offer = marketplaceClient.GetOffer(addon);
+                offer = MarketplaceClient.GetOffer(addon);
 
                 if (offer == null)
                 {
                     throw new Exception(string.Format(Resources.AddOnNotFound, addon));
                 }
 
-                microsoftOffer = marketplaceClient.IsMicrosoftOffer(offer);
+                microsoftOffer = MarketplaceClient.IsMicrosoftOffer(offer);
                 addOnUrl = string.Format(Resources.AddOnUrl, offer.Id);
             }
 
@@ -326,9 +326,20 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             }
         }
 
-        public virtual bool IsAddOnNameUsed(string name)
+        public virtual bool TryGetAddOn(string name, out WindowsAzureAddOn addon)
         {
-            return (GetAddOn(new AddOnSearchOptions(name, null, null)).Count > 0);
+            List<WindowsAzureAddOn> addons = GetAddOn(new AddOnSearchOptions(name, null, null));
+
+            if (addons.Count == 1)
+            {
+                addon = addons[0];
+                return true;
+            }
+            else
+            {
+                addon = null;
+                return false;
+            }
         }
 
         public virtual void UpdateAddOn(string name, string plan, string promotionCode)
