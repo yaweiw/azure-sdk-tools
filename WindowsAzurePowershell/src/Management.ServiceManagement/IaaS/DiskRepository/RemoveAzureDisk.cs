@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using Cmdlets.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDisk"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureDiskCommand : CloudServiceManagementBaseCmdlet
+    public class RemoveAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the data disk in the disk library to remove.")]
         [ValidateNotNullOrEmpty]
