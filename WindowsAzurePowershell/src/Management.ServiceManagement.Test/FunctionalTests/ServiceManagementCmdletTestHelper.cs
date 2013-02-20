@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
@@ -25,13 +26,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using ConfigDataInfo;
 
 
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    //using Microsoft.WindowsAzure.ServiceManagement;
+    //using Microsoft.WindowsAzure.Management.Model;
+    //using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    //using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo;
+    //using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
 
     using System.Collections.Generic;
+    
 
     public class ServiceManagementCmdletTestHelper 
     {
@@ -1225,12 +1227,48 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #endregion
 
+        
 
         #region AzureVMImage
 
-        public Collection<OSImageContext> GetAzureVMImage()
+        private OSImageContext OSImageContextRun(WindowsAzurePowershellCmdlet azurePSCmdlet)
         {
-            GetAzureVMImageCmdletInfo getAzureVMImageCmdlet = new GetAzureVMImageCmdletInfo();
+            Collection<PSObject> result = azurePSCmdlet.Run();
+            if (result.Count == 1)
+            {
+                return (OSImageContext)result[0].BaseObject;
+            }
+            return null;
+        }
+        
+
+        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OSType os, string label = null)
+        {
+            AddAzureVMImageCmdletInfo addAzureVMImageCmdlet = new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label);
+            return OSImageContextRun(new WindowsAzurePowershellCmdlet(addAzureVMImageCmdlet));            
+        }
+
+        public OSImageContext UpdateAzureVMImage(string imageName, string label)
+        {
+            UpdateAzureVMImageCmdletInfo updateAzureVMImageCmdlet = new UpdateAzureVMImageCmdletInfo(imageName, label);
+            return OSImageContextRun(new WindowsAzurePowershellCmdlet(updateAzureVMImageCmdlet));
+        }
+
+        public ManagementOperationContext RemoveAzureVMImage(string imageName, bool deleteVhd = false)
+        {
+            RemoveAzureVMImageCmdletInfo removeAzureVMImageCmdlet = new RemoveAzureVMImageCmdletInfo(imageName, deleteVhd);
+            return ManagementOperationContextRun(new WindowsAzurePowershellCmdlet(removeAzureVMImageCmdlet));
+        }
+
+        public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName = null)
+        {
+            SaveAzureVMImageCmdletInfo saveAzureVMImageCmdlet = new SaveAzureVMImageCmdletInfo(serviceName, vmName, newVmName, newImageName);
+            ManagementOperationContextRun(new WindowsAzurePowershellCmdlet(saveAzureVMImageCmdlet));
+        }
+
+        public Collection<OSImageContext> GetAzureVMImage(string imageName = null)
+        {
+            GetAzureVMImageCmdletInfo getAzureVMImageCmdlet = new GetAzureVMImageCmdletInfo(imageName);
             WindowsAzurePowershellCmdletSequence azurePowershellCmdlet = new WindowsAzurePowershellCmdletSequence();
             azurePowershellCmdlet.Add(getAzureVMImageCmdlet);
             Collection<OSImageContext> osImageContext = new Collection<OSImageContext>();
@@ -1240,16 +1278,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             return osImageContext;
         }
-
-        public void SaveAzureVMImage(string serviceName, string vmName, string newVmName, string newImageName, string postCaptureAction)
-        {
-
-            SaveAzureVMImageCmdletInfo saveAzureVMImageCmdlet = new SaveAzureVMImageCmdletInfo(serviceName, vmName, newVmName, newImageName, postCaptureAction);
-            WindowsAzurePowershellCmdletSequence azurePowershellCmdlet = new WindowsAzurePowershellCmdletSequence();
-            azurePowershellCmdlet.Add(saveAzureVMImageCmdlet);
-            Collection<OSImageContext> osImageContext = new Collection<OSImageContext>();
-        }
-
+        
         public string GetAzureVMImageName(string[] keywords, bool exactMatch = true)
         {
             Collection<OSImageContext> vmImages = GetAzureVMImage();
@@ -1308,9 +1337,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return null;
         }
 
+        
+
+        public VhdDownloadContext SaveAzureVhd(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite)
+        {
+            SaveAzureVhdCmdletInfo saveAzureVhdCmdletInfo = new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite);            
+            return runSaveAzureVhd(saveAzureVhdCmdletInfo);
+        }
+
+        public string SaveAzureVhdStop(Uri source, FileInfo localFilePath, int? numThreads, string storageKey, bool overwrite, int ms)
+        {
+            SaveAzureVhdCmdletInfo saveAzureVhdCmdletInfo = new SaveAzureVhdCmdletInfo(source, localFilePath, numThreads, storageKey, overwrite);
+            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(saveAzureVhdCmdletInfo);
+            return azurePowershellCmdlet.RunAndStop(ms).ToString();            
+        }       
+
+        private VhdDownloadContext runSaveAzureVhd(SaveAzureVhdCmdletInfo saveAzureVhdCmdletInfo)
+        {
+            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(saveAzureVhdCmdletInfo);
+            Collection<PSObject> result = azurePowershellCmdlet.Run();
+            if (result.Count == 1)
+            {
+                return (VhdDownloadContext)result[0].BaseObject;
+            }
+            return null;
+        }
+
+
 
         #endregion
 
+      
 
         #region AzureVnetConfig
 
@@ -1592,6 +1649,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             AddEndPoint(vmName, serviceName, new [] {endPointConfig});
 
 
+        }
+
+        private ManagementOperationContext ManagementOperationContextRun(WindowsAzurePowershellCmdlet azurePSCmdlet)
+        {
+            Collection<PSObject> result = azurePSCmdlet.Run();
+            if (result.Count == 1)
+            {
+                return (ManagementOperationContext)result[0].BaseObject;
+            }
+            return null;
+        }
+
+        private PersistentVM PersistentVMRun(WindowsAzurePowershellCmdlet azurePSCmdlet)
+        {
+            Collection<PSObject> result = azurePSCmdlet.Run();
+            if (result.Count == 1)
+            {
+                return (PersistentVM)result[0].BaseObject;
+            }
+            return null;
         }
 
         
