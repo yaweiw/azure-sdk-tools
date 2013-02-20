@@ -133,6 +133,15 @@ namespace Microsoft.WindowsAzure.Management.Store.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Getting all available Windows Azure Add-Ons, this may take few minutes....
+        /// </summary>
+        internal static string GetAllAddOnsWaitMessage {
+            get {
+                return ResourceManager.GetString("GetAllAddOnsWaitMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2..
         /// </summary>
         internal static string InvalidCountryNameMessage {

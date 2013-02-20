@@ -49,11 +49,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
+            WindowsAzureAddOn addon;
 
-            List<WindowsAzureAddOn> addons = StoreClient.GetAddOn(new AddOnSearchOptions(Name));
-            if (addons.Count == 1)
+            if (StoreClient.TryGetAddOn(Name, out addon))
             {
-                string message = StoreClient.GetConfirmationMessage(OperationType.Set, addons[0].AddOn, Plan);
+                string message = StoreClient.GetConfirmationMessage(OperationType.Set, addon.AddOn, Plan);
                 bool purchase = Utilities.ShouldProcess(Host, Resources.SetAddOnConformation, message);
 
                 if (purchase)
@@ -62,14 +62,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                     WriteVerbose(string.Format(Resources.AddOnUpdatedMessage, Name));
                     WriteObject(true);
                 }
-            }
-            else if(addons.Count == 0)
-            {
-                throw new Exception(string.Format(Resources.AddOnNotFound, Name));
-            }
-            else
-            {
-                throw new Exception(string.Format(Resources.MultipleAddOnsFoundMessage, Name));
             }
         }
     }

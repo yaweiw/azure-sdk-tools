@@ -202,4 +202,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   <data name="MultipleAddOnsFoundMessage" xml:space="preserve">
     <value>Multiple Add-Ons found holding name {0}</value>
   </data>
+  <data name="GetAllAddOnsWaitMessage" xml:space="preserve">
+    <value>Getting all available Windows Azure Add-Ons, this may take few minutes...</value>
+  </data>
 </root>

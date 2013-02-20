@@ -54,8 +54,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
+            WindowsAzureAddOn addon;
 
-            if (StoreClient.IsAddOnNameUsed(Name))
+            if (!StoreClient.TryGetAddOn(Name, out addon))
             {
                 throw new Exception(string.Format("Add-on name {0} is already used.", Name));
             }
