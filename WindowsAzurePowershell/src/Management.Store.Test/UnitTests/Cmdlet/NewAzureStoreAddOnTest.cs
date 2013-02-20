@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             cmdlet.Plan = plan;
             cmdlet.Location = location;
             mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(true);
-            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(false);
             mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
             mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
 
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             cmdlet.Plan = plan;
             cmdlet.Location = location;
             mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(false);
-            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(false);
             mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
             mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
 
@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             cmdlet.Plan = plan;
             cmdlet.Location = location;
             mockConfirmation.Setup(f => f.ShouldProcess(Resources.NewAddOnConformation, message)).Returns(true);
-            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(false);
+            mockStoreClient.Setup(f => f.TryGetAddOn(name, out addon)).Returns(true);
             mockStoreClient.Setup(f => f.NewAddOn(name, addonId, plan, location, null));
             mockStoreClient.Setup(f => f.GetConfirmationMessage(OperationType.New, addonId, plan)).Returns(message);
 

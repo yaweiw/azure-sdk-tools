@@ -59,20 +59,22 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
             WindowsAzureAddOn addon;
             CustomConfirmation = CustomConfirmation ?? new PowerShellCustomConfirmation(Host);
 
-            if (StoreClient.TryGetAddOn(Name, out addon))
+            if (!StoreClient.TryGetAddOn(Name, out addon))
+            {
+                string message = StoreClient.GetConfirmationMessage(OperationType.New, AddOn, Plan);
+                bool purchase = CustomConfirmation.ShouldProcess(Resources.NewAddOnConformation, message);
+
+                if (purchase)
+                {
+                    StoreClient.NewAddOn(Name, AddOn, Plan, Location, PromotionCode);
+                    WriteVerbose(string.Format(Resources.AddOnCreatedMessage, Name));
+                    WriteObject(true);
+                }
+            }
+            else
             {
                 throw new Exception(string.Format(Resources.AddOnNameAlreadyUsed, Name));
             }
-
-            string message = StoreClient.GetConfirmationMessage(OperationType.New, AddOn, Plan);
-            bool purchase = CustomConfirmation.ShouldProcess(Resources.NewAddOnConformation, message);
-
-            if (purchase)
-	        {
-		        StoreClient.NewAddOn(Name, AddOn, Plan, Location, PromotionCode);
-                WriteVerbose(string.Format(Resources.AddOnCreatedMessage, Name));
-                WriteObject(true);
-	        }
         }
     }
 }
