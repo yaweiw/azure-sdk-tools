@@ -19,8 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
     using System.Threading;
     using ServiceManagement;
@@ -38,13 +36,13 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 return Channel;
             }
 
-            var endpointBehaviors = new List<IEndpointBehavior>
+            var messageInspectors = new List<IClientMessageInspector>
             {
                 new ServiceManagementClientOutputMessageInspector(),
                 new HttpRestMessageInspector(text => this.WriteDebug(text))
             };
 
-            var clientOptions = new ServiceManagementClientOptions(endpointBehaviors);
+            var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, messageInspectors);
             var smClient = new ServiceManagementClient(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, clientOptions);
             return smClient.Service;
         }
