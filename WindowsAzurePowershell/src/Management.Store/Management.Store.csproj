@@ -144,7 +144,6 @@
     <Compile Include="Cmdlet\RemoveAzureStoreAddOn.cs" />
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Cmdlet\GetAzureStoreAddOn.cs" />
-    <Compile Include="Cmdlet\GetAzureStoreAvailableAddOn.cs" />
     <Compile Include="Model\AddOnSearchOptions.cs" />
     <Compile Include="Model\PowerShellCustomConfirmation.cs" />
     <Compile Include="Model\WindowsAzureAddOn.cs" />

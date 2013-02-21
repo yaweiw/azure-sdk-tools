@@ -91,7 +91,6 @@
     <Compile Include="UnitTests\Cmdlet\SetAzureStoreAddOnTest.cs" />
     <Compile Include="UnitTests\Cmdlet\NewAzureStoreAddOnTest.cs" />
     <Compile Include="UnitTests\Cmdlet\GetAzureStoreAddOnTest.cs" />
-    <Compile Include="UnitTests\Cmdlet\GetAzureStoreAvailableAddOnTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
