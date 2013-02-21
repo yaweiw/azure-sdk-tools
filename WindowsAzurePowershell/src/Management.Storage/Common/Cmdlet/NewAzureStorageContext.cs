@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="useHttps">Use https or not</param>
         /// <returns>a storage account</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
+        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken)
         {
             StorageCredentials credential = new StorageCredentials(sasToken);
             return GetStorageAccountWithEndPoint(credential, storageAccountName);
@@ -210,7 +210,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps);
                     break;
                 case SasTokenParameterSet:
-                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken, useHttps);
+                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken);
                     break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
