@@ -14,18 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
-    using Extensions;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates a new hosted service in Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureService", DefaultParameterSetName = "ParameterSetAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
-    public class NewAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
+    public class NewAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public NewAzureServiceCommand()
         {
@@ -81,11 +79,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         public void ExecuteCommand()
         {
-            string operationID = string.Empty;
             var createHostedServiceInput = new CreateHostedServiceInput
             {
                 ServiceName = this.ServiceName,
-                Label = ServiceManagementHelper.EncodeToBase64String(string.IsNullOrEmpty(this.Label)? this.ServiceName: this.Label),
+                Label = ServiceManagementHelper.EncodeToBase64String(string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label),
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location

@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System.ServiceModel.Dispatcher;
     using System.Text;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using GeneralSM = Microsoft.Samples.WindowsAzure.ServiceManagement.Utilities.General;
+    using GeneralSM = Microsoft.WindowsAzure.ServiceManagement.Utilities.General;
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {

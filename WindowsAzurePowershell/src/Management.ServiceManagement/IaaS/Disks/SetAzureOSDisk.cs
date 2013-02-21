@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureOSDisk"), OutputType(typeof(IPersistentVM))]

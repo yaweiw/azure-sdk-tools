@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Store.Contract;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
 

@@ -14,16 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Samples.WindowsAzure.ServiceManagement;
     using System;
-    using Microsoft.WindowsAzure.Management.Model;
+    using System.Management.Automation;
+    using Cmdlets.Common;
+    using Management.Model;
+    using ServiceBusManagement.ServiceBus.Contract;
+    using ServiceManagement;
+    using ServiceManagement.ServiceBus.ResourceModel;
+
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
+    public class TestAzureNameCommand : ServiceManagementBaseCmdlet
     {
         private IServiceBusManagement serviceBusChannel;
 

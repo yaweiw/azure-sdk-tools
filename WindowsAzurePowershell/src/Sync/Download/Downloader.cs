@@ -24,24 +24,41 @@ namespace Microsoft.WindowsAzure.Management.Sync.Download
 
     public class Downloader
     {
-        string StorageAccountKey;
+        private const int DefaultConnectionLimit = 24;
+        private DownloaderParameters parameters;
 
-        private BlobUri blobUri;
-
-        public Downloader(BlobUri blobUri, string storageAccountKey)
+        public Downloader(BlobUri blobUri, string storageAccountKey, string locaFilePath)            
         {
-            this.blobUri = blobUri;
-            this.StorageAccountKey = storageAccountKey;
+            this.parameters = new DownloaderParameters
+            {
+                BlobUri = blobUri,
+                LocalFilePath = locaFilePath,
+                ConnectionLimit = DefaultConnectionLimit,
+                StorageAccountKey = storageAccountKey,
+                ValidateFreeDiskSpace = false,
+                ProgressDownloadStatus = Program.SyncOutput.ProgressDownloadStatus,
+                ProgressDownloadComplete = Program.SyncOutput.ProgressDownloadComplete
+            };
         }
 
-        public void Download(string destination)
+        public Downloader(DownloaderParameters parameters)
         {
-            DeleteTempVhdIfExist(destination);
+            this.parameters = parameters;
+        }
 
-            Console.WriteLine("\t\tDownloading blob '{0}' ...", blobUri.BlobName);
-            Console.WriteLine("\t\tImage download start time: '{0}'", DateTime.UtcNow.ToString("o"));
+        public void Download()
+        {
+            if(parameters.OverWrite)
+            {
+                DeleteTempVhdIfExist(parameters.LocalFilePath);                
+            }
 
-            var blobHandle = new BlobHandle(blobUri, this.StorageAccountKey);
+            var blobHandle = new BlobHandle(parameters.BlobUri, this.parameters.StorageAccountKey);
+
+            if (parameters.ValidateFreeDiskSpace)
+            {
+                TryValidateFreeDiskSpace(parameters.LocalFilePath, blobHandle.Length);
+            }
 
             const int megaByte = 1024 * 1024;
 
@@ -51,61 +68,65 @@ namespace Microsoft.WindowsAzure.Management.Sync.Download
 
             Trace.WriteLine(String.Format("Total Data:{0}", ranges.Sum(r => r.Length)));
 
-            const int maxParallelism = 24;
-            using (new ServicePointHandler(this.blobUri.Uri, maxParallelism))
-            using (new ProgressTracker(downloadStatus, Program.SyncOutput.ProgressUploadStatus, Program.SyncOutput.ProgressUploadComplete, TimeSpan.FromSeconds(1)))
+            Program.SyncOutput.WriteVerboseWithTimestamp("Downloading the blob: {0}", parameters.BlobUri.BlobName);
+
+            using (new ServicePointHandler(parameters.BlobUri.Uri, parameters.ConnectionLimit))
             {
-//                if(SparseFile.VolumeSupportsSparseFiles(destination))
-//                {
-//                   using(var fileStream = SparseFile.Create(destination))
-//                   {
-//                       foreach (var emptyRange in blobHandle.GetEmptyRanges())
-//                       {
-//                           SparseFile.SetSparseRange(fileStream.SafeFileHandle, emptyRange.StartIndex, emptyRange.Length);
-//                       }
-//                   }
-//                }
-
-                using (var fileStream = new FileStream(destination, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 8 * megaByte, FileOptions.WriteThrough))
+                using (new ProgressTracker(downloadStatus, parameters.ProgressDownloadStatus, parameters.ProgressDownloadComplete, TimeSpan.FromSeconds(1)))
                 {
-                    fileStream.SetLength(0);
-                    fileStream.SetLength(blobHandle.Length);
-
-                    LoopResult lr = Parallel.ForEach<IndexRange, Stream>(ranges,
-                                     blobHandle.OpenStream,
-                                     (r, b) =>
-                                     {
-                                         b.Seek(r.StartIndex, SeekOrigin.Begin);
-
-                                         byte[] buffer = this.EnsureReadAsSize(b, (int)r.Length, bufferManager);
-
-                                         lock (fileStream)
-                                         {
-                                             Trace.WriteLine(String.Format("Range:{0}", r));
-                                             fileStream.Seek(r.StartIndex, SeekOrigin.Begin);
-                                             fileStream.Write(buffer, 0, (int)r.Length);
-                                             fileStream.Flush();
-                                         }
-
-                                         downloadStatus.AddToProcessedBytes((int)r.Length);
-                                     },
-                                     pbwlf =>
-                                     {
-                                         pbwlf.Dispose();
-                                     },
-                                     maxParallelism);
-                    if (lr.IsExceptional)
+                    using (var fileStream = new FileStream(parameters.LocalFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, 8 * megaByte, FileOptions.WriteThrough))
                     {
-                        Console.WriteLine("\t\tException(s) happened");
-                        for (int i = 0; i < lr.Exceptions.Count; i++)
+                        fileStream.SetLength(0);
+                        fileStream.SetLength(blobHandle.Length);
+
+                        LoopResult lr = Parallel.ForEach<IndexRange, Stream>(ranges,
+                                    blobHandle.OpenStream,
+                                    (r, b) =>
+                                        {
+                                            b.Seek(r.StartIndex, SeekOrigin.Begin);
+
+                                            byte[] buffer = this.EnsureReadAsSize(b, (int)r.Length, bufferManager);
+
+                                            lock (fileStream)
+                                            {
+                                                Trace.WriteLine(String.Format("Range:{0}", r));
+                                                fileStream.Seek(r.StartIndex, SeekOrigin.Begin);
+                                                fileStream.Write(buffer, 0, (int)r.Length);
+                                                fileStream.Flush();
+                                            }
+
+                                            downloadStatus.AddToProcessedBytes((int)r.Length);
+                                        },
+                                    pbwlf =>
+                                        {
+                                            pbwlf.Dispose();
+                                        },
+                                    parameters.ConnectionLimit);
+
+                        if (lr.IsExceptional)
                         {
-                            Console.WriteLine("{0} -> {1}", i, lr.Exceptions[i]);
+                            throw new AggregateException(lr.Exceptions);
                         }
                     }
                 }
             }
+            Program.SyncOutput.WriteVerboseWithTimestamp("Blob downloaded successfullty: {0}", parameters.BlobUri.BlobName);
+        }
 
-            Console.WriteLine("\t\tImage download end time  : '{0}'", DateTime.UtcNow.ToString("o"));
+        private void TryValidateFreeDiskSpace(string destination, long blobLength)
+        {
+            try
+            {
+                DriveInfo info = new DriveInfo(destination);
+                if(info.AvailableFreeSpace < blobLength)
+                {
+                    string message = String.Format("Insufficient disk space: Blob's size is {0}, however available space is {1}.", blobLength, info.AvailableFreeSpace);
+                    throw new ArgumentOutOfRangeException(message);
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void DeleteTempVhdIfExist(string fileName)

@@ -12,18 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.ServiceModel;
     using System.IO;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
-    public class GetAzureVNetConfigCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureVNetConfigCommand()
         {
@@ -46,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         {
             this.ValidateParameters();
 
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -75,9 +77,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         return networkConfig;
                     }
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
-                    if (ex is EndpointNotFoundException && !IsVerbose())
+                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
                     {
                         return null;
                     }

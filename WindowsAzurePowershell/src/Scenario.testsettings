@@ -12,7 +12,6 @@
     <DeploymentItem filename="Management.CloudService\Resources\" />
     <DeploymentItem filename="Management.Test\Resources\" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
-    <DeploymentItem filename="..\..\Package\Debug\" />
     <DeploymentItem filename="Management.CloudService\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
   </Deployment>
   <Execution>

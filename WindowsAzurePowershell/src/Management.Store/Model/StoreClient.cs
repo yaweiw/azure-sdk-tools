@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Globalization;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel.Channels;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement.Store.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Properties;

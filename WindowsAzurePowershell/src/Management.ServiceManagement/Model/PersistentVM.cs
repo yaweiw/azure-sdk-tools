@@ -12,10 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System.Collections.ObjectModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public class PersistentVM : IPersistentVM
     {

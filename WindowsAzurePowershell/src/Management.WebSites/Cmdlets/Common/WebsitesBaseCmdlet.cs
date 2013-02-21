@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using System.Xml.Serialization;
     using Management.Cmdlets.Common;
     using Properties;
-    using Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Services;
 
     public abstract class WebsitesBaseCmdlet : CloudBaseCmdlet<IWebsitesServiceManagement>

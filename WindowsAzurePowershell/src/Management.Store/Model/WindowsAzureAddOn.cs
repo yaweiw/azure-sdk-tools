@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.Store.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Store.ResourceModel;
 
     public class WindowsAzureAddOn
     {
