@@ -27,14 +27,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// </summary>
     public class GetDeploymentStatus : CloudBaseCmdlet<IServiceManagement>
     {
-        public GetDeploymentStatus()
+        public GetDeploymentStatus(ICommandRuntime commandRuntime)
         {
-
+            CommandRuntime = commandRuntime;
         }
 
-        public GetDeploymentStatus(IServiceManagement channel)
+        public GetDeploymentStatus(IServiceManagement channel, ICommandRuntime commandRuntime)
         {
             Channel = channel;
+            CommandRuntime = commandRuntime;
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
