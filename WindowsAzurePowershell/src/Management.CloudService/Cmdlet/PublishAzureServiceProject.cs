@@ -158,8 +158,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 if (ServiceExists())
                 {
-                    var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
-                    bool deploymentExists = deploymentStatusCommand.DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
+                    var deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+                    { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                    bool deploymentExists = deploymentStatusCommand.DeploymentExists(
+                        _azureService.Paths.RootPath,
+                        _hostedServiceName,
+                        _deploymentSettings.ServiceSettings.Slot,
+                        _deploymentSettings.ServiceSettings.Subscription);
                     if (deploymentExists)
                     {
                         UpgradeDeployment();
