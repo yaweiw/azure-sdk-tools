@@ -83,7 +83,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (string.IsNullOrEmpty(result))
             {
                 SetDeployment(newStatus, serviceName, slot);
-                GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+                { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
                 Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
 
