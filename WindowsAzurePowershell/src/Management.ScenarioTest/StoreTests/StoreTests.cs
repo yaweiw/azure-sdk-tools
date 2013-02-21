@@ -93,9 +93,9 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestGetAzureStoreAddOnWithInvalidCredentials()
+        public void TestNewAzureStoreAddOnWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureStoreAddOn }");
+            RunPowerShellTest("Test-WithInvalidCredentials { New-AzureStoreAddOn Name AddOnPlan Location}");
         }
 
         #endregion
