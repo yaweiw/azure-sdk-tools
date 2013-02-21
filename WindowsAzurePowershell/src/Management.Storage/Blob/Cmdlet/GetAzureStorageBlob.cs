@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             BlobRequestOptions requestOptions = null;
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
 
-            if (!skipCheckExists && !Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!skipCheckExists && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ArgumentException(String.Format(Resources.ContainerNotFound, containerName));
             }

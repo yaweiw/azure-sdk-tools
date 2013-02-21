@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 CloudBlobContainer container = Channel.GetContainerReference(name);
 
-                if (Channel.IsContainerExists(container, requestOptions, OperationContext))
+                if (Channel.DoesContainerExist(container, requestOptions, OperationContext))
                 {
                     //fetch container attributes
                     Channel.FetchContainerAttributes(container, accessCondition, requestOptions, OperationContext);

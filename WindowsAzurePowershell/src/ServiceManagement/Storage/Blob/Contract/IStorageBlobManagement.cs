@@ -81,16 +81,16 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">blob request option</param>
         /// <param name="OperationContext">operation context</param>
         /// <returns>true if the specific container exists, otherwise return false</returns>
-        bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext OperationContext);
+        bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
-        /// whether the blob is exists or not
+        /// whether the blob exists or not
         /// </summary>
         /// <param name="blob">a icloudblob object</param>
         /// <param name="options">blob request option</param>
         /// <param name="OperationContext">operation context</param>
         /// <returns>true if the specific blob exists, otherwise return false</returns>
-        bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext OperationContext);
+        bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
         /// create the container if not exists
