@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
@@ -19,8 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
     using System.IO;
     using System.Xml;
     using System.Xml.Linq;
-
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
 
     public class DeploymentInfoContext : ServiceOperationContext
     {
@@ -50,13 +50,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
                 this.UpgradeType = deployment.UpgradeStatus.UpgradeType;
             }
 
-            this.Configuration = string.IsNullOrEmpty(deployment.Configuration) ? 
-                                    string.Empty :
-                                    ServiceManagementHelper.DecodeFromBase64String(deployment.Configuration);
+            this.Configuration = string.IsNullOrEmpty(deployment.Configuration)
+                                     ? string.Empty
+                                     : ServiceManagementHelper.DecodeFromBase64String(deployment.Configuration);
 
-            this.Label = string.IsNullOrEmpty(deployment.Label) ?
-                            string.Empty :
-                            ServiceManagementHelper.DecodeFromBase64String(deployment.Label);
+            this.Label = string.IsNullOrEmpty(deployment.Label)
+                             ? string.Empty
+                             : ServiceManagementHelper.DecodeFromBase64String(deployment.Label);
 
             if (deployment.RoleInstanceList != null)
             {

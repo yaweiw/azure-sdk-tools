@@ -12,18 +12,19 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.ServiceModel;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Helpers;
     using Cmdlets.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureVMImage : CloudBaseCmdlet<IServiceManagement>
+    public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the image in the image library to remove.")]
         [ValidateNotNullOrEmpty]
@@ -48,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 if (this.DeleteVHD.IsPresent)
                 {
                     // Get the location of the underlying VHD
-                    using (new OperationContextScope((IContextChannel)Channel))
+                    using (new OperationContextScope(Channel.ToContextChannel()))
                     {
                         var image = this.RetryCall(s => this.Channel.GetOSImage(s, this.ImageName));
                         mediaLink = image.MediaLink;
@@ -56,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 }
 
                 // Remove the image from the image repository
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName), WaitForOperation);
                 }
@@ -67,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                     Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
                 }
             }
-            catch (CommunicationException ex)
+            catch (ServiceManagementClientException ex)
             {
                 this.WriteErrorDetails(ex);
             }

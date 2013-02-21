@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Microsoft.Samples.WindowsAzure.ServiceBusManagement.ServiceBus.Contract;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using ServiceBusManagement.ServiceBus.Contract;
+    using ServiceManagement.ServiceBus;
 
     /// <summary>
     /// Creates new service bus namespace.

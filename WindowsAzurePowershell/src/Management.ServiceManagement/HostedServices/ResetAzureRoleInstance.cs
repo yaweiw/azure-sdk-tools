@@ -12,20 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Management.Model;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Requests a reboot/reimage of a single role instance or for all role instances of a role.
     /// </summary>
     [Cmdlet(VerbsCommon.Reset, "AzureRoleInstance", DefaultParameterSetName = "ParameterSetGetDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class ResetAzureRoleInstanceCommand : CloudBaseCmdlet<IServiceManagement>
+    public class ResetAzureRoleInstanceCommand : ServiceManagementBaseCmdlet
     {
         public ResetAzureRoleInstanceCommand()
         {
@@ -98,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         private void RebootSingleInstance(string instanceName)
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.RebootDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
             }
@@ -106,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         private void ReimageSingleInstance(string instanceName)
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.ReimageDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
             }
