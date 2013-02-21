@@ -160,13 +160,13 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// whether the container is exists or not
+        /// whether the container exists or not
         /// </summary>
         /// <param name="container">a cloudblobcontainer object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
         /// <returns>true if the specific container exists, otherwise return false</returns>
-        public bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == container)
             {
@@ -179,13 +179,13 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// whether the blob is exists or not
+        /// whether the blob exists or not
         /// </summary>
         /// <param name="blob">a icloudblob object</param>
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
         /// <returns>true if the specific blob exists, otherwise return false</returns>
-        public bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == blob)
             {
