@@ -21,6 +21,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class PowerShellCustomConfirmation
     {
+        public const int Yes = 0;
+        
+        public const int No = 1;
+
         private PSHost host;
 
         /// <summary>
@@ -44,8 +48,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <returns>True if user entered Yes, otherwise false</returns>
         public virtual bool ShouldProcess(string caption, string message)
         {
-            const int Yes = 0;
-            const int No = 1;
             int userChoice = host.UI.PromptForChoice(
                 caption,
                 message,
