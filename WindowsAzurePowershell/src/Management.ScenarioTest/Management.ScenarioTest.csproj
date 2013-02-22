@@ -83,6 +83,8 @@
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\CustomPowerShell\CustomerPSHostUserInterface.cs" />
+    <Compile Include="Common\CustomPowerShell\CustomHost.cs" />
     <Compile Include="Common\PowerShellExtensions.cs" />
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
@@ -152,6 +154,10 @@
     <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
       <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
       <Name>Management.ServiceBus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Store\Management.Store.csproj">
+      <Project>{2ac37c6a-41de-4341-88a4-a79f209bba83}</Project>
+      <Name>Management.Store</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
