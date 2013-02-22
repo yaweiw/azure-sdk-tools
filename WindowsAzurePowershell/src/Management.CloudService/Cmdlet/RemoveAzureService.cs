@@ -122,7 +122,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)
         {
-            var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = true, CurrentSubscription = CurrentSubscription };
+            var deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+            { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
             if (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription))
             {
                 InvokeInOperationContext(() =>
