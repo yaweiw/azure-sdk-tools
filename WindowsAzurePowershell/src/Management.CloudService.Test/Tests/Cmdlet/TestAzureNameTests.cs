@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using CloudService.Cmdlet;
     using Management.Test.Stubs;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDataDisk"), OutputType(typeof(IPersistentVM))]

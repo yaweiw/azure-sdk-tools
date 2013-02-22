@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Management.Model;
 
@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         protected override void OnProcessRecord()
         {
-            ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.NewVirtualNetworkGateway(s, this.VNetName), this.WaitForGatewayOperation);
+            ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.NewVirtualNetworkGateway(s, this.VNetName), this.WaitForNewGatewayOperation);
         }
     }
 }

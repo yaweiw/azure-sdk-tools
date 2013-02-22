@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Text;
     using AzureTools;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
@@ -72,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 throw new ArgumentException(Properties.Resources.EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword);
             }
 
-            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
+            AzureService service = new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -179,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     WorkerRole firstWorkerRole = workerRoles.FirstOrDefault();
                     if (firstWorkerRole != null)
                     {
-                        firstWorkerRole.Imports = General.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                        firstWorkerRole.Imports = CloudServiceUtilities.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
                         forwarderName = firstWorkerRole.name;
                     }
                     else // no worker role, use a web role
@@ -187,7 +188,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         WebRole firstWebRole = webRoles.FirstOrDefault();
                         if (firstWebRole != null)
                         {
-                            firstWebRole.Imports = General.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                            firstWebRole.Imports = CloudServiceUtilities.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
                             forwarderName = firstWebRole.name;
                         }
                         else
@@ -228,11 +229,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Add RemoteAccess to all roles
             foreach (WebRole webRole in webRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                webRole.Imports = General.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
+                webRole.Imports = CloudServiceUtilities.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
             foreach (WorkerRole workerRole in workerRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                workerRole.Imports = General.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
+                workerRole.Imports = CloudServiceUtilities.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
         }
 

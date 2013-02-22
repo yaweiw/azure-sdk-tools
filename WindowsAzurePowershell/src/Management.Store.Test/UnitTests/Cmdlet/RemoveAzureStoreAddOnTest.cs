@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
-            string plan = "free";
             string message = "Expected message for remove";
             cmdlet.Name = name;
             WindowsAzureAddOn addon = new WindowsAzureAddOn(new Resource() { Type = addonId }, "West US", null);
@@ -86,7 +85,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
-            string plan = "free";
             string message = "Expected message for remove";
             cmdlet.Name = name;
             cmdlet.PassThru = true;
@@ -112,7 +110,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             bool expected = true;
             string name = "TestAddOn";
             string addonId = "Search";
-            string plan = "free";
             string message = "Expected message for remove";
             cmdlet.Name = name;
             WindowsAzureAddOn addon = new WindowsAzureAddOn(new Resource() { Type = addonId }, "West US", null);

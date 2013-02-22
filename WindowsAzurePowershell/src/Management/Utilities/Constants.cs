@@ -18,50 +18,55 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
     public class ArgumentConstants
     {
-        public static Dictionary<Location, string> Locations { get; private set; }
-        public static Dictionary<string, Location> ReverseLocations { get; private set; }
-        public static Dictionary<Slot, string> Slots { get; private set; }
+        public static Dictionary<LocationName, string> Locations { get; private set; }
+        public static Dictionary<string, LocationName> ReverseLocations { get; private set; }
+        public static Dictionary<SlotType, string> Slots { get; private set; }
 
         static ArgumentConstants()
         {
-            Locations = new Dictionary<Location, string>()
+            Locations = new Dictionary<LocationName, string>()
             {
-                { Location.AnywhereAsia, "east asia" },
-                { Location.AnywhereEurope, "north europe" },
-                { Location.AnywhereUS, "anywhere us" },
-                { Location.EastAsia, "east asia" },
-                { Location.NorthCentralUS, "north central us" },
-                { Location.NorthEurope, "north europe" },
-                { Location.SouthCentralUS, "south central us" },
-                { Location.SouthEastAsia, "southeast asia" },
-                { Location.WestEurope, "west europe" },
-                { Location.WestUS, "west us" },
-                { Location.EastUS, "east us" },
+                { LocationName.AnywhereAsia, "anywhere asia" },
+                { LocationName.AnywhereEurope, "anywhere europe" },
+                { LocationName.AnywhereUS, "anywhere us" },
+                { LocationName.EastAsia, "east asia" },
+                { LocationName.NorthCentralUS, "north central us" },
+                { LocationName.NorthEurope, "north europe" },
+                { LocationName.SouthCentralUS, "south central us" },
+                { LocationName.SouthEastAsia, "southeast asia" },
+                { LocationName.WestEurope, "west europe" },
+                { LocationName.EastUS, "east us" },
+                { LocationName.WestUS, "west us" }
             };
 
-            ReverseLocations = new Dictionary<string, Location>()
+            ReverseLocations = new Dictionary<string, LocationName>()
             {
-                { "anywhere asia", Location.EastAsia },
-                { "anywhere europe", Location.NorthEurope },
-                { "anywhere us", Location.SouthCentralUS },
-                { "east asia", Location.EastAsia },
-                { "north central us", Location.NorthCentralUS },
-                { "north europe", Location.NorthEurope },
-                { "south central us", Location.SouthCentralUS },
-                { "southeast asia", Location.SouthEastAsia },
-                { "west europe", Location.WestEurope },
-                { "west us", Location.WestUS },
-                { "east us", Location.EastUS },
+                { "anywhere asia", LocationName.EastAsia },
+                { "anywhere europe", LocationName.NorthEurope },
+                { "anywhere us", LocationName.SouthCentralUS },
+                { "east asia", LocationName.EastAsia },
+                { "north central us", LocationName.NorthCentralUS },
+                { "north europe", LocationName.NorthEurope },
+                { "south central us", LocationName.SouthCentralUS },
+                { "southeast asia", LocationName.SouthEastAsia },
+                { "west europe", LocationName.WestEurope },
+                { "west us", LocationName.WestUS },
+                { "east us", LocationName.EastUS },
             };
-            Slots = new Dictionary<Slot, string>()
+            Slots = new Dictionary<SlotType, string>()
             {
-                { Slot.Production, "production" },
-                { Slot.Staging, "staging" }
+                { SlotType.Production, "production" },
+                { SlotType.Staging, "staging" }
             };
         }
     }
 
-    public enum Location
+    public class SDKVersion
+    {
+        public const string Version180 = "1.8.0";
+    }
+
+    public enum LocationName
     {
         NorthCentralUS,
         AnywhereUS,
@@ -72,16 +77,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         AnywhereAsia,
         SouthEastAsia,
         EastAsia,
-        WestUS,
-        EastUS
+        EastUS,
+        WestUS
     }
-    
-    public enum Slot
+
+    public enum SlotType
     {
         Production,
         Staging
     }
-    
+
     public enum DevEnv
     {
         Local,
@@ -94,10 +99,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         WorkerRole
     }
 
-    public enum Runtime
+    public enum RuntimeType
     {
+        IISNode,
         Node,
         PHP,
+        Cache,
         Null
     }
 

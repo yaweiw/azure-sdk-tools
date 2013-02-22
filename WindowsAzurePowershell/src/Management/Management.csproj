@@ -125,6 +125,10 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.2.0.4.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -156,10 +160,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cmdlets\Common\CloudBaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Common\ServiceManagementBaseCmdlet.cs" />
     <Compile Include="Cmdlets\GetAzurePublishSettings.cs" />
     <Compile Include="Extensions\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Extensions\CmdletExtensions.cs" />
     <Compile Include="Model\AzureServiceManagementException.cs" />
+    <Compile Include="Model\CloudStorageAccountFactory.cs" />
     <Compile Include="Model\HttpRestMessageInspector.cs" />
     <Compile Include="Model\InnerDataServiceException.cs" />
     <Compile Include="Model\ManagementOperationContext.cs" />
@@ -244,10 +250,6 @@
     <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
       <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
       <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

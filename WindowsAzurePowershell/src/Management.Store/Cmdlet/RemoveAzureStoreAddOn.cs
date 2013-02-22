@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Store.Properties;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Removes all purchased Add-Ons or specific Add-On

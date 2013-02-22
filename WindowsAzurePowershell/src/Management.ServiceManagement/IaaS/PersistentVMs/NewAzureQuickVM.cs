@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
@@ -19,12 +21,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Common;
     using IaaS;
     using Extensions;
-    using Microsoft.WindowsAzure.Storage;
+    using Storage;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Creates a VM without advanced provisioning configuration options
@@ -199,9 +201,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             CloudStorageAccount currentStorage = null;
             try
             {
-                currentStorage = currentSubscription.GetCurrentStorageAccount(Channel);
+                currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
             }
-            catch (EndpointNotFoundException) // couldn't access
+            catch (ServiceManagementClientException) // couldn't access
             {
                 throw new ArgumentException("CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.");
             }
@@ -300,7 +302,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
             if (string.IsNullOrEmpty(this.Location) == false || string.IsNullOrEmpty(AffinityGroup) == false || (!String.IsNullOrEmpty(VNetName) && ServiceExists == false))
             {
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
@@ -321,7 +323,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
                     }
 
-                    catch (CommunicationException ex)
+                    catch (ServiceManagementClientException ex)
                     {
                         this.WriteErrorDetails(ex);
                         return;
@@ -334,7 +336,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             // If the current deployment doesn't exist set it create it
             if (CurrentDeployment == null)
             {
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
@@ -359,9 +361,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
                     }
 
-                    catch (CommunicationException ex)
+                    catch (ServiceManagementClientException ex)
                     {
-                        if (ex is EndpointNotFoundException)
+                        if (ex.HttpStatus == HttpStatusCode.NotFound)
                         {
                             throw new Exception("Cloud Service does not exist. Specify -Location or -Affinity group to create one.");
                         }
@@ -390,13 +392,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             // Only create the VM when a new VM was added and it was not created during the deployment phase.
             if ((_createdDeployment == false))
             {
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
                         ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm), WaitForOperation);
                     }
-                    catch (CommunicationException ex)
+                    catch (ServiceManagementClientException ex)
                     {
                         this.WriteErrorDetails(ex);
                         return;
@@ -422,17 +424,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
         protected bool DoesCloudServiceExist(string serviceName)
         {
             bool IsPresent = false;
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
                     AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    Operation operation = WaitForOperation(CommandRuntime.ToString(), true);
+                    WaitForOperation(CommandRuntime.ToString(), true);
                     IsPresent = !response.Result;
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
-                    if (ex is EndpointNotFoundException)
+                    if (ex.HttpStatus == HttpStatusCode.NotFound)
                         IsPresent = false;
                     else
                         this.WriteErrorDetails(ex);

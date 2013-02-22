@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Store.Properties;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Gets all available Windows Azure add-ons from Marketplace and gets user purchased add-ons.

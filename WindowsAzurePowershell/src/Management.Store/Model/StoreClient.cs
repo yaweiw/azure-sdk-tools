@@ -21,14 +21,14 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Threading;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Model.Contract;
     using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Store.Properties;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using ServiceManagementConstants = Microsoft.Samples.WindowsAzure.ServiceManagement.Constants;
+    using Microsoft.WindowsAzure.ServiceManagement;
+    using ServiceManagementConstants = Microsoft.WindowsAzure.ServiceManagement.Constants;
 
     public class StoreClient
     {
