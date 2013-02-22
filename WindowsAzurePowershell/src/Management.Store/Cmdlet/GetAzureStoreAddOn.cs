@@ -26,11 +26,9 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// <summary>
     /// Gets all available Windows Azure add-ons from Marketplace and gets user purchased add-ons.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<PSObject>), typeof(List<WindowsAzureOffer>))]
+    [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<WindowsAzureAddOn>), typeof(List<WindowsAzureOffer>))]
     public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        const string ShortType = "Microsoft.WindowsAzure.Management.Store.Model.AddOnWindowsAzureAddOn.Short";
-
         const string ListAvailableParameterSet = "ListAvailable";
 
         const string GetAddOnParameterSet = "GetAddOn";
@@ -51,18 +49,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = GetAddOnParameterSet, HelpMessage = "Add-On name")]
         public string Name { get; set; }
-
-        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
-            ParameterSetName = GetAddOnParameterSet, HelpMessage = "Add-On provider")]
-        public string Provider { get; set; }
-
-        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, 
-            ParameterSetName = GetAddOnParameterSet, HelpMessage = "Add-On location")]
-        public string Location { get; set; }
-
-        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true, 
-            ParameterSetName = GetAddOnParameterSet, HelpMessage = "Show add-on details")]
-        public SwitchParameter Detailed { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
@@ -85,24 +71,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
                 CurrentSubscription.Certificate,
                 text => this.WriteDebug(text),
                 Channel);
-            List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, Provider, Location));
-
-            if (Detailed.IsPresent)
-            {
-                WriteObject(addOns, true);
-            }
-            else
-            {
-                List<PSObject> shortObjects = new List<PSObject>();
-                addOns.ForEach(a =>
-                {
-                    PSObject psObject = new PSObject(a);
-                    psObject.TypeNames.Add(ShortType);
-                    psObject.TypeNames.Remove(typeof(WindowsAzureAddOn).FullName);
-                    shortObjects.Add(psObject);
-                });
-                WriteObject(shortObjects, true);
-            }
+            List<WindowsAzureAddOn> addOns = StoreClient.GetAddOn(new AddOnSearchOptions(Name, null, null));
+            WriteObject(addOns, true);
         }
 
         private void ListAvailableAddOns()
