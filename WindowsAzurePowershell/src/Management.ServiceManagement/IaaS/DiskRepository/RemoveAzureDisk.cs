@@ -12,17 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.ServiceModel;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDisk"), OutputType(typeof(ManagementOperationContext))]
-    public class RemoveAzureDiskCommand : CloudBaseCmdlet<IServiceManagement>
+    public class RemoveAzureDiskCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the data disk in the disk library to remove.")]
         [ValidateNotNullOrEmpty]
@@ -47,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 if (this.DeleteVHD.IsPresent)
                 {
                     // Get the location of the underlying VHD
-                    using (new OperationContextScope((IContextChannel)Channel))
+                    using (new OperationContextScope(Channel.ToContextChannel()))
                     {
                         var disk = this.RetryCall(s => this.Channel.GetDisk(s, this.DiskName));
                         mediaLink = disk.MediaLink;
@@ -55,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 }
 
                 // Remove the disk from the disk repository
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName), WaitForOperation);
                 }
@@ -66,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     Helpers.Disks.RemoveVHD(this.Channel, CurrentSubscription.SubscriptionId, mediaLink);
                 }
             }
-            catch (CommunicationException ex)
+            catch (ServiceManagementClientException ex)
             {
                 this.WriteErrorDetails(ex);
             }

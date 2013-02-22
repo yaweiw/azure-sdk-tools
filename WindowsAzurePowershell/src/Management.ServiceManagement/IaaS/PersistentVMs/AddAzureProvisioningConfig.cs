@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Common;
     using Model;
-    using Extensions;
 
     /// <summary>
     /// Updates a persistent VM object with a provisioning configuration.

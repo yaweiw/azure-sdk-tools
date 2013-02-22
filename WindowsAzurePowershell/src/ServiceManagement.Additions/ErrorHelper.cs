@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Service
     using System.Runtime.Serialization;
     using System.ServiceModel;
     using System.Xml;
-    using Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     public class SMErrorHelper
     {

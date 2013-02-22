@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using Microsoft.WindowsAzure.ServiceManagement;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
@@ -21,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Samples.WindowsAzure.ServiceManagement;
     using IaaS;
     using Management.Model;
 
@@ -74,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             ManagementOperationContext context = null;
 
             string rdpFilePath = LocalPath ?? Path.GetTempFileName();
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 using (var stream = RetryCall(s => Channel.DownloadRDPFile(s, ServiceName, CurrentDeployment.Name, Name + "_IN_0")))
                 {
