@@ -19,6 +19,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class WindowsAzureAddOn
     {
+        const string DataSetType = "DataMarket";
+
+        const string DataType = "Data";
+
+        const string AppServiceType = "App Service";
+
         public string Type { get; set; }
 
         public string AddOn { get; set; }
@@ -50,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <param name="geoRegion">The add on region</param>
         public WindowsAzureAddOn(Resource resource, string geoRegion, string cloudService)
         {
-            Type = resource.ResourceProviderNamespace;
+            Type = resource.ResourceProviderNamespace == DataSetType ? DataType : AppServiceType;
             
             AddOn = resource.Type;
             
@@ -66,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
             UsageMeters = resource.UsageMeters;
 
-            OutputItems = resource.OutputItems;
+            OutputItems = (Type == AppServiceType) ? resource.OutputItems : new OutputItemList();
 
             LastOperationStatus = resource.OperationStatus;
 
