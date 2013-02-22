@@ -12,11 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Net;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
+    using System.Net;
     using System.Management.Automation;
     using System.ServiceModel;
     using Utilities;
@@ -29,14 +28,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     /// </summary>
     public class GetDeploymentStatus : ServiceManagementBaseCmdlet
     {
-        public GetDeploymentStatus()
+        public GetDeploymentStatus(ICommandRuntime commandRuntime)
         {
-
+            CommandRuntime = commandRuntime;
         }
 
-        public GetDeploymentStatus(IServiceManagement channel)
+        public GetDeploymentStatus(IServiceManagement channel, ICommandRuntime commandRuntime)
         {
             Channel = channel;
+            CommandRuntime = commandRuntime;
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
