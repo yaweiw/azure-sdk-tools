@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Management.Model;
+    using WindowsAzure.ServiceManagement;
 
     public class VirtualNetworkSiteContext : ManagementOperationContext
     {

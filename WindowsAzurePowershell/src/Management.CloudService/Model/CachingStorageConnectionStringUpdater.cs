@@ -21,7 +21,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement; 
+    using Microsoft.WindowsAzure.ServiceManagement;
+
 
     class CachingStorageConnectionStringUpdater : IPublishListener
     {

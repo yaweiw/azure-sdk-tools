@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.Store.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Moq;
-    using VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Management.Automation;
     using System.Collections.Generic;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Store.Cmdlet;
+    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Store.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
+    using Moq;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureStoreAddOnTests : TestBase

@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Management.Model;
     using Extensions;
@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 Label = Name;
             }
 
-            Label = ServiceManagementHelper.EncodeToBase64String(Label);
+            Label = Label;
 
             var role = new PersistentVM
             {

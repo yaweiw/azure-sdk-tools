@@ -121,6 +121,10 @@
     <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.2.0.4.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -176,7 +180,6 @@
     <Compile Include="Cmdlet\StopAzureService.cs" />
     <Compile Include="Model\DeploymentStatusManager.cs" />
     <Compile Include="Cmdlet\StopAzureEmulator.cs" />
-    <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\DeploymentSettings.cs" />
     <Compile Include="Model\RoleInfo.cs" />
     <Compile Include="Model\ServiceComponents.cs" />
@@ -211,13 +214,12 @@
     <Compile Include="Services\Utility.cs" />
     <Compile Include="AzureTools\CsRun.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
-    <Compile Include="Utilities\Validate.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
     <Compile Include="XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Model\ServiceSettings.cs" />
     <Compile Include="Cmdlet\StartAzureEmulator.cs" />
-    <Compile Include="Utilities\General.cs" />
+    <Compile Include="Utilities\CloudServiceUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\Scaffolding\Cache\WebRole\Scaffold.xml">
@@ -495,9 +497,9 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
+    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
+      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
+      <Name>ServiceManagement.Additions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

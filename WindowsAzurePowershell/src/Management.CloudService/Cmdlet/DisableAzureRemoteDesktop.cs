@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void DisableRemoteDesktop()
         {
-            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
+            AzureService service = new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 

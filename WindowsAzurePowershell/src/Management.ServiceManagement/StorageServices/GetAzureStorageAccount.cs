@@ -18,15 +18,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Lists all storage services underneath the subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStorageAccount"), OutputType(typeof(StorageServicePropertiesOperationContext))]
-    public class GetAzureStorageAccountCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureStorageAccountCommand()
         {
@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 OperationStatus = operation.Status,
                 AffinityGroup = service.StorageServiceProperties.AffinityGroup,
                 StorageAccountDescription = service.StorageServiceProperties.Description,
-                Label = (service.StorageServiceProperties.Label != null) ? ServiceManagementHelper.DecodeFromBase64String(service.StorageServiceProperties.Label) : string.Empty,
+                Label = String.IsNullOrEmpty(service.StorageServiceProperties.Label) ? string.Empty : ServiceManagementHelper.DecodeFromBase64String(service.StorageServiceProperties.Label),
                 Location = service.StorageServiceProperties.Location,
                 Endpoints = service.StorageServiceProperties.Endpoints,
                 StorageAccountStatus = service.StorageServiceProperties.Status,

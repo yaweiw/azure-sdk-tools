@@ -25,9 +25,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
     using System.Xml.Serialization;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
 
-    internal static class General
+    internal static class CloudServiceUtilities
     {
         private static Assembly _assembly = Assembly.GetExecutingAssembly();
 
@@ -144,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
         {
             foreach (KeyValuePair<string, string> filePair in filesPair)
             {
-                File.WriteAllBytes(filePair.Value, General.GetResourceContents(filePair.Key));
+                File.WriteAllBytes(filePair.Value, CloudServiceUtilities.GetResourceContents(filePair.Key));
             }
         }
 

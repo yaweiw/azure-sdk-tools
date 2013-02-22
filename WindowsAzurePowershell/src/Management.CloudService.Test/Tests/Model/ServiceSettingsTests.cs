@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using Extensions;
     using Management.Services;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -101,8 +102,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 string serviceName = null;
 
                 ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
-                Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[Location.WestUS]) || 
-                    settings.Location.Equals(ArgumentConstants.Locations[Location.EastUS]));
+                Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[LocationName.WestUS]) || 
+                    settings.Location.Equals(ArgumentConstants.Locations[LocationName.EastUS]));
                 
             }
         }

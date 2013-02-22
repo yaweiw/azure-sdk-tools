@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using AzureTools;
     using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Properties;
 
@@ -70,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(General.GetServiceRootPath(CurrentPath()));
+            StartAzureEmulatorProcess(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
         }
     }
 }

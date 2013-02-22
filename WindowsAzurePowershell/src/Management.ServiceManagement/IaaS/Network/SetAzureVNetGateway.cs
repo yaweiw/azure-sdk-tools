@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 Operation = this.Connect.IsPresent ? UpdateConnectionOperation.Connect : UpdateConnectionOperation.Disconnect
             };
 
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.UpdateVirtualNetworkGatewayConnection(s, this.VNetName, this.LocalNetworkSiteName, uc), this.WaitForGatewayOperation);
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.UpdateVirtualNetworkGatewayConnection(s, this.VNetName, this.LocalNetworkSiteName, uc), this.WaitForNewGatewayOperation);
         }
     }
 }
