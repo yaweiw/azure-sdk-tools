@@ -168,6 +168,7 @@
     <Compile Include="IaaS\DiskRepository\AddAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureVMImage.cs" />
+    <Compile Include="IaaS\DiskRepository\RecommendedVMSizeType.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\UpdateAzureDisk.cs" />
