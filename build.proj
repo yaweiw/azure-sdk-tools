@@ -218,7 +218,7 @@
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
       ContinueOnError="false" />
