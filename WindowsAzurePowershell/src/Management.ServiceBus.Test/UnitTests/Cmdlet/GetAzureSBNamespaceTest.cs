@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
+    using ServiceManagement.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;

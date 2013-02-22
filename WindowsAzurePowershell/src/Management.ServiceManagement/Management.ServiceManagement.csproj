@@ -112,6 +112,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
@@ -126,6 +130,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -176,7 +181,6 @@
     <Compile Include="IaaS\Endpoints\GetAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\RemoveAzureEndpoint.cs" />
     <Compile Include="IaaS\Endpoints\SetAzureEndpoint.cs" />
-    <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\Network\GatewayCmdletBase.cs" />
     <Compile Include="IaaS\Network\GetAzureDns.cs" />
     <Compile Include="IaaS\Network\GetAzureSubnet.cs" />
@@ -192,6 +196,7 @@
     <Compile Include="IaaS\Network\SetAzureSubnet.cs" />
     <Compile Include="IaaS\Network\SetAzureVNetConfig.cs" />
     <Compile Include="IaaS\Network\SetAzureVNetGateway.cs" />
+    <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\PersistentVMs\AddAzureProvisioningConfig.cs" />
     <Compile Include="IaaS\PersistentVMs\ExportAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureOSDisk.cs" />
@@ -228,6 +233,7 @@
     <Compile Include="Model\PersistentVM.cs" />
     <Compile Include="Model\PersistentVMRoleContext.cs" />
     <Compile Include="Model\PersistentVMRoleListContext.cs" />
+    <Compile Include="Model\PSSyncOutputEvents.cs" />
     <Compile Include="Model\RoleConfiguration.cs" />
     <Compile Include="Model\RoleContext.cs" />
     <Compile Include="Model\RoleInstanceContext.cs" />
@@ -240,6 +246,8 @@
     <Compile Include="Model\StorageServiceOperationContext.cs" />
     <Compile Include="Model\StorageServicePropertiesOperationContext.cs" />
     <Compile Include="Model\UploadParameters.cs" />
+    <Compile Include="Model\VhdDownloadContext.cs" />
+    <Compile Include="Model\VhdDownloaderModel.cs" />
     <Compile Include="Model\VhdUploadContext.cs" />
     <Compile Include="Model\VirtualNetworkConfigContext.cs" />
     <Compile Include="Model\VirtualNetworkGatewayContext.cs" />
@@ -258,6 +266,7 @@
     <Compile Include="StorageServices\NewAzureStorageAccount.cs" />
     <Compile Include="StorageServices\NewAzureStorageKey.cs" />
     <Compile Include="StorageServices\RemoveAzureStorageAccount.cs" />
+    <Compile Include="StorageServices\SaveAzureVhdCommand.cs" />
     <Compile Include="StorageServices\SetAzureStorageAccount.cs" />
     <Compile Include="Model\VhdUploaderModel.cs" />
   </ItemGroup>
@@ -288,10 +297,6 @@
     <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
       <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
       <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559A16C7-B11C-4AA6-8C16-8ADECA6ABED7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sync\Sync.csproj">
       <Project>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</Project>

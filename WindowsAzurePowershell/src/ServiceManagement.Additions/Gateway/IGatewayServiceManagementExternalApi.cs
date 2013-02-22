@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Service.Gateway
 {
     using System.ServiceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
 
     /// <summary>

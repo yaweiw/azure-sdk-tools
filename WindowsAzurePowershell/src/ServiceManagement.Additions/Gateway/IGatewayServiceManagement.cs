@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Service.Gateway
     using System.IO;
     using System.ServiceModel;
     using System.ServiceModel.Web;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     public partial interface IGatewayServiceManagement
     {

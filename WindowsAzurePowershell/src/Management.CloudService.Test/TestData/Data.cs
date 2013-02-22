@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.Service;
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
     using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using System.Linq;
     using System.Text;
     using CloudService.Model;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
