@@ -40,8 +40,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 
         GetAzureStoreAddOnCommand cmdlet;
 
-        List<PSObject> actual;
-
         [TestInitialize]
         public void SetupTest()
         {
@@ -135,8 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
                 new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US", "StoreCloudService"),
                 new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
             };
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
-                .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
+            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true));
             mockStoreClient.Setup(f => f.GetAddOn(It.IsAny<AddOnSearchOptions>())).Returns(expected);
 
             // Test
@@ -144,9 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
 
             // Assert
             mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, null, null)), Times.Once());
-            mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
-            Assert.AreEqual<int>(expected.Count, actual.Count);
-            AssertAssonListEqualsPSObjectList(expected, actual);
+            mockCommandRuntime.Verify(f => f.WriteObject(expected, true), Times.Once());
         }
 
         [TestMethod]
@@ -157,8 +152,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             {
                 new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
             };
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
-                .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
+            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true));
             mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null)))
                 .Returns(expected);
             cmdlet.Name = "BingTranslateAddOn";
@@ -170,104 +164,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
             mockStoreClient.Verify(
                 f => f.GetAddOn(new AddOnSearchOptions("BingTranslateAddOn", null, null)),
                 Times.Once());
-            mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
-            Assert.AreEqual<int>(expected.Count, actual.Count);
-            AssertAssonListEqualsPSObjectList(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetAzureStoreAddOnWithLocationFilter()
-        {
-            // Setup
-            List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
-            {
-                new WindowsAzureAddOn(new Resource() { Name = "BingSearchAddOn" }, "West US", "StoreCloudService"),
-                new WindowsAzureAddOn(new Resource() { Name = "MongoDB" }, "West US", "StoreCloudService"),
-                new WindowsAzureAddOn(new Resource() { Name = "BingTranslateAddOn" }, "West US", "StoreCloudService")
-            };
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
-                .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, null, "West US"))).Returns(expected);
-            cmdlet.Location = "West US";
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, null, "West US")), Times.Once());
-            mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
-            Assert.AreEqual<int>(expected.Count, actual.Count);
-            AssertAssonListEqualsPSObjectList(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetAzureStoreAddOnWithProviderFilter()
-        {
-            // Setup
-            List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
-            {
-                new WindowsAzureAddOn(new Resource() { 
-                    Name = "BingSearchAddOn", 
-                    ResourceProviderNamespace = "Microsoft" }, 
-                    "West US", "StoreCloudService"),
-                new WindowsAzureAddOn(new Resource() { 
-                    Name = "BingTranslateAddOn", 
-                    ResourceProviderNamespace = "Microsoft" }, 
-                    "West US", "StoreCloudService")
-            };
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
-                .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions(null, "Microsoft", null))).Returns(expected);
-            cmdlet.Provider = "Microsoft";
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            mockStoreClient.Verify(f => f.GetAddOn(new AddOnSearchOptions(null, "Microsoft", null)), Times.Once());
-            mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
-            Assert.AreEqual<int>(expected.Count, actual.Count);
-            AssertAssonListEqualsPSObjectList(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetAzureStoreAddOnWithCompleteSearchOptions()
-        {
-            // Setup
-            List<WindowsAzureAddOn> expected = new List<WindowsAzureAddOn>()
-            {
-                new WindowsAzureAddOn(new Resource() { 
-                    Name = "BingSearchAddOn", 
-                    ResourceProviderNamespace = "Microsoft" }, 
-                    "West US", "StoreCloudService")
-            };
-            mockCommandRuntime.Setup(f => f.WriteObject(It.IsAny<object>(), true))
-                .Callback<object, bool>((o, b) => actual = (List<PSObject>)o);
-            mockStoreClient.Setup(f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")))
-                .Returns(expected);
-            cmdlet.Provider = "Microsoft";
-            cmdlet.Name = "BingSearchAddOn";
-            cmdlet.Location = "West US";
-
-            // Test
-            cmdlet.ExecuteCmdlet();
-
-            // Assert
-            mockStoreClient.Verify(
-                f => f.GetAddOn(new AddOnSearchOptions("BingSearchAddOn", "Microsoft", "West US")), Times.Once());
-            mockCommandRuntime.Verify(f => f.WriteObject(It.IsAny<object>(), true), Times.Once());
-            Assert.AreEqual<int>(expected.Count, actual.Count);
-            AssertAssonListEqualsPSObjectList(expected, actual);
-        }
-
-        private void AssertAssonListEqualsPSObjectList(List<WindowsAzureAddOn> expectedList, List<PSObject> actualList)
-        {
-            for (int i = 0; i < expectedList.Count; i++)
-            {
-                WindowsAzureAddOn expected = expectedList[i];
-                WindowsAzureAddOn actual = (WindowsAzureAddOn)actualList[i].BaseObject;
-                Assert.AreEqual<string>(expected.Name, actual.Name);
-            }
+            mockCommandRuntime.Verify(f => f.WriteObject(expected, true), Times.Once());
         }
     }
 }
