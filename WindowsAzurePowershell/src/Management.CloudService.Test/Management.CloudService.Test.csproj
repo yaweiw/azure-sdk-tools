@@ -229,10 +229,6 @@
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\testruntimemanifest.xml" />

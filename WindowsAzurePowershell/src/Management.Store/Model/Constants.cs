@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Microsoft.WindowsAzure.Management.Store.Model
 {
-    public class Constants
+    public class StoreConstants
     {
         //
         // Non-Microsoft Providers

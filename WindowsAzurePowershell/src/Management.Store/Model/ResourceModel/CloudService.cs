@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
-    using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [DataContract(Namespace = Constants.ServiceManagementNS)]
     public class CloudService

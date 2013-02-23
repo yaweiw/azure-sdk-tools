@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ServiceManagement;
-    using Service.ResourceModel;
 
     /// <summary>
     /// Simple implementation of the IServiceManagement interface that can be
@@ -1812,11 +1811,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         public VirtualNetworkSiteList EndListVirtualNetworkSites(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginSetVirtualNetworkGatewayConfiguration(string subscriptionId, string virtualnetworkId, VirtualNetworkGatewayConfiguration gatewayConfiguration, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }

@@ -108,8 +108,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         public virtual bool IsKnownProvider(Guid providerId)
         {
             return
-                Constants.MicrosoftProviderIds.Contains(providerId) ||
-                Constants.NonMicrosoftProviderIds.Contains(providerId);
+                StoreConstants.MicrosoftProviderIds.Contains(providerId) ||
+                StoreConstants.NonMicrosoftProviderIds.Contains(providerId);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <returns>True if Microsoft offer, false otherwise</returns>
         public virtual bool IsMicrosoftOffer(Offer offer)
         {
-            return Constants.MicrosoftProviderIds.Contains(offer.ProviderId);
+            return StoreConstants.MicrosoftProviderIds.Contains(offer.ProviderId);
         }
     }
 }

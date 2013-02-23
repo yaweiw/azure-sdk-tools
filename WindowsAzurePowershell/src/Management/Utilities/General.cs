@@ -480,5 +480,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
             return formattedXml;
         }
+
+        public static string GetConfiguration(string configurationPath)
+        {
+            var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
+            return ServiceManagementHelper.EncodeToBase64String(configuration);
+        }
     }
 }

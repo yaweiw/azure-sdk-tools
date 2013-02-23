@@ -272,10 +272,6 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sync\Sync.csproj">
       <Project>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</Project>
       <Name>Sync</Name>

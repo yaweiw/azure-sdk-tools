@@ -211,7 +211,6 @@
     <Compile Include="Cmdlet\PublishAzureServiceProject.cs" />
     <Compile Include="Services\CmdLetExtensions.cs" />
     <Compile Include="Services\InnerDataServiceException.cs" />
-    <Compile Include="Services\Utility.cs" />
     <Compile Include="AzureTools\CsRun.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
@@ -496,10 +495,6 @@
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

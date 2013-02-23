@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.ServiceManagement
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement
     using System.ServiceModel.Web;
     using System.Text;
     using System.Xml;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public static class ServiceManagementHelper
     {

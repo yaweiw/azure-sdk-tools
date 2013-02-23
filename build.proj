@@ -39,6 +39,9 @@
     <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
+	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
+	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
   </PropertyGroup>
   <ItemGroup>
     <CmdletSln Include=".\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" />
@@ -52,27 +55,27 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
 	<MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     
     <!-- Delete scaffolding files-->
@@ -110,17 +113,17 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
   </Target>
   
@@ -137,7 +140,7 @@
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
   </Target>
   
@@ -154,7 +157,7 @@
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Build"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
   
@@ -253,7 +256,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
       
     <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>
@@ -274,7 +277,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     
     <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>

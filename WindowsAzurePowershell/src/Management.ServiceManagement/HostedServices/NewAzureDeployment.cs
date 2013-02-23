@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             var deploymentInput = new CreateDeploymentInput
             {
                 PackageUrl = packageUrl,
-                Configuration = Utility.GetConfiguration(this.Configuration),
+                Configuration = General.GetConfiguration(this.Configuration),
                 Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,
