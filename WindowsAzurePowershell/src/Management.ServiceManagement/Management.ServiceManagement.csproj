@@ -159,7 +159,6 @@
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
-    <Compile Include="Helpers\Utility.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
     <Compile Include="HostedServices\GetAzureOSVersion.cs" />
     <Compile Include="HostedServices\GetAzureLocation.cs" />

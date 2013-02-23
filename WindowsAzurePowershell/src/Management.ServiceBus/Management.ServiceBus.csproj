@@ -147,10 +147,6 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

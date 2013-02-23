@@ -21,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
     using System.Threading;
-    using ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
+    using ServiceManagement;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {

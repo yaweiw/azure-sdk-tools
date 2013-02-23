@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model.ResourceModel
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [CollectionDataContract(Name = "Resources", ItemName = "Resource", Namespace = Constants.ServiceManagementNS)]
     public class ResourceList : List<Resource>

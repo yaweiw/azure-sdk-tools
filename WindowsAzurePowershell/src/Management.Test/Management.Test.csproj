@@ -150,7 +150,7 @@
       <Name>Management.CloudService</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
-      <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
+      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
     </ProjectReference>
   </ItemGroup>

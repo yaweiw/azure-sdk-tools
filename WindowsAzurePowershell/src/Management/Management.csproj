@@ -187,7 +187,8 @@
     <Compile Include="Cmdlets\GetAzureSubscription.cs" />
     <Compile Include="Cmdlets\ImportAzurePublishSettings.cs" />
     <Compile Include="Utilities\AzureBlob.cs" />
-    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\ErrorHelper.cs" />
+    <Compile Include="Utilities\ManagementConstants.cs" />
     <Compile Include="Services\GlobalPathInfo.cs" />
     <Compile Include="Cmdlets\RemoveAzureSubscription.cs" />
     <Compile Include="Cmdlets\SelectAzureSubscription.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Utilities\General.cs" />
     <Compile Include="Utilities\ProcessHelper.cs" />
     <Compile Include="Utilities\ConfigurationConstants.cs" />
+    <Compile Include="Utilities\ServiceManagementHelper.cs" />
     <Compile Include="Utilities\Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlSchema\PublishProfile.cs" />
@@ -245,12 +247,6 @@
     <None Include="XmlSchema\SubscriptionsData.xsd">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

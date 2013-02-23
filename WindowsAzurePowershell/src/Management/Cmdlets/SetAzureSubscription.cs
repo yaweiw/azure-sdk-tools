@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Properties;
-    using Service;
     using Services;
 
     /// <summary>

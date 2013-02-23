@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Service
+namespace Microsoft.WindowsAzure.Management.Utilities
 {
     using System.IO;
     using System.Net;
@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Service
     using System.Xml;
     using ServiceManagement;
 
-    public class SMErrorHelper
+    public class ErrorHelper
     {
         public static bool TryGetExceptionDetails(CommunicationException exception, out ServiceManagementError errorDetails, out string operationId)
         {

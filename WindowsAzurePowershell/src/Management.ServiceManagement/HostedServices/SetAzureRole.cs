@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using Cmdlets.Common;
     using Management.Model;
     using WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
 
     /// <summary>

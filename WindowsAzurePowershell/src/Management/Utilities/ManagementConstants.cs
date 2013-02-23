@@ -108,10 +108,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         Null
     }
 
-    public class Constants
+    public class ManagementConstants
     {
         public const string CurrentSubscriptionEnvironmentVariable = "_wappsCmdletsCurrentSubscription";
 
         public const string ServiceManagementNS = "http://schemas.microsoft.com/windowsazure";
+    }
+
+    public static class StorageServiceStatus
+    {
+        public const string ResolvingDns = "Suspending";
+        public const string Created = "Created";
+        public const string Creating = "Creating";
     }
 }

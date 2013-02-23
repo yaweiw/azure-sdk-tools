@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Extensions;
     using Management.Services;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Service;
+    //using Microsoft.WindowsAzure.Management.Service;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
@@ -619,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string configurationPath = _azureService.Paths.CloudConfiguration;
             Validate.ValidateFileFull(configurationPath, Resources.ServiceConfiguration);
             string fullPath = this.ResolvePath(configurationPath);
-            string configuration = Utility.GetConfiguration(fullPath);
+            string configuration = General.GetConfiguration(fullPath);
             return configuration;
         }
 
