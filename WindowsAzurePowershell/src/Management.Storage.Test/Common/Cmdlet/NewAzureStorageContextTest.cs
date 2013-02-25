@@ -20,9 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class NewAzureStorageContextTest : StorageTestBase

@@ -17,10 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Queue.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Queue;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// base class for azure queue cmdlet

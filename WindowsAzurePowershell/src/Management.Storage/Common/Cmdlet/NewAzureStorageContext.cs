@@ -19,12 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
-    
+
     /// <summary>
     /// New storage context
     /// </summary>

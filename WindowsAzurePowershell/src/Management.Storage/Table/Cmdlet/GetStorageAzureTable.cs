@@ -17,14 +17,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Table.Contract;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel;
-    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// list azure tables

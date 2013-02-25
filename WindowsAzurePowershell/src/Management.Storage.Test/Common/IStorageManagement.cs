@@ -14,10 +14,6 @@
 
 namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// storage management interface for all cmdlet that works without cloud

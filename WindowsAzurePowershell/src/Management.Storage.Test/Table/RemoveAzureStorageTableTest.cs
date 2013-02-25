@@ -16,14 +16,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Table;
     using Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Table.Contract;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class RemoveAzureStorageTableTest: StorageTableStorageTestBase

@@ -17,9 +17,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Table;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class AzureStorageTable : AzureStorageBase
     {

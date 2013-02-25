@@ -16,12 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
     using System.ServiceModel;
-    using System.Text;
 
     /// <summary>
     /// unit test for communication exception util

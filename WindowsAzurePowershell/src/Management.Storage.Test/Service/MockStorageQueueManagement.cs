@@ -20,8 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
     using Microsoft.WindowsAzure.Storage.Queue.Protocol;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class MockStorageQueueManagement : IStorageQueueManagement
     {
