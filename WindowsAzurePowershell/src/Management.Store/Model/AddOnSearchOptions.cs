@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
         /// <param name="name">The add on name</param>
         /// <param name="provider">The add on provider</param>
         /// <param name="geoRegion">The add on region</param>
-        public AddOnSearchOptions(string name, string provider, string geoRegion)
+        public AddOnSearchOptions(string name = null, string provider = null, string geoRegion = null)
         {
             Name = name;
 

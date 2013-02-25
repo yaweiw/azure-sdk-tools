@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 inServiceName,
                 inSlot,
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string result = this.GetDeploymentStatusProcess(General.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                string result = this.GetDeploymentStatusProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(result);
             }
             catch (Exception ex)

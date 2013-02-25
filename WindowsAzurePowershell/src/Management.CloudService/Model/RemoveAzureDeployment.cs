@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private ServiceSettings InitializeArguments(string rootPath, string inServiceName, string inSlot, string inSubscription, out string serviceName)
         {
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 inServiceName,
                 inSlot,
@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string results = this.RemoveAzureDeploymentProcess(General.GetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                string results = this.RemoveAzureDeploymentProcess(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(results);
             }
             catch (Exception ex)

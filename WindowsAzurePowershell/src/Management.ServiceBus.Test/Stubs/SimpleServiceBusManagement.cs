@@ -12,15 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
     using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.ServiceBusManagement.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Simple implementation of the IServiceBusManagement interface that can be

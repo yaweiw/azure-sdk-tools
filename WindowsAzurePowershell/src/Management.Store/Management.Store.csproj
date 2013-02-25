@@ -13,6 +13,8 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -104,16 +106,9 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Edm, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.Services.Client">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.2.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.0.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -127,21 +122,34 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Spatial, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlet\NewAzureStoreAddOn.cs" />
+    <Compile Include="Cmdlet\SetAzureStoreAddOn.cs" />
+    <Compile Include="Model\Constants.cs" />
+    <Compile Include="Model\Contract\IStoreManagement.cs" />
+    <Compile Include="Model\Contract\StoreExtensionMethods.cs" />
+    <Compile Include="Model\ResourceModel\CloudService.cs" />
+    <Compile Include="Model\ResourceModel\CloudServiceList.cs" />
+    <Compile Include="Model\ResourceModel\Error.cs" />
+    <Compile Include="Model\ResourceModel\OperationStatus.cs" />
+    <Compile Include="Model\ResourceModel\OutputItem.cs" />
+    <Compile Include="Model\ResourceModel\OutputItemList.cs" />
+    <Compile Include="Model\ResourceModel\Resource.cs" />
+    <Compile Include="Model\ResourceModel\ResourceList.cs" />
+    <Compile Include="Model\ResourceModel\UsageMeter.cs" />
+    <Compile Include="Model\ResourceModel\UsageMeterList.cs" />
+    <Compile Include="Model\SetHeaderInspector.cs" />
     <Compile Include="Model\MarketplaceClient.cs" />
+    <Compile Include="Cmdlet\RemoveAzureStoreAddOn.cs" />
     <Compile Include="Model\Parameter.cs" />
     <Compile Include="Cmdlet\GetAzureStoreAddOn.cs" />
-    <Compile Include="Cmdlet\GetAzureStoreAvailableAddOn.cs" />
     <Compile Include="Model\AddOnSearchOptions.cs" />
+    <Compile Include="Model\PowerShellCustomConfirmation.cs" />
     <Compile Include="Model\WindowsAzureAddOn.cs" />
     <Compile Include="Model\StoreClient.cs" />
     <Compile Include="Model\ValidateCountryLengthAttribute.cs" />
@@ -162,12 +170,12 @@
     <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
     <None Include="Service References\MarketplaceServiceReference\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
     <None Include="Service References\MarketplaceServiceReference\service.edmx" />
   </ItemGroup>
   <ItemGroup>
@@ -175,15 +183,12 @@
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -201,11 +206,11 @@
     </ServiceReferenceMetadataStorage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir).nuget\nuget.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
