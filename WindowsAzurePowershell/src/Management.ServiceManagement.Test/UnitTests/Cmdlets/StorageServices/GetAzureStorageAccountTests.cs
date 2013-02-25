@@ -15,15 +15,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
 {
     using Extensions;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GetAzureStorageAccountTests
+    public class GetAzureStorageAccountTests : TestBase
     {
+        FileSystemHelper files;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            files = new FileSystemHelper(this);
+            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            files.Dispose();
         }
 
         [TestMethod]
