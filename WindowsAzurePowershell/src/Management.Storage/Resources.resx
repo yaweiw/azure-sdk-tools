@@ -283,7 +283,7 @@
     <comment>0 for request uri, 1 http status code, 2 service request id</comment>
   </data>
   <data name="InitOperationContextLog" xml:space="preserve">
-    <value>Init Operation Context with operation id {0}.</value>
+    <value>Init cmdlet operation context with operation id {0}.</value>
   </data>
   <data name="StartRemoteCall" xml:space="preserve">
     <value>Start {0}th remote call, method: {1}, destination: {2}.</value>

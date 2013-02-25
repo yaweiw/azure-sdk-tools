@@ -358,7 +358,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Init Operation Context with operation id {0}..
+        ///   Looks up a localized string similar to Init cmdlet operation context with operation id {0}..
         /// </summary>
         internal static string InitOperationContextLog {
             get {

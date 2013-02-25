@@ -38,43 +38,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Cmdlet operation context.
         /// </summary>
-        protected OperationContext OperationContext { get; private set; }
-
-        /// <summary>
-        /// Remote call counter
-        /// </summary>
-        private int startRemoteCallCounter = 0;
-
-        /// <summary>
-        /// Remote call counter
-        /// </summary>
-        private int finishRemoteCallCounter = 0;
-
-        /// <summary>
-        /// Init storage client operation context
-        /// </summary>
-        internal void InitOperationContext()
+        protected OperationContext OperationContext 
         {
-            OperationContext = new Microsoft.WindowsAzure.Storage.OperationContext();
-            OperationContext.Init();
-
-            OperationContext.SendingRequest += (s, e) =>
+            get
             {
-                Interlocked.Increment(ref startRemoteCallCounter);
-                string message = String.Format(Resources.StartRemoteCall,
-                    startRemoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
-                WriteVerboseLog(message);
-            };
-
-            OperationContext.ResponseReceived += (s, e) =>
-            {
-                Interlocked.Increment(ref finishRemoteCallCounter);
-                string message = String.Format(Resources.FinishRemoteCall,
-                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
-                WriteVerboseLog(message);
-            };
-
-            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, OperationContext.ClientRequestID));
+                return CmdletOperationContext.GetStorageOperationContext(WriteVerboseLog);
+            }    
         }
 
         /// <summary>
@@ -270,14 +239,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
         }
 
-
         /// <summary>
         /// Cmdlet begin process
         /// </summary>
         protected override void BeginProcessing()
         {
-            InitOperationContext();
-
+            CmdletOperationContext.Init();
+            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, CmdletOperationContext.ClientRequestId));
             base.BeginProcessing();
         }
 
@@ -286,9 +254,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         protected override void EndProcessing()
         {
-            double timespan = OperationContext.GetRunningMilliseconds();
+            double timespan = CmdletOperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
-                this.GetType().Name, startRemoteCallCounter, finishRemoteCallCounter, timespan, OperationContext.ClientRequestID);
+                this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinisedhRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
             WriteVerboseLog(message);
             base.EndProcessing();
         }
