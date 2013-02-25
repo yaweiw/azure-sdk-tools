@@ -273,7 +273,7 @@
   </data>
   <data name="EndProcessingLog" xml:space="preserve">
     <value>{0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}.</value>
-    <comment>0 for cmdlet name. 1 for started remote call counter, 1 for finished remote call counter, 3 for running time, 4 for client request id</comment>
+    <comment>0 for cmdlet name. 1 for started remote call counter, 2 for finished remote call counter, 3 for running time, 4 for client request id</comment>
   </data>
   <data name="ExceptionCannotEmpty" xml:space="preserve">
     <value>Exception cannot be null or empty.</value>
@@ -320,7 +320,7 @@
     <value>https://</value>
   </data>
   <data name="CurrentStorageAccountNotFoundOnAzure" xml:space="preserve">
-    <value>Can not find current storage account '{0}' on azure, please check whether your storage account exists.</value>
+    <value>Can not find current storage account '{0}' on azure, please check whether the specified storage account in subscription exists.</value>
     <comment>0 storage account name</comment>
   </data>
   <data name="UseCurrentStorageAccountFromSubscription" xml:space="preserve">
