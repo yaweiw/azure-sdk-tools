@@ -83,6 +83,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             string prefix = string.Empty;
             BlobRequestOptions requestOptions = null;
+            AccessCondition accessCondition = null;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
@@ -114,6 +115,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 if (Channel.IsContainerExists(container, requestOptions, OperationContext))
                 {
+                    //fetch container attributes
+                    Channel.FetchContainerAttributes(container, accessCondition, requestOptions, OperationContext);
                     yield return container;
                 }
                 else
