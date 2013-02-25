@@ -88,12 +88,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
             }
 
-            BlobRequestOptions reqesutOptions = null;
+            BlobRequestOptions requestOptions = null;
             AccessCondition accessCondition = null;
 
             CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!Channel.DoesContainerExist(container, reqesutOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (force || ConfirmRemove(name))
             {
-                Channel.DeleteContainer(container, accessCondition, reqesutOptions, OperationContext);
+                Channel.DeleteContainer(container, accessCondition, requestOptions, OperationContext);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
             }
             else
