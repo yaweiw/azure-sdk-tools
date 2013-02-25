@@ -25,6 +25,8 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
     /// </summary>
     public class AzureStorageContext
     {
+        private const string AnonymousAccountName = "[Anonymous]";
+
         /// <summary>
         /// storage account name used in this context
         /// </summary>
@@ -73,6 +75,11 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
             StorageAccountName = account.Credentials.AccountName;
             Context = this;
             Name = String.Empty;
+
+            if (string.IsNullOrEmpty(StorageAccountName))
+            {
+                StorageAccountName = AnonymousAccountName;
+            }
         }
     }
 }
