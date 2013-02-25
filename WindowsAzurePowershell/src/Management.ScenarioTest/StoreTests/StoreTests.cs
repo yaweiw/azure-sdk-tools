@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
 {
-    using System.Management.Automation;
-    using System.Management.Automation.Runspaces;
-    using Common;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Management.Store.Model;
+    using System.Collections.Generic;
+using System.Management.Automation;
+using System.Management.Automation.Runspaces;
+using Common;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
+using Microsoft.WindowsAzure.Management.Store.Model;
 
     [TestClass]
     public class StoreTests : WindowsAzurePowerShellTest
@@ -43,60 +44,99 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
             customHost = new CustomHost();
         }
 
-        private void PromptSetup(int choice)
+        private void PromptSetup(
+            List<int> expectedDefaultChoices,
+            List<int> promptChoices,
+            List<string> expectedPromptMessages,
+            List<string> expectedPromptCaptions)
         {
-            customHost.CustomUI.PromptChoice = choice;
+            customHost.CustomUI.PromptChoices = promptChoices;
+            customHost.CustomUI.ExpectedDefaultChoices = expectedDefaultChoices;
+            customHost.CustomUI.ExpectedPromptMessages = expectedPromptMessages;
+            customHost.CustomUI.ExpectedPromptCaptions = expectedPromptCaptions;
             powershell.Runspace = RunspaceFactory.CreateRunspace(customHost);
             powershell.Runspace.Open();
             powershell.ImportCredentials(StoreCredentialFile);
             powershell.AddScript(string.Format("Set-AzureSubscription -Default {0}", StoreSubscriptionName));
         }
 
-        #region Get-AzureStoreAvailableAddOn Scenario Tests
+        #region Get-AzureStoreAddOn Scenario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestWithInvalidCredentialsWorks()
+        public void TestGetAzureStoreAddOnListAvailableWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentialsWorks");
+            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureStoreAddOn -ListAvailable }");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestGetAzureStoreAvailableAddOnWithDefaultCountry()
+        public void TestGetAzureStoreAddOnListAvailableWithDefaultCountry()
         {
-            RunPowerShellTest("Test-GetAzureStoreAvailableAddOnWithDefaultCountry");
+            RunPowerShellTest("Test-GetAzureStoreAddOnListAvailableWithDefaultCountry");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestGetAzureStoreAvailableAddOnWithNoAddOns()
+        public void TestGetAzureStoreAddOnListAvailableWithNoAddOns()
         {
-            RunPowerShellTest("Test-GetAzureStoreAvailableAddOnWithNoAddOns");
+            RunPowerShellTest("Test-GetAzureStoreAddOnListAvailableWithNoAddOns");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestGetAzureStoreAvailableAddOnWithInvalidCountryName()
+        public void TestGetAzureStoreAddOnListAvailableWithCountry()
         {
-            RunPowerShellTest("Test-GetAzureStoreAvailableAddOnWithInvalidCountryName");
+            RunPowerShellTest("Test-GetAzureStoreAddOnListAvailableWithCountry");
         }
-
-        #endregion
-
-        #region Get-AzureStoreAddOn Scneario Tests
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestNewAzureStoreAddOnWithInvalidCredentials()
+        public void TestGetAzureStoreAddOnListAvailableWithInvalidCountryName()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { New-AzureStoreAddOn Name AddOnPlan Location}");
+            RunPowerShellTest("Test-GetAzureStoreAddOnListAvailableWithInvalidCountryName");
         }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureStoreAddOn Name }");
+        }
+
+        //[TestMethod]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Store)]
+        //public void TestGetAzureStoreAddOnWithNoAddOns()
+        //{
+        //    RunPowerShellTest("Test-GetAzureStoreAddOnEmpty");
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Store)]
+        //public void TestGetAzureStoreAddOnWithOneAddOn()
+        //{
+        //    RunPowerShellTest(
+        //        "Test-GetAzureStoreAddOnWithOneAddOn",
+        //        "AddOn-TestCleanup");
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Store)]
+        //public void TestGetAzureStoreAddOnWithMultipleAddOns()
+        //{
+        //    RunPowerShellTest(
+        //        "Test-GetAzureStoreAddOnWithMultipleAddOns",
+        //        "AddOn-TestCleanup");
+        //}
 
         #endregion
     }

@@ -29,43 +29,30 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
-<#
-.SYNOPSIS
-Tests Get-AzureStoreAvailableAddOn with invalid credentials and make sure it works.
-#>
-function Test-WithInvalidCredentialsWorks
-{
-	# Setup
-	Remove-AllSubscriptions
-
-	# Test
-	Test-GetAzureStoreAvailableAddOnWithDefaultCountry
-}
-
-########################################################################### Get-AzureStoreAvailableAddOn Scenario Tests ###########################################################################
+########################################################################### Get-AzureStoreAddOn -ListAvailable Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests using Get-AzureStoreAvailableAddOn with default country (US)
+Tests using Get-AzureStoreAddOn -ListAvailable with default country (US)
 #>
-function Test-GetAzureStoreAvailableAddOnWithDefaultCountry
+function Test-GetAzureStoreAddOnListAvailableWithDefaultCountry
 {
 	# Test
-	$actual = Get-AzureStoreAvailableAddOn
+	$actual = Get-AzureStoreAddOn -ListAvailable
 
 	# Assert
 	Assert-True { $actual.Count -gt 0 }
-	$actual | % { Assert-NotNull $_.Provider; Assert-NotNull $_.AddOn; Assert-NotNull $_.Plans }
+	$actual | % { Assert-NotNull $_.Provider; Assert-NotNull $_.AddOn; Assert-NotNull $_.Plans Assert-NotNull $_.Locations }
 }
 
 <#
 .SYNOPSIS
-Tests using Get-AzureStoreAvailableAddOn with specified country that will not return any addons.
+Tests using Get-AzureStoreAddOn -ListAvailable with specified country that will not return any addons.
 #>
-function Test-GetAzureStoreAvailableAddOnWithNoAddOns
+function Test-GetAzureStoreAddOnListAvailableWithNoAddOns
 {
 	# Test
-	$actual = Get-AzureStoreAvailableAddOn "E1"
+	$actual = Get-AzureStoreAddOn -ListAvailable "E1"
 
 	# Assert
 	Assert-True { $actual.Count -eq 0 }
@@ -73,10 +60,23 @@ function Test-GetAzureStoreAvailableAddOnWithNoAddOns
 
 <#
 .SYNOPSIS
-Tests using Get-AzureStoreAvailableAddOn with invalid country name.
+Tests using Get-AzureStoreAddOn -ListAvailable with specified country that will return addons.
 #>
-function Test-GetAzureStoreAvailableAddOnWithInvalidCountryName
+function Test-GetAzureStoreAddOnListAvailableWithCountry
 {
 	# Test
-	Assert-Throws { Get-AzureStoreAvailableAddOn "UnitedStates" } "Cannot validate argument on parameter 'Country'. The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2."
+	$actual = Get-AzureStoreAddOn -ListAvailable "CH"
+
+	# Assert
+	Assert-True { $actual.Count -gt 0 }
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn -ListAvailable with invalid country name.
+#>
+function Test-GetAzureStoreAddOnListAvailableWithInvalidCountryName
+{
+	# Test
+	Assert-Throws { Get-AzureStoreAddOn -ListAvailable "UnitedStates" } "Cannot validate argument on parameter 'Country'. The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2."
 }
