@@ -115,12 +115,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 context.StartTime = DateTime.Now;
 
                 Interlocked.Increment(ref startedRemoteCallCounter);
+
                 string message = String.Format(Resources.StartRemoteCall,
                     startedRemoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
 
-                if (outputWriter != null)
+                try
                 {
-                    outputWriter(message);
+                    if (outputWriter != null)
+                    {
+                        outputWriter(message);
+                    }
+                }
+                catch
+                {
+                    //catch the exception. If so, the storage client won't sleep and retry
                 }
             };
 
@@ -128,14 +136,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 context.EndTime = DateTime.Now;
                 Interlocked.Increment(ref finishedRemoteCallCounter);
-
+                
                 double elapsedTime = (context.EndTime - context.StartTime).TotalMilliseconds;
                 string message = String.Format(Resources.FinishRemoteCall,
                     e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
 
-                if (outputWriter != null)
+                try
                 {
-                    outputWriter(message);
+                    if (outputWriter != null)
+                    {
+                        outputWriter(message);
+                    }
+                }
+                catch
+                {
+                    //catch the exception. If so, the storage client won't sleep and retry
                 }
             };
             
@@ -148,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>A time string in ms</returns>
         public static double GetRunningMilliseconds()
         {
-            if (StartTime == null)
+            if (!inited)
             {
                 return 0;
             }
