@@ -128,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch
                 {
-                    //catch the exception to forbidden storage client to sleep
+                    //catch the exception. If so, the storage client won't sleep and retry
                 }
             };
 
@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch
                 {
-                    //catch the exception to forbidden storage client to sleep
+                    //catch the exception. If so, the storage client won't sleep and retry
                 }
             };
             
