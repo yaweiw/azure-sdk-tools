@@ -21,13 +21,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// resource not found exception
+    /// Resource not found exception
     /// </summary>
     [Serializable]
     public class ResourceNotFoundException : Exception
     {
         /// <summary>
-        /// create a new instance with error message
+        /// Create a new instance with error message
         /// </summary>
         /// <param name="message">error message</param>
         public ResourceNotFoundException(string message)

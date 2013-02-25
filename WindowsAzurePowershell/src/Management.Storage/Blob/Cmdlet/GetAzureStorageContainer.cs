@@ -27,19 +27,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Text;
 
     /// <summary>
-    /// list azure storage container
+    /// List azure storage container
     /// </summary>
     [Cmdlet(VerbsCommon.Get, StorageNouns.Container, DefaultParameterSetName = NameParameterSet),
         OutputType(typeof(AzureStorageContainer))]
     public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase, IModuleAssemblyInitializer
     {
         /// <summary>
-        /// default parameter set name
+        /// Default parameter set name
         /// </summary>
         private const string NameParameterSet = "ContainerName";
 
         /// <summary>
-        /// prefix parameter set name
+        /// Prefix parameter set name
         /// </summary>
         private const string PrefixParameterSet = "ContainerPrefix";
 
@@ -73,9 +73,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// list containers by container name pattern.
+        /// List containers by container name pattern.
         /// </summary>
-        /// <param name="name">container name pattern</param>
+        /// <param name="name">Container name pattern</param>
         /// <returns>An enumerable collection of cloudblob container</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByName(string name)
@@ -127,9 +127,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// list containers by container name prefix
+        /// List containers by container name prefix
         /// </summary>
-        /// <param name="prefix">container name prefix</param>
+        /// <param name="prefix">Container name prefix</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// pack CloudBlobContainer and it's permission to AzureStorageContainer object
+        /// Pack CloudBlobContainer and it's permission to AzureStorageContainer object
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
@@ -181,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// execute command
+        /// Execute command
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()

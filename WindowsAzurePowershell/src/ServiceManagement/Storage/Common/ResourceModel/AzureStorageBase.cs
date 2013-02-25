@@ -20,17 +20,17 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
     using System.Text;
 
     /// <summary>
-    /// base class for all azure storage object
+    /// Base class for all azure storage object
     /// </summary>
     public class AzureStorageBase
     {
         /// <summary>
-        /// storage context
+        /// Storage context
         /// </summary>
         public AzureStorageContext Context { get; set; }
 
         /// <summary>
-        /// azure storage object name
+        /// Azure storage object name
         /// </summary>
         public String Name { get; set; }
     }
