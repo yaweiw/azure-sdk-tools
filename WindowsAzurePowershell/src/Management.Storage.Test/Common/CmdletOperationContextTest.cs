@@ -21,39 +21,47 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading;
 
     /// <summary>
     /// unit test for operation context
     /// </summary>
     [TestClass]
-    public class OperationContextUtilTest : StorageTestBase
+    public class CmdletOperationContextTest : StorageTestBase
     {
         [TestMethod]
         public void InitTest()
         {
-            OperationContext context = new OperationContext();
-            context.Init();
-            Assert.IsNotNull(context.StartTime);
-            Assert.IsNotNull(context.ClientRequestID);
+            CmdletOperationContext.Init();
+            Assert.IsNotNull(CmdletOperationContext.StartTime);
+            Assert.IsNotNull(CmdletOperationContext.ClientRequestId);
         }
 
         [TestMethod]
         public void GetClientRequestIDTest()
         {
-            OperationContext context = new OperationContext();
-            string id = context.GenClientRequestID();
+            string id = CmdletOperationContext.GenClientRequestID();
             Assert.IsNotNull(id);
         }
 
         [TestMethod]
         public void GetRunningMillisecondsTest()
         {
-            OperationContext context = new OperationContext();
-            double msTime = context.GetRunningMilliseconds();
+            CmdletOperationContext.Init();
+            double msTime = CmdletOperationContext.GetRunningMilliseconds();
             Assert.IsTrue(msTime >= 0);
-            context.StartTime = DateTime.Now;
-            msTime = context.GetRunningMilliseconds();
-            Assert.IsTrue(msTime >= 0);
+        }
+
+        [TestMethod]
+        public void CmdletOperationContextInitTwiceTest()
+        {
+            CmdletOperationContext.Init();
+            DateTime snapshotTime = CmdletOperationContext.StartTime;
+            int sleepInterval = 1 * 1000;
+            Thread.Sleep(sleepInterval);
+            CmdletOperationContext.Init();
+            DateTime snapshotTime2 = CmdletOperationContext.StartTime;
+            Assert.AreEqual(snapshotTime, snapshotTime2, "The start time should be equal after many times init");
         }
     }
 }

@@ -28,42 +28,42 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
         private const string AnonymousAccountName = "[Anonymous]";
 
         /// <summary>
-        /// storage account name used in this context
+        /// Storage account name used in this context
         /// </summary>
         public string StorageAccountName { get; private set; }
 
         /// <summary>
-        /// blob end point of the storage context
+        /// Blob end point of the storage context
         /// </summary>
         public string BlobEndPoint { get; private set; }
 
         /// <summary>
-        /// table end point of the storage context
+        /// Table end point of the storage context
         /// </summary>
         public string TableEndPoint { get; private set; }
 
         /// <summary>
-        /// queue end point of the storage context
+        /// Queue end point of the storage context
         /// </summary>
         public string QueueEndPoint { get; private set; }
 
         /// <summary>
-        /// self reference, it could enable New-AzureStorageContext can be used in pipeline 
+        /// Self reference, it could enable New-AzureStorageContext can be used in pipeline 
         /// </summary>
         public AzureStorageContext Context { get; private set; }
 
         /// <summary>
-        /// name place holder, and force pipeline to ignore this property
+        /// Name place holder, and force pipeline to ignore this property
         /// </summary>
         public string Name { get; private set; }
 
         /// <summary>
-        /// storage account in context
+        /// Storage account in context
         /// </summary>
         public CloudStorageAccount StorageAccount { get; private set; }
 
         /// <summary>
-        /// create a storage context usign cloud storage account
+        /// Create a storage context usign cloud storage account
         /// </summary>
         /// <param name="account">cloud storage account</param>
         public AzureStorageContext(CloudStorageAccount account)

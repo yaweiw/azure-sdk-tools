@@ -21,25 +21,25 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Util
     using System.Text;
 
     /// <summary>
-    /// storage exception utility
+    /// Storage exception utility
     /// </summary>
     public static class StorageExceptionUtil
     {
         /// <summary>
-        /// whether the storage exception is resource not found exception or not.
+        /// Whether the storage exception is resource not found exception or not.
         /// </summary>
         /// <param name="e">StorageException from storage client</param>
-        /// <returns>whether the storageexception is caused by resource not found</returns>
+        /// <returns>Whether the storageexception is caused by resource not found</returns>
         public static bool IsNotFoundException(this StorageException e)
         {
             return e.RequestInformation != null && e.RequestInformation.HttpStatusCode == 404;
         }
 
         /// <summary>
-        /// repace storage exception to expose more information in Message.
+        /// Replace storage exception to expose more information in Message.
         /// </summary>
         /// <param name="e">StorageException from storage client</param>
-        /// <returns>a new storage exception with detailed error message</returns>
+        /// <returns>A new storage exception with detailed error message</returns>
         public static StorageException RepackStorageException(this StorageException e)
         {
             if (null != e.RequestInformation &&

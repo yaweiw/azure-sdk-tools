@@ -111,7 +111,7 @@
     <Compile Include="Common\CommunicationExceptionUtilTest.cs" />
     <Compile Include="Common\IStorageManagement.cs" />
     <Compile Include="Common\NameUtilTest.cs" />
-    <Compile Include="Common\OperationContextUtilTest.cs" />
+    <Compile Include="Common\CmdletOperationContextTest.cs" />
     <Compile Include="Common\ResourceAlreadyExistExceptionTest.cs" />
     <Compile Include="Common\ResourceNotFoundExceptionTest.cs" />
     <Compile Include="Common\StorageCloudCmdletBaseTest.cs" />

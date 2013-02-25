@@ -27,10 +27,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     internal class NameUtil
     {
         /// <summary>
-        /// is valid container name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
+        /// Is valid container name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
         /// </summary>
-        /// <param name="containerName">container name</param>
-        /// <returns>true for valid container name, otherwise return false</returns>
+        /// <param name="containerName">Container name</param>
+        /// <returns>True for valid container name, otherwise return false</returns>
         public static bool IsValidContainerName(string containerName)
         {
             Regex regex = new Regex(@"^\$root$|^\$logs$|^[a-z0-9]([a-z0-9]|(?<=[a-z0-9])-(?=[a-z0-9])){2,62}$");
@@ -38,10 +38,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid container prefix or not
+        /// Is valid container prefix or not
         /// </summary>
-        /// <param name="containerPrefix">container prefix</param>
-        /// <returns>true for valid container prefix, otherwise return false</returns>
+        /// <param name="containerPrefix">Container prefix</param>
+        /// <returns>True for valid container prefix, otherwise return false</returns>
         public static bool IsValidContainerPrefix(string containerPrefix)
         {
             if (containerPrefix.StartsWith("$"))
@@ -75,10 +75,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid blob name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
+        /// Is valid blob name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
         /// </summary>
-        /// <param name="blobName">blob name</param>
-        /// <returns>true for valid blob name, otherwise return false</returns>
+        /// <param name="blobName">Blob name</param>
+        /// <returns>True for valid blob name, otherwise return false</returns>
         public static bool IsValidBlobName(string blobName)
         {
             int minLength = 0;
@@ -95,21 +95,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid blob prefix <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
+        /// Is valid blob prefix <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
         /// </summary>
-        /// <param name="blobName">blob name</param>
-        /// <returns>true for valid blob name, otherwise return false</returns>
-        public static bool IsValidBlobPreix(string blobPrefix)
+        /// <param name="blobName">Blob name</param>
+        /// <returns>True for valid blob name, otherwise return false</returns>
+        public static bool IsValidBlobPrefix(string blobPrefix)
         {
             return IsValidBlobName(blobPrefix);
         }
 
         
         /// <summary>
-        /// is valid table name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd179338.aspx"/>
+        /// Is valid table name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd179338.aspx"/>
         /// </summary>
-        /// <param name="tableName">table name</param>
-        /// <returns>true for valid table name, otherwise return false</returns>
+        /// <param name="tableName">Table name</param>
+        /// <returns>True for valid table name, otherwise return false</returns>
         public static bool IsValidTableName(string tableName)
         {
             Regex regex = new Regex(@"^[A-Za-z][A-Za-z0-9]{2,62}$");
@@ -117,10 +117,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid table prefix
+        /// Is valid table prefix
         /// </summary>
-        /// <param name="tablePrefix">table prefix</param>
-        /// <returns>true for valid table prefix, otherwise return false</returns>
+        /// <param name="tablePrefix">Table prefix</param>
+        /// <returns>True for valid table prefix, otherwise return false</returns>
         public static bool IsValidTablePrefix(string tablePrefix)
         {
             if (tablePrefix.Length > 0 && tablePrefix.Length < 3)
@@ -133,10 +133,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
         
         /// <summary>
-        /// is valid queue name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd179349.aspx"/>
+        /// Is valid queue name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd179349.aspx"/>
         /// </summary>
-        /// <param name="queueName">queue name</param>
-        /// <returns>true for valid queue name, otherwise return false</returns>
+        /// <param name="queueName">Queue name</param>
+        /// <returns>True for valid queue name, otherwise return false</returns>
         public static bool IsValidQueueName(string queueName)
         {
             Regex regex = new Regex(@"^[0-9a-z]([a-z0-9]|(?<=[a-z0-9])-(?=[a-z0-9])){1,61}[0-9a-z]$");
@@ -144,10 +144,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid queue prefix
+        /// Is valid queue prefix
         /// </summary>
-        /// <param name="queuePrefix">queue prefix</param>
-        /// <returns>true for valid queue prefix, otherwise return false</returns>
+        /// <param name="queuePrefix">Queue prefix</param>
+        /// <returns>True for valid queue prefix, otherwise return false</returns>
         public static bool IsValidQueuePrefix(string queuePrefix)
         {
             if (queuePrefix.Length > 0 && queuePrefix.Length < 3)
@@ -164,10 +164,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// is valid file name in local machine
+        /// Is valid file name in local machine
         /// </summary>
-        /// <param name="fileName">fileName</param>
-        /// <returns></returns>
+        /// <param name="fileName">FileName</param>
+        /// <returns>True for valid file name, otherwise return false</returns>
         public static bool IsValidFileName(string fileName)
         {
             //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
@@ -184,11 +184,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             else
             {
                 string realName = Path.GetFileNameWithoutExtension(fileName);
-                //"CLOCK$", "COM0", "LPT0" are reserved since it can be used as file name in commandline.
+                //http://en.wikipedia.org/wiki/Filename
+                //In Windows and DOS utilities, some words might also be reserved and can not be used as filenames.
+                //However, "CLOCK$", "COM0", "LPT0" are not forbidden name since they can be used as file name in command line prompt.
                 string[] forbiddenList = { "CON", "PRN", "AUX", "NUL", 
                     "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
                     "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" };
-                bool forbidden = forbiddenList.Any(item => item == realName);
+                bool forbidden = forbiddenList.Contains(realName);
                 return !forbidden;
             }
         }

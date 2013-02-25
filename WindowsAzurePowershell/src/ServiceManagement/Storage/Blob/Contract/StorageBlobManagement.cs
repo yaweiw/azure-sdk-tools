@@ -24,17 +24,17 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
     using System.Text;
 
     /// <summary>
-    /// blob management
+    /// Blob management
     /// </summary>
     public class StorageBlobManagement : IStorageBlobManagement
     {
         /// <summary>
-        /// azure storage blob client
+        /// Azure storage blob client
         /// </summary>
         private CloudBlobClient blobClient;
 
         /// <summary>
-        /// init blob management
+        /// Init blob management
         /// </summary>
         /// <param name="client">a cloud blob object</param>
         public StorageBlobManagement(CloudBlobClient client)
@@ -43,12 +43,12 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// get a list of cloudblobcontainer in azure
+        /// Get a list of cloudblobcontainer in azure
         /// </summary>
-        /// <param name="prefix">container prefix</param>
-        /// <param name="detailsIncluded">container listing details</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
+        /// <param name="prefix">Container prefix</param>
+        /// <param name="detailsIncluded">Container listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
         public IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext operationContext)
         {
@@ -56,74 +56,74 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// get container presssions
+        /// Get container presssions
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="accessCondition">access condition</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>the container's permission</returns>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>The container's permission</returns>
         public BlobContainerPermissions GetContainerPermissions(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             return container.GetPermissions(accessCondition, options, operationContext);
         }
 
         /// <summary>
-        /// get an CloudBlobContainer instance in local
+        /// Get an CloudBlobContainer instance in local
         /// </summary>
-        /// <param name="name">container name</param>
-        /// <returns>a CloudBlobContainer in local memory</returns>
+        /// <param name="name">Container name</param>
+        /// <returns>A CloudBlobContainer in local memory</returns>
         public CloudBlobContainer GetContainerReference(string name)
         {
             return blobClient.GetContainerReference(name);
         }
 
         /// <summary>
-        /// create the container if not exists
+        /// Create the container if not exists
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>true if the container did not already exist and was created; otherwise false.</returns>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if the container did not already exist and was created; otherwise false.</returns>
         public bool CreateContainerIfNotExists(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext operationContext)
         {
             return container.CreateIfNotExists(requestOptions, operationContext);
         }
 
         /// <summary>
-        /// delete container
+        /// Delete container
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="accessCondition">access condition</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
         public void DeleteContainer(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             container.Delete(accessCondition, options, operationContext);
         }
 
         /// <summary>
-        /// set container permissions
+        /// Set container permissions
         /// </summary>
-        /// <param name="container"></param>
-        /// <param name="permissions"></param>
-        /// <param name="accessCondition"></param>
-        /// <param name="options"></param>
-        /// <param name="operationContext"></param>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="permissions">The container's permission</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
         public void SetContainerPermissions(CloudBlobContainer container, BlobContainerPermissions permissions, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             container.SetPermissions(permissions, accessCondition, options, operationContext);
         }
 
         /// <summary>
-        /// get blob reference with properties and meta data from server
+        /// Get blob reference with properties and meta data from server
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="blobName">blob name</param>
-        /// <param name="accessCondition">access condition</param>
-        /// <param name="options">blob request options</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>return an ICloudBlob if the specific blob exists on azure, otherwise return null</returns>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="blobName">Blob name</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>Return an ICloudBlob if the specific blob exists on azure, otherwise return null</returns>
         public ICloudBlob GetBlobReferenceFromServer(CloudBlobContainer container, string blobName, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             try
@@ -145,27 +145,27 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// list all blobs in sepecific containers
+        /// List all blobs in specified containers
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="prefix">blob prefix</param>
-        /// <param name="useFlatBlobListing">use flat blob listing(whether treat "container/" as directory)</param>
-        /// <param name="blobListingDetails">blob listing details</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloudblob</returns>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="prefix">Blob prefix</param>
+        /// <param name="useFlatBlobListing">Use flat blob listing(whether treat "container/" as directory)</param>
+        /// <param name="blobListingDetails">Blob listing details</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of icloudblob</returns>
         public IEnumerable<IListBlobItem> ListBlobs(CloudBlobContainer container, string prefix, bool useFlatBlobListing, BlobListingDetails blobListingDetails, BlobRequestOptions options, OperationContext operationContext)
         {
             return container.ListBlobs(prefix, useFlatBlobListing, blobListingDetails, options, operationContext);
         }
 
         /// <summary>
-        /// whether the container exists or not
+        /// Whether the container exists or not
         /// </summary>
-        /// <param name="container">a cloudblobcontainer object</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific container exists, otherwise return false</returns>
+        /// <param name="container">A cloudblobcontainer object</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if the specific container exists, otherwise return false</returns>
         public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == container)
@@ -179,12 +179,12 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// whether the blob exists or not
+        /// Whether the blob is exists or not
         /// </summary>
-        /// <param name="blob">a icloudblob object</param>
-        /// <param name="options">blob request option</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>true if the specific blob exists, otherwise return false</returns>
+        /// <param name="blob">An ICloudBlob object</param>
+        /// <param name="options">Blob request option</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if the specific blob exists, otherwise return false</returns>
         public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == blob)
@@ -198,13 +198,13 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// delete azure blob
+        /// Delete azure blob
         /// </summary>
         /// <param name="blob">ICloudblob object</param>
-        /// <param name="deleteSnapshotsOption">delete snapshots option</param>
-        /// <param name="accessCondition">access condition</param>
-        /// <param name="operationContext">operation context</param>
-        /// <returns>an enumerable collection of icloudblob</returns>
+        /// <param name="deleteSnapshotsOption">Delete snapshots option</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of icloudblob</returns>
         public void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             blob.Delete(deleteSnapshotsOption, accessCondition, options, operationContext);
