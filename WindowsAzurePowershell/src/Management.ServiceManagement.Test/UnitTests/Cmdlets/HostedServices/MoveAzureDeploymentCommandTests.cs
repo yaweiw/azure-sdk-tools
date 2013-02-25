@@ -28,12 +28,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Microsoft.WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class MoveAzureDeploymentCommandTests
+    public class MoveAzureDeploymentCommandTests : TestBase
     {
+        FileSystemHelper files;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            files = new FileSystemHelper(this);
+            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            files.Dispose();
         }
 
         public class MoveAzureDeploymentTestInputParameters
