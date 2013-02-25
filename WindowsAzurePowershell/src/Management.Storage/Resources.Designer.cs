@@ -187,7 +187,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not find current storage account &apos;{0}&apos; on azure, please check whether your storage account exists..
+        ///   Looks up a localized string similar to Can not find current storage account &apos;{0}&apos; on azure, please check whether the specified storage account in subscription exists..
         /// </summary>
         internal static string CurrentStorageAccountNotFoundOnAzure {
             get {

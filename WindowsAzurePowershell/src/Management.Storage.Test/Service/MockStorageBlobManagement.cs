@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         }
 
         /// <summary>
-        /// Get container presssions
+        /// Get container permissions
         /// </summary>
         /// <param name="container">A cloudblobcontainer object</param>
         /// <param name="accessCondition">Access condition</param>
