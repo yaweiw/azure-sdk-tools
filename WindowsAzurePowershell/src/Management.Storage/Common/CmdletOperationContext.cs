@@ -79,6 +79,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                     {
                         StartTime = DateTime.Now;
                         ClientRequestId = GenClientRequestID();
+                        inited = true;
                     }
                 }
             }
@@ -111,6 +112,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             context.SendingRequest += (s, e) =>
             {
+                context.StartTime = DateTime.Now;
+
                 Interlocked.Increment(ref startedRemoteCallCounter);
                 string message = String.Format(Resources.StartRemoteCall,
                     startedRemoteCallCounter, e.Request.Method, e.Request.RequestUri.ToString());
@@ -123,10 +126,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             context.ResponseReceived += (s, e) =>
             {
+                context.EndTime = DateTime.Now;
                 Interlocked.Increment(ref finishedRemoteCallCounter);
+
+                double elapsedTime = (context.EndTime - context.StartTime).TotalMilliseconds;
                 string message = String.Format(Resources.FinishRemoteCall,
-                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID);
-                outputWriter(message);
+                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
 
                 if (outputWriter != null)
                 {

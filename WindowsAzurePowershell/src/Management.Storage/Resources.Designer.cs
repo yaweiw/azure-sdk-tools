@@ -313,7 +313,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finish remote call for {0} with status code {1} and service request id {2}..
+        ///   Looks up a localized string similar to Finish remote call for {0} with status code {1} and service request id {2}. Elapsed time {3:0.00} ms..
         /// </summary>
         internal static string FinishRemoteCall {
             get {
