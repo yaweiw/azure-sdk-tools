@@ -12,18 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Cmdlets.Common;
-    using Properties;
-    using ServiceBusManagement.ServiceBus.Contract;
-    using ServiceManagement.ServiceBus.ResourceModel;
-    using ServiceManagement.ServiceBus;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
@@ -56,7 +54,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <summary>
         /// Gets service bus namespace by it's name or lists all namespaces if name is empty.
         /// </summary>
-        /// <param name="subscriptionId">The subscription id</param>
         /// <param name="name">The namespace name</param>
         /// <returns>The namespace instance</returns>
         internal void GetNamespaceProcess(string subscriptionId, string name)

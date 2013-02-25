@@ -21,8 +21,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
     using System.Threading;
-    using ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
+    using ServiceManagement;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
     {
@@ -70,7 +71,14 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected virtual IContextChannel ToContextChannel()
         {
-            return Channel.ToContextChannel();
+            try
+            {
+                return Channel.ToContextChannel();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
@@ -89,7 +97,16 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
         {
-            IContextChannel contextChannel = Channel.ToContextChannel();
+            IContextChannel contextChannel = null;
+            try
+            {
+                contextChannel = Channel.ToContextChannel();
+            }
+            catch (Exception)
+            {
+                // Do nothing, proceed.
+            }
+            
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))
@@ -129,7 +146,17 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
         protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
         {
-            IContextChannel contextChannel = Channel.ToContextChannel();
+            IContextChannel contextChannel = null;
+
+            try
+            {
+                contextChannel = Channel.ToContextChannel();
+            }
+            catch (Exception)
+            {
+                // Do nothing, proceed.
+            }
+
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))
