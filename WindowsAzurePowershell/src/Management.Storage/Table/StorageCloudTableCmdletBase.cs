@@ -18,10 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Table.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Table;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// base class for table cmdlet

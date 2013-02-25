@@ -16,9 +16,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel
 {
     using Microsoft.WindowsAzure.Storage;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Storage context

@@ -21,9 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// unit test for SetAzureStorageContainer

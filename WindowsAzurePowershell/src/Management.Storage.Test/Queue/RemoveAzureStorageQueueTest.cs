@@ -20,9 +20,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Queue.Contract;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class RemoveAzureStorageQueueTest : StorageQueueTestBase

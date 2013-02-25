@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class GetAzureStorageQueueTest : StorageQueueTestBase

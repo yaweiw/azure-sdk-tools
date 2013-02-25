@@ -18,10 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
 
     /// <summary>
     /// Base cmdlet for storage blob/container cmdlet

@@ -14,11 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
     /// Storage nouns for cmdlet name
     /// </summary>

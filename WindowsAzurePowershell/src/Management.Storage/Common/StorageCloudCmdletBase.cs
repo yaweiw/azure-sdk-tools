@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
-    using System.Threading;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>

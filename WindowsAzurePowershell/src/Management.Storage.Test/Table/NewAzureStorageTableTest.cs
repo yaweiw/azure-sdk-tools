@@ -20,9 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Table
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class NewAzureStorageTableTest : StorageTableStorageTestBase
