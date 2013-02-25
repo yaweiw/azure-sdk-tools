@@ -86,10 +86,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainer.cs" />
+    <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
-    <Compile Include="Common\OperationContextUtil.cs" />
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\StorageCloudCmdletBase.cs" />
