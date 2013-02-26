@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;

@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
-    using System.Threading;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>
@@ -35,23 +34,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public AzureStorageContext Context {get; set;}
 
         /// <summary>
+        /// whether stop processing
+        /// </summary>
+        protected bool ShouldForceQuit = false;
+
+        /// <summary>
         /// Cmdlet operation context.
         /// </summary>
         protected OperationContext OperationContext 
         {
             get
             {
-                return CmdletOperationContext.GetStorageOperationContext(WriteVerboseLog);
+                return CmdletOperationContext.GetStorageOperationContext(WriteDebugLog);
             }    
         }
 
         /// <summary>
-        /// Write log in verbose mode
+        /// Write log in debug mode
         /// </summary>
-        /// <param name="msg">Verbose log</param>
-        internal void WriteVerboseLog(string msg)
+        /// <param name="msg">Debug log</param>
+        internal void WriteDebugLog(string msg)
         {
-            WriteVerboseWithTimestamp(msg);
+            WriteDebugWithTimestamp(msg);
         }
 
         /// <summary>
@@ -62,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (Context != null)
             {
-                WriteVerboseLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
+                WriteDebugLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
                 return Context.StorageAccount;
             }
             else
@@ -163,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
+                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
 
                 try
                 {
@@ -172,7 +176,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch (ServiceModel.CommunicationException e)
                 {
-                    WriteVerboseLog(Resources.CannotGetSotrageAccountFromSubscription);
+                    WriteVerboseWithTimestamp(Resources.CannotGetSotrageAccountFromSubscription);
 
                     if (e.IsNotFoundException())
                     {
@@ -203,7 +207,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(Resources.GetStorageAccountFromEnvironmentVariable);
+                WriteVerboseWithTimestamp(Resources.GetStorageAccountFromEnvironmentVariable);
 
                 try
                 {
@@ -211,20 +215,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch
                 {
-                    WriteVerboseLog(Resources.CannotGetStorageAccountFromEnvironmentVariable);
+                    WriteVerboseWithTimestamp(Resources.CannotGetStorageAccountFromEnvironmentVariable);
                     throw;
                 }
             }
-        }
-
-        /// <summary>
-        /// Write error details for storageexception
-        /// </summary>
-        /// <param name="exception">StorageException from storage client</param>
-        protected void WriteErrorDetails(StorageException exception)
-        {
-            exception = exception.RepackStorageException();
-            WriteExceptionError(exception);
         }
 
         /// <summary>
@@ -234,16 +228,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void WriteExceptionError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+            
+            if (e is StorageException)
+            {
+                e = ((StorageException) e).RepackStorageException();
+            }
+            
             WriteError(new ErrorRecord(e, e.GetType().Name, GetExceptionErrorCategory(e), null));
-        }
-
-        /// <summary>
-        /// write error with category and identifier
-        /// </summary>
-        /// <param name="e">an exception object</param>
-        protected void WriteExceptionError(StorageException e)
-        {
-            WriteErrorDetails(e);
         }
 
         /// <summary>
@@ -287,7 +278,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void BeginProcessing()
         {
             CmdletOperationContext.Init();
-            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, CmdletOperationContext.ClientRequestId));
+            WriteDebugLog(String.Format(Resources.InitOperationContextLog, this.GetType().Name, CmdletOperationContext.ClientRequestId));
             base.BeginProcessing();
         }
 
@@ -299,8 +290,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             double timespan = CmdletOperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
                 this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinisedhRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
-            WriteVerboseLog(message);
+            WriteDebugLog(message);
             base.EndProcessing();
+        }
+
+        /// <summary>
+        /// stop processing
+        /// time-consuming operation should work with ShouldForceQuit
+        /// </summary>
+        protected override void StopProcessing()
+        {
+            //ctrl + c and etc
+            ShouldForceQuit = true;
+            base.StopProcessing();
         }
     }
 }

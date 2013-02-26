@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }

@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             ValidatePipelineCloudBlobContainer(blob.Container);
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsBlobExists(blob, requestOptions, OperationContext))
+            if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
             }
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
             }

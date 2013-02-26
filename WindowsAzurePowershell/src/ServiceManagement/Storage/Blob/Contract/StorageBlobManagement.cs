@@ -14,14 +14,10 @@
 
 namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
 {
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Blob management
@@ -160,13 +156,13 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         }
 
         /// <summary>
-        /// Whether the container is exists or not
+        /// Whether the container exists or not
         /// </summary>
         /// <param name="container">A cloudblobcontainer object</param>
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>True if the specific container exists, otherwise return false</returns>
-        public bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == container)
             {
@@ -181,11 +177,11 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <summary>
         /// Whether the blob is exists or not
         /// </summary>
-        /// <param name="blob">A icloudblob object</param>
+        /// <param name="blob">An ICloudBlob object</param>
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>True if the specific blob exists, otherwise return false</returns>
-        public bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == blob)
             {
@@ -220,6 +216,40 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         public void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             container.FetchAttributes(accessCondition, options, operationContext);
+        }
+
+        /// <summary>
+        /// fetch blob attributes
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.FetchAttributes(accessCondition, options, operationContext);
+        }
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobProperties(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.SetProperties(accessCondition, options, operationContext);
+        }
+
+        /// <summary>
+        /// set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.SetMetadata(accessCondition, options, operationContext);
         }
     }
 }
