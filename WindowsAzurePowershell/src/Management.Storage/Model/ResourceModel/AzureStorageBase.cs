@@ -12,24 +12,26 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 {
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using System.ServiceModel;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     /// <summary>
-    /// Communication exception utility
+    /// Base class for all azure storage object
     /// </summary>
-    public static class CommunicationExceptionUtil
+    public class AzureStorageBase
     {
         /// <summary>
-        /// is not found communication exception
+        /// Storage context
         /// </summary>
-        /// <param name="exception">Communication Exception</param>
-        /// <returns>true if exception caused by resource not found, otherwise, false</returns>
-        public static bool IsNotFoundException(this CommunicationException exception)
-        {
-            return ErrorHelper.IsNotFoundCommunicationException(exception);
-        }
+        public AzureStorageContext Context { get; set; }
+
+        /// <summary>
+        /// Azure storage object name
+        /// </summary>
+        public String Name { get; set; }
     }
 }
