@@ -23,12 +23,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using System.Text;
 
     /// <summary>
-    /// test base class for storage blob
+    /// Test base class for storage blob
     /// </summary>
     public class StorageBlobTestBase : StorageTestBase
     {
         /// <summary>
-        /// mock blob management
+        /// Mock blob management
         /// </summary>
         public MockStorageBlobManagement BlobMock
         {
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         /// <summary>
-        /// clean all the test data
+        /// Clean all the test data
         /// </summary>
         private void CleanTestData()
         {
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         /// <summary>
-        /// add test containers
+        /// Add test containers
         /// </summary>
         public void AddTestContainers()
         {
@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         /// <summary>
-        /// add test blobs
+        /// Add test blobs
         /// </summary>
         public void AddTestBlobs()
         {
@@ -104,10 +104,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         }
 
         /// <summary>
-        /// add some blobs into a container
+        /// Add some blobs into a container
         /// </summary>
-        /// <param name="containerName">container name</param>
-        /// <param name="count">how many blobs need to be added to the container</param>
+        /// <param name="containerName">Container name</param>
+        /// <param name="count">How many blobs need to be added to the container</param>
         private void AddContainerBlobs(string containerName, int count)
         {
             List<ICloudBlob> blobList = null;

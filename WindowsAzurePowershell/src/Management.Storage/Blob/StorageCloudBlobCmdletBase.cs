@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// base cmdlet for storage blob/container cmdlet
+    /// Base cmdlet for storage blob/container cmdlet
     /// </summary>
     public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase<IStorageBlobManagement>
     {
@@ -95,23 +95,23 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get blob client
+        /// Get blob client
         /// </summary>
         /// <returns>CloudBlobClient with default retry policy and settings</returns>
         internal CloudBlobClient GetCloudBlobClient()
         {
-            //use the default retry policy in storage client
+            //Use the default retry policy in storage client
             CloudStorageAccount account = GetCloudStorageAccount();
             return account.CreateCloudBlobClient();
         }
 
         /// <summary>
-        /// create blob client and storage service management channel if need to.
+        /// Create blob client and storage service management channel if need to.
         /// </summary>
         /// <returns>IStorageManagement object</returns>
         protected override IStorageBlobManagement CreateChannel()
         {
-            //init storage blob managment channel
+            //Init storage blob managment channel
             if (Channel == null || !ShareChannel)
             {
                 Channel = new StorageBlobManagement(GetCloudBlobClient());
