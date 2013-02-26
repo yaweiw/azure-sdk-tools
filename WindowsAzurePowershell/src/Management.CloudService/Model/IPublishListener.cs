@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     internal interface IPublishListener
     {

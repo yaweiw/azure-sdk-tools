@@ -250,6 +250,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CACHERUNTIMEURL.
+        /// </summary>
+        internal static string CacheRuntimeUrl {
+            get {
+                return ResourceManager.GetString("CacheRuntimeUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cache.
         /// </summary>
         internal static string CacheRuntimeValue {
@@ -354,6 +363,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string CannotFindServiceConfigurationFile {
             get {
                 return ResourceManager.GetString("CannotFindServiceConfigurationFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders..
+        /// </summary>
+        internal static string CannotFindServiceRoot {
+            get {
+                return ResourceManager.GetString("CannotFindServiceRoot", resourceCulture);
             }
         }
         
@@ -724,6 +742,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string DnsDoesNotExist {
             get {
                 return ResourceManager.GetString("DnsDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EMULATED.
+        /// </summary>
+        internal static string EmulatedKey {
+            get {
+                return ResourceManager.GetString("EmulatedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UseDevelopmentStorage=true.
+        /// </summary>
+        internal static string EmulatorConnectionString {
+            get {
+                return ResourceManager.GetString("EmulatorConnectionString", resourceCulture);
             }
         }
         
@@ -1223,6 +1259,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole..
+        /// </summary>
+        internal static string NoCacheWorkerRoles {
+            get {
+                return ResourceManager.GetString("NoCacheWorkerRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to nodejs.
         /// </summary>
         internal static string NodeDirectory {
@@ -1714,11 +1759,29 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Removing old package {0}....
+        /// </summary>
+        internal static string RemovePackage {
+            get {
+                return ResourceManager.GetString("RemovePackage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to remove service &quot;{0}&quot;?.
         /// </summary>
         internal static string RemoveServiceWarning {
             get {
                 return ResourceManager.GetString("RemoveServiceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove cloud service and all it&apos;s deployments.
+        /// </summary>
+        internal static string RemoveServiceWhatIfMessage {
+            get {
+                return ResourceManager.GetString("RemoveServiceWhatIfMessage", resourceCulture);
             }
         }
         

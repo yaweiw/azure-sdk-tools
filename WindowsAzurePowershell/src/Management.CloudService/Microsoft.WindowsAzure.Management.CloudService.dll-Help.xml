@@ -3027,7 +3027,7 @@
     <command:details>
       <command:name>Test-AzureName</command:name>
       <maml:description>
-        <maml:para>Tests whether a Windows Azure cloud service name, storage service name or service bus namespace name is already in use.</maml:para>
+        <maml:para>Tests whether a Windows Azure cloud service name, storage service name or service bus namespace name exists or not.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -3037,7 +3037,7 @@
       <dev:version />
     </command:details>
     <maml:description>
-      <maml:para>The Test-AzureName tests whether a Windows Azure cloud service name, storage service name, service bus namespace name is in use. If the name is in use, the cmdlet returns $True. If the name is not being used, it returns $False. </maml:para>
+      <maml:para>If the name exists, the cmdlet returns $True. If the name does not exist, it returns $False.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>

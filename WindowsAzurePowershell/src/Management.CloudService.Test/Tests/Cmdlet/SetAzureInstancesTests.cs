@@ -15,16 +15,16 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
+    using System.IO;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using ManagementResources = Microsoft.WindowsAzure.Management.Properties.Resources;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using System.IO;
 
     [TestClass]
     public class SetAzureInstancesTests : TestBase
@@ -263,7 +263,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             AzureService service = new AzureService(Directory.GetCurrentDirectory(), serviceName, null);
             service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
             cmdlet.RoleName = string.Empty;
-            Testing.AssertThrows<InvalidOperationException>(() => cmdlet.ExecuteCmdlet(), ManagementResources.CannotFindServiceRoot);
+            Testing.AssertThrows<InvalidOperationException>(() => cmdlet.ExecuteCmdlet(), Resources.CannotFindServiceRoot);
         }
     }
 }

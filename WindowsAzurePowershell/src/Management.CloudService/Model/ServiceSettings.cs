@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Utilities;
 
@@ -69,10 +70,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 if (_shouldValidate)
                 {
                     Validate.ValidateStringIsNullOrEmpty(value, "Location");
-                    if (!ArgumentConstants.Locations.ContainsValue(value.ToLower()))
-                    {
-                        throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Location"));
-                    }
                 }
 
                 _location = value ?? string.Empty;
@@ -304,12 +301,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             //
             if (!string.IsNullOrEmpty(location))
             {
-                if (ArgumentConstants.Locations.ContainsValue(location.ToLower()))
-                {
-                    return location.ToLower();
-                }
-
-                throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Location"));
+                return location.ToLower();
             }
             
             // User already has value in local service settings
@@ -321,8 +313,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, get random location from "North Central US" or "South Central US"
             //
-            int randomLocation = General.GetRandomFromTwo((int)Model.Location.WestUS, (int)Model.Location.EastUS);
-            return ArgumentConstants.Locations[(Location)randomLocation];
+            int randomLocation = CloudServiceUtilities.GetRandomFromTwo((int)LocationName.WestUS, (int)LocationName.EastUS);
+            return ArgumentConstants.Locations[(LocationName)randomLocation];
         }
 
         private static string GetDefaultSlot(string localSlot, string globalSlot, string slot)
@@ -355,7 +347,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, use Production as default slot
             //
-            return ArgumentConstants.Slots[Model.Slot.Production];
+            return ArgumentConstants.Slots[SlotType.Production];
         }
         
         public void Save(string path)

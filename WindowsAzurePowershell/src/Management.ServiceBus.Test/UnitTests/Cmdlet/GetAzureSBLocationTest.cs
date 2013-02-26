@@ -15,10 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System.Collections.Generic;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
@@ -30,13 +29,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
         [TestMethod]
         public void GetAzureSBLocationSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             GetAzureSBLocationCommand cmdlet = new GetAzureSBLocationCommand(channel) { CommandRuntime = mockCommandRuntime };
