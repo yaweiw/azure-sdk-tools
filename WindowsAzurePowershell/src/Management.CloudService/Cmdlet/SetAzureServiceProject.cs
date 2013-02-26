@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Adjusts the service configuration.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceProject")]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceProject"), OutputType(typeof(ServiceSettings))]
     public class SetAzureServiceProjectCommand : SetSettings
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]

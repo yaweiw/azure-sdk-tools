@@ -22,14 +22,15 @@ namespace Microsoft.WindowsAzure.Management.Service.Gateway
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
     using System.Xml;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
 
     public static class GatewayManagementHelper
     {
         public static IGatewayServiceManagement CreateGatewayManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
         {
             WebChannelFactory<IGatewayServiceManagement> factory = new WebChannelFactory<IGatewayServiceManagement>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new ClientOutputMessageInspector());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
             return factory.CreateChannel();
         }

@@ -19,24 +19,25 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Linq;
     using System.Xml;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {
-        Dictionary<Runtime, List<CloudRuntimePackage>> packages = new Dictionary<Runtime, List<CloudRuntimePackage>>();
-        Dictionary<Runtime, CloudRuntimePackage> defaults = new Dictionary<Runtime, CloudRuntimePackage>();
+        Dictionary<RuntimeType, List<CloudRuntimePackage>> packages = new Dictionary<RuntimeType, List<CloudRuntimePackage>>();
+        Dictionary<RuntimeType, CloudRuntimePackage> defaults = new Dictionary<RuntimeType, CloudRuntimePackage>();
         private XmlReader documentReader;
         private MemoryStream documentStream;
         private bool disposed;
 
         private CloudRuntimeCollection()
         {
-            foreach (Runtime runtime in Enum.GetValues(typeof(Runtime)))
+            foreach (RuntimeType runtime in Enum.GetValues(typeof(RuntimeType)))
             {
                 packages[runtime] = new List<CloudRuntimePackage>();
             }
         }
 
-        public static bool CreateCloudRuntimeCollection(Location location, out CloudRuntimeCollection runtimes, string manifestFile = null)
+        public static bool CreateCloudRuntimeCollection(LocationName location, out CloudRuntimeCollection runtimes, string manifestFile = null)
         {
             runtimes = new CloudRuntimeCollection();
             XmlDocument manifest = runtimes.GetManifest(manifestFile);
@@ -70,12 +71,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         protected override void ClearItems()
         {
-            foreach (Runtime runtime in this.packages.Keys)
+            foreach (RuntimeType runtime in this.packages.Keys)
             {
                 this.packages[runtime].Clear();
             }
 
-            foreach (Runtime runtime in this.defaults.Keys)
+            foreach (RuntimeType runtime in this.defaults.Keys)
             {
                 this.defaults.Remove(runtime);
             }
@@ -106,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             base.SetItem(index, item);
         }
 
-        private static bool TryGetBlobUriFromManifest(XmlDocument manifest, Location location, out string baseUri)
+        private static bool TryGetBlobUriFromManifest(XmlDocument manifest, LocationName location, out string baseUri)
         {
             Debug.Assert(manifest != null);
             bool found = false;
@@ -204,6 +205,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     this.documentStream.Close();
                 }
             }
+        }
+
+        public static string GetRuntimeUrl(string runtimeType, string runtimeVersion, string manifest = null)
+        {
+            CloudRuntimeCollection collection;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out collection, manifest);
+            CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, null, null);
+            CloudRuntimePackage foundPackage;
+            bool found = collection.TryFindMatch(desiredRuntime, out foundPackage);
+
+            return found ? foundPackage.PackageUri.AbsoluteUri : null;
         }
     }
 

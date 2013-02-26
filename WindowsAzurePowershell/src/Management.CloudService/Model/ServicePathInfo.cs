@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.IO;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
-    using Utilities;
 
     public class ServicePathInfo
     {

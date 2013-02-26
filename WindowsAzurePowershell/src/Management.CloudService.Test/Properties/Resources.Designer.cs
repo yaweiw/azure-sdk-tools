@@ -59,7 +59,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Properties {
                 resourceCulture = value;
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/cache/1.8.0.exe.
+        /// </summary>
+        internal static string CacheRuntimeUrl {
+            get {
+                return ResourceManager.GetString("CacheRuntimeUrl", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to &lt;runtimemanifest&gt;
         ///  &lt;blobcontainers&gt;
@@ -69,12 +78,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Properties {
         ///    &lt;blobcontainer datacenter=&quot;SOUTH CENTRAL US&quot; uri=&quot;http://DATACENTER/&quot;/&gt;
         ///    &lt;blobcontainer datacenter=&quot;NORTH EUROPE&quot; uri=&quot;http://DATACENTER/&quot;/&gt;
         ///    &lt;blobcontainer datacenter=&quot;WEST EUROPE&quot; uri=&quot;http://DATACENTER/&quot;/&gt;
-        ///    &lt;blobcontainer datacenter=&quot;SOUTHEA [rest of string was truncated]&quot;;.
+        ///    &lt;blobcontainer datacenter=&quot;SOUTHEAST ASIA&quot; [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string testruntimemanifest
-        {
-            get
-            {
+        internal static string testruntimemanifest {
+            get {
                 return ResourceManager.GetString("testruntimemanifest", resourceCulture);
             }
         }

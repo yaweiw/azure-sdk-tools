@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.Services
         public static string GlobalSettingsDirectory
         {
             get { return _globalSettingsDirectory ?? AzureAppDir; }
-            internal set { _globalSettingsDirectory = value; }
+            set { _globalSettingsDirectory = value; }
         }
 	
         public string AzureDirectory { get; private set; }

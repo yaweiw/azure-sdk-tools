@@ -79,6 +79,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are no hostnames which could be used for validation..
+        /// </summary>
+        internal static string DefaultHostnamesValidation {
+            get {
+                return ResourceManager.GetString("DefaultHostnamesValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Git not found. Please install git and place it in your command line path..
         /// </summary>
         internal static string GitNotFound {
@@ -108,6 +117,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         internal static string InvalidGitCredentials {
             get {
                 return ResourceManager.GetString("InvalidGitCredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified hostname does not exist. Please specify a valid hostname for the site..
+        /// </summary>
+        internal static string InvalidHostnameValidation {
+            get {
+                return ResourceManager.GetString("InvalidHostnameValidation", resourceCulture);
             }
         }
         
@@ -195,6 +213,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         internal static string RedeployCommit {
             get {
                 return ResourceManager.GetString("RedeployCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing website.
+        /// </summary>
+        internal static string RemoveWebsiteMessage {
+            get {
+                return ResourceManager.GetString("RemoveWebsiteMessage", resourceCulture);
             }
         }
         

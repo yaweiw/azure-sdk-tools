@@ -17,15 +17,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSBNamespace")]
-    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Get, "AzureSBNamespace"), OutputType(typeof(List<ServiceBusNamespace>), typeof(ServiceBusNamespace))]
+    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
@@ -44,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureSBNamespaceCommand(IServiceManagement channel)
+        public GetAzureSBNamespaceCommand(IServiceBusManagement channel)
         {
             Channel = channel;
         }
@@ -57,6 +59,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         internal void GetNamespaceProcess(string subscriptionId, string name)
         {
             ServiceBusNamespace serviceBusNamespace = null;
+
+            if (!Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
+            {
+                throw new ArgumentException(string.Format(Resources.InvalidNamespaceName, name), "Name");
+            }
 
             try
             {

@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
 
     public class RuntimePackageHelper
@@ -253,7 +254,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         /// <returns>true if the setting is found in the given environment</returns>
         private static bool TryGetEnvironmentValue(Task[] tasks, string key, out string value)
         {
-            bool found = false;
             value = string.Empty;
 
             foreach (Task task in tasks)
@@ -267,13 +267,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
                         if (string.Equals(setting.name, key, StringComparison.OrdinalIgnoreCase))
                         {
                             value = setting.value;
-                            found = true;
+                            return true;
                         }
                     }
                 }
             }
 
-            return found;
+            return false;
         }
 
         private static XmlDocument GetManifest(string manifest)
