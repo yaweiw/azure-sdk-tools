@@ -92,14 +92,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
         public void IsValidBlobPrefixTest()
         {
             string[] positives = { "$", "$ro", "$l", "$root", "a", "*&(&^$^*", "ab", "abc", "$logs", "abc", "abc987", "abc2de", "4abc", "abc-def", "a-c", "ac-", new String('a', 1024) };
-            NameValidateHelper(positives, true, NameUtil.IsValidBlobPreix);
+            NameValidateHelper(positives, true, NameUtil.IsValidBlobPrefix);
 
             string[] negatives =
                 {
                     String.Empty, //can not empty
                     new String('a', 1025)
                 };
-            NameValidateHelper(negatives, false, NameUtil.IsValidBlobPreix);
+            NameValidateHelper(negatives, false, NameUtil.IsValidBlobPrefix);
         }
 
 
