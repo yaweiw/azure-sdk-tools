@@ -94,7 +94,13 @@
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\StorageCloudCmdletBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
+    <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
+    <Compile Include="Model\Contract\StorageBlobManagement.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageBase.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageContainer.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,14 +112,6 @@
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
