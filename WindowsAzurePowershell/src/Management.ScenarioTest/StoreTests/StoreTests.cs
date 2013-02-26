@@ -15,12 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
 {
     using System.Collections.Generic;
-using System.Management.Automation;
-using System.Management.Automation.Runspaces;
-using Common;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-using Microsoft.WindowsAzure.Management.Store.Model;
+    using System.Management.Automation.Runspaces;
+    using Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
+    using Microsoft.WindowsAzure.Management.Store.Properties;
 
     [TestClass]
     public class StoreTests : WindowsAzurePowerShellTest
@@ -32,7 +31,9 @@ using Microsoft.WindowsAzure.Management.Store.Model;
         private CustomHost customHost;
 
         public StoreTests()
-            : base("Store\\StoreTests.ps1")
+            : base(
+            "Store\\Common.ps1",
+            "Store\\StoreTests.ps1")
         {
             customHost = new CustomHost();
         }
@@ -42,22 +43,37 @@ using Microsoft.WindowsAzure.Management.Store.Model;
         {
             base.TestSetup();
             customHost = new CustomHost();
+            powershell.ImportCredentials(StoreCredentialFile);
+            powershell.AddScript(string.Format("Set-AzureSubscription -Default {0}", StoreSubscriptionName));
+        }
+
+        private void PromptSetup()
+        {
+            PromptSetup(
+                new List<int>(),
+                new List<int>(),
+                new List<string>(),
+                new List<string>(),
+                PromptAnswer.Yes);
         }
 
         private void PromptSetup(
             List<int> expectedDefaultChoices,
             List<int> promptChoices,
             List<string> expectedPromptMessages,
-            List<string> expectedPromptCaptions)
+            List<string> expectedPromptCaptions,
+            PromptAnswer defaultAnswer)
         {
             customHost.CustomUI.PromptChoices = promptChoices;
             customHost.CustomUI.ExpectedDefaultChoices = expectedDefaultChoices;
             customHost.CustomUI.ExpectedPromptMessages = expectedPromptMessages;
             customHost.CustomUI.ExpectedPromptCaptions = expectedPromptCaptions;
+            customHost.CustomUI.DefaultAnswer = defaultAnswer;
             powershell.Runspace = RunspaceFactory.CreateRunspace(customHost);
             powershell.Runspace.Open();
-            powershell.ImportCredentials(StoreCredentialFile);
-            powershell.AddScript(string.Format("Set-AzureSubscription -Default {0}", StoreSubscriptionName));
+            powershell.SetVariable(
+                "freeAddOnIds",
+                new string[] { "activecloudmonitoring", "sendgrid_azure" });
         }
 
         #region Get-AzureStoreAddOn Scenario Tests
@@ -110,33 +126,94 @@ using Microsoft.WindowsAzure.Management.Store.Model;
             RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureStoreAddOn Name }");
         }
 
-        //[TestMethod]
-        //[TestCategory(Category.All)]
-        //[TestCategory(Category.Store)]
-        //public void TestGetAzureStoreAddOnWithNoAddOns()
-        //{
-        //    RunPowerShellTest("Test-GetAzureStoreAddOnEmpty");
-        //}
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithNoAddOns()
+        {
+            RunPowerShellTest("Test-GetAzureStoreAddOnEmpty");
+        }
 
-        //[TestMethod]
-        //[TestCategory(Category.All)]
-        //[TestCategory(Category.Store)]
-        //public void TestGetAzureStoreAddOnWithOneAddOn()
-        //{
-        //    RunPowerShellTest(
-        //        "Test-GetAzureStoreAddOnWithOneAddOn",
-        //        "AddOn-TestCleanup");
-        //}
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithOneAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest(
+                "Test-GetAzureStoreAddOnWithOneAddOn",
+                "AddOn-TestCleanup");
+        }
 
-        //[TestMethod]
-        //[TestCategory(Category.All)]
-        //[TestCategory(Category.Store)]
-        //public void TestGetAzureStoreAddOnWithMultipleAddOns()
-        //{
-        //    RunPowerShellTest(
-        //        "Test-GetAzureStoreAddOnWithMultipleAddOns",
-        //        "AddOn-TestCleanup");
-        //}
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithMultipleAddOns()
+        {
+            PromptSetup();
+            RunPowerShellTest(
+                "AddOn-TestCleanup",
+                "Test-GetAzureStoreAddOnWithMultipleAddOns",
+                "AddOn-TestCleanup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithExistingAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest(
+                "Test-GetAzureStoreAddOnWithExistingAddOn",
+                "AddOn-TestCleanup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnCaseInsinsitive()
+        {
+            PromptSetup();
+            RunPowerShellTest(
+                "Test-GetAzureStoreAddOnCaseInsinsitive",
+                "AddOn-TestCleanup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithInvalidName()
+        {
+            RunPowerShellTest("Test-GetAzureStoreAddOnWithInvalidName");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnValidNonExisting()
+        {
+            RunPowerShellTest("Test-GetAzureStoreAddOnValidNonExisting");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnWithAppService()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-GetAzureStoreAddOnWithAppService");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestGetAzureStoreAddOnPipedToRemoveAzureAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest(
+                "Test-GetAzureStoreAddOnPipedToRemoveAzureAddOn",
+                "AddOn-TestCleanup");
+        }
 
         #endregion
     }
