@@ -151,8 +151,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public override void ExecuteCmdlet()
         {
             string serviceName;
-            string rootPath = General.TryGetServiceRootPath(CurrentPath());
-            ServiceSettings settings = General.GetDefaultSettings(
+            string rootPath = CloudServiceUtilities.TryGetServiceRootPath(CurrentPath());
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 ServiceName,
                 Slot,

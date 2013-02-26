@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             string configString = string.Empty;
             if (!string.IsNullOrEmpty(Configuration))
             {
-                configString = Utility.GetConfiguration(Configuration);
+                configString = General.GetConfiguration(Configuration);
             }
   
             // Upgrade Parameter Set

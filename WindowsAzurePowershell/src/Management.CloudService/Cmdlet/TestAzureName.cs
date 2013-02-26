@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using Cmdlets.Common;
     using Management.Model;
-    using ServiceBusManagement.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using ServiceManagement;
-    using ServiceManagement.ServiceBus.ResourceModel;
-
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
     public class TestAzureNameCommand : ServiceManagementBaseCmdlet
