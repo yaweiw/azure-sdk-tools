@@ -279,7 +279,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void BeginProcessing()
         {
             CmdletOperationContext.Init();
-            WriteDebugLog(String.Format(Resources.InitOperationContextLog, CmdletOperationContext.ClientRequestId));
+            WriteDebugLog(String.Format(Resources.InitOperationContextLog, this.GetType().Name, CmdletOperationContext.ClientRequestId));
             base.BeginProcessing();
         }
 
