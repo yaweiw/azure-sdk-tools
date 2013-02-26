@@ -73,6 +73,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
             StorageAccountName = account.Credentials.AccountName;
             Context = this;
             Name = String.Empty;
+
+            if (string.IsNullOrEmpty(StorageAccountName))
+            {
+                StorageAccountName = Resources.AnonymousAccountName;
+            }
         }
     }
 }

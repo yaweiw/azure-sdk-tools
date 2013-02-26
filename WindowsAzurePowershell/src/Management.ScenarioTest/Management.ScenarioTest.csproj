@@ -118,7 +118,9 @@
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
+    <None Include="Resources\Storage\StorageContext.ps1" />
     <Compile Include="StorageTests\StorageContainerTest.cs" />
+    <Compile Include="StorageTests\StorageContextTest.cs" />
     <Compile Include="StoreTests\StoreTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
@@ -186,6 +188,10 @@
     <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
       <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
       <Name>Management.ServiceBus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
+      <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
+      <Name>Management.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Store\Management.Store.csproj">
       <Project>{2ac37c6a-41de-4341-88a4-a79f209bba83}</Project>
