@@ -123,9 +123,6 @@
   <data name="AzureDirectoryName" xml:space="preserve">
     <value>Windows Azure Powershell</value>
   </data>
-  <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
-  </data>
   <data name="CertificateNotFoundInStore" xml:space="preserve">
     <value>No certificate was found in the certificate store with thumbprint {0}</value>
   </data>
@@ -178,7 +175,7 @@
     <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new current subscription.</value>
   </data>
   <data name="RemoveDefaultSubscription" xml:space="preserve">
-    <value>The current subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
+    <value>The default subscription is being removed. Use Select-Subscription &lt;subscriptionName&gt; to select a new default subscription.</value>
   </data>
   <data name="ServiceNameExists" xml:space="preserve">
     <value>The provided service name {0} already exists, please pick another name</value>
@@ -202,7 +199,7 @@
     <value>Must specify a non-null subscription name.</value>
   </data>
   <data name="InvalidSubscription" xml:space="preserve">
-    <value>"The subscription named '{0}' cannot be found. Use Set-AzureSubscription to initialize the subscription data."</value>
+    <value>The subscription named '{0}' cannot be found. Use Set-AzureSubscription to initialize the subscription data.</value>
   </data>
   <data name="PublishSettingsUrl" xml:space="preserve">
     <value>https://windows.azure.com/download/publishprofile.aspx?client=nodejs&amp;lang=en</value>
@@ -250,8 +247,7 @@
     <value>Invalid service endpoint.</value>
   </data>
   <data name="AzureServiceManagementException_WrapExistingError_DetailedErrorFormat" xml:space="preserve">
-    <value>Azure service management error
-{0}</value>
+    <value>Azure service management error {0}</value>
   </data>
   <data name="AzureHostNameSuffix" xml:space="preserve">
     <value>.azurewebsites.net</value>
@@ -297,5 +293,11 @@
   <data name="EndProcessingLog" xml:space="preserve">
     <value>{0} end processing.</value>
     <comment>0 for cmdlet name.</comment>
+  </data>
+  <data name="RemoveSubscriptionConfirmation" xml:space="preserve">
+    <value>Are you sure you want to remove subscription '{0}'?</value>
+  </data>
+  <data name="RemoveSubscriptionMessage" xml:space="preserve">
+    <value>Removing subscription</value>
   </data>
 </root>

@@ -17,14 +17,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Properties;
 
     /// <summary>
     /// Create scaffolding for a new web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureWebRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureWebRole"), OutputType(typeof(RoleSettings))]
     public class AddAzureWebRoleCommand : AddRole
     {
         [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Role scaffolding template folder")]

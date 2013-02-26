@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Model;
-
 namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
@@ -21,22 +19,30 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Linq;
     using System.Management.Automation;
     using Extensions;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Model;
     using Properties;
     using Services;
 
     /// <summary>
     /// Removes a previously imported subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSubscription")]
-    public class RemoveAzureSubscriptionCommand : PSCmdlet
+    [Cmdlet(VerbsCommon.Remove, "AzureSubscription", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureSubscriptionCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Subscription data file.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Subscription data file.")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionDataFile { get; set; }
+
+        [Parameter(Position = 2, HelpMessage = "Do not confirm deletion of subscription")]
+        public SwitchParameter Force { get; set; }
+
+        [Parameter(Position = 3, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         public void RemoveSubscriptionProcess(string subscriptionName, string subscriptionsDataFile)
         {
@@ -73,6 +79,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
 
                 globalComponents.Subscriptions.Remove(subscriptionName);
                 globalComponents.SaveSubscriptions();
+
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
             else
             {
@@ -80,19 +91,14 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
             }
         }
 
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                base.ProcessRecord();
-                RemoveSubscriptionProcess(
-                    SubscriptionName,
-                    this.ResolvePath(SubscriptionDataFile));
-            }
-            catch (Exception exception)
-            {
-                WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
-            }
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemoveSubscriptionConfirmation, SubscriptionName),
+                Resources.RemoveSubscriptionMessage,
+                SubscriptionName,
+                () => RemoveSubscriptionProcess(SubscriptionName, this.ResolvePath(SubscriptionDataFile)));
         }
     }
 }
