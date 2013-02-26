@@ -55,7 +55,6 @@ namespace Microsoft.WindowsAzure.Management.Model
             return GetCurrentStorageAccount(channel);
         }
 
-
         public CloudStorageAccount GetCurrentStorageAccount(IServiceManagement channel)
         {
             if (String.IsNullOrEmpty(CurrentStorageAccount))
