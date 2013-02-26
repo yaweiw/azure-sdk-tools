@@ -16,6 +16,21 @@
 
 <#
 .SYNOPSIS
+Tests any cloud based cmdlet with invalid credentials and expect it'll throw an exception.
+#>
+function Test-WithInvalidCredentials
+{
+	param([ScriptBlock] $cloudCmdlet)
+	
+	# Setup
+	Remove-AllSubscriptions
+
+	# Test
+	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
+}
+
+<#
+.SYNOPSIS
 Tests Get-AzureStoreAvailableAddOn with invalid credentials and make sure it works.
 #>
 function Test-WithInvalidCredentialsWorks

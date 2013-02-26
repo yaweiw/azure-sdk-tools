@@ -217,17 +217,17 @@
       <Project>{16098AC2-5C1D-4D3C-B499-80A61D1AB7E2}</Project>
       <Name>Management.ServiceBus.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
+      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
+      <Name>Management.ServiceBus</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
-      <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
+      <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
       <Name>Management.Test</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
-      <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
+      <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
-      <Name>ServiceManagement.Additions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

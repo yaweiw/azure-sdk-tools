@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
 
     /// <summary>
@@ -41,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void GetAzureRuntimesProcess(string runtimeType, string manifest = null)
         {
             CloudRuntimeCollection runtimes;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out runtimes, manifest);
             WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
                 p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }

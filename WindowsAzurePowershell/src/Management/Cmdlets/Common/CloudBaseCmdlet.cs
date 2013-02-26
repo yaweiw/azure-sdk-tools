@@ -25,13 +25,12 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using System.ServiceModel.Web;
     using System.Threading;
     using Extensions;
-    using Service;
-    using Services;
     using Model;
     using Properties;
     using ServiceManagement;
+    using Services;
     using Utilities;
-    
+
     public abstract class CloudBaseCmdlet<T> : CmdletBase
         where T : class
     {
@@ -205,7 +204,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 return Channel;
             }
-
+            
             return ServiceManagementHelper.CreateServiceManagementChannel<T>(
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
@@ -299,8 +298,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                     var activityId = new Random().Next(1, 999999);
                     var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
 
-                    while (string.Compare(operation.Status, Service.OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
-                            string.Compare(operation.Status, Service.OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
+                    while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
+                            string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
                     {
                         if (silent == false)
                         {
@@ -310,8 +309,8 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         Thread.Sleep(1 * 1000);
                         operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
                     }
-
-                    if (string.Compare(operation.Status, Service.OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
+                    
+                    if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
                         var exception = new Exception(errorMessage);
@@ -334,7 +333,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 operation = new Operation
                 {
                     OperationTrackingId = string.Empty,
-                    Status = Service.OperationState.Failed
+                    Status = OperationState.Failed
                 };
             }
 
@@ -374,7 +373,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             ErrorRecord errorRecord = null;
 
             string operationId;
-            SMErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
+            ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
             if (error == null)
             {
                 errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);

@@ -16,22 +16,22 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
     using System.Net;
-    using System.ServiceModel;
     using CloudService.Model;
     using CloudService.Properties;
     using Extensions;
     using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase
     {
         private const string serviceName = "AzureService";
-        private readonly string slot = ArgumentConstants.Slots[Slot.Production];
+        private readonly string slot = ArgumentConstants.Slots[SlotType.Production];
 
         [TestInitialize]
         public void SetupTest()

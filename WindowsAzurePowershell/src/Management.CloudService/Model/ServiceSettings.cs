@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Utilities;
 
@@ -312,8 +313,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, get random location from "North Central US" or "South Central US"
             //
-            int randomLocation = General.GetRandomFromTwo((int)Model.Location.WestUS, (int)Model.Location.EastUS);
-            return ArgumentConstants.Locations[(Location)randomLocation];
+            int randomLocation = CloudServiceUtilities.GetRandomFromTwo((int)LocationName.WestUS, (int)LocationName.EastUS);
+            return ArgumentConstants.Locations[(LocationName)randomLocation];
         }
 
         private static string GetDefaultSlot(string localSlot, string globalSlot, string slot)
@@ -346,7 +347,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, use Production as default slot
             //
-            return ArgumentConstants.Slots[Model.Slot.Production];
+            return ArgumentConstants.Slots[SlotType.Production];
         }
         
         public void Save(string path)
