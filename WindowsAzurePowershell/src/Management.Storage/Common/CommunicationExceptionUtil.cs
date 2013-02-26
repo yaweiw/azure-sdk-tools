@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.Management.Service;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using System.ServiceModel;
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>true if exception caused by resource not found, otherwise, false</returns>
         public static bool IsNotFoundException(this CommunicationException exception)
         {
-            return SMErrorHelper.IsNotFoundCommunicationException(exception);
+            return ErrorHelper.IsNotFoundCommunicationException(exception);
         }
     }
 }
