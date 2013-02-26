@@ -80,3 +80,158 @@ function Test-GetAzureStoreAddOnListAvailableWithInvalidCountryName
 	# Test
 	Assert-Throws { Get-AzureStoreAddOn -ListAvailable "UnitedStates" } "Cannot validate argument on parameter 'Country'. The country name is invalid, please use a valid two character country code, as described in ISO 3166-1 alpha-2."
 }
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with empty add-ons.
+#>
+function Test-TestGetAzureStoreAddOnWithNoAddOns
+{
+	# Setup
+	$current = Get-AzureStoreAddOn
+
+	if ($current.Count -eq 0)
+	{
+		Write-Warning "The test can't run because the account is not setup correctly (add-on count should be 0)";
+		exit;
+	}
+
+	# Test
+	$actual = Get-AzureStoreAddOn
+
+	# Assert
+	Assert-True { $actual.Count -eq 0 }
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with one add-on.
+#>
+function Test-TestGetAzureStoreAddOnWithOneAddOn
+{
+	# Setup
+	$current = Get-AzureStoreAddOn
+
+	if ($current.Count -eq 0)
+	{
+		Write-Warning "The test can't run because the account is not setup correctly (add-on count should be 0)";
+		exit;
+	}
+	New-AddOn
+
+	# Test
+	$actual = Get-AzureStoreAddOn
+
+	# Assert
+	Assert-True { $actual.Count -eq 1 }
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with many add-ons
+#>
+function Test-GetAzureStoreAddOnWithMultipleAddOns
+{
+	# Setup
+	New-AddOn 3
+
+	# Test
+	$actual = Get-AzureStoreAddOn
+
+	# Assert
+	Assert-True { $actual.Count -gt 1 }
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with getting existing add-on
+#>
+function Test-GetAzureStoreAddOnWithExistingAddOn
+{
+	# Setup
+	New-AddOn
+	$expected = $global:createdAddOns[0]
+
+	# Test
+	$actual = Get-AzureStoreAddOn $global:createdAddOns[0]
+
+	# Assert
+	$actual = $actual[0].Name
+	Assert-AreEqual $expected $actual
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with case invesitive.
+#>
+function Test-GetAzureStoreAddOnCaseInsinsitive
+{
+	# Setup
+	New-AddOn
+	$expected = $global:createdAddOns[0]
+
+	# Test
+	$actual = Get-AzureStoreAddOn $expected.ToUpper()
+
+	# Assert
+	$actual = $actual[0].Name
+	Assert-AreEqual $expected.ToUpper() $actual.ToUpper()
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with invalid add-on name, expects to fail.
+#>
+function Test-GetAzureStoreAddOnWithInvalidName
+{
+	# Test
+	Assert-Throws { Get-AzureStoreAddOn "Invalid Name" } "The provided add-on name 'Invalid Name' is invalid"
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with valid and non-existing add-on.
+#>
+function Test-GetAzureStoreAddOnValidNonExisting
+{
+	# Test
+	$actual = Get-AzureStoreAddOn "NonExistingAddOn"
+
+	# Assert
+	Assert-AreEqual 0 $actual.Count
+}
+
+<#
+.SYNOPSIS
+Tests using Get-AzureStoreAddOn with App Service
+#>
+function Test-GetAzureStoreAddOnWithAppService
+{
+	# Setup
+	New-AddOn
+
+	# Test
+	$actual = Get-AzureStoreAddOn
+
+	# Assert
+	$addon = $actual[0]
+	Assert-AreEqual "App Service" $addon.Type
+}
+
+<#
+.SYNOPSIS
+Tests the piping between Get-AzureAddOn and Remove-AzureAddOn
+#>
+function Test-GetAzureStoreAddOnPipedToRemoveAzureAddOn
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+
+	# Test
+	Get-AzureStoreAddOn $name | Remove-AzureStoreAddOn
+
+	# Assert
+	$actual = Get-AzureStoreAddOn $name
+	Assert-AreEqual 0 $actual.Count
+}

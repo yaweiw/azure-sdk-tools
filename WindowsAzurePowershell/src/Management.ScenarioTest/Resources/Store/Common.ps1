@@ -80,7 +80,7 @@ function Get-AddOnName
 	{
 		$name = "OneSDK" + (Get-Random).ToString()
 		$addons = Get-AzureStoreAddOn $name
-		$used = ($addons.Count -eq 0)
+		$used = ($addons.Count -ne 0)
 	} while ($used)
 
 	return $name
@@ -90,10 +90,67 @@ function Get-AddOnName
 .SYNOPSIS
 Clears the all created resources while doing the test.
 #>
-function AddOn-TestInitialize
+function AddOn-TestCleanup
 {
-	Get-AzureStoreAddOn | Remove-AzureStoreAddOn
+	foreach ($name in $global:createdAddOns)
+	{
+		try { Remove-AzureStoreAddOn $name }
+		catch { <# proceed #> }
+	}
+
 	$global:createdAddOns = @()
+}
+
+<#
+.SYNOPSIS
+Creates random add-ons with the count specified.
+
+.PARAMETER count
+The number of add-ons to create.
+#>
+function New-RandomAddOn
+{
+	param([int] $count)
+
+	if (!$count) { $count = 1 }
+
+	1..$count | % { 
+		$name = Get-AddOnName;
+		$addon = Get-RandomFreeAddOn
+		New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn)
+		$global:createdAddOns += $name;
+	}
+}
+
+<#
+.SYNOPSIS
+Gets free add-on from the predefined add-on list.
+#>
+function Get-FreeAddOn
+{
+	$addons = Get-AvailableAddOn
+	$freeAddOns = @()
+	foreach ($addonId in $global:freeAddOnIds)
+	#foreach ($addonId in $freeAddOnIds)
+	{
+		$addon = $addons | Where { $_.AddOn -eq $addonId }
+		Write-Debug "Addon Id: "
+		Write-Debug $addonId
+		$freePlan = $addon.Plans | Where { $_.Price -eq 0 }
+		Write-Debug "Free plan: "
+		Write-Debug $freePlan.PlanIdentifier
+		if ($freePlan)
+		{
+			Write-Debug "Geet hena"
+			$freeAddOn = @{}
+			$freeAddOn.AddOn = $addon.AddOn
+			$freeAddOn.Plan = $freePlan.PlanIdentifier
+			$freeAddOns += $freeAddOn
+		}
+	}
+	$index = Get-Random -Minimum 0 -Maximum $freeAddOns.Count
+	
+	return $freeAddOns[$index]
 }
 
 <#
@@ -106,9 +163,12 @@ The number of add-ons to create.
 function New-AddOn
 {
 	param([int] $count)
-	1..$count | % { 
+
+	if (!$count) { $count = 1 }
+
+	1..$count | % {
 		$name = Get-AddOnName;
-		$addon = Get-RandomFreeAddOn
+		$addon = Get-FreeAddOn
 		New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn)
 		$global:createdAddOns += $name;
 	}

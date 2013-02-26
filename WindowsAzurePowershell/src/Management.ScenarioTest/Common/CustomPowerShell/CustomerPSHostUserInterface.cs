@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
 
         public List<string> ExpectedPromptCaptions { get; set; }
 
-        public PromptDefaultAction DefaultAction { get; set; }
+        public PromptAnswer DefaultAnswer { get; set; }
 
         private int promptCounter;
 
@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
 
             promptCounter = 0;
 
-            DefaultAction = PromptDefaultAction.Yes;
+            DefaultAnswer = PromptAnswer.Yes;
 
             Yes = PowerShellCustomConfirmation.Yes;
 
@@ -105,13 +105,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
             }
             else
             {
-                switch (DefaultAction)
+                switch (DefaultAnswer)
                 {
-                    case PromptDefaultAction.DefaultChoice:
+                    case PromptAnswer.DefaultChoice:
                         return defaultChoice;
-                    case PromptDefaultAction.Yes:
+                    case PromptAnswer.Yes:
                         return Yes;
-                    case PromptDefaultAction.No:
+                    case PromptAnswer.No:
                         return No;
                     default:
                         throw new Exception();
@@ -185,7 +185,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
         }
     }
 
-    public enum PromptDefaultAction
+    public enum PromptAnswer
     {
         DefaultChoice,
         Yes,
