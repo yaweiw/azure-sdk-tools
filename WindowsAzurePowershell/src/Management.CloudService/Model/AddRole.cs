@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Extensions;
 
     /// <summary>
     /// Creates basic scaffolding structure for azure web/worker role.
@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            RootPath = RootPath ?? GetServiceRootPath();
+            RootPath = RootPath ?? CloudServiceUtilities.GetServiceRootPath(CurrentPath());
             AzureService service = new AzureService(RootPath, null);
             RoleInfo roleInfo = null;
             

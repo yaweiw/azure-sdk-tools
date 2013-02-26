@@ -18,17 +18,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using Management.Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High)]
-    public class RemoveAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Remove, "AzureService", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "name of the hosted service")]
         public string ServiceName
@@ -64,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootName,
                 inServiceName,
                 null,
@@ -79,44 +80,51 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 throw new Exception(Resources.InvalidServiceName);
             }
 
-            if (!Force.IsPresent &&
-                !ShouldProcess("", string.Format(Resources.RemoveServiceWarning, serviceName),
-                                Resources.ShouldProcessCaption))
-            {
-                return;
-            }
-
-            if (!string.IsNullOrEmpty(settings.Subscription))
-            {
-                var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
-                CurrentSubscription = globalComponents.Subscriptions.Values.First(
-                    sub => sub.SubscriptionName == settings.Subscription);
-            }
-
-            // Check that cloud service exists
-            WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
-            bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
-
-            if (found)
-            {
-                StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
-                StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
-                RemoveService(serviceName);
-
-                if (PassThru)
+            ConfirmAction(
+                Force.IsPresent,
+                string.Format(Resources.RemoveServiceWarning, serviceName),
+                Resources.RemoveServiceWhatIfMessage,
+                serviceName,
+                () =>
                 {
-                    WriteObject(true);
-                }
-            }
-            else
-            {
-                WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
-            }
+                    if (!string.IsNullOrEmpty(settings.Subscription))
+                    {
+                        var globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
+                        CurrentSubscription = globalComponents.Subscriptions.Values.First(
+                            sub => sub.SubscriptionName == settings.Subscription);
+                    }
+
+                    // Check that cloud service exists
+                    WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
+                    bool found = false;
+
+                    InvokeInOperationContext(() =>
+                    {
+                        this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
+                    });
+
+                    if (found)
+                    {
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[SlotType.Production]);
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[SlotType.Staging]);
+                        RemoveService(serviceName);
+
+                        if (PassThru)
+                        {
+                            WriteObject(true);
+                        }
+                    }
+                    else
+                    {
+                        WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
+                    }
+                });
         }
 
         private void StopAndRemove(string rootName, string serviceName, string subscription, string slot)
         {
-            var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+            var deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+            { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
             if (deploymentStatusCommand.DeploymentExists(rootName, serviceName, slot, subscription))
             {
                 InvokeInOperationContext(() =>
@@ -137,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public override void ExecuteCmdlet()
         {
-            RemoveAzureServiceProcess(GetServiceRootPath(), Subscription, ServiceName);
+            RemoveAzureServiceProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
         }
     }
 }
