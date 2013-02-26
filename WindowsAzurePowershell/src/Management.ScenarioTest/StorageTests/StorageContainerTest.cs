@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StorageTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+    using Microsoft.WindowsAzure.Management.Storage;
 
     [TestClass]
     public class StorageContainerTest : WindowsAzurePowerShellTest
@@ -23,13 +24,70 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StorageTests
         public StorageContainerTest()
             : base("Storage\\StorageContainer.ps1")
         {
-
         }
 
         [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
         public void GetStorageContainerWithoutContainerName()
         {
             RunPowerShellTest("Test-GetAzureStorageContainerWithoutContainerName");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void GetAzureStorageContainerWithPrefix()
+        {
+            RunPowerShellTest("Test-GetAzureStorageContainerWithPrefix");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void NewAzureStorageContainer()
+        {
+            RunPowerShellTest("Test-NewAzureStorageContainer");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void NewAzureStorageContainerWithPermission()
+        {
+            RunPowerShellTest("Test-NewAzureStorageContainerWithPermission");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void NewExistsAzureStorageContainer()
+        {
+            RunPowerShellTest("Test-NewExistsAzureStorageContainer");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void NewExistsAzureStorageContainerWithInvalidContainerName()
+        {
+            RunPowerShellTest("Test-NewExistsAzureStorageContainerWithInvalidContainerName");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void RemoveAzureStorageContainer()
+        {
+            RunPowerShellTest("Test-RemoveAzureStorageContainer");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
+        public void RemoveAzureStorageContainerByContainerPipeline()
+        {
+            RunPowerShellTest("Test-RemoveAzureStorageContainerByContainerPipeline");
         }
     }
 }
