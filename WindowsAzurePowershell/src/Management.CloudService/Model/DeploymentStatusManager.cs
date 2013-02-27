@@ -14,19 +14,19 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using Management.Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Utilities;
+    using Cmdlets.Common;
     using Properties;
+    using ServiceManagement;
+
 
     /// <summary>
     /// Change deployment status to running or suspended.
     /// </summary>
-    public class DeploymentStatusManager : CloudBaseCmdlet<IServiceManagement>
+    public class DeploymentStatusManager : ServiceManagementBaseCmdlet
     {
         public DeploymentStatusManager() { }
 
@@ -83,7 +83,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (string.IsNullOrEmpty(result))
             {
                 SetDeployment(newStatus, serviceName, slot);
-                GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+                { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
                 Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
 
@@ -150,8 +151,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public override void ExecuteCmdlet()
         {
             string serviceName;
-            string rootPath = GetServiceRootPath();
-            ServiceSettings settings = General.GetDefaultSettings(
+            string rootPath = CloudServiceUtilities.TryGetServiceRootPath(CurrentPath());
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 ServiceName,
                 Slot,
