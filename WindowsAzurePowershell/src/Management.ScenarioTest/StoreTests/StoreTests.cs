@@ -216,5 +216,70 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         }
 
         #endregion
+
+        #region New-AzureStoreAddOn Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { New-AzureStoreAddOn Name AddOn Plan \"West US\" }");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnMissingRequiredParameter()
+        {
+            RunPowerShellTest("Test-NewAzureStoreAddOnMissingRequiredParameter");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidName()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidName");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidLocation()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidLocation");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnSuccessfull()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnSuccessfull");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithExistingName()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithExistingName");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidAddOn");
+        }
+
+        #endregion
     }
 }

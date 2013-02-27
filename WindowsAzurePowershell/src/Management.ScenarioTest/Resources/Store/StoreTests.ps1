@@ -29,7 +29,7 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
-########################################################################### Get-AzureStoreAddOn -ListAvailable Scenario Tests ###########################################################################
+########################################################################### Get-AzureStoreAddOn Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
@@ -234,4 +234,85 @@ function Test-GetAzureStoreAddOnPipedToRemoveAzureAddOn
 	# Assert
 	$actual = Get-AzureStoreAddOn $name
 	Assert-AreEqual 0 $actual.Count
+}
+
+########################################################################### New-AzureStoreAddOn Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn when missing a required parameter and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnMissingRequiredParameter
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn AddOn Plan Location }
+	Assert-Throws { New-AzureStoreAddOn Name Plan Location }
+	Assert-Throws { New-AzureStoreAddOn Name AddOn Location }
+	Assert-Throws { New-AzureStoreAddOn Name AddOn Plan }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid name and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidName
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn "Invalid Name" MicrosoftTranslator 2M-1 "West US" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid location and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidLocation
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn AddOnName MicrosoftTranslator 2M-1 "Invalid Location" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn happy path.
+#>
+function Test-NewAzureStoreAddOnSuccessfull
+{
+	# Test
+	$created = New-AddOn
+
+	# Assert
+	$name = $global:createdAddOns[0]
+	$actual = Get-AzureStoreAddOn $name
+	Assert-AreEqual $name $actual.Name
+	Assert-True { $created }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using existing add-on name and expects to fail.
+#>
+function Test-NewAzureStoreAddOnWithExistingName
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+	$addon = Get-FreeAddOn
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using non-existing add-on and expects to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidAddOn
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+	$addon = Get-FreeAddOn
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $name "Invalid AddOn" $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn) }
 }
