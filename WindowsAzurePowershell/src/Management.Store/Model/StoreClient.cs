@@ -36,8 +36,6 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         private const string DataMarketResourceProviderNamespace = "DataMarket";
 
-        private const string DataService = "Data";
-
         private const string AppService = "AzureDevService";
 
         private const string StoreServicePrefix = "Azure-Stores";
@@ -142,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
         private bool IsDataService(string type)
         {
-            return type.Equals(DataService, StringComparison.OrdinalIgnoreCase);
+            return type.Equals(WindowsAzureAddOn.DataType, StringComparison.OrdinalIgnoreCase);
         }
 
         public MarketplaceClient MarketplaceClient { get; set; }
@@ -227,14 +225,18 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                 throw new Exception(string.Format(Resources.AddOnNotFound, name));
             }
 
-            WindowsAzureAddOn addOn = addOns[0];
+            WindowsAzureAddOn addon = addOns[0];
+            string type;
+            string cloudService;
+            string addonId;
+            addonId = GetResourceInformation(addon.AddOn, addon.Location, out type, out cloudService);
 
             storeChannel.DeleteResource(
                 subscriptionId,
-                addOn.CloudService,
-                addOn.Type,
-                addOn.AddOn,
-                addOn.Name
+                cloudService,
+                type,
+                addonId,
+                name
             );
 
             WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
@@ -247,22 +249,16 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             string location,
             string promotionCode)
         {
-            Offer offer = MarketplaceClient.GetOffer(addon);
-            string type = offer.OfferType;
-            string provider = offer.ProviderIdentifier;
-            string cloudService = CreateCloudServiceIfNotExists(location);
-            type = IsDataService(type) ? DataMarketResourceProviderNamespace : provider;
+            string type;
+            string cloudService;
+            addon = GetResourceInformation(addon, location, out type, out cloudService);
+
             Resource resource = new Resource()
             {
                 Plan = plan,
                 Type = type,
                 PromotionCode = promotionCode
             };
-
-            if (type.Equals(DataMarketResourceProviderNamespace, StringComparison.OrdinalIgnoreCase))
-            {
-                addon = string.Format("{0}-{1}", provider, addon);
-            }
 
             try
             {
@@ -277,6 +273,21 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             }
 
             WaitForOperation(headersInspector.ResponseHeaders[ServiceManagementConstants.OperationTrackingIdHeader]);
+        }
+
+        private string GetResourceInformation(string addon, string location, out string type, out string cloudService)
+        {
+            Offer offer = MarketplaceClient.GetOffer(addon);
+            type = offer.OfferType;
+            string provider = offer.ProviderIdentifier;
+            cloudService = CreateCloudServiceIfNotExists(location);
+            type = IsDataService(type) ? DataMarketResourceProviderNamespace : provider;
+
+            if (type.Equals(DataMarketResourceProviderNamespace, StringComparison.OrdinalIgnoreCase))
+            {
+                addon = string.Format("{0}-{1}", provider, addon);
+            }
+            return addon;
         }
 
         /// <summary>
