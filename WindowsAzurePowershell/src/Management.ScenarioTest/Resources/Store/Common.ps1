@@ -163,13 +163,16 @@ The number of add-ons to create.
 function New-AddOn
 {
 	param([int] $count)
+	$created = $false
 
 	if (!$count) { $count = 1 }
 
 	1..$count | % {
 		$name = Get-AddOnName;
 		$addon = Get-FreeAddOn
-		New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn)
+		$created = New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn)
 		$global:createdAddOns += $name;
 	}
+
+	return $created
 }
