@@ -26,14 +26,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
         public const int MaxStringContentLength = 67108864;
 
-        public static Binding WebHttpBinding(int maxStringContentLength)
+        public static Binding WebHttpBinding(int maxStringContentLength = 0)
         {
             var binding = new WebHttpBinding(WebHttpSecurityMode.Transport);
             binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Certificate;
             binding.ReaderQuotas.MaxStringContentLength = 
                 maxStringContentLength > 0 ?
                 maxStringContentLength :
-                67108864;
+                MaxStringContentLength;
 
             // Increasing MaxReceivedMessageSize to allow big deployments
             binding.MaxReceivedMessageSize = MaxReceivedMessageSize;

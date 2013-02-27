@@ -20,9 +20,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Management.Services;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
-    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.
@@ -64,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootName,
                 inServiceName,
                 null,
@@ -104,8 +105,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                     if (found)
                     {
-                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Production]);
-                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[Slot.Staging]);
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[SlotType.Production]);
+                        StopAndRemove(rootName, serviceName, CurrentSubscription.SubscriptionName, ArgumentConstants.Slots[SlotType.Staging]);
                         RemoveService(serviceName);
 
                         if (PassThru)
@@ -144,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public override void ExecuteCmdlet()
         {
-            RemoveAzureServiceProcess(General.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
+            RemoveAzureServiceProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
         }
     }
 }

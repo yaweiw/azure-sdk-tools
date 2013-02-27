@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     public abstract class CloudRuntime
     {
@@ -32,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             protected set;
         }
 
-        public Runtime Runtime
+        public RuntimeType Runtime
         {
             get;
             protected set;
@@ -77,24 +78,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return null;
         }
 
-        private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)
+        private static CloudRuntime CreateRuntimeInternal(RuntimeType runtimeType, string roleName, string rolePath)
         {
             CloudRuntime runtime;
             switch (runtimeType)
             {
-                case Runtime.Null:
+                case RuntimeType.Null:
                     runtime = new NullCloudRuntime();
                     break;
-                case Runtime.Cache:
+                case RuntimeType.Cache:
                     runtime = new CacheCloudRuntime();
                     break;
-                case Runtime.PHP:
+                case RuntimeType.PHP:
                     runtime = new PHPCloudRuntime();
                     break;
-                case Runtime.IISNode:
+                case RuntimeType.IISNode:
                     runtime = new IISNodeCloudRuntime();
                     break;
-                case Runtime.Node:
+                case RuntimeType.Node:
                 default:
                     runtime = new NodeCloudRuntime();
                     break;
@@ -110,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             string roleName, string rolePath)
         {
             Collection<CloudRuntime> runtimes = new Collection<CloudRuntime>(new List<CloudRuntime>());
-            foreach (Runtime runtimeType in GetRuntimeTypes(settings))
+            foreach (RuntimeType runtimeType in GetRuntimeTypes(settings))
             {
                 CloudRuntime runtime = CreateRuntimeInternal(runtimeType, roleName, rolePath);
                 runtime.Configure(settings);
@@ -127,27 +128,27 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return runtime;
         }
 
-        public static Runtime GetRuntimeByType(string runtimeType)
+        public static RuntimeType GetRuntimeByType(string runtimeType)
         {
             if (string.Equals(runtimeType, Resources.PhpRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
-                return Runtime.PHP;
+                return RuntimeType.PHP;
             }
             else if (string.Equals(runtimeType, Resources.IISNodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
-                return Runtime.IISNode;
+                return RuntimeType.IISNode;
             }
             else if (string.Equals(runtimeType, Resources.NodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
-                return Runtime.Node;
+                return RuntimeType.Node;
             }
             else if (string.Equals(runtimeType, Resources.CacheRuntimeValue, StringComparison.OrdinalIgnoreCase))
             {
-                return Runtime.Cache;
+                return RuntimeType.Cache;
             }
             else
             {
-                return Runtime.Null;
+                return RuntimeType.Null;
             }
         }
 
@@ -161,12 +162,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return GetRuntimes(GetStartupEnvironment(workerRole), workerRole.name, rolePath);
         }
 
-        private static Collection<Runtime> GetRuntimeTypes(Dictionary<string, string> environmentSettings)
+        private static Collection<RuntimeType> GetRuntimeTypes(Dictionary<string, string> environmentSettings)
         {
-            Collection<Runtime> runtimes = new Collection<Runtime>(new List<Runtime>());
+            Collection<RuntimeType> runtimes = new Collection<RuntimeType>();
             if (environmentSettings.ContainsKey(Resources.RuntimeOverrideKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeOverrideKey]))
             {
-                runtimes.Add(Runtime.Null);
+                runtimes.Add(RuntimeType.Null);
             }
             else if (environmentSettings.ContainsKey(Resources.RuntimeTypeKey) && !string.IsNullOrEmpty(environmentSettings[Resources.RuntimeTypeKey]))
             {
@@ -174,19 +175,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 {
                     if (string.Equals(runtimeSpec, Resources.NodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
                     {
-                        runtimes.Add(Runtime.Node);
+                        runtimes.Add(RuntimeType.Node);
                     }
                     else if (string.Equals(runtimeSpec, Resources.IISNodeRuntimeValue, StringComparison.OrdinalIgnoreCase))
                     {
-                        runtimes.Add(Runtime.IISNode);
+                        runtimes.Add(RuntimeType.IISNode);
                     }
                     else if (string.Equals(runtimeSpec, Resources.PhpRuntimeValue, StringComparison.OrdinalIgnoreCase))
                     {
-                        runtimes.Add(Runtime.PHP);
+                        runtimes.Add(RuntimeType.PHP);
                     }
                     else if (string.Equals(runtimeSpec, Resources.CacheRuntimeValue, StringComparison.OrdinalIgnoreCase))
                     {
-                        runtimes.Add(Runtime.Cache);
+                        runtimes.Add(RuntimeType.Cache);
                     }
                 }
             }
@@ -497,7 +498,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             protected override void Configure(Dictionary<string, string> environment)
             {
-                this.Runtime = Runtime.PHP;
+                this.Runtime = RuntimeType.PHP;
 
                 if (string.IsNullOrEmpty(this.Version))
                 {
