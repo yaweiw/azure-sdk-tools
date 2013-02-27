@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System.ServiceModel.Dispatcher;
     using System.Text;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using GeneralSM = Microsoft.WindowsAzure.ServiceManagement.Utilities.General;
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
@@ -56,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Model
         {
             HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
             StringBuilder httpResponseLog = new StringBuilder();
-            string body = GeneralSM.ReadBody(ref reply);
+            string body = General.ReadBody(ref reply);
 
             httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
             httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
@@ -69,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.Model
         {
             HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
             StringBuilder httpRequestLog = new StringBuilder();
-            string body = GeneralSM.ReadBody(ref request);
+            string body = General.ReadBody(ref request);
 
             httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
             httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));

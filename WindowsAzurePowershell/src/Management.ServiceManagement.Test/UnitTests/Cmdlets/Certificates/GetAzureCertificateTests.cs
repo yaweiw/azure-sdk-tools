@@ -26,12 +26,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class GetAzureCertificateTests
+    public class GetAzureCertificateTests : TestBase
     {
+        FileSystemHelper files;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            files = new FileSystemHelper(this);
+            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            files.Dispose();
         }
 
         [TestMethod]

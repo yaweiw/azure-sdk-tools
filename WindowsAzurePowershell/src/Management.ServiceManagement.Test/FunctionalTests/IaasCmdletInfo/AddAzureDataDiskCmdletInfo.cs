@@ -22,8 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public AddAzureDataDiskCmdletInfo(AddAzureDataDiskConfig diskConfig)
         {
             this.cmdletName = Utilities.AddAzureDataDiskCmdletName;
-            
-            //this.cmdletParams.Add(new CmdletParam(diskConfig.DiskCreateOption.ToString(), null));
+                       
             this.cmdletParams.Add(new CmdletParam("CreateNew", null));
             this.cmdletParams.Add(new CmdletParam("DiskSizeInGB", diskConfig.DiskSizeGB));
             this.cmdletParams.Add(new CmdletParam("DiskLabel", diskConfig.DiskLabel));

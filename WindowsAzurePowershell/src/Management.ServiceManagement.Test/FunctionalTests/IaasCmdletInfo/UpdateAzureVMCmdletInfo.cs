@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class UpdateAzureVMCmdletInfo : CmdletsInfo
     {
-        public UpdateAzureVMCmdletInfo(string serviceName, string vmName, PersistentVM persistentVM)
+        public UpdateAzureVMCmdletInfo(string vmName, string serviceName, PersistentVM persistentVM)
         {
             cmdletName = Utilities.UpdateAzureVMCmdletName;
 

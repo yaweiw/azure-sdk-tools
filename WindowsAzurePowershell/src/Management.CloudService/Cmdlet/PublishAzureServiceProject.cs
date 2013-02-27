@@ -12,13 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Service;
-using Microsoft.WindowsAzure.Management.Utilities;
-using Microsoft.WindowsAzure.ServiceManagement;
-using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
-using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
-using UpgradeType = Microsoft.WindowsAzure.ServiceManagement.UpgradeType;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
@@ -30,19 +23,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using System.ServiceModel;
     using System.Text;
     using System.Threading;
     using AzureTools;
     using Extensions;
     using Management.Services;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    //using Microsoft.WindowsAzure.Management.Service;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
     using Properties;
     using Services;
     using Utilities;
-    using ServiceManagementCertificate = Microsoft.WindowsAzure.ServiceManagement.Certificate;
+    using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
+    using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
+    using UpgradeType = Microsoft.WindowsAzure.ServiceManagement.UpgradeType;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -129,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            PublishService(General.GetServiceRootPath(CurrentPath()));
+            PublishService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -215,9 +212,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </returns>
         private bool CanGenerateUrlForDeploymentSlot()
         {
-            return string.Equals(
-                _deploymentSettings.ServiceSettings.Slot,
-                ArgumentConstants.Slots[Model.Slot.Production]);
+            return string.Equals(_deploymentSettings.ServiceSettings.Slot, ArgumentConstants.Slots[SlotType.Production]);
         }
 
         /// <summary>
@@ -325,7 +320,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings, string manifest = null)
         {
             CloudRuntimeCollection availableRuntimePackages;
-            Model.Location deploymentLocation = GetSettingsLocation(settings);
+            LocationName deploymentLocation = GetSettingsLocation(settings);
             if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation,
                 out availableRuntimePackages, manifestFile: manifest))
             {
@@ -401,7 +396,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             return false;
         }
 
-        private Model.Location GetSettingsLocation(ServiceSettings settings)
+        private LocationName GetSettingsLocation(ServiceSettings settings)
         {
             if (ArgumentConstants.ReverseLocations.ContainsKey(settings.Location.ToLower()))
             {
@@ -624,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string configurationPath = _azureService.Paths.CloudConfiguration;
             Validate.ValidateFileFull(configurationPath, Resources.ServiceConfiguration);
             string fullPath = this.ResolvePath(configurationPath);
-            string configuration = Utility.GetConfiguration(fullPath);
+            string configuration = General.GetConfiguration(fullPath);
             return configuration;
         }
 

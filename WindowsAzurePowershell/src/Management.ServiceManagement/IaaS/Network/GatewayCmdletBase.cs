@@ -20,19 +20,19 @@ using Microsoft.WindowsAzure.Management.Model;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
-    using System.Net;
-    using System.ServiceModel.Web;
-    using System.Runtime.Serialization;
-    using System.Security.Cryptography.X509Certificates;
-    using System.ServiceModel.Channels;
-    using System.Xml;
     using System.Globalization;
     using System.Management.Automation;
+    using System.Net;
+    using System.Runtime.Serialization;
+    using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Service;
-    using Service.Gateway;
+    using System.ServiceModel.Channels;
+    using System.ServiceModel.Web;
+    using System.Xml;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
+    using Service.Gateway;
 
     public class GatewayCmdletBase : CloudBaseCmdlet<IGatewayServiceManagement>
     {
@@ -152,15 +152,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
                 var activityId = new Random().Next(1, 999999);
                 var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
-                while (string.Compare(operation.Status, Service.OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
-                        string.Compare(operation.Status, Service.OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
+                while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
+                        string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
                 {
                     WriteProgress(progress);
                     Thread.Sleep(1 * 1000);
                     operation = RetryCall(s => channel.GetGatewayOperation(currentSubscription.SubscriptionId, operationId));
                 }
 
-                if (string.Compare(operation.Status, Service.OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
                 {
                     var errorMessage = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", operation.Status, operation.Error.Message);
                     var exception = new Exception(errorMessage);
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         public static IGatewayServiceManagement CreateGatewayManagementChannel(Binding binding, Uri remoteUri, X509Certificate2 cert)
         {
             WebChannelFactory<IGatewayServiceManagement> factory = new WebChannelFactory<IGatewayServiceManagement>(binding, remoteUri);
-            factory.Endpoint.Behaviors.Add(new WindowsAzure.ServiceManagement.ServiceManagementClientOutputMessageInspector());
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
             factory.Credentials.ClientCertificate.Certificate = cert;
             return factory.CreateChannel();
         }
