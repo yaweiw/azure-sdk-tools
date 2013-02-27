@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// Purchase a new Add-On from Windows Azure Store.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureStoreAddOn"), OutputType(typeof(bool))]
-    public class NewAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
+    public class NewAzureStoreAddOnCommand : ServiceManagementBaseCmdlet
     {
         public StoreClient StoreClient { get; set; }
 
