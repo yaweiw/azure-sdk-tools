@@ -25,12 +25,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test
     using System.Text;
 
     /// <summary>
-    /// test base class for storage package
+    /// Test base class for storage package
     /// </summary>
     public class StorageTestBase
     {
         /// <summary>
-        /// get an unique string
+        /// Get an unique string
         /// </summary>
         /// <param name="prefix">unique string prefix</param>
         /// <param name="replaceBar">replace "-" to the specific character</param>

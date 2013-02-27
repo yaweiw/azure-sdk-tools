@@ -16,12 +16,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -33,110 +32,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// </remarks>
     public static class Testing
     {
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        public static void AssertThrows<T>(Action action)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-            }
-        }
-
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        /// <param name="expectedMessage">
-        /// Expected exception message.
-        /// </param>
-        public static void AssertThrows<T>(Action action, string expectedMessage)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual<string>(ex.Message, expectedMessage);
-            }
-        }
-
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        /// <param name="verification">
-        /// Additional verification to perform on the exception.
-        /// </param>
-        public static void AssertThrows<T>(Action action, Action<T> verification)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-            Debug.Assert(verification != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-                verification(ex as T);
-            }
-        }
-
-        /// <summary>
-        /// Get the path to a file included in the test project as something to
-        /// be copied on Deployment (see Local.testsettings > Deployment for
-        /// examples).
-        /// </summary>
-        /// <param name="relativePath">Relative path to the resource.</param>
-        /// <returns>Path to the resource.</returns>
-        public static string GetTestResourcePath(string relativePath)
-        {
-            string path = Path.Combine(Environment.CurrentDirectory, relativePath);
-            Assert.IsTrue(File.Exists(path));
-            return path;
-        }
-
-        /// <summary>
-        /// Get the contents of a file included in the test project as something to
-        /// be copied on Deployment (see Local.testsettings > Deployment for
-        /// examples).
-        /// </summary>
-        /// <param name="relativePath">Relative path to the resource.</param>
-        /// <returns>the resource contents.</returns>
-        public static string GetTestResourceContents(string relativePath)
-        {
-            return File.ReadAllText(Testing.GetTestResourcePath(relativePath));
-        }
-
         /// <summary>
         /// Validate a collection of assertions against files that are expected
         /// to exist in the file system watched by a FileSystemHelper.
@@ -209,34 +104,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         {
             AzureService service = new AzureService(rootPath, null);
             return service.Components.GetLocalConfigRole(name);
-        }
-
-        /// <summary>
-        /// Asserts that given two directories and identical.
-        /// </summary>
-        /// <param name="expected">The expected directory</param>
-        /// <param name="actual">The actual directory</param>
-        public static void AssertDirectoryIdentical(string expected, string actual)
-        {
-            DirectoryInfo expectedDir = new DirectoryInfo(expected);
-            DirectoryInfo actualDir = new DirectoryInfo(expected);
-            DirectoryInfo[] ExpectedDirs = expectedDir.GetDirectories();
-            DirectoryInfo[] ActualDirs = actualDir.GetDirectories();
-            FileInfo[] expectedFiles = expectedDir.GetFiles();
-            FileInfo[] actualFiles = actualDir.GetFiles();
-
-            Assert.AreEqual<int>(expectedFiles.Length, actualFiles.Length);
-
-            for (int i = 0; i < expectedFiles.Length; i++)
-            {
-                Assert.AreEqual<string>(expectedFiles[i].Name, actualFiles[i].Name);
-            }
-
-            foreach (DirectoryInfo subdir in ExpectedDirs)
-            {
-                string ActualSubDir = Path.Combine(actual, subdir.Name);
-                AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
-            }
         }
     }
 }

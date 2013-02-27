@@ -18,18 +18,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
-    using System.Linq;
     using ServiceDefinitionSchema;
     using Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Enables memcache for specific role.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole")]
+    [Cmdlet(VerbsLifecycle.Enable, "AzureMemcacheRole"), OutputType(typeof(bool))]
     public class EnableAzureMemcacheRoleCommand : CmdletBase
     {
         /// <summary>
@@ -75,10 +75,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            string rootPath = GetServiceRootPath();
-            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+            string rootPath = CloudServiceUtilities.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? CloudServiceUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
-            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, base.GetServiceRootPath());
+            EnableAzureMemcacheRoleProcess(this.RoleName, this.CacheWorkerRoleName, CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             if (azureService.Components.IsWebRole(roleName))
             {
                 WebRole webRole = azureService.Components.GetWebRole(roleName);
-                webRole.LocalResources = General.InitializeIfNull<LocalResources>(webRole.LocalResources);
+                webRole.LocalResources = CloudServiceUtilities.InitializeIfNull<LocalResources>(webRole.LocalResources);
                 DefConfigurationSetting[] configurationSettings = webRole.ConfigurationSettings;
 
                 CachingConfigurationFactoryMethod(
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             else
             {
                 WorkerRole workerRole = azureService.Components.GetWorkerRole(roleName);
-                workerRole.LocalResources = General.InitializeIfNull<LocalResources>(workerRole.LocalResources);
+                workerRole.LocalResources = CloudServiceUtilities.InitializeIfNull<LocalResources>(workerRole.LocalResources);
                 DefConfigurationSetting[] configurationSettings = workerRole.ConfigurationSettings;
 
                 CachingConfigurationFactoryMethod(
@@ -315,7 +315,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             Variable emulated = new Variable { name = Resources.EmulatedKey, RoleInstanceValue = new RoleInstanceValueElement { xpath = "/RoleEnvironment/Deployment/@emulated" } };
             Variable[] env = { emulated, new Variable { name = Resources.CacheRuntimeUrl, value = cacheRuntimeUri } };
             Task shimStartupTask = new Task { Environment = env, commandLine = Resources.CacheStartupCommand, executionContext = ExecutionContext.elevated };
-            startup.Task = General.ExtendArray<Task>(startup.Task, shimStartupTask);
+            startup.Task = CloudServiceUtilities.ExtendArray<Task>(startup.Task, shimStartupTask);
 
             // Add default memcache internal endpoint.
             InternalEndpoint memcacheEndpoint = new InternalEndpoint
@@ -324,7 +324,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 protocol = InternalProtocol.tcp,
                 port = Resources.MemcacheEndpointPort
             };
-            endpoints.InternalEndpoint = General.ExtendArray<InternalEndpoint>(endpoints.InternalEndpoint, memcacheEndpoint);
+            endpoints.InternalEndpoint = CloudServiceUtilities.ExtendArray<InternalEndpoint>(endpoints.InternalEndpoint, memcacheEndpoint);
 
             // Enable cache diagnostic
             LocalStore localStore = new LocalStore
@@ -332,10 +332,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 name = Resources.CacheDiagnosticStoreName,
                 cleanOnRoleRecycle = false
             };
-            localResources.LocalStorage = General.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
+            localResources.LocalStorage = CloudServiceUtilities.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
 
             DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
-            configurationSettings = General.ExtendArray<DefConfigurationSetting>(configurationSettings, diagnosticLevel);
+            configurationSettings = CloudServiceUtilities.ExtendArray<DefConfigurationSetting>(configurationSettings, diagnosticLevel);
 
             // Add ClientDiagnosticLevel setting to service configuration.
             AddClientDiagnosticLevelToConfig(azureService.Components.GetCloudConfigRole(roleName));
@@ -345,7 +345,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         private static void AddClientDiagnosticLevelToConfig(RoleSettings roleSettings)
         {
             ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
-            roleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(roleSettings.ConfigurationSettings, clientDiagnosticLevel);
+            roleSettings.ConfigurationSettings = CloudServiceUtilities.ExtendArray<ConfigConfigurationSetting>(roleSettings.ConfigurationSettings, clientDiagnosticLevel);
         }
 
         /// <summary>

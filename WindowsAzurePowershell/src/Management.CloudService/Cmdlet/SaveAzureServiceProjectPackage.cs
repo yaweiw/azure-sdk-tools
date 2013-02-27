@@ -19,13 +19,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
 
     /// <summary>
     /// Packages the service project into cloud or local package.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureServiceProjectPackage")]
+    [Cmdlet(VerbsData.Save, "AzureServiceProjectPackage"), OutputType(typeof(PSObject))]
     public class SaveAzureServiceProjectPackageCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
@@ -37,10 +39,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             string unused;
-            string rootPath = base.GetServiceRootPath();
+            string rootPath = CloudServiceUtilities.GetServiceRootPath(CurrentPath());
             string packagePath;
 
-            AzureService service = new AzureService(base.GetServiceRootPath(), null);
+            AzureService service = new AzureService(rootPath, null);
 
             if (!Local.IsPresent)
             {

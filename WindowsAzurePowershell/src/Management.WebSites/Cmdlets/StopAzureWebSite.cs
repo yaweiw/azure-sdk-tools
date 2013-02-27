@@ -25,9 +25,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Stops an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite"), OutputType(typeof(bool))]
     public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the StopAzureWebsiteCommand class.
         /// </summary>
@@ -72,6 +75,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
                 RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
     }
 }

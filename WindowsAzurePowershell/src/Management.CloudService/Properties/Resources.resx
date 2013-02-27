@@ -889,4 +889,10 @@
   <data name="NoCacheWorkerRoles" xml:space="preserve">
     <value>The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole.</value>
   </data>
+  <data name="CannotFindServiceRoot" xml:space="preserve">
+    <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
+  </data>
+  <data name="RemoveServiceWhatIfMessage" xml:space="preserve">
+    <value>Remove cloud service and all it's deployments</value>
+  </data>
 </root>

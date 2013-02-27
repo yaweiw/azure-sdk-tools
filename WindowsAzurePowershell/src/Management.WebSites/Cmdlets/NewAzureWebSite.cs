@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.New, "AzureWebsite"), OutputType(typeof(SiteWithConfig))]
     public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
@@ -314,6 +314,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                                                  Name)) && (Git || GitHub))
                 {
                     WriteWarning(message);
+                }
+                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                {
+                    WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
                 }
                 else
                 {

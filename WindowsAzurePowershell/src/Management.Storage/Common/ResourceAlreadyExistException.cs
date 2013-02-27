@@ -21,13 +21,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// resource already exist exception
+    /// Resource already exist exception
     /// </summary>
     [Serializable]
     public class ResourceAlreadyExistException : Exception
     {
         /// <summary>
-        /// create a new instance with error message
+        /// Create a new instance with error message
         /// </summary>
         /// <param name="message">error message</param>
         public ResourceAlreadyExistException(String message)

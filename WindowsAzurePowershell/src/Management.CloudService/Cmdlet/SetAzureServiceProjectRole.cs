@@ -17,16 +17,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole")]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceProjectRole"), OutputType(typeof(RoleSettings))]
     public class SetAzureServiceProjectRoleCommand : CmdletBase
     {
         const string InstancesParameterSet = "Instances";
@@ -65,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// The size of the role - parameter set for instances contains role name and instance size only.
         /// </summary>
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = VMSizeParameterSet, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Mandatory = true, ParameterSetName = VMSizeParameterSet, ValueFromPipelineByPropertyName = true)]
         [ValidateNotNullOrEmpty]
         public string VMSize { get; set; }
 
@@ -135,8 +134,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
-            string rootPath = GetServiceRootPath();
-            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
+            string rootPath = CloudServiceUtilities.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? CloudServiceUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {

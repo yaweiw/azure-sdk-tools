@@ -17,22 +17,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
 
     /// <summary>
     /// Creates new service bus namespace.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace")]
-    public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Remove, "AzureSBNamespace", SupportsShouldProcess = true), OutputType(typeof(bool))]
+    public class RemoveAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
-        [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
+        [Parameter(Position = 1, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
 
-        [Parameter(Position = 1, Mandatory = false)]
+        [Parameter(Position = 2, Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
+
+        [Parameter(Position = 3, HelpMessage = "Do not confirm the removal of the namespace")]
+        public SwitchParameter Force { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the RemoveAzureSBNamespaceCommand class.
@@ -48,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public RemoveAzureSBNamespaceCommand(IServiceManagement channel)
+        public RemoveAzureSBNamespaceCommand(IServiceBusManagement channel)
         {
             Channel = channel;
         }
@@ -68,13 +70,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
             {
                 if (Regex.IsMatch(name, ServiceBusConstants.NamespaceNamePattern))
                 {
-                    Channel.DeleteServiceBusNamespace(subscriptionId, name);
-                    WriteVerbose(string.Format(Resources.RemovingNamespaceMessage, name));
-                    
-                    if (PassThru)
-                    {
-                        WriteObject(true);
-                    }
+
+                    ConfirmAction(
+                        Force.IsPresent,
+                        string.Format(Resources.RemoveServiceBusNamespaceConfirmation, name),
+                        string.Format(Resources.RemovingNamespaceMessage),
+                        name,
+                        () =>
+                        {
+                            Channel.DeleteServiceBusNamespace(subscriptionId, name);
+
+                            if (PassThru)
+                            {
+                                WriteObject(true);
+                            }
+                        });
                 }
                 else
                 {

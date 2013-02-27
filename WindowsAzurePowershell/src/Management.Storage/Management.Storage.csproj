@@ -67,14 +67,6 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Data.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Data.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.WindowsAzure.Storage.DataMovement">
       <HintPath>..\lib\Microsoft.WindowsAzure.Storage.DataMovement.dll</HintPath>
@@ -86,10 +78,6 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\System.Spatial.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -98,15 +86,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainer.cs" />
+    <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
-    <Compile Include="Common\OperationContextUtil.cs" />
     <Compile Include="Common\ResourceAlreadyExistException.cs" />
     <Compile Include="Common\ResourceNotFoundException.cs" />
     <Compile Include="Common\StorageCloudCmdletBase.cs" />
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
+    <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
+    <Compile Include="Model\Contract\StorageBlobManagement.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageBase.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageContainer.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageContext.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -118,14 +112,6 @@
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement.Additions\ServiceManagement.Additions.csproj">
-      <Project>{da1432af-d6b5-47a1-8b74-ccd740683e0f}</Project>
-      <Name>ServiceManagement.Additions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
