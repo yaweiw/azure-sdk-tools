@@ -63,6 +63,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
             string variableFile = Path.Combine(downloadPath, PowerShellVariableFile);
             Assert.IsTrue(File.Exists(environmentFile), string.Format("Did not download file {0}", environmentFile));
             Assert.IsTrue(File.Exists(variableFile), string.Format("Did not download file {0}", variableFile));
+            AddPowerShellVariables(variableFile);
             AddEnvironmentVariables(environmentFile);
         }
 
