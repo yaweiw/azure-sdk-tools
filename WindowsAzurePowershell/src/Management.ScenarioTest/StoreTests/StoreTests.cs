@@ -238,6 +238,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
         public void TestNewAzureStoreAddOnWithInvalidName()
         {
             PromptSetup();
@@ -247,10 +248,11 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestNewAzureStoreAddOnWithInvalidLocation()
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        public void TestNewAzureStoreAddOnWithInvalidWindowsAzureLocation()
         {
             PromptSetup();
-            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidLocation");
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidWindowsAzureLocation");
         }
 
         [TestMethod]
@@ -274,10 +276,49 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
         public void TestNewAzureStoreAddOnWithInvalidAddOn()
         {
             PromptSetup();
             RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidAddOn");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        public void TestNewAzureStoreAddOnWithInvalidPlan()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidPlan");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        public void TestNewAzureStoreAddOnWithInvalidLocation()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidLocation");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidPromoCode()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidPromoCode");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithInvalidPromoCode()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidPromoCode");
         }
 
         #endregion

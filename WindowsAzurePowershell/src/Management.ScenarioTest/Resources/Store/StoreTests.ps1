@@ -265,7 +265,7 @@ function Test-NewAzureStoreAddOnWithInvalidName
 .SYNOPSIS
 Tests New-AzureStoreAddOn with invalid location and expects it to fail.
 #>
-function Test-NewAzureStoreAddOnWithInvalidLocation
+function Test-NewAzureStoreAddOnWithInvalidWindowsAzureLocation
 {
 	# Test
 	Assert-Throws { New-AzureStoreAddOn AddOnName MicrosoftTranslator 2M-1 "Invalid Location" }
@@ -315,4 +315,37 @@ function Test-NewAzureStoreAddOnWithInvalidAddOn
 
 	# Test
 	Assert-Throws { New-AzureStoreAddOn $name "Invalid AddOn" $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using an invalid plan
+#>
+function Test-NewAzureStoreAddOnWithInvalidPlan
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $(Get-AddOnName) MicrosoftTranslator free $(Get-DefaultAddOnLocation MicrosoftTranslator) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid location and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidLocation
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn addonname sendgrid_azure free "North Central US" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid promo code.
+#>
+function Test-NewAzureStoreAddOnWithInvalidPromoCode
+{
+	# Setup
+	$msg = "The REST operation failed with message 'Billing validation for the resource failed with error message: Error: BadUserInput, Description: Promotion Code entered is invalid..' and error code 'BadRequest'"
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn addonname sendgrid_azure free "West US" invalidpromo } $msg
 }
