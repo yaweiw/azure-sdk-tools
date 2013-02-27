@@ -3274,6 +3274,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
 {
     public abstract partial class ServerContextInternal
     {
-        public readonly string metadataHash = "3070BEE06139E0754E2F022E56E9798BF8A57F30";
+        public readonly string metadataHash = "80A53B80FCD9616E6EEBDCAA3482E30A159C0E1F";
+        public readonly string metadataHashOld = "3070BEE06139E0754E2F022E56E9798BF8A57F30";
     }
 }
