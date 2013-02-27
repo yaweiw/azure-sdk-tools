@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Host;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Store.Model;
 
     class CustomerPSHostUserInterface : PSHostUserInterface
     {
@@ -30,7 +32,21 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
 
         public List<ProgressRecord> ProgressStream { get; private set; }
 
-        public int PromptChoice { get; set; }
+        public int Yes { get; set; }
+
+        public int No { get; set; }
+
+        public List<int> PromptChoices { get; set; }
+
+        public List<int> ExpectedDefaultChoices { get; set; }
+
+        public List<string> ExpectedPromptMessages { get; set; }
+
+        public List<string> ExpectedPromptCaptions { get; set; }
+
+        public PromptAnswer DefaultAnswer { get; set; }
+
+        private int promptCounter;
 
         public CustomerPSHostUserInterface()
         {
@@ -42,23 +58,64 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
 
             ProgressStream = new List<ProgressRecord>();
 
-            PromptChoice = int.MaxValue;
+            PromptChoices = new List<int>();
+
+            ExpectedPromptMessages = new List<string>();
+
+            ExpectedPromptCaptions = new List<string>();
+
+            ExpectedDefaultChoices = new List<int>();
+
+            promptCounter = 0;
+
+            DefaultAnswer = PromptAnswer.Yes;
+
+            Yes = PowerShellCustomConfirmation.Yes;
+
+            No = PowerShellCustomConfirmation.No;
         }
 
-        public override Dictionary<string, PSObject> Prompt(string caption, string message, System.Collections.ObjectModel.Collection<FieldDescription> descriptions)
+        public override Dictionary<string, PSObject> Prompt(string caption, string message, Collection<FieldDescription> descriptions)
         {
             throw new NotImplementedException();
         }
 
         public override int PromptForChoice(string caption, string message, Collection<ChoiceDescription> choices, int defaultChoice)
         {
-            if (PromptChoice != int.MaxValue)
+            Assert.AreEqual<int>(
+                ExpectedPromptMessages.Count,
+                ExpectedPromptCaptions.Count,
+                "The expected captions and expected messages lists must has equal length");
+
+            Assert.AreEqual<int>(
+                ExpectedPromptCaptions.Count,
+                ExpectedDefaultChoices.Count,
+                "The expected captions and expected default choices lists must has equal length");
+
+            if (promptCounter < ExpectedPromptCaptions.Count)
             {
-                return PromptChoice;
+                Assert.AreEqual<string>(ExpectedPromptCaptions[promptCounter], caption);
+                Assert.AreEqual<string>(ExpectedPromptMessages[promptCounter], message);
+                Assert.AreEqual<int>(ExpectedDefaultChoices[promptCounter], defaultChoice);
+            }
+
+            if (promptCounter < PromptChoices.Count)
+            {
+                return PromptChoices[promptCounter++];
             }
             else
             {
-                return defaultChoice;
+                switch (DefaultAnswer)
+                {
+                    case PromptAnswer.DefaultChoice:
+                        return defaultChoice;
+                    case PromptAnswer.Yes:
+                        return Yes;
+                    case PromptAnswer.No:
+                        return No;
+                    default:
+                        throw new Exception();
+                }
             }
         }
 
@@ -126,5 +183,12 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
         {
             WarningStream.Add(message);
         }
+    }
+
+    public enum PromptAnswer
+    {
+        DefaultChoice,
+        Yes,
+        No
     }
 }
