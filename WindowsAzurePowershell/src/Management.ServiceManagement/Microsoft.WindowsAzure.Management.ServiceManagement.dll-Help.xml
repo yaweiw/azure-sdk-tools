@@ -11289,7 +11289,7 @@
     </command:details>
     <maml:description>
       <maml:para>The Set-AzureDeployment cmdlet sets the status, configuration settings, or upgrade mode of a Windows Azure deployment. </maml:para>
-      <maml:para>With the –Status parameter, you can change the status of the deployment to either "Running" or "Suspended". With the –Config parameter, you can update the .cscfg file, and with the –Upgrade parameter, you set the upgrade mode and update configuration files. Use the Set-AzureWalkUpgradeDomain cmdlet to actually initiate the upgrade. </maml:para>
+      <maml:para>With the –Status parameter, you can change the status of the deployment to either "Running" or "Suspended". With the –Config parameter, you can update the .cscfg file, and with the –Upgrade parameter, you set the upgrade mode and update configuration files. Use the Set-AzureWalkUpgradeDomain cmdlet to actually initiate the upgrade. For now, updating the instance count in "Simultaneous" upgrade is not supported.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -11644,6 +11644,25 @@
         </dev:code>
         <dev:remarks>
           <maml:para>This command sets the upgrade mode to Auto and specifies an upgrade package and a new configuration file.</maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  Example 4 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          C:\PS&gt;Set-AzureDeployment –Upgrade –ServiceName "MySvc1" –Mode Simultaneous –Package "C:\Temp\MyApp.cspkg" –Configuration "C:\Temp\MyServiceConfig.Cloud.csfg"
+        </dev:code>
+        <dev:remarks>
+          <maml:para>This command sets the upgrade mode to Simultaneous and specifies an upgrade package and a new configuration file.</maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
