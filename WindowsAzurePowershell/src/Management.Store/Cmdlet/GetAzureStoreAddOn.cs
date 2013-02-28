@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
     /// Gets all available Windows Azure add-ons from Marketplace and gets user purchased add-ons.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStoreAddOn"), OutputType(typeof(List<WindowsAzureAddOn>), typeof(List<WindowsAzureOffer>))]
-    public class GetAzureStoreAddOnCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureStoreAddOnCommand : ServiceManagementBaseCmdlet
     {
         const string ListAvailableParameterSet = "ListAvailable";
 

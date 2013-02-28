@@ -277,7 +277,7 @@ namespace Microsoft.Samples.WindowsAzure.ServiceManagement
     public class ServiceManagementClientOutputMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
         public const string UserAgentHeaderName = "User-Agent";
-        public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.10";
+        public const string UserAgentHeaderContent = "Windows Azure Powershell/v.0.6.11";
         public const string VSDebuggerCausalityDataHeaderName = "VSDebuggerCausalityData";
 
         #region IClientMessageInspector Members
