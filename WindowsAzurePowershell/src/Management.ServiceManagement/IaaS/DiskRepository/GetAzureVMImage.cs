@@ -37,9 +37,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
         {
             Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
             {
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status,
                 AffinityGroup = d.AffinityGroup,
                 Category = d.Category,
                 Label = d.Label,
@@ -47,7 +44,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 MediaLink = d.MediaLink,
                 ImageName = d.Name,
                 OS = d.OS,
-                LogicalSizeInGB = d.LogicalSizeInGB
+                LogicalSizeInGB = d.LogicalSizeInGB,
+                Eula = d.Eula,
+                Description = d.Description,
+                ImageFamily = d.ImageFamily,
+                PublishedDate = d.PublishedDate,
+                IsPremium = d.IsPremium,
+                PrivacyUri = d.PrivacyUri,
+                PublisherName = d.PublisherName,
+                RecommendedVMSize = d.RecommendedVMSize,
+                OperationId = operation.OperationTrackingId,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = operation.Status
             });
             if (!string.IsNullOrEmpty(this.ImageName))
             {
