@@ -368,4 +368,7 @@
   <data name="CannotGetStorageAccountFromEnvironmentVariable" xml:space="preserve">
     <value>Can not get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'. Please check whether this environment variable is valid.</value>
   </data>
+  <data name="AnonymousAccountName" xml:space="preserve">
+    <value>[Anonymous]</value>
+  </data>
 </root>

@@ -12,18 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
+namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
 
-    /// <summary>
-    /// storage management interface for all cmdlet that works without cloud
-    /// </summary>
-    public interface IStorageManagement
+    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
     {
-        //This is a place holder for the unit tests of StorageCloudCmdletBase
+        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
+            : base(channel)
+        {
+        }
+
+        public bool confirm = false;
+
+        internal override bool ConfirmRemove(string message)
+        {
+            return confirm;
+        }
     }
 }

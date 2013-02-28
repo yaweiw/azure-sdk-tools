@@ -107,20 +107,4 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
                 String.Format(Resources.ContainerNotFound, name));
         }
     }
-
-    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
-    {
-
-        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
-            : base(channel)
-        { 
-        }
-
-        public bool confirm = false;
-
-        internal override bool ConfirmRemove(string message)
-        {
-            return confirm;
-        }
-    }
 }
