@@ -22,9 +22,9 @@ Tests using Get-AzureStorageContainer without container name.
 function Test-GetAzureStorageContainerWithoutContainerName
 {
     $containers = Get-AzureStorageContainer; 
-	Assert-True {$containers.Count -ge 1};
-	$container =  $containers | ? {$_.Name -eq $containerName}
-	Assert-NotNull $container;
+    Assert-True {$containers.Count -ge 1};
+    $container =  $containers | ? {$_.Name -eq $containerName}
+    Assert-NotNull $container;
 }
 
 <#
@@ -35,7 +35,7 @@ function Test-GetAzureStorageContainerWithContainerName
 {
     $containers = Get-AzureStorageContainer $containerName; 
     Assert-True {$containers.Count -eq 1};
-	Assert-AreEqual $containers[0].Name $containerName;
+    Assert-AreEqual $containers[0].Name $containerName;
 }
 
 <#
@@ -46,7 +46,7 @@ function Test-GetAzureStorageContainerWithPrefix
 {
     $containers = Get-AzureStorageContainer -Prefix $containerPrefix; 
     Assert-True {$containers.Count -ge 1};
-	$containers | % {Assert-True {$_.Name.StartsWith($containerPrefix)}}
+    $containers | % {Assert-True {$_.Name.StartsWith($containerPrefix)}}
 }
 
 <#
