@@ -47,6 +47,8 @@ function Assert-Throws
       return $true;
     }
   }
+
+  throw "No exception occured";
 }
 
 ###################

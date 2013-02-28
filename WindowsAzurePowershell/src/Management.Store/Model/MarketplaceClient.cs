@@ -75,10 +75,13 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
                     IEnumerable<Plan> validPlans = offer.Plans.Where<Plan>(p => p.CountryCode == countryCode);
                     IEnumerable<string> offerLocations = offer.Categories.Select<Category, string>(c => c.Name)
                         .Intersect<string>(SubscriptionLocations);
-                    result.Add(new WindowsAzureOffer(
-                    offer,
-                    validPlans,
-                    offerLocations.Count() == 0 ? SubscriptionLocations : offerLocations));
+                    if (validPlans.Count() > 0)
+                    {
+                        result.Add(new WindowsAzureOffer(
+                            offer,
+                            validPlans,
+                            offerLocations.Count() == 0 ? SubscriptionLocations : offerLocations));
+                    }
                 }
 
                 nextOfferLink = offerResponse.GetContinuation();
