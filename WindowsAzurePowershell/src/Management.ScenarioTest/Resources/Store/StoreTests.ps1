@@ -349,3 +349,45 @@ function Test-NewAzureStoreAddOnWithInvalidPromoCode
 	# Test
 	Assert-Throws { New-AzureStoreAddOn addonname sendgrid_azure free "West US" invalidpromo } $msg
 }
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with valid promo code.
+#>
+function Test-NewAzureStoreAddOnWithValidPromoCode
+{
+	# Setup
+	$name = Get-AddOnName
+	$addonId = "sendgrid_azure"
+
+	# Test
+	New-AzureStoreAddOn $name $addonId bronze $(Get-DefaultAddOnLocation $addonId) $promotionCode
+
+	# Assert
+	$actual = Get-AzureStoreAddOn $name
+	Assert-NotNull $actual
+	Assert-AreEqual $name $actual.Name
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with user choice No and expects to not purchase.
+#>
+function Test-NewAzureStoreAddOnWithNo
+{
+	# Test
+	$actual = New-AddOn
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn confirmation message
+#>
+function Test-NewAzureStoreAddOnConfirmationMessage
+{
+	# Test
+	New-AddOn
+}

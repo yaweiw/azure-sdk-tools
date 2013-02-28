@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
+    using Microsoft.WindowsAzure.Management.Store.Model;
     using Microsoft.WindowsAzure.Management.Store.Properties;
 
     [TestClass]
@@ -28,7 +29,15 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
 
         public static string StoreSubscriptionName = "Store";
 
+        public static string PromotionCodeVariable = "promotionCode";
+
         private CustomHost customHost;
+
+        private List<int> expectedDefaultChoices;
+        private List<int> promptChoices;
+        private List<string> expectedPromptMessages;
+        private List<string> expectedPromptCaptions;
+        private PromptAnswer defaultAnswer;
 
         public StoreTests()
             : base(
@@ -43,26 +52,16 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         {
             base.TestSetup();
             customHost = new CustomHost();
+            expectedDefaultChoices = new List<int>();
+            promptChoices = new List<int>();
+            expectedPromptMessages = new List<string>();
+            expectedPromptCaptions = new List<string>();
+            defaultAnswer = PromptAnswer.Yes;
             powershell.ImportCredentials(StoreCredentialFile);
             powershell.AddScript(string.Format("Set-AzureSubscription -Default {0}", StoreSubscriptionName));
         }
 
         private void PromptSetup()
-        {
-            PromptSetup(
-                new List<int>(),
-                new List<int>(),
-                new List<string>(),
-                new List<string>(),
-                PromptAnswer.Yes);
-        }
-
-        private void PromptSetup(
-            List<int> expectedDefaultChoices,
-            List<int> promptChoices,
-            List<string> expectedPromptMessages,
-            List<string> expectedPromptCaptions,
-            PromptAnswer defaultAnswer)
         {
             customHost.CustomUI.PromptChoices = promptChoices;
             customHost.CustomUI.ExpectedDefaultChoices = expectedDefaultChoices;
@@ -71,9 +70,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
             customHost.CustomUI.DefaultAnswer = defaultAnswer;
             powershell.Runspace = RunspaceFactory.CreateRunspace(customHost);
             powershell.Runspace.Open();
-            powershell.SetVariable(
-                "freeAddOnIds",
-                new string[] { "activecloudmonitoring", "sendgrid_azure" });
+            powershell.SetVariable(PromotionCodeVariable, credentials.PowerShellVariables[PromotionCodeVariable]);
+            powershell.SetVariable("freeAddOnIds", new string[] { "activecloudmonitoring", "sendgrid_azure" });
         }
 
         #region Get-AzureStoreAddOn Scenario Tests
@@ -261,7 +259,9 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         public void TestNewAzureStoreAddOnSuccessfull()
         {
             PromptSetup();
-            RunPowerShellTest("Test-NewAzureStoreAddOnSuccessfull");
+            RunPowerShellTest(
+                "Test-NewAzureStoreAddOnSuccessfull",
+                "AddOn-TestCleanup");
         }
 
         [TestMethod]
@@ -315,10 +315,40 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        public void TestNewAzureStoreAddOnWithInvalidPromoCode()
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1097 is fixed
+        public void TestNewAzureStoreAddOnWithValidPromoCode()
         {
             PromptSetup();
-            RunPowerShellTest("Test-NewAzureStoreAddOnWithInvalidPromoCode");
+            RunPowerShellTest(
+                "Test-NewAzureStoreAddOnWithValidPromoCode",
+                "AddOn-TestCleanup");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnWithNo()
+        {
+            defaultAnswer = PromptAnswer.No;
+            PromptSetup();
+            RunPowerShellTest("Test-NewAzureStoreAddOnWithNo");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestNewAzureStoreAddOnConfirmationMessage()
+        {
+            expectedDefaultChoices.Add(PowerShellCustomConfirmation.No);
+            expectedPromptCaptions.Add(Resources.NewAddOnConformation);
+            expectedPromptMessages.Add(string.Format(
+                Resources.NewNonMicrosoftAddOnMessage,
+                string.Format(Resources.AddOnUrl, "f131eadb-7aa3-401a-a2fb-1c7e71f45c3c"),
+                "free",
+                "Sendgrid"));
+            PromptSetup();
+            RunPowerShellTest(
+                "Test-NewAzureStoreAddOnConfirmationMessage");
         }
 
         #endregion
