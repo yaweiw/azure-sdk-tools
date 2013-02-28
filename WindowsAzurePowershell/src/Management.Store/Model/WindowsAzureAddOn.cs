@@ -19,11 +19,11 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
 
     public class WindowsAzureAddOn
     {
-        const string DataSetType = "DataMarket";
+        public const string DataSetType = "DataMarket";
 
-        const string DataType = "Data";
+        public const string DataType = "Data";
 
-        const string AppServiceType = "App Service";
+        public const string AppServiceType = "App Service";
 
         public string Type { get; set; }
 
