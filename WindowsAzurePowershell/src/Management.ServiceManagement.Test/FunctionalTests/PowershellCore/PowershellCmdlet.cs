@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Threading;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
@@ -83,6 +84,40 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     var exceptions = powershell.Streams.Error.Select(error => new Exception(error.Exception.Message)).ToList();
                     throw new AggregateException(exceptions);
                 }
+            }
+            runspace.Close();
+
+            return result;  
+        }
+
+        public PSInvocationState RunAndStop(int ms)
+        {
+            PSInvocationState result = 0;
+            runspace.Open();
+            using (var powershell = PowerShell.Create())
+            {
+                powershell.Runspace = runspace;
+                powershell.AddCommand(cmdlet.name);
+                if (cmdlet.parameters.Count > 0)
+                {
+                    foreach (var cmdletparam in cmdlet.parameters)
+                    {
+                        if (cmdletparam.value == null)
+                        {
+                            powershell.AddParameter(cmdletparam.name);
+                        }
+                        else
+                        {
+                            powershell.AddParameter(cmdletparam.name, cmdletparam.value);
+                        }
+                    }
+                }
+
+                powershell.BeginInvoke();
+                Thread.Sleep(ms);
+                powershell.Stop();
+
+                result = powershell.InvocationStateInfo.State;
             }
             runspace.Close();
 
