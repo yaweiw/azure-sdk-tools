@@ -123,11 +123,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();
@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected override void EndProcessing()
         {
             string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
-            WriteVerboseWithTimestamp(message);
+            WriteDebugWithTimestamp(message);
 
             base.EndProcessing();
         }

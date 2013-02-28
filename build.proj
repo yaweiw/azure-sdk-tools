@@ -31,6 +31,7 @@
 	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
 	<StoreTestDebug>.\WindowsAzurePowershell\src\Management.Store.Test\bin\Debug\Microsoft.WindowsAzure.Management.Store.Test.dll</StoreTestDebug>
 	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
+	<StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
@@ -230,6 +231,9 @@
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"
+      ContinueOnError="false" />	
+	<Exec
+      Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
       ContinueOnError="false" />
   </Target>
   

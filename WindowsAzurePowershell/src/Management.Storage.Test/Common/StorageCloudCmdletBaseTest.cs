@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.Contract;
     using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;

@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -196,10 +197,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         public void OnImport()
         {
-            System.Management.Automation.PowerShell invoker = null;
+            PowerShell invoker = null;
             invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
             invoker.AddCommand(Resources.NewAlias).AddParameter(Resources.NewAliasName, Resources.GetAzureStorageContainerAclCmdletName).AddParameter(Resources.NewAliasValue, Resources.GetAzureStorageContainerCmdletName);
-            System.Collections.ObjectModel.Collection<PSObject> psObjects = invoker.Invoke();
+            invoker.Invoke();
         }
     }
 }
