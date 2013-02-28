@@ -85,12 +85,12 @@ function Test-GetAzureStoreAddOnListAvailableWithInvalidCountryName
 .SYNOPSIS
 Tests using Get-AzureStoreAddOn with empty add-ons.
 #>
-function Test-TestGetAzureStoreAddOnWithNoAddOns
+function Test-GetAzureStoreAddOnWithNoAddOns
 {
 	# Setup
 	$current = Get-AzureStoreAddOn
 
-	if ($current.Count -eq 0)
+	if ($current.Count -ne 0)
 	{
 		Write-Warning "The test can't run because the account is not setup correctly (add-on count should be 0)";
 		exit;
@@ -107,12 +107,12 @@ function Test-TestGetAzureStoreAddOnWithNoAddOns
 .SYNOPSIS
 Tests using Get-AzureStoreAddOn with one add-on.
 #>
-function Test-TestGetAzureStoreAddOnWithOneAddOn
+function Test-GetAzureStoreAddOnWithOneAddOn
 {
 	# Setup
 	$current = Get-AzureStoreAddOn
 
-	if ($current.Count -eq 0)
+	if ($current.Count -ne 0)
 	{
 		Write-Warning "The test can't run because the account is not setup correctly (add-on count should be 0)";
 		exit;
@@ -388,6 +388,113 @@ Tests New-AzureStoreAddOn confirmation message
 #>
 function Test-NewAzureStoreAddOnConfirmationMessage
 {
+	# Setup
+	$name = Get-AddOnName
+	$addonId = "sendgrid_azure"
+	$plan = "free"
+
 	# Test
+	$actual = New-AzureStoreAddOn $name $addonId $plan $(Get-DefaultAddOnLocation $addonId)
+
+	# Assert
+	Assert-True { $actual }
+}
+
+########################################################################### Remove-AzureStoreAddOn Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn happy path.
+#>
+function Test-RemoveAzureStoreAddOnSuccessfull
+{
+	# Setup
 	New-AddOn
+
+	# Test
+	$actual = Remove-AzureStoreAddOn $global:createdAddOns[0] -PassThru
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn with different add-on name casing and expects to remove.
+#>
+function Test-RemoveAzureStoreAddOnWithCasing
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0].ToUpper()
+
+	# Test
+	$actual = Remove-AzureStoreAddOn $name -PassThru
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn with non-existing add-on and expects to throw exception
+#>
+function Test-RemoveAzureStoreAddOnNotExisting
+{
+	# Test
+	Assert-Throws { Remove-AzureStoreAddOn "NotExistingName" }
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn piped from Get-AzureStoreAddOn
+#>
+function Test-RemoveAzureStoreAddOnPipedFromGetAzureAddOn
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+
+	# Test
+	$actual  = Get-AzureStoreAddOn $name | Remove-AzureStoreAddOn -PassThru
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn piped from Get-AzureStoreAddOn with multiple add-ons
+#>
+function Test-RemoveAzureStoreAddOnMultiplePipedFromGetAzureAddOn
+{
+	# Setup
+	New-AddOn 3
+	$addons = @()
+	foreach ($name in $global:createdAddOns)
+	{
+		$addons += Get-AzureStoreAddOn $name
+	}
+
+	# Test
+	$actual = $addons | Remove-AzureStoreAddOn -PassThru
+
+	# Assert
+	Assert-True { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests Remove-AzureStoreAddOn with No and expects not to purchase.
+#>
+function Test-RemoveAzureStoreAddOnWithNo
+{
+	# Setup
+	New-AddOn
+
+	# Test
+	$actual = Remove-AzureStoreAddOn $global:createdAddOns[0] -PassThru
+
+	# Assert
+	Assert-False { $actual }
 }
