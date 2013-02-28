@@ -40,10 +40,11 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
         private string downloadDirectoryPath = null;
         private Dictionary<string, string> environment = new Dictionary<string, string>();
-        private Dictionary<string, string> powerShellVariables = new Dictionary<string, string>();
+        public Dictionary<string, string> PowerShellVariables { get; private set; }
 
         public TestCredentialHelper(string downloadPath)
         {
+            PowerShellVariables = new Dictionary<string, string>();
             this.downloadDirectoryPath = downloadPath;
             Process currentProcess = Process.GetCurrentProcess();
             StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
@@ -79,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
             Assert.IsTrue(File.Exists(credentialFile), string.Format("Did not download file {0}", credentialFile));
             powerShell.ImportCredentials(credentialFile);
             foreach (string key in this.environment.Keys) powerShell.AddEnvironmentVariable(key, environment[key]);
-            foreach (string key in this.powerShellVariables.Keys) powerShell.SetVariable(key, powerShellVariables[key]);
+            foreach (string key in this.PowerShellVariables.Keys) powerShell.SetVariable(key, PowerShellVariables[key]);
         }
 
         public static void DownloadTestCredentials(string testEnvironment, string downloadDirectoryPath, string blobUri, string storageAccount, string storageKey)
@@ -106,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
         public void AddPowerShellVariables(string powerShellVariablePath)
         {
-            LoadYmlSettingsFile(powerShellVariablePath, (x, y) => this.powerShellVariables[x] = y);
+            LoadYmlSettingsFile(powerShellVariablePath, (x, y) => this.PowerShellVariables[x] = y);
         }
 
         private static void LoadYmlSettingsFile(string filePath, Action<string, string> settingAction)

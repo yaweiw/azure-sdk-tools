@@ -171,7 +171,7 @@ function New-AddOn
 		$name = Get-AddOnName;
 		$addon = Get-FreeAddOn
 		$created = New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn)
-		$global:createdAddOns += $name;
+		if ($created) { $global:createdAddOns += $name; }
 	}
 
 	return $created
