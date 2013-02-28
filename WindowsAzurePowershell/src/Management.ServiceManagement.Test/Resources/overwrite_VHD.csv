@@ -1,2 +1,2 @@
-Size,vhdName,vhdBlobName
-50MB,dynamic_50.vhd,vhdstore/$guid$.vhd
+Size,vhdName,vhdBlobName,md5hash
+50MB,dynamic_50.vhd,vhdstore/$guid$.vhd,Cc4UKKQx+ggpvIqx4Y2WxQ==
