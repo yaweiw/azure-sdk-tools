@@ -17,12 +17,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 {
     public class NewAzureStorageAccountCmdletInfo : CmdletsInfo
     {
-        public NewAzureStorageAccountCmdletInfo(string storageAccountName, string location)
+        public NewAzureStorageAccountCmdletInfo(string storageAccountName, string location, string affinity, string label, string description)
         {
             this.cmdletName = Utilities.NewAzureStorageAccountCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("StorageAccountName", storageAccountName));
-            this.cmdletParams.Add(new CmdletParam("Location", location));
+            if (location != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("Location", location));
+            }
+            if (affinity != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("AffinityGroup", affinity));
+            }
+            if (label != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("Label", label));
+            }
+            if (description != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("Description", description));
+            }
         }
     }
 }
