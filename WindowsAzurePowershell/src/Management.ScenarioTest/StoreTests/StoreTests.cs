@@ -14,12 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
     using Microsoft.WindowsAzure.Management.Store.Model;
+    using System.Linq;
     using Microsoft.WindowsAzure.Management.Store.Properties;
 
     [TestClass]
@@ -129,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestCategory(Category.Store)]
         public void TestGetAzureStoreAddOnWithNoAddOns()
         {
-            RunPowerShellTest("Test-GetAzureStoreAddOnEmpty");
+            RunPowerShellTest("Test-GetAzureStoreAddOnWithNoAddOns");
         }
 
         [TestMethod]
@@ -180,6 +182,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
+        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
         public void TestGetAzureStoreAddOnWithInvalidName()
         {
             RunPowerShellTest("Test-GetAzureStoreAddOnWithInvalidName");
@@ -349,6 +352,72 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
             PromptSetup();
             RunPowerShellTest(
                 "Test-NewAzureStoreAddOnConfirmationMessage");
+        }
+
+        #endregion
+
+        #region Remove-AzureStoreAddOn Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { Remove-AzureStoreAddOn Name }");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnSuccessfull()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnSuccessfull");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnWithCasing()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnWithCasing");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnNotExisting()
+        {
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnNotExisting");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnPipedFromGetAzureAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnPipedFromGetAzureAddOn");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnMultiplePipedFromGetAzureAddOn()
+        {
+            PromptSetup();
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnMultiplePipedFromGetAzureAddOn");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Store)]
+        public void TestRemoveAzureStoreAddOnWithNo()
+        {
+            promptChoices.AddRange(new int[] { PowerShellCustomConfirmation.Yes, PowerShellCustomConfirmation.No });
+            PromptSetup();
+            RunPowerShellTest("Test-RemoveAzureStoreAddOnWithNo");
         }
 
         #endregion
