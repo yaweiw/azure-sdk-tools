@@ -29,7 +29,7 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
-########################################################################### Get-AzureStoreAddOn -ListAvailable Scenario Tests ###########################################################################
+########################################################################### Get-AzureStoreAddOn Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
@@ -234,4 +234,160 @@ function Test-GetAzureStoreAddOnPipedToRemoveAzureAddOn
 	# Assert
 	$actual = Get-AzureStoreAddOn $name
 	Assert-AreEqual 0 $actual.Count
+}
+
+########################################################################### New-AzureStoreAddOn Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn when missing a required parameter and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnMissingRequiredParameter
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn AddOn Plan Location }
+	Assert-Throws { New-AzureStoreAddOn Name Plan Location }
+	Assert-Throws { New-AzureStoreAddOn Name AddOn Location }
+	Assert-Throws { New-AzureStoreAddOn Name AddOn Plan }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid name and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidName
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn "Invalid Name" MicrosoftTranslator 2M-1 "West US" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid location and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidWindowsAzureLocation
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn AddOnName MicrosoftTranslator 2M-1 "Invalid Location" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn happy path.
+#>
+function Test-NewAzureStoreAddOnSuccessfull
+{
+	# Test
+	$created = New-AddOn
+
+	# Assert
+	$name = $global:createdAddOns[0]
+	$actual = Get-AzureStoreAddOn $name
+	Assert-AreEqual $name $actual.Name
+	Assert-True { $created }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using existing add-on name and expects to fail.
+#>
+function Test-NewAzureStoreAddOnWithExistingName
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+	$addon = Get-FreeAddOn
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $name $addon.AddOn $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using non-existing add-on and expects to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidAddOn
+{
+	# Setup
+	New-AddOn
+	$name = $global:createdAddOns[0]
+	$addon = Get-FreeAddOn
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $name "Invalid AddOn" $addon.Plan $(Get-DefaultAddOnLocation $addon.AddOn) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn using an invalid plan
+#>
+function Test-NewAzureStoreAddOnWithInvalidPlan
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn $(Get-AddOnName) MicrosoftTranslator free $(Get-DefaultAddOnLocation MicrosoftTranslator) }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid location and expects it to fail.
+#>
+function Test-NewAzureStoreAddOnWithInvalidLocation
+{
+	# Test
+	Assert-Throws { New-AzureStoreAddOn addonname sendgrid_azure free "North Central US" }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with invalid promo code.
+#>
+function Test-NewAzureStoreAddOnWithInvalidPromoCode
+{
+	# Setup
+	$msg = "The REST operation failed with message 'Billing validation for the resource failed with error message: Error: BadUserInput, Description: Promotion Code entered is invalid..' and error code 'BadRequest'"
+
+	# Test
+	Assert-Throws { New-AzureStoreAddOn addonname sendgrid_azure free "West US" invalidpromo } $msg
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with valid promo code.
+#>
+function Test-NewAzureStoreAddOnWithValidPromoCode
+{
+	# Setup
+	$name = Get-AddOnName
+	$addonId = "sendgrid_azure"
+
+	# Test
+	New-AzureStoreAddOn $name $addonId bronze $(Get-DefaultAddOnLocation $addonId) $promotionCode
+
+	# Assert
+	$actual = Get-AzureStoreAddOn $name
+	Assert-NotNull $actual
+	Assert-AreEqual $name $actual.Name
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn with user choice No and expects to not purchase.
+#>
+function Test-NewAzureStoreAddOnWithNo
+{
+	# Test
+	$actual = New-AddOn
+
+	# Assert
+	Assert-False { $actual }
+}
+
+<#
+.SYNOPSIS
+Tests New-AzureStoreAddOn confirmation message
+#>
+function Test-NewAzureStoreAddOnConfirmationMessage
+{
+	# Test
+	New-AddOn
 }
