@@ -6,7 +6,7 @@
     <command:details>
       <command:name>Get-AzureStoreAddOn</command:name>
       <maml:description>
-        <maml:para>Gets the available add-ons is the marketplace and on the current subscription</maml:para>
+        <maml:para>Gets all the available Windows Azure Store Add-Ons for purchasing or the existing add-on instances on the current subscription</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -19,7 +19,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Gets the available add-ons is the marketplace and on the current subscription</maml:para>
+      <maml:para>Gets all the available Windows Azure Store Add-Ons for purchasing or the existing add-on instances on the current subscription</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -27,21 +27,21 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>ListAvailable</maml:name>
           <maml:description>
-            <maml:para>If specified the cmdlet will get available add-ons from the marketplace</maml:para>
+            <maml:para>If specified, the cmdlet will get available Windows Azure Store Add-Ons for purchasing.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
           <maml:name>Country</maml:name>
           <maml:description>
-            <maml:para>If specified only return the Windows Azure Store Add-Ons available in that Country. Default is "US"</maml:para>
+            <maml:para>If specified, only return the Windows Azure Store add-on instances available in that Country. Default is "US"</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>If specified, returns the add-on that matches this name</maml:para>
+            <maml:para>If specified, returns the add-on instance that matches this name</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -51,7 +51,7 @@
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ListAvailable</maml:name>
         <maml:description>
-          <maml:para>If specified the cmdlet will get available add-ons from the marketplace</maml:para>
+          <maml:para>If specified, the cmdlet will return all the available Windows Azure Store Add-Ons for purchasing.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -63,7 +63,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
           <maml:name>Country</maml:name>
           <maml:description>
-            <maml:para>If specified only return the Azure Store Add-Ons available in that Country. Default is "US"</maml:para>
+            <maml:para>If specified, only return the Azure Store add-on instances available in that Country. Default is "US"</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -75,7 +75,7 @@
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>If specified, returns the add-on that matches this name</maml:para>
+            <maml:para>If specified, returns the add-on instance that matches this name</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -122,7 +122,7 @@
     <command:examples>
       <command:example>
         <maml:title>
-          --------------  Get available add-ons in Marketplace --------------
+          --------------  Get available Windows Azure Store Add-Ons for purchasing --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -146,7 +146,7 @@
       </command:example>
       <command:example>
         <maml:title>
-          --------------  Get available Addons in CH--------------
+          -------------- Get available Windows Azure Store Add-Ons in CH --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -170,7 +170,7 @@
       </command:example>
       <command:example>
         <maml:title>
-          --------------  Get all purchased add-ons on current subscription --------------
+          --------------  Get all purchased add-on instances on current subscription --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -178,7 +178,7 @@
         </maml:introduction>
         <dev:code>Get-AzureStoreAddOn</dev:code>
         <dev:remarks>
-          <maml:para>Get all the purchased add-ons on the current subscription</maml:para>
+          <maml:para>Get all the purchased add-on instances on the current subscription</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
@@ -194,7 +194,7 @@
       </command:example>
       <command:example>
         <maml:title>
-          --------------  Get MyAddOn from the purcahsed add-on in current subscription --------------
+          --------------  Get MyAddOn from the purcahsed add-on instance in current subscription --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -223,7 +223,7 @@
     <command:details>
       <command:name>New-AzureStoreAddOn</command:name>
       <maml:description>
-        <maml:para>Purchases a new add-on from marketplace</maml:para>
+        <maml:para>Purchases a new add-on instance from Windows Azure Store</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -236,7 +236,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Purchases a new add-on from marketplace</maml:para>
+      <maml:para>Purchases a new add-on instance from Windows Azure Store</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -244,7 +244,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -265,7 +265,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "4" >
           <maml:name>Location</maml:name>
           <maml:description>
-            <maml:para>The add-on location</maml:para>
+            <maml:para>The add-on instance location</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -282,7 +282,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -303,7 +303,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "4" >
           <maml:name>Location</maml:name>
           <maml:description>
-            <maml:para>The add-on location</maml:para>
+            <maml:para>The add-on instance location</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -352,7 +352,7 @@
     <command:examples>
       <command:example>
         <maml:title>
-          --------------  Purchase an add-on --------------
+          --------------  Purchase an add-on instance --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -376,7 +376,7 @@
       </command:example>
       <command:example>
         <maml:title>
-          --------------  Purchase an add-on with promotion code--------------
+          --------------  Purchase an add-on instance with promotion code--------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -405,7 +405,7 @@
     <command:details>
       <command:name>Set-AzureStoreAddOn</command:name>
       <maml:description>
-        <maml:para>Updates an existing add-on from current subscription</maml:para>
+        <maml:para>Updates an existing add-on instance from current subscription</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -418,7 +418,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Updates an existing add-on from current subscription</maml:para>
+      <maml:para>Updates an existing add-on instance from current subscription</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -426,7 +426,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -457,7 +457,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -520,7 +520,7 @@
     <command:examples>
       <command:example>
         <maml:title>
-          --------------  Update MyAddOn add-on --------------
+          --------------  Update MyAddOn add-on instance --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -544,7 +544,7 @@
       </command:example>
       <command:example>
         <maml:title>
-          --------------  Update an add-on with promotion code--------------
+          --------------  Update an add-on instance with promotion code--------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -573,7 +573,7 @@
     <command:details>
       <command:name>Remove-AzureStoreAddOn</command:name>
       <maml:description>
-        <maml:para>Removes an existing add-on</maml:para>
+        <maml:para>Removes an existing add-on instance</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para />
@@ -586,7 +586,7 @@
     </command:details>
     <maml:description>
       <!--This is the Description section-->
-      <maml:para>Removes an existing add-on</maml:para>
+      <maml:para>Removes an existing add-on instance</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -594,7 +594,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -604,7 +604,7 @@
         <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "1" >
           <maml:name>Name</maml:name>
           <maml:description>
-            <maml:para>The name of the add-on</maml:para>
+            <maml:para>The name of the add-on instance</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -646,7 +646,7 @@
     <command:examples>
       <command:example>
         <maml:title>
-          --------------  Remove MyAddOn add-on --------------
+          --------------  Remove MyAddOn add-on instance --------------
         </maml:title>
         <maml:introduction>
           <maml:para>C:\PS&gt;</maml:para>
@@ -654,7 +654,7 @@
         </maml:introduction>
         <dev:code>Remove-AzureStoreAddOn MyAddOn</dev:code>
         <dev:remarks>
-          <maml:para>Removes MyAddOn add-on from current subscription</maml:para>
+          <maml:para>Removes MyAddOn add-on instance from current subscription</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>
