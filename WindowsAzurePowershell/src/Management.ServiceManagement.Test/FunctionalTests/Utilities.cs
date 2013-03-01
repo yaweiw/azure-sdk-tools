@@ -201,9 +201,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public const string GetModuleCmdletName = "Get-Module";       
         public const string TestAzureNameCmdletName = "Test-AzureName";
-        
-        public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
-        
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
         {
