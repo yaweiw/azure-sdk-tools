@@ -188,9 +188,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageContainer</Name>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageContainer</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageContainer</TypeName>
+        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageContainer</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <ScriptBlock>$_.CloudBlobContainer.ServiceClient.BaseUri</ScriptBlock>
@@ -229,9 +229,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageBlob</Name>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageBlob</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageBlob</TypeName>
+        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageBlob</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -331,9 +331,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageTable</Name>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel.AzureStorageTable</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageTable</TypeName>
+        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel.AzureStorageTable</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
@@ -361,9 +361,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.StorageContext</Name>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel.AzureStorageContext</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.StorageContext</TypeName>
+        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel.AzureStorageContext</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
