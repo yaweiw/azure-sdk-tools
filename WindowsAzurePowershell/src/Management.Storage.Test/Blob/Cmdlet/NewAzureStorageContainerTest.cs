@@ -49,15 +49,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         public void CreateContainerWithInvalidContainerNameTest()
         {
             string name = String.Empty;
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name),
+            string accesslevel = StorageNouns.ContainerAclOff;
+
+            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
 
             name = "a";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name),
+            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
 
             name = "&*(";
-            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name),
+            AssertThrows<ArgumentException>(() => command.CreateAzureContainer(name, accesslevel),
                 String.Format(Resources.InvalidContainerName, name));
         }
 
@@ -66,7 +68,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         {
             AddTestContainers();
             string name = "text";
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name),
+            string accesslevel = StorageNouns.ContainerAclOff;
+
+            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
                 String.Format(Resources.ContainerAlreadyExists, name));
         }
 
@@ -74,15 +78,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         public void CreateContainerSuccessfullyTest()
         {
             string name = String.Empty;
+            string accesslevel = StorageNouns.ContainerAclOff;
 
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
             name = "test";
-            command.CreateAzureContainer(name);
-            AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            AzureStorageContainer container = command.CreateAzureContainer(name, accesslevel);
             Assert.AreEqual("test", container.Name);
 
             ((MockCommandRuntime)command.CommandRuntime).ResetPipelines();
-            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name),
+            AssertThrows<ResourceAlreadyExistException>(() => command.CreateAzureContainer(name, accesslevel),
                 String.Format(Resources.ContainerAlreadyExists, name));
         }
 
