@@ -249,11 +249,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             int interval = 1 * 1000; //in millisecond
 
             BlobTransferOptions opts = new BlobTransferOptions();
-            opts.ThreadCount = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
+            opts.Concurrency = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
+            bool checkMd5 = true;
+
+            if(blob.BlobType == BlobType.PageBlob)
+            {
+                //turn off the md5sum for page blob
+                checkMd5 = false;
+            }
 
             using (BlobTransferManager transferManager = new BlobTransferManager(opts))
             {
-                transferManager.QueueDownload(blob, filePath, OnStart, OnProgress, OnFinish, pr);
+                transferManager.QueueDownload(blob, filePath, checkMd5, OnStart, OnProgress, OnFinish, pr);
 
                 while (!finished)
                 {
