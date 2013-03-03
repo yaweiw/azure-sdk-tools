@@ -14,23 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     /// <summary>
-    /// storage nouns for cmdlet name
+    /// Storage nouns for cmdlet name
     /// </summary>
     public static class StorageNouns
     {
         /// <summary>
-        /// blob cmdlet name
+        /// Blob cmdlet name
         /// </summary>
         public const string Blob = "AzureStorageBlob";
 
         /// <summary>
-        /// blobcontent cmdlet name
+        /// Blobcontent cmdlet name
         /// </summary>
         public const string BlobContent = "AzureStorageBlobContent";
 
@@ -40,12 +35,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string BlobSnapshot = "AzureStorageBlobSnapshot";
 
         /// <summary>
-        /// container cmdlet name
+        /// Container cmdlet name
         /// </summary>
         public const string Container = "AzureStorageContainer";
 
         /// <summary>
-        /// container acl cmdlet name
+        /// Container acl cmdlet name
         /// </summary>
         public const string ContainerAcl = "AzureStorageContainerAcl";
 
@@ -65,33 +60,43 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string ContainerAclContainer = "Container";
 
         /// <summary>
-        /// http protocol
+        /// Http protocol
         /// </summary>
         public const string HTTP = "Http";
 
         /// <summary>
-        /// https protocol
+        /// Https protocol
         /// </summary>
         public const string HTTPS = "Https";
 
         /// <summary>
-        /// queue cmdlet name
+        /// Queue cmdlet name
         /// </summary>
         public const string Queue = "AzureStorageQueue";
 
         /// <summary>
-        /// storage context cmdlet name
+        /// Storage context cmdlet name
         /// </summary>
         public const string StorageContext = "AzureStorageContext";
 
         /// <summary>
-        /// storage account name
+        /// Storage account name
         /// </summary>
         public const string StorageAccountName = "Storage account name";
 
         /// <summary>
-        /// table cmdlet name
+        /// Table cmdlet name
         /// </summary>
         public const string Table = "AzureStorageTable";
+
+        /// <summary>
+        /// Copy azure storage blob
+        /// </summary>
+        public const string CopyBlob = "CopyAzureStorageBlob";
+
+        /// <summary>
+        /// Copy status for azure storage blob
+        /// </summary>
+        public const string CopyBlobStatus = "AzureStorageBlobCopyStatus";
     }
 }

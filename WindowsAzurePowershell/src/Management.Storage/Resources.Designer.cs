@@ -205,6 +205,87 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Blob..
+        /// </summary>
+        internal static string CopyBlobActivity {
+            get {
+                return ResourceManager.GetString("CopyBlobActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.\n Percent: {1}. BytesCopied:{2}. TotalBytes:{3}.
+        /// </summary>
+        internal static string CopyBlobPendingStatus {
+            get {
+                return ResourceManager.GetString("CopyBlobPendingStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;[0]&apos; copy to blob &apos;{1}&apos; in container &apos;{2}&apos; from &apos;{3}&apos;. CopyId &apos;{4}&apos;. Description: &apos;{5}&apos;. CompletionTime: &apos;{6}&apos;.
+        /// </summary>
+        internal static string CopyBlobStatus {
+            get {
+                return ResourceManager.GetString("CopyBlobStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Blob Status Summary..
+        /// </summary>
+        internal static string CopyBlobSummaryActivity {
+            get {
+                return ResourceManager.GetString("CopyBlobSummaryActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total: {0}. Finished: {1}. Active:{2}. Failed: {3}..
+        /// </summary>
+        internal static string CopyBlobSummaryCount {
+            get {
+                return ResourceManager.GetString("CopyBlobSummaryCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully start copy blob &apos;{0}&apos; in container &apos;{1}&apos; to blob &apos;{2}&apos; in container &apos;{3}&apos;..
+        /// </summary>
+        internal static string CopyBlobToBlobSuccessfully {
+            get {
+                return ResourceManager.GetString("CopyBlobToBlobSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CopyId can not be empty..
+        /// </summary>
+        internal static string CopyIdCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("CopyIdCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can not find copy task on specified blob &apos;{0}&apos; in container &apos;{1}&apos;..
+        /// </summary>
+        internal static string CopyTaskNotFound {
+            get {
+                return ResourceManager.GetString("CopyTaskNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully start copy &apos;{0}&apos;  to blob &apos;{1}&apos; in container &apos;{2}&apos;..
+        /// </summary>
+        internal static string CopyUriToBlobSuccessfully {
+            get {
+                return ResourceManager.GetString("CopyUriToBlobSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Storage Account not found in subscription &apos;{0}&apos;. Please set it use &quot;Set-AzureSubscription&quot;..
         /// </summary>
         internal static string CurrentStorageAccountNameNotFound {
@@ -750,6 +831,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string StartUploadFile {
             get {
                 return ResourceManager.GetString("StartUploadFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop the copy task on blob &apos;{0}&apos; in container &apos;{1}&apos; successfully..
+        /// </summary>
+        internal static string StopCopyBlobSuccessfully {
+            get {
+                return ResourceManager.GetString("StopCopyBlobSuccessfully", resourceCulture);
             }
         }
         
