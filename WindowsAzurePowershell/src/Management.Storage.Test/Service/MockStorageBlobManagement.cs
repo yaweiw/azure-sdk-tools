@@ -393,5 +393,26 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         {
             return;
         }
+
+
+        public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext OperationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext OperationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
