@@ -282,15 +282,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             WriteProgress(pr);
             
             BlobTransferOptions opts = new BlobTransferOptions();
-            opts.ThreadCount = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
+            opts.Concurrency = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
             
             //status update interval
             int interval = 1 * 1000; //in millisecond
             
             using (BlobTransferManager transferManager = new BlobTransferManager(opts))
             {
-                transferManager.QueueUpload(blob, blob.BlobType, filePath,
-                    true, OnStart, OnProgress, OnFinish, pr);
+                transferManager.QueueUpload(blob, filePath, OnStart, OnProgress, OnFinish, pr);
 
                 while (!finished)
                 {
