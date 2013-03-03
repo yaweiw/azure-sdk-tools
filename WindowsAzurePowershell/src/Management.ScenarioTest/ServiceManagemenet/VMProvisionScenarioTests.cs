@@ -39,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceManagemenet)]
         [TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,Get-AzureVM,Get-AzureLocation,Import-AzurePublishSettingsFile,Get-AzureSubscription,Set-AzureSubscription)")]
-        public void NewkWindowsAzureQuicVM()
+        public void NewWindowsAzureQuickVM()
         {
             powershell.Invoke();
 
