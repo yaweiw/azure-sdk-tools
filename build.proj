@@ -25,6 +25,7 @@
     <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
+    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
     <AzureRTTestContainer>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</AzureRTTestContainer>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
