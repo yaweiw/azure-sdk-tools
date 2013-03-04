@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 using System.Text;
+using System.Threading;
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     [Cmdlet(VerbsCommon.Get, StorageNouns.CopyBlobStatus, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
-    public class GetAzureStorageBlobCopyStatus : StorageCloudBlobCmdletBase
+    public class GetAzureStorageBlobCopyState : StorageCloudBlobCmdletBase
     {
         /// <summary>
         /// Blob Pipeline parameter set name
@@ -72,7 +73,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public override void ExecuteCmdlet()
         {
             ICloudBlob blob = default(ICloudBlob);
-
             switch (ParameterSetName)
             {
                 case NameParameterSet:
@@ -102,7 +102,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 }
                 else
                 {
-                    WriteCopyStatus(blob);
+                    WriteCopyState(blob);
                 }
             }
         }
@@ -125,25 +125,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
         }
 
-        internal void WriteCopyStatus(ICloudBlob blob)
+        internal void WriteCopyState(ICloudBlob blob)
         {
-            switch (blob.CopyState.Status)
-            {
-                case CopyStatus.Invalid:
-                case CopyStatus.Failed:
-                case CopyStatus.Aborted:
-                    string message = String.Format(Resources.CopyBlobStatus, blob.CopyState.Status.ToString(), blob.Name, blob.Container.Name, blob.CopyState.Source.ToString(),
-                        blob.CopyState.CopyId, blob.CopyState.StatusDescription, blob.CopyState.CompletionTime);
-                    WriteExceptionError(new RuntimeException(message));
-                    break;
-                case CopyStatus.Pending: 
-                    break;
-                case CopyStatus.Success:
-                    WriteObject(blob.CopyState);
-                    break;
-                default:
-                    break;
-            }
+            WriteObject(blob.CopyState);
         }
 
         internal void WriteCopyProgress(ICloudBlob blob, ProgressRecord progress)
@@ -154,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (totalBytes != 0)
             {
-                percent = (int)(bytesCopied / totalBytes);
+                percent = (int)(bytesCopied * 100 / totalBytes);
                 int lowestPercent = 0;
                 int highestPercent = 100;
                 percent = Math.Max(lowestPercent, percent);
@@ -162,10 +146,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 progress.PercentComplete = percent;
             }
 
-            string message = String.Format(Resources.CopyBlobStatus, blob.CopyState.Status.ToString(), blob.Name, blob.Container.Name, blob.CopyState.Source.ToString(),
-                blob.CopyState.CopyId, blob.CopyState.StatusDescription, blob.CopyState.CompletionTime);
-            message = string.Format(Resources.CopyBlobPendingStatus, message, percent, blob.CopyState.BytesCopied, blob.CopyState.TotalBytes);
+            string activity = String.Format(Resources.CopyBlobStatus, blob.CopyState.Status.ToString(), blob.Name, blob.Container.Name, blob.CopyState.Source.ToString());
+            progress.Activity = activity;
+            string message = String.Format(Resources.CopyBlobPendingStatus, percent, blob.CopyState.BytesCopied, blob.CopyState.TotalBytes);
             progress.StatusDescription = message;
+            WriteProgress(progress);
         }
 
         private ICloudBlob GetBlobWithCopyStatus(string containerName, string blobName)
@@ -217,7 +202,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 while (remaindJobs.Count > 0)
                 {
-                    for (int i = taskRecordStartIndex; i <= taskRecordCount; i++)
+                    summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, remaindJobs.Count, failed);
+                    WriteProgress(summaryRecord);
+
+                    for (int i = taskRecordStartIndex; i <= taskRecordCount && !ShouldForceQuit; i++)
                     {
                         ICloudBlob blob = remaindJobs[workerPtr];
                         GetBlobWithCopyStatus(blob);
@@ -226,6 +214,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                         if (blob.CopyState.Status != CopyStatus.Pending)
                         {
+                            WriteCopyState(blob);
                             remaindJobs.RemoveAt(workerPtr);
                         }
                         else
@@ -245,8 +234,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                         }
                     }
 
-                    summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, remaindJobs.Count, failed);
-                    WriteProgress(summaryRecord);
+                    if (ShouldForceQuit)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        //status update interval
+                        int interval = 1 * 1000; //in millisecond
+                        Thread.Sleep(interval);
+                    }
                 }
             }
 

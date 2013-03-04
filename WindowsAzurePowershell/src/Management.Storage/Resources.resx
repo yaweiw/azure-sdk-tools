@@ -413,12 +413,12 @@
     <comment>0 for blob name, 1 for container name</comment>
   </data>
   <data name="CopyBlobPendingStatus" xml:space="preserve">
-    <value>{0}.\n Percent: {1}. BytesCopied:{2}. TotalBytes:{3}</value>
-    <comment>0 for CopyBlob Status. 1 for completed percent. 2 fro bytes copied. 3 for total bytes.</comment>
+    <value>Percent:{0}%. BytesCopied: {1}Bytes. TotalBytes: {2}Bytes.</value>
+    <comment>0 for copied percent, 1 for bytes copied, 2 for total bytes.</comment>
   </data>
   <data name="CopyBlobStatus" xml:space="preserve">
-    <value>'[0]' copy to blob '{1}' in container '{2}' from '{3}'. CopyId '{4}'. Description: '{5}'. CompletionTime: '{6}'</value>
-    <comment>0 for copy status, 1 for destination blob name, 2 for destionation container name, 3 for source uri. 4 for copy id. 5 for copy status description. 6 for completion time.</comment>
+    <value>'{0}' copy to blob '{1}' in container '{2}' from '{3}'.</value>
+    <comment>0 for copy status, 1 for destination blob name, 2 for destionation container name, 3 for source uri.</comment>
   </data>
   <data name="CopyBlobToBlobSuccessfully" xml:space="preserve">
     <value>Successfully start copy blob '{0}' in container '{1}' to blob '{2}' in container '{3}'.</value>
