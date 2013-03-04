@@ -48,10 +48,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         public void OnStartTest()
         {
             ProgressRecord pr = null;
-            command.OnStart(pr);
+            command.OnTaskStart(pr);
             pr = new ProgressRecord(0, "a", "b");
             pr.PercentComplete = 10;
-            command.OnStart(pr);
+            command.OnTaskStart(pr);
             Assert.AreEqual(0, pr.PercentComplete);
         }
 
@@ -59,18 +59,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         public void OnProgressTest()
         {
             ProgressRecord pr = null;
-            command.OnProgress(pr, 0.0, 0.0);
+            command.OnTaskProgress(pr, 0.0, 0.0);
             pr = new ProgressRecord(0, "a", "b");
             pr.PercentComplete = 10;
-            command.OnProgress(pr, 5.6, 12.3);
+            command.OnTaskProgress(pr, 5.6, 12.3);
             Assert.AreEqual(12, pr.PercentComplete);
-            command.OnProgress(pr, 5.6, 12.8);
+            command.OnTaskProgress(pr, 5.6, 12.8);
             Assert.AreEqual(12, pr.PercentComplete);
-            command.OnProgress(pr, 5.6, 112.8);
+            command.OnTaskProgress(pr, 5.6, 112.8);
             Assert.AreEqual(100, pr.PercentComplete);
-            command.OnProgress(pr, 5.6, -112.8);
+            command.OnTaskProgress(pr, 5.6, -112.8);
             Assert.AreEqual(0, pr.PercentComplete);
-            command.OnProgress(pr, 5.6, 5);
+            command.OnTaskProgress(pr, 5.6, 5);
             Assert.AreEqual(5, pr.PercentComplete);
         }
 
@@ -79,14 +79,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         {
             ProgressRecord pr = null;
             ArgumentException e = new ArgumentException("test");
-            command.OnFinish(pr, null);
+            command.OnTaskFinish(pr, null);
             pr = new ProgressRecord(0, "a", "b");
-            command.OnFinish(pr, null);
+            command.OnTaskFinish(pr, null);
             Assert.AreEqual(100, pr.PercentComplete);
-            Assert.AreEqual(String.Format(Resources.DownloadBlobSuccessful, ""), pr.StatusDescription);
-            command.OnFinish(pr, e);
+            Assert.AreEqual(String.Format(Resources.TransmitSuccessfully), pr.StatusDescription);
+            command.OnTaskFinish(pr, e);
             Assert.AreEqual(100, pr.PercentComplete);
-            Assert.AreEqual(String.Format(Resources.DownloadBlobFailed, "", "", "", e.Message), pr.StatusDescription);
+            Assert.AreEqual(String.Format(Resources.TransmitFailed, e.Message), pr.StatusDescription);
         }
 
         [TestMethod]
@@ -280,9 +280,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         internal override void DownloadBlob(ICloudBlob blob, string filePath)
         {
             ProgressRecord pr = new ProgressRecord(0, "a", "b");
-            OnStart(pr);
-            OnProgress(pr, 1, 10.5);
-            OnFinish(pr, null);
+            OnTaskStart(pr);
+            OnTaskProgress(pr, 1, 10.5);
+            OnTaskFinish(pr, null);
             if (Exception)
             {
                 throw new ArgumentException("FakeGetAzureStorageBlobContentCommand");
