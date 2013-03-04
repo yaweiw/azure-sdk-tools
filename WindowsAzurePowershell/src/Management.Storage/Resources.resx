@@ -442,4 +442,11 @@
     <value>Can not find copy task on specified blob '{0}' in container '{1}'.</value>
     <comment>0 for blob name, 1 for container name.</comment>
   </data>
+  <data name="TransmitFailed" xml:space="preserve">
+    <value>Transmit failed. Exception: {0}.</value>
+    <comment>0 for errror message.</comment>
+  </data>
+  <data name="TransmitSuccessfully" xml:space="preserve">
+    <value>Transmit sucessfully.</value>
+  </data>
 </root>

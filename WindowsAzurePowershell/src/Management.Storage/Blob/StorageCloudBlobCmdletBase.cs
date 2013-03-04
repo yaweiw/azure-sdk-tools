@@ -12,17 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Management.Storage
 {
+    using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
 
     /// <summary>
     /// base cmdlet for storage blob/container cmdlet

@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         {
             CloudBlobContainer containerRef =  GetContainerReference(container.Name);
 
-            if (IsContainerExists(containerRef, requestOptions, operationContext))
+            if (DoesContainerExist(containerRef, requestOptions, operationContext))
             {
                 return false;
             }
@@ -279,7 +279,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
         /// <returns>true if the specific container exists, otherwise return false</returns>
-        public bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext)
         {
             if (null == container)
             {
@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         /// <param name="options">blob request option</param>
         /// <param name="operationContext">operation context</param>
         /// <returns>true if the specific blob exists, otherwise return false</returns>
-        public bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
+        public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext)
         {
             CloudBlobContainer container = blob.Container;
 
@@ -394,25 +394,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             return;
         }
 
-
-        public bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext OperationContext)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext OperationContext)
-        {
-            throw new NotImplementedException();
-        }
-
         public void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

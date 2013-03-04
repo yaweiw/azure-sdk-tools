@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
         OutputType(typeof(AzureStorageBlob))]
-    public class GetAzureStorageBlobContentCommand : StorageCloudBlobCmdletBase
+    public class GetAzureStorageBlobContentCommand : StorageDataMovementCmdletBase
     {
         /// <summary>
         /// manually set the name parameter
@@ -99,18 +99,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private AzureToFileSystemFileNameResolver fileNameResolver;
 
         /// <summary>
-        /// Amount of concurrent async tasks to run per available core.
-        /// </summary>
-        [Alias("Concurrent")]
-        [Parameter(HelpMessage = "Amount of concurrent async tasks to run per available core.")]
-        public int ConcurrentCount
-        {
-            get { return AsyncTasksPerCodeMultiplier; }
-            set { AsyncTasksPerCodeMultiplier = value; }
-        }
-        private int AsyncTasksPerCodeMultiplier = 8;
-
-        /// <summary>
         /// Initializes a new instance of the GetAzureStorageBlobContentCommand class.
         /// </summary>
         public GetAzureStorageBlobContentCommand()
@@ -128,91 +116,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
         }
 
-        /// <summary>
-        /// on download start
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal virtual void OnStart(object progress)
-        {
-            ProgressRecord pr = progress as ProgressRecord;
-
-            if (null != pr)
-            {
-                pr.PercentComplete = 0;
-            }
-        }
-
-        /// <summary>
-        /// on downloading 
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="speed">download speed</param>
-        /// <param name="percent">download percent</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal virtual void OnProgress(object progress, double speed, double percent)
-        {
-            ProgressRecord pr = progress as ProgressRecord;
-
-            if (null == pr)
-            {
-                return;
-            }
-            
-            int intPercent = (int)percent;
-            
-            if (intPercent > 100)
-            {
-                intPercent = 100;
-            }
-            else if(intPercent < 0)
-            {
-                intPercent = 0;
-            }
-            
-            pr.PercentComplete = intPercent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, intPercent, speed);
-        }
-
-        /// <summary>
-        /// whether the download progress finished
-        /// </summary>
-        private bool finished = false;
-
-        /// <summary>
-        /// exception thrown during downloading
-        /// </summary>
-        private Exception downloadException = null;
-
-        /// <summary>
-        /// on downloading finish
-        /// </summary>
-        /// <param name="progress">progress information</param>
-        /// <param name="e">run time exception</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal virtual void OnFinish(object progress, Exception e)
-        {
-            finished = true;
-
-            ProgressRecord pr = progress as ProgressRecord;
-            
-            if (null == pr)
-            {
-                return;
-            }
-            
-            pr.PercentComplete = 100;
-            downloadException = e;
-
-            if (null == e)
-            {
-                pr.StatusDescription = String.Format(Resources.DownloadBlobSuccessful, BlobName);
-            }
-            else
-            {
-                pr.StatusDescription = String.Format(Resources.DownloadBlobFailed, BlobName, ContainerName, FileName, e.Message);
-            }
-        }
+        
 
         /// <summary>
         /// confirm the overwrite operation
@@ -238,22 +142,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void DownloadBlob(ICloudBlob blob, string filePath)
         {
+            bool checkMd5 = true;
+
             int id = 0;
             string activity = String.Format(Resources.ReceiveAzureBlobActivity, blob.Name, filePath);
             string status = Resources.PrepareDownloadingBlob;
             ProgressRecord pr = new ProgressRecord(id, activity, status);
-
-            finished = false;
-            pr.PercentComplete = 0;
-            pr.StatusDescription = status;
-            WriteProgress(pr);
-
-            //status update interval
-            int interval = 1 * 1000; //in millisecond
-
-            BlobTransferOptions opts = new BlobTransferOptions();
-            opts.Concurrency = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
-            bool checkMd5 = true;
 
             if(blob.BlobType == BlobType.PageBlob)
             {
@@ -261,30 +155,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 checkMd5 = false;
             }
 
-            using (BlobTransferManager transferManager = new BlobTransferManager(opts))
+            Action<BlobTransferManager> taskAction = delegate(BlobTransferManager transferManager)
             {
-                transferManager.QueueDownload(blob, filePath, checkMd5, OnStart, OnProgress, OnFinish, pr);
+                transferManager.QueueDownload(blob, filePath, checkMd5, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
+            };
 
-                while (!finished)
-                {
-                    WriteProgress(pr);
-                    System.Threading.Thread.Sleep(interval);
-
-                    if (ShouldForceQuit)
-                    {
-                        //can't output verbose log for this operation since the Output stream is already stopped.
-                        transferManager.CancelWork();
-                        break;
-                    }
-                }
-                
-                transferManager.WaitForCompletion();
-
-                if (downloadException != null)
-                {
-                    throw downloadException;
-                }
-            }
+            StartSyncTaskInTransferManager(taskAction);
         }
 
         /// <summary>
@@ -387,6 +263,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw;
             }
 
+            AccessCondition accessCondition = null;
+            BlobRequestOptions options = null;
+            Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             return new AzureStorageBlob(blob);
         }
 
