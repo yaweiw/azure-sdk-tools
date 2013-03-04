@@ -24,9 +24,50 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             this.cmdletName = Utilities.AddAzureProvisioningConfigCmdletName;
 
-            this.cmdletParams.Add(new CmdletParam(provConfig.OS.ToString(), null));
-            this.cmdletParams.Add(new CmdletParam("Password", provConfig.Password));
             this.cmdletParams.Add(new CmdletParam("VM", provConfig.Vm));
+
+            this.cmdletParams.Add(new CmdletParam(provConfig.OS.ToString()));
+            
+
+            this.cmdletParams.Add(new CmdletParam("Password", provConfig.Password));
+
+            if (provConfig.LinuxUser != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("LinuxUser", provConfig.LinuxUser));
+            }
+
+            if (provConfig.Option != null && provConfig.Option == "WindowsDomain")
+            {
+                this.cmdletParams.Add(new CmdletParam("WindowsDomain"));
+            }
+            if (provConfig.Domain != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("Domain", provConfig.Domain));
+            }
+            if (provConfig.JoinDomain != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("JoinDomain", provConfig.JoinDomain));
+            }
+            if (provConfig.DomainUserName != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("DomainUserName", provConfig.DomainUserName));
+            }
+            if (provConfig.DomainPassword != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("DomainPassword", provConfig.DomainPassword));
+            }
+
+            if (provConfig.Reset)
+            {
+                this.cmdletParams.Add(new CmdletParam("ResetPasswordInFirstLogon"));
+            }
+
+
+            if (provConfig.Certs != null && provConfig.Certs.Count != 0)
+            {
+                this.cmdletParams.Add(new CmdletParam("Certificates", provConfig.Certs));
+            }
+
         }
     }
 }

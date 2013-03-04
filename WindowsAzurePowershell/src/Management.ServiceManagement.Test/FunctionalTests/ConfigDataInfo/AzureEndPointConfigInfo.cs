@@ -33,6 +33,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.Protocol = protocol;
             this.ExternalPort = externalPort;
             this.EndpointName = endpointName;
+            this.ProbeProtocol = protocol;
         }
 
         public AzureEndPointConfigInfo(ProtocolInfo protocol, int internalPort, 
