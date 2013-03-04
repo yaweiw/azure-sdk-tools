@@ -91,6 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             CloudBlobContainer container = Channel.GetContainerReference(name);
 
             if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
+
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }

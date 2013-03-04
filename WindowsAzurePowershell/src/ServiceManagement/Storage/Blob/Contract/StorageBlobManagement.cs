@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         {
             try
             {
-                ICloudBlob blob = container.GetBlobReferenceFromServer(blobName, accessCondition, options, operationContext);
+                ICloudBlob blob = container.GetBlobReferenceFromServer(blobName, null, null, null);
                 return blob;
             }
             catch(StorageException e)
@@ -250,6 +250,12 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             blob.SetMetadata(accessCondition, options, operationContext);
+        }
+
+
+        public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            blob.AbortCopy(copyId, accessCondition, options, operationContext);
         }
     }
 }

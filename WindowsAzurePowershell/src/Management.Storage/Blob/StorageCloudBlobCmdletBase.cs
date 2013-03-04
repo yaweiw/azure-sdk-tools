@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -116,6 +117,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return Channel;
         }
 
+        protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
+        {
+            return new StorageBlobManagement(account.CreateCloudBlobClient());
+        }
+
         /// <summary>
         /// whether the specified blob is a snapshot
         /// </summary>
@@ -124,6 +130,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         internal bool IsSnapshot(ICloudBlob blob)
         {
             return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
+        }
+
+        internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
+        {
+            if (channel == null)
+            {
+                channel = Channel;
+            }
+
+            AccessCondition accessCondition = null;
+            BlobRequestOptions options = null;
+            channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
+            AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
+            WriteObjectWithStorageContext(azureBlob);
         }
     }
 }

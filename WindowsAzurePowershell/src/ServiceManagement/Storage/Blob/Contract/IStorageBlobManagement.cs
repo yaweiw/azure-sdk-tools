@@ -164,5 +164,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
 }

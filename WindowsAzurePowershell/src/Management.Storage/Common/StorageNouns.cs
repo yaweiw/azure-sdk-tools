@@ -88,5 +88,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// Table cmdlet name
         /// </summary>
         public const string Table = "AzureStorageTable";
+
+        /// <summary>
+        /// Copy azure storage blob
+        /// </summary>
+        public const string CopyBlob = "CopyAzureStorageBlob";
+
+        /// <summary>
+        /// Copy status for azure storage blob
+        /// </summary>
+        public const string CopyBlobStatus = "AzureStorageBlobCopyState";
     }
 }
