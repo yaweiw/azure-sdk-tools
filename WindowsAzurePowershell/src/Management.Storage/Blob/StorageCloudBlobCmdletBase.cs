@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -47,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             ValidatePipelineCloudBlobContainer(blob.Container);
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsBlobExists(blob, requestOptions, OperationContext))
+            if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
             }
@@ -71,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
             }
@@ -103,6 +104,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return Channel;
         }
 
+        protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
+        {
+            return new StorageBlobManagement(account.CreateCloudBlobClient());
+        }
+
         /// <summary>
         /// whether the specified blob is a snapshot
         /// </summary>
@@ -111,6 +117,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         internal bool IsSnapshot(ICloudBlob blob)
         {
             return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
+        }
+
+        internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
+        {
+            if (channel == null)
+            {
+                channel = Channel;
+            }
+
+            AccessCondition accessCondition = null;
+            BlobRequestOptions options = null;
+            channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
+            AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
+            WriteObjectWithStorageContext(azureBlob);
         }
     }
 }

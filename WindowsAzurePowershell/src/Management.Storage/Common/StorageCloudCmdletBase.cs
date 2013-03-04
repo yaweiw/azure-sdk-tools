@@ -229,16 +229,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// write error detials for storageexception
-        /// </summary>
-        /// <param name="exception">StorageException from storage client</param>
-        protected void WriteErrorDetails(StorageException exception)
-        {
-            exception = exception.RepackStorageException();
-            WriteExceptionError(exception);
-        }
-
-        /// <summary>
         /// write error with category and identifier
         /// </summary>
         /// <param name="e">an exception object</param>
@@ -262,8 +252,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else if (e is StorageException)
             {
-                WriteErrorDetails((StorageException)e);
-                return;
+                e = ((StorageException) e).RepackStorageException();
             }
 
             WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
