@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         }
 
         [TestMethod]
-        public void GetCloudBlobContainerByNameWithNoExistsContianerTest()
+        public void GetCloudBlobContainerByNameWithNoExistsContainerTest()
         {
             string name = "test";
             AssertThrows<ArgumentException>(() => command.GetCloudBlobContainerByName(name),

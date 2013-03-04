@@ -353,10 +353,10 @@
     <comment>0 for blob name, 1 for snapshot time </comment>
   </data>
   <data name="ConfirmRemoveBlobWithSnapshot" xml:space="preserve">
-    <value>The blob '{0}' in container '{1}' has snapshot. Are you sure to remove blob and its snapshots?</value>
+    <value>The blob '{0}' in container '{1}' has snapshots. Are you sure to remove blob and its snapshots?</value>
     <comment>0 for blob name, 1 for container name</comment>
   </data>
-  <data name="RemoveBlobCanncelled" xml:space="preserve">
+  <data name="RemoveBlobCancelled" xml:space="preserve">
     <value>The remove operation of  blob '{0}' in container '{1}' is cancelled.</value>
     <comment>0 for blob name, 1 for container name</comment>
   </data>
