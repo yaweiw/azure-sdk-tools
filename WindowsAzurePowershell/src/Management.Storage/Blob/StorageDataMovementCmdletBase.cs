@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
             BlobTransferOptions opts = new BlobTransferOptions();
             opts.Concurrency = concurrentTaskCount;
-            BlobTransferManager transferManager = new BlobTransferManager(opts);
+            transferManager = new BlobTransferManager(opts);
             
             base.BeginProcessing();
         }
