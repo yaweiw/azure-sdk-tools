@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The blob &apos;{0}&apos; in container &apos;{1}&apos; has snapshot. Are you sure to remove blob and its snapshots?.
+        ///   Looks up a localized string similar to The blob &apos;{0}&apos; in container &apos;{1}&apos; has snapshots. Are you sure to remove blob and its snapshots?.
         /// </summary>
         internal static string ConfirmRemoveBlobWithSnapshot {
             get {
@@ -576,9 +576,9 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         /// <summary>
         ///   Looks up a localized string similar to The remove operation of  blob &apos;{0}&apos; in container &apos;{1}&apos; is cancelled..
         /// </summary>
-        internal static string RemoveBlobCanncelled {
+        internal static string RemoveBlobCancelled {
             get {
-                return ResourceManager.GetString("RemoveBlobCanncelled", resourceCulture);
+                return ResourceManager.GetString("RemoveBlobCancelled", resourceCulture);
             }
         }
         
