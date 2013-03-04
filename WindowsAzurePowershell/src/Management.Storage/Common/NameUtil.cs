@@ -27,6 +27,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     internal class NameUtil
     {
         /// <summary>
+        /// Max file length in windows
+        /// </summary>
+        public const int WindowsMaxFileLength = 256;
+
+        /// <summary>
         /// is valid container name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
         /// </summary>
         /// <param name="containerName">container name</param>
@@ -171,9 +176,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public static bool IsValidFileName(string fileName)
         {
             //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
-            int maxFileLength = 256;
 
-            if (string.IsNullOrEmpty(fileName) || fileName.Length > maxFileLength)
+            if (string.IsNullOrEmpty(fileName) || fileName.Length > WindowsMaxFileLength)
             {
                 return false;
             }
