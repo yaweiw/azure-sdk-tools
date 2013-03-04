@@ -92,6 +92,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool overwrite;
 
+        private AzureToFileSystemFileNameResolver fileNameResolver;
+
         /// <summary>
         /// Amount of concurrent async tasks to run per available core.
         /// </summary>
@@ -427,7 +429,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (string.IsNullOrEmpty(fileName) || Directory.Exists(filePath))
             {
-                fileName = NameUtil.ConvertBlobNameToFileName(blobName, snapshotTime);
+                fileName = fileNameResolver.ResolveFileName(blobName, snapshotTime);
                 filePath = Path.Combine(filePath, fileName);
             }
 
@@ -483,6 +485,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 WriteObjectWithStorageContext(azureBlob);
             }
+        }
+
+        protected override void BeginProcessing()
+        {
+            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
+            base.BeginProcessing();
         }
     }
 }
