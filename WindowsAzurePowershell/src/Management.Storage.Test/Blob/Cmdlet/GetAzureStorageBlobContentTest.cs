@@ -188,8 +188,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             bloburi = "http://127.0.0.1/account/test/blob*+";
             fileName = string.Empty;
             blockBlob = new CloudBlockBlob(new Uri(bloburi));
-            AssertThrows<ArgumentException>(() => command.GetBlobContent(blockBlob, fileName, false),
-                String.Format(Resources.InvalidFileName, "blob*+"));
+            command.GetBlobContent(blockBlob, fileName, true);
         }
 
         [TestMethod]
