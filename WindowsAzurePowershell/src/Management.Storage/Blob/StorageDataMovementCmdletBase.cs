@@ -144,6 +144,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             base.BeginProcessing();
         }
 
+        protected override void EndProcessing()
+        {
+            if (transferManager != null)
+            {
+                transferManager.WaitForCompletion();
+                transferManager.Dispose();
+            }
+
+            base.EndProcessing();
+        }
+
         protected void StartSyncTaskInTransferManager(Action<BlobTransferManager> taskAction)
         {
             finished = false;
