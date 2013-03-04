@@ -97,6 +97,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Copy status for azure storage blob
         /// </summary>
-        public const string CopyBlobStatus = "AzureStorageBlobCopyStatus";
+        public const string CopyBlobStatus = "AzureStorageBlobCopyState";
     }
 }

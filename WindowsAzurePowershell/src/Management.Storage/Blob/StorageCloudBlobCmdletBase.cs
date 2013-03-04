@@ -104,6 +104,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return Channel;
         }
 
+        protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
+        {
+            return new StorageBlobManagement(account.CreateCloudBlobClient());
+        }
+
         /// <summary>
         /// whether the specified blob is a snapshot
         /// </summary>
@@ -114,11 +119,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
         }
 
-        internal void WriteICloudBlobWithProperties(ICloudBlob blob)
-        { 
+        internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
+        {
+            if (channel == null)
+            {
+                channel = Channel;
+            }
+
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
-            Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
+            channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
             WriteObjectWithStorageContext(azureBlob);
         }

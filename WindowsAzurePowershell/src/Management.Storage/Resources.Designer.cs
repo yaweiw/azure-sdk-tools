@@ -214,7 +214,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}.\n Percent: {1}. BytesCopied:{2}. TotalBytes:{3}.
+        ///   Looks up a localized string similar to Percent:{0}%. BytesCopied: {1}Bytes. TotalBytes: {2}Bytes..
         /// </summary>
         internal static string CopyBlobPendingStatus {
             get {
@@ -223,7 +223,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;[0]&apos; copy to blob &apos;{1}&apos; in container &apos;{2}&apos; from &apos;{3}&apos;. CopyId &apos;{4}&apos;. Description: &apos;{5}&apos;. CompletionTime: &apos;{6}&apos;.
+        ///   Looks up a localized string similar to &apos;{0}&apos; copy to blob &apos;{1}&apos; in container &apos;{2}&apos; from &apos;{3}&apos;..
         /// </summary>
         internal static string CopyBlobStatus {
             get {
