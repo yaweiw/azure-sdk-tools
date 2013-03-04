@@ -121,6 +121,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public GetAzureStorageBlobContentCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
+            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
         }
 
         /// <summary>
@@ -485,12 +486,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 WriteObjectWithStorageContext(azureBlob);
             }
-        }
-
-        protected override void BeginProcessing()
-        {
-            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
-            base.BeginProcessing();
         }
     }
 }
