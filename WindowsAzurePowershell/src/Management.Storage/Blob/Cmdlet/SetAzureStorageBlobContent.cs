@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 transferManager.QueueUpload(blob, filePath, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
             };
 
-            StartSyncTaskInTransferManager(taskAction);
+            StartSyncTaskInTransferManager(taskAction, pr);
         }
 
         /// <summary>
