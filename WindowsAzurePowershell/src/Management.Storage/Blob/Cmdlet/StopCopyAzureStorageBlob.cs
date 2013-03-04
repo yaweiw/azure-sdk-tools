@@ -22,12 +22,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private const string BlobPipelineParameterSet = "BlobPipeline";
 
         /// <summary>
-        /// container pipeline paremeter set name
+        /// Container pipeline paremeter set name
         /// </summary>
         private const string ContainerPipelineParmeterSet = "ContainerPipeline";
 
         /// <summary>
-        /// blob name and container name parameter set
+        /// Blob name and container name parameter set
         /// </summary>
         private const string NameParameterSet = "NamePipeline";
 

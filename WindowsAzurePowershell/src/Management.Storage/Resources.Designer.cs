@@ -880,6 +880,24 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transmit failed. Exception: {0}..
+        /// </summary>
+        internal static string TransmitFailed {
+            get {
+                return ResourceManager.GetString("TransmitFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transmit sucessfully..
+        /// </summary>
+        internal static string TransmitSuccessfully {
+            get {
+                return ResourceManager.GetString("TransmitSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown blob..
         /// </summary>
         internal static string UnknownBlob {

@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     /// </summary>
     [Cmdlet(VerbsCommon.Set, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
         OutputType(typeof(AzureStorageBlob))]
-    public class SetAzureBlobContentCommand : StorageCloudBlobCmdletBase
+    public class SetAzureBlobContentCommand : StorageDataMovementCmdletBase
     {
         /// <summary>
         /// default parameter set name
@@ -116,18 +116,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             set { overwrite = value; }
         }
         private bool overwrite;
-
-        /// <summary>
-        /// Amount of concurrent async tasks to run per available core.
-        /// </summary>
-        [Alias("Concurrent")]
-        [Parameter(HelpMessage = "Amount of concurrent async tasks to run per available core.")]
-        public int ConcurrentCount
-        {
-            get { return AsyncTasksPerCodeMultiplier; }
-            set { AsyncTasksPerCodeMultiplier = value; }
-        }
-        private int AsyncTasksPerCodeMultiplier = 8;
 
         [Parameter(HelpMessage = "Blob Properties", Mandatory = false)]
         public Hashtable Properties
@@ -274,42 +262,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             string status = Resources.PrepareUploadingBlob;
             ProgressRecord pr = new ProgressRecord(id, activity, status);
 
-            finished = false;
-            pr.PercentComplete = 0;
-            pr.StatusDescription = status;
-
-            WriteProgress(pr);
-            
-            BlobTransferOptions opts = new BlobTransferOptions();
-            opts.Concurrency = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
-            
-            //status update interval
-            int interval = 1 * 1000; //in millisecond
-            
-            using (BlobTransferManager transferManager = new BlobTransferManager(opts))
+            Action<BlobTransferManager> taskAction = delegate(BlobTransferManager transferManager)
             {
-                transferManager.QueueUpload(blob, filePath, OnStart, OnProgress, OnFinish, pr);
+                transferManager.QueueUpload(blob, filePath, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
+            };
 
-                while (!finished)
-                {
-                    WriteProgress(pr);
-                    System.Threading.Thread.Sleep(interval);
-
-                    if (ShouldForceQuit)
-                    {
-                        //can't output verbose log for this operation since the Output stream is already stopped.
-                        transferManager.CancelWork();
-                        break;
-                    }
-                }
-
-                transferManager.WaitForCompletion();
-
-                if (uploadException != null)
-                {
-                    throw uploadException;
-                }
-            }
+            StartSyncTaskInTransferManager(taskAction);
         }
 
         /// <summary>

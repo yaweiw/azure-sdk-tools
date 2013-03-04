@@ -106,6 +106,7 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContent.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
+    <Compile Include="Blob\StorageDataMovementCmdletBase.cs" />
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
     <Compile Include="Blob\Cmdlet\StartCopyAzureStorageBlob.cs" />
     <Compile Include="Blob\Cmdlet\StopCopyAzureStorageBlob.cs" />
