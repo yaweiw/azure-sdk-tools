@@ -40,15 +40,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             this.cmdletName = Utilities.AddAzureEndpointCmdletName;
 
-            this.cmdletParams.Add(new CmdletParam("Name", endPointConfig.EndpointName));
-            this.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.InternalPort));
-            this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.ExternalPort));
-            this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.Protocol.ToString()));
+            this.cmdletParams.Add(new CmdletParam("Name", endPointConfig.EndpointName)); 
+            this.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.InternalPort)); //
+            this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.ExternalPort)); //
+            this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.Protocol.ToString())); //
             this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
-            this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort));
-            this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString()));
-            this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
-            this.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm));
+            this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort)); //
+            this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString())); //
+            this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath)); //
+            this.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm)); //
         }
     }
 }
