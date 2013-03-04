@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "delete the blob and its snapshots")]
+        [Parameter(HelpMessage = "Delete the blob and its snapshots")]
         public SwitchParameter DeleteSnapshot
         {
             get { return deleteSnapshot; }
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private bool deleteSnapshot;
 
-        [Parameter(HelpMessage = "Force to remove the blob and its snapshot without confirm")]
+        [Parameter(HelpMessage = "Force to remove the blob and its snapshot without confirmation")]
         public SwitchParameter Force
         {
             get { return force; }
@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
             else
             {
-                result = String.Format(Resources.RemoveBlobCanncelled, blobName, containerName);
+                result = String.Format(Resources.RemoveBlobCancelled, blobName, containerName);
             }
 
             WriteObject(result);
