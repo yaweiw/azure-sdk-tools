@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 transferManager.QueueDownload(blob, filePath, checkMd5, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
             };
 
-            StartSyncTaskInTransferManager(taskAction);
+            StartSyncTaskInTransferManager(taskAction, pr);
         }
 
         /// <summary>

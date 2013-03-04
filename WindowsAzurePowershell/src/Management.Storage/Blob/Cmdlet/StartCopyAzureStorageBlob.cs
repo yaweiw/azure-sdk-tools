@@ -187,14 +187,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnTaskFinish, null);
-            StartSyncTaskInTransferManager(taskAction);
+            StartSyncTaskInTransferManager(taskAction, null);
             return GetDestinationBlob(destContainer, destBlobName);
         }
 
         private ICloudBlob StartCopyInTransferManager(Uri uri, CloudBlobContainer destContainer, string destBlobName)
         {
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnTaskFinish, null);
-            StartSyncTaskInTransferManager(taskAction);
+            StartSyncTaskInTransferManager(taskAction, null);
             return GetDestinationBlob(destContainer, destBlobName);
         }
 

@@ -155,7 +155,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             base.EndProcessing();
         }
 
-        protected void StartSyncTaskInTransferManager(Action<BlobTransferManager> taskAction)
+        protected void StartSyncTaskInTransferManager(Action<BlobTransferManager> taskAction, ProgressRecord record = null)
         {
             finished = false;
 
@@ -165,6 +165,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
             while (!finished)
             {
+                if (record != null)
+                {
+                    WriteProgress(record);
+                }
+
                 Thread.Sleep(interval);
 
                 if (ShouldForceQuit)
@@ -174,8 +179,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                     break;
                 }
             }
-
-            transferManager.WaitForCompletion();
 
             if (runtimeExceptioin != null)
             {
