@@ -239,7 +239,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get the error category for specificed exception
+        /// Get the error category for specificed exception
         /// </summary>
         /// <param name="e">exception object</param>
         /// <returns>error category</returns>

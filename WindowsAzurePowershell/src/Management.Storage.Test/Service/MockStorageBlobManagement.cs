@@ -401,5 +401,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         {
             return;
         }
+
+        public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
