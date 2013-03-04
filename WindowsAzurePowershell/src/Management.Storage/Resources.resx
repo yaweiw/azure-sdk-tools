@@ -405,4 +405,41 @@
     <value>Blob properties '{0}' with value '{1}' is invalid</value>
     <comment>0 for property name, 1 for property value</comment>
   </data>
+  <data name="CopyIdCannotBeEmpty" xml:space="preserve">
+    <value>CopyId can not be empty.</value>
+  </data>
+  <data name="StopCopyBlobSuccessfully" xml:space="preserve">
+    <value>Stop the copy task on blob '{0}' in container '{1}' successfully.</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
+  <data name="CopyBlobPendingStatus" xml:space="preserve">
+    <value>Percent:{0}%. BytesCopied: {1}Bytes. TotalBytes: {2}Bytes.</value>
+    <comment>0 for copied percent, 1 for bytes copied, 2 for total bytes.</comment>
+  </data>
+  <data name="CopyBlobStatus" xml:space="preserve">
+    <value>'{0}' copy to blob '{1}' in container '{2}' from '{3}'.</value>
+    <comment>0 for copy status, 1 for destination blob name, 2 for destionation container name, 3 for source uri.</comment>
+  </data>
+  <data name="CopyBlobToBlobSuccessfully" xml:space="preserve">
+    <value>Successfully start copy blob '{0}' in container '{1}' to blob '{2}' in container '{3}'.</value>
+    <comment>0 for source blob name, 1 for source container name, 2 for destination blob name, 3 for destination container name.</comment>
+  </data>
+  <data name="CopyUriToBlobSuccessfully" xml:space="preserve">
+    <value>Successfully start copy '{0}'  to blob '{1}' in container '{2}'.</value>
+    <comment>0 for source uri, 1 for destination blob name, 2 for destination container name. </comment>
+  </data>
+  <data name="CopyBlobActivity" xml:space="preserve">
+    <value>Copy Blob.</value>
+  </data>
+  <data name="CopyBlobSummaryActivity" xml:space="preserve">
+    <value>Copy Blob Status Summary.</value>
+  </data>
+  <data name="CopyBlobSummaryCount" xml:space="preserve">
+    <value>Total: {0}. Finished: {1}. Active:{2}. Failed: {3}.</value>
+    <comment>0,1,2,3 for related task coun</comment>
+  </data>
+  <data name="CopyTaskNotFound" xml:space="preserve">
+    <value>Can not find copy task on specified blob '{0}' in container '{1}'.</value>
+    <comment>0 for blob name, 1 for container name.</comment>
+  </data>
 </root>
