@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         {
             try
             {
-                ICloudBlob blob = container.GetBlobReferenceFromServer(blobName, null, null, null);
+                ICloudBlob blob = container.GetBlobReferenceFromServer(blobName, accessCondition, options, operationContext);
                 return blob;
             }
             catch(StorageException e)
