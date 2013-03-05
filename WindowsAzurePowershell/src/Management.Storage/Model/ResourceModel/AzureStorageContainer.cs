@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         /// <summary>
         /// the permission of CloudBlobContainer
         /// </summary>
-        public BlobContainerPermissions Permissions { get; private set; }
+        public BlobContainerPermissions Permission { get; private set; }
 
         /// <summary>
         /// the public accesss level of CloudBlobContainer
@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
         {
             CloudBlobContainer = container;
-            Permissions = permissions;
+            Permission = permissions;
             Name = container.Name;
             PublicAccess = permissions.PublicAccess;
             LastModified = container.Properties.LastModified;

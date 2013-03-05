@@ -1,4 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TestConfig>
- 
+  <consolelogger>true</consolelogger>
+  <filelogger>true</filelogger>
+  <logfilename>storage__PowerShellBVT__</logfilename>
+  <loginfo>true</loginfo>
+  <logverbose>true</logverbose>
+  <logwarning>true</logwarning>
+  <logerror>true</logerror>
+  <AzureSubscriptionName>SubscriptionName</AzureSubscriptionName>
+  <StorageConnectionString></StorageConnectionString>
+  <ModuleFilePath></ModuleFilePath>
+  <BlockFilePath>Data\upload\中文路径path\Windows Azure是微软基于云计算的操作系统.txt</BlockFilePath>
+  <PageFilePath>Data\upload\page.bin</PageFilePath>
+  <DownloadDirPath>Data\download</DownloadDirPath>
+  <DownloadDir>.\Data\download\getblobcontent\</DownloadDir>
+  <UploadDir>.\Data\upload\setblobcontent\</UploadDir>
+  <EnvContextKey>AZURE_STORAGE_CONNECTION_STRING</EnvContextKey>
 </TestConfig>
