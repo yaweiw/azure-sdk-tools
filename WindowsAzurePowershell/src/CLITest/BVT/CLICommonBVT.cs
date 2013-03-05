@@ -105,16 +105,30 @@ namespace CLITest.BVT
             EnvKey = Test.Data.Get("EnvContextKey");
             SaveAndCleanSubScriptionAndEnvConnectionString();
 
-            //init the blob helper for blob related operations
-            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
-
             //Clean Storage Context
             Test.Info("Clean storage context in PowerShell");
             PowerShellAgent.CleanStorageContext();
 
+            PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Management.Storage.dll");
+            string ConnectionString = Test.Data.Get("StorageConnectionString");
+            
+            if (String.IsNullOrEmpty(ConnectionString))
+            {
+                throw new ArgumentException("Please set the StorageConnectionString element of TestData.xml");
+            }
+            
+            CommonStorageAccount = CloudStorageAccount.Parse(ConnectionString);
+            PowerShellAgent.SetStorageContext(ConnectionString);
+
+            //init the blob helper for blob related operations
+            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
+
+            
+
             // import module
             string moduleFilePath = Test.Data.Get("ModuleFilePath");
             PowerShellAgent.ImportModule(moduleFilePath);
+
             GenerateBvtTempFiles();
         }
 
@@ -156,9 +170,20 @@ namespace CLITest.BVT
             CommonBlockFilePath = Test.Data.Get("BlockFilePath");
             CommonPageFilePath = Test.Data.Get("PageFilePath");
 
+            CreateDirIfNotExits(Path.GetDirectoryName(CommonBlockFilePath));
+            CreateDirIfNotExits(Path.GetDirectoryName(CommonPageFilePath));
+
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(CommonBlockFilePath, 1);
             Helper.GenerateMediumFile(CommonPageFilePath, 1);
+        }
+
+        private static void CreateDirIfNotExits(string dirPath)
+        {
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
         }
 
         /// <summary>
