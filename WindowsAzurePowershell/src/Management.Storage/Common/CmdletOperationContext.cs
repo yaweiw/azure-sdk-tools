@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// </summary>
         private static int finishedRemoteCallCounter = 0;
 
-        public static int FinisedhRemoteCallCounter
+        public static int FinishedRemoteCallCounter
         {
             get
             {

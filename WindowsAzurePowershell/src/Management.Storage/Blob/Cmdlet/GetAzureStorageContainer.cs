@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
@@ -31,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     /// </summary>
     [Cmdlet(VerbsCommon.Get, StorageNouns.Container, DefaultParameterSetName = NameParameterSet),
         OutputType(typeof(AzureStorageContainer))]
-    public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase
+    public class GetAzureStorageContainerCommand : StorageCloudBlobCmdletBase, IModuleAssemblyInitializer
     {
         /// <summary>
         /// Default parameter set name
@@ -83,6 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ContainerListingDetails details = ContainerListingDetails.Metadata;
             string prefix = string.Empty;
             BlobRequestOptions requestOptions = null;
+            AccessCondition accessCondition = null;
 
             if (String.IsNullOrEmpty(name) || WildcardPattern.ContainsWildcardCharacters(name))
             {
@@ -112,8 +114,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 CloudBlobContainer container = Channel.GetContainerReference(name);
 
-                if (Channel.IsContainerExists(container, requestOptions, OperationContext))
+                if (Channel.DoesContainerExist(container, requestOptions, OperationContext))
                 {
+                    //fetch container attributes
+                    Channel.FetchContainerAttributes(container, accessCondition, requestOptions, OperationContext);
                     yield return container;
                 }
                 else
@@ -186,6 +190,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             IEnumerable<AzureStorageContainer> azureContainers = PackCloudBlobContainerWithAcl(containerList);
             WriteObjectWithStorageContext(azureContainers);
+        }
+
+        /// <summary>
+        /// add alias "Get-AzureStorageContainerAcl" for this cmdlet
+        /// </summary>
+        public void OnImport()
+        {
+            PowerShell invoker = null;
+            invoker = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace);
+            invoker.AddCommand(Resources.NewAlias).AddParameter(Resources.NewAliasName, Resources.GetAzureStorageContainerAclCmdletName).AddParameter(Resources.NewAliasValue, Resources.GetAzureStorageContainerCmdletName);
+            invoker.Invoke();
         }
     }
 }

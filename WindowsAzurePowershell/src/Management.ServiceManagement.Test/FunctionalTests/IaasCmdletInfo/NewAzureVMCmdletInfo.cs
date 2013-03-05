@@ -15,16 +15,51 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;    
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public class NewAzureVMCmdletInfo : CmdletsInfo
     {
-        public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs)
+        
+        public NewAzureVMCmdletInfo(string serviceName, PersistentVM[] vMs, string vnetName, DnsServer[] dnsSettings, string affinityGroup, 
+            string serviceLabel, string serviceDescription, string deploymentLabel, string deploymentDescription, string location)
         {
             this.cmdletName = Utilities.NewAzureVMCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            this.cmdletParams.Add(new CmdletParam("VMs", vMs));            
+            this.cmdletParams.Add(new CmdletParam("VMs", vMs));
+            if (vnetName != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("VNetName", vnetName));
+            }
+            if (dnsSettings != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("DnsSettings", dnsSettings));
+            }
+            if (affinityGroup != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("AffinityGroup", affinityGroup));
+            }
+            if (serviceLabel != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("ServiceLabel", serviceLabel));
+            }
+            if (serviceDescription != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("ServiceDescription", serviceDescription));
+            }
+            if (deploymentLabel != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("DeploymentLabel", deploymentLabel));
+            }
+            if (deploymentDescription != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("DeploymentDescription", deploymentDescription));
+            }
+            if (location != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("Location", location));
+            }
         }
     }
 }

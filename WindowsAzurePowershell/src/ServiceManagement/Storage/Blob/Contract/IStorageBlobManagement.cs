@@ -18,8 +18,6 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Blob management interface
@@ -34,7 +32,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
-        IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext operationContext);
+        IEnumerable<CloudBlobContainer> ListContainers(string prefix, ContainerListingDetails detailsIncluded, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
         /// Get container presssions
@@ -81,7 +79,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>True if the specific container exists, otherwise return false</returns>
-        bool IsContainerExists(CloudBlobContainer container, BlobRequestOptions options, OperationContext operationContext);
+        bool DoesContainerExist(CloudBlobContainer container, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
         /// Whether the blob is exists or not
@@ -90,7 +88,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>True if the specific blob exists, otherwise return false</returns>
-        bool IsBlobExists(ICloudBlob blob, BlobRequestOptions options, OperationContext operationContext);
+        bool DoesBlobExist(ICloudBlob blob, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
         /// Create the container if not exists
@@ -99,7 +97,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>True if the container did not already exist and was created; otherwise false.</returns>
-        bool CreateContainerIfNotExists(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext operationContext);
+        bool CreateContainerIfNotExists(CloudBlobContainer container, BlobRequestOptions requestOptions, OperationContext OperationContext);
 
         /// <summary>
         /// Delete container
@@ -108,7 +106,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="accessCondition">Access condition</param>
         /// <param name="options">Blob request option</param>
         /// <param name="operationContext">Operation context</param>
-        void DeleteContainer(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+        void DeleteContainer(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext OperationContext);
 
         /// <summary>
         /// List all blobs in specified containers
@@ -131,5 +129,40 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
         /// <param name="operationContext">Operation context</param>
         /// <returns>An enumerable collection of icloudblob</returns>
         void DeleteICloudBlob(ICloudBlob blob, DeleteSnapshotsOption deleteSnapshotsOption, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// fetch container attributes
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// fetch blob attributes
+        /// </summary>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// set blob properties
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        void SetBlobProperties(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
+
+        /// <summary>
+        /// set blob meta data
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">blob request options</param>
+        /// <param name="operationContext">An object that represents the context for the current operation.</param>
+        void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext);
     }
 }

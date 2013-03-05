@@ -121,11 +121,11 @@
     <value>West US</value>
   </data>
   <data name="PublishSettingsFile" xml:space="preserve">
-    <value>PATH-TO-YOUR-PUBLISHSETTINGS-FILE.publishsettings</value>
+    <value>c:\pstest\test.publishsettings</value>
     <comment>Path to your publishsettings file</comment>
   </data>
   <data name="DefaultSubscriptionName" xml:space="preserve">
-    <value>NAME-OF-YOUR-DEFAULT-SUBSCRIPTION</value>
+    <value>Windows Azure Internal Consumption</value>
     <comment>Subscription name to use in testing</comment>
   </data>
 </root>

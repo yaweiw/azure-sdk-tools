@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
-    using System.Threading;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>
@@ -35,23 +34,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public AzureStorageContext Context {get; set;}
 
         /// <summary>
+        /// whether stop processing
+        /// </summary>
+        protected bool ShouldForceQuit = false;
+
+        /// <summary>
         /// Cmdlet operation context.
         /// </summary>
         protected OperationContext OperationContext 
         {
             get
             {
-                return CmdletOperationContext.GetStorageOperationContext(WriteVerboseLog);
+                return CmdletOperationContext.GetStorageOperationContext(WriteDebugLog);
             }    
         }
 
         /// <summary>
-        /// Write log in verbose mode
+        /// Write log in debug mode
         /// </summary>
-        /// <param name="msg">Verbose log</param>
-        internal void WriteVerboseLog(string msg)
+        /// <param name="msg">Debug log</param>
+        internal void WriteDebugLog(string msg)
         {
-            WriteVerboseWithTimestamp(msg);
+            WriteDebugWithTimestamp(msg);
         }
 
         /// <summary>
@@ -62,20 +66,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             if (Context != null)
             {
-                WriteVerboseLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
+                WriteDebugLog(String.Format(Resources.UseStorageAccountFromContext, Context.StorageAccountName));
                 return Context.StorageAccount;
             }
             else
             {
                 CloudStorageAccount account = null;
+                bool shouldInitChannel = ShouldInitServiceChannel();
 
-                if (ShouldInitServiceChannel())
+                try
                 {
-                    account = GetStorageAccountFromSubscription();
+                    if (shouldInitChannel)
+                    {
+                        account = GetStorageAccountFromSubscription();
+                    }
+                    else
+                    {
+                        account = GetStorageAccountFromEnvironmentVariable();
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    account = GetStorageAccountFromEnvironmentVariable();
+                    //stop the pipeline if storage account is missed.
+                    WriteTerminatingError(e);
                 }
 
                 //Set the storage context and use it in pipeline
@@ -154,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
+                WriteDebugLog(String.Format(Resources.UseCurrentStorageAccountFromSubscription, CurrentStorageAccount, CurrentSubscription.SubscriptionName));
 
                 try
                 {
@@ -163,10 +176,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 }
                 catch (ServiceModel.CommunicationException e)
                 {
+                    WriteVerboseWithTimestamp(Resources.CannotGetSotrageAccountFromSubscription);
+
                     if (e.IsNotFoundException())
                     {
                         //Repack the 404 error
-                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount);
+                        string errorMessage = String.Format(Resources.CurrentStorageAccountNotFoundOnAzure, CurrentStorageAccount, CurrentSubscription.SubscriptionName);
                         ServiceModel.CommunicationException exception = new ServiceModel.CommunicationException(errorMessage, e);
                         throw exception;
                     }
@@ -192,19 +207,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseLog(Resources.GetStorageAccountFromEnvironmentVariable);
-                return CloudStorageAccount.Parse(connectionString);
-            }
-        }
+                WriteVerboseWithTimestamp(Resources.GetStorageAccountFromEnvironmentVariable);
 
-        /// <summary>
-        /// Write error details for storageexception
-        /// </summary>
-        /// <param name="exception">StorageException from storage client</param>
-        protected void WriteErrorDetails(StorageException exception)
-        {
-            exception = exception.RepackStorageException();
-            WriteExceptionError(exception);
+                try
+                {
+                    return CloudStorageAccount.Parse(connectionString);
+                }
+                catch
+                {
+                    WriteVerboseWithTimestamp(Resources.CannotGetStorageAccountFromEnvironmentVariable);
+                    throw;
+                }
+            }
         }
 
         /// <summary>
@@ -214,7 +228,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void WriteExceptionError(Exception e)
         {
             Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+            
+            if (e is StorageException)
+            {
+                e = ((StorageException) e).RepackStorageException();
+            }
+            
+            WriteError(new ErrorRecord(e, e.GetType().Name, GetExceptionErrorCategory(e), null));
+        }
 
+        /// <summary>
+        /// get the error category for specificed exception
+        /// </summary>
+        /// <param name="e">exception object</param>
+        /// <returns>error category</returns>
+        protected ErrorCategory GetExceptionErrorCategory(Exception e)
+        {
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
 
             if (e is ArgumentException)
@@ -229,13 +258,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             {
                 errorCategory = ErrorCategory.ResourceExists;
             }
-            else if (e is StorageException)
-            {
-                WriteErrorDetails((StorageException)e);
-                return;
-            }
 
-            WriteError(new ErrorRecord(e, e.GetType().Name, errorCategory, null));
+            return errorCategory;
+        }
+
+        /// <summary>
+        /// write terminating error
+        /// </summary>
+        /// <param name="e">exception object</param>
+        protected void WriteTerminatingError(Exception e)
+        {
+            Debug.Assert(e != null, Resources.ExceptionCannotEmpty);
+            ThrowTerminatingError(new ErrorRecord(e, e.GetType().Name, GetExceptionErrorCategory(e), null));
         }
 
         /// <summary>
@@ -244,7 +278,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         protected override void BeginProcessing()
         {
             CmdletOperationContext.Init();
-            WriteVerboseLog(String.Format(Resources.InitOperationContextLog, CmdletOperationContext.ClientRequestId));
+            WriteDebugLog(String.Format(Resources.InitOperationContextLog, this.GetType().Name, CmdletOperationContext.ClientRequestId));
             base.BeginProcessing();
         }
 
@@ -255,9 +289,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             double timespan = CmdletOperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
-                this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinisedhRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
-            WriteVerboseLog(message);
+                this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinishedRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
+            WriteDebugLog(message);
             base.EndProcessing();
+        }
+
+        /// <summary>
+        /// stop processing
+        /// time-consuming operation should work with ShouldForceQuit
+        /// </summary>
+        protected override void StopProcessing()
+        {
+            //ctrl + c and etc
+            ShouldForceQuit = true;
+            base.StopProcessing();
         }
     }
 }
