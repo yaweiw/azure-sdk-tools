@@ -35,6 +35,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public const string BlobContent = "AzureStorageBlobContent";
 
         /// <summary>
+        /// blob snapshot cmdlet name
+        /// </summary>
+        public const string BlobSnapshot = "AzureStorageBlobSnapshot";
+
+        /// <summary>
         /// Container cmdlet name
         /// </summary>
         public const string Container = "AzureStorageContainer";
@@ -47,27 +52,27 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// BlobContainerPublicAccessType is off
         /// </summary>
-        public const string ContainerAclOff = "off";
+        public const string ContainerAclOff = "Off";
 
         /// <summary>
         /// BlobContainerPublicAccessType is blob
         /// </summary>
-        public const string ContainerAclBlob = "blob";
+        public const string ContainerAclBlob = "Blob";
 
         /// <summary>
         /// BlobContainerPublicAccessType is container
         /// </summary>
-        public const string ContainerAclContainer = "container";
+        public const string ContainerAclContainer = "Container";
 
         /// <summary>
         /// Http protocol
         /// </summary>
-        public const string HTTP = "http";
+        public const string HTTP = "Http";
 
         /// <summary>
         /// Https protocol
         /// </summary>
-        public const string HTTPS = "https";
+        public const string HTTPS = "Https";
 
         /// <summary>
         /// Queue cmdlet name

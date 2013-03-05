@@ -47,6 +47,22 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
+        protected void WriteVerboseWithTimestamp(string message)
+        {
+            WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
+        protected void WriteDebugWithTimestamp(string message, params object[] args)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
+        }
+
+        protected void WriteDebugWithTimestamp(string message)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
@@ -107,11 +123,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         {
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();
@@ -123,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected override void EndProcessing()
         {
             string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
-            WriteVerboseWithTimestamp(message);
+            WriteDebugWithTimestamp(message);
 
             base.EndProcessing();
         }

@@ -52,6 +52,14 @@ namespace Microsoft.WindowsAzure.Management.Sync.Download
             {
                 DeleteTempVhdIfExist(parameters.LocalFilePath);                
             }
+            else
+            {
+                if (File.Exists(parameters.LocalFilePath))
+                {
+                    var message = String.Format("File already exists, you can use Overwrite option to delete it:'{0}'", parameters.LocalFilePath);
+                    throw new ArgumentException(message);
+                }
+            }
 
             var blobHandle = new BlobHandle(parameters.BlobUri, this.parameters.StorageAccountKey);
 

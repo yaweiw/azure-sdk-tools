@@ -320,8 +320,8 @@
     <value>https://</value>
   </data>
   <data name="CurrentStorageAccountNotFoundOnAzure" xml:space="preserve">
-    <value>Can not find current storage account '{0}' on azure, please check whether the specified storage account in subscription exists.</value>
-    <comment>0 storage account name</comment>
+    <value>Can not found current storage account '{0}' of subsciption '{1}' on azure, please check whether the specified storage account exists.</value>
+    <comment>0 storage account name, 1 subscription name</comment>
   </data>
   <data name="UseCurrentStorageAccountFromSubscription" xml:space="preserve">
     <value>Use current storage account '{0}' from subscription '{1}'.</value>
@@ -345,5 +345,30 @@
   </data>
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'.</value>
+  </data>
+  <data name="GetAzureStorageContainerAclCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainerAcl</value>
+  </data>
+  <data name="GetAzureStorageContainerCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainer</value>
+  </data>
+  <data name="NewAlias" xml:space="preserve">
+    <value>New-Alias</value>
+  </data>
+  <data name="NewAliasName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewAliasValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="CannotGetSotrageAccountFromSubscription" xml:space="preserve">
+    <value>Can not get storage account  from subscription. Please check the subscription settings using "Get-AzureSubscription".</value>
+    <comment>0 storage account name 1 subscription name</comment>
+  </data>
+  <data name="CannotGetStorageAccountFromEnvironmentVariable" xml:space="preserve">
+    <value>Can not get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'. Please check whether this environment variable is valid.</value>
+  </data>
+  <data name="AnonymousAccountName" xml:space="preserve">
+    <value>[Anonymous]</value>
   </data>
 </root>

@@ -113,6 +113,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     }
                 }
                 catch (SerializationException)
+
                 {
                     return false;
                 }
@@ -131,7 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             ServiceManagementError error = null;
             string operationId = string.Empty;
             ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
-            return error.Code == HttpStatusCode.NotFound.ToString();
+            return error != null && error.Code == HttpStatusCode.NotFound.ToString();
         }
     }
 }

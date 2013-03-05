@@ -52,7 +52,6 @@ namespace Microsoft.WindowsAzure.Management.Model
                 ServiceEndpoint;
             IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
 
-
             return GetCurrentStorageAccount(channel);
         }
 
