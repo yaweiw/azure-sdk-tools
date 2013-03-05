@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 XDocument metadata = context.RetrieveMetadata();
                 XDocument filteredMetadata = DataConnectionUtility.FilterMetadataDocument(metadata);
                 string metadataHash = DataConnectionUtility.GetDocumentHash(filteredMetadata);
-                if (metadataHash != context.metadataHash)
+                if (!context.metadataHashes.Any(knownHash => metadataHash == knownHash))
                 {
                     this.WriteWarning(Resources.WarningModelOutOfDate);
                 }
