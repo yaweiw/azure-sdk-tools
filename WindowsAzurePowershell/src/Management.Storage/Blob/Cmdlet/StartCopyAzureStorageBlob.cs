@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = SrcBlobParameterSet)]
-        public string destContainer { get; set; }
+        public string DestContainer { get; set; }
 
         [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
             ValueFromPipelineByPropertyName = true, ParameterSetName = NameParameterSet)]
@@ -127,15 +127,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             switch (ParameterSetName)
             {
                 case NameParameterSet:
-                    destinationBlob = StartCopyBlob(SrcContainer, SrcBlob, destContainer, DestBlob);
+                    destinationBlob = StartCopyBlob(SrcContainer, SrcBlob, DestContainer, DestBlob);
                     break;
 
                 case UriParameterSet:
-                    destinationBlob = StartCopyBlob(SrcUri, destContainer, DestBlob);
+                    destinationBlob = StartCopyBlob(SrcUri, DestContainer, DestBlob);
                     break;
 
                 case SrcBlobParameterSet:
-                    destinationBlob = StartCopyBlob(ICloudBlob, destContainer, DestBlob);
+                    destinationBlob = StartCopyBlob(ICloudBlob, DestContainer, DestBlob);
                     break;
 
                 case DestBlobPipelineParameterSet:
