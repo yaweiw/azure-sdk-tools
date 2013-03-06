@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,60 +14,63 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
+    using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Text;
     using AzureTools;
     using Cmdlets.Common;
-    using Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator")]
-    public class StartAzureEmulatorCommand : CmdletBase<IServiceManagement>
+    [Cmdlet(VerbsLifecycle.Start, "AzureEmulator"), OutputType(typeof(AzureService))]
+    public class StartAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public string StartAzureEmulatorProcess(string rootPath)
+        public AzureService StartAzureEmulatorProcess(string rootPath)
         {
             string standardOutput;
             string standardError;
 
             StringBuilder message = new StringBuilder();
             AzureService service = new AzureService(rootPath ,null);
-            SafeWriteObject(string.Format(Resources.CreatingPackageMessage, "local"));
+
+            if (Directory.Exists(service.Paths.LocalPackage))
+            {
+                WriteVerbose(string.Format(Resources.RemovePackage, service.Paths.LocalPackage));
+                Directory.Delete(service.Paths.LocalPackage, true);
+            }
+            
+            WriteVerbose(string.Format(Resources.CreatingPackageMessage, "local"));
             service.CreatePackage(DevEnv.Local, out standardOutput, out standardError);
-            SafeWriteObject(Resources.StartingEmulator);
+            
+            WriteVerbose(Resources.StartingEmulator);
             service.StartEmulator(Launch.ToBool(), out standardOutput, out standardError);
-            SafeWriteObject(standardOutput);
-            SafeWriteObject(Resources.StartedEmulator);
-            return message.ToString();
+            
+            WriteVerbose(standardOutput);
+            WriteVerbose(Resources.StartedEmulator);
+            SafeWriteOutputPSObject(
+                service.GetType().FullName,
+                Parameters.ServiceName, service.ServiceName,
+                Parameters.RootPath, service.Paths.RootPath);
+
+            return service;
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = StartAzureEmulatorProcess(base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AzureTool.Validate();
+            base.ExecuteCmdlet();
+            StartAzureEmulatorProcess(General.GetServiceRootPath(CurrentPath()));
         }
     }
 }

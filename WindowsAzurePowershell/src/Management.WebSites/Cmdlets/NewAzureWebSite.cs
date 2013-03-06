@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,17 +22,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
+    using Common;
     using Management.Utilities;
     using Properties;
     using Services;
-    using Services.WebEntities;
-    using Common;
     using Services.Github;
+    using Services.WebEntities;
 
     /// <summary>
     /// Creates a new azure website.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.New, "AzureWebsite"), OutputType(typeof(SiteWithConfig))]
     public class NewAzureWebsiteCommand : WebsiteContextBaseCmdlet, IGithubCmdlet
     {
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The geographic region to create the website.")]
@@ -161,7 +161,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             IEnumerable<string> validUsers = users.Where(user => !string.IsNullOrEmpty(user)).ToList();
             if (!validUsers.Any())
             {
-                throw new Exception(Resources.InvalidGitCredentials);
+                if (ShouldProcess(Resources.InvalidGitCredentials) && ShouldContinue("", ""))
+                {
+                    General.LaunchWindowsAzurePortal(null, null);
+                }
             } 
             
             if (!(validUsers.Count() == 1 && users.Count() == 1))
@@ -190,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
         }
@@ -212,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (Git && GitHub)
             {
@@ -295,6 +298,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 }
 
                 Cache.AddSite(CurrentSubscription.SubscriptionId, website);
+                SiteConfig websiteConfiguration = null;
+                InvokeInOperationContext(() => 
+                {
+                    websiteConfiguration = RetryCall(s => Channel.GetSiteConfig(s, website.WebSpace, website.Name));
+                    WaitForOperation(CommandRuntime.ToString());
+                });
+                WriteObject(new SiteWithConfig(website, websiteConfiguration));
             }
             catch (ProtocolException ex)
             {
@@ -305,9 +315,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 {
                     WriteWarning(message);
                 }
+                else if (message.Equals(Resources.DefaultHostnamesValidation))
+                {
+                    WriteExceptionError(new Exception(Resources.InvalidHostnameValidation));
+                }
                 else
                 {
-                    SafeWriteError(new Exception(message));
+                    WriteExceptionError(new Exception(message));
                 }
             }
 

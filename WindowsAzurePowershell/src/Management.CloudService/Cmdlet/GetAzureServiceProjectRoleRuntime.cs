@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,18 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Common;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
 
     /// <summary>
     /// Retrieve a list of role runtimes available in the cloud
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime")]
-    public class GetAzureServiceProjectRoleRuntimeCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.Get, "AzureServiceProjectRoleRuntime"), OutputType(typeof(List<CloudRuntimePackage>))]
+    public class GetAzureServiceProjectRoleRuntimeCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Runtime { get; set; }
@@ -38,20 +38,19 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <param name="rootPath">The path to the service in question</param>
         /// <param name="manifest">The path to the manifest file, if null, the default cloud manifest is used (test hook)</param>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public void GetAzureRuntimesProcess(string runtimeType, string rootPath, string manifest = null)
+        public void GetAzureRuntimesProcess(string runtimeType, string manifest = null)
         {
-            AzureService service = new AzureService(rootPath, null);
-            CloudRuntimeCollection runtimes = service.GetCloudRuntimes(service.Paths, manifest);
-            WriteOutputObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
-                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>());
+            CloudRuntimeCollection runtimes;
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
+            WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
+                p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            SkipChannelInit = true;
-            this.GetAzureRuntimesProcess(Runtime, base.GetServiceRootPath());
+            this.GetAzureRuntimesProcess(Runtime);
         }        
     }
 }

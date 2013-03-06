@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -16,14 +16,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase
 {
     using System.ServiceModel;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Cmdlet.Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
 
     /// <summary>
     /// The base class for all Windows Azure Sql Database Management Cmdlets
     /// </summary>
-    public abstract class SqlDatabaseManagementCmdletBase : CloudCmdlet<ISqlDatabaseManagement>
+    public abstract class SqlDatabaseManagementCmdletBase : CloudBaseCmdlet<ISqlDatabaseManagement>
     {
         /// <summary>
         /// Stores the session Id for all the request made in this session.

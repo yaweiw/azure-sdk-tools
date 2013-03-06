@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -67,9 +67,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         /// <returns>The runtime startup task</returns>
         public static Task GetRuntimeStartupTask(Startup roleStartup)
         {
-            return roleStartup.Task.FirstOrDefault<Task>(t =>
+            if (roleStartup.Task != null)
+            {
+                return roleStartup.Task.FirstOrDefault<Task>(t =>
                 t.commandLine.Equals(Resources.WebRoleStartupTaskCommandLine)
              || t.commandLine.Equals(Resources.WorkerRoleStartupTaskCommandLine));
+            }
+
+            return null;
         }
 
         private static CloudRuntime CreateRuntimeInternal(Runtime runtimeType, string roleName, string rolePath)
@@ -530,10 +535,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             protected override void Configure(Dictionary<string, string> environment)
             {
-                this.Runtime = Runtime.Cache;
                 if (string.IsNullOrEmpty(this.Version))
                 {
-                    this.Version = new AzureTool().AzureSdkVersion;
+                    string version;
+                    if (!environment.TryGetValue(Resources.CacheRuntimeVersionKey, out version))
+                    {
+                        version = new AzureTool().AzureSdkVersion;
+                    }
+
+                    this.Version = version;
                 }
             }
 
@@ -546,6 +556,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 return string.Format(Resources.CacheVersionWarningText, package.Version, this.RoleName,
                     this.Version);
+            }
+
+            protected override bool GetChanges(CloudRuntimePackage package, out Dictionary<string, string> changes)
+            {
+                base.GetChanges(package, out changes);
+
+                Debug.Assert(changes.ContainsKey(Resources.RuntimeTypeKey), "Cache runtime should be added before calling this method");
+                Debug.Assert(changes.ContainsKey(Resources.RuntimeUrlKey), "Cache runtime should be added before calling this method");
+
+                changes[Resources.CacheRuntimeVersionKey] = package.Version;
+
+                return true;
             }
         }
 

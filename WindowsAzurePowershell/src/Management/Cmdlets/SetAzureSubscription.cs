@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// <summary>
     /// Sets an azure subscription.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureSubscription", DefaultParameterSetName = "CommonSettings")]
+    [Cmdlet(VerbsCommon.Set, "AzureSubscription", DefaultParameterSetName = "CommonSettings"), OutputType(typeof(bool))]
     public class SetAzureSubscriptionCommand : PSCmdlet
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "CommonSettings")]
@@ -57,6 +57,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Subscription data file.")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionDataFile { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         protected virtual void WriteMessage(string message)
         {
@@ -196,6 +199,11 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
                     DefaultSubscription,
                     CurrentStorageAccount,
                     this.TryResolvePath(SubscriptionDataFile));
+
+                if (PassThru.IsPresent)
+                {
+                    WriteObject(true);
+                }
             }
             catch (Exception ex)
             {

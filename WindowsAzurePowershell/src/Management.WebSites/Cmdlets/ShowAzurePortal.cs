@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -37,28 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]
         internal void ProcessShowAzurePortal()
         {
-            Validate.ValidateInternetConnection();
-
-            UriBuilder uriBuilder = new UriBuilder(General.AzurePortalUrl);
-            if (!string.IsNullOrEmpty(Name))
-            {
-                uriBuilder.Fragment += string.Format(Resources.WebsiteSufixUrl, Name);
-            }
-
-            if (Realm != null)
-            {
-                string queryToAppend = string.Format("whr={0}", Realm);
-                if (uriBuilder.Query != null && uriBuilder.Query.Length > 1)
-                {
-                    uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + queryToAppend;
-                }
-                else
-                {
-                    uriBuilder.Query = queryToAppend;
-                }
-            }
-
-            General.LaunchWebPage(uriBuilder.ToString());
+            General.LaunchWindowsAzurePortal(string.Format(Resources.WebsiteSufixUrl, Name), Realm);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

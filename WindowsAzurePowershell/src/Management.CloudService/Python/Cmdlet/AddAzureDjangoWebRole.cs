@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
-    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Model;
     using Properties;
     using Utilities;
@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     /// <summary>
     /// Create scaffolding for a new Python Django web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole"), OutputType(typeof(RoleSettings))]
     public class AddAzureDjangoWebRoleCommand : AddRole
     {
         const string PythonCorePath = "SOFTWARE\\Python\\PythonCore";
@@ -36,66 +36,46 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
         const string PythonInterpreterExe = "python.exe";
         const string DjangoStartProjectCommand = "-m django.bin.django-admin startproject {0}";
 
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        internal string AddAzureDjangoWebRoleProcess(string webRoleName, int instances, string rootPath)
+        public AddAzureDjangoWebRoleCommand() :
+            base(Path.Combine(Resources.PythonScaffolding, RoleType.WebRole.ToString()), Resources.AddRoleMessageCreatePython, true)
         {
-            string result;
-            AzureService service = new AzureService(rootPath, null);
-            RoleInfo webRole = service.AddDjangoWebRole(webRoleName, instances);
 
-            // let Django create it's scaffolding
+        }
+
+        protected override void OnProcessing(RoleInfo roleInfo)
+        {
             var interpPath = FindPythonInterpreterPath();
             if (interpPath != null)
             {
                 string stdOut, stdErr;
-                Environment.CurrentDirectory = Path.Combine(rootPath, webRole.Name);
 
-                ProcessHelper.StartAndWaitForProcess(
+                string originalDir = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(Path.Combine(RootPath, roleInfo.Name));
+
+                try
+                {
+                    ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
-                        String.Format(DjangoStartProjectCommand, webRole.Name)
+                        String.Format(DjangoStartProjectCommand, roleInfo.Name)
                     ),
                     out stdOut,
-                    out stdErr
-                );
+                    out stdErr);
+                }
+                finally
+                {
+                    Directory.SetCurrentDirectory(originalDir);
+                }
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {
-                    SafeWriteObject(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
-                    SafeWriteObject(Resources.UnableToCreateDjangoAppFix);
+                    WriteWarning(String.Format(Resources.UnableToCreateDjangoApp, stdErr));
+                    WriteWarning(Resources.UnableToCreateDjangoAppFix);
                 }
             }
             else
             {
-                SafeWriteObject(Resources.MissingPythonPreReq);
-            }
-
-            try
-            {
-                service.ChangeRolePermissions(webRole);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                SafeWriteObject(Resources.AddRoleMessageInsufficientPermissions);
-                SafeWriteObject(Environment.NewLine);
-            }
-
-            result = string.Format(Resources.AddRoleMessageCreatePython, rootPath, webRole.Name);
-            return result;
-        }
-
-        protected override void ProcessRecord()
-        {
-            try
-            {
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = AddAzureDjangoWebRoleProcess(Name, Instances, base.GetServiceRootPath());
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
+                WriteWarning(Resources.MissingPythonPreReq);
             }
         }
 

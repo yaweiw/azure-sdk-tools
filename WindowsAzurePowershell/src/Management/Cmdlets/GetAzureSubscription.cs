@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -28,13 +28,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     /// <summary>
     /// Gets details about subscriptions.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName")]
+    [Cmdlet(VerbsCommon.Get, "AzureSubscription", DefaultParameterSetName = "ByName"), OutputType(typeof(SubscriptionData))]
     public class GetAzureSubscriptionCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        public GetAzureSubscriptionCommand()
-        {
-            this.SkipChannelInit = true;
-        }
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the subscription.", ParameterSetName = "ByName")]
         [ValidateNotNullOrEmpty]
         public string SubscriptionName { get; set; }

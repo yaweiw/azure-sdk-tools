@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,22 +21,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class GetAzureServiceProjectRuntimesTests : TestBase
     {
         private const string serviceName = "AzureService";
-        
-        private FakeWriter writer;
+
+        MockCommandRuntime mockCommandRuntime;
 
         private GetAzureServiceProjectRoleRuntimeCommand cmdlet;
 
         [TestInitialize]
         public void SetupTest()
         {
-            writer = new FakeWriter();
             cmdlet = new GetAzureServiceProjectRoleRuntimeCommand();
-            cmdlet.Writer = writer;
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet.CommandRuntime = mockCommandRuntime;
         }
 
         /// <summary>
@@ -47,16 +48,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
                 string manifest = RuntimePackageHelper.GetTestManifest(files);
-                CloudRuntimeCollection expected = service.GetCloudRuntimes(service.Paths, manifest);
+                CloudRuntimeCollection runtimes;
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
 
-                cmdlet.GetAzureRuntimesProcess(string.Empty, Path.Combine(files.RootPath, serviceName), manifest);
+                cmdlet.GetAzureRuntimesProcess(string.Empty, manifest);
 
-                List<CloudRuntimePackage> actual = writer.OutputChannel[0] as List<CloudRuntimePackage>;
+                List<CloudRuntimePackage> actual = mockCommandRuntime.OutputPipeline[0] as List<CloudRuntimePackage>;
 
-                Assert.AreEqual<int>(expected.Count, actual.Count);
-                Assert.IsTrue(expected.All<CloudRuntimePackage>( p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));
+                Assert.AreEqual<int>(runtimes.Count, actual.Count);
+                Assert.IsTrue(runtimes.All<CloudRuntimePackage>(p => actual.Any<CloudRuntimePackage>(p2 => p2.PackageUri.Equals(p.PackageUri))));
             }
         }
     }
