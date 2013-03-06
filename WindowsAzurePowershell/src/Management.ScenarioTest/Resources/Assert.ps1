@@ -47,6 +47,8 @@ function Assert-Throws
       return $true;
     }
   }
+
+  throw "No exception occured";
 }
 
 ###################
@@ -97,6 +99,31 @@ function Assert-False
   }
   
   return $true
+}
+
+###################
+#
+# Verify that the given scriptblock returns false
+#
+#    param [ScriptBlock] $script : The script to execute
+#    param [string] $message     : The message to return if the given script does not return false
+####################
+function Assert-False
+{
+    param([ScriptBlock] $script, [string] $message)
+	
+	if (!$message)
+	{
+	    $message = "Assertion failed: " + $script
+	}
+	
+    $result = &$script
+	if ($result) 
+	{
+	    throw $message
+	}
+	
+	return $true
 }
 
 ###################

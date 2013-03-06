@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Diagnostics;
     using System.Xml;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     public class CloudRuntimePackage
     {
@@ -36,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             this.IsDefault = defaultAttribute != null && bool.Parse(defaultAttribute.Value);
         }
 
-        public Runtime Runtime
+        public RuntimeType Runtime
         {
             get;
             private set;
@@ -67,12 +68,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             return baseBuilder.Uri;
         }
 
-        private static Runtime GetRuntimeType(string typeValue)
+        private static RuntimeType GetRuntimeType(string typeValue)
         {
             Debug.Assert(typeValue != null);
-            foreach (Runtime runtime in Enum.GetValues(typeof(Runtime)))
+            foreach (RuntimeType runtime in Enum.GetValues(typeof(RuntimeType)))
             {
-                string comparisonValue = Enum.GetName(typeof(Runtime), runtime);
+                string comparisonValue = Enum.GetName(typeof(RuntimeType), runtime);
                 if (string.Equals(typeValue, comparisonValue, StringComparison.OrdinalIgnoreCase))
                 {
                     return runtime;

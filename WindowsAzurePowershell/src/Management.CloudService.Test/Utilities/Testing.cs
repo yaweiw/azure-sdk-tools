@@ -16,12 +16,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>

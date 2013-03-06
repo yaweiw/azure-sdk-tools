@@ -12,11 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using System;
-    using Microsoft.WindowsAzure.Storage.Auth;
     using Sync.Upload;
     using Sync;
 

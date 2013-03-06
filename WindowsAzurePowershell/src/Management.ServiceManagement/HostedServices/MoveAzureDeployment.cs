@@ -19,13 +19,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.ServiceModel;
     using Cmdlets.Common;
     using Management.Model;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Swaps the deployments in production and stage.
     /// </summary>
     [Cmdlet(VerbsCommon.Move, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class MoveAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    public class MoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public MoveAzureDeploymentCommand()
         {
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 this.WriteDebug(String.Format("No deployment found in {0}", slot));
             }

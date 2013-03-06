@@ -18,16 +18,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.Text.RegularExpressions;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement.ResourceModel;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBNamespace"), OutputType(typeof(List<ServiceBusNamespace>), typeof(ServiceBusNamespace))]
-    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureSBNamespaceCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Namespace name")]
         public string Name { get; set; }
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureSBNamespaceCommand(IServiceManagement channel)
+        public GetAzureSBNamespaceCommand(IServiceBusManagement channel)
         {
             Channel = channel;
         }

@@ -18,9 +18,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class GetAzureVMImageCmdletInfo : CmdletsInfo
     {
-        public GetAzureVMImageCmdletInfo()
+        public GetAzureVMImageCmdletInfo(string imageName)
         {
             cmdletName = Utilities.GetAzureVMImageCmdletName;
+            if (!System.String.IsNullOrWhiteSpace(imageName))
+            {
+                this.cmdletParams.Add(new CmdletParam("ImageName", imageName));
+            }
         }
     }
 }

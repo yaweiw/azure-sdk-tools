@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
-    using Utilities;
 
     /// <summary>
     /// Base class for describing roles that we will create.

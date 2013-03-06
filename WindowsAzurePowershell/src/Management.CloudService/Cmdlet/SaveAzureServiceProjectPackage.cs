@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
 
     /// <summary>
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             string unused;
-            string rootPath = General.GetServiceRootPath(CurrentPath());
+            string rootPath = CloudServiceUtilities.GetServiceRootPath(CurrentPath());
             string packagePath;
 
             AzureService service = new AzureService(rootPath, null);

@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned">
+  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -21,18 +21,27 @@
     <ReleaseScaffoldingDir>.\Package\Release\Scaffolding</ReleaseScaffoldingDir>
     <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
 
-	  <TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
     <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
+    <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
+	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
+	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
+	<ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+	<StoreTestDebug>.\WindowsAzurePowershell\src\Management.Store.Test\bin\Debug\Microsoft.WindowsAzure.Management.Store.Test.dll</StoreTestDebug>
+	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>!Functional</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
+	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
+	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
   </PropertyGroup>
   <ItemGroup>
     <CmdletSln Include=".\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" />
@@ -46,22 +55,27 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
+      ContinueOnError="false" />
+	<MSBuild
+      Projects="@(SetupSln)"
+      Targets="Clean"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     
     <!-- Delete scaffolding files-->
@@ -99,17 +113,34 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Build the Setup -->
+  <Target Name="BuildSetupDebug">
+    <Message
+      Importance="high"
+      Text="Building Setup..."
+      ContinueOnError="false" />
+    <Message
+      Importance="high"
+      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
+      ContinueOnError="false" />
+    <MSBuild
+      Projects="@(SetupSln)"
+      Targets="Build"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
   </Target>
   
@@ -126,7 +157,7 @@
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Build"
-      Properties="Configuration=Release"
+      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
   </Target>
   
@@ -180,11 +211,25 @@
     
     <Message Importance="high" Text="Debug tests:" />
     <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
       ContinueOnError="false" />
-    <Message Importance="high" Text="Release tests:" />
-    <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Release.trx"
+	<Exec
+      Command="MSTest.exe /testcontainer:$(CloudServiceTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\CloudServiceDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(ServiceBusTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceBusDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(StoreTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StoreDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"
       ContinueOnError="false" />
   </Target>
   
@@ -203,7 +248,7 @@
   <!-- Do everything possible -->
   <Target
     Name="Full"
-    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test" />
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned">
@@ -211,7 +256,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=ReleaseSigned"
+      Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
       
     <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>
@@ -232,7 +277,7 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
+      Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
     
     <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>

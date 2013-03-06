@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
@@ -25,27 +23,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
-    using System.ServiceModel;
     using System.Text;
     using System.Threading;
     using AzureTools;
     using Extensions;
     using Management.Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    //using Microsoft.WindowsAzure.Management.Service;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
     using Properties;
     using Services;
     using Utilities;
-    using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
+    using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
+    using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
+    using UpgradeType = Microsoft.WindowsAzure.ServiceManagement.UpgradeType;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
     [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true), OutputType(typeof(Deployment))]
-    public class PublishAzureServiceProjectCommand : CloudBaseCmdlet<IServiceManagement>
+    public class PublishAzureServiceProjectCommand : ServiceManagementBaseCmdlet
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
@@ -125,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            PublishService(General.GetServiceRootPath(CurrentPath()));
+            PublishService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -154,8 +155,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 if (ServiceExists())
                 {
-                    var deploymentStatusCommand = new GetDeploymentStatus(Channel) { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
-                    bool deploymentExists = deploymentStatusCommand.DeploymentExists(_azureService.Paths.RootPath, _hostedServiceName, _deploymentSettings.ServiceSettings.Slot, _deploymentSettings.ServiceSettings.Subscription);
+                    var deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
+                    { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
+                    bool deploymentExists = deploymentStatusCommand.DeploymentExists(
+                        _azureService.Paths.RootPath,
+                        _hostedServiceName,
+                        _deploymentSettings.ServiceSettings.Slot,
+                        _deploymentSettings.ServiceSettings.Subscription);
                     if (deploymentExists)
                     {
                         UpgradeDeployment();
@@ -206,9 +212,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </returns>
         private bool CanGenerateUrlForDeploymentSlot()
         {
-            return string.Equals(
-                _deploymentSettings.ServiceSettings.Slot,
-                ArgumentConstants.Slots[Model.Slot.Production]);
+            return string.Equals(_deploymentSettings.ServiceSettings.Slot, ArgumentConstants.Slots[SlotType.Production]);
         }
 
         /// <summary>
@@ -311,12 +315,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// </summary>
         /// <param name="service">The service to prepare</param>
         /// <param name="settings">The runtime settings to use to determine location</param>
+        /// <param name="manifest"> </param>
         /// <returns>True if requested runtimes were successfully resolved, otherwise false</returns>
-        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings,
-            string manifest = null)
+        internal bool PrepareRuntimeDeploymentInfo(AzureService service, ServiceSettings settings, string manifest = null)
         {
             CloudRuntimeCollection availableRuntimePackages;
-            Model.Location deploymentLocation = GetSettingsLocation(settings);
+            LocationName deploymentLocation = GetSettingsLocation(settings);
             if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation,
                 out availableRuntimePackages, manifestFile: manifest))
             {
@@ -392,7 +396,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             return false;
         }
 
-        private Model.Location GetSettingsLocation(ServiceSettings settings)
+        private LocationName GetSettingsLocation(ServiceSettings settings)
         {
             if (ArgumentConstants.ReverseLocations.ContainsKey(settings.Location.ToLower()))
             {
@@ -433,7 +437,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 RetryCall(subscription => Channel.GetHostedServiceWithDetails(subscription, _hostedServiceName, true));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 return false;
             }
@@ -550,7 +554,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 storageService = RetryCall<StorageService>(subscription =>
                     Channel.GetStorageService(subscription, name));
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 // Don't write error message.  This catch block is used to
                 // detect that there's no such endpoint which indicates that
@@ -615,7 +619,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             string configurationPath = _azureService.Paths.CloudConfiguration;
             Validate.ValidateFileFull(configurationPath, Resources.ServiceConfiguration);
             string fullPath = this.ResolvePath(configurationPath);
-            string configuration = Utility.GetConfiguration(fullPath);
+            string configuration = General.GetConfiguration(fullPath);
             return configuration;
         }
 
@@ -848,7 +852,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
 
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException)
             {
                 throw new InvalidOperationException(
                     string.Format(
@@ -865,7 +869,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
                     SelectMany(r => r.Certificates ?? new ServiceConfigurationSchema.Certificate[0]).Distinct())
                 {
-                    if (uploadedCertificates == null || (uploadedCertificates.Count<ServiceManagementCertificate>(c => c.Thumbprint.Equals(
+                    if (uploadedCertificates == null || (uploadedCertificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))
                     {
                         X509Certificate2 cert = General.GetCertificateFromStore(certElement.thumbprint);

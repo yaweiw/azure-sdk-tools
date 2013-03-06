@@ -16,16 +16,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Displays the primary and secondary keys for the account. Should have 
     /// the storage account resource specified.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureStorageKey"), OutputType(typeof(StorageServiceKeyOperationContext))]
-    public class GetAzureStorageKeyCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureStorageKeyCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureStorageKeyCommand()
         {

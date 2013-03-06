@@ -19,19 +19,29 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Management.Automation;
     using Extensions;
     using Management.Test.Stubs;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class GetAzureCertificateTests
+    public class GetAzureCertificateTests : TestBase
     {
+        FileSystemHelper files;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            files = new FileSystemHelper(this);
+            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            files.Dispose();
         }
 
         [TestMethod]

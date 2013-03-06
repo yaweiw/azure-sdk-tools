@@ -12,20 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.ServiceModel;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using System.Linq;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetSite"), OutputType(typeof(IEnumerable<VirtualNetworkSiteContext>))]
-    public class GetAzureVNetSiteCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureVNetSiteCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureVNetSiteCommand()
         {
@@ -46,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         public IEnumerable<VirtualNetworkSiteContext> GetVirtualNetworkSiteProcess()
         {            
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 try
                 {
@@ -81,9 +83,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         Subnets = s.Subnets
                     }).ToList();
                 }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
-                    if (ex is EndpointNotFoundException && !IsVerbose())
+                    if (ex.HttpStatus == HttpStatusCode.NotFound && !IsVerbose())
                     {
                         return null;
                     }
