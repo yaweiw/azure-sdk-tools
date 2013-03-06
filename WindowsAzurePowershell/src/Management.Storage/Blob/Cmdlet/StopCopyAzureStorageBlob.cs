@@ -110,21 +110,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
         private void StopCopyBlob(CloudBlobContainer container, string blobName, string copyId)
         {
-            if (!NameUtil.IsValidBlobName(blobName))
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));
-            }
+            ValidateBlobName(blobName);
 
-            if (!NameUtil.IsValidBlobName(container.Name))
-            {
-                throw new ArgumentException(String.Format(Resources.InvalidContainerName, container.Name));
-            }
+            ValidateContainerName(container.Name);
 
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
-            Console.WriteLine("Get blob from server");
             ICloudBlob blob = Channel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
-            Console.WriteLine("End blob from server");
 
             if (blob == null)
             {
@@ -148,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             {
                 Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
 
-                if (!String.IsNullOrEmpty(blob.CopyState.CopyId))
+                if (blob.CopyState != null && !String.IsNullOrEmpty(blob.CopyState.CopyId))
                 {
                     copyId = blob.CopyState.CopyId;
                 }

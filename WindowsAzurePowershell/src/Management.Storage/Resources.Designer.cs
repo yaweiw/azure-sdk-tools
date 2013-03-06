@@ -268,6 +268,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your copy blob request to blob &apos;{0}&apos; in container &apos;{1}&apos; has already scheduled. However the destionation blob still didn&apos;t create. Please try to mintor it later..
+        /// </summary>
+        internal static string CopyDestinationBlobPending {
+            get {
+                return ResourceManager.GetString("CopyDestinationBlobPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CopyId can not be empty..
         /// </summary>
         internal static string CopyIdCannotBeEmpty {
