@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,6 +22,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
 
     [TestClass]
     public class ServiceSettingsTests : TestBase
@@ -56,10 +58,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
 
                 string serviceName = null;
-                Testing.AssertThrows<ArgumentException>(() =>
-                    ServiceSettings.LoadDefault(null, null, null, null, "I HAVE INVALID CHARACTERS !@#$%", null, null, out serviceName));
-                Testing.AssertThrows<ArgumentException>(() =>
-                    ServiceSettings.LoadDefault(null, null, null, null, "ihavevalidcharsbutimjustwaytooooooooooooooooooooooooooooooooooooooooolong", null, null, out serviceName));
+                ManagementTesting.AssertThrows<ArgumentException>(() =>
+                    ServiceSettings.LoadDefault(null, null, null, null, null, "I HAVE INVALID CHARACTERS !@#$%", null, null, out serviceName));
+                ManagementTesting.AssertThrows<ArgumentException>(() =>
+                    ServiceSettings.LoadDefault(null, null, null, null, null, "ihavevalidcharsbutimjustwaytooooooooooooooooooooooooooooooooooooooooolong", null, null, out serviceName));
             }
         }
 
@@ -77,10 +79,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
 
                 string serviceName = null;
-                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
+                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
                 Assert.AreEqual("myx2dcustomx2dservicex21", settings.StorageAccountName);
 
-                settings = ServiceSettings.LoadDefault(null, null, null, null, null, "MyCustomServiceIsWayTooooooooooooooooooooooooLong", null, out serviceName);
+                settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "MyCustomServiceIsWayTooooooooooooooooooooooooLong", null, out serviceName);
                 Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageAccountName);
             }
         }
@@ -98,10 +100,30 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string serviceName = null;
 
-                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
+                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
                 Assert.IsTrue(settings.Location.Equals(ArgumentConstants.Locations[Location.WestUS]) || 
                     settings.Location.Equals(ArgumentConstants.Locations[Location.EastUS]));
                 
+            }
+        }
+
+        /// <summary>
+        /// Verify that ServicSettings will accept unknown Windows Azure RDFE location.
+        /// </summary>
+        [TestMethod]
+        public void GetDefaultLocationWithUnknwonLocation()
+        {
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
+            {
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string serviceName = null;
+                string unknownLocation = "Unknown Location";
+
+                ServiceSettings settings = ServiceSettings.LoadDefault(null, null, unknownLocation, null, null, null, "My-Custom-Service!", null, out serviceName);
+                Assert.AreEqual<string>(unknownLocation.ToLower(), settings.Location.ToLower());
+
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,18 +18,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using ManagementTesting = WindowsAzure.Management.Test.Tests.Utilities.Testing;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
     {
         SimpleServiceManagement channel;
-        FakeWriter writer;
+        MockCommandRuntime mockCommandRuntime;
         GetAzureSBNamespaceCommand cmdlet;
 
         [TestInitialize]
@@ -37,8 +38,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             channel = new SimpleServiceManagement();
-            writer = new FakeWriter();
-            cmdlet = new GetAzureSBNamespaceCommand(channel) { Writer = writer };
+            mockCommandRuntime = new MockCommandRuntime();
+            cmdlet = new GetAzureSBNamespaceCommand(channel) { CommandRuntime = mockCommandRuntime };
         }
 
         [TestMethod]
@@ -54,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ServiceBusNamespace actual = writer.OutputChannel[0] as ServiceBusNamespace;
+            ServiceBusNamespace actual = mockCommandRuntime.OutputPipeline[0] as ServiceBusNamespace;
             Assert.AreEqual<string>(expected.Name, actual.Name);
         }
 
@@ -70,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            ErrorRecord error = writer.ErrorChannel[0];
+            ErrorRecord error = mockCommandRuntime.ErrorStream[0];
             Assert.AreEqual<string>(expected, error.Exception.Message);
         }
 
@@ -89,11 +90,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
             cmdlet.ExecuteCmdlet();
 
             // Assert
-            List<ServiceBusNamespace> actual = writer.OutputChannel[0] as List<ServiceBusNamespace>;
+            List<ServiceBusNamespace> actual = mockCommandRuntime.OutputPipeline[0] as List<ServiceBusNamespace>;
             Assert.AreEqual<int>(expected.Count, actual.Count);
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.AreEqual<string>(expected[i].Name, actual[i].Name);
+            }
+        }
+
+        [TestMethod]
+        public void GetAzureSBNamespaceWithInvalidNamesFail()
+        {
+            // Setup
+            string[] invalidNames = { "1test", "test#", "test invaid", "-test", "_test" };
+
+            foreach (string invalidName in invalidNames)
+            {
+                MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
+                GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
+                string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
+
+                ManagementTesting.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
             }
         }
     }

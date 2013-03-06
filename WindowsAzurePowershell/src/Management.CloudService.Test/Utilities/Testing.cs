@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,10 +18,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
 
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
@@ -32,98 +33,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     /// </remarks>
     public static class Testing
     {
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        public static void AssertThrows<T>(Action action)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-            }
-        }
-
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        /// <param name="expectedMessage">
-        /// Expected exception message.
-        /// </param>
-        public static void AssertThrows<T>(Action action, string expectedMessage)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual<string>(ex.Message, expectedMessage);
-            }
-        }
-
-        /// <summary>
-        /// Ensure an action throws a specific type of Exception.
-        /// </summary>
-        /// <typeparam name="T">Expected exception type.</typeparam>
-        /// <param name="action">
-        /// The action that should throw when executed.
-        /// </param>
-        /// <param name="verification">
-        /// Additional verification to perform on the exception.
-        /// </param>
-        public static void AssertThrows<T>(Action action, Action<T> verification)
-            where T : Exception
-        {
-            Debug.Assert(action != null);
-            Debug.Assert(verification != null);
-
-            try
-            {
-                action();
-                Assert.Fail("No exception was thrown!");
-            }
-            catch (Exception ex)
-            {
-                Assert.IsInstanceOfType(ex, typeof(T));
-                verification(ex as T);
-            }
-        }
-
-        /// <summary>
-        /// Get the path to a file included in the test project as something to
-        /// be copied on Deployment (see Local.testsettings > Deployment for
-        /// examples).
-        /// </summary>
-        /// <param name="relativePath">Relative path to the resource.</param>
-        /// <returns>Path to the resource.</returns>
-        public static string GetTestResourcePath(string relativePath)
-        {
-            string path = Path.Combine(Environment.CurrentDirectory, relativePath);
-            Assert.IsTrue(File.Exists(path));
-            return path;
-        }
-
         /// <summary>
         /// Validate a collection of assertions against files that are expected
         /// to exist in the file system watched by a FileSystemHelper.
@@ -157,34 +66,45 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
         /// <summary>
         /// Gets worker role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The worker role object</returns>
-        internal static WorkerRole GetWorkerRole(string servicePath, string name)
+        internal static WorkerRole GetWorkerRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWorkerRole(name);
         }
 
         /// <summary>
         /// Gets web role object from service definition.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The web role object</returns>
-        internal static WebRole GetWebRole(string servicePath, string name)
+        internal static WebRole GetWebRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetWebRole(name);
         }
 
         /// <summary>
         /// Gets the role settings object from cloud service configuration.
         /// </summary>
-        /// <param name="servicePath">The azure service root path</param>
+        /// <param name="rootPath">The azure service rootPath path</param>
         /// <returns>The role settings object</returns>
-        internal static RoleSettings GetRole(string servicePath, string name)
+        internal static RoleSettings GetCloudRole(string rootPath, string name)
         {
-            AzureService service = new AzureService(servicePath, null);
+            AzureService service = new AzureService(rootPath, null);
             return service.Components.GetCloudConfigRole(name);
+        }
+
+        /// <summary>
+        /// Gets the role settings object from local service configuration.
+        /// </summary>
+        /// <param name="rootPath">The azure service rootPath path</param>
+        /// <returns>The role settings object</returns>
+        internal static RoleSettings GetLocalRole(string rootPath, string name)
+        {
+            AzureService service = new AzureService(rootPath, null);
+            return service.Components.GetLocalConfigRole(name);
         }
     }
 }

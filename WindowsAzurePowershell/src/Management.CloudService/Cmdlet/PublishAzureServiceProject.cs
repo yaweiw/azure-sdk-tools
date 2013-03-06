@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,6 +11,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ----------------------------------------------------------------------------------
+
+using Microsoft.WindowsAzure.Management.Utilities;
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
@@ -27,70 +29,66 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Text;
     using System.Threading;
     using AzureTools;
-    using Common;
     using Extensions;
     using Management.Services;
     using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Storage.Blob;
     using Model;
     using Properties;
     using Services;
-    using StorageClient;
     using Utilities;
     using ServiceManagementCertificate = Microsoft.Samples.WindowsAzure.ServiceManagement.Certificate;
-    using ServiceManagementHelper = Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceManagementHelper2;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
     /// of the same name or in the same slot when executing this command.
     /// </summary>
-    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true)]
-    public class PublishAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsData.Publish, "AzureServiceProject", SupportsShouldProcess = true), OutputType(typeof(Deployment))]
+    public class PublishAzureServiceProjectCommand : CloudBaseCmdlet<IServiceManagement>
     {
         private DeploymentSettings _deploymentSettings;
         private AzureService _azureService;
         private string _hostedServiceName;
         private List<IPublishListener> _listeners;
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sn")]
         public string Subscription { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sv")]
         public string ServiceName { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("st")]
         public string StorageAccountName { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("l")]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sl")]
         public string Slot { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("ln")]
         public SwitchParameter Launch { get; set; }
 
-        /// <summary>
-        /// true if we only want to create a package
-        /// </summary>
-        [Parameter(Mandatory = false)]
-        [Alias("po")]
-        public SwitchParameter PackageOnly { get; set; }
-
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public int? TimeoutSeconds { get; set; }
 
-        [Parameter(Mandatory = false)]
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public SwitchParameter Force
         {
             get { return force; }
             set { force = value; }
         }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Alias("ag")]
+        public string AffinityGroup { get; set; }
 
         private bool force;
         /// <summary>
@@ -125,19 +123,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Execute the command.
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                base.ProcessRecord();
-                PublishService(GetServiceRootPath());
-                SafeWriteObjectWithTimestamp(Resources.PublishCompleteMessage);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(ex);
-            }
+            PublishService(General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -158,11 +146,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         public void PublishService(string serviceRootPath)
         {
-            SafeWriteObject(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
-            SafeWriteObject(string.Empty);
+            AzureTool.Validate();
+            WriteVerbose(string.Format(Resources.PublishServiceStartMessage, _hostedServiceName));
 
             // Package the service and all of its roles up in the open package format used by Azure
-            if (InitializeSettingsAndCreatePackage(serviceRootPath) && !PackageOnly)
+            if (InitializeSettingsAndCreatePackage(serviceRootPath))
             {
                 if (ServiceExists())
                 {
@@ -192,11 +180,20 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 {
                     LaunchService();
                 }
+
+                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(
+                    s, 
+                    _hostedServiceName, 
+                    _deploymentSettings.ServiceSettings.Slot
+                ));
+                WriteObject(deployment);
             }
             else
             {
-                SafeWriteObject(Resources.PublishAbortedAtUserRequest);
+                WriteVerbose(Resources.PublishAbortedAtUserRequest);
             }
+
+            WriteVerboseWithTimestamp(Resources.PublishCompleteMessage);
         }
 
         /// <summary>
@@ -238,6 +235,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 _azureService.Paths.Settings,
                 Slot,
                 Location,
+                AffinityGroup,
                 Subscription,
                 StorageAccountName,
                 ServiceName,
@@ -255,12 +253,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 defaultSettings.Subscription = CurrentSubscription.SubscriptionName;
             }
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
+            WriteVerboseWithTimestamp(String.Format(Resources.RuntimeDeploymentStart,
                 _hostedServiceName));
             if (PrepareRuntimeDeploymentInfo(_azureService, defaultSettings, manifest))
             {
 
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
+                WriteVerboseWithTimestamp(String.Format(Resources.PublishPreparingDeploymentMessage,
                     _hostedServiceName, CurrentSubscription.SubscriptionId));
 
                 // Caching worker roles require update to their service configuration settings with 
@@ -271,7 +269,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     CreateStorageAccount(
                         defaultSettings.StorageAccountName,
                         _hostedServiceName,
-                        defaultSettings.Location);
+                        defaultSettings.Location,
+                        defaultSettings.AffinityGroup);
                 }
 
                 // Initiate call to all publish listeners.
@@ -425,7 +424,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Slot),
                 "Slot cannot be null.");
 
-            SafeWriteObjectWithTimestamp(Resources.PublishConnectingMessage);
+            WriteVerboseWithTimestamp(Resources.PublishConnectingMessage);
 
             // Check whether there's an existing service with the desired
             // name in the desired slot accessible from our subscription
@@ -454,23 +453,32 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 !string.IsNullOrEmpty(_deploymentSettings.Label),
                 "Label cannot be null or empty.");
             Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location),
-                "Location cannot be null or empty.");
+                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.Location) |
+                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.AffinityGroup),
+                "either Location or AffinityGroup should be set.");
 
-            SafeWriteObjectWithTimestamp(Resources.PublishCreatingServiceMessage);
+            WriteVerboseWithTimestamp(Resources.PublishCreatingServiceMessage);
 
             CreateHostedServiceInput hostedServiceInput = new CreateHostedServiceInput
             {
                 ServiceName = _hostedServiceName,
                 Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
-                Location = _deploymentSettings.ServiceSettings.Location
             };
+
+            if (!string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.AffinityGroup))
+            {
+                hostedServiceInput.AffinityGroup = _deploymentSettings.ServiceSettings.AffinityGroup;
+            }
+            else
+            {
+                hostedServiceInput.Location = _deploymentSettings.ServiceSettings.Location;
+            }
 
             InvokeInOperationContext(() =>
             {
                 RetryCall(subscription =>
                     Channel.CreateHostedService(subscription, hostedServiceInput));
-                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
+                WriteVerboseWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
                     hostedServiceInput.ServiceName));
             });
         }
@@ -499,14 +507,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishUploadingPackageMessage);
+                WriteVerboseWithTimestamp(
+                    Resources.PublishUploadingPackageMessage,
+                    _deploymentSettings.ServiceSettings.StorageAccountName);
 
                 if (!SkipUpload)
                 {
                     BlobRequestOptions blobRequestOptions = null;
                     if (TimeoutSeconds != null)
                     {
-                        blobRequestOptions = new BlobRequestOptions { Timeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
+                        blobRequestOptions = new BlobRequestOptions { ServerTimeout = new TimeSpan(0, 0, 0, (int)TimeoutSeconds) };
                     }
 
                     packageUri = RetryCall(subscription =>
@@ -523,26 +533,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 }
             }
             return packageUri;
-        }
-
-        /// <summary>
-        /// Removes the package after uploading it to the storage account
-        /// </summary>
-        private void RemovePackage()
-        {
-            Debug.Assert(
-                !string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.StorageAccountName),
-                "StorageAccountName cannot be null or empty.");
-
-            if (!SkipUpload)
-            {
-
-                RetryCall(subscription =>
-                        AzureBlob.RemovePackageFromBlob(
-                            CreateChannel(),
-                            _deploymentSettings.ServiceSettings.StorageAccountName,
-                            subscription));
-            }
         }
 
         /// <summary>
@@ -575,16 +565,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// Create an Azure storage account that we can use to upload our
         /// package when creating and deploying a service.
         /// </summary>
-        private void CreateStorageAccount(string name, string label, string location)
+        private void CreateStorageAccount(string name, string label, string location, string affinityGroup)
         {
             CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
             {
                 ServiceName = name,
                 Label = ServiceManagementHelper.EncodeToBase64String(label),
-                Location = location
             };
 
-            SafeWriteObjectWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
+            if (!string.IsNullOrEmpty(affinityGroup))
+            {
+                storageServiceInput.AffinityGroup = affinityGroup;
+            }
+            else
+            {
+                storageServiceInput.Location = location;
+            }
+
+            WriteVerboseWithTimestamp(String.Format(Resources.PublishVerifyingStorageMessage, name));
 
             InvokeInOperationContext(() =>
             {
@@ -594,8 +592,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 StorageService storageService = null;
                 do
                 {
-                    storageService = RetryCall<StorageService>(subscription =>
+                    try
+                    {
+                        storageService = RetryCall<StorageService>(subscription =>
                         Channel.GetStorageService(subscription, storageServiceInput.ServiceName));
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore the exception, keep getting the status.
+                    }
                 }
                 while (storageService.StorageServiceProperties.Status != StorageServiceStatus.Created);
             });
@@ -677,7 +682,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishUpgradingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
                 RetryCall(subscription =>
                     Channel.UpgradeDeployment(
                         subscription,
@@ -737,7 +742,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             while (deployment.Status != DeploymentStatus.Starting &&
                 deployment.Status != DeploymentStatus.Running);
 
-            SafeWriteObjectWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
+            WriteVerboseWithTimestamp(string.Format(Resources.PublishCreatedDeploymentMessage,
                deployment.PrivateID));
 
         }
@@ -749,8 +754,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             try
             {
-                SafeWriteObjectWithTimestamp(Resources.PublishStartingMessage);
-                SafeWriteObjectWithTimestamp(Resources.PublishInitializingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishStartingMessage);
+                WriteVerboseWithTimestamp(Resources.PublishInitializingMessage);
 
                 Dictionary<string, RoleInstance> roleInstanceSnapshot = new Dictionary<string, RoleInstance>();
 
@@ -815,7 +820,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                                         break;
                                 }
 
-                                SafeWriteObjectWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
+                                WriteVerboseWithTimestamp(String.Format(Resources.PublishInstanceStatusMessage,
                                     currentInstance.InstanceName, currentInstance.RoleName, statusResource));
 
                             }
@@ -832,13 +837,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                 if (CanGenerateUrlForDeploymentSlot())
                 {
-                    SafeWriteObjectWithTimestamp(
+                    WriteVerboseWithTimestamp(
                         Resources.PublishCreatedWebsiteMessage,
                         string.Format(Resources.ServiceUrl, _hostedServiceName));
                 }
                 else
                 {
-                    SafeWriteObjectWithTimestamp(
+                    WriteVerboseWithTimestamp(
                         Resources.PublishCreatedWebsiteLaunchNotSupportedMessage);
                 }
 

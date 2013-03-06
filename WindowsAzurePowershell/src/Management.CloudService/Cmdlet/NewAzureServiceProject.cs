@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -17,8 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Common;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
 
@@ -26,8 +25,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// Create scaffolding for a new hosted service. Generates a basic folder structure, 
     /// default cscfg file which wires up node/iisnode at startup in Azure as well as startup.js. 
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceProject")]
-    public class NewAzureServiceProjectCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsCommon.New, "AzureServiceProject"), OutputType(typeof(AzureService))]
+    public class NewAzureServiceProjectCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Name of the cloud project")]
         [ValidateNotNullOrEmpty]
@@ -45,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Parameters.RootPath, newService.Paths.RootPath
                 );
 
-            SafeWriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
+            WriteVerbose(string.Format(Resources.NewServiceCreatedMessage, newService.Paths.RootPath));
 
             return newService;
         }
@@ -55,7 +54,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             base.ExecuteCmdlet();
 
-            SkipChannelInit = true;
             NewAzureServiceProcess(CurrentPath(), ServiceName);
             SessionState.Path.SetLocation(Path.Combine(CurrentPath(), ServiceName));
         }

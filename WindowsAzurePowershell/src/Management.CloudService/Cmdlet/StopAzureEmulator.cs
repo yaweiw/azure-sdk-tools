@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
-    using Common;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using Properties;
     using Services;
@@ -27,41 +27,35 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Runs the service in the emulator
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator")]
-    public class StopAzureEmulatorCommand : CloudCmdlet<IServiceManagement>
+    [Cmdlet(VerbsLifecycle.Stop, "AzureEmulator"), OutputType(typeof(bool))]
+    public class StopAzureEmulatorCommand : CmdletBase
     {
         [Parameter(Mandatory = false)]
-        [Alias("ln")]
-        public SwitchParameter Launch { get; set; }
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        public string StopAzureEmulatorProcess()
+        public void StopAzureEmulatorProcess()
         {
             string standardOutput;
             string standardError;
 
             AzureService service = new AzureService();
-            SafeWriteObject(Resources.StopEmulatorMessage);
+            WriteVerbose(Resources.StopEmulatorMessage);
             service.StopEmulator(out standardOutput, out standardError);
-            SafeWriteObject(Resources.StoppedEmulatorMessage);
-            return null;
+            
+            WriteVerbose(Resources.StoppedEmulatorMessage);
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        protected override void ProcessRecord()
+        public override void ExecuteCmdlet()
         {
-            try
-            {
-                AzureTool.Validate();
-                SkipChannelInit = true;
-                base.ProcessRecord();
-                string result = this.StopAzureEmulatorProcess();
-                SafeWriteObject(result);
-            }
-            catch (Exception ex)
-            {
-                SafeWriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
-            }
+            AzureTool.Validate();
+            StopAzureEmulatorProcess();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -20,12 +20,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Database.
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class NewAzureSqlDatabaseServerContextTests : TestBase

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,9 +26,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Starts an azure website.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Start, "AzureWebsite"), OutputType(typeof(bool))]
     public class StartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the StartAzureWebsiteCommand class.
         /// </summary>
@@ -48,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             Channel = channel;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             Site website = null;
 
@@ -87,6 +90,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     WriteErrorDetails(ex);
                 }
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
     }
 }

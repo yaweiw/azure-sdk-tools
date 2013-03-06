@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets the azure logs.
     /// </summary>
-    [Cmdlet(VerbsData.Save, "AzureWebsiteLog")]
+    [Cmdlet(VerbsData.Save, "AzureWebsiteLog"), OutputType(typeof(bool))]
     public class SaveAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
         internal const string DefaultOutput = "./logs.zip";
@@ -33,6 +33,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             get;
             set;
         }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SaveAzureWebsiteLogCommand class.
@@ -65,14 +68,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 DefaultCurrentPath;
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
             if (string.IsNullOrEmpty(Output))
             {
                 Output = Path.Combine(GetCurrentPath(), DefaultOutput);
             }
+            else
+            {
+                // Set the file extension to .zip
+                string ext = Path.GetExtension(Output);
+                Output = Path.ChangeExtension(Output, "zip");
+            }
 
-            base.ExecuteCommand();
+            base.ExecuteCmdlet();
 
             // List new deployments
             Stream websiteLogs = null;
@@ -84,6 +93,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
 
             websiteLogs.Dispose();
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         /// <summary>

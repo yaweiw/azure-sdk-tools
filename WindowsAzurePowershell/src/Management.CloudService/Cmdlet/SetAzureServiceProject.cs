@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -21,20 +21,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     /// <summary>
     /// Adjusts the service configuration.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceProject")]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceProject"), OutputType(typeof(ServiceSettings))]
     public class SetAzureServiceProjectCommand : SetSettings
     {
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Location { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Slot { set; get; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 2, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Storage { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
+        [Parameter(Position = 3, Mandatory = false, ValueFromPipelineByPropertyName = true)]
         public string Subscription { get; set; }
+
+        [Parameter(Position = 4, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public ServiceSettings SetAzureServiceProjectProcess(string newLocation, string newSlot, string newStorage, string newSubscription, string settingsPath)
@@ -65,7 +68,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 settings.Save(settingsPath);
             }
 
-            WriteOutputObject(settings);
+            if (PassThru)
+            {
+                WriteObject(settings);
+            }
 
             return settings;
         }
@@ -74,7 +80,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            SkipChannelInit = true;
             this.SetAzureServiceProjectProcess(
                 Location,
                 Slot,

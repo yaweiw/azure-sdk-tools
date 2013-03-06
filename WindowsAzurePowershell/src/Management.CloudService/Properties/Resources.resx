@@ -112,12 +112,12 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddRoleMessageCreate" xml:space="preserve">
+  <data name="AddRoleMessageCreateNode" xml:space="preserve">
     <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Node.js by running ‘npm install azure’.</value>
   </data>
   <data name="AddRoleMessageInsufficientPermissions" xml:space="preserve">
@@ -161,9 +161,6 @@
   </data>
   <data name="CannotFindServiceConfigurationFile" xml:space="preserve">
     <value>service {0} configuration file (ServiceConfiguration.Cloud.cscfg) is either null or doesn't exist</value>
-  </data>
-  <data name="CannotFindServiceRoot" xml:space="preserve">
-    <value>Cannot locate deploymentSettings.json in parent folders</value>
   </data>
   <data name="CertificateElementName" xml:space="preserve">
     <value>ManagementCertificate</value>
@@ -461,25 +458,16 @@
     <value>Upgrading...</value>
   </data>
   <data name="PublishUploadingPackageMessage" xml:space="preserve">
-    <value>Uploading Package...</value>
+    <value>Uploading Package to storage service {0}...</value>
   </data>
   <data name="PublishVerifyingStorageMessage" xml:space="preserve">
     <value>Verifying storage account '{0}'...</value>
   </data>
   <data name="RemoveAzureServiceWaitMessage" xml:space="preserve">
-    <value>Removing service {0}</value>
-  </data>
-  <data name="RemoveDeploymentMessage" xml:space="preserve">
-    <value>Removing deployment</value>
+    <value>Removing cloud service {0}...</value>
   </data>
   <data name="RemoveDeploymentWaitMessage" xml:space="preserve">
     <value>Removing {0} deployment for {1} service</value>
-  </data>
-  <data name="RemoveServiceMessage" xml:space="preserve">
-    <value>Removing service...</value>
-  </data>
-  <data name="RemoveServiceStartMessage" xml:space="preserve">
-    <value>Removing service {0}...</value>
   </data>
   <data name="RemoveServiceWarning" xml:space="preserve">
     <value>Are you sure you want to remove service "{0}"?</value>
@@ -557,7 +545,7 @@
     <value>The storage account name '{0}' is invalid.  Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.</value>
   </data>
   <data name="ServiceSlotDoesNotExist" xml:space="preserve">
-    <value>Service {0} doesn't exist or it doesn't have {1} slot</value>
+    <value>The {0} slot for cloud service {1} doesn't exist.</value>
   </data>
   <data name="ServiceStatusChanged" xml:space="preserve">
     <value>{0} slot for service {1} is {2}</value>
@@ -586,17 +574,14 @@
   <data name="StartingEmulator" xml:space="preserve">
     <value>Starting Emulator...</value>
   </data>
-  <data name="StartServiceMessage" xml:space="preserve">
-    <value>Starting service {0}...</value>
+  <data name="LookingForDeploymentMessage" xml:space="preserve">
+    <value>Looking for {0} deployment for {1} cloud service...</value>
   </data>
   <data name="StopEmulatorMessage" xml:space="preserve">
     <value>Stopping emulator...</value>
   </data>
   <data name="StoppedEmulatorMessage" xml:space="preserve">
     <value>Stopped</value>
-  </data>
-  <data name="StopServiceMessage" xml:space="preserve">
-    <value>Stopping service {0}...</value>
   </data>
   <data name="StorageAccountName" xml:space="preserve">
     <value>Account Name:</value>
@@ -641,7 +626,7 @@
     <value>Please provide a service name or run this command from inside a service project directory.</value>
   </data>
   <data name="ServiceDoesNotExist" xml:space="preserve">
-    <value>The specified service does not exist.</value>
+    <value>The specified cloud service "{0}" does not exist.</value>
   </data>
   <data name="AddRoleMessageCreatePython" xml:space="preserve">
     <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for Python by running "pip windowsazure".</value>
@@ -838,8 +823,8 @@
   <data name="SettingsFileEmptyContent" xml:space="preserve">
     <value>{"Slot":"","Location":"","Subscription":"","StorageAccountName":""}</value>
   </data>
-  <data name="CacheAlreadyEnabledMsg" xml:space="preserve">
-    <value>Memcache is already enabled for web role '{0}'.</value>
+  <data name="CacheAlreadyEnabledMessage" xml:space="preserve">
+    <value>Memcache is already enabled for role '{0}'.</value>
   </data>
   <data name="CacheClientDiagnosticLevelAssemblyName" xml:space="preserve">
     <value>Microsoft.WindowsAzure.Plugins.Caching.ClientDiagnosticLevel</value>
@@ -859,10 +844,55 @@
   <data name="NamedCacheSettingValue" xml:space="preserve">
     <value>{"caches":[{"name":"default","policy":{"eviction":{"type":0},"expiration":{"defaultTTL":10,"isExpirable":true,"type":1},"serverNotification":{"isEnabled":false}},"secondaries":0}]}</value>
   </data>
-  <data name="EnableMemcacheOnWorkerRoleErrorMsg" xml:space="preserve">
-    <value>Enable-AzureMemcacheRole is supported for web roles only. Verify that '{0}' is a web role.</value>
-  </data>
   <data name="NotCacheWorkerRole" xml:space="preserve">
     <value>'{0}' must be a cache worker role. Verify that it has proper cache worker role configuration.</value>
+  </data>
+  <data name="AddRoleMessageCreatePHP" xml:space="preserve">
+    <value>Role has been created at {0}\{1}. For easy access to Windows Azure services from your application code, install the Windows Azure client library for PHP by running "pear WindowsAzure/WindowsAzure".</value>
+  </data>
+  <data name="ChangeDeploymentStatusCompleteMessage" xml:space="preserve">
+    <value>Cloud service {0} is in {1} state.</value>
+  </data>
+  <data name="LookingForServiceMessage" xml:space="preserve">
+    <value>Looking for cloud service {0}...</value>
+  </data>
+  <data name="PackageCreated" xml:space="preserve">
+    <value>Package is created at service root path {0}.</value>
+  </data>
+  <data name="AddRoleMessageCreate" xml:space="preserve">
+    <value>Role has been created at {0}\{1}.</value>
+  </data>
+  <data name="InvalidVMSize" xml:space="preserve">
+    <value>Role {0} VM size should be ExtraSmall, Small, Medium, Large or ExtraLarge.</value>
+  </data>
+  <data name="CacheRuntimeVersionKey" xml:space="preserve">
+    <value>CacheRuntimeVersion</value>
+  </data>
+  <data name="CannotFindRole" xml:space="preserve">
+    <value>Can't find valid Windows Azure role in current directory {0}</value>
+  </data>
+  <data name="InvalidCacheRoleName" xml:space="preserve">
+    <value>Cannot enable memcach protocol on a cache worker role {0}.</value>
+  </data>
+  <data name="EmulatorConnectionString" xml:space="preserve">
+    <value>UseDevelopmentStorage=true</value>
+  </data>
+  <data name="CacheRuntimeUrl" xml:space="preserve">
+    <value>CACHERUNTIMEURL</value>
+  </data>
+  <data name="EmulatedKey" xml:space="preserve">
+    <value>EMULATED</value>
+  </data>
+  <data name="RemovePackage" xml:space="preserve">
+    <value>Removing old package {0}...</value>
+  </data>
+  <data name="NoCacheWorkerRoles" xml:space="preserve">
+    <value>The service does not have any cache worker roles, add one first by running cmdlet Add-AzureCacheWorkerRole.</value>
+  </data>
+  <data name="CannotFindServiceRoot" xml:space="preserve">
+    <value>Invalid service path! Cannot locate ServiceDefinition.csdef in current folder or parent folders.</value>
+  </data>
+  <data name="RemoveServiceWhatIfMessage" xml:space="preserve">
+    <value>Remove cloud service and all it's deployments</value>
   </data>
 </root>

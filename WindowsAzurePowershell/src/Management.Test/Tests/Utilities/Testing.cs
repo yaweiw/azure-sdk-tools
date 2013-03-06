@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     using System.Diagnostics;
     using System.IO;
     using VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
 
     /// <summary>
     /// Various utilities and helpers to facilitate testing.
@@ -26,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     /// The name is a compromise for something that pops up easily in
     /// intellisense when using MSTest.
     /// </remarks>
-    internal static class Testing
+    public static class Testing
     {
         /// <summary>
         /// Ensure an action throws a specific type of Exception.
@@ -74,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             catch (Exception ex)
             {
                 Assert.IsInstanceOfType(ex, typeof(T));
-                Assert.AreEqual(ex.Message, expectedMessage);
+                Assert.AreEqual(expectedMessage, ex.Message);
             }
         }
         
@@ -118,6 +119,46 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
             string path = Path.Combine(Environment.CurrentDirectory, relativePath);
             Assert.IsTrue(File.Exists(path));
             return path;
+        }
+
+        /// <summary>
+        /// Get the contents of a file included in the test project as something to
+        /// be copied on Deployment (see Local.testsettings > Deployment for
+        /// examples).
+        /// </summary>
+        /// <param name="relativePath">Relative path to the resource.</param>
+        /// <returns>the resource contents.</returns>
+        public static string GetTestResourceContents(string relativePath)
+        {
+            return File.ReadAllText(Testing.GetTestResourcePath(relativePath));
+        }
+
+        /// <summary>
+        /// Asserts that given two directories and identical.
+        /// </summary>
+        /// <param name="expected">The expected directory</param>
+        /// <param name="actual">The actual directory</param>
+        public static void AssertDirectoryIdentical(string expected, string actual)
+        {
+            DirectoryInfo expectedDir = new DirectoryInfo(expected);
+            DirectoryInfo actualDir = new DirectoryInfo(expected);
+            DirectoryInfo[] ExpectedDirs = expectedDir.GetDirectories();
+            DirectoryInfo[] ActualDirs = actualDir.GetDirectories();
+            FileInfo[] expectedFiles = expectedDir.GetFiles();
+            FileInfo[] actualFiles = actualDir.GetFiles();
+
+            Assert.AreEqual<int>(expectedFiles.Length, actualFiles.Length);
+
+            for (int i = 0; i < expectedFiles.Length; i++)
+            {
+                Assert.AreEqual<string>(expectedFiles[i].Name, actualFiles[i].Name);
+            }
+
+            foreach (DirectoryInfo subdir in ExpectedDirs)
+            {
+                string ActualSubDir = Path.Combine(actual, subdir.Name);
+                AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
+            }
         }
     }
 }

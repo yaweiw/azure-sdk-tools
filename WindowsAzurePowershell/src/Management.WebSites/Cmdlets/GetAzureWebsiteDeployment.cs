@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Gets the git deployments.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment")]
+    [Cmdlet(VerbsCommon.Get, "AzureWebsiteDeployment"), OutputType(typeof(List<DeployResult>))]
     public class GetAzureWebsiteDeploymentCommand : DeploymentBaseCmdlet
     {
         internal const int DefaultMaxResults = 20;
@@ -82,9 +82,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             InvokeInDeploymentOperationContext(() => { deployResult.Logs = DeploymentChannel.GetDeploymentLogs(deployResult.Id); });
         }
 
-        internal override void ExecuteCommand()
+        public override void ExecuteCmdlet()
         {
-            base.ExecuteCommand();
+            base.ExecuteCmdlet();
 
             InvokeInDeploymentOperationContext(() =>
             {
