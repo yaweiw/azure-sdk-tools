@@ -60,13 +60,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Store", "Managem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Store.Test", "Management.Store.Test\Management.Store.Test.csproj", "{3958B2D7-74CF-44D5-99BA-CF280782F380}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Management.Storage.ScenarioTest", "Management.Storage.ScenarioTest", "{6D919C65-A1F3-4838-BB72-33B26F9F0C0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.MsTestLib", "MsTestLib\Management.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MsTestLib", "MsTestLib\MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.StorageTestLib", "StorageTestLib\Management.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageTestLib", "StorageTestLib\StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLITest", "CLITest\CLITest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.ScenarioTest", "CLITest\Management.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -728,10 +726,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{CE97967B-7479-43B9-9561-776232AC5D47} = {6D919C65-A1F3-4838-BB72-33B26F9F0C0A}
-		{0A513849-2690-4D07-8DE7-0ACE39645D12} = {6D919C65-A1F3-4838-BB72-33B26F9F0C0A}
-		{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D} = {6D919C65-A1F3-4838-BB72-33B26F9F0C0A}
 	EndGlobalSection
 EndGlobal

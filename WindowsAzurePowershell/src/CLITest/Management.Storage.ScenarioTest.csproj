@@ -75,13 +75,13 @@
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Management.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MsTestLib\MsTestLib.csproj">
+    <ProjectReference Include="..\MsTestLib\Management.Storage.MsTestLib.csproj">
       <Project>{ce97967b-7479-43b9-9561-776232ac5d47}</Project>
-      <Name>MsTestLib</Name>
+      <Name>Management.Storage.MsTestLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StorageTestLib\StorageTestLib.csproj">
+    <ProjectReference Include="..\StorageTestLib\Management.Storage.StorageTestLib.csproj">
       <Project>{0a513849-2690-4d07-8de7-0ace39645d12}</Project>
-      <Name>StorageTestLib</Name>
+      <Name>Management.Storage.StorageTestLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
