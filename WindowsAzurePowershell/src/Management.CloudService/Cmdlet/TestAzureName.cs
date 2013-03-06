@@ -14,20 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
+    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Cmdlets.Common;
+    using Management.Model;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]
-    public class TestAzureNameCommand : CloudBaseCmdlet<IServiceManagement>
+    public class TestAzureNameCommand : ServiceManagementBaseCmdlet
     {
+        private IServiceBusManagement serviceBusChannel;
+
         public TestAzureNameCommand()
         {
+            
         }
 
-        public TestAzureNameCommand(IServiceManagement channel)
+        public TestAzureNameCommand(IServiceManagement channel, IServiceBusManagement serviceBusChannel)
         {
             Channel = channel;
+            this.serviceBusChannel = serviceBusChannel;
         }
 
         [Parameter(Position = 0, Mandatory = true, ParameterSetName = "Service", HelpMessage = "Test for a cloud service name.")]
@@ -79,9 +88,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             return result;
         }
 
-        public ServiceBusNamespaceAvailabiliyResponse IsServiceBusNamespaceAvailable(string subscriptionId, string name)
+        public ServiceBusNamespaceAvailabilityResponse IsServiceBusNamespaceAvailable(string subscriptionId, string name)
         {
-            ServiceBusNamespaceAvailabiliyResponse result = Channel.IsServiceBusNamespaceAvailable(subscriptionId, name);
+            ServiceBusNamespaceAvailabilityResponse result = serviceBusChannel.IsServiceBusNamespaceAvailable(subscriptionId, name);
             
             WriteObject(!result.Result);
 
@@ -102,6 +111,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             }
             else
             {
+                if (serviceBusChannel == null)
+                {
+                    serviceBusChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceBusManagement>(
+                        ServiceBinding,
+                        new Uri(ServiceEndpoint),
+                        CurrentSubscription.Certificate,
+                        new HttpRestMessageInspector(text => this.WriteDebug(text)));
+                }
+
                 IsServiceBusNamespaceAvailable(CurrentSubscription.SubscriptionId, Name);
             }
         }

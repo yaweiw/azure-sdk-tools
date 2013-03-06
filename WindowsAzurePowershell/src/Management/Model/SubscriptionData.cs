@@ -17,15 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Model
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
     using Microsoft.WindowsAzure.Storage;
-    using Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
     using Utilities;
 
     public class SubscriptionData
     {
-        private CloudStorageAccount _currentStorageAccount;
-
         public string SubscriptionName { get; set; }
 
         public string SubscriptionId { get; set; }
@@ -40,20 +37,7 @@ namespace Microsoft.WindowsAzure.Management.Model
 
         public bool IsDefault { get; set; }
 
-        /// <summary>
-        /// Gets current storage account using current subscription.
-        /// </summary>
-        /// <returns>The current storage account</returns>
-        public CloudStorageAccount GetCurrentStorageAccount()
-        {
-            Binding serviceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(0);
-            string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
-                Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint :
-                ServiceEndpoint;
-            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
-
-            return GetCurrentStorageAccount(channel);
-        }
+        public CloudStorageAccount CurrentCloudStorageAccount { get; set; }
 
         public CloudStorageAccount GetCurrentStorageAccount(IServiceManagement channel)
         {
@@ -62,13 +46,13 @@ namespace Microsoft.WindowsAzure.Management.Model
                 return null;
             }
 
-            if (_currentStorageAccount != null)
+            if (this.CurrentCloudStorageAccount != null)
             {
-                return _currentStorageAccount;
+                return CurrentCloudStorageAccount;
             }
 
             CloudStorageAccount currentStorage = null;
-            using (new OperationContextScope((IContextChannel)channel))
+            using (new OperationContextScope(channel.ToContextChannel()))
             {
                 var storageService = channel.GetStorageService(SubscriptionId, CurrentStorageAccount);
                 var storageServiceKeys = channel.GetStorageKeys(SubscriptionId, CurrentStorageAccount);
@@ -79,13 +63,41 @@ namespace Microsoft.WindowsAzure.Management.Model
                 }
             }
 
-            _currentStorageAccount = currentStorage;
+            this.CurrentCloudStorageAccount = currentStorage;
+            return currentStorage;
+        }
+
+        public static CloudStorageAccount GetCurrentCloudStorageAccount(IServiceManagement channel, SubscriptionData subscriptionData)
+        {
+            if (String.IsNullOrEmpty(subscriptionData.CurrentStorageAccount))
+            {
+                return null;
+            }
+
+            if (subscriptionData.CurrentCloudStorageAccount != null)
+            {
+                return subscriptionData.CurrentCloudStorageAccount;
+            }
+
+            CloudStorageAccount currentStorage = null;
+            using (new OperationContextScope(channel.ToContextChannel()))
+            {
+                var storageService = channel.GetStorageService(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount);
+                var storageServiceKeys = channel.GetStorageKeys(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount);
+                if (storageService != null && storageServiceKeys != null)
+                {
+                    string connectionString = General.BuildConnectionString("https", storageService.ServiceName, storageServiceKeys.StorageServiceKeys.Primary, storageService.StorageServiceProperties.Endpoints[0].Replace("http://", "https://"), storageService.StorageServiceProperties.Endpoints[2].Replace("http://", "https://"), storageService.StorageServiceProperties.Endpoints[1].Replace("http://", "https://"));
+                    currentStorage = CloudStorageAccount.Parse(connectionString);
+                }
+            }
+
+            subscriptionData.CurrentCloudStorageAccount = currentStorage;
             return currentStorage;
         }
 
         public void NullCurrentStorageAccount()
         {
-            _currentStorageAccount = null;
+            CurrentCloudStorageAccount = null;
         }
     }
 }

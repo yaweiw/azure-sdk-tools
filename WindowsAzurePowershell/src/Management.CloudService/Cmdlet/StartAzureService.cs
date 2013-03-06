@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Properties;
+    using ServiceManagement;
 
     /// <summary>
     /// Starts the deployment of specified slot in the azure service

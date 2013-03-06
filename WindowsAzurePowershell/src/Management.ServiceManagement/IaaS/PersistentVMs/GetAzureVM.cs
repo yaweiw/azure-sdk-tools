@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Net;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
@@ -20,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -140,14 +142,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         private void ListAllVMs()
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
                 HostedServiceList services = this.RetryCall(s => this.Channel.ListHostedServices(s));
                 if (services != null)
                 {
                     foreach (HostedService service in services)
                     {
-                        using (new OperationContextScope((IContextChannel)Channel))
+                        using (new OperationContextScope(Channel.ToContextChannel()))
                         {
                             try
                             {
@@ -168,9 +170,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                                     }
                                 }
                             }
-                            catch (CommunicationException exc)
+                            catch (ServiceManagementClientException exc)
                             {
-                                if ((exc is EndpointNotFoundException) == false)
+                                if(exc.HttpStatus != HttpStatusCode.NotFound)
                                 {
                                     throw;
                                 }

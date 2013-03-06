@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Service;
     using Service.Gateway;
     using Model;
@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListVirtualNetworkConnections(s, this.VNetName),
-                WaitForGatewayOperation,
+                WaitForNewGatewayOperation,
                 (operation, connections) => connections.Select(c => new GatewayConnectionContext
                 {
                     OperationId = operation.OperationTrackingId,

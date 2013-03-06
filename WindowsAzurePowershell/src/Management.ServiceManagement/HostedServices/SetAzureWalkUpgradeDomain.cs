@@ -14,17 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Management.Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Walks the specified upgrade domain.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWalkUpgradeDomain"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureWalkUpgradeDomainCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureWalkUpgradeDomainCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureWalkUpgradeDomainCommand()
         {

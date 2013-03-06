@@ -12,20 +12,21 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Model;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Model;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Lists the versions of the guest operating system that are currently available in Windows Azure.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureOSVersion"), OutputType(typeof(OSVersionsContext))]
-    public class GetAzureOSVersionCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureOSVersionCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureOSVersionCommand()
         {
@@ -56,7 +57,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Label = string.IsNullOrEmpty(os.Label) ? null : ServiceManagementHelper.DecodeFromBase64String(os.Label)
                 })
                 );
-
         }
     }
 }

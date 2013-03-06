@@ -23,7 +23,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
+    using System.ServiceModel.Channels;
     using System.Text;
+    using System.Xml;
     using System.Xml.Serialization;
     using Properties;
 
@@ -87,9 +89,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         {
             // TODO: fix and uncomment. second parameter is wrong
             // Validate.ValidateFileFull(fileName, string.Format(Resources.PathDoesNotExistForElement, string.Empty, fileName));
-            
+
             T item = default(T);
-            
+
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
             using (Stream s = new FileStream(fileName, FileMode.Open))
             {
@@ -106,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     }
                 }
             }
-            
+
             return item;
         }
 
@@ -172,7 +174,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             Debug.Assert(!string.IsNullOrEmpty(path));
             Debug.Assert(Enum.IsDefined(typeof(FileMode), mode));
             Debug.Assert(bytes != null && bytes.Length > 0);
-            
+
             // Note: We're not wrapping the file in a using statement because
             // that could lead to a double dispose when the writer is disposed.
             FileStream file = null;
@@ -216,7 +218,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         {
             Validate.ValidateStringIsNullOrEmpty(thumbprint, "certificate thumbprint");
             X509Certificate2Collection certificates;
-            if (TryFindCertificatesInStore(thumbprint, StoreLocation.CurrentUser, out certificates) || 
+            if (TryFindCertificatesInStore(thumbprint, StoreLocation.CurrentUser, out certificates) ||
                 TryFindCertificatesInStore(thumbprint, StoreLocation.LocalMachine, out certificates))
             {
                 return certificates[0];
@@ -411,6 +413,78 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }
+        }
+
+        /// <summary>
+        /// Compares two strings with handling special case that base string can be empty.
+        /// </summary>
+        /// <param name="leftHandSide">The base string.</param>
+        /// <param name="rightHandSide">The comparer string.</param>
+        /// <returns>True if equals or leftHandSide is null/empty, false otherwise.</returns>
+        public static bool TryEquals(string leftHandSide, string rightHandSide)
+        {
+            if (string.IsNullOrEmpty(leftHandSide) ||
+                leftHandSide.Equals(rightHandSide, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public static string ReadBody(ref Message originalMessage)
+        {
+            StringBuilder strBuilder = new StringBuilder();
+
+            using (MessageBuffer messageBuffer = originalMessage.CreateBufferedCopy(int.MaxValue))
+            {
+                Message message = messageBuffer.CreateMessage();
+                XmlWriter writer = XmlWriter.Create(strBuilder);
+                using (XmlDictionaryWriter dictionaryWriter = XmlDictionaryWriter.CreateDictionaryWriter(writer))
+                {
+                    message.WriteBodyContents(dictionaryWriter);
+                }
+
+                originalMessage = messageBuffer.CreateMessage();
+            }
+
+            return Beautify(strBuilder.ToString());
+        }
+
+        /// <summary>
+        /// Formats given string into well formatted XML.
+        /// </summary>
+        /// <param name="unformattedXml">The unformatted xml string</param>
+        /// <returns>The formatted XML string</returns>
+        public static string Beautify(string unformattedXml)
+        {
+            string formattedXml = string.Empty;
+            if (!string.IsNullOrEmpty(unformattedXml))
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(unformattedXml);
+                StringBuilder stringBuilder = new StringBuilder();
+                XmlWriterSettings settings = new XmlWriterSettings()
+                {
+                    Indent = true,
+                    IndentChars = "\t",
+                    NewLineChars = Environment.NewLine,
+                    NewLineHandling = NewLineHandling.Replace
+                };
+                using (XmlWriter writer = XmlWriter.Create(stringBuilder, settings))
+                {
+                    doc.Save(writer);
+                }
+                formattedXml = stringBuilder.ToString();
+            }
+
+            return formattedXml;
+        }
+
+        public static string GetConfiguration(string configurationPath)
+        {
+            var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
+            return ServiceManagementHelper.EncodeToBase64String(configuration);
         }
     }
 }

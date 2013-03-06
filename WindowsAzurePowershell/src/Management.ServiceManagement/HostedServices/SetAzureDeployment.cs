@@ -12,24 +12,24 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Samples.WindowsAzure.ServiceManagement;
     using Helpers;
     using Cmdlets.Common;
     using Extensions;
     using Management.Model;
+    using Utilities;
+    using WindowsAzure.ServiceManagement;
+
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureDeployment"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureDeploymentCommand()
         {
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             string configString = string.Empty;
             if (!string.IsNullOrEmpty(Configuration))
             {
-                configString = Utility.GetConfiguration(Configuration);
+                configString = General.GetConfiguration(Configuration);
             }
   
             // Upgrade Parameter Set
@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
                     PackageUrl = packageUrl,
-                    Label = (Label != null) ? ServiceManagementHelper.EncodeToBase64String(Label) : ServiceManagementHelper.EncodeToBase64String(ServiceName),
+                    Label = Label != null ? ServiceManagementHelper.EncodeToBase64String(Label) : ServiceManagementHelper.EncodeToBase64String(ServiceName),
                     Force = Force.IsPresent
                 };
 
@@ -184,7 +184,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     upgradeDeploymentInput.RoleToUpgrade = RoleName;
                 }
 
-                using (new OperationContextScope((IContextChannel)Channel))
+                using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
@@ -199,7 +199,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                                     packageUrl));
                         }
                     }
-                    catch (CommunicationException ex)
+                    catch (ServiceManagementClientException ex)
                     {
                         this.WriteErrorDetails(ex);
                     }
@@ -232,6 +232,5 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             this.ExecuteCommand();
         }
-
     }
 }

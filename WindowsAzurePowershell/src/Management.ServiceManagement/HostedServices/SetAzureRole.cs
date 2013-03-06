@@ -18,15 +18,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using System.Xml.Linq;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Management.Model;
+    using WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
+
 
     /// <summary>
     /// Sets the instance count for the selected role.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureRole", DefaultParameterSetName = "ParameterSetDeploymentSlot"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureRoleCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureRoleCommand()
         {
@@ -77,22 +79,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 return;
             }
 
-            using (new OperationContextScope((IContextChannel)this.Channel))
+            using (new OperationContextScope(this.Channel.ToContextChannel()))
             {
                 try
                 {
                     XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
                     var configuration = XDocument.Parse(ServiceManagementHelper.DecodeFromBase64String(currentDeployment.Configuration));
-                    var role = configuration.Root.Elements(ns + "Role")
-                                    .Where(p => string.Compare(p.Attribute("name").Value, this.RoleName, true) == 0)
-                                    .SingleOrDefault();
+                    var role = configuration.Root.Elements(ns + "Role").SingleOrDefault(p => string.Compare(p.Attribute("name").Value, this.RoleName, true) == 0);
 
                     if (role != null)
                     {
                         role.Element(ns + "Instances").SetAttributeValue("count", this.Count);
                     }
 
-                    using (new OperationContextScope((IContextChannel)Channel))
+                    using (new OperationContextScope(Channel.ToContextChannel()))
                     {
                         var updatedConfiguration = new ChangeConfigurationInput
                         {
@@ -102,11 +102,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientAction(configuration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, updatedConfiguration), WaitForOperation);
                     }
                 }
-                catch (EndpointNotFoundException ex)
-                {
-                    this.WriteErrorDetails(ex);
-                }
-                catch (CommunicationException ex)
+                catch (ServiceManagementClientException ex)
                 {
                     this.WriteErrorDetails(ex);
                 }
@@ -120,18 +116,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         private Deployment GetCurrentDeployment(out Operation operation)
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                try
-                {
-                    var deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                    operation = WaitForOperation("Get Deployment");
-                    return deployment;
-                }
-                catch (CommunicationException)
-                {
-                    throw;
-                }
+                var deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
+                operation = WaitForOperation("Get Deployment");
+                return deployment;
             }
         }
     }

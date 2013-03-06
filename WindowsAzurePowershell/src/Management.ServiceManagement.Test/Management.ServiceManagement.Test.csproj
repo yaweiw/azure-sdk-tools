@@ -16,6 +16,8 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -78,9 +80,23 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Data.Edm, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.0.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.0.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.4.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -91,6 +107,10 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.0.2\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -109,8 +129,14 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\HostCaching.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\InstanceSize.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\OS.cs" />
+    <Compile Include="FunctionalTests\ConfigDataInfo\RemoveAzureDataDiskConfig.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\VMPowerState.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureCertificateCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ExportAzureVMCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureAffinityGroupCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureCertificateCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDataDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureDataDiskCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureEndpointCmdletInfo.cs" />
@@ -124,16 +150,45 @@
     <Compile Include="FunctionalTests\ConfigDataInfo\VMSizeInfo.cs" />
     <Compile Include="FunctionalTests\FunctionalTest.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\AddAzureVhdCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureDns.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureEndpointCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureOSDisk.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureOSVersion.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRemoteDesktopFileCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureRole.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureServiceCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureStorageKeyCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureSubnet.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetConfig.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetConnection.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetGateway.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetGatewayKey.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\GetAzureVNetSite.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\ImportAzureVMCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\MoveAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureAffinityGroupCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureCertificateSettingCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureDns.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureServiceCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureSSHKeyCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureStorageKeyCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureVNetGateway.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureAffinityGroupCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureCertificateCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDataDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDeploymentCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureEndpointCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureSubscriptionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureServiceCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVMImageCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVNetConfig.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureVNetGateway.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SaveAzureVhdCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SaveAzureVMImageCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SelectAzureSubscriptionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RestartAzureVMCmdletInfo.cs" />
@@ -141,6 +196,20 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureVMConfigCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\RemoveAzureStorageAccountCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAffinityGroupCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureDeploymentCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureEndpointCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureOSDisk.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureRole.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureServiceCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureStorageAccountCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureSubnet.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureVNetConfig.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureVNetGateway.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureDiskCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\UpdateAzureVMImageCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellScript.cs" />
+    <Compile Include="FunctionalTests\PowershellCore\PowershellCmdletScript.cs" />
     <Compile Include="FunctionalTests\ScenarioTest.cs" />
     <Compile Include="FunctionalTests\ServiceManagementCmdletTestHelper.cs">
       <SubType>Code</SubType>
@@ -192,11 +261,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
+    <None Include="packages.config" />
+    <None Include="Resources\download_VHD.csv" />
     <None Include="Resources\overwrite_VHD.csv" />
     <None Include="Resources\patch_VHD.csv" />
     <None Include="Resources\resume_VHD.csv" />
+    <None Include="Resources\SampleAppV1.cscfg" />
+    <None Include="Resources\SampleAppV1.cspkg" />
+    <None Include="Resources\SampleAppV2.cscfg" />
+    <None Include="Resources\SampleAppV2.cspkg" />
     <None Include="Resources\thread_VHD.csv" />
     <None Include="Resources\upload_VHD.csv" />
+    <None Include="Resources\wrongPara_VHD.csv" />
     <None Include="VhdFiles\dynamic_50.vhd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -255,10 +331,6 @@
       <Project>{DA1432AF-D6B5-47A1-8B74-CCD740683E0F}</Project>
       <Name>ServiceManagement.Additions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559A16C7-B11C-4AA6-8C16-8ADECA6ABED7}</Project>
-      <Name>ServiceManagement</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Sync\Sync.csproj">
       <Project>{73820CBC-F4EB-4C5E-B4F0-CC4A93FBF157}</Project>
       <Name>Sync</Name>
@@ -284,6 +356,7 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

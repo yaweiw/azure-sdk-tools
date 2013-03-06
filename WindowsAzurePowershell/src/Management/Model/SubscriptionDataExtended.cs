@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Model
 {
-    using Samples.WindowsAzure.ServiceManagement;
+    using ServiceManagement;
 
     public class SubscriptionDataExtended : SubscriptionData
     {

@@ -18,12 +18,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
-    public class GetAzureVMImage : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureVMImage : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, ValueFromPipelineByPropertyName = true, Mandatory = false, HelpMessage = "Name of the image in the image library.")]
         [ValidateNotNullOrEmpty]
@@ -37,9 +37,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
         {
             Func<Operation, IEnumerable<OSImage>, object> func = (operation, images) => images.Select(d => new OSImageContext
             {
-                OperationId = operation.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = operation.Status,
                 AffinityGroup = d.AffinityGroup,
                 Category = d.Category,
                 Label = d.Label,
@@ -47,7 +44,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 MediaLink = d.MediaLink,
                 ImageName = d.Name,
                 OS = d.OS,
-                LogicalSizeInGB = d.LogicalSizeInGB
+                LogicalSizeInGB = d.LogicalSizeInGB,
+                Eula = d.Eula,
+                Description = d.Description,
+                ImageFamily = d.ImageFamily,
+                PublishedDate = d.PublishedDate,
+                IsPremium = d.IsPremium,
+                PrivacyUri = d.PrivacyUri,
+                PublisherName = d.PublisherName,
+                RecommendedVMSize = d.RecommendedVMSize,
+                OperationId = operation.OperationTrackingId,
+                OperationDescription = CommandRuntime.ToString(),
+                OperationStatus = operation.Status
             });
             if (!string.IsNullOrEmpty(this.ImageName))
             {
