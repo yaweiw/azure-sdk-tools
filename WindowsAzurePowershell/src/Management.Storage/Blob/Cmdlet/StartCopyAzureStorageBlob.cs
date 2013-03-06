@@ -143,7 +143,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     break;
             }
 
-            WriteICloudBlobWithProperties(destinationBlob);
+            if (destinationBlob != null)
+            {
+                WriteICloudBlobWithProperties(destinationBlob, destChannel, DestContext);
+                AccessCondition accessCondition = null;
+                BlobRequestOptions options = null;
+                //Make sure we use the dest channel
+                destChannel.FetchBlobAttributes(destinationBlob, accessCondition, options, OperationContext);
+                AzureStorageBlob azureBlob = new AzureStorageBlob(destinationBlob);
+                //Make sure the dest context is piped out
+                azureBlob.Context = DestContext;
+            }
+            else
+            {
+                WriteObject(String.Format(Resources.CopyDestinationBlobPending, blobName, container.Name));
+            }
         }
 
         private ICloudBlob StartCopyBlob(ICloudBlob srcICloudBlob, ICloudBlob destICloudBlob)
@@ -165,6 +179,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
         private ICloudBlob StartCopyBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName)
         {
+            ValidateBlobName(srcBlobName);
+            ValidateContainerName(srcContainerName);
+            ValidateContainerName(destContainerName);
+
+            if (string.IsNullOrEmpty(destBlobName))
+            {
+                destBlobName = srcBlobName;
+            }
+
+            ValidateBlobName(destBlobName);
+
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
             CloudBlobContainer container = Channel.GetContainerReference(srcContainerName);
@@ -186,6 +211,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 destBlobName = blob.Name;
             }
 
+            ValidateBlobName(blob.Name);
+            ValidateContainerName(destContainer.Name);
+            ValidateBlobName(destBlobName);
+
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnTaskFinish, null);
             StartSyncTaskInTransferManager(taskAction, null);
             return GetDestinationBlob(destContainer, destBlobName);
@@ -193,6 +222,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
         private ICloudBlob StartCopyInTransferManager(Uri uri, CloudBlobContainer destContainer, string destBlobName)
         {
+            ValidateContainerName(destContainer.Name);
+            ValidateBlobName(destBlobName);
+
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnTaskFinish, null);
             StartSyncTaskInTransferManager(taskAction, null);
             return GetDestinationBlob(destContainer, destBlobName);
@@ -202,7 +234,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
-            return destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
+            return  destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
         }
     }
 }

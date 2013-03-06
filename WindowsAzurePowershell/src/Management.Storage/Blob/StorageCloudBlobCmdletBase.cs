@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
+    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -144,7 +145,24 @@ namespace Microsoft.WindowsAzure.Management.Storage
             BlobRequestOptions options = null;
             channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
-            WriteObjectWithStorageContext(azureBlob);
+
+            WriteObjectWithStorageContext(azureBlob, context);
+        }
+
+        protected void ValidateBlobName(string name)
+        {
+            if (!NameUtil.IsValidBlobName(name))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidBlobName, name));
+            }
+        }
+
+        protected void ValidateContainerName(string name)
+        {
+            if (!NameUtil.IsValidContainerName(name))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
+            }
         }
     }
 }

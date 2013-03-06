@@ -103,9 +103,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// Output azure storage object with storage context
         /// </summary>
         /// <param name="item">An AzureStorageBase object</param>
-        internal void WriteObjectWithStorageContext(AzureStorageBase item)
+        internal void WriteObjectWithStorageContext(AzureStorageBase item, AzureStorageContext context = null)
         {
-            item.Context = Context;
+            if (context == null)
+            {
+                item.Context = Context;
+            }
+            else
+            {
+                item.Context = context;
+            }
+
             WriteObject(item);
         }
 

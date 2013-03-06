@@ -471,4 +471,8 @@
   <data name="TransmitSuccessfully" xml:space="preserve">
     <value>Transmit sucessfully.</value>
   </data>
+  <data name="CopyDestinationBlobPending" xml:space="preserve">
+    <value>Your copy blob request to blob '{0}' in container '{1}' has already scheduled. However the destionation blob still didn't create. Please try to mintor it later.</value>
+    <comment>0 for blob name, 1 for container name.</comment>
+  </data>
 </root>
