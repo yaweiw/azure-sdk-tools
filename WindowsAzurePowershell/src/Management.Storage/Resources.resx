@@ -280,8 +280,8 @@
     <value>Exception cannot be null or empty.</value>
   </data>
   <data name="FinishRemoteCall" xml:space="preserve">
-    <value>Finish remote call for {0} with status code {1} and service request id {2}. Elapsed time {3:0.00} ms.</value>
-    <comment>0 for request uri, 1 http status code, 2 service request id, 3 for elapsed time.</comment>
+    <value>Finish remote call for {0} with status code {1}({2}) and service request id {3}. Elapsed time {4:0.00} ms.</value>
+    <comment>0 for request uri, 1 http status code in number, 2 http status code, 3 service request id, 4 for elapsed time.</comment>
   </data>
   <data name="InitOperationContextLog" xml:space="preserve">
     <value>Init Operation Context for '{0}' with client request id  {1}. If you want to get more details, please add "-Debug" to your command.</value>
