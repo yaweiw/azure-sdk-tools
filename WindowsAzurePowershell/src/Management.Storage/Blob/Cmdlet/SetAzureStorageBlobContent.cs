@@ -31,14 +31,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     /// <summary>
     /// download blob from azure
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
+    [Cmdlet(VerbsCommon.Set, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManualParameterSet),
         OutputType(typeof(AzureStorageBlob))]
     public class SetAzureBlobContentCommand : StorageDataMovementCmdletBase
     {
         /// <summary>
         /// default parameter set name
         /// </summary>
-        private const string ManuallyParameterSet = "SendManual";
+        private const string ManualParameterSet = "SendManual";
 
         /// <summary>
         /// blob pipeline
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
         [Alias("FullName")]
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "file Path",
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ManuallyParameterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ManualParameterSet)]
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "file Path",
             ParameterSetName = ContainerParameterSet)]
         [Parameter(Position = 0, Mandatory = true, HelpMessage = "file Path",
@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string FileName = String.Empty;
 
-        [Parameter(Position = 1, HelpMessage = "Container name", Mandatory = true, ParameterSetName = ManuallyParameterSet)]
+        [Parameter(Position = 1, HelpMessage = "Container name", Mandatory = true, ParameterSetName = ManualParameterSet)]
         public string Container
         {
             get { return ContainerName; }
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "Blob name", ParameterSetName = ManuallyParameterSet)]
+        [Parameter(HelpMessage = "Blob name", ParameterSetName = ManualParameterSet)]
         [Parameter(HelpMessage = "Blob name", ParameterSetName = ContainerParameterSet)]
         public string Blob
         {
@@ -123,14 +123,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             get
             {
-                return BlobProerties;
+                return BlobProperties;
             }
             set
             {
-                BlobProerties = value;
+                BlobProperties = value;
             }
         }
-        private Hashtable BlobProerties = null;
+        private Hashtable BlobProperties = null;
 
         [Parameter(HelpMessage = "Blob Metadata", Mandatory = false)]
         public Hashtable Metadata
@@ -146,6 +146,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         private Hashtable BlobMetadata = null;
+
+        /// <summary>
+        /// the root dir for sending file
+        /// make sure the root dir is lower case.
+        /// </summary>
+        private string sendRootDir = String.Empty;
 
         /// <summary>
         /// Initializes a new instance of the SetAzureBlobContentCommand class.
@@ -233,12 +239,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
-        /// the root dir for sending file
-        /// make sure the root dir is lower case.
-        /// </summary>
-        private string sendRootDir = String.Empty;
-
-        /// <summary>
         /// get blob name according to the relative file path
         /// </summary>
         /// <param name="filePath">absolute file path</param>
@@ -271,7 +271,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="fileName">local file path</param>
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name</param>
-        /// <returns>null if user cancel the overwrite operation, otherwise return destionation blob object</returns>
+        /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, string containerName, string blobName)
         {
@@ -285,7 +285,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="fileName">local file path</param>
         /// <param name="container">destination container</param>
         /// <param name="blobName">blob name</param>
-        /// <returns>null if user cancel the overwrite operation, otherwise return destionation blob object</returns>
+        /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, CloudBlobContainer container, string blobName)
         {
@@ -326,7 +326,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="fileName">local file name</param>
         /// <param name="blob">destination blob</param>
         /// <param name="isValidContainer">whether the destination container is validated</param>
-        /// <returns>null if user cancel the overwrite operation, otherwise return destionation blob object</returns>
+        /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, ICloudBlob blob, bool isValidContainer = false)
         {
@@ -528,9 +528,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             AzureStorageBlob blob = null;
             string containerName = string.Empty;
 
-            if (BlobProerties != null)
+            if (BlobProperties != null)
             {
-                ValidateBlobProperties(BlobProerties);
+                ValidateBlobProperties(BlobProperties);
             }
 
             switch (ParameterSetName)
@@ -545,7 +545,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                     containerName = ICloudBlob.Container.Name;
                     break;
 
-                case ManuallyParameterSet:
+                case ManualParameterSet:
                 default:
                     blob = SetAzureBlobContent(FileName, ContainerName, BlobName);
                     containerName = ContainerName;
@@ -560,7 +560,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             else
             {
                 //set the properties and meta
-                SetBlobProperties(blob, BlobProerties);
+                SetBlobProperties(blob, BlobProperties);
                 SetBlobMeta(blob, Metadata);
 
                 WriteObjectWithStorageContext(blob);

@@ -253,7 +253,14 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
             blob.SetMetadata(accessCondition, options, operationContext);
         }
 
-
+        /// <summary>
+        /// Abort copy operation on specified blob
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="copyId">Copy id</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request optioins</param>
+        /// <param name="operationContext">Operation context</param>
         public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             try

@@ -29,8 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// Amount of concurrent async tasks to run per available core.
         /// </summary>
-        [Alias("Concurrent")]
-        [Parameter(HelpMessage = "Amount of concurrent async tasks to run per available core.")]
+        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is ProcessorCount * 8")]
         public int ConcurrentTaskCount
         {
             get { return concurrentTaskCount; }
@@ -46,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// exception thrown during transfer
         /// </summary>
-        private Exception runtimeExceptioin;
+        private Exception runtimeException;
 
         /// <summary>
         /// Blob Transfer Manager
@@ -84,19 +83,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 return;
             }
 
-            int intPercent = (int)percent;
-
-            if (intPercent > 100)
-            {
-                intPercent = 100;
-            }
-            else if (intPercent < 0)
-            {
-                intPercent = 0;
-            }
-
-            pr.PercentComplete = intPercent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, intPercent, speed);
+            pr.PercentComplete = (int)percent;
+            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, speed);
         }
 
         /// <summary>
@@ -108,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         internal virtual void OnTaskFinish(object progress, Exception e)
         {
             finished = true;
-            runtimeExceptioin = e;
+            runtimeException = e;
 
             ProgressRecord pr = progress as ProgressRecord;
 
@@ -133,8 +121,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             if (concurrentTaskCount == 0)
             {
-                int AsyncTasksPerCodeMultiplier = 8;
-                concurrentTaskCount = Environment.ProcessorCount * AsyncTasksPerCodeMultiplier;
+                int asyncTasksPerCoreMultiplier = 8;
+                concurrentTaskCount = Environment.ProcessorCount * asyncTasksPerCoreMultiplier;
             }
 
             BlobTransferOptions opts = new BlobTransferOptions();
@@ -180,9 +168,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 }
             }
 
-            if (runtimeExceptioin != null)
+            if (runtimeException != null)
             {
-                throw runtimeExceptioin;
+                throw runtimeException;
             }
         }
 

@@ -431,7 +431,7 @@
     <value>CopyId can not be empty.</value>
   </data>
   <data name="StopCopyBlobSuccessfully" xml:space="preserve">
-    <value>Stop the copy task on blob '{0}' in container '{1}' successfully.</value>
+    <value>Stopped the copy task on blob '{0}' in container '{1}' successfully.</value>
     <comment>0 for blob name, 1 for container name</comment>
   </data>
   <data name="CopyBlobPendingStatus" xml:space="preserve">
@@ -440,7 +440,7 @@
   </data>
   <data name="CopyBlobStatus" xml:space="preserve">
     <value>'{0}' copy to blob '{1}' in container '{2}' from '{3}'.</value>
-    <comment>0 for copy status, 1 for destination blob name, 2 for destionation container name, 3 for source uri.</comment>
+    <comment>0 for copy status, 1 for destination blob name, 2 for destination container name, 3 for source uri.</comment>
   </data>
   <data name="CopyBlobToBlobSuccessfully" xml:space="preserve">
     <value>Successfully start copy blob '{0}' in container '{1}' to blob '{2}' in container '{3}'.</value>
@@ -458,7 +458,7 @@
   </data>
   <data name="CopyBlobSummaryCount" xml:space="preserve">
     <value>Total: {0}. Finished: {1}. Active:{2}. Failed: {3}.</value>
-    <comment>0,1,2,3 for related task coun</comment>
+    <comment>0,1,2,3 for related task count.</comment>
   </data>
   <data name="CopyTaskNotFound" xml:space="preserve">
     <value>Can not find copy task on specified blob '{0}' in container '{1}'.</value>
@@ -466,13 +466,13 @@
   </data>
   <data name="TransmitFailed" xml:space="preserve">
     <value>Transmit failed. Exception: {0}.</value>
-    <comment>0 for errror message.</comment>
+    <comment>0 for error message.</comment>
   </data>
   <data name="TransmitSuccessfully" xml:space="preserve">
-    <value>Transmit sucessfully.</value>
+    <value>Transmit successfully.</value>
   </data>
   <data name="CopyDestinationBlobPending" xml:space="preserve">
-    <value>Your copy blob request to blob '{0}' in container '{1}' has already scheduled. However the destionation blob still didn't create. Please try to mintor it later.</value>
+    <value>Your copy blob request to blob '{0}' in container '{1}' has already scheduled. However the destination blob still didn't create. Please try to mintor it later.</value>
     <comment>0 for blob name, 1 for container name.</comment>
   </data>
 </root>
