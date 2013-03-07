@@ -133,6 +133,73 @@ function Test-RemoveAzureServicePipedFromGetAzureService
 	Assert-True { $removed }
 }
 
+########################################################################### Start-AzureService Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Start-AzureService with non-existing service.
+#>
+function Test-StartAzureServiceWithNonExistingService
+{
+	# Test
+	Assert-Throws { Start-AzureService "DoesNotExist" } "The specified cloud service `"DoesNotExist`" does not exist."
+}
+
+<#
+.SYNOPSIS
+Tests Start-AzureService with an existing service that does not have any deployments
+#>
+function Test-StartAzureServiceWithEmptyDeployment
+{
+	# Setup
+	$name = Get-CloudServiceName
+	New-AzureService $name -Location $(Get-DefaultLocation)
+	Stop-AzureService $name -Slot Staging
+
+	# Test
+	$started = Start-AzureService $name -Slot Staging -PassThru
+
+	# Assert
+	Assert-False { $started }
+}
+
+<#
+.SYNOPSIS
+Tests Start-AzureService with an existing service that has production deployment only
+#>
+function Test-StartAzureServiceWithProductionDeployment
+{
+	# Setup
+	New-CloudService 1
+	$name = $global:createdCloudServices[0]
+	Stop-AzureService $name
+
+	# Test
+	$started = Start-AzureService $name -PassThru
+
+	# Assert
+	Assert-True { $started }
+}
+
+<#
+.SYNOPSIS
+Tests Start-AzureService with an existing service that has staging deployment only
+#>
+function Test-StartAzureServiceWithStagingDeployment
+{
+	# Setup
+	New-Deployment
+	$name = $global:createdCloudServices[0]
+	$slot = "Staging"
+	Stop-AzureService $name -Slot $slot
+
+	# Test
+	$started = Start-AzureService $name -PassThru -Slot $slot
+
+	# Assert
+	Assert-True { $started }
+}
+
 ########################################################################### Test-AzureName Scenario Tests ###########################################################################
 
 <#

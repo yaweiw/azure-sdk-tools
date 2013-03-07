@@ -18,15 +18,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Model;
     using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Model;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Retrieve a specified hosted account.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureService"), OutputType(typeof(HostedServiceDetailedContext))]
-    public class GetAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureServiceCommand()
         {

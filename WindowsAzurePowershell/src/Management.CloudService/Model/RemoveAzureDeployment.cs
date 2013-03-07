@@ -16,15 +16,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Utilities;
+    using Cmdlets.Common;
     using Properties;
+    using ServiceManagement;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.
     /// </summary>
-    class RemoveAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    class RemoveAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
         public string Slot
@@ -58,17 +58,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         public string RemoveAzureDeploymentProcess(string rootPath, string inServiceName, string inSlot, string inSubscription)
         {
-            string results;
             string serviceName;
             ServiceSettings settings = InitializeArguments(rootPath, inServiceName, inSlot, inSubscription, out serviceName);
-            results = RemoveDeployment(serviceName, settings.Slot);
-
-            return results;
+            return RemoveDeployment(serviceName, settings.Slot);
         }
 
         private ServiceSettings InitializeArguments(string rootPath, string inServiceName, string inSlot, string inSubscription, out string serviceName)
         {
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 inServiceName,
                 inSlot,
@@ -85,10 +82,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             string results;
 
-            InvokeInOperationContext(() =>
-            {
-                this.RetryCall(s => this.Channel.DeleteDeploymentBySlot(s, serviceName, slot));
-            });
+            InvokeInOperationContext(() => this.RetryCall(s => this.Channel.DeleteDeploymentBySlot(s, serviceName, slot)));
 
             results = string.Format(Resources.DeploymentRemovedMessage, slot, serviceName);
 
@@ -100,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string results = this.RemoveAzureDeploymentProcess(General.GetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                string results = this.RemoveAzureDeploymentProcess(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(results);
             }
             catch (Exception ex)

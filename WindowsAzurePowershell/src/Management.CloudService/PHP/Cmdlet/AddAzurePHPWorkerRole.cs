@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.PHP.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Properties;
 

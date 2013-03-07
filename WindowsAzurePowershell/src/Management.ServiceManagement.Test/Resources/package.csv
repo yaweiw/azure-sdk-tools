@@ -1,0 +1,2 @@
+packageName,configName,upgradePackage,upgradeConfig
+SampleAppV1.cspkg,SampleAppV1.cscfg,SampleAppV2.cspkg,SampleAppV2.cscfg
