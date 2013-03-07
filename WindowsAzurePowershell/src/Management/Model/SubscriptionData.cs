@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Model
     using Microsoft.WindowsAzure.Storage;
     using ServiceManagement;
     using Utilities;
+    using System.ServiceModel.Channels;
 
     public class SubscriptionData
     {
@@ -38,6 +39,21 @@ namespace Microsoft.WindowsAzure.Management.Model
         public bool IsDefault { get; set; }
 
         public CloudStorageAccount CurrentCloudStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets current storage account using current subscription.
+        /// </summary>
+        /// <returns>The current storage account</returns>
+        public CloudStorageAccount GetCurrentStorageAccount()
+        {
+            Binding serviceBinding = Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.WebHttpBinding(0);
+            string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
+                Microsoft.WindowsAzure.Management.Utilities.ConfigurationConstants.ServiceManagementEndpoint :
+                ServiceEndpoint;
+            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
+
+            return GetCurrentStorageAccount(channel);
+        }
 
         public CloudStorageAccount GetCurrentStorageAccount(IServiceManagement channel)
         {
