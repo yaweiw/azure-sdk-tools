@@ -256,7 +256,22 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract
 
         public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
-            blob.AbortCopy(copyId, accessCondition, options, operationContext);
+            try
+            {
+                blob.AbortCopy(copyId, accessCondition, options, operationContext);
+            }
+            catch (StorageException e)
+            {
+                if (e.IsSuccessfulResponse())
+                {
+                    //The abort operation is successful, although get an exception
+                    return;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

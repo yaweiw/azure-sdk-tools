@@ -148,7 +148,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (destinationBlob != null)
             {
-                WriteICloudBlobWithProperties(destinationBlob, destChannel);
                 AccessCondition accessCondition = null;
                 BlobRequestOptions options = null;
                 //Make sure we use the dest channel
@@ -156,6 +155,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 AzureStorageBlob azureBlob = new AzureStorageBlob(destinationBlob);
                 //Make sure the dest context is piped out
                 azureBlob.Context = DestContext;
+                WriteObject(azureBlob);
             }
         }
 
