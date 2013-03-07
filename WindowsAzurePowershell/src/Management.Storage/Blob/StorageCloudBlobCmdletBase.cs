@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
             channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
             AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
 
-            WriteObjectWithStorageContext(azureBlob, context);
+            WriteObjectWithStorageContext(azureBlob);
         }
 
         protected void ValidateBlobName(string name)
