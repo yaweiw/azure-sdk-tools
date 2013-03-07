@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
     using System.IO;
     using System.Linq;
     using System.Security.Permissions;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using ServiceDefinitionSchema;
     using Utilities;
@@ -150,12 +150,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
             else
             {
                 // Create a temporary directory
-                string tempPath = General.CreateTempDirectory();
+                string tempPath = CloudServiceUtilities.CreateTempDirectory();
                 tempDirectories[name] = tempPath;
                 
                 // Copy the role's directory to the temp directory
                 string newPath = Path.Combine(tempPath, name);
-                General.CopyDirectory(Path.Combine(root, name), newPath);
+                CloudServiceUtilities.CopyDirectory(Path.Combine(root, name), newPath);
 
                 // Remove the offending files
                 GetLogDirectories(newPath)

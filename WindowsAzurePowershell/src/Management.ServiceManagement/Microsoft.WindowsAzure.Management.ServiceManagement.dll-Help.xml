@@ -1798,189 +1798,321 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>Add-AzureVMImage</command:name>
+      <command:name>
+        Add-AzureVMImage
+      </command:name>
       <maml:description>
-        <maml:para>Adds a new operating system image to the image repository.</maml:para>
+        <maml:para>The Add-AzureVMImage cmdlet adds a new operating system (OS) image to the image repository. The image should be a sysprep'd or generalized OS image.</maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Add</command:verb>
       <command:noun>AzureVMImage</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>
-        The Add-AzureVMImage cmdlet adds a new operating system (OS) image to the image repository. The image should be a sysprep’d or generalized OS image.
-      </maml:para>
+      <maml:para></maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Add-AzureVMImage</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ImageName</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the name of the image being added to the image repository.
-            </maml:para>
+            <maml:para>Specifies the name of the image being added to the image repository.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the location of the physical blob page where the image resides. This is a link to a blob page in the current subscription’s storage.
-            </maml:para>
+            <maml:para>Specifies the location of the physical blob page where the image resides. This is a link to a blob page in the current subscription's storage.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
           <maml:name>OS</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the operating system version of the image.
-            </maml:para>
+            <maml:para>Specifies the operating system version of the image.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
           <maml:name>Label</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies a label to give the image.
-            </maml:para>
+            <maml:para>Specifies a label to give the image.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>Eula</maml:name>
+          <maml:description>
+            <maml:para>Specifies the End User License Aggreement, recommended value is a URL.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Specifies the description of the OS image.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+          <maml:name>ImageFamily</maml:name>
+          <maml:description>
+            <maml:para>Specifies a value that can be used to group OS images.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="8">
+          <maml:name>PublishedDate</maml:name>
+          <maml:description>
+            <maml:para>Specifies the date when the OS image was added to the image repository.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="9">
+          <maml:name>PrivacyUri</maml:name>
+          <maml:description>
+            <maml:para>Specifies the URI that points to a document that contains the privacy policy related to the OS image.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="10">
+          <maml:name>RecommendedVMSize</maml:name>
+          <maml:description>
+            <maml:para>Specifies the size to use for the virtual machine that is created from the OS image. Values are: "Small", "Medium", "Large", and "ExtraLarge".</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>Description</maml:name>
+        <maml:description>
+          <maml:para>Specifies the description of the OS image.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>Eula</maml:name>
+        <maml:description>
+          <maml:para>Specifies the End User License Aggreement, recommended value is a URL.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+        <maml:name>ImageFamily</maml:name>
+        <maml:description>
+          <maml:para>Specifies a value that can be used to group OS images.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
         <maml:name>ImageName</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies the name of the image being added to the image repository.
-          </maml:para>
+          <maml:para>Specifies the name of the image being added to the image repository.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
         <maml:name>Label</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies a label to give the image.
-          </maml:para>
+          <maml:para>Specifies a label to give the image.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>Image name</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
-        <maml:name>MediaLocation</maml:name>
-        <maml:description>
-          <maml:para>
-            Specifies the location of the physical blob page where the image resides. This is a link to a blob page in the current subscription’s storage.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>MediaLocation</maml:name>
+        <maml:description>
+          <maml:para>Specifies the location of the physical blob page where the image resides. This is a link to a blob page in the current subscription's storage.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
         <maml:name>OS</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies the operating system version of the image.
-          </maml:para>
+          <maml:para>Specifies the operating system version of the image.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="9">
+        <maml:name>PrivacyUri</maml:name>
+        <maml:description>
+          <maml:para>Specifies the URI that points to a document that contains the privacy policy related to the OS image.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="8">
+        <maml:name>PublishedDate</maml:name>
+        <maml:description>
+          <maml:para>Specifies the date when the OS image was added to the image repository.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        <dev:type>
+          <maml:name>DateTime</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="10">
+        <maml:name>RecommendedVMSize</maml:name>
+        <maml:description>
+          <maml:para>Specifies the size to use for the virtual machine that is created from the OS image.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
           <maml:name>OSImageContext</maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri />
+          <maml:description />
         </dev:type>
         <maml:description>
           <maml:para>
-            Provides the information about the new operating system image.
+            <!-- description  -->
+
           </maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Add-AzureVMImage -ImageName imageName -MediaLocation http://yourstorageaccount.blob.core.azure.com/container/sampleImage.vhd -Label imageLabel
-
+          Add-AzureVMImage -ImageName imageName -MediaLocation http://yourstorageaccount.blob.core.azure.com/container/sampleImage.vhd -Label imageLabel
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example adds a new operating system image in the repository
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example adds a new operating system image in the repository</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Get-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Update-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
@@ -10705,109 +10837,6 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Copy-AzureStorageBlob</command:name>
-      <maml:description>
-        <maml:para>Copies a Windows Azure Blob.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para />
-      </maml:copyright>
-      <command:verb>Copy</command:verb>
-      <command:noun>AzureStorageBlob</command:noun>
-      <dev:version />
-    </command:details>
-    <maml:description>
-      <maml:para>
-        The Copy-AzureStorageBlob cmdlet copies a Windows Azure Blob file. The copy can be performed within the same storage account, or between two of the current subscription's storage accounts. This cmdlet can also be used to monitor a copy operation that is already in progress. Cancelling the cmdlet will abort the copy.
-      </maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Copy-AzureStorageBlob</maml:name>
-        <command:parameter required="true" position="0" aliases="Src">
-          <maml:name>Source</maml:name>
-          <command:parameterValue required="true">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" position="1" aliases="Dest">
-          <maml:name>Destination</maml:name>
-          <command:parameterValue required="true">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false">
-          <maml:name>Overwrite</maml:name>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="true" pipelineInput="false" position="0" aliases="Src">
-        <maml:name>Source</maml:name>
-        <maml:description>
-          <maml:para>
-            Specifies the URI of the source blob.
-          </maml:para>
-        </maml:description>
-        <command:parameterValue required="true">String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required="true" pipelineInput="false" position="1" aliases="Dest">
-        <maml:name>Destination</maml:name>
-        <maml:description>
-          <maml:para>Specifies the destination URI.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true">String</command:parameterValue>
-      </command:parameter>
-      <command:parameter required="false" pipelineInput="false">
-        <maml:name>Overwrite</maml:name>
-        <maml:description>
-          <maml:para>Indicates whether the blob at the destination URI should be overwritten if it exists.</maml:para>
-        </maml:description>
-        <dev:defaultValue>false</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:examples>
-      <command:example>
-        <maml:title>
-          --------------  Example 1 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Copy-AzureStorageBlob -Source "http://MySvc1.blob.core.windows.net/blobcontainer/MyBlob.file" -Destination "http://MySvc2.blob.core.windows.net/blobcontainer/MyBlob.file"
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command copies the blob located at the source URI to the destination URI. If the copy operation is already in progress this will resume monitoring the operation.
-          </maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>
-          --------------  Example 2 --------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para></maml:para>
-        </maml:introduction>
-        <dev:code>
-          C:\PS&gt;Copy-AzureStorageBlob -Source "http://MySvc1.blob.core.windows.net/blobcontainer/MyBlob.file" -Destination "http://MySvc2.blob.core.windows.net/blobcontainer/MyBlob.file" -Overwrite
-        </dev:code>
-        <dev:remarks>
-          <maml:para>
-            This command copies the blob located at the source URI to the destination URI, overwriting the blob at the destination URI if it already exists. If the copy operation is already in progress this will resume monitoring the operation.
-          </maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>Add-AzureVhd</maml:linkText>
-        <maml:uri />
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
-
-
-
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
       <command:name>Set-AzureAffinityGroup</command:name>
       <maml:description>
         <maml:para>Updates the properties of a Windows Azure affinity group.</maml:para>
@@ -11157,7 +11186,7 @@
     </command:details>
     <maml:description>
       <maml:para>The Set-AzureDeployment cmdlet sets the status, configuration settings, or upgrade mode of a Windows Azure deployment. </maml:para>
-      <maml:para>With the –Status parameter, you can change the status of the deployment to either "Running" or "Suspended". With the –Config parameter, you can update the .cscfg file, and with the –Upgrade parameter, you set the upgrade mode and update configuration files. Use the Set-AzureWalkUpgradeDomain cmdlet to actually initiate the upgrade. </maml:para>
+      <maml:para>With the –Status parameter, you can change the status of the deployment to either "Running" or "Suspended". With the –Config parameter, you can update the .cscfg file, and with the –Upgrade parameter, you set the upgrade mode and update configuration files. Use the Set-AzureWalkUpgradeDomain cmdlet to actually initiate the upgrade.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -13988,167 +14017,311 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>Update-AzureVMImage</command:name>
+      <command:name>
+        Update-AzureVMImage
+      </command:name>
       <maml:description>
-        <maml:para>Updates the label of an operating system image in the image repository.</maml:para>
+        <maml:para>
+          The Update-AzureVMImage cmdlet updates the properties on an operating system (OS) image in the image repository.
+
+          It returns an image object with information about the updated image.
+        </maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Update</command:verb>
       <command:noun>AzureVMImage</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>
-        The Update-AzureVMImage cmdlet updates label on an operating system (OS) image in the image repository.
-
-        It returns an image object with information about the updated image.
-      </maml:para>
+      <maml:para></maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>Update-AzureVMImage</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
           <maml:name>ImageName</maml:name>
           <maml:description>
-            <maml:para>
-              Name of the image to update in the image repository.
-            </maml:para>
+            <maml:para>Name of the image to update in the image repository.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
           <maml:name>Label</maml:name>
           <maml:description>
-            <maml:para>
-              The new label of the image.
-            </maml:para>
+            <maml:para>The new label of the image.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+          <maml:name>Eula</maml:name>
+          <maml:description>
+            <maml:para>Specifies the End User License Aggreement, recommended value is a URL.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+          <maml:name>Description</maml:name>
+          <maml:description>
+            <maml:para>Specifies the description of the OS image.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+          <maml:name>ImageFamily</maml:name>
+          <maml:description>
+            <maml:para>Specifies a value that can be used to group OS images.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+          <maml:name>PublishedDate</maml:name>
+          <maml:description>
+            <maml:para>Specifies the date when the OS image was added to the image repository.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+          <maml:name>PrivacyUri</maml:name>
+          <maml:description>
+            <maml:para>Specifies the URI that points to a document that contains the privacy policy related to the OS image.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+          <maml:name>RecommendedVMSize</maml:name>
+          <maml:description>
+            <maml:para>Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1" aliases="">
-        <maml:name>ImageName</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="4">
+        <maml:name>Description</maml:name>
         <maml:description>
-          <maml:para>
-            Name of the image to update in the image repository.
-          </maml:para>
+          <maml:para>Specifies the description of the OS image.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="3">
+        <maml:name>Eula</maml:name>
+        <maml:description>
+          <maml:para>Specifies the End User License Aggreement, recommended value is a URL.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="5">
+        <maml:name>ImageFamily</maml:name>
+        <maml:description>
+          <maml:para>Specifies a value that can be used to group OS images.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
+        <maml:name>ImageName</maml:name>
+        <maml:description>
+          <maml:para>Name of the image to update in the image repository.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
         <maml:name>Label</maml:name>
         <maml:description>
-          <maml:para>
-            The new label of the image.
-          </maml:para>
+          <maml:para>The new label of the image.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="7">
+        <maml:name>PrivacyUri</maml:name>
+        <maml:description>
+          <maml:para>Specifies the URI that points to a document that contains the privacy policy related to the OS image.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="6">
+        <maml:name>PublishedDate</maml:name>
+        <maml:description>
+          <maml:para>Specifies the date when the OS image was added to the image repository.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        <dev:type>
+          <maml:name>DateTime</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="8">
+        <maml:name>RecommendedVMSize</maml:name>
+        <maml:description>
+          <maml:para>Specifies the size to use for the virtual machine that is created from the OS image.  Values are: &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, and &quot;ExtraLarge&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
           <maml:name>OSImageContext</maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri />
+          <maml:description />
         </dev:type>
         <maml:description>
           <maml:para>
+            <!-- description  -->
             Provides the information about the updated image.
           </maml:para>
         </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Update-AzureVMImage –ImageName "Windows-Server-2008-SP2" -Label “DoNotUse”
-
+          Update-AzureVMImage -ImageName &quot;Windows-Server-2008-SP2&quot; -Label &quot;DoNotUse&quot;
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example updates the image named “Windows-Server-2008-SP2” by changing the image label to “DoNotUse”.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example updates the image named &quot;Windows-Server-2008-SP2&quot; by changing the image label to &quot;DoNotUse&quot;</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 2 --------------
+          -------------------------- EXAMPLE 2 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;Get-AzureVMImage | Where-Object {$_.Label –eq "DoNotUse" } | Update-AzureVMImage -Label "Updated"
-
+          Get-AzureVMImage | Where-Object {$_.Label -eq &quot;DoNotUse&quot; } | Update-AzureVMImage -Label &quot;Updated&quot;
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example gets all the operating system images labeled “DoNotUse” and changes the label to “Updated”.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example gets all the operating system images labeled &quot;DoNotUse&quot; and changes the label to &quot;Updated&quot;.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Add-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:linkText>Get-AzureVMImage</maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
-        <maml:linkText>Get-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:linkText>Add-AzureVMImage</maml:linkText>
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureVMImage</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
@@ -14204,7 +14377,7 @@
           <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>NumberOfUploaderThreads</maml:name>
+          <maml:name>NumberOfThreads</maml:name>
           <maml:description>
             <maml:para>Determines the number of uploader threads that will be used during upload.</maml:para>
           </maml:description>
@@ -14254,7 +14427,7 @@
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>NumberOfUploaderThreads</maml:name>
+        <maml:name>NumberOfThreads</maml:name>
         <maml:description>
           <maml:para>Determines the number of uploader threads that will be used during upload.</maml:para>
 
@@ -14389,12 +14562,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Add-AzureVhd -Destination http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfUploaderThreads 32
+          Add-AzureVhd -Destination http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfThreads 32
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>NumberOfUploaderThreads allows to change the default number of uploader threads, which is 8.</maml:para>
+          <maml:para>NumberOfThreads allows to change the default number of uploader threads, which is 8.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -14441,4 +14614,294 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Save-AzureVhd
+      </command:name>
+      <maml:description>
+        <maml:para></maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Save</command:verb>
+      <command:noun>AzureVhd</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>
+        The Save-AzureVhd cmdlet allows to download VHD images stored in a blob in to a file. It has parameters to configure the download process such as specifying the number of downloader threads that will be used or overwriting the file which already exists in the specified file path. Save-AzureVhd doesn't do any VHD format conversion and the blob is downloaded as it is.
+      </maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Save-AzureVhd</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+          <maml:name>Source</maml:name>
+          <maml:description>
+            <maml:para>Uri to the blob in Windows Azure.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>StorageKey</maml:name>
+          <maml:description>
+            <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>OverWrite</maml:name>
+          <maml:description>
+            <maml:para>Determines to delete the file specified by LocalFilePath file if it exists.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>LocalFilePath</maml:name>
+          <maml:description>
+            <maml:para></maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NumberOfThreads</maml:name>
+          <maml:description>
+            <maml:para>Determines the number of download threads that will be used during download.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>LocalFilePath</maml:name>
+        <maml:description>
+          <maml:para></maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">FileInfo</command:parameterValue>
+        <dev:type>
+          <maml:name>FileInfo</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>2</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NumberOfThreads</maml:name>
+        <maml:description>
+          <maml:para>Determines the number of download threads that will be used during download.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">int</command:parameterValue>
+        <dev:type>
+          <maml:name>int</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue>8</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>OverWrite</maml:name>
+        <maml:description>
+          <maml:para>Determines to delete the file specified by LocalFilePath file if it exists.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="2">
+        <maml:name>Source</maml:name>
+        <maml:description>
+          <maml:para>Uri to the blob in Windows Azure.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Uri</command:parameterValue>
+        <dev:type>
+          <maml:name>Uri</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>StorageKey</maml:name>
+        <maml:description>
+          <maml:para>Storage key of the blob storage account. If it is not provided, Save-AzureVhd tries to determine the storage key of the account in Source Uri from Windows Azure Cloud.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Downloads the specified blob to the specified local file path.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -Overwrite
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Overwrite options tells to delete if local file exists.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -NumberOfThreads 32
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>NumberOfThreads allows to override the default number of threads, which is 8, used to download.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Save-AzureVhd -Source http://mytestaccount.blob.core.windows.net/vhdstore/win7baseimage.vhd -LocalFilePath C:\vhd\MyWin7Image.vhd -StorageKey zNvcH0r5vAGmC5AbwEtpcyWCMyBd3eMDbdaa4ua6kwxq6vTZH3Y+sw==
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>If storage key is specified, Save-AzureVhd doesn't attempt to get the storage key from Windows Azure Cloud and uses the provided the key in download.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
 </helpItems>

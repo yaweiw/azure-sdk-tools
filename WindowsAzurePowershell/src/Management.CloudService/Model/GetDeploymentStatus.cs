@@ -15,26 +15,28 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
+    using System.Net;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Utilities;
+    using Cmdlets.Common;
     using Properties;
+    using ServiceManagement;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
     /// </summary>
-    public class GetDeploymentStatus : CloudBaseCmdlet<IServiceManagement>
+    public class GetDeploymentStatus : ServiceManagementBaseCmdlet
     {
-        public GetDeploymentStatus()
+        public GetDeploymentStatus(ICommandRuntime commandRuntime)
         {
-
+            CommandRuntime = commandRuntime;
         }
 
-        public GetDeploymentStatus(IServiceManagement channel)
+        public GetDeploymentStatus(IServiceManagement channel, ICommandRuntime commandRuntime)
         {
             Channel = channel;
+            CommandRuntime = commandRuntime;
         }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
@@ -71,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = General.GetDefaultSettings(
+            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
                 rootPath,
                 inServiceName,
                 inSlot,
@@ -95,11 +97,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                     deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
                 });
             }
-            catch (EndpointNotFoundException)
+            catch (ServiceManagementClientException ex)
             {
-                // If we reach here that means the service or slot doesn't exist
-                //
-                throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName));
+                if(ex.HttpStatus == HttpStatusCode.NotFound)
+                {
+                    throw new EndpointNotFoundException(string.Format(Resources.ServiceSlotDoesNotExist, slot, serviceName));
+                }
             }
 
             return deployment.Status;
@@ -110,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string result = this.GetDeploymentStatusProcess(General.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                string result = this.GetDeploymentStatusProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(result);
             }
             catch (Exception ex)

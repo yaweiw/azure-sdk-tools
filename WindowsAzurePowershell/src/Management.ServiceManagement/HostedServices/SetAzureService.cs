@@ -16,16 +16,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
-    using Extensions;
     using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Sets the label and description of the specified hosted service
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureService"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureServiceCommand : ServiceManagementBaseCmdlet
     {
         public SetAzureServiceCommand()
         {

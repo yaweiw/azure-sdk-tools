@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using System.IO;
     using System.Linq;
     using System.Text;
-    using CloudService.Model;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using WindowsAzure.ServiceManagement;
 
     public static class Data
     {
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             myStore.StorageServiceKeys.Primary = "=132321982cddsdsa";
             myStore.StorageServiceKeys.Secondary = "=w8uidjew4378891289";
             myStore.StorageServiceProperties = new StorageServiceProperties();
-            myStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.NorthCentralUS];
+            myStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.NorthCentralUS];
             myStore.StorageServiceProperties.Status = StorageServiceStatus.Created;
             ValidStorageService.Add(myStore);
 
@@ -135,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             testStore.StorageServiceKeys.Primary = "=/se23ew2343221";
             testStore.StorageServiceKeys.Secondary = "==0--3210-//121313233290sd";
             testStore.StorageServiceProperties = new StorageServiceProperties();
-            testStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.EastAsia];
+            testStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.EastAsia];
             testStore.StorageServiceProperties.Status = StorageServiceStatus.Creating;
             ValidStorageService.Add(testStore);
 
@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             MyCompanyStore.StorageServiceKeys.Primary = "121/21dssdsds=";
             MyCompanyStore.StorageServiceKeys.Secondary = "023432dfelfema1=";
             MyCompanyStore.StorageServiceProperties = new StorageServiceProperties();
-            MyCompanyStore.StorageServiceProperties.Location = ArgumentConstants.Locations[Microsoft.WindowsAzure.Management.CloudService.Model.Location.NorthEurope];
+            MyCompanyStore.StorageServiceProperties.Location = ArgumentConstants.Locations[LocationName.NorthEurope];
             MyCompanyStore.StorageServiceProperties.Status = StorageServiceStatus.ResolvingDns;
             ValidStorageService.Add(MyCompanyStore);
         }

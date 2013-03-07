@@ -18,9 +18,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class GetAzureStorageAccountCmdletInfo : CmdletsInfo
     {
-        public GetAzureStorageAccountCmdletInfo()
+        public GetAzureStorageAccountCmdletInfo(string accountName)
         {
             cmdletName = Utilities.GetAzureStorageAccountCmdletName;
+
+            if (accountName != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("StorageAccountName", accountName));
+            }
         }
     }
 }

@@ -14,15 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Cmdlets.Common;
     using Model;
     using Properties;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Runs the service in the emulator

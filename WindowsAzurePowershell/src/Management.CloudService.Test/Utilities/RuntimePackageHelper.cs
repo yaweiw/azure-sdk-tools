@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
 
     public class RuntimePackageHelper

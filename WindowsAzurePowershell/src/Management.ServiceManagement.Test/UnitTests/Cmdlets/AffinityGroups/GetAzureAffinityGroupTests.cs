@@ -15,23 +15,35 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
     using System.Collections;
+    using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using Extensions;
     using Management.Test.Stubs;
-    using Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using WindowsAzure.ServiceManagement;
 
     [TestClass]
-    public class GetAzureAffinityGroupTests
+    public class GetAzureAffinityGroupTests : TestBase
     {
+        FileSystemHelper files;
+
         [TestInitialize]
         public void SetupTest()
         {
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            files = new FileSystemHelper(this);
+            files.CreateAzureSdkDirectoryAndImportPublishSettings();
+        }
+
+        [TestCleanup]
+        public void CleanupTest()
+        {
+            files.Dispose();
         }
 
         [TestMethod]

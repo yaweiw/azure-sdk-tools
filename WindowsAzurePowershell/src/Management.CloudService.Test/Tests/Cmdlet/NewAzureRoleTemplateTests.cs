@@ -25,6 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -91,8 +92,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
                 addTemplateCmdlet.ExecuteCmdlet();
 
-                Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
-                Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), outputPath);
+                Assert.AreEqual<string>(
+                    outputPath,
+                    ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(
+                    Path.Combine(Resources.GeneralScaffolding,
+                    RoleType.WorkerRole.ToString()),
+                    outputPath);
             }
         }
 
@@ -109,8 +115,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
             {
                 addTemplateCmdlet.ExecuteCmdlet();
 
-                Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
-                Testing.AssertDirectoryIdentical(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), Resources.GeneralScaffolding, RoleType.WebRole.ToString())), outputPath);
+                Assert.AreEqual<string>(
+                    outputPath,
+                    ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(
+                    Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+                    Resources.GeneralScaffolding, RoleType.WebRole.ToString())),
+                    outputPath);
             }
             finally
             {

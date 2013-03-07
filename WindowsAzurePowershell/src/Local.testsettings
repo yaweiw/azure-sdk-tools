@@ -2,25 +2,21 @@
 <TestSettings name="Local" id="cdbdc350-d4c9-4e43-a4f9-37455108ceaa" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="..\..\Package\Debug\" />
-    <DeploymentItem filename="Management.ScenarioTest\Resources\" />
-    <DeploymentItem filename="Management.Test\Resources\" />
+    <DeploymentItem filename="..\..\Package\Debug" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
+    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child02.vhd" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child01.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\Resources\" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child02.vhd" />
-    <DeploymentItem filename="Management.ServiceBus\Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml" />
-    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
-    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />
-    <DeploymentItem filename="Management.WebSites\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
-    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
-    <DeploymentItem filename="Management.SqlDatabase\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
+    <DeploymentItem filename="Management.Test\Resources\" />
     <DeploymentItem filename="Management.ServiceBus.Test\Resources\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child01.vhd" />
     <DeploymentItem filename="Management.CloudService\Resources\" />
+    <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child02.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50.vhd" />
-    <DeploymentItem filename="Management.CloudService.Test\Resources\" />
-    <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
+    <DeploymentItem filename="Management.ScenarioTest\Resources\" />
+    <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />
   </Deployment>
   <Execution>
     <TestTypeSpecific>
@@ -43,15 +39,6 @@
     <AgentRule name="LocalMachineDefaultRole">
       <DataCollectors>
         <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Code Coverage">
-          <Configuration>
-            <CodeCoverage xmlns="">
-              <Regular>
-                <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.pdb" instrumentInPlace="true" />
-                <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.CloudService.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.CloudService.pdb" instrumentInPlace="true" />
-                <CodeCoverageItem binaryFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.dll" pdbFile="..\..\..\Package\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.pdb" instrumentInPlace="true" />
-              </Regular>
-            </CodeCoverage>
-          </Configuration>
         </DataCollector>
       </DataCollectors>
     </AgentRule>

@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Test;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.ServiceBus.Properties;
@@ -31,13 +30,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void SetupTest()
         {
             Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 
         [TestMethod]
         public void RemoveAzureSBNamespaceSuccessfull()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime, PassThru = true };
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         public void RemoveAzureSBNamespaceWithInternalServerError()
         {
             // Setup
-            SimpleServiceManagement channel = new SimpleServiceManagement();
+            SimpleServiceBusManagement channel = new SimpleServiceBusManagement();
             MockCommandRuntime mockCommandRuntime = new MockCommandRuntime();
             string name = "test";
             RemoveAzureSBNamespaceCommand cmdlet = new RemoveAzureSBNamespaceCommand(channel) { Name = name, CommandRuntime = mockCommandRuntime };
