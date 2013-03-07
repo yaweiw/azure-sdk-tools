@@ -42,6 +42,9 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Get/Create DNS settings of a deployment.
 * VNet
   * Manage virtual network config, connection and gateway.
+* Store
+  * View available Windows Azure Store Add-On plans.
+  * Purchase, view, upgrade and remove Windows Azure Store Add-On instances.
 * Utility
   * Test whether a name is avaiable. Currently support cloud service name, storage account name and service bus namespace name.
   * Get the list of geo locations supported by Azure.
