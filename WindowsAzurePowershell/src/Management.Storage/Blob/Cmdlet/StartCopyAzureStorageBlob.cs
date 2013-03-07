@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ValidateBlobName(destBlobName);
 
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnTaskFinish, null);
-            StartSyncTaskInTransferManager(taskAction, null);
+            StartSyncTaskInTransferManager(taskAction);
             return GetDestinationBlob(destContainer, destBlobName);
         }
 
@@ -225,7 +225,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ValidateBlobName(destBlobName);
 
             Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnTaskFinish, null);
-            StartSyncTaskInTransferManager(taskAction, null);
+            StartSyncTaskInTransferManager(taskAction);
             return GetDestinationBlob(destContainer, destBlobName);
         }
 

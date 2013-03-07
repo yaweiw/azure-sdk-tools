@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         /// <returns>IStorageManagement object</returns>
         protected override IStorageBlobManagement CreateChannel()
         {
-            //Init storage blob managment channel
+            //Init storage blob management channel
             if (Channel == null || !ShareChannel)
             {
                 Channel = new StorageBlobManagement(GetCloudBlobClient());
@@ -119,6 +119,11 @@ namespace Microsoft.WindowsAzure.Management.Storage
             return Channel;
         }
 
+        /// <summary>
+        /// Get a service channel object using specified storage account
+        /// </summary>
+        /// <param name="account">Cloud storage account object</param>
+        /// <returns>IStorageBlobManagement channel object</returns>
         protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
         {
             return new StorageBlobManagement(account.CreateCloudBlobClient());
@@ -134,6 +139,11 @@ namespace Microsoft.WindowsAzure.Management.Storage
             return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
         }
 
+        /// <summary>
+        /// Write ICloudBlob to output using speicifed service channel
+        /// </summary>
+        /// <param name="blob">The output ICloudBlob object</param>
+        /// <param name="channel">IStorageBlobManagement channel object</param>
         internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
         {
             if (channel == null)
@@ -148,7 +158,11 @@ namespace Microsoft.WindowsAzure.Management.Storage
 
             WriteObjectWithStorageContext(azureBlob);
         }
-
+        
+        /// <summary>
+        /// Check whether the blob name is valid. If not throw an exception
+        /// </summary>
+        /// <param name="name">Blob name</param>
         protected void ValidateBlobName(string name)
         {
             if (!NameUtil.IsValidBlobName(name))
@@ -157,6 +171,10 @@ namespace Microsoft.WindowsAzure.Management.Storage
             }
         }
 
+        /// <summary>
+        /// Check whether the container name is valid. If not throw an exception
+        /// </summary>
+        /// <param name="name">Container name</param>
         protected void ValidateContainerName(string name)
         {
             if (!NameUtil.IsValidContainerName(name))

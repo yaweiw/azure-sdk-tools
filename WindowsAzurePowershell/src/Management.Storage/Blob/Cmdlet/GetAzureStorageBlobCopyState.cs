@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool waitForComplete;
 
-        private List<ICloudBlob> remaindJobs = new List<ICloudBlob>();
+        private List<ICloudBlob> jobList = new List<ICloudBlob>();
         private int total = 0;
         private int failed = 0;
         private int finished = 0;
@@ -98,7 +98,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
                 if (blob.CopyState.Status == CopyStatus.Pending && waitForComplete)
                 {
-                    remaindJobs.Add(blob);
+                    jobList.Add(blob);
                 }
                 else
                 {
@@ -139,10 +139,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             if (totalBytes != 0)
             {
                 percent = (int)(bytesCopied * 100 / totalBytes);
-                int lowestPercent = 0;
-                int highestPercent = 100;
-                percent = Math.Max(lowestPercent, percent);
-                percent = Math.Min(percent, highestPercent);
                 progress.PercentComplete = percent;
             }
 
@@ -189,15 +185,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
         protected override void EndProcessing()
         {
-            if (remaindJobs.Count >= 0)
+            if (jobList.Count >= 0)
             {
                 List<ProgressRecord> records = new List<ProgressRecord>();
-                int taskRecordCount = 5;
-                string summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, remaindJobs.Count, failed);
+                int defaultTaskRecordCount = 5;
+                string summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, jobList.Count, failed);
                 ProgressRecord summaryRecord = new ProgressRecord(0, Resources.CopyBlobSummaryActivity, summary);
                 records.Add(summaryRecord);
 
-                for (int i = 1; i <= taskRecordCount; i++)
+                for (int i = 1; i <= defaultTaskRecordCount; i++)
                 {
                     ProgressRecord record = new ProgressRecord(i, Resources.CopyBlobActivity, "Copy");
                     records.Add(record);
@@ -206,14 +202,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 int workerPtr = 0;
                 int taskRecordStartIndex = 1;
 
-                while (remaindJobs.Count > 0)
+                while (jobList.Count > 0)
                 {
-                    summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, remaindJobs.Count, failed);
+                    summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, jobList.Count, failed);
                     WriteProgress(summaryRecord);
 
-                    for (int i = taskRecordStartIndex; i <= taskRecordCount && !ShouldForceQuit; i++)
+                    for (int i = taskRecordStartIndex; i <= defaultTaskRecordCount && !ShouldForceQuit; i++)
                     {
-                        ICloudBlob blob = remaindJobs[workerPtr];
+                        ICloudBlob blob = jobList[workerPtr];
                         GetBlobWithCopyStatus(blob);
                         WriteCopyProgress(blob, records[i]);
                         UpdateTaskCount(blob.CopyState.Status);
@@ -221,19 +217,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                         if (blob.CopyState.Status != CopyStatus.Pending)
                         {
                             WriteCopyState(blob);
-                            remaindJobs.RemoveAt(workerPtr);
+                            jobList.RemoveAt(workerPtr);
                         }
                         else
                         {
                             workerPtr++;
                         }
 
-                        if (remaindJobs.Count == 0)
+                        if (jobList.Count == 0)
                         {
                             break;
                         }
 
-                        if (workerPtr >= remaindJobs.Count)
+                        if (workerPtr >= jobList.Count)
                         {
                             workerPtr = 0;
                             break;

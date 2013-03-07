@@ -26,14 +26,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Security;
     using System.Security.Permissions;
 
-    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManuallyParameterSet),
+    [Cmdlet(VerbsCommon.Get, StorageNouns.BlobContent, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = ManualParameterSet),
         OutputType(typeof(AzureStorageBlob))]
     public class GetAzureStorageBlobContentCommand : StorageDataMovementCmdletBase
     {
         /// <summary>
         /// manually set the name parameter
         /// </summary>
-        private const string ManuallyParameterSet = "ReceiveManual";
+        private const string ManualParameterSet = "ReceiveManual";
 
         /// <summary>
         /// blob pipeline
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
         [Parameter(Position = 0, HelpMessage = "Blob name",
-            Mandatory = true, ParameterSetName = ManuallyParameterSet)]
+            Mandatory = true, ParameterSetName = ManualParameterSet)]
         [Parameter(Position = 0, HelpMessage = "Blob name",
             Mandatory = true, ParameterSetName = ContainerParameterSet)]
         public string Blob
@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private string BlobName = String.Empty;
 
         [Parameter(Position = 1, HelpMessage = "Container name",
-            Mandatory = true, ParameterSetName = ManuallyParameterSet)]
+            Mandatory = true, ParameterSetName = ManualParameterSet)]
         public string Container 
         {
             get { return ContainerName; }
@@ -92,6 +92,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool overwrite;
 
+        [Parameter(HelpMessage = "check the md5sum")]
+        public SwitchParameter CheckMd5
+        {
+            get { return checkMd5; }
+            set { checkMd5 = value; }
+        }
+        private bool checkMd5;
+
         private AzureToFileSystemFileNameResolver fileNameResolver;
 
         /// <summary>
@@ -112,8 +120,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
         }
 
-        
-
         /// <summary>
         /// confirm the overwrite operation
         /// </summary>
@@ -131,25 +137,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
-        /// download blob to lcoal file
+        /// Download blob to lcoal file
         /// </summary>
-        /// <param name="blob">source blob object</param>
-        /// <param name="filePath">destionation file path</param>
+        /// <param name="blob">Source blob object</param>
+        /// <param name="filePath">Destination file path</param>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void DownloadBlob(ICloudBlob blob, string filePath)
         {
-            bool checkMd5 = true;
-
             int id = 0;
             string activity = String.Format(Resources.ReceiveAzureBlobActivity, blob.Name, filePath);
             string status = Resources.PrepareDownloadingBlob;
             ProgressRecord pr = new ProgressRecord(id, activity, status);
-
-            if(blob.BlobType == BlobType.PageBlob)
-            {
-                //turn off the md5sum for page blob
-                checkMd5 = false;
-            }
 
             Action<BlobTransferManager> taskAction = delegate(BlobTransferManager transferManager)
             {
@@ -198,7 +196,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="container">source container object</param>
         /// <param name="blobName">source blob name</param>
-        /// <param name="fileName">destionation file name</param>
+        /// <param name="fileName">destination file name</param>
         /// <returns>the downloaded AzureStorageBlob object</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob GetBlobContent(CloudBlobContainer container, string blobName, string fileName)
@@ -270,7 +268,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             AccessCondition accessCondition = null;
-            BlobRequestOptions requestOptions = null; ;
+            BlobRequestOptions requestOptions = null;
 
             try
             {
@@ -346,7 +344,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     containerName = CloudBlobContainer.Name;
                     break;
 
-                case ManuallyParameterSet:
+                case ManualParameterSet:
                     azureBlob = GetBlobContent(ContainerName, BlobName, FileName);
                     blobName = BlobName;
                     containerName = ContainerName;

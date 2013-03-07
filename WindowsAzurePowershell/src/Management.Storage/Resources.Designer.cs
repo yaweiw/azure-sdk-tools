@@ -268,7 +268,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your copy blob request to blob &apos;{0}&apos; in container &apos;{1}&apos; has already scheduled. However the destionation blob still didn&apos;t create. Please try to mintor it later..
+        ///   Looks up a localized string similar to Your copy blob request to blob &apos;{0}&apos; in container &apos;{1}&apos; has already scheduled. However the destination blob still didn&apos;t create. Please try to mintor it later..
         /// </summary>
         internal static string CopyDestinationBlobPending {
             get {
@@ -889,7 +889,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop the copy task on blob &apos;{0}&apos; in container &apos;{1}&apos; successfully..
+        ///   Looks up a localized string similar to Stopped the copy task on blob &apos;{0}&apos; in container &apos;{1}&apos; successfully..
         /// </summary>
         internal static string StopCopyBlobSuccessfully {
             get {
@@ -943,7 +943,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transmit sucessfully..
+        ///   Looks up a localized string similar to Transmit successfully..
         /// </summary>
         internal static string TransmitSuccessfully {
             get {
