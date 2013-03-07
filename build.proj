@@ -232,7 +232,7 @@
       Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"
       ContinueOnError="false" />	
 	<Exec
-      Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
+      Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
       ContinueOnError="false" />
   </Target>
   
