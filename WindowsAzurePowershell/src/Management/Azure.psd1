@@ -67,6 +67,7 @@ FormatsToProcess = @(
 	'Microsoft.WindowsAzure.Management.Websites.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.CloudService.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml',
+	'Microsoft.WindowsAzure.Management.Storage.format.ps1xml',
 	'Microsoft.WindowsAzure.Management.Store.format.ps1xml'
 )
 
@@ -76,6 +77,7 @@ NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll',
+				'.\Microsoft.WindowsAzure.Management.Storage.dll',
 				'.\Microsoft.WindowsAzure.Management.Store.dll'
 
 # Functions to export from this module
@@ -99,6 +101,7 @@ FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml',
+			'.\Microsoft.WindowsAzure.Management.Storage.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Store.dll-Help.xml'
 
 # Private data to pass to the module specified in ModuleToProcess
