@@ -124,6 +124,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             ICloudBlob destinationBlob = default(ICloudBlob);
 
+            string blobName = string.Empty;
+            string containerName = string.Empty;
+
             switch (ParameterSetName)
             {
                 case NameParameterSet:
@@ -145,7 +148,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (destinationBlob != null)
             {
-                WriteICloudBlobWithProperties(destinationBlob, destChannel, DestContext);
+                WriteICloudBlobWithProperties(destinationBlob, destChannel);
                 AccessCondition accessCondition = null;
                 BlobRequestOptions options = null;
                 //Make sure we use the dest channel
@@ -153,10 +156,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 AzureStorageBlob azureBlob = new AzureStorageBlob(destinationBlob);
                 //Make sure the dest context is piped out
                 azureBlob.Context = DestContext;
-            }
-            else
-            {
-                WriteObject(String.Format(Resources.CopyDestinationBlobPending, blobName, container.Name));
             }
         }
 
@@ -234,7 +233,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
-            return  destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
+            ICloudBlob destBlob =  destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
+
+            if (destBlob == null)
+            {
+                WriteObject(String.Format(Resources.CopyDestinationBlobPending, blobName, container.Name));
+            }
+
+            return destBlob;
         }
     }
 }

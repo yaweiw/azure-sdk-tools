@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using System.Threading;
+using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
@@ -129,7 +131,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private void StopCopyBlob(ICloudBlob blob, string copyId)
         {
             AccessCondition accessCondition = null;
-            BlobRequestOptions options = null;
+            BlobRequestOptions options = new BlobRequestOptions();
+
+            //Set no retry to resolve the 409 conflict exception
+            options.RetryPolicy = new NoRetry();
 
             if (null == blob)
             {
@@ -138,8 +143,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (Force)
             {
-                Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
-
                 if (blob.CopyState != null && !String.IsNullOrEmpty(blob.CopyState.CopyId))
                 {
                     copyId = blob.CopyState.CopyId;
@@ -153,7 +156,21 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             //TODO handle 400 copy id is invalid 
             //TODO handle 409 conflict Trying to abort a copy that has completed or failed results in 409 Conflict. Trying to abort a copy operation using an incorrect copy ID also results in 409 Conflict.
-            Channel.AbortCopy(blob, copyId, accessCondition, options, OperationContext);
+            try
+            {
+                Channel.AbortCopy(blob, copyId, accessCondition, options, OperationContext);
+            }
+            catch (StorageException e)
+            {
+                if (e.IsSuccessfulResponse())
+                {
+                    return;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }
