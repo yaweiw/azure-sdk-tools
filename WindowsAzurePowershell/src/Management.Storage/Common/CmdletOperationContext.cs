@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 
                 double elapsedTime = (context.EndTime - context.StartTime).TotalMilliseconds;
                 string message = String.Format(Resources.FinishRemoteCall,
-                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
+                    e.Request.RequestUri.ToString(), (int)e.Response.StatusCode, e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
 
                 try
                 {

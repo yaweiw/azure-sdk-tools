@@ -32,6 +32,11 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Util
             return e.RequestInformation != null && e.RequestInformation.HttpStatusCode == 404;
         }
 
+        /// <summary>
+        /// Is the storage exception thrown with 2xx http status code
+        /// </summary>
+        /// <param name="e">Storage exception</param>
+        /// <returns>True if the http status code is 2xx, otherwise false</returns>
         public static bool IsSuccessfulResponse(this StorageException e)
         {
             return e.RequestInformation != null && (e.RequestInformation.HttpStatusCode / 100 == 2);
