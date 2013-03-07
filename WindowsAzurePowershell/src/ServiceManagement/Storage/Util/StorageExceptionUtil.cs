@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Util
 
         public static bool IsSuccessfulResponse(this StorageException e)
         {
-            return e.RequestInformation != null && e.RequestInformation.HttpStatusCode % 100 >= 200 && e.RequestInformation.HttpStatusCode % 100 < 300;
+            return e.RequestInformation != null && (e.RequestInformation.HttpStatusCode / 100 == 2);
         }
 
         /// <summary>
