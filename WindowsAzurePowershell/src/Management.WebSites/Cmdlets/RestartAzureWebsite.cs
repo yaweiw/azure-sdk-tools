@@ -27,9 +27,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.ServiceModel;
 
     
-    [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite")]
+    [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]
     public class RestartAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RestartAzureWebsiteCommand class.
         /// </summary>
@@ -60,6 +63,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 siteUpdate.State = "Running";
                 RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, siteUpdate));
             });
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
+            }
         }
 
         private Site GetWebSite()

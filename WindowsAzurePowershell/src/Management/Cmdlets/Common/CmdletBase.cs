@@ -22,45 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
     public abstract class CmdletBase : PSCmdlet, IDynamicParameters
     {
-        public string GetServiceRootPath()
-        {
-            // Get the service path
-            var servicePath = FindServiceRootDirectory(CurrentPath());
-
-            // Was the service path found?
-            if (servicePath == null)
-            {
-                throw new InvalidOperationException(Resources.CannotFindServiceRoot);
-            }
-
-            return servicePath;
-        }
-
-        public string FindServiceRootDirectory(string path)
-        {
-            // Is the csdef file present in the folder
-            bool found = Directory.GetFiles(path, Resources.ServiceDefinitionFileName).Length == 1;
-
-            if (found)
-            {
-                return path;
-            }
-
-            // Find the last slash
-            int slash = path.LastIndexOf('\\');
-            if (slash > 0)
-            {
-                // Slash found trim off the last path
-                path = path.Substring(0, slash);
-
-                // Recurse
-                return FindServiceRootDirectory(path);
-            }
-
-            // Couldn't locate the service root, exit
-            return null;
-        }
-
         protected string CurrentPath()
         {
             // SessionState is only available within Powershell so default to
@@ -86,6 +47,22 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
+        protected void WriteVerboseWithTimestamp(string message)
+        {
+            WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
+        protected void WriteDebugWithTimestamp(string message, params object[] args)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
+        }
+
+        protected void WriteDebugWithTimestamp(string message)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
@@ -107,9 +84,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 outputObject.TypeNames.Add(typeName);
             }
 
-            for (int i = 0; i <= args.Length / 2; i += 2)
+            for (int i = 0, j = 0; i < args.Length / 2; i++, j += 2)
             {
-                outputObject.Properties.Add(new PSNoteProperty(args[i].ToString(), args[i + 1]));
+                outputObject.Properties.Add(new PSNoteProperty(args[j].ToString(), args[j + 1]));
             }
 
             return outputObject;
@@ -140,31 +117,50 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         }
 
         /// <summary>
-        /// cmdlet begin process
+        /// Cmdlet begin process
         /// </summary>
         protected override void BeginProcessing()
         {
             if (string.IsNullOrEmpty(ParameterSetName))
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
             }
             else
             {
-                WriteVerboseWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
             }
 
             base.BeginProcessing();
         }
 
         /// <summary>
-        /// end processing
+        /// End processing
         /// </summary>
         protected override void EndProcessing()
         {
             string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
-            WriteVerboseWithTimestamp(message);
+            WriteDebugWithTimestamp(message);
 
             base.EndProcessing();
+        }
+
+        /// <summary>
+        /// Asks for confirmation before executing the action.
+        /// </summary>
+        /// <param name="force">Do not ask for confirmation</param>
+        /// <param name="actionMessage">Message to describe the action</param>
+        /// <param name="processMessage">Message to prompt after the active is performed.</param>
+        /// <param name="target">The target name.</param>
+        /// <param name="action">The action code</param>
+        protected void ConfirmAction(bool force, string actionMessage, string processMessage, string target, Action action)
+        {
+            if (force || ShouldContinue(actionMessage, ""))
+            {
+                if (ShouldProcess(target, processMessage))
+                {
+                    action();
+                }
+            }
         }
     }
 }

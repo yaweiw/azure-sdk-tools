@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
-    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using Properties;
     using Utilities;
@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     /// <summary>
     /// Create scaffolding for a new Python Django web role, change cscfg file and csdef to include the added web role
     /// </summary>
-    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole")]
+    [Cmdlet(VerbsCommon.Add, "AzureDjangoWebRole"), OutputType(typeof(RoleSettings))]
     public class AddAzureDjangoWebRoleCommand : AddRole
     {
         const string PythonCorePath = "SOFTWARE\\Python\\PythonCore";
@@ -50,14 +50,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
             {
                 string stdOut, stdErr;
 
-                ProcessHelper.StartAndWaitForProcess(
+                string originalDir = Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(Path.Combine(RootPath, roleInfo.Name));
+
+                try
+                {
+                    ProcessHelper.StartAndWaitForProcess(
                     new ProcessStartInfo(
                         Path.Combine(interpPath, PythonInterpreterExe),
                         String.Format(DjangoStartProjectCommand, roleInfo.Name)
                     ),
                     out stdOut,
-                    out stdErr
-                );
+                    out stdErr);
+                }
+                finally
+                {
+                    Directory.SetCurrentDirectory(originalDir);
+                }
 
                 if (!string.IsNullOrEmpty(stdErr))
                 {

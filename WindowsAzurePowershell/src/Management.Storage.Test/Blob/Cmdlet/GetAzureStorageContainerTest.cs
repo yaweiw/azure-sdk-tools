@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using Microsoft.WindowsAzure.Management.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Storage.Test.Service;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
@@ -28,13 +28,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using System.Text;
 
     /// <summary>
-    /// unit test for get azure storage container cmdlet
+    /// Unit test for get azure storage container cmdlet
     /// </summary>
     [TestClass]
     public class GetAzureStorageContainerTest : StorageBlobTestBase
     {
         /// <summary>
-        /// get azure storage container command
+        /// Get azure storage container command
         /// </summary>
         private GetAzureStorageContainerCommand command = null;
 
@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         [TestMethod]
         public void ListContainersByNameWithEmptyNameTest()
         {
-            //list all the azure container
+            //List all the azure container
             IEnumerable<CloudBlobContainer> containerList = command.ListContainersByName(String.Empty);
             Assert.IsFalse(containerList.Any());
 

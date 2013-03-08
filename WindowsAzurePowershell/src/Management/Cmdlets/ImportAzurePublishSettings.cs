@@ -21,21 +21,21 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Security.Permissions;
     using Extensions;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Model;
     using Properties;
     using Services;
-    using Microsoft.WindowsAzure.Management.Model;
 
     /// <summary>
     /// Imports publish profiles.
     /// </summary>
-    [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile")]
+    [Cmdlet(VerbsData.Import, "AzurePublishSettingsFile"), OutputType(typeof(string))]
     public class ImportAzurePublishSettingsCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the publish settings file.")]
         [ValidateNotNullOrEmpty]
         public string PublishSettingsFile { get; set; }
 
-        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the subscription data output file.")]
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the subscription data output file.")]
         public string SubscriptionDataFile { get; set; }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]

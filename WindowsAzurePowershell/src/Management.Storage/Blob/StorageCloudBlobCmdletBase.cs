@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
@@ -24,10 +24,27 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Text;
 
     /// <summary>
-    /// base cmdlet for storage blob/container cmdlet
+    /// Base cmdlet for storage blob/container cmdlet
     /// </summary>
     public class StorageCloudBlobCmdletBase : StorageCloudCmdletBase<IStorageBlobManagement>
     {
+        /// <summary>
+        /// Initializes a new instance of the StorageCloudBlobCmdletBase class.
+        /// </summary>
+        public StorageCloudBlobCmdletBase()
+            : this(null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the StorageCloudBlobCmdletBase class.
+        /// </summary>
+        /// <param name="channel">IStorageBlobManagement channel</param>
+        public StorageCloudBlobCmdletBase(IStorageBlobManagement channel)
+        {
+            Channel = channel;
+        }
+
         /// <summary>
         /// Make sure the pipeline blob is valid and already existing
         /// </summary>
@@ -47,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             ValidatePipelineCloudBlobContainer(blob.Container);
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsBlobExists(blob, requestOptions, OperationContext))
+            if (!Channel.DoesBlobExist(blob, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blob.Name, blob.Container.Name));
             }
@@ -71,30 +88,30 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
 
             BlobRequestOptions requestOptions = null;
 
-            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, container.Name));
             }
         }
 
         /// <summary>
-        /// get blob client
+        /// Get blob client
         /// </summary>
         /// <returns>CloudBlobClient with default retry policy and settings</returns>
-        protected CloudBlobClient GetCloudBlobClient()
+        internal CloudBlobClient GetCloudBlobClient()
         {
-            //use the default retry policy in storage client
+            //Use the default retry policy in storage client
             CloudStorageAccount account = GetCloudStorageAccount();
             return account.CreateCloudBlobClient();
         }
 
         /// <summary>
-        /// create blob client and storage service management channel if need to.
+        /// Create blob client and storage service management channel if need to.
         /// </summary>
         /// <returns>IStorageManagement object</returns>
         protected override IStorageBlobManagement CreateChannel()
         {
-            //init storage blob managment channel
+            //Init storage blob managment channel
             if (Channel == null || !ShareChannel)
             {
                 Channel = new StorageBlobManagement(GetCloudBlobClient());

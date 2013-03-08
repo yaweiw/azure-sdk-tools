@@ -70,6 +70,7 @@
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="System.ServiceModel" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -90,7 +91,17 @@
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageBlobTest.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
+    <Compile Include="Blob\FakeRemoveAzureContainerCommand.cs" />
     <Compile Include="Blob\StorageBlobTestBase.cs" />
+    <Compile Include="Blob\StorageCloudBlobCmdletBaseTest.cs" />
+    <Compile Include="Common\Cmdlet\NewAzureStorageContextTest.cs" />
+    <Compile Include="Common\CommunicationExceptionUtilTest.cs" />
+    <Compile Include="Common\IStorageManagement.cs" />
+    <Compile Include="Common\NameUtilTest.cs" />
+    <Compile Include="Common\ResourceAlreadyExistExceptionTest.cs" />
+    <Compile Include="Common\ResourceNotFoundExceptionTest.cs" />
+    <Compile Include="Common\StorageCloudCmdletBaseTest.cs" />
+    <Compile Include="Common\StorageExceptionUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MockStorageBlobManagement.cs" />
     <Compile Include="StorageTestBase.cs" />
@@ -107,10 +118,6 @@
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
       <Name>Management</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceManagement\ServiceManagement.csproj">
-      <Project>{559a16c7-b11c-4aa6-8c16-8adeca6abed7}</Project>
-      <Name>ServiceManagement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
