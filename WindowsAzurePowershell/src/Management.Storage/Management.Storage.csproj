@@ -101,6 +101,7 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageBlob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
     <Compile Include="Model\Contract\StorageBlobManagement.cs" />
