@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure to abort the copy operation on blob &apos;{0}&apos; in container &apos;{1}&apos; with copy id {2}..
+        ///   Looks up a localized string similar to Are you sure to abort the copy operation on blob &apos;{0}&apos; in container &apos;{1}&apos; with CopyId {2}..
         /// </summary>
         internal static string ConfirmAbortCopyOperation {
             get {
@@ -277,7 +277,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your copy blob request to blob &apos;{0}&apos; in container &apos;{1}&apos; has already scheduled. However the destination blob still didn&apos;t create. Please try to mintor it later..
+        ///   Looks up a localized string similar to Your copy request to blob &apos;{0}&apos; in container &apos;{1}&apos; has been scheduled. However the destination blob still was not created yet. Please try to monitor it later..
         /// </summary>
         internal static string CopyDestinationBlobPending {
             get {
@@ -295,7 +295,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy Id mismatch on  blob &apos;{0}&apos; in container &apos;{1}&apos;..
+        ///   Looks up a localized string similar to CopyId mismatch on  blob &apos;{0}&apos; in container &apos;{1}&apos;..
         /// </summary>
         internal static string CopyIdMismatch {
             get {

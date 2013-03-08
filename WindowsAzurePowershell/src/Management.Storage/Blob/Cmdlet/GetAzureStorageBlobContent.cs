@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             if (null == blob)
             {
-                throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
+                throw new ArgumentNullException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
             //skip download the snapshot except the ICloudBlob pipeline
@@ -255,7 +255,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             string filePath = GetFullReceiveFilePath(fileName, blob.Name, blob.SnapshotTime);
 
-            if (!overwrite && System.IO.File.Exists(filePath))
+            if (!overwrite && File.Exists(filePath))
             {
                 if (!ConfirmOverwrite(filePath))
                 {
@@ -298,7 +298,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <summary>
         /// get full file path according to the specified file name
         /// </summary>
-        /// <param name="fileName">file name</param>
+        /// <param name="fileName">File name</param>
+        /// <param name="blobName">Source blob name</param>
+        /// <param name="snapshotTime">Source blob snapshot time</param>
         /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetFullReceiveFilePath(string fileName, string blobName, DateTimeOffset? snapshotTime)

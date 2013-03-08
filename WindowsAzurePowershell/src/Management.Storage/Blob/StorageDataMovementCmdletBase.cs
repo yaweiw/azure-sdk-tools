@@ -43,6 +43,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         private BlobTransferManager transferManager;
 
         /// <summary>
+        /// default task per core
+        /// </summary>
+        private const int asyncTasksPerCoreMultiplier = 8;
+
+        /// <summary>
         /// on download start
         /// </summary>
         /// <param name="progress">progress information</param>
@@ -111,7 +116,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             if (concurrentTaskCount == 0)
             {
-                int asyncTasksPerCoreMultiplier = 8;
                 concurrentTaskCount = Environment.ProcessorCount * asyncTasksPerCoreMultiplier;
             }
 
@@ -128,6 +132,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             {
                 transferManager.WaitForCompletion();
                 transferManager.Dispose();
+                transferManager = null;
             }
 
             base.EndProcessing();
@@ -169,6 +174,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             if (transferManager != null)
             {
                 transferManager.Dispose();
+                transferManager = null;
             }
         }
     }

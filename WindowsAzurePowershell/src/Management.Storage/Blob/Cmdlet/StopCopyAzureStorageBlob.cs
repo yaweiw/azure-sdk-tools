@@ -230,13 +230,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 }
             }
 
-            if (String.IsNullOrEmpty(copyId))
+            if (String.IsNullOrEmpty(abortCopyId))
             {
                 throw new ArgumentException(Resources.CopyIdCannotBeEmpty);
             }
 
             //TODO handle 400 copy id is invalid 
-            Channel.AbortCopy(blob, copyId, accessCondition, abortRequestOption, OperationContext);
+            Channel.AbortCopy(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext);
         }
     }
 }
