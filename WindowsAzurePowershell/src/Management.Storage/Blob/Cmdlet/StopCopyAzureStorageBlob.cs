@@ -94,6 +94,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             string blobName = string.Empty;
             string containerName = string.Empty;
+
             switch (ParameterSetName)
             { 
                 case NameParameterSet:
@@ -117,12 +118,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             WriteObject(message);
         }
 
+        /// <summary>
+        /// Stop copy operation by name
+        /// </summary>
+        /// <param name="containerName">Container name</param>
+        /// <param name="blobName">Blob name</param>
+        /// <param name="copyId">copy id</param>
         private void StopCopyBlob(string containerName, string blobName, string copyId)
         {            
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
             StopCopyBlob(container, blobName, copyId);
         }
 
+        /// <summary>
+        /// Stop copy operation by CloudBlobContainer
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="blobName">Blob name</param>
+        /// <param name="copyId">Copy id</param>
         private void StopCopyBlob(CloudBlobContainer container, string blobName, string copyId)
         {
             ValidateBlobName(blobName);
@@ -141,6 +154,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             StopCopyBlob(blob, copyId);
         }
 
+        /// <summary>
+        /// Stop copy operation by ICloudBlob object
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="copyId">Copy id</param>
         private void StopCopyBlob(ICloudBlob blob, string copyId)
         {
             AccessCondition accessCondition = null;
