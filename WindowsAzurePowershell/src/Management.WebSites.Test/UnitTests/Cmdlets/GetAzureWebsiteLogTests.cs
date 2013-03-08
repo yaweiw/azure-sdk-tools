@@ -1,0 +1,131 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
+{
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Management.Automation;
+    using System.Threading.Tasks;
+    using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Websites.Utilities;
+    using Model;
+    using Moq;
+    using Utilities;
+    using VisualStudio.TestTools.UnitTesting;
+    using Websites.Cmdlets;
+    using Websites.Services.DeploymentEntities;
+    using Websites.Services.WebEntities;
+
+    [TestClass]
+    public class GetAzureWebsiteLogTests : WebsitesTestBase
+    {
+        private Mock<IWebsitesServiceManagement> websiteChannelMock;
+
+        private Mock<IDeploymentServiceManagement> deploymentChannelMock;
+
+        private Mock<ICommandRuntime> commandRuntimeMock;
+
+        private Mock<RemoteLogStreamManager> remoteLogStreamManagerMock;
+
+        private Mock<LogStreamWaitHandle> logStreamWaitHandleMock;
+
+        private GetAzureWebsiteLogCommand cmdlet;
+
+        private string websiteName = "TestWebsiteName";
+
+        private string repoUrl = "TheRepoUrl";
+
+        private TaskCompletionSource<Stream> taskCompletionSource;
+
+        private List<string> logs;
+
+        private int logIndex;
+
+        private Site website;
+
+        [TestInitialize]
+        public override void SetupTest()
+        {
+            base.SetupTest();
+
+            websiteChannelMock = new Mock<IWebsitesServiceManagement>();
+            deploymentChannelMock = new Mock<IDeploymentServiceManagement>();
+            commandRuntimeMock = new Mock<ICommandRuntime>();
+            taskCompletionSource = new TaskCompletionSource<Stream>();
+            remoteLogStreamManagerMock = new Mock<RemoteLogStreamManager>();
+            remoteLogStreamManagerMock.Setup(f => f.GetStream()).Returns(taskCompletionSource.Task);
+            logs = new List<string>() { "Log1", "Error: Log2", "Log3", "Error: Log4", null };
+            logIndex = 0;
+            logStreamWaitHandleMock = new Mock<LogStreamWaitHandle>();
+            logStreamWaitHandleMock.Setup(f => f.Dispose());
+            logStreamWaitHandleMock.Setup(f => f.WaitNextLine(GetAzureWebsiteLogCommand.WaitInterval))
+                .Returns(() => logs[logIndex++]);
+            cmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, deploymentChannelMock.Object)
+            {
+                CommandRuntime = commandRuntimeMock.Object,
+                RemoteLogStreamManager = remoteLogStreamManagerMock.Object,
+                LogStreamWaitHandle = logStreamWaitHandleMock.Object,
+                Name = websiteName,
+                EndStreaming = (string line) => line != null,
+                ShareChannel = true
+            };
+            website = new Site()
+            {
+                Name = websiteName,
+                SiteProperties = new SiteProperties()
+                {
+                    Properties = new List<NameValuePair>()
+                    {
+                        new NameValuePair() { Name = UriElements.RepositoryUriProperty, Value = repoUrl }
+                    }
+                }
+            };
+            Cache.AddSite(cmdlet.CurrentSubscription.SubscriptionId, website);
+            websiteChannelMock.Setup(f => f.BeginGetSite(
+                cmdlet.CurrentSubscription.SubscriptionId,
+                string.Empty,
+                websiteName,
+                "repositoryuri,publishingpassword,publishingusername",
+                null,
+                null))
+                .Returns(It.IsAny<IAsyncResult>());
+            websiteChannelMock.Setup(f => f.EndGetSite(It.IsAny<IAsyncResult>())).Returns(website);
+        }
+
+        [TestMethod]
+        public void GetAzureWebsiteLogTest()
+        {
+            cmdlet.Tail = true;
+
+            cmdlet.ExecuteCmdlet();
+
+            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+        }
+
+        [TestMethod]
+        public void GetAzureWebsiteLogWithPathTest()
+        {
+            cmdlet.Tail = true;
+            cmdlet.Path = "http";
+
+            cmdlet.ExecuteCmdlet();
+
+            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+        }
+    }
+}
