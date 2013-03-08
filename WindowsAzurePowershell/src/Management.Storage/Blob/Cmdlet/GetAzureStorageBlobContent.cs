@@ -100,6 +100,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool checkMd5;
 
+        /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is ProcessorCount * 8")]
+        public int ConcurrentTaskCount
+        {
+            get { return concurrentTaskCount; }
+            set { concurrentTaskCount = value; }
+        }
+
         private AzureToFileSystemFileNameResolver fileNameResolver;
 
         /// <summary>

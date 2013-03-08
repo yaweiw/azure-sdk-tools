@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
 
-    [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, DefaultParameterSetName = NameParameterSet),
+    [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
     public class StopCopyAzureStorageBlob : StorageCloudBlobCmdletBase
     {
@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool force = false;
 
-        [Parameter(HelpMessage = "Copy Id", Mandatory = true)]
+        [Parameter(HelpMessage = "Copy Id", Mandatory = false)]
         [ValidateNotNullOrEmpty]
         public string CopyId
         {
@@ -155,6 +155,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
 
         /// <summary>
+        /// confirm to abort copy operation
+        /// </summary>
+        /// <param name="msg">Confirmation message</param>
+        /// <returns>True if the opeation is confirmed, otherwise return false</returns>
+        internal virtual bool ConfirmAbort(string msg)
+        {
+            return ShouldProcess(msg);
+        }
+
+        /// <summary>
         /// Stop copy operation by ICloudBlob object
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
@@ -172,18 +182,51 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
-            if (Force)
-            {
-                if (blob.CopyState == null)
-                {
-                    //Use default retry policy for FetchBlobAttributes
-                    BlobRequestOptions options = null;
-                    Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
-                }
+            string specifiedCopyId = copyId;
 
-                if (blob.CopyState != null && !String.IsNullOrEmpty(blob.CopyState.CopyId))
+            if (string.IsNullOrEmpty(specifiedCopyId))
+            {
+                if (blob.CopyState != null)
                 {
-                    copyId = blob.CopyState.CopyId;
+                    specifiedCopyId = blob.CopyState.CopyId;
+                }
+            }
+
+            string abortCopyId = string.Empty;
+
+            if (string.IsNullOrEmpty(specifiedCopyId) || Force)
+            {
+                //Make sure we use the correct copy id to abort
+                //Use default retry policy for FetchBlobAttributes
+                BlobRequestOptions options = null;
+                Channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
+
+                if (blob.CopyState == null || String.IsNullOrEmpty(blob.CopyState.CopyId))
+                {
+                    throw new ArgumentException(String.Format(Resources.CopyTaskNotFound, blob.Name, blob.Container.Name));
+                }
+                else
+                {
+                    abortCopyId = blob.CopyState.CopyId;
+                }
+            }
+
+            if (!Force)
+            {
+                if (String.IsNullOrEmpty(specifiedCopyId))
+                {
+                    string confirmation = String.Format(Resources.ConfirmAbortCopyOperation, blob.Name, blob.Container.Name, abortCopyId);
+
+                    if(!ConfirmAbort(confirmation))
+                    {
+                        string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
+                        WriteObject(cancelMessage);
+                        return;
+                    }
+                }
+                else if(specifiedCopyId != abortCopyId)
+                {
+                    throw new ArgumentException(String.Format(Resources.CopyIdMismatch, blob.Name, blob.Container.Name));
                 }
             }
 

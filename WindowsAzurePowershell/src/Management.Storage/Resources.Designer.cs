@@ -169,6 +169,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to abort the copy operation on blob &apos;{0}&apos; in container &apos;{1}&apos; with copy id {2}..
+        /// </summary>
+        internal static string ConfirmAbortCopyOperation {
+            get {
+                return ResourceManager.GetString("ConfirmAbortCopyOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The blob &apos;{0}&apos; in container &apos;{1}&apos; has snapshots. Are you sure to remove blob and its snapshots?.
         /// </summary>
         internal static string ConfirmRemoveBlobWithSnapshot {
@@ -282,6 +291,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string CopyIdCannotBeEmpty {
             get {
                 return ResourceManager.GetString("CopyIdCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy Id mismatch on  blob &apos;{0}&apos; in container &apos;{1}&apos;..
+        /// </summary>
+        internal static string CopyIdMismatch {
+            get {
+                return ResourceManager.GetString("CopyIdMismatch", resourceCulture);
             }
         }
         
@@ -894,6 +912,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string StopCopyBlobSuccessfully {
             get {
                 return ResourceManager.GetString("StopCopyBlobSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The stop copy operation on blob &apos;{0}&apos; in container &apos;{1}&apos; is cancelled..
+        /// </summary>
+        internal static string StopCopyOperationCancelled {
+            get {
+                return ResourceManager.GetString("StopCopyOperationCancelled", resourceCulture);
             }
         }
         
