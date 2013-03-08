@@ -234,7 +234,7 @@
   </data>
   <data name="SendAzureBlobCancelled" xml:space="preserve">
     <value>Upload file '{0}' to blob '{1}' cancelled.</value>
-    <comment>0 local file path, 1 container name</comment>
+    <comment>0 local file path, 1 blob name</comment>
   </data>
   <data name="ReceiveAzureBlobActivity" xml:space="preserve">
     <value>Download blob '{0}' into '{1}'.</value>
@@ -472,15 +472,15 @@
     <value>Transmit successfully.</value>
   </data>
   <data name="CopyDestinationBlobPending" xml:space="preserve">
-    <value>Your copy blob request to blob '{0}' in container '{1}' has already scheduled. However the destination blob still didn't create. Please try to mintor it later.</value>
+    <value>Your copy request to blob '{0}' in container '{1}' has been scheduled. However the destination blob still was not created yet. Please try to monitor it later.</value>
     <comment>0 for blob name, 1 for container name.</comment>
   </data>
   <data name="ConfirmAbortCopyOperation" xml:space="preserve">
-    <value>Are you sure to abort the copy operation on blob '{0}' in container '{1}' with copy id {2}.</value>
+    <value>Are you sure to abort the copy operation on blob '{0}' in container '{1}' with CopyId {2}.</value>
     <comment>0 for blob name, 1 for container name, 2 for copy id.</comment>
   </data>
   <data name="CopyIdMismatch" xml:space="preserve">
-    <value>Copy Id mismatch on  blob '{0}' in container '{1}'.</value>
+    <value>CopyId mismatch on  blob '{0}' in container '{1}'.</value>
     <comment>0 for blob name, 1 for container name.</comment>
   </data>
   <data name="StopCopyOperationCancelled" xml:space="preserve">

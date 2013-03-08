@@ -262,6 +262,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 while (jobList.Count > 0)
                 {
                     summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, jobList.Count, failed);
+                    summaryRecord.StatusDescription = summary;
                     WriteProgress(summaryRecord);
 
                     for (int i = taskRecordStartIndex; i <= defaultTaskRecordCount && !ShouldForceQuit; i++)
