@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public string Message { get; set; }
 
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
-            ParameterSetName = TailParameterSet, HelpMessage = "The search subsrting.")]
+            ParameterSetName = TailParameterSet, HelpMessage = "The log streaming switch.")]
         public SwitchParameter Tail { get; set; }
 
         /// <summary>
