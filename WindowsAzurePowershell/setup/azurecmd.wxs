@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <?define productName="Windows Azure PowerShell - December 2012" ?>
+  <?define productName="Windows Azure PowerShell - March 2013" ?>
   <?define sourceDir="$(var.SolutionDir)..\..\Package\$(var.Configuration)" ?>
   <?define caSourceDir="$(var.SolutionDir)setup\bin\$(var.Configuration)" ?>
 
-  <?define version="0.6.9" ?>
-  <?define azureSdkVersion="1.7" ?>
+  <?define version="0.6.11" ?>
+  <?define azureSdkVersion="1.8" ?>
   <?define versionedStartMenuFolder="Windows Azure" ?>
 
   <Product Id="*"
@@ -29,18 +29,17 @@
     <!-- per machine install-->
 
     <Property Id="POWERSHELLVERSION">
-      <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\1\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
+      <RegistrySearch Id="POWERSHELLVERSION" Root="HKLM" Key="SOFTWARE\Microsoft\PowerShell\3\PowerShellEngine" Name="PowerShellVersion" Type="raw" />
     </Property>
 
-    <Condition Message="PowerShell 2.0 must be installed before Windows Azure PowerShell installation.">
-      <![CDATA[Installed or (POWERSHELLVERSION = "2.0")]]>
+    <Condition Message="PowerShell 3.0 must be installed before Windows Azure PowerShell installation.">
+      <![CDATA[Installed or (POWERSHELLVERSION = "3.0")]]>
     </Condition>
 
-    <PropertyRef Id="NETFRAMEWORK35" />
     <PropertyRef Id="NETFRAMEWORK40FULL" />
     <PropertyRef Id="NETFRAMEWORK40CLIENT" />
-    <Condition Message="This setup requires the .NET Framework 3.5 or higher to be installed.">
-      Installed OR NETFRAMEWORK35 OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
+    <Condition Message="This setup requires the .NET Framework 4.0 or higher to be installed.">
+      Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
     </Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -70,14 +69,14 @@
         <CreateFolder />
       </Component>
     </DirectoryRef>
-    
+
     <DirectoryRef Id="AzureSdkMenu">
       <Component Id="AzureSdkShortcut" Guid="CF4CA3B5-3547-4DAA-9589-175BB82F5DDC">
         <Shortcut Id="AzureSdkStartMenuShortcut"
                   Name="Windows Azure PowerShell"
-                  Description="Windows PowerShell commandlets"
+                  Description="Windows PowerShell cmdlets"
                   Target="[SystemFolder]\WindowsPowerShell\v1.0\powershell.exe"
-                  Arguments="-NoExit -Command &quot;cd 'C:\'; Get-ChildItem '[PowerShellFolder]*.psd1' | ForEach-Object {Import-Module $_}; $VerbosePreference=\&quot;Continue\&quot;; Write-Output \&quot;For a list of all Azure cmdlets type 'help azure'.`r`nFor Node.js cmdlets type 'help node-dev'.`r`nFor PHP cmdlets type 'help php-dev'.`r`nFor Python cmdlets type 'help python-dev'.\&quot;"/>
+                  Arguments="-NoExit -Command &quot;cd '[PowerShellFolder]'; Import-Module .\Azure.psd1; Get-Content .\WelcomeMessage.txt; $VerbosePreference=\&quot;Continue\&quot;; cd 'C:\'&quot;" />
         <RemoveFolder Id="AzureSdkMenu" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="SOFTWARE\Microsoft\Microsoft SDKs\WindowsAzure\$(var.version)" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>

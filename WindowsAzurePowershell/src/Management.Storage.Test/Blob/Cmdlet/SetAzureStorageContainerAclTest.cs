@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
@@ -76,6 +76,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         public void SetContainerAclSucessfullyTest()
         {
             AddTestContainers();
+            command.PassThru = true;
 
             string name = "test";
             string accessLevel = StorageNouns.ContainerAclOff;
@@ -112,6 +113,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
         {
             AddTestContainers();
             command.Name = "publicblob";
+            command.PassThru = true;
             command.Permission = "container";
             command.ExecuteCmdlet();
             AzureStorageContainer container = (AzureStorageContainer)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();

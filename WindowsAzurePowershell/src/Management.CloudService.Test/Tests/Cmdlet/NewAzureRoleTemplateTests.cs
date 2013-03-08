@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
     using System.IO;
     using System.Management.Automation;
+    using System.Reflection;
     using CloudService.Cmdlet;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
@@ -24,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -91,8 +92,40 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
                 addTemplateCmdlet.ExecuteCmdlet();
 
-                Assert.AreEqual<string>(outputPath, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
-                Testing.AssertDirectoryIdentical(Path.Combine(Resources.GeneralScaffolding, RoleType.WorkerRole.ToString()), outputPath);
+                Assert.AreEqual<string>(
+                    outputPath,
+                    ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(
+                    Path.Combine(Resources.GeneralScaffolding,
+                    RoleType.WorkerRole.ToString()),
+                    outputPath);
+            }
+        }
+
+        [TestMethod]
+        public void NewAzureRoleTemplateWithRunningOutsideDefaultDirectory()
+        {
+            string outputPath = Path.Combine(Directory.GetCurrentDirectory(), "TestDir", "WebRoleTemplate");
+            addTemplateCmdlet = new NewAzureRoleTemplateCommand() { Web = true, CommandRuntime = mockCommandRuntime };
+            string originalDir = Directory.GetCurrentDirectory();
+            Directory.CreateDirectory("TestDir");
+            Directory.SetCurrentDirectory("TestDir");
+
+            try
+            {
+                addTemplateCmdlet.ExecuteCmdlet();
+
+                Assert.AreEqual<string>(
+                    outputPath,
+                    ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.Path));
+                Testing.AssertDirectoryIdentical(
+                    Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), 
+                    Resources.GeneralScaffolding, RoleType.WebRole.ToString())),
+                    outputPath);
+            }
+            finally
+            {
+                Directory.SetCurrentDirectory(originalDir);
             }
         }
     }

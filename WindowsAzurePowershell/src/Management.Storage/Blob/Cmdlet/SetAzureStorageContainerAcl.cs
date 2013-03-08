@@ -15,17 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// set access level for specified container
@@ -51,6 +48,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             set { accessLevel = value; }
         }
         private string accessLevel = StorageNouns.ContainerAclOff;
+
+        [Parameter(Mandatory = false, HelpMessage = "Display Container Information")]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SetAzureStorageContainerAclCommand class.
@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
 
             CloudBlobContainer container = Channel.GetContainerReference(name);
 
-            if (!Channel.IsContainerExists(container, requestOptions, OperationContext))
+            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.ContainerNotFound, name));
             }
@@ -112,7 +112,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
             Channel.SetContainerPermissions(container, permissions, accessCondition, requestOptions, OperationContext);
             AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
 
-            WriteObjectWithStorageContext(azureContainer);
+            if (PassThru)
+            {
+                WriteObjectWithStorageContext(azureContainer);
+            }
         }
 
         /// <summary>

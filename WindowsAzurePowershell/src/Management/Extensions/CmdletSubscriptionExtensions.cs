@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Extensions
         public static SubscriptionData GetCurrentSubscription(this PSCmdlet cmdlet)
         {
             // Check if there is a current subscription already set
-            var currentSubscription = SessionManager.GetVariable(cmdlet, Constants.CurrentSubscriptionEnvironmentVariable) as SubscriptionData;
+            var currentSubscription = SessionManager.GetVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable) as SubscriptionData;
             if (currentSubscription == null)
             {
                 try
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Extensions
                     if (currentSubscription != null)
                     {
                         // Set the default subscription to be the new current subscription
-                        SessionManager.SetVariable(cmdlet, Constants.CurrentSubscriptionEnvironmentVariable,
+                        SessionManager.SetVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable,
                                                    currentSubscription);
                     }
                 }
@@ -81,12 +81,12 @@ namespace Microsoft.WindowsAzure.Management.Extensions
 
         public static void SetCurrentSubscription(this PSCmdlet cmdlet, SubscriptionData subscription)
         {
-            SessionManager.SetVariable(cmdlet, Constants.CurrentSubscriptionEnvironmentVariable, subscription);
+            SessionManager.SetVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable, subscription);
         }
 
         public static void ClearCurrentSubscription(this PSCmdlet cmdlet)
         {
-            SessionManager.ClearVariable(cmdlet, Constants.CurrentSubscriptionEnvironmentVariable);
+            SessionManager.ClearVariable(cmdlet, ManagementConstants.CurrentSubscriptionEnvironmentVariable);
         }
 
         public static SubscriptionData GetSubscription(this PSCmdlet cmdlet, string subscriptionName, string subscriptionDataFile)

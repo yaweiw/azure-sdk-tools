@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureWebsite")]
+    [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
@@ -76,6 +76,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "A previous site configuration.")]
         public SiteWithConfig SiteWithConfig { get; set; }
+
+        [Parameter(Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
@@ -234,6 +237,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                         WriteErrorDetails(ex);
                     }
                 });
+            }
+
+            if (PassThru.IsPresent)
+            {
+                WriteObject(true);
             }
         }
     }
