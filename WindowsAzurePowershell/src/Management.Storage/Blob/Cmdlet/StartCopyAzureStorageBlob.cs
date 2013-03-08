@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
 
     [Cmdlet(VerbsLifecycle.Start, StorageNouns.CopyBlob, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
@@ -119,6 +120,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
         private IStorageBlobManagement destChannel;
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             if(destChannel == null)

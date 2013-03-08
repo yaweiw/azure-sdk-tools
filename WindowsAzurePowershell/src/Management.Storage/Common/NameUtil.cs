@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Max file length in windows
         /// </summary>
-        public const int WindowsMaxFileLength = 256;
+        public const int WindowsMaxFileNameLength = 256;
 
         /// <summary>
         /// Is valid container name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
@@ -177,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
 
-            if (string.IsNullOrEmpty(fileName) || fileName.Length > WindowsMaxFileLength)
+            if (string.IsNullOrEmpty(fileName) || fileName.Length > WindowsMaxFileNameLength)
             {
                 return false;
             }

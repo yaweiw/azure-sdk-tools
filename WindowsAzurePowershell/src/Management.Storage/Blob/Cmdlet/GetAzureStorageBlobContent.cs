@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public GetAzureStorageBlobContentCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
-            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileLength; });
+            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileNameLength; });
         }
 
         /// <summary>

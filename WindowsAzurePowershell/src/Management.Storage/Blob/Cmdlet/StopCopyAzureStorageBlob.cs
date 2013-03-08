@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.RetryPolicies;
     using System;
     using System.Management.Automation;
+    using System.Security.Permissions;
 
     [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
@@ -85,6 +86,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string copyId;
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             string blobName = string.Empty;

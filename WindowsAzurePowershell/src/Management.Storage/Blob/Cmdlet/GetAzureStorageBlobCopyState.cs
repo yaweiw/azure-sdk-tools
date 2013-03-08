@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using System.Security.Permissions;
     using System.Threading;
 
     [Cmdlet(VerbsCommon.Get, StorageNouns.CopyBlobStatus, DefaultParameterSetName = NameParameterSet),
@@ -77,11 +78,22 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool waitForComplete;
 
+        /// <summary>
+        /// ICloudBlob objects which need to mointor until copy complete
+        /// </summary>
         private List<ICloudBlob> jobList = new List<ICloudBlob>();
+
+        /// <summary>
+        /// Copy task count
+        /// </summary>
         private int total = 0;
         private int failed = 0;
         private int finished = 0;
 
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             ICloudBlob blob = default(ICloudBlob);
@@ -119,6 +131,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Update failed/finished task count
+        /// </summary>
+        /// <param name="status">Copy status</param>
         private void UpdateTaskCount(CopyStatus status)
         {
             switch (status)
@@ -137,11 +153,20 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
         }
 
+        /// <summary>
+        /// Write copy state of the specified blob
+        /// </summary>
+        /// <param name="blob">ICloudBlobObject</param>
         internal void WriteCopyState(ICloudBlob blob)
         {
             WriteObject(blob.CopyState);
         }
 
+        /// <summary>
+        /// Write copy progress
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
+        /// <param name="progress">Progress record</param>
         internal void WriteCopyProgress(ICloudBlob blob, ProgressRecord progress)
         {
             long bytesCopied = blob.CopyState.BytesCopied ?? 0;
@@ -161,12 +186,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             WriteProgress(progress);
         }
 
+        /// <summary>
+        /// Get blob with copy status by name
+        /// </summary>
+        /// <param name="containerName">Container name</param>
+        /// <param name="blobName">blob name</param>
+        /// <returns>ICloudBlob object</returns>
         private ICloudBlob GetBlobWithCopyStatus(string containerName, string blobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
             return GetBlobWithCopyStatus(container, blobName);
         }
 
+        /// <summary>
+        /// Get blob with copy status by CloudBlobContainer object
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="blobName">Blob name</param>
+        /// <returns>ICloudBlob object</returns>
         private ICloudBlob GetBlobWithCopyStatus(CloudBlobContainer container, string blobName)
         {
             AccessCondition accessCondition = null;
@@ -185,6 +222,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             return GetBlobWithCopyStatus(blob);
         }
 
+        /// <summary>
+        /// Get blob with copy status by ICloudBlob object
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <returns>ICloudBlob object</returns>
         private ICloudBlob GetBlobWithCopyStatus(ICloudBlob blob)
         {
             ValidateBlobName(blob.Name);
@@ -195,6 +237,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             return blob;
         }
 
+        /// <summary>
+        /// Cmdlet end processing
+        /// </summary>
         protected override void EndProcessing()
         {
             if (jobList.Count >= 0)
