@@ -15,16 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Blob
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Blob, DefaultParameterSetName = NameParameterSet),
         OutputType(typeof(AzureStorageBlob))]

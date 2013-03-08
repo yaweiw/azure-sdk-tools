@@ -12,9 +12,8 @@
 // limitations under the License.
 // ---------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel
+namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 {
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
