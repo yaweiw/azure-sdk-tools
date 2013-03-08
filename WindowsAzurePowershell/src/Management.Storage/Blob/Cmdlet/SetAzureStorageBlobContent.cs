@@ -148,6 +148,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         private Hashtable BlobMetadata = null;
 
         /// <summary>
+        /// Amount of concurrent async tasks to run per available core.
+        /// </summary>
+        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is ProcessorCount * 8")]
+        public int ConcurrentTaskCount
+        {
+            get { return concurrentTaskCount; }
+            set { concurrentTaskCount = value; }
+        }
+
+        /// <summary>
         /// the root dir for sending file
         /// make sure the root dir is lower case.
         /// </summary>

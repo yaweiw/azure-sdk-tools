@@ -25,13 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// Amount of concurrent async tasks to run per available core.
         /// </summary>
-        [Parameter(HelpMessage = "The total amount of concurrent async tasks. The default value is ProcessorCount * 8")]
-        public int ConcurrentTaskCount
-        {
-            get { return concurrentTaskCount; }
-            set { concurrentTaskCount = value; }
-        }
-        private int concurrentTaskCount = 0;
+        protected int concurrentTaskCount = 0;
 
         /// <summary>
         /// whether the transfer progress finished

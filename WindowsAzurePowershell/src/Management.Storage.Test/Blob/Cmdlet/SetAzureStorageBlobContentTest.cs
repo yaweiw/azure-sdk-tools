@@ -67,10 +67,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             Assert.AreEqual(12, pr.PercentComplete);
             command.OnTaskProgress(pr, 5.6, 12.8);
             Assert.AreEqual(12, pr.PercentComplete);
-            command.OnTaskProgress(pr, 5.6, 112.8);
-            Assert.AreEqual(100, pr.PercentComplete);
-            command.OnTaskProgress(pr, 5.6, -112.8);
-            Assert.AreEqual(0, pr.PercentComplete);
+            command.OnTaskProgress(pr, 5.6, 11);
+            Assert.AreEqual(11, pr.PercentComplete);
+            command.OnTaskProgress(pr, 5.6, 12.8);
+            Assert.AreEqual(12, pr.PercentComplete);
             command.OnTaskProgress(pr, 5.6, 5);
             Assert.AreEqual(5, pr.PercentComplete);
         }
