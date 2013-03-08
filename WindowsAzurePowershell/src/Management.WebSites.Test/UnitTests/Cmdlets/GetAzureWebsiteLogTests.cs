@@ -17,18 +17,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Management.Automation;
     using System.Threading.Tasks;
-    using Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.Management.Websites.Services;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
-    using Model;
     using Moq;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services.DeploymentEntities;
     using Websites.Services.WebEntities;
 
     [TestClass]
@@ -115,6 +111,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             cmdlet.ExecuteCmdlet();
 
             logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+            logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
         }
 
         [TestMethod]
@@ -126,6 +123,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             cmdlet.ExecuteCmdlet();
 
             logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+            logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
         }
     }
 }
