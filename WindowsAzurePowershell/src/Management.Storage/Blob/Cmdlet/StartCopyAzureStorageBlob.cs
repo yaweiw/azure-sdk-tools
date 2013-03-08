@@ -123,8 +123,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         private IStorageBlobManagement destChannel;
 
+        /// <summary>
+        /// copy id for the current copy operation
+        /// </summary>
         private string currentCopyId;
-
 
         /// <summary>
         /// Execute command
