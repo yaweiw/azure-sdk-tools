@@ -22,6 +22,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
 
     public class RemoteLogStreamManager : KuduRemoteClientBase
     {
+        /// <summary>
+        /// Parameterless constructor for mocking
+        /// </summary>
+        public RemoteLogStreamManager()
+        {
+
+        }
+
         public RemoteLogStreamManager(
             string serviceUrl,
             string path,
@@ -39,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
                 string.IsNullOrEmpty(filter) ? string.Empty : "?filter=" + filter);
         }
 
-        public Task<Stream> GetStream()
+        public virtual Task<Stream> GetStream()
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(ServiceUrl);
             TaskCompletionSource<Stream> tcs = new TaskCompletionSource<Stream>();

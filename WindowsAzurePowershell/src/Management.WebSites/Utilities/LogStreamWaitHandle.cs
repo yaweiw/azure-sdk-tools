@@ -22,11 +22,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
 
     public class LogStreamWaitHandle : IDisposable
     {
-        private const int WaitInternal = 1000;
+        private const int WaitInterval = 1000;
         Stream stream;
         List<string> lines;
         Semaphore sem;
         ManualResetEvent disposed = new ManualResetEvent(false);
+
+        /// <summary>
+        /// Parameterless constructor for mocking.
+        /// </summary>
+        public LogStreamWaitHandle()
+        {
+
+        }
 
         public LogStreamWaitHandle(Stream stream)
         {
@@ -48,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
                                 if (initial)
                                 {
                                     // accommodate for gap between first welcome and event hookup
-                                    Thread.Sleep(WaitInternal);
+                                    Thread.Sleep(WaitInterval);
                                     initial = false;
                                 }
 
@@ -77,15 +85,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
             });
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             this.stream.Close();
-            this.disposed.WaitOne(10000);
+            this.disposed.WaitOne(WaitInterval);
             this.disposed.Dispose();
             this.sem.Dispose();
         }
 
-        public string WaitNextLine(int millisecs)
+        public virtual string WaitNextLine(int millisecs)
         {
             try
             {

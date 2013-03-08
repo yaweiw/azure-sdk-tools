@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
+    using System;
     using System.Management.Automation;
     using System.Net;
     using Common;
@@ -26,9 +27,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteLog"), OutputType(typeof(string))]
     public class GetAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
-        private const int WaitInternal = 10000;
+        public const int WaitInterval = 10000;
 
         private const string TailParameterSet = "Tail";
+
+        public RemoteLogStreamManager RemoteLogStreamManager;
+
+        public LogStreamWaitHandle LogStreamWaitHandle;
+
+        public Predicate<string> EndStreaming;
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = TailParameterSet, HelpMessage = "The log path.")]
@@ -84,18 +91,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             ICredentials credentials = new NetworkCredential(
             Repository.PublishingUsername,
             Repository.PublishingPassword);
-            RemoteLogStreamManager manager = new RemoteLogStreamManager(
+
+            RemoteLogStreamManager = RemoteLogStreamManager ?? new RemoteLogStreamManager(
                 Repository.RepositoryUri,
                 Path,
                 Message,
                 credentials);
 
-            using (LogStreamWaitHandle waitHandle = new LogStreamWaitHandle(manager.GetStream().Result))
+            using (LogStreamWaitHandle = LogStreamWaitHandle ?? 
+                new LogStreamWaitHandle(RemoteLogStreamManager.GetStream().Result))
             {
-                while (true)
+                bool doStreaming = true;
+
+                while (doStreaming)
                 {
-                    string line = waitHandle.WaitNextLine(WaitInternal);
+                    string line = LogStreamWaitHandle.WaitNextLine(WaitInterval);
+                    
                     WriteObject(line);
+
+                    doStreaming = EndStreaming == null ? true : EndStreaming(line);
                 }
             }
         }

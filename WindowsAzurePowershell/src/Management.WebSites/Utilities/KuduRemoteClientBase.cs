@@ -20,6 +20,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
 
     public abstract class KuduRemoteClientBase
     {
+        /// <summary>
+        /// Parameterless constructor for mocking
+        /// </summary>
+        protected KuduRemoteClientBase()
+        {
+
+        }
+
         protected KuduRemoteClientBase(
             string serviceUrl,
             ICredentials credentials = null,
