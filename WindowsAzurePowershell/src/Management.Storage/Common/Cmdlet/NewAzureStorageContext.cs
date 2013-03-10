@@ -35,11 +35,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         private const string AccountNameKeyParameterSet = "AccountNameAndKey";
 
         /// <summary>
-        /// Sas token parameter set name
-        /// </summary>
-        private const string SasTokenParameterSet = "SasToken";
-
-        /// <summary>
         /// Connection string parameter set name
         /// </summary>
         private const string ConnectionStringParameterSet = "ConnectionString";
@@ -58,8 +53,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
-        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
-            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
@@ -68,13 +61,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
 
-        [Alias("sas")]
-        [Parameter(HelpMessage = "Azure Storage SAS Token",
-            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string SasToken { get; set; }
-
-        [Alias("conn")]
         [Parameter(HelpMessage = "Azure Storage Connection String",
             Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
@@ -89,7 +75,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private bool isLocalDevAccount;
 
-        [Alias("anon")]
         [Parameter(HelpMessage = "Use anonymous storage account",
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
         public SwitchParameter Anonymous
@@ -101,8 +86,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
             ParameterSetName = AccountNameKeyParameterSet)]
-        [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
-            ParameterSetName = SasTokenParameterSet)]
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
             ParameterSetName = AnonymousParameterSet)]
         [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS, IgnoreCase = true)]
@@ -219,9 +202,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             {
                 case AccountNameKeyParameterSet:
                     account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps);
-                    break;
-                case SasTokenParameterSet:
-                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken, useHttps);
                     break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
