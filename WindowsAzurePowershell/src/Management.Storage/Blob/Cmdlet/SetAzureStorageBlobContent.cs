@@ -202,22 +202,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
 
         /// <summary>
-        /// confirm the overwrite operation
-        /// </summary>
-        /// <param name="msg">confirmation message</param>
-        /// <returns>true if the opeation is confirmed, otherwise return false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal virtual bool ConfirmOverwrite(string msg = null)
-        {
-            if (String.IsNullOrEmpty(msg))
-            {
-                msg = BlobName;
-            }
-
-            return ShouldProcess(msg);
-        }
-
-        /// <summary>
         /// get full file path according to the specified file name
         /// </summary>
         /// <param name="fileName">file name</param>

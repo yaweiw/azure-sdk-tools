@@ -84,14 +84,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         public string FileName = String.Empty;
 
-        [Parameter(HelpMessage = "Force to overwrite the already existing local file")]
-        public SwitchParameter Force
-        {
-            get { return overwrite; }
-            set { overwrite = value; }
-        }
-        private bool overwrite;
-
         [Parameter(HelpMessage = "check the md5sum")]
         public SwitchParameter CheckMd5
         {
@@ -128,22 +120,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             Channel = channel;
             fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileNameLength; });
-        }
-
-        /// <summary>
-        /// confirm the overwrite operation
-        /// </summary>
-        /// <param name="msg">confirmation message</param>
-        /// <returns>true if the opeation is confirmed, otherwise return false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal virtual bool ConfirmOverwrite(string msg = null)
-        {
-            if (String.IsNullOrEmpty(msg))
-            {
-                msg = BlobName;
-            }
-
-            return ShouldProcess(msg);
         }
 
         /// <summary>

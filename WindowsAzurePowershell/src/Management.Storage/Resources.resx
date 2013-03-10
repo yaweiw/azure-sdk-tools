@@ -490,4 +490,8 @@
   <data name="AnonymousAccountName" xml:space="preserve">
     <value>[Anonymous]</value>
   </data>
+  <data name="OverwriteConfirmation" xml:space="preserve">
+    <value>Are you sure to overwrite '{0}'?</value>
+    <comment>0 for destination path</comment>
+  </data>
 </root>
