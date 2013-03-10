@@ -43,9 +43,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         private BlobTransferManager transferManager;
 
         /// <summary>
-        /// default task per core
+        /// Default task per core
         /// </summary>
         private const int asyncTasksPerCoreMultiplier = 8;
+
+        [Parameter(HelpMessage = "Force to overwrite the already existing local file")]
+        public SwitchParameter Force
+        {
+            get { return overwrite; }
+            set { overwrite = value; }
+        }
+        protected bool overwrite;
+
+        /// <summary>
+        /// Confirm the overwrite operation
+        /// </summary>
+        /// <param name="msg">Confirmation message</param>
+        /// <returns>True if the opeation is confirmed, otherwise return false</returns>
+        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        internal virtual bool ConfirmOverwrite(string destinationPath)
+        {
+            string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
+            return overwrite || ShouldProcess(destinationPath);
+        }
 
         /// <summary>
         /// on download start
@@ -120,6 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             BlobTransferOptions opts = new BlobTransferOptions();
+            opts.OverwritePromptCallback = ConfirmOverwrite;
             opts.Concurrency = concurrentTaskCount;
             transferManager = new BlobTransferManager(opts);
             
@@ -144,6 +165,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
             //status update interval
             int interval = 1 * 1000; //in millisecond
+
             taskAction(transferManager);
 
             while (!finished)

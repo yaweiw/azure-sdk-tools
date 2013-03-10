@@ -745,6 +745,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure to overwrite &apos;{0}&apos;?.
+        /// </summary>
+        internal static string OverwriteConfirmation {
+            get {
+                return ResourceManager.GetString("OverwriteConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Prepare to download blob..
         /// </summary>
         internal static string PrepareDownloadingBlob {
