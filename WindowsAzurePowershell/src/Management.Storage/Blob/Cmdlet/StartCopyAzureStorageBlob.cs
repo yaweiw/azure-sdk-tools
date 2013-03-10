@@ -142,23 +142,74 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         private string currentCopyId;
 
+        private bool skipSourceChannelInit;
+
         /// <summary>
-        /// Execute command
+        /// Create blob client and storage service management channel if need to.
         /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public override void ExecuteCmdlet()
+        /// <returns>IStorageManagement object</returns>
+        protected override IStorageBlobManagement CreateChannel()
         {
-            if(destChannel == null)
+            //Init storage blob management channel
+            if (skipSourceChannelInit)
+            {
+                return null;
+            }
+            else
+            {
+                return base.CreateChannel();
+            }
+        }
+
+        /// <summary>
+        /// Begin cmdlet processing
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            if (ParameterSetName == UriParameterSet)
+            {
+                skipSourceChannelInit = true;
+            }
+
+            base.BeginProcessing();
+        }
+
+        /// <summary>
+        /// Set up the Channel object for Destination container and blob
+        /// </summary>
+        internal void SetUpDestinationChannel()
+        {
+            //If destChannel exits, reuse it.
+            //If desContext exits, use it.
+            //If Channl object exists, use it.
+            //Otherwise, create a new channel.
+            if (destChannel == null)
             {
                 if (DestContext == null)
                 {
-                    destChannel = Channel;
+                    if (Channel != null)
+                    {
+                        destChannel = Channel;
+                    }
+                    else
+                    {
+                        destChannel = base.CreateChannel();
+                    }
                 }
                 else
                 {
                     destChannel = CreateChannel(DestContext.StorageAccount);
                 }
             }
+        }
+
+        /// <summary>
+        /// Execute command
+        /// </summary>
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        public override void ExecuteCmdlet()
+        {
+            SetUpDestinationChannel();
 
             ICloudBlob destinationBlob = default(ICloudBlob);
 
