@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldContinue(string query, string caption, ref bool yesToAll, ref bool noToAll)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldContinue(string query, string caption)
@@ -63,7 +63,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 
         public bool ShouldProcess(string target, string action)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public bool ShouldProcess(string target)

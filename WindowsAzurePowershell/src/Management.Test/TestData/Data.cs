@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
     using Management.Properties;
     using Tests.Utilities;
 
-    static class Data
+    public static class Data
     {
         public static string Subscription1 = "Windows Azure Sandbox 9-220";
         public static string SampleSubscription1 = "Sample Subscription 1";

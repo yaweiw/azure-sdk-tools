@@ -54,9 +54,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         [TestMethod]
         public void GetStorageAccountBySasTokenTest()
         {
-            command.GetStorageAccountBySasToken("a", "?st=d", false);
-            AssertThrows<Exception>(()=>command.GetStorageAccountBySasToken("a", string.Empty, true));
-            AssertThrows<Exception>(() => command.GetStorageAccountBySasToken("a", "token", true));
+            command.GetStorageAccountBySasToken("a", "?st=d", true);
+            AssertThrows<Exception>(()=>command.GetStorageAccountBySasToken("a", string.Empty, false));
+            AssertThrows<Exception>(() => command.GetStorageAccountBySasToken("a", "token", false));
         }
 
         [TestMethod]

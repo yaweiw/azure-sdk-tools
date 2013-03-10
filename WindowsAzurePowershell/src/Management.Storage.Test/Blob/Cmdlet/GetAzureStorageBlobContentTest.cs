@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Management.Automation;
@@ -178,8 +178,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         {
             CloudBlockBlob blockBlob = null;
             string fileName = String.Empty;
-            AssertThrows<ArgumentException>(() => command.GetBlobContent(blockBlob, fileName, false),
+            ArgumentNullException nullException = new ArgumentNullException(typeof(ICloudBlob).Name,
                 String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
+            AssertThrows<ArgumentNullException>(() => command.GetBlobContent(blockBlob, fileName, false),
+                nullException.Message);
             string bloburi = "http://127.0.0.1/account/test/blob";
             blockBlob = new CloudBlockBlob(new Uri(bloburi));
             fileName = "*&^";

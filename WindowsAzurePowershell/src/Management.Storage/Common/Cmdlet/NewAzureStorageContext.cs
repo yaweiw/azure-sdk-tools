@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;

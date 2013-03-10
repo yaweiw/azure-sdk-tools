@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.DataMovement;
@@ -243,7 +243,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             if (null == blob)
             {
-                throw new ArgumentNullException(String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
+                throw new ArgumentNullException(typeof(ICloudBlob).Name, String.Format(Resources.ObjectCannotBeNull, typeof(ICloudBlob).Name));
             }
 
             //skip download the snapshot except the ICloudBlob pipeline

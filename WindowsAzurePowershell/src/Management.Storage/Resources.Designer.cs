@@ -61,6 +61,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [Anonymous].
+        /// </summary>
+        internal static string AnonymousAccountName {
+            get {
+                return ResourceManager.GetString("AnonymousAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} begin processing without ParameterSet..
         /// </summary>
         internal static string BeginProcessingWithoutParameterSetLog {

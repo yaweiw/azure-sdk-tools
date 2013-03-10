@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.Contract;
     using System;
     using System.Linq;
 
@@ -105,22 +105,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
             command.Name = name;
             AssertThrows<ResourceNotFoundException>(() => command.ExecuteCmdlet(),
                 String.Format(Resources.ContainerNotFound, name));
-        }
-    }
-
-    internal class FakeRemoveAzureContainerCommand : RemoveAzureStorageContainerCommand
-    {
-
-        public FakeRemoveAzureContainerCommand(IStorageBlobManagement channel)
-            : base(channel)
-        { 
-        }
-
-        public bool confirm = false;
-
-        internal override bool ConfirmRemove(string message)
-        {
-            return confirm;
         }
     }
 }
