@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
-        public AzureStorageContext Context {get; set;}
+        public virtual AzureStorageContext Context {get; set;}
 
         /// <summary>
         /// whether stop processing
