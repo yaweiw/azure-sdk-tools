@@ -487,4 +487,7 @@
     <value>The stop copy operation on blob '{0}' in container '{1}' is cancelled.</value>
     <comment>0 for blob name, 1 for container name.</comment>
   </data>
+  <data name="AnonymousAccountName" xml:space="preserve">
+    <value>[Anonymous]</value>
+  </data>
 </root>

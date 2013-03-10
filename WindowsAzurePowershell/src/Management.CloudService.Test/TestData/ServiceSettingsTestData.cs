@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
     using System.Collections.Generic;
     using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     class ServiceSettingsTestData
     {
@@ -42,15 +43,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             Data.Add(ServiceSettingsState.Default, new ServiceSettings());
             
             settings = new ServiceSettings();
-            settings.Location = ArgumentConstants.Locations[Location.SouthCentralUS];
-            settings.Slot = ArgumentConstants.Slots[Slot.Production];
+            settings.Location = ArgumentConstants.Locations[LocationName.SouthCentralUS];
+            settings.Slot = ArgumentConstants.Slots[SlotType.Production];
             settings.StorageAccountName = "mystore";
             settings.Subscription = "TestSubscription2";
             Data.Add(ServiceSettingsState.Sample1, settings);
 
             settings = new ServiceSettings();
-            settings.Location = ArgumentConstants.Locations[Location.SouthCentralUS];
-            settings.Slot = ArgumentConstants.Slots[Slot.Production];
+            settings.Location = ArgumentConstants.Locations[LocationName.SouthCentralUS];
+            settings.Slot = ArgumentConstants.Slots[SlotType.Production];
             settings.StorageAccountName = "mystore";
             settings.Subscription = "Does not exist subscription";
             Data.Add(ServiceSettingsState.DoesNotExistSubscription, settings);

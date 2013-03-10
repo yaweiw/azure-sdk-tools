@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
     /// The name is a compromise for something that pops up easily in
     /// intellisense when using MSTest.
     /// </remarks>
-    internal static class Testing
+    public static class Testing
     {
         /// <summary>
         /// Ensure an action throws a specific type of Exception.
@@ -131,6 +131,34 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
         public static string GetTestResourceContents(string relativePath)
         {
             return File.ReadAllText(Testing.GetTestResourcePath(relativePath));
+        }
+
+        /// <summary>
+        /// Asserts that given two directories and identical.
+        /// </summary>
+        /// <param name="expected">The expected directory</param>
+        /// <param name="actual">The actual directory</param>
+        public static void AssertDirectoryIdentical(string expected, string actual)
+        {
+            DirectoryInfo expectedDir = new DirectoryInfo(expected);
+            DirectoryInfo actualDir = new DirectoryInfo(expected);
+            DirectoryInfo[] ExpectedDirs = expectedDir.GetDirectories();
+            DirectoryInfo[] ActualDirs = actualDir.GetDirectories();
+            FileInfo[] expectedFiles = expectedDir.GetFiles();
+            FileInfo[] actualFiles = actualDir.GetFiles();
+
+            Assert.AreEqual<int>(expectedFiles.Length, actualFiles.Length);
+
+            for (int i = 0; i < expectedFiles.Length; i++)
+            {
+                Assert.AreEqual<string>(expectedFiles[i].Name, actualFiles[i].Name);
+            }
+
+            foreach (DirectoryInfo subdir in ExpectedDirs)
+            {
+                string ActualSubDir = Path.Combine(actual, subdir.Name);
+                AssertDirectoryIdentical(subdir.FullName, ActualSubDir);
+            }
         }
     }
 }

@@ -14,23 +14,21 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
-    using System;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
     using AzureTools;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
-    using Services;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to
     /// ServiceDefinition.csdef and ServiceConfiguration.*.cscfg
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop")]
+    [Cmdlet(VerbsLifecycle.Disable, "AzureServiceProjectRemoteDesktop"), OutputType(typeof(bool))]
     public class DisableAzureServiceProjectRemoteDesktopCommand : CmdletBase
     {
         [Parameter(Position = 0, Mandatory = false)]
@@ -47,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void DisableRemoteDesktop()
         {
-            AzureService service = new AzureService(GetServiceRootPath(), null);
+            AzureService service = new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 

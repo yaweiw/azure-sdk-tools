@@ -14,22 +14,24 @@
 
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 {
+    using System;
     using System.IO;
     using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Extensions;
+    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using System;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
 
     [TestClass]
     public class AddAzureCacheWorkerRoleTests : TestBase
@@ -64,7 +66,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 int expectedInstanceCount = 10;
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
                 WorkerRole cacheWorkerRole = addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(roleName, expectedInstanceCount, rootPath);
-                RoleSettings cacheRoleSettings = Testing.GetRole(rootPath, roleName);
 
                 AzureAssert.ScaffoldingExists(Path.Combine(files.RootPath, "AzureService", "WorkerRole"), Path.Combine(Resources.GeneralScaffolding, Resources.WorkerRole));
 
@@ -75,15 +76,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
                 Assert.IsNull(cacheWorkerRole.Endpoints.InputEndpoint);
 
-                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.NamedCacheSettingName, value = Resources.NamedCacheSettingValue }, cacheRoleSettings.ConfigurationSettings);
-                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.DiagnosticLevelName, value = Resources.DiagnosticLevelValue }, cacheRoleSettings.ConfigurationSettings);
-                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
-                AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = string.Empty }, cacheRoleSettings.ConfigurationSettings);
+                AssertConfigExists(Testing.GetCloudRole(rootPath, roleName));
+                AssertConfigExists(Testing.GetLocalRole(rootPath, roleName), Resources.EmulatorConnectionString);
 
                 PSObject actualOutput = mockCommandRuntime.OutputPipeline[1] as PSObject;
                 Assert.AreEqual<string>(roleName, actualOutput.Members[Parameters.CacheWorkerRoleName].Value.ToString());
                 Assert.AreEqual<int>(expectedInstanceCount, int.Parse(actualOutput.Members[Parameters.Instances].Value.ToString()));
             }
+        }
+
+        private static void AssertConfigExists(RoleSettings role, string connectionString = "")
+        {
+            AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.NamedCacheSettingName, value = Resources.NamedCacheSettingValue }, role.ConfigurationSettings);
+            AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.DiagnosticLevelName, value = Resources.DiagnosticLevelValue }, role.ConfigurationSettings);
+            AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty }, role.ConfigurationSettings);
+            AzureAssert.ConfigurationSettingExist(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = connectionString }, role.ConfigurationSettings);
         }
 
         [TestMethod]
@@ -96,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
                 foreach (string invalidName in TestData.Data.InvalidRoleNames)
                 {
-                    Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
+                    ManagementTesting.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
                 }
             }
         }

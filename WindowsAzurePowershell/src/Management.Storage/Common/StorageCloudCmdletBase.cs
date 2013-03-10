@@ -15,8 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel;
-    using Microsoft.WindowsAzure.ServiceManagement.Storage.Util;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
@@ -242,8 +241,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Get the error category for specificed exception
         /// </summary>
-        /// <param name="e">exception object</param>
-        /// <returns>error category</returns>
+        /// <param name="e">Exception object</param>
+        /// <returns>Error category</returns>
         protected ErrorCategory GetExceptionErrorCategory(Exception e)
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category
@@ -291,7 +290,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         {
             double timespan = CmdletOperationContext.GetRunningMilliseconds();
             string message = string.Format(Resources.EndProcessingLog,
-                this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinisedhRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
+                this.GetType().Name, CmdletOperationContext.StartedRemoteCallCounter, CmdletOperationContext.FinishedRemoteCallCounter, timespan, CmdletOperationContext.ClientRequestId);
             WriteDebugLog(message);
             base.EndProcessing();
         }

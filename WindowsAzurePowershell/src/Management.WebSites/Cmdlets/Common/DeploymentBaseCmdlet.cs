@@ -16,11 +16,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Services;
     using Services.WebEntities;
-    using Websites.Cmdlets.Common;
-    using Samples.WindowsAzure.ServiceManagement;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {
@@ -59,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 return DeploymentChannel;
             }
             
-            return ServiceManagementHelper2.CreateServiceManagementChannel<IDeploymentServiceManagement>(new Uri(repository.RepositoryUri), repository.PublishingUsername, repository.PublishingPassword);
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(new Uri(repository.RepositoryUri), repository.PublishingUsername, repository.PublishingPassword);
         }
 
         /// <summary>

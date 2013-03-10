@@ -192,4 +192,13 @@ Launch portal now?</value>
   <data name="NoDefaultSubscriptionMessage" xml:space="preserve">
     <value>There is no default subscription set, please set a default subscription by running Set-AzureSubscription -Default &lt;subscription name&gt;</value>
   </data>
+  <data name="DefaultHostnamesValidation" xml:space="preserve">
+    <value>There are no hostnames which could be used for validation.</value>
+  </data>
+  <data name="InvalidHostnameValidation" xml:space="preserve">
+    <value>The specified hostname does not exist. Please specify a valid hostname for the site.</value>
+  </data>
+  <data name="RemoveWebsiteMessage" xml:space="preserve">
+    <value>Removing website</value>
+  </data>
 </root>

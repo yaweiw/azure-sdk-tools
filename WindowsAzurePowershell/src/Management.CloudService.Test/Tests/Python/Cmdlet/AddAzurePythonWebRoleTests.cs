@@ -86,6 +86,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
                 AzureAssert.ScaffoldingExists(Path.Combine(rootPath, roleName), Path.Combine(Resources.PythonScaffolding, Resources.WebRole));
                 Assert.AreEqual<string>(roleName, ((PSObject)mockCommandRuntime.OutputPipeline[0]).GetVariableValue<string>(Parameters.RoleName));
                 Assert.AreEqual<string>(expectedVerboseMessage, mockCommandRuntime.VerboseStream[0]);
+                Assert.IsTrue(Directory.Exists(Path.Combine(rootPath, roleName, roleName)));
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, roleName, roleName, "manage.py")));
+                Assert.IsTrue(Directory.Exists(Path.Combine(rootPath, roleName, roleName, roleName)));
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, roleName, roleName, roleName, "__init__.py")));
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, roleName, roleName, roleName, "settings.py")));
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, roleName, roleName, roleName, "urls.py")));
+                Assert.IsTrue(File.Exists(Path.Combine(rootPath, roleName, roleName, roleName, "wsgi.py")));
             }
         }
 
