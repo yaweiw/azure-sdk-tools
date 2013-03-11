@@ -209,33 +209,24 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 {
                     abortCopyId = blob.CopyState.CopyId;
                 }
-            }
 
-            if (!Force)
-            {
-                if (String.IsNullOrEmpty(specifiedCopyId))
+                if (!Force)
                 {
                     string confirmation = String.Format(Resources.ConfirmAbortCopyOperation, blob.Name, blob.Container.Name, abortCopyId);
 
-                    if(!ConfirmAbort(confirmation))
+                    if (!ConfirmAbort(confirmation))
                     {
                         string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
                         WriteObject(cancelMessage);
                         return;
                     }
                 }
-                else if(specifiedCopyId != abortCopyId)
-                {
-                    throw new ArgumentException(String.Format(Resources.CopyIdMismatch, blob.Name, blob.Container.Name));
-                }
             }
-
-            if (String.IsNullOrEmpty(abortCopyId))
+            else
             {
-                throw new ArgumentException(Resources.CopyIdCannotBeEmpty);
+                abortCopyId = specifiedCopyId;
             }
 
-            //TODO handle 400 copy id is invalid 
             Channel.AbortCopy(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext);
         }
     }

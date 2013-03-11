@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CopyId mismatch on  blob &apos;{0}&apos; in container &apos;{1}&apos;..
+        ///   Looks up a localized string similar to CopyId mismatch on  blob &apos;{0}&apos; in container &apos;{1}&apos;. Expected:{2}. User supplied: {3}..
         /// </summary>
         internal static string CopyIdMismatch {
             get {
