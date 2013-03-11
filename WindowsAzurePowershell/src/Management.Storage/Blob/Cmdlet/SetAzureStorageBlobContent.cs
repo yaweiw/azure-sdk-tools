@@ -110,14 +110,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string blobType = BlockBlobType;
 
-        [Parameter(HelpMessage = "Force to overwrite the already existing blob")]
-        public SwitchParameter Force
-        {
-            get { return overwrite; }
-            set { overwrite = value; }
-        }
-        private bool overwrite;
-
         [Parameter(HelpMessage = "Blob Properties", Mandatory = false)]
         public Hashtable Properties
         {
