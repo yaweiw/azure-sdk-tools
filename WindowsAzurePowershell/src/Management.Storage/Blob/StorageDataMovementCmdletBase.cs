@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         private const int asyncTasksPerCoreMultiplier = 8;
 
-        [Parameter(HelpMessage = "Force to overwrite the already existing local file")]
+        [Parameter(HelpMessage = "Force to overwrite the existing blob or file")]
         public SwitchParameter Force
         {
             get { return overwrite; }

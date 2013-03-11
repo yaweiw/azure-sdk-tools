@@ -82,14 +82,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "Force to remove the blob and its snapshot without confirm")]
-        public SwitchParameter Force
-        {
-            get { return force; }
-            set { force = value; }
-        }
-        private bool force = false;
-
         [Parameter(HelpMessage = "source blob uri", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
         public string SrcUri { get; set; }
@@ -341,7 +333,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             ICloudBlob destBlob = GetDestinationBlobWithCopyId(destContainer, destBlobName, false);
 
-            if (destBlob != null && !ConfirmOverwrite(destBlob.Name))
+            if (destBlob != null && !overwrite && !ConfirmOverwrite(destBlob.Name))
             {
                 return null;
             }
