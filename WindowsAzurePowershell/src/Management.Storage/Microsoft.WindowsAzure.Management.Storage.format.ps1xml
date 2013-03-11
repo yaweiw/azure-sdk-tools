@@ -52,8 +52,8 @@
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudPageBlob</TypeName>
       </ViewSelectedBy>
       <GroupBy>
-        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
-        <Label>Blob End Point</Label>
+        <ScriptBlock>$_.Container.Uri</ScriptBlock>
+        <Label>Container Uri</Label>
       </GroupBy>
       <TableControl>
         <TableHeaders>
@@ -259,8 +259,8 @@
         <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageBlob</TypeName>
       </ViewSelectedBy>
       <GroupBy>
-        <ScriptBlock>$_.ICloudBlob.ServiceClient.BaseUri</ScriptBlock>
-        <Label>Blob End Point</Label>
+        <ScriptBlock>$_.ICloudBlob.Container.Uri</ScriptBlock>
+        <Label>Container Uri</Label>
       </GroupBy>
       <TableControl>
         <TableHeaders>

@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "Delete the blob and its snapshots")]
+        [Parameter(HelpMessage = "Only delete blob snapshots")]
         public SwitchParameter DeleteSnapshot
         {
             get { return deleteSnapshot; }
