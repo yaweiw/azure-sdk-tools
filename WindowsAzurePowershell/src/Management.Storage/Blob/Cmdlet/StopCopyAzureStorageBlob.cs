@@ -217,7 +217,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     if (!ConfirmAbort(confirmation))
                     {
                         string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
-                        WriteObject(cancelMessage);
+                        WriteVerboseWithTimestamp(cancelMessage);
                         return;
                     }
                 }

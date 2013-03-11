@@ -472,8 +472,8 @@
     <value>Transmit successfully.</value>
   </data>
   <data name="CopyDestinationBlobPending" xml:space="preserve">
-    <value>Your copy request to blob '{0}' in container '{1}' has been scheduled. However the destination blob still was not created yet. Please try to monitor it later.</value>
-    <comment>0 for blob name, 1 for container name.</comment>
+    <value>Copy request to blob '{0}' in container '{1}' has been scheduled with copyId {2}.</value>
+    <comment>0 for blob name, 1 for container name. 2 for copyid.</comment>
   </data>
   <data name="ConfirmAbortCopyOperation" xml:space="preserve">
     <value>Are you sure to abort the copy operation on blob '{0}' in container '{1}' with CopyId {2}.</value>
