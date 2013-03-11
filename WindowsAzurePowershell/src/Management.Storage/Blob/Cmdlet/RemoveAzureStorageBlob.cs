@@ -86,6 +86,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private bool force = false;
 
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RemoveStorageAzureBlobCommand class.
         /// </summary>
@@ -285,7 +288,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 result = String.Format(Resources.RemoveBlobCancelled, blobName, containerName);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(removed);
+            }
         }
     }
 }

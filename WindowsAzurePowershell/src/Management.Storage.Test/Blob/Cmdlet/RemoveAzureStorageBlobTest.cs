@@ -219,7 +219,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
             command.Container = containerName;
             command.Blob = blobName;
             command.ExecuteCmdlet();
-            string result = (string)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();
+            string result = (string)((MockCommandRuntime)command.CommandRuntime).VerboseStream.FirstOrDefault();
             Assert.AreEqual(String.Format(Resources.RemoveBlobSuccessfully, blobName, containerName), result);
             AssertThrows<ResourceNotFoundException>(() => command.ExecuteCmdlet(),
                 String.Format(Resources.BlobNotFound, blobName, containerName));
