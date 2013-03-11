@@ -286,7 +286,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your copy request to blob &apos;{0}&apos; in container &apos;{1}&apos; has been scheduled. However the destination blob still was not created yet. Please try to monitor it later..
+        ///   Looks up a localized string similar to Copy request to blob &apos;{0}&apos; in container &apos;{1}&apos; has been scheduled with copyId {2}..
         /// </summary>
         internal static string CopyDestinationBlobPending {
             get {

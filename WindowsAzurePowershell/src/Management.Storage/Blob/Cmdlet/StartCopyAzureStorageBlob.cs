@@ -331,15 +331,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ValidateContainerName(destContainer.Name);
             ValidateBlobName(destBlobName);
 
-            ICloudBlob destBlob = GetDestinationBlobWithCopyId(destContainer, destBlobName, false);
+            ICloudBlob destBlob = GetDestinationBlobWithCopyId(destContainer, destBlobName);
 
             if (destBlob != null && !overwrite && !ConfirmOverwrite(destBlob.Name))
             {
                 return null;
             }
 
-            Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnTaskFinish, null);
+            currentCopyId = string.Empty;
+            Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(blob, destContainer, destBlobName, null, OnCopyTaskFinish, null);
             StartSyncTaskInTransferManager(taskAction);
+            WriteVerboseWithTimestamp(String.Format(Resources.CopyDestinationBlobPending, destBlobName, destContainer.Name, currentCopyId));
             return GetDestinationBlobWithCopyId(destContainer, destBlobName);
         }
 
@@ -355,15 +357,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             ValidateContainerName(destContainer.Name);
             ValidateBlobName(destBlobName);
 
-            ICloudBlob destBlob = GetDestinationBlobWithCopyId(destContainer, destBlobName, false);
+            ICloudBlob destBlob = GetDestinationBlobWithCopyId(destContainer, destBlobName);
 
             if (destBlob != null && !ConfirmOverwrite(destBlob.Name))
             {
                 return null;
             }
 
-            Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnTaskFinish, null);
+            currentCopyId = string.Empty;
+
+            Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueBlobStartCopy(uri, destContainer, destBlobName, null, OnCopyTaskFinish, null);
             StartSyncTaskInTransferManager(taskAction);
+            WriteVerboseWithTimestamp(String.Format(Resources.CopyDestinationBlobPending, destBlobName, destContainer.Name, currentCopyId));
             return GetDestinationBlobWithCopyId(destContainer, destBlobName);
         }
 
@@ -374,22 +379,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="blobName">Blob name</param>
         /// <param name="copyId">Current CopyId</param>
         /// <returns>Destination ICloudBlob object</returns>
-        private ICloudBlob GetDestinationBlobWithCopyId(CloudBlobContainer container, string blobName, bool output = true)
+        private ICloudBlob GetDestinationBlobWithCopyId(CloudBlobContainer container, string blobName)
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions options = null;
             ICloudBlob blob = destChannel.GetBlobReferenceFromServer(container, blobName, accessCondition, options, OperationContext);
-
-            if (blob == null && output)
-            {
-                //output copy id here.
-                WriteObject(String.Format(Resources.CopyDestinationBlobPending, blobName, container.Name));
-            }
-
             return blob;
         }
 
-        private void OnCopyTaskFinish(object userData, Exception e, string copyId)
+        private void OnCopyTaskFinish(object userData, string copyId, Exception e)
         {
             currentCopyId = copyId; //Make sure set the copy id before task finish
             OnTaskFinish(userData, e);
