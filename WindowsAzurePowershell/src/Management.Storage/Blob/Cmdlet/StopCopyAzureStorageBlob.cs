@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "Force to remove the blob and its snapshot without confirm")]
+        [Parameter(HelpMessage = "Force to stop the current copy task on the specified blob")]
         public SwitchParameter Force
         {
             get { return force; }

@@ -53,6 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         private const string UriParameterSet = "UriPipeline";
 
+        [Alias("SrcICloudBlob")]
         [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = SrcBlobParameterSet)]
         [Parameter(HelpMessage = "ICloudBlob Object", Mandatory = true,
@@ -72,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string BlobName = String.Empty;
 
-        [Parameter(HelpMessage = "Container name", Mandatory = true, Position = 1,
+        [Parameter(HelpMessage = "Source Container name", Mandatory = true, Position = 1,
             ParameterSetName = NameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string SrcContainer
@@ -82,28 +83,29 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "source blob uri", Mandatory = true,
+        [Alias("Uri")]
+        [Parameter(HelpMessage = "Source blob uri", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
         public string SrcUri { get; set; }
 
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = NameParameterSet)]
+            ParameterSetName = NameParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
+            ParameterSetName = UriParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = SrcBlobParameterSet)]
+            ParameterSetName = SrcBlobParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ParameterSetName = ContainerPipelineParmeterSet)]
         public string DestContainer { get; set; }
 
         [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = NameParameterSet)]
+            ParameterSetName = NameParameterSet)]
         [Parameter(HelpMessage = "Destination blob name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
+            ParameterSetName = UriParameterSet)]
         [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = SrcBlobParameterSet)]
-        [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ParameterSetName = SrcBlobParameterSet)]
+        [Parameter(HelpMessage = "Destination container name", Mandatory = false,
+            ParameterSetName = ContainerPipelineParmeterSet)]
         public string DestBlob { get; set; }
 
         [Parameter(HelpMessage = "Destination ICloudBlob object", Mandatory = true,
