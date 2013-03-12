@@ -21,10 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// list azure blobs in specified azure container
@@ -110,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerName">container name</param>
         /// <returns>return CloudBlobContianer object if specified container exists, otherwise throw an exception</returns>
-        internal CloudBlobContainer GetCloudBlobContainerByName(string containerName)
+        internal CloudBlobContainer GetCloudBlobContainerByName(string containerName, bool skipCheckExists = false)
         {
             if (!NameUtil.IsValidContainerName(containerName))
             {
@@ -120,7 +118,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             BlobRequestOptions requestOptions = null;
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
 
-            if (!Channel.DoesContainerExist(container, requestOptions, OperationContext))
+            if (!skipCheckExists && !Channel.DoesContainerExist(container, requestOptions, OperationContext))
             {
                 throw new ArgumentException(String.Format(Resources.ContainerNotFound, containerName));
             }
@@ -137,7 +135,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<IListBlobItem> ListBlobsByName(string containerName, string blobName)
         {
-            CloudBlobContainer container = GetCloudBlobContainerByName(containerName);
+            CloudBlobContainer container = null;
             BlobRequestOptions requestOptions = null;
             AccessCondition accessCondition = null;
 
@@ -147,6 +145,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
+                container = GetCloudBlobContainerByName(containerName);
+
                 IEnumerable<IListBlobItem> blobs = Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
                 WildcardOptions options = WildcardOptions.IgnoreCase | WildcardOptions.Compiled;
                 WildcardPattern wildcard = null;
@@ -173,6 +173,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
             else
             {
+                container = GetCloudBlobContainerByName(containerName, true);
+
                 if (!NameUtil.IsValidBlobName(blobName))
                 {
                     throw new ArgumentException(String.Format(Resources.InvalidBlobName, blobName));

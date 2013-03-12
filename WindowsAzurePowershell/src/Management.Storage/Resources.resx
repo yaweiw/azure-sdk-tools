@@ -155,7 +155,7 @@
     <value>Can not find the specified file '{0}'.</value>
   </data>
   <data name="FileTransmitStatus" xml:space="preserve">
-    <value>Percent : {0}% Speed : {1} bytes/second.</value>
+    <value>Percent : {0}%. Speed : {1}/Second.</value>
   </data>
   <data name="InvalidBlobName" xml:space="preserve">
     <value>Blob name '{0}' is invalid.</value>
@@ -170,7 +170,7 @@
     <value>Invalid start time '{0}'.</value>
   </data>
   <data name="OnlyOnePermissionForContainer" xml:space="preserve">
-    <value>You must supply only one permission for container.</value>
+    <value>You must supply only one permission in Off/Blob/Container for container.</value>
   </data>
   <data name="QueueAlreadyExists" xml:space="preserve">
     <value>Queue '{0}' already exists.</value>
@@ -224,7 +224,7 @@
     <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
   </data>
   <data name="CannotSendDirectory" xml:space="preserve">
-    <value>Can not send the directory '{0}' to azure. This cmdlet only works with files.</value>
+    <value>Can not send the directory '{0}' to azure. If you want to send directory to azure, please use "ls -File | Set-AzureStorageBlobContent -Container containerName".</value>
   </data>
   <data name="PrepareUploadingBlob" xml:space="preserve">
     <value>Prepare to upload blob.</value>
@@ -234,6 +234,7 @@
   </data>
   <data name="SendAzureBlobCancelled" xml:space="preserve">
     <value>Upload file '{0}' to blob '{1}' cancelled.</value>
+    <comment>0 local file path, 1 blob name</comment>
   </data>
   <data name="ReceiveAzureBlobActivity" xml:space="preserve">
     <value>Download blob '{0}' into '{1}'.</value>
@@ -279,11 +280,12 @@
     <value>Exception cannot be null or empty.</value>
   </data>
   <data name="FinishRemoteCall" xml:space="preserve">
-    <value>Finish remote call for {0} with status code {1} and service request id {2}. Elapsed time {3:0.00} ms.</value>
-    <comment>0 for request uri, 1 http status code, 2 service request id, 3 for elapsed time.</comment>
+    <value>Finish remote call for {0} with status code {1}({2}) and service request id {3}. Elapsed time {4:0.00} ms.</value>
+    <comment>0 for request uri, 1 http status code in number, 2 http status code, 3 service request id, 4 for elapsed time.</comment>
   </data>
   <data name="InitOperationContextLog" xml:space="preserve">
-    <value>Init cmdlet operation context with operation id {0}.</value>
+    <value>Init Operation Context for '{0}' with client request id  {1}. If you want to get more details, please add "-Debug" to your command.</value>
+    <comment>0 is cmdlet name， 1 is client request id</comment>
   </data>
   <data name="StartRemoteCall" xml:space="preserve">
     <value>Start {0}th remote call, method: {1}, destination: {2}.</value>
@@ -297,15 +299,15 @@
     <value>{0} {1}.</value>
     <comment>0 for time, 1 for message</comment>
   </data>
-  <data name="DefaultBlobEndPointFormat" xml:space="preserve">
+  <data name="HttpBlobEndPointFormat" xml:space="preserve">
     <value>http://{0}.blob.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
-  <data name="DefaultQueueEndPointFormat" xml:space="preserve">
+  <data name="HttpQueueEndPointFormat" xml:space="preserve">
     <value>http://{0}.queue.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
-  <data name="DefaultTableEndPointFormat" xml:space="preserve">
+  <data name="HttpTableEndPointFormat" xml:space="preserve">
     <value>http://{0}.table.core.windows.net/</value>
     <comment>0 for storage account name</comment>
   </data>
@@ -346,6 +348,10 @@
   <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
     <value>{0} begin processing with ParameterSet '{1}'.</value>
   </data>
+  <data name="InvalidBlobType" xml:space="preserve">
+    <value>blob '{0}' 's type should be block or page.</value>
+    <comment>0 for blob name</comment>
+  </data>
   <data name="CannotDeleteSnapshotForSnapshot" xml:space="preserve">
     <value>The specified blob '{0}' is already a snapshot with snapshot time {1}. Can't use "DeleteSnapshot" option for it.</value>
     <comment>0 for blob name, 1 for snapshot time </comment>
@@ -380,7 +386,147 @@
   <data name="CannotGetStorageAccountFromEnvironmentVariable" xml:space="preserve">
     <value>Can not get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'. Please check whether this environment variable is valid.</value>
   </data>
+  <data name="InvalidPageBlobSize" xml:space="preserve">
+    <value>The page blob size must be a multiple of 512 bytes. But the size of local file '{0}' is {1}.</value>
+    <comment>0 for local file path, 1 file size</comment>
+  </data>
+  <data name="WritePermissionDenied" xml:space="preserve">
+    <value>Write to file '{0}' is denied.</value>
+    <comment>0 for local file path</comment>
+  </data>
+  <data name="FileNameCannotEmpty" xml:space="preserve">
+    <value>File name can not be empty.</value>
+  </data>
+  <data name="PrepareDownloadingBlob" xml:space="preserve">
+    <value>Prepare to download blob.</value>
+  </data>
+  <data name="FileNameFormatForSnapShot" xml:space="preserve">
+    <value>{0} ({1}){2}</value>
+    <comment>0 for blob name, 1 for snaphsot time, 2 blob name extension</comment>
+  </data>
+  <data name="SkipDownloadSnapshot" xml:space="preserve">
+    <value>Skip to download blob '{0}' with snapshot time '{0}'.</value>
+  </data>
+  <data name="DownloadBlobCancelled" xml:space="preserve">
+    <value>Downloading blob '{0}' in container '{1}' is cancelled.</value>
+    <comment>0 blob name, 1 container name</comment>
+  </data>
+  <data name="InvalidBlobProperties" xml:space="preserve">
+    <value>Blob properties '{0}' with value '{1}' is invalid</value>
+    <comment>0 for property name, 1 for property value</comment>
+  </data>
+  <data name="HttpsBlobEndPointFormat" xml:space="preserve">
+    <value>https://{0}.blob.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="HttpsQueueEndPointFormat" xml:space="preserve">
+    <value>https://{0}.queue.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="HttpsTableEndPointFormat" xml:space="preserve">
+    <value>https://{0}.table.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="CopyIdCannotBeEmpty" xml:space="preserve">
+    <value>CopyId can not be empty.</value>
+  </data>
+  <data name="StopCopyBlobSuccessfully" xml:space="preserve">
+    <value>Stopped the copy task on blob '{0}' in container '{1}' successfully.</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
+  <data name="CopyBlobPendingStatus" xml:space="preserve">
+    <value>Percent:{0}%. BytesCopied: {1}Bytes. TotalBytes: {2}Bytes.</value>
+    <comment>0 for copied percent, 1 for bytes copied, 2 for total bytes.</comment>
+  </data>
+  <data name="CopyBlobStatus" xml:space="preserve">
+    <value>'{0}' copy to blob '{1}' in container '{2}' from '{3}'.</value>
+    <comment>0 for copy status, 1 for destination blob name, 2 for destination container name, 3 for source uri.</comment>
+  </data>
+  <data name="CopyBlobToBlobSuccessfully" xml:space="preserve">
+    <value>Successfully start copy blob '{0}' in container '{1}' to blob '{2}' in container '{3}'.</value>
+    <comment>0 for source blob name, 1 for source container name, 2 for destination blob name, 3 for destination container name.</comment>
+  </data>
+  <data name="CopyUriToBlobSuccessfully" xml:space="preserve">
+    <value>Successfully start copy '{0}'  to blob '{1}' in container '{2}'.</value>
+    <comment>0 for source uri, 1 for destination blob name, 2 for destination container name. </comment>
+  </data>
+  <data name="CopyBlobActivity" xml:space="preserve">
+    <value>Copy Blob.</value>
+  </data>
+  <data name="CopyBlobSummaryActivity" xml:space="preserve">
+    <value>Copy Blob Status Summary.</value>
+  </data>
+  <data name="CopyBlobSummaryCount" xml:space="preserve">
+    <value>Total: {0}. Finished: {1}. Active:{2}. Failed: {3}.</value>
+    <comment>0,1,2,3 for related task count.</comment>
+  </data>
+  <data name="CopyTaskNotFound" xml:space="preserve">
+    <value>Can not find copy task on specified blob '{0}' in container '{1}'.</value>
+    <comment>0 for blob name, 1 for container name.</comment>
+  </data>
+  <data name="TransmitFailed" xml:space="preserve">
+    <value>Transmit failed. Exception: {0}.</value>
+    <comment>0 for error message.</comment>
+  </data>
+  <data name="TransmitSuccessfully" xml:space="preserve">
+    <value>Transmit successfully.</value>
+  </data>
+  <data name="CopyDestinationBlobPending" xml:space="preserve">
+    <value>Copy request to blob '{0}' in container '{1}' has been scheduled with copyId {2}.</value>
+    <comment>0 for blob name, 1 for container name. 2 for copyid.</comment>
+  </data>
+  <data name="ConfirmAbortCopyOperation" xml:space="preserve">
+    <value>Are you sure to abort the copy operation on blob '{0}' in container '{1}' with CopyId {2}.</value>
+    <comment>0 for blob name, 1 for container name, 2 for copy id.</comment>
+  </data>
+  <data name="CopyIdMismatch" xml:space="preserve">
+    <value>CopyId mismatch on  blob '{0}' in container '{1}'. Expected:{2}. User supplied: {3}.</value>
+    <comment>0 for blob name, 1 for container name. 2 for copy id on blob, 3 for user supplied copy id.</comment>
+  </data>
+  <data name="StopCopyOperationCancelled" xml:space="preserve">
+    <value>The stop copy operation on blob '{0}' in container '{1}' is cancelled.</value>
+    <comment>0 for blob name, 1 for container name.</comment>
+  </data>
   <data name="AnonymousAccountName" xml:space="preserve">
     <value>[Anonymous]</value>
+  </data>
+  <data name="OverwriteConfirmation" xml:space="preserve">
+    <value>Are you sure to overwrite '{0}'?</value>
+    <comment>0 for destination path</comment>
+  </data>
+  <data name="HumanReadableSizeFormat_Bytes" xml:space="preserve">
+    <value>{0:0.##}bytes</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_ExaBytes" xml:space="preserve">
+    <value>{0:0.##}EB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_GigaBytes" xml:space="preserve">
+    <value>{0:0.##}GB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_KiloBytes" xml:space="preserve">
+    <value>{0:0.##}KB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_MegaBytes" xml:space="preserve">
+    <value>{0:0.##}MB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_PetaBytes" xml:space="preserve">
+    <value>{0:0.##}PB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_TeraBytes" xml:space="preserve">
+    <value>{0:0.##}TB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
   </data>
 </root>

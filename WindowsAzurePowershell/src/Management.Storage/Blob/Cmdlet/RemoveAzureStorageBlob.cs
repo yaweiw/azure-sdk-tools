@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private string ContainerName = String.Empty;
 
-        [Parameter(HelpMessage = "Delete the blob and its snapshots")]
+        [Parameter(HelpMessage = "Only delete blob snapshots")]
         public SwitchParameter DeleteSnapshot
         {
             get { return deleteSnapshot; }
@@ -115,17 +115,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         internal virtual bool ConfirmRemove(string message)
         {
             return ShouldProcess(message);
-        }
-
-        /// <summary>
-        /// whether the specified blob is a snapshot
-        /// </summary>
-        /// <param name="blob">ICloudBlob object</param>
-        /// <returns>true if the specified blob is snapshot, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal bool IsSnapshot(ICloudBlob blob)
-        {
-            return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
         }
 
         /// <summary>
