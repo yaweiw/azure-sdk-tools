@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             bool useFlatBlobListing = true;
             string prefix = string.Empty;
-            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata;
+            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 
             if (String.IsNullOrEmpty(blobName) || WildcardPattern.ContainsWildcardCharacters(blobName))
             {
@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             BlobRequestOptions requestOptions = null;
             bool useFlatBlobListing = true;
-            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata;
+            BlobListingDetails details = BlobListingDetails.Snapshots | BlobListingDetails.Metadata | BlobListingDetails.Copy;
 
             return Channel.ListBlobs(container, prefix, useFlatBlobListing, details, requestOptions, OperationContext);
         }

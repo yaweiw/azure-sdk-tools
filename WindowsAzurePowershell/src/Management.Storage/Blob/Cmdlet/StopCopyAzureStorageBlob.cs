@@ -108,7 +108,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     containerName = CloudBlobContainer.Name;
                     break;
                 case BlobPipelineParameterSet:
-                    StopCopyBlob(ICloudBlob, copyId);
+                    StopCopyBlob(ICloudBlob, copyId, true);
                     blobName = ICloudBlob.Name;
                     containerName = ICloudBlob.Container.Name;
                     break;
@@ -169,7 +169,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <param name="copyId">Copy id</param>
-        private void StopCopyBlob(ICloudBlob blob, string copyId)
+        private void StopCopyBlob(ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions abortRequestOption = new BlobRequestOptions();
@@ -183,8 +183,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             string specifiedCopyId = copyId;
-
-            if (string.IsNullOrEmpty(specifiedCopyId))
+            
+            if (string.IsNullOrEmpty(specifiedCopyId) && fetchCopyIdFromBlob)
             {
                 if (blob.CopyState != null)
                 {
@@ -213,7 +213,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 if (!Force)
                 {
                     string confirmation = String.Format(Resources.ConfirmAbortCopyOperation, blob.Name, blob.Container.Name, abortCopyId);
-
                     if (!ConfirmAbort(confirmation))
                     {
                         string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
