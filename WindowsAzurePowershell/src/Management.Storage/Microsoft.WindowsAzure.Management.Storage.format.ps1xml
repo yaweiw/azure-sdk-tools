@@ -271,10 +271,12 @@
           <TableColumnHeader>
             <Label>BlobType</Label>
             <Alignment>Left</Alignment>
+            <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Length</Label>
             <Alignment>Left</Alignment>
+            <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>ContentType</Label>

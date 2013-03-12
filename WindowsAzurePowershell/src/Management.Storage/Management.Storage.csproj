@@ -119,6 +119,7 @@
   <ItemGroup>
     <Content Include="Microsoft.WindowsAzure.Management.Storage.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
