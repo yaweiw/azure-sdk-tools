@@ -207,11 +207,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         }
 
         /// <summary>
-        /// fetch container attributes
+        /// Fetch container attributes
         /// </summary>
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="accessCondition">Access condition</param>
-        /// <param name="options">blob request options</param>
+        /// <param name="options">Blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void FetchContainerAttributes(CloudBlobContainer container, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
@@ -219,10 +219,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         }
 
         /// <summary>
-        /// fetch blob attributes
+        /// Fetch blob attributes
         /// </summary>
         /// <param name="accessCondition">Access condition</param>
-        /// <param name="options">blob request options</param>
+        /// <param name="options">Blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void FetchBlobAttributes(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
@@ -230,10 +230,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         }
 
         /// <summary>
-        /// set blob properties
+        /// Set blob properties
         /// </summary>
         /// <param name="accessCondition">Access condition</param>
-        /// <param name="options">blob request options</param>
+        /// <param name="options">Blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void SetBlobProperties(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
@@ -241,15 +241,43 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         }
 
         /// <summary>
-        /// set blob meta data
+        /// Set blob meta data
         /// </summary>
         /// <param name="blob">ICloud blob object</param>
         /// <param name="accessCondition">Access condition</param>
-        /// <param name="options">blob request options</param>
+        /// <param name="options">Blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             blob.SetMetadata(accessCondition, options, operationContext);
+        }
+
+        /// <summary>
+        /// Abort copy operation on specified blob
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="copyId">Copy id</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            try
+            {
+                blob.AbortCopy(copyId, accessCondition, options, operationContext);
+            }
+            catch (StorageException e)
+            {
+                if (e.IsSuccessfulResponse())
+                {
+                    //The abort operation is successful, although get an exception
+                    return;
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }
