@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Percent : {0}% Speed : {1} bytes/second..
+        ///   Looks up a localized string similar to Percent : {0}%. Speed : {1}/Second..
         /// </summary>
         internal static string FileTransmitStatus {
             get {
@@ -570,6 +570,69 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string HttpTableEndPointFormat {
             get {
                 return ResourceManager.GetString("HttpTableEndPointFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}bytes.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_Bytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}EB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_ExaBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_ExaBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}GB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_GigaBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_GigaBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}KB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_KiloBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_KiloBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}MB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_MegaBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_MegaBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}PB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_PetaBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_PetaBytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:0.##}TB.
+        /// </summary>
+        internal static string HumanReadableSizeFormat_TeraBytes {
+            get {
+                return ResourceManager.GetString("HumanReadableSizeFormat_TeraBytes", resourceCulture);
             }
         }
         

@@ -155,7 +155,7 @@
     <value>Can not find the specified file '{0}'.</value>
   </data>
   <data name="FileTransmitStatus" xml:space="preserve">
-    <value>Percent : {0}% Speed : {1} bytes/second.</value>
+    <value>Percent : {0}%. Speed : {1}/Second.</value>
   </data>
   <data name="InvalidBlobName" xml:space="preserve">
     <value>Blob name '{0}' is invalid.</value>
@@ -493,5 +493,40 @@
   <data name="OverwriteConfirmation" xml:space="preserve">
     <value>Are you sure to overwrite '{0}'?</value>
     <comment>0 for destination path</comment>
+  </data>
+  <data name="HumanReadableSizeFormat_Bytes" xml:space="preserve">
+    <value>{0:0.##}bytes</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_ExaBytes" xml:space="preserve">
+    <value>{0:0.##}EB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_GigaBytes" xml:space="preserve">
+    <value>{0:0.##}GB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_KiloBytes" xml:space="preserve">
+    <value>{0:0.##}KB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_MegaBytes" xml:space="preserve">
+    <value>{0:0.##}MB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_PetaBytes" xml:space="preserve">
+    <value>{0:0.##}PB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
+  </data>
+  <data name="HumanReadableSizeFormat_TeraBytes" xml:space="preserve">
+    <value>{0:0.##}TB</value>
+    <comment>{0: -&gt; take value from the first parameter.
+0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
   </data>
 </root>

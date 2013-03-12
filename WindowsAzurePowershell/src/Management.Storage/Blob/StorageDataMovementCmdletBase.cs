@@ -56,6 +56,38 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         protected bool overwrite;
 
         /// <summary>
+        /// Size formats
+        /// </summary>
+        private string[] sizeFormats =
+        {
+            Resources.HumanReadableSizeFormat_Bytes,
+            Resources.HumanReadableSizeFormat_KiloBytes,
+            Resources.HumanReadableSizeFormat_MegaBytes,
+            Resources.HumanReadableSizeFormat_GigaBytes,
+            Resources.HumanReadableSizeFormat_TeraBytes,
+            Resources.HumanReadableSizeFormat_PetaBytes,
+            Resources.HumanReadableSizeFormat_ExaBytes
+        };
+
+        /// <summary>
+        /// Translate a size in bytes to human readable form.
+        /// </summary>
+        /// <param name="size">Size in bytes.</param>
+        /// <returns>Human readable form string.</returns>
+        internal string BytesToHumanReadableSize(double size)
+        {
+            int order = 0;
+
+            while (size >= 1024 && order + 1 < sizeFormats.Length)
+            {
+                ++order;
+                size /= 1024;
+            }
+
+            return string.Format(sizeFormats[order], size);
+        }
+
+        /// <summary>
         /// Confirm the overwrite operation
         /// </summary>
         /// <param name="msg">Confirmation message</param>
@@ -99,7 +131,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             }
 
             pr.PercentComplete = (int)percent;
-            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, speed);
+            pr.StatusDescription = String.Format(Resources.FileTransmitStatus, pr.PercentComplete, BytesToHumanReadableSize(speed));
         }
 
         /// <summary>
