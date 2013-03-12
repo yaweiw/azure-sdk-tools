@@ -357,7 +357,7 @@
     <comment>0 for blob name, 1 for snapshot time </comment>
   </data>
   <data name="ConfirmRemoveBlobWithSnapshot" xml:space="preserve">
-    <value>The blob '{0}' in container '{1}' has snapshots. Are you sure to remove blob and its snapshots?</value>
+    <value>The blob '{0}' in container '{1}' has snapshots.</value>
     <comment>0 for blob name, 1 for container name</comment>
   </data>
   <data name="RemoveBlobCancelled" xml:space="preserve">
@@ -476,7 +476,7 @@
     <comment>0 for blob name, 1 for container name. 2 for copyid.</comment>
   </data>
   <data name="ConfirmAbortCopyOperation" xml:space="preserve">
-    <value>Are you sure to abort the copy operation on blob '{0}' in container '{1}' with CopyId {2}.</value>
+    <value>blob '{0}' in container '{1}' with CopyId {2}.</value>
     <comment>0 for blob name, 1 for container name, 2 for copy id.</comment>
   </data>
   <data name="CopyIdMismatch" xml:space="preserve">
