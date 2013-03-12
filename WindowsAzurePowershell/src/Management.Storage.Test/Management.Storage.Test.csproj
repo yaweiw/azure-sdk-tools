@@ -85,8 +85,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Blob\Cmdlet\GetAzureStorageBlobTest.cs" />
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainerTest.cs" />
     <Compile Include="Blob\Cmdlet\NewAzureStorageContainerTest.cs" />
+    <Compile Include="Blob\Cmdlet\RemoveAzureStorageBlobTest.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
     <Compile Include="Blob\FakeRemoveAzureContainerCommand.cs" />
