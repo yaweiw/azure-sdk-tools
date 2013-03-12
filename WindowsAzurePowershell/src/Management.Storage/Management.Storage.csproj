@@ -85,8 +85,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blob\Cmdlet\GetAzureStorageBlob.cs" />
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\NewAzureStorageContainer.cs" />
+    <Compile Include="Blob\Cmdlet\RemoveAzureStorageBlob.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainer.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAcl.cs" />
     <Compile Include="Common\CmdletOperationContext.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageBlob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
     <Compile Include="Model\Contract\StorageBlobManagement.cs" />
@@ -131,6 +134,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
