@@ -208,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseWithTimestamp(Resources.GetStorageAccountFromEnvironmentVariable);
+                WriteDebugLog(Resources.GetStorageAccountFromEnvironmentVariable);
 
                 try
                 {
