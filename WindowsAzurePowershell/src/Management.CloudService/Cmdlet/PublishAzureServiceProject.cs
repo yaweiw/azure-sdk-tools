@@ -466,7 +466,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             CreateHostedServiceInput hostedServiceInput = new CreateHostedServiceInput
             {
                 ServiceName = _hostedServiceName,
-                Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
+                Label = _deploymentSettings.Label,
             };
 
             if (!string.IsNullOrEmpty(_deploymentSettings.ServiceSettings.AffinityGroup))
@@ -574,7 +574,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             CreateStorageServiceInput storageServiceInput = new CreateStorageServiceInput
             {
                 ServiceName = name,
-                Label = ServiceManagementHelper.EncodeToBase64String(label),
+                Label = label,
             };
 
             if (!string.IsNullOrEmpty(affinityGroup))
@@ -639,7 +639,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 PackageUrl = UploadPackage(),
                 Configuration = GetConfiguration(),
-                Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
+                Label = _deploymentSettings.Label,
                 Name = _deploymentSettings.DeploymentName,
                 StartDeployment = true,
             };
@@ -678,7 +678,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 PackageUrl = UploadPackage(),
                 Configuration = GetConfiguration(),
-                Label = ServiceManagementHelper.EncodeToBase64String(_deploymentSettings.Label),
+                Label = _deploymentSettings.Label,
                 Mode = UpgradeType.Auto
             };
 

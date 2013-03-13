@@ -246,11 +246,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                         if (this.ServiceLabel == null)
                         {
-                            chsi.Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceName);
+                            chsi.Label = this.ServiceName;
                         }
                         else
                         {
-                            chsi.Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceLabel);
+                            chsi.Label = this.ServiceLabel;
                         }
 
                         ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedServiceTask(s, chsi), WaitForOperation);

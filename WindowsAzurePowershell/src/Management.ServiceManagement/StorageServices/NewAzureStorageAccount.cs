@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             var createStorageServiceInput = new CreateStorageServiceInput()
             {
                 ServiceName = this.StorageAccountName,
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location
