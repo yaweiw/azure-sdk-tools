@@ -15,10 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Resource not found exception

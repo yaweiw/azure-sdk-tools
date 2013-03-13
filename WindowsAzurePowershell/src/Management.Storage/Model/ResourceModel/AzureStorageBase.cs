@@ -15,9 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Base class for all azure storage object
