@@ -244,9 +244,9 @@
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     
     <Message Importance="high" Text="Scenario tests:" />
-    <!--<Exec
+    <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="false" />-->
+      ContinueOnError="false" />
     <Exec
       Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
       ContinueOnError="false" />
