@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             {
                 GeoReplicationEnabled = this.GeoReplicationEnabled.HasValue,
                 Description = this.Description,
-                Label = this.Label != null ? ServiceManagementHelper.EncodeToBase64String(this.Label) : null
+                Label = this.Label != null ? this.Label : null
             };
 
             ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageServiceTask(s, this.StorageAccountName, upstorageinput), WaitForOperation);

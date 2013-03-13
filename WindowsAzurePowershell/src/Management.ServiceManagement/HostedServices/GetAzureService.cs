@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Url = service.Url,
                 Label = string.IsNullOrEmpty(service.HostedServiceProperties.Label)
                             ? string.Empty
-                            : ServiceManagementHelper.DecodeFromBase64String(service.HostedServiceProperties.Label),
+                            : service.HostedServiceProperties.Label,
                 Description = service.HostedServiceProperties.Description,
                 AffinityGroup = service.HostedServiceProperties.AffinityGroup,
                 Location = service.HostedServiceProperties.Location,
