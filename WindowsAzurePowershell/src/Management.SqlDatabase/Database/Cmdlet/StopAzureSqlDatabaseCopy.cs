@@ -34,11 +34,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the sql database copy object.
@@ -118,12 +119,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             if (this.ParameterSetName == "ByInputObject")
             {
                 // Refreshes the given copy object
-                databaseCopy = this.Context.GetDatabaseCopy(this.DatabaseCopy);
+                databaseCopy = this.ConnectionContext.GetDatabaseCopy(this.DatabaseCopy);
             }
             else
             {
                 // Retrieve all database copy object with matching parameters
-                DatabaseCopy[] copies = this.Context.GetDatabaseCopy(
+                DatabaseCopy[] copies = this.ConnectionContext.GetDatabaseCopy(
                         databaseName,
                         this.PartnerServer,
                         this.PartnerDatabase);
@@ -167,7 +168,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             try
             {
                 // Stop the specified database copy
-                this.Context.StopDatabaseCopy(
+                this.ConnectionContext.StopDatabaseCopy(
                     databaseCopy,
                     this.ForcedTermination.IsPresent);
             }
@@ -175,7 +176,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }

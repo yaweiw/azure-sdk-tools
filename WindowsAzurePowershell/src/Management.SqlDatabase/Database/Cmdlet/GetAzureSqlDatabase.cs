@@ -32,11 +32,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the database object to refresh.
@@ -77,19 +78,19 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 if (databaseName != null)
                 {
                     // Retrieve the database with the specified name
-                    this.WriteObject(this.Context.GetDatabase(databaseName));
+                    this.WriteObject(this.ConnectionContext.GetDatabase(databaseName));
                 }
                 else
                 {
                     // No name specified, retrieve all databases in the server
-                    this.WriteObject(this.Context.GetDatabases(), true);
+                    this.WriteObject(this.ConnectionContext.GetDatabases(), true);
                 }
             }
             catch (Exception ex)
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }

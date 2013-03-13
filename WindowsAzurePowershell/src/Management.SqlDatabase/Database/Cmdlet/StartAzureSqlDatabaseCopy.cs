@@ -33,11 +33,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the database object to refresh.
@@ -115,14 +116,14 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             string actionDescription = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyDescription,
-                this.Context.ServerName,
+                this.ConnectionContext.ServerName,
                 databaseName,
                 this.PartnerServer,
                 partnerDatabaseName);
             string actionWarning = string.Format(
                 CultureInfo.InvariantCulture,
                 Resources.StartAzureSqlDatabaseCopyWarning,
-                this.Context.ServerName,
+                this.ConnectionContext.ServerName,
                 databaseName,
                 this.PartnerServer,
                 partnerDatabaseName);
@@ -143,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                     (int?)this.MaxLagInMinutes : null;
 
                 // Update the database with the specified name
-                DatabaseCopy databaseCopy = this.Context.StartDatabaseCopy(
+                DatabaseCopy databaseCopy = this.ConnectionContext.StartDatabaseCopy(
                     databaseName,
                     this.PartnerServer,
                     partnerDatabaseName,
@@ -156,7 +157,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }
