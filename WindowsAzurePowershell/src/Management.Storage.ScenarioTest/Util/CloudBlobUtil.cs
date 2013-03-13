@@ -1,17 +1,3 @@
-// ----------------------------------------------------------------------------------
-//
-// Copyright Microsoft Corporation
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// ----------------------------------------------------------------------------------
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +7,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using System.Threading;
 
 namespace CLITest.Util
 {
@@ -30,6 +17,31 @@ namespace CLITest.Util
         private CloudBlobClient client;
         private Random random;
         private const int PageBlobUnitSize = 512;
+        private static List<string> HttpsCopyHosts;
+
+        public string ContainerName
+        {
+            get;
+            private set;
+        }
+
+        public string BlobName
+        {
+            get;
+            private set;
+        }
+
+        public ICloudBlob Blob
+        {
+            get;
+            private set;
+        }
+
+        public CloudBlobContainer Container
+        {
+            get;
+            private set;
+        }
 
         private CloudBlobUtil()
         { }
@@ -46,12 +58,46 @@ namespace CLITest.Util
         }
 
         /// <summary>
+        /// Create a random container with a random blob
+        /// </summary>
+        public void SetupTestContainerAndBlob()
+        {
+            ContainerName = Utility.GenNameString("container");
+            BlobName = Utility.GenNameString("blob");
+            CloudBlobContainer container = CreateContainer(ContainerName);
+            Blob = CreateRandomBlob(container, BlobName);
+            Container = container;
+        }
+
+        /// <summary>
+        /// clean test container and blob
+        /// </summary>
+        public void CleanupTestContainerAndBlob()
+        {
+            if (String.IsNullOrEmpty(ContainerName))
+            {
+                return;
+            }
+
+            RemoveContainer(ContainerName);
+            ContainerName = string.Empty;
+            BlobName = string.Empty;
+            Blob = null;
+            Container = null;
+        }
+
+        /// <summary>
         /// create a container with random properties and metadata
         /// </summary>
         /// <param name="containerName">container name</param>
         /// <returns>the created container object with properties and metadata</returns>
-        public CloudBlobContainer CreateContainer(string containerName)
+        public CloudBlobContainer CreateContainer(string containerName = "")
         {
+            if (String.IsNullOrEmpty(containerName))
+            {
+                containerName = Utility.GenNameString("container");
+            }
+
             CloudBlobContainer container = client.GetContainerReference(containerName);
             container.CreateIfNotExists();
 
@@ -163,7 +209,7 @@ namespace CLITest.Util
         public ICloudBlob CreateBlockBlob(CloudBlobContainer container, string blobName)
         {
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobName);
-            
+
             int maxBlobSize = 1024 * 1024;
             string md5sum = string.Empty;
             int blobSize = random.Next(maxBlobSize);
@@ -239,26 +285,51 @@ namespace CLITest.Util
         {
             List<ICloudBlob> blobs = new List<ICloudBlob>();
 
-            int switchKey = 0;
-
             foreach (string blobName in blobNames)
             {
-                switchKey = random.Next(2);
-
-                if (switchKey == 0)
-                {
-                    blobs.Add(CreatePageBlob(container, blobName));
-                }
-                else
-                { 
-                    blobs.Add(CreateBlockBlob(container, blobName));
-                }
+                blobs.Add(CreateRandomBlob(container, blobName));
             }
 
             blobs = blobs.OrderBy(blob => blob.Name).ToList();
 
             return blobs;
         }
+
+        public List<ICloudBlob> CreateRandomBlob(CloudBlobContainer container)
+        {
+            int count = random.Next(1, 5);
+            List<string> blobNames = new List<string>();
+            for (int i = 0; i < count; i++)
+            {
+                blobNames.Add(Utility.GenNameString("blob"));
+            }
+
+            return CreateRandomBlob(container, blobNames);
+        }
+
+        /// <summary>
+        /// Create a list of blobs with random properties/metadata/blob type
+        /// </summary>
+        /// <param name="container">CloudBlobContainer object</param>
+        /// <param name="blobName">Blob name</param>
+        /// <returns>ICloudBlob object</returns>
+        public ICloudBlob CreateRandomBlob(CloudBlobContainer container, string blobName)
+        {
+            int switchKey = 0;
+
+            switchKey = random.Next(2);
+
+            if (switchKey == 0)
+            {
+                return CreatePageBlob(container, blobName);
+            }
+            else
+            {
+                return CreateBlockBlob(container, blobName);
+            }
+        }
+
+
 
         /// <summary>
         /// convert blob name into valid file name
@@ -344,6 +415,63 @@ namespace CLITest.Util
             dic["ContentType"] = blob.Properties.ContentType;
             dic["LastModified"] = blob.Properties.LastModified;
             dic["SnapshotTime"] = blob.SnapshotTime;
+        }
+
+        public static string ConvertCopySourceUri(string uri)
+        {
+            if (HttpsCopyHosts == null)
+            {
+                HttpsCopyHosts = new List<string>();
+                string httpsHosts = Test.Data.Get("HttpsCopyHosts");
+                string[] hosts = httpsHosts.Split();
+
+                foreach (string host in hosts)
+                {
+                    if (!String.IsNullOrWhiteSpace(host))
+                    {
+                        HttpsCopyHosts.Add(host);
+                    }
+                }
+            }
+
+            //Azure always use https to copy from these hosts such windows.net
+            bool useHttpsCopy = HttpsCopyHosts.Any(host => uri.IndexOf(host) != -1);
+
+            if (useHttpsCopy)
+            {
+                return uri.Replace("http://", "https://");
+            }
+            else
+            {
+                return uri;
+            }
+        }
+
+        public static bool WaitForCopyOperationComplete(ICloudBlob destBlob, int maxRetry = 100)
+        {
+            int retryCount = 0;
+            int sleepInterval = 1000; //ms
+
+            if (destBlob == null)
+            {
+                return false;
+            }
+
+            do
+            {
+                if (retryCount > 0)
+                {
+                    Test.Info(String.Format("{0}th check current copy state and it's {1}. Wait for copy completion", retryCount, destBlob.CopyState.Status));
+                }
+
+                Thread.Sleep(sleepInterval);
+                destBlob.FetchAttributes();
+                retryCount++;
+            }
+            while (destBlob.CopyState.Status == CopyStatus.Pending && retryCount < maxRetry);
+
+            Test.Info(String.Format("Final Copy status is {0}", destBlob.CopyState.Status));
+            return destBlob.CopyState.Status != CopyStatus.Pending;
         }
     }
 }

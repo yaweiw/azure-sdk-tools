@@ -681,6 +681,160 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
+        public override bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext = null)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddParameter("SrcUri", sourceUri);
+            ps.AddParameter("DestContainer", destContainerName);
+            ps.AddParameter("DestBlob", destBlobName);
+            //The host program or the command type does not support user interaction.
+            ps.AddParameter("Force");
+
+            if (destContext != null)
+            {
+                ps.AddParameter("DestContext", destContext);
+            }
+
+            //Don't use context parameter for this cmdlet
+            bool savedParameter = UseContextParam;
+            UseContextParam = false;
+            bool executeState = InvokeStoragePowerShell(ps);
+            UseContextParam = savedParameter;
+            return executeState;
+        }
+
+        public override bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddParameter("SrcContainer", srcContainerName);
+            ps.AddParameter("SrcBlob", srcBlobName);
+            ps.AddParameter("DestContainer", destContainerName);
+            //The host program or the command type does not support user interaction.
+            ps.AddParameter("Force");
+
+            if (!string.IsNullOrEmpty(destBlobName))
+            {
+                ps.AddParameter("DestBlob", destBlobName);
+            }
+
+            if (destContext != null)
+            {
+                ps.AddParameter("DestContext", destContext);
+            }
+
+            return InvokeStoragePowerShell(ps);
+        }
+
+        public override bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddParameter("ICloudBlob", srcBlob);
+            ps.AddParameter("DestContainer", destContainerName);
+            //The host program or the command type does not support user interaction.
+            ps.AddParameter("Force");
+
+            if (!string.IsNullOrEmpty(destBlobName))
+            {
+                ps.AddParameter("DestBlob", destBlobName);
+            }
+
+            if (destContext != null)
+            {
+                ps.AddParameter("DestContext", destContext);
+            }
+
+            return InvokeStoragePowerShell(ps);
+        }
+
+        public override bool GetAzureStorageBlobCopyState(string containerName, string blobName, bool waitForComplete)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
+
+            ps.AddCommand("Get-AzureStorageBlobCopyState");
+
+            if (!String.IsNullOrEmpty(containerName))
+            {
+                ps.AddParameter("Container", containerName);
+            }
+
+            if (!String.IsNullOrEmpty(blobName))
+            {
+                ps.AddParameter("Blob", blobName);
+            }
+
+            if (waitForComplete)
+            {
+                ps.AddParameter("WaitForComplete");
+            }
+
+            return InvokeStoragePowerShell(ps);
+        }
+
+        public override bool GetAzureStorageBlobCopyState(ICloudBlob blob, object context, bool waitForComplete)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            ps.AddCommand("Get-AzureStorageBlobCopyState");
+            ps.AddParameter("ICloudBlob", blob);
+
+            if (waitForComplete)
+            {
+                ps.AddParameter("WaitForComplete");
+            }
+
+            return InvokeStoragePowerShell(ps, context);
+        }
+
+        public override bool StopCopyAzureStorageBlob(string containerName, string blobName, string copyId, bool force)
+        {
+            PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
+
+            ps.AddCommand("Stop-CopyAzureStorageBlob");
+
+            if (!String.IsNullOrEmpty(containerName))
+            {
+                ps.AddParameter("Container", containerName);
+            }
+
+            if (!String.IsNullOrEmpty(blobName))
+            {
+                ps.AddParameter("Blob", blobName);
+            }
+
+            ps.AddParameter("CopyId", copyId);
+
+            if (force)
+            {
+                ps.AddParameter("Force");
+            }
+
+            return InvokeStoragePowerShell(ps);
+        }
+
+        private bool InvokeStoragePowerShell(PowerShell ps, object context = null)
+        {
+            if (context == null)
+            {
+                AddCommonParameters(ps);
+            }
+            else
+            {
+                ps.AddParameter(ContextParameterName, context);
+            }
+
+            Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
+
+            //TODO We should add a time out for this invoke. Bad news, powershell don't support buildin time out for invoking.
+            ParseCollection(ps.Invoke());
+            ParseErrorMessages(ps);
+
+            return !ps.HadErrors;
+        }
+
         /// <summary>
         /// Add the common parameters
         ///     -Context ...
