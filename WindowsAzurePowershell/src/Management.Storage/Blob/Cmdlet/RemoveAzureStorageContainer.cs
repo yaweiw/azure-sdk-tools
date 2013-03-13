@@ -48,6 +48,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool force;
 
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageContainerCommand class.
         /// </summary>
@@ -99,18 +102,25 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             string result = string.Empty;
+            bool removed = false;
 
             if (force || ConfirmRemove(name))
             {
                 Channel.DeleteContainer(container, accessCondition, requestOptions, OperationContext);
                 result = String.Format(Resources.RemoveContainerSuccessfully, name);
+                removed = true;
             }
             else
             {
                 result = String.Format(Resources.RemoveContainerCancelled, name);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(removed);
+            }
         }
 
         /// <summary>
