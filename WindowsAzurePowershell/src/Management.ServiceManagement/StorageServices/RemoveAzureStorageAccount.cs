@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
         {
             var operationId = string.Empty;
 
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteStorageService(s, this.StorageAccountName), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteStorageServiceTask(s, this.StorageAccountName), WaitForOperation);
 
             return operationId;
         }

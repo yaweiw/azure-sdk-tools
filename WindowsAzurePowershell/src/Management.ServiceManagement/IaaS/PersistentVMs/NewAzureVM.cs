@@ -253,7 +253,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             chsi.Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceLabel);
                         }
 
-                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
+                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedServiceTask(s, chsi), WaitForOperation);
                     }
                 }
                 catch (ServiceManagementClientException ex)
@@ -304,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             }
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
+                        ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeploymentTask(s, this.ServiceName, deployment), WaitForOperation);
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -346,7 +346,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                 ExecuteClientActionInOCS(persistentVMs[i],
                     CommandRuntime.ToString() + " - Create VM " + persistentVMs[i].RoleName,
-                    s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName, persistentVMs[i]),
+                    s => this.Channel.AddRoleTask(s, this.ServiceName, this.DeploymentName, persistentVMs[i]),
                     WaitForOperation);
             }
         }
@@ -418,7 +418,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 try
                 {
-                    AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
+                    AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailableTask(s, serviceName).Result);
                     WaitForOperation(CommandRuntime.ToString(), true);
                     isPresent = !response.Result;
                 }

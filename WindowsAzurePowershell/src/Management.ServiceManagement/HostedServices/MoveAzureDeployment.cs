@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Production = prodDeployment == null ? null : prodDeployment.Name
             };
 
-            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
+            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeploymentTask(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
         }
 
         private Deployment GetDeploymentBySlot(string slot)
@@ -87,7 +87,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             Deployment prodDeployment = null;
             try
             {
-                InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, slot)));
+                InvokeInOperationContext(() => prodDeployment = RetryCall(s => Channel.GetDeploymentBySlotTask(s, ServiceName, slot).Result));
                 if (prodDeployment != null && prodDeployment.RoleList != null)
                 {
                     if (string.Compare(prodDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)

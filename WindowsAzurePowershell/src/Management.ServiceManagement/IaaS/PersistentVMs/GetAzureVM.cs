@@ -144,7 +144,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                HostedServiceList services = this.RetryCall(s => this.Channel.ListHostedServices(s));
+                HostedServiceList services = this.RetryCall(s => this.Channel.ListHostedServicesTask(s).Result);
                 if (services != null)
                 {
                     foreach (HostedService service in services)
@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         {
                             try
                             {
-                                var deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, service.ServiceName, "Production"));
+                                var deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlotTask(s, service.ServiceName, "Production").Result);
                                 foreach (Role role in deployment.RoleList)
                                 {
                                     if (role.RoleType == "PersistentVMRole")

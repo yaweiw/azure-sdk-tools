@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 
             ExecuteClientActionInOCS(
                 regenerateKeys, this.CommandRuntime.ToString(),
-                s => this.Channel.RegenerateStorageServiceKeys(s, this.StorageAccountName, regenerateKeys), 
+                s => this.Channel.RegenerateStorageServiceKeysTask(s, this.StorageAccountName, regenerateKeys).Result, 
                 this.WaitForOperation,
                 (operation, storageService) => new StorageServiceKeyOperationContext
                 {

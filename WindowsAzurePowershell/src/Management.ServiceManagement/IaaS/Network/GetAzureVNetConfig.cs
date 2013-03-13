@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 try
                 {
-                    var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfiguration(s)) as Stream;
+                    var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfigurationTask(s).Result) as Stream;
                     Operation operation = WaitForOperation(CommandRuntime.ToString());
 
                     if (netConfigStream != null)

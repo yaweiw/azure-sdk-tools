@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
                 Description = this.Description ?? null
             };
 
-            ExecuteClientActionInOCS(upaginput, CommandRuntime.ToString(), s => this.Channel.UpdateAffinityGroup(s, this.Name, upaginput), WaitForOperation);
+            ExecuteClientActionInOCS(upaginput, CommandRuntime.ToString(), s => this.Channel.UpdateAffinityGroupTask(s, this.Name, upaginput), WaitForOperation);
         }
 
         protected override void OnProcessRecord()

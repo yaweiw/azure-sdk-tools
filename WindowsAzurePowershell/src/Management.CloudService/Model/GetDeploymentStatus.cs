@@ -94,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             {
                 InvokeInOperationContext(() =>
                 {
-                    deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
+                    deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlotTask(s, serviceName, slot).Result);
                 });
             }
             catch (ServiceManagementClientException ex)

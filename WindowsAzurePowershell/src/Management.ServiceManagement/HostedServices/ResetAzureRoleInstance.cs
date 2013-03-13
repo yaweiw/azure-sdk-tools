@@ -101,7 +101,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.RebootDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
+                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.RebootDeploymentRoleInstanceBySlotTask(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.ReimageDeploymentRoleInstanceBySlot(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
+                ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.ReimageDeploymentRoleInstanceBySlotTask(s, this.ServiceName, this.Slot, instanceName), WaitForOperation);
             }
         }
 

@@ -124,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
             Operation operation = new Operation();
             do
             {
-                operation = serviceManagementChannel.GetOperationStatus(subscriptionId, operationId);
+                operation = serviceManagementChannel.GetOperationStatusTask(subscriptionId, operationId).Result;
                 Thread.Sleep(SleepDuration);
             }
             while (operation.Status == OperationState.InProgress);

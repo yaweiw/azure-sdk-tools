@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             }
 
             string roleName = (this.ParameterSetName == "ByName") ? this.Name : this.VM.RoleName;
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRole(s, this.ServiceName, CurrentDeployment.Name, roleName), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.StartRoleTask(s, this.ServiceName, CurrentDeployment.Name, roleName), WaitForOperation);
         }
 
     }

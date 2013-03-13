@@ -33,9 +33,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
             string storageKey;
             string blobEndpointUri;
 
-            StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
+            StorageService storageService = channel.GetStorageKeysTask(subscriptionId, storageName).Result;
             storageKey = storageService.StorageServiceKeys.Primary;
-            storageService = channel.GetStorageService(subscriptionId, storageName);
+            storageService = channel.GetStorageServiceTask(subscriptionId, storageName).Result;
             blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
 
             return UploadFile(storageName, blobEndpointUri, storageKey, packagePath, blobRequestOptions);
@@ -43,9 +43,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities
 
         public static void DeletePackageFromBlob(IServiceManagement channel, string storageName, string subscriptionId, Uri packageUri)
         {
-            var storageService = channel.GetStorageKeys(subscriptionId, storageName);
+            var storageService = channel.GetStorageKeysTask(subscriptionId, storageName).Result;
             var storageKey = storageService.StorageServiceKeys.Primary;
-            storageService = channel.GetStorageService(subscriptionId, storageName);
+            storageService = channel.GetStorageServiceTask(subscriptionId, storageName).Result;
             var blobStorageEndpoint = new Uri(storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);

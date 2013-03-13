@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             writer1.Flush();
             stream.Seek(0L, SeekOrigin.Begin);
 
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream), this.WaitForOperation);
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfigurationTask(s, stream), this.WaitForOperation);
         }
     }
 }

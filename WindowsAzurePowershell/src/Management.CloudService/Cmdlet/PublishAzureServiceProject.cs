@@ -187,11 +187,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     LaunchService();
                 }
 
-                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(
+                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlotTask(
                     s, 
                     _hostedServiceName, 
                     _deploymentSettings.ServiceSettings.Slot
-                ));
+                ).Result);
                 WriteObject(deployment);
             }
             else
@@ -435,7 +435,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             try
             {
-                RetryCall(subscription => Channel.GetHostedServiceWithDetails(subscription, _hostedServiceName, true));
+                RetryCall(subscription => Channel.GetHostedServiceWithDetailsTask(subscription, _hostedServiceName, true));
             }
             catch (ServiceManagementClientException)
             {
@@ -481,7 +481,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             InvokeInOperationContext(() =>
             {
                 RetryCall(subscription =>
-                    Channel.CreateHostedService(subscription, hostedServiceInput));
+                    Channel.CreateHostedServiceTask(subscription, hostedServiceInput));
                 WriteVerboseWithTimestamp(String.Format(Resources.PublishCreatedServiceMessage,
                     hostedServiceInput.ServiceName));
             });
@@ -552,7 +552,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             try
             {
                 storageService = RetryCall<StorageService>(subscription =>
-                    Channel.GetStorageService(subscription, name));
+                    Channel.GetStorageServiceTask(subscription, name).Result);
             }
             catch (ServiceManagementClientException)
             {
@@ -591,7 +591,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             InvokeInOperationContext(() =>
             {
                 RetryCall(subscription =>
-                    Channel.CreateStorageService(subscription, storageServiceInput));
+                    Channel.CreateStorageServiceTask(subscription, storageServiceInput));
 
                 StorageService storageService = null;
                 do
@@ -599,7 +599,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     try
                     {
                         storageService = RetryCall<StorageService>(subscription =>
-                        Channel.GetStorageService(subscription, storageServiceInput.ServiceName));
+                        Channel.GetStorageServiceTask(subscription, storageServiceInput.ServiceName).Result);
                     }
                     catch (Exception)
                     {
@@ -644,13 +644,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 StartDeployment = true,
             };
 
-            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificatesTask(subscription, _hostedServiceName).Result);
             AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
                 {
 
                     RetryCall(subscription =>
-                        Channel.CreateOrUpdateDeployment(
+                        Channel.CreateOrUpdateDeploymentTask(
                             subscription,
                             _hostedServiceName,
                             _deploymentSettings.ServiceSettings.Slot,
@@ -682,13 +682,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 Mode = UpgradeType.Auto
             };
 
-            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificates(subscription, _hostedServiceName));
+            CertificateList uploadedCertificates = RetryCall<CertificateList>(subscription => Channel.ListCertificatesTask(subscription, _hostedServiceName).Result);
             AddCertificates(uploadedCertificates);
             InvokeInOperationContext(() =>
             {
                 WriteVerboseWithTimestamp(Resources.PublishUpgradingMessage);
                 RetryCall(subscription =>
-                    Channel.UpgradeDeployment(
+                    Channel.UpgradeDeploymentTask(
                         subscription,
                         _hostedServiceName,
                         _deploymentSettings.DeploymentName,
@@ -711,7 +711,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 Thread.Sleep(TimeSpan.FromMilliseconds(500));
                 certificates = RetryCall(subscription =>
-                    Channel.ListCertificates(subscription, _hostedServiceName));
+                    Channel.ListCertificatesTask(subscription, _hostedServiceName).Result);
             }
             while (certificates == null || certificates.Count(c => c.Thumbprint.Equals(
                 certificate.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1);
@@ -733,10 +733,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             do
             {
                 deployment = RetryCall<Deployment>(subscription =>
-                    Channel.GetDeploymentBySlot(
+                    Channel.GetDeploymentBySlotTask(
                         subscription,
                         _hostedServiceName,
-                        _deploymentSettings.ServiceSettings.Slot));
+                        _deploymentSettings.ServiceSettings.Slot).Result);
 
                 // If a deployment has many roles to initialize, this
                 // thread must throttle requests so the Azure portal
@@ -769,10 +769,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 do
                 {
                     deployment = RetryCall<Deployment>(subscription =>
-                        Channel.GetDeploymentBySlot(
+                        Channel.GetDeploymentBySlotTask(
                             subscription,
                             _hostedServiceName,
-                            _deploymentSettings.ServiceSettings.Slot));
+                            _deploymentSettings.ServiceSettings.Slot).Result);
 
                     // The goal of this loop is to output a message whenever the status of a role 
                     // instance CHANGES. To do that, we have to remember the last status of all role instances
@@ -888,7 +888,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                             throw new ArgumentException(string.Format(Resources.CertificatePrivateKeyAccessError, certElement.name), exception);
                         }
 
-                        RetryCall(subscription => Channel.AddCertificates(subscription, _hostedServiceName, certFile));
+                        RetryCall(subscription => Channel.AddCertificatesTask(subscription, _hostedServiceName, certFile));
                         WaitForCertificateToBeAdded(certElement);
                     }
                 }

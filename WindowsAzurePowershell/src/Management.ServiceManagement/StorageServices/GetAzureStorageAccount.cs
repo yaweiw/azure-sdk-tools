@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetStorageService(s, this.StorageAccountName),
+                    s => this.Channel.GetStorageServiceTask(s, this.StorageAccountName).Result,
                     WaitForOperation,
                     (operation, storageService) => func(operation, new[] { storageService }));
             }
@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListStorageServices(s),
+                    s => this.Channel.ListStorageServicesTask(s).Result,
                     WaitForOperation,
                     (operation, storageServices) => func(operation, storageServices));
             }

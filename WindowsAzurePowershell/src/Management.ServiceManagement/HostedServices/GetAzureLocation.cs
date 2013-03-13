@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
+                s => this.Channel.ListLocationsTask(CurrentSubscription.SubscriptionId).Result,
                 WaitForOperation,
                 (op, locations) => locations.Select(location => new LocationsContext
                 {
