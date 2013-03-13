@@ -202,13 +202,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             WriteVerbose(String.Format(Resources.TransferSummary, TotalCount, FinishedCount, FailedCount));
 
-            if (transferManager != null)
-            {
-                transferManager.WaitForCompletion();
-                transferManager.Dispose();
-                transferManager = null;
-            }
-
             base.EndProcessing();
         }
 
@@ -230,7 +223,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 }
 
                 Thread.Sleep(interval);
-
                 if (ShouldForceQuit)
                 {
                     //can't output verbose log for this operation since the Output stream is already stopped.
@@ -255,6 +247,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             if (transferManager != null)
             {
+                transferManager.WaitForCompletion();
                 transferManager.Dispose();
                 transferManager = null;
             }
