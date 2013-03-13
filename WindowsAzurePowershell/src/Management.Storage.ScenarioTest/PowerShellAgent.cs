@@ -44,9 +44,11 @@ namespace CLITest
         private static InitialSessionState _InitState = InitialSessionState.CreateDefault();
 
         private static PowerShell PowerShellInstance = null;
+        private static PSCommand InitCommand = null;
 
         private PowerShell GetPowerShellInstance()
         {
+            PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
             PowerShellAgent.PowerShellInstance.AddStatement();
             return PowerShellAgent.PowerShellInstance;
         }
@@ -54,6 +56,7 @@ namespace CLITest
         public static void SetPowerShellInstance(PowerShell instance)
         {
             PowerShellAgent.PowerShellInstance = instance;
+            PowerShellAgent.InitCommand = instance.Commands;
         }
 
         public static void ImportModule(string ModuleFilePath)

@@ -7,7 +7,6 @@
   <logverbose>true</logverbose>
   <logwarning>true</logwarning>
   <logerror>true</logerror>
-  <StorageConnectionString></StorageConnectionString>
   <ModuleFilePath></ModuleFilePath>
   <BlockFilePath>Data\upload\中文路径path\Windows Azure是微软基于云计算的操作系统.txt</BlockFilePath>
   <PageFilePath>Data\upload\page.bin</PageFilePath>
