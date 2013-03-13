@@ -68,18 +68,23 @@
   <ItemGroup>
     <Content Include="TestData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.ScenarioTest\Management.ScenarioTest.csproj">
+      <Project>{a3965b66-5a3e-4b8c-9574-28e5958d4828}</Project>
+      <Name>Management.ScenarioTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Management.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MsTestLib\Management.Storage.MsTestLib.csproj">
+    <ProjectReference Include="..\Management.Storage.MsTestLib\Management.Storage.MsTestLib.csproj">
       <Project>{ce97967b-7479-43b9-9561-776232ac5d47}</Project>
       <Name>Management.Storage.MsTestLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StorageTestLib\Management.Storage.StorageTestLib.csproj">
+    <ProjectReference Include="..\Management.Storage.StorageTestLib\Management.Storage.StorageTestLib.csproj">
       <Project>{0a513849-2690-4d07-8de7-0ace39645d12}</Project>
       <Name>Management.Storage.StorageTestLib</Name>
     </ProjectReference>

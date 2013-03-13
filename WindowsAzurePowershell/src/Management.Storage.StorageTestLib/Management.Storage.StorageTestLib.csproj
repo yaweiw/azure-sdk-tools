@@ -46,7 +46,7 @@
     <Compile Include="TestConstants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MsTestLib\Management.Storage.MsTestLib.csproj">
+    <ProjectReference Include="..\Management.Storage.MsTestLib\Management.Storage.MsTestLib.csproj">
       <Project>{ce97967b-7479-43b9-9561-776232ac5d47}</Project>
       <Name>Management.Storage.MsTestLib</Name>
     </ProjectReference>

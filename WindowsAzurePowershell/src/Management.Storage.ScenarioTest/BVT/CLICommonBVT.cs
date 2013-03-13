@@ -25,6 +25,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
+using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
 
 namespace CLITest.BVT
 {
@@ -224,6 +225,8 @@ namespace CLITest.BVT
         [TestMethod]
         [TestCategory(Tag.BVT)]
         [TestCategory(PsTag.FastEnv)]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Storage)]
         public void NewContainerTest()
         {
             NewContainerTest(new PowerShellAgent());
