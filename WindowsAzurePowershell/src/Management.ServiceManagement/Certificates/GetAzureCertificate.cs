@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint),
+                    s => this.Channel.GetCertificateTask(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint).Result,
                     WaitForOperation,
                     (operation, certificate) => func(operation, new[] { certificate }));
             }
@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
                 ExecuteClientActionInOCS(
                      null,
                      CommandRuntime.ToString(),
-                     s => this.Channel.ListCertificates(s, this.ServiceName),
+                     s => this.Channel.ListCertificatesTask(s, this.ServiceName).Result,
                      WaitForOperation,
                      (operation, certificates) => func(operation, certificates));
             }

@@ -43,8 +43,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                 new HttpRestMessageInspector(this.WriteDebug)
             };
 
-            var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, messageInspectors);
-            var smClient = new ServiceManagementClient(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, clientOptions);
+            var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, RetryPolicy.NoRetryPolicy, ServiceManagementClientOptions.DefaultOptions.WaitTimeForOperationToComplete, messageInspectors);
+            //var smClient = new ServiceManagementClient(this.ServiceBinding, new Uri(this.ServiceEndpoint), CurrentSubscription.Certificate, clientOptions);
+            var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate, clientOptions);
             return smClient.Service;
         }
 
@@ -190,7 +191,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected override Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
+            return channel.GetOperationStatusTask(subscriptionId, operationId).Result;
         }
 
         protected override Operation WaitForOperation(string opdesc)

@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                     // Get the location of the underlying VHD
                     using (new OperationContextScope(Channel.ToContextChannel()))
                     {
-                        var image = this.RetryCall(s => this.Channel.GetOSImage(s, this.ImageName));
+                        var image = this.RetryCall(s => this.Channel.GetOSImageTask(s, this.ImageName).Result);
                         mediaLink = image.MediaLink;
                     }
                 }
@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 // Remove the image from the image repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImageTask(s, this.ImageName), WaitForOperation);
                 }
 
                 if (this.DeleteVHD.IsPresent)

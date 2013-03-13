@@ -43,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             // Check that cloud service exists
             WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
-            bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
+            bool found = !Channel.IsDNSAvailableTask(CurrentSubscription.SubscriptionId, serviceName).Result.Result;
 
             if (found)
             {

@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             StorageService storageService;
             using (new OperationContextScope(channel.ToContextChannel()))
             {
-                storageService = channel.GetStorageKeys(subscriptionId, accountName);
+                storageService = channel.GetStorageKeysTask(subscriptionId, accountName).Result;
             }
 
             var storageAccountCredentials = new StorageCredentials(accountName, storageService.StorageServiceKeys.Primary);

@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 try
                 {
-                    var sites = this.RetryCall(s => this.Channel.ListVirtualNetworkSites(s)).ToList();
+                    var sites = this.RetryCall(s => this.Channel.ListVirtualNetworkSitesTask(s).Result).ToList();
 
                     if (!string.IsNullOrEmpty(this.VNetName))
                     {

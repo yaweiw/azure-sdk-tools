@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
         {
             if(String.IsNullOrEmpty(destination.QueryString))
             {
-                StorageService sService = this.channel.GetStorageKeys(subscriptionId, destination.StorageAccountName);
+                StorageService sService = this.channel.GetStorageKeysTask(subscriptionId, destination.StorageAccountName).Result;
                 return new CloudPageBlob(new Uri(destination.BlobPath), new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary));
             }
             return new CloudPageBlob(new Uri(destination.BlobPath), new StorageCredentials(destination.Uri.Query));

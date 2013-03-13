@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     // Get the location of the underlying VHD
                     using (new OperationContextScope(Channel.ToContextChannel()))
                     {
-                        var disk = this.RetryCall(s => this.Channel.GetDisk(s, this.DiskName));
+                        var disk = this.RetryCall(s => this.Channel.GetDiskTask(s, this.DiskName).Result);
                         mediaLink = disk.MediaLink;
                     }
                 }
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 // Remove the disk from the disk repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDiskTask(s, this.DiskName), WaitForOperation);
                 }
 
                 if (this.DeleteVHD.IsPresent)

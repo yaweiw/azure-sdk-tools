@@ -364,7 +364,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
         protected virtual Operation GetOperationStatus(string subscriptionId, string operationId)
         {
             var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
+            return channel.GetOperationStatusTask(subscriptionId, operationId).Result;
         }
 
         protected virtual void WriteErrorDetails(CommunicationException exception)
