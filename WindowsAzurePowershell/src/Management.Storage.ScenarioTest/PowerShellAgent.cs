@@ -43,6 +43,19 @@ namespace CLITest
         // add this member for importing module
         private static InitialSessionState _InitState = InitialSessionState.CreateDefault();
 
+        private static PowerShell PowerShellInstance = null;
+
+        private PowerShell GetPowerShellInstance()
+        {
+            PowerShellAgent.PowerShellInstance.AddStatement();
+            return PowerShellAgent.PowerShellInstance;
+        }
+
+        public static void SetPowerShellInstance(PowerShell instance)
+        {
+            PowerShellAgent.PowerShellInstance = instance;
+        }
+
         public static void ImportModule(string ModuleFilePath)
         {
             if (string.IsNullOrEmpty(ModuleFilePath))
@@ -184,7 +197,7 @@ namespace CLITest
 
         public override bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContext");
             ps.AddParameter("StorageAccountName", StorageAccountName);
             ps.AddParameter("StorageAccountKey", StorageAccountKey);
@@ -196,7 +209,7 @@ namespace CLITest
 
         public override bool NewAzureStorageContext(string ConnectionString)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContext");
             ps.AddParameter("ConnectionString", ConnectionString);
 
@@ -216,7 +229,7 @@ namespace CLITest
 
         public override bool NewAzureStorageContainer(string ContainerName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContainer");
             ps.AddParameter("Name", ContainerName);
             AddCommonParameters(ps);
@@ -231,7 +244,7 @@ namespace CLITest
 
         public override bool NewAzureStorageContainer(string[] ContainerNames)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(ContainerNames));
             ps.AddCommand("New-AzureStorageContainer");
             AddCommonParameters(ps);
@@ -246,7 +259,7 @@ namespace CLITest
 
         public override bool GetAzureStorageContainer(string ContainerName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageContainer");
             
@@ -267,7 +280,7 @@ namespace CLITest
 
         public override bool GetAzureStorageContainerByPrefix(string Prefix)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageContainer");
             ps.AddParameter("Prefix", Prefix);
             AddCommonParameters(ps);
@@ -282,7 +295,7 @@ namespace CLITest
 
         public override bool SetAzureStorageContainerACL(string ContainerName, BlobContainerPublicAccessType PublicAccess, bool PassThru = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Set-AzureStorageContainerACL");
             ps.AddParameter("Name", ContainerName);
             ps.AddParameter("PublicAccess", PublicAccess);
@@ -304,7 +317,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageContainer(string ContainerName, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Remove-AzureStorageContainer");
             ps.AddParameter("Name", ContainerName);
             AddCommonParameters(ps, Force);
@@ -319,7 +332,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageContainer(string[] ContainerNames, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(ContainerNames));
             ps.AddCommand("Remove-AzureStorageContainer");
             AddCommonParameters(ps, Force);
@@ -334,7 +347,7 @@ namespace CLITest
 
         public override bool NewAzureStorageQueue(string QueueName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageQueue");
             ps.AddParameter("Name", QueueName);
             AddCommonParameters(ps);
@@ -349,7 +362,7 @@ namespace CLITest
 
         public override bool NewAzureStorageQueue(string[] QueueNames)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(QueueNames));
             ps.AddCommand("New-AzureStorageQueue");
             AddCommonParameters(ps);
@@ -364,7 +377,7 @@ namespace CLITest
 
         public override bool GetAzureStorageQueue(string QueueName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageQueue");
             
             if (QueueName.Length > 0)
@@ -384,7 +397,7 @@ namespace CLITest
 
         public override bool GetAzureStorageQueueByPrefix(string Prefix)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageQueue");
             ps.AddParameter("Prefix", Prefix);
             AddCommonParameters(ps);
@@ -399,7 +412,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageQueue(string QueueName, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Remove-AzureStorageQueue");
             ps.AddParameter("Name", QueueName);
             AddCommonParameters(ps, Force);
@@ -414,7 +427,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageQueue(string[] QueueNames, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(QueueNames));
             ps.AddCommand("Remove-AzureStorageQueue");
             AddCommonParameters(ps, Force);
@@ -430,7 +443,7 @@ namespace CLITest
         public override bool SetAzureStorageBlobContent(string FileName, string ContainerName, BlobType Type, string BlobName = "",
             bool Force = true, int ConcurrentCount = -1)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Set-AzureStorageBlobContent");
             
@@ -469,7 +482,7 @@ namespace CLITest
         public override bool GetAzureStorageBlobContent(string Blob, string FileName, string ContainerName, 
             bool Force = true, int ConcurrentCount = -1)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlobContent");
 
@@ -502,7 +515,7 @@ namespace CLITest
 
         public override bool GetAzureStorageBlob(string BlobName, string ContainerName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlob");
             
@@ -528,7 +541,7 @@ namespace CLITest
 
         public override bool GetAzureStorageBlobByPrefix(string Prefix, string ContainerName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageBlob");
             ps.AddParameter("Prefix", Prefix);
             ps.AddParameter("Container", ContainerName);
@@ -544,7 +557,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageBlob");
             
@@ -575,7 +588,7 @@ namespace CLITest
 
         public override bool NewAzureStorageTable(string TableName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageTable");
             
             if (TableName.Length > 0)
@@ -595,7 +608,7 @@ namespace CLITest
 
         public override bool NewAzureStorageTable(string[] TableNames)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(TableNames));
             ps.AddCommand("New-AzureStorageTable");
             AddCommonParameters(ps);
@@ -610,7 +623,7 @@ namespace CLITest
 
         public override bool GetAzureStorageTable(string TableName)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageTable");
             ps.AddParameter("Name", TableName);
             AddCommonParameters(ps);
@@ -625,7 +638,7 @@ namespace CLITest
 
         public override bool GetAzureStorageTableByPrefix(string Prefix)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageTable");
             ps.AddParameter("Prefix", Prefix);
             AddCommonParameters(ps);
@@ -640,7 +653,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageTable(string TableName, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Remove-AzureStorageTable");
             ps.AddParameter("Name", TableName);
             AddCommonParameters(ps, Force);
@@ -655,7 +668,7 @@ namespace CLITest
 
         public override bool RemoveAzureStorageTable(string[] TableNames, bool Force = true)
         {
-            PowerShell ps = PowerShell.Create(_InitState);
+            PowerShell ps = GetPowerShellInstance();
             ps.AddScript(FormatNameList(TableNames));
             ps.AddCommand("Remove-AzureStorageTable");
             AddCommonParameters(ps, Force);
