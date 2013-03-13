@@ -245,19 +245,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             if (jobList.Count >= 0)
             {
                 List<ProgressRecord> records = new List<ProgressRecord>();
-                int defaultTaskRecordCount = 5;
+                int defaultTaskRecordCount = 4;
                 string summary = String.Format(Resources.CopyBlobSummaryCount, total, finished, jobList.Count, failed);
                 ProgressRecord summaryRecord = new ProgressRecord(0, Resources.CopyBlobSummaryActivity, summary);
                 records.Add(summaryRecord);
 
-                for (int i = 1; i <= defaultTaskRecordCount; i++)
-                {
-                    ProgressRecord record = new ProgressRecord(i, Resources.CopyBlobActivity, "Copy");
-                    records.Add(record);
-                }
-
                 int workerPtr = 0;
                 int taskRecordStartIndex = 1;
+
+                for (int i = 1; i <= jobList.Count; i++)
+                {
+                    ProgressRecord record = new ProgressRecord(i % defaultTaskRecordCount + taskRecordStartIndex, Resources.CopyBlobActivity, Resources.CopyBlobActivity);
+                    records.Add(record);
+                }
 
                 while (jobList.Count > 0)
                 {
@@ -268,14 +268,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     for (int i = taskRecordStartIndex; i <= defaultTaskRecordCount && !ShouldForceQuit; i++)
                     {
                         ICloudBlob blob = jobList[workerPtr];
+                        int recordIndex = workerPtr + taskRecordStartIndex;
                         GetBlobWithCopyStatus(blob);
-                        WriteCopyProgress(blob, records[i]);
+                        WriteCopyProgress(blob, records[recordIndex]);
                         UpdateTaskCount(blob.CopyState.Status);
 
                         if (blob.CopyState.Status != CopyStatus.Pending)
                         {
                             WriteCopyState(blob);
                             jobList.RemoveAt(workerPtr);
+                            records.RemoveAt(recordIndex);
                         }
                         else
                         {
