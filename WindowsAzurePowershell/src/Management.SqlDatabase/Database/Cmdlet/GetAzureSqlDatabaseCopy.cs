@@ -33,11 +33,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the sql database copy object.
@@ -110,12 +111,12 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 if (this.MyInvocation.BoundParameters.ContainsKey("DatabaseCopy"))
                 {
                     // Refresh the specified database copy object
-                    this.WriteObject(this.Context.GetDatabaseCopy(this.DatabaseCopy), true);
+                    this.WriteObject(this.ConnectionContext.GetDatabaseCopy(this.DatabaseCopy), true);
                 }
                 else
                 {
                     // Retrieve all database copy object with matching parameters
-                    DatabaseCopy[] copies = this.Context.GetDatabaseCopy(
+                    DatabaseCopy[] copies = this.ConnectionContext.GetDatabaseCopy(
                         databaseName,
                         this.PartnerServer,
                         this.PartnerDatabase);
@@ -126,7 +127,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }

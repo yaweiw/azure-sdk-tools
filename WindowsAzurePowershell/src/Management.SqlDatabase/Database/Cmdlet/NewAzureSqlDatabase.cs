@@ -32,10 +32,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
         /// <summary>
         /// Gets or sets the server connection context.
         /// </summary>
+        [Alias("Context")]
         [Parameter(Mandatory = true, Position = 0, ValueFromPipeline = true,
             HelpMessage = "The connection context to the specified server.")]
         [ValidateNotNull]
-        public IServerDataServiceContext Context { get; set; }
+        public IServerDataServiceContext ConnectionContext { get; set; }
 
         /// <summary>
         /// Gets or sets the database name.
@@ -93,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
                 int? maxSizeGb = this.MyInvocation.BoundParameters.ContainsKey("MaxSizeGB") ?
                     (int?)this.MaxSizeGB : null;
 
-                Database database = this.Context.CreateNewDatabase(
+                Database database = this.ConnectionContext.CreateNewDatabase(
                     this.DatabaseName,
                     maxSizeGb,
                     this.Collation,
@@ -105,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Database.Cmdlet
             {
                 SqlDatabaseExceptionHandler.WriteErrorDetails(
                     this,
-                    this.Context.ClientRequestId,
+                    this.ConnectionContext.ClientRequestId,
                     ex);
             }
         }
