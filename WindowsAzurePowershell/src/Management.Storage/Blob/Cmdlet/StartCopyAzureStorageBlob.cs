@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         private string ContainerName = String.Empty;
 
         [Alias("Uri")]
-        [Parameter(HelpMessage = "Source blob uri", Mandatory = true,
+        [Parameter(HelpMessage = "Source blob uri", Mandatory = true, ValueFromPipeline = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
         public string SrcUri { get; set; }
 
