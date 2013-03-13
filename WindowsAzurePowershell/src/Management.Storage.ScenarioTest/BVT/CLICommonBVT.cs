@@ -26,6 +26,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
+using System.Management.Automation;
 
 namespace CLITest.BVT
 {
@@ -33,7 +34,7 @@ namespace CLITest.BVT
     /// this class contain all the bvt cases for the full functional storage context such as local/connectionstring/namekey, anonymous and sas token are excluded.
     /// </summary>
     [TestClass]
-    public class CLICommonBVT
+    public class CLICommonBVT: WindowsAzurePowerShellTest
     {
         private static CloudBlobHelper CommonBlobHelper;
         private static CloudStorageAccount CommonStorageAccount;
@@ -82,17 +83,6 @@ namespace CLITest.BVT
         public CLICommonBVT()
         { 
         }
-
-        //TODO remove it if it's useless
-        public CLICommonBVT(CloudStorageAccount StorageAccount, TestContext testContext)
-        { 
-            CommonStorageAccount = StorageAccount;
-            testContextInstance = testContext;
-
-            //init the blob helper for blob related operations
-            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
-            GenerateBvtTempFiles();
-        }
         
         /// <summary>
         /// Init test resources for bvt class
@@ -111,19 +101,6 @@ namespace CLITest.BVT
             PowerShellAgent.CleanStorageContext();
 
             PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Management.Storage.dll");
-            string ConnectionString = Test.Data.Get("StorageConnectionString");
-            
-            if (String.IsNullOrEmpty(ConnectionString))
-            {
-                throw new ArgumentException("Please set the StorageConnectionString element of TestData.xml");
-            }
-            
-            CommonStorageAccount = CloudStorageAccount.Parse(ConnectionString);
-            PowerShellAgent.SetStorageContext(ConnectionString);
-
-            //init the blob helper for blob related operations
-            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
-
             
 
             // import module
@@ -201,17 +178,50 @@ namespace CLITest.BVT
         /// init test resources for one single unit test.
         /// </summary>
         [TestInitialize()]
-        public void UnitTestInitialize()
+        public void StorageTestInitialize()
         {
-            Trace.WriteLine("Unit Test Initialize");
+            SetTestStorageAccount(powershell);
+            PowerShellAgent.SetPowerShellInstance(powershell);
             Test.Start(TestContext.FullyQualifiedTestClassName, TestContext.TestName);
+        }
+
+        private string EnvConnectionStringInPowerShell;
+
+        private void SetTestStorageAccount(PowerShell powershell)
+        {
+            if (String.IsNullOrEmpty(EnvConnectionStringInPowerShell))
+            {
+                PSCommand currentCommand = powershell.Commands.Clone();
+                string envConnStringScript = string.Format("$env:{0}", Test.Data.Get("EnvContextKey"));
+                powershell.AddScript(envConnStringScript);
+                Collection<PSObject> output = powershell.Invoke();
+
+                if (output.Count == 1)
+                {
+                    EnvConnectionStringInPowerShell = output[0].BaseObject.ToString();
+                    powershell.Commands = currentCommand;
+                }
+                else
+                {
+                    Test.AssertFail("Can not find the environment variable 'AZURE_STORAGE_CONNECTION_STRING' in powershell instance");
+                }
+            }
+
+            if (String.IsNullOrEmpty(EnvConnectionStringInPowerShell))
+            {
+                throw new ArgumentException("Please set the StorageConnectionString element of TestData.xml");
+            }
+
+            CommonStorageAccount = CloudStorageAccount.Parse(EnvConnectionStringInPowerShell);
+
+            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
         }
 
         /// <summary>
         /// clean up the test resources for one single unit test.
         /// </summary>
         [TestCleanup()]
-        public void UnitTestCleanup()
+        public void StorageTestCleanup()
         {
             Trace.WriteLine("Unit Test Cleanup");
             Test.End(TestContext.FullyQualifiedTestClassName, TestContext.TestName);
