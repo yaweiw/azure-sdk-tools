@@ -1042,6 +1042,19 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Transfer Summary
+        ///--------------------------------
+        ///Total:  {0}.
+        ///Successful: {1}.
+        ///Failed: {2}..
+        /// </summary>
+        internal static string TransferSummary {
+            get {
+                return ResourceManager.GetString("TransferSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Transmit failed. Exception: {0}..
         /// </summary>
         internal static string TransmitFailed {

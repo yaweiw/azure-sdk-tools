@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
     using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Management.Automation;
+    using System.Net;
     using System.Security.Permissions;
     using System.Threading;
 
@@ -54,6 +55,13 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             set { overwrite = value; }
         }
         protected bool overwrite;
+
+        /// <summary>
+        /// Copy task count
+        /// </summary>
+        private int TotalCount = 0;
+        private int FailedCount = 0;
+        private int FinishedCount = 0;
 
         /// <summary>
         /// Size formats
@@ -97,6 +105,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
             return overwrite || ShouldProcess(destinationPath);
+        }
+
+        /// <summary>
+        /// Configure Service Point
+        /// </summary>
+        private void ConfigureServicePointManager()
+        {
+            ServicePointManager.DefaultConnectionLimit = concurrentTaskCount;
+            ServicePointManager.Expect100Continue = false;
+            ServicePointManager.UseNagleAlgorithm = true;
         }
 
         /// <summary>
@@ -170,6 +188,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
             {
                 concurrentTaskCount = Environment.ProcessorCount * asyncTasksPerCoreMultiplier;
             }
+            
+            ConfigureServicePointManager();
 
             BlobTransferOptions opts = new BlobTransferOptions();
             opts.Concurrency = concurrentTaskCount;
@@ -180,6 +200,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
 
         protected override void EndProcessing()
         {
+            WriteVerbose(String.Format(Resources.TransferSummary, TotalCount, FinishedCount, FailedCount));
+
             if (transferManager != null)
             {
                 transferManager.WaitForCompletion();
@@ -193,6 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         protected void StartSyncTaskInTransferManager(Action<BlobTransferManager> taskAction, ProgressRecord record = null)
         {
             finished = false;
+            TotalCount++;
 
             //status update interval
             int interval = 1 * 1000; //in millisecond
@@ -212,13 +235,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
                 {
                     //can't output verbose log for this operation since the Output stream is already stopped.
                     transferManager.CancelWork();
+                    transferManager.WaitForCompletion();
                     break;
                 }
             }
 
             if (runtimeException != null)
             {
+                FailedCount++;
                 throw runtimeException;
+            }
+            else
+            {
+                FinishedCount++;
             }
         }
 

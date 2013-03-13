@@ -529,4 +529,12 @@
     <comment>{0: -&gt; take value from the first parameter.
 0.##} -&gt;Display at least 1 digit before the decimal point and up to 2 digits after the decimal point. </comment>
   </data>
+  <data name="TransferSummary" xml:space="preserve">
+    <value>Transfer Summary
+--------------------------------
+Total:  {0}.
+Successful: {1}.
+Failed: {2}.</value>
+    <comment>0 for total task count, 1 for successful count, 2 for failed count</comment>
+  </data>
 </root>
