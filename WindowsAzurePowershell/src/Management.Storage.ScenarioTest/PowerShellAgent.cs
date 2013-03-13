@@ -486,7 +486,7 @@ namespace CLITest
             bool Force = true, int ConcurrentCount = -1)
         {
             PowerShell ps = GetPowerShellInstance();
-            AttachPipeline(ps);
+            //AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlobContent");
 
             if (!string.IsNullOrEmpty(Blob))
@@ -832,7 +832,15 @@ namespace CLITest
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
             //TODO We should add a time out for this invoke. Bad news, powershell don't support buildin time out for invoking.
-            ParseCollection(ps.Invoke());
+            try
+            {
+                ParseCollection(ps.Invoke());
+            }
+            catch (Exception e)
+            {
+                Test.Info(e.Message);
+            }
+
             ParseErrorMessages(ps);
 
             return !ps.HadErrors;

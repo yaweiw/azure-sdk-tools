@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
             powershell.AddScript("$VerbosePreference='Continue'");
             powershell.AddScript("$DebugPreference='Continue'");
-            powershell.AddScript("$ErrorActionPreference='Stop'");
+            //powershell.AddScript("$ErrorActionPreference='Stop'");
         }
 
         [TestCleanup]
