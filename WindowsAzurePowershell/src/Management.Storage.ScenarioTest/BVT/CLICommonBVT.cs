@@ -285,11 +285,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Set-AzureStorageBlobContent
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void UploadBlobTest()
         {
             UploadBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -313,11 +313,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Get-AzureStorageBlobContent
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void DownloadBlobTest()
         {
             string downloadDirPath = Test.Data.Get("DownloadDirPath");
@@ -328,11 +328,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Remove-AzureStorageBlob
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void RemoveBlobTest()
         {
             RemoveBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -342,11 +342,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Start-CopyAzureStorageBlob
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void StartCopyBlobUsingName()
         {
             StartCopyBlobTest(new PowerShellAgent(), false);
@@ -355,11 +355,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Start-CopyAzureStorageBlob
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void StartCopyBlobUsingUri()
         {
             StartCopyBlobTest(new PowerShellAgent(), true);
@@ -368,11 +368,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Get-AzureStorageBlobCopyState
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void GetBlobCopyStateTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
@@ -407,11 +407,11 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Stop-CopyAzureStorageBlob
         /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
+        //[TestMethod]
+        //[TestCategory(Tag.BVT)]
+        //[TestCategory(PsTag.FastEnv)]
+        //[TestCategory(Category.All)]
+        //[TestCategory(Category.Storage)]
         public void StopCopyBlobTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
