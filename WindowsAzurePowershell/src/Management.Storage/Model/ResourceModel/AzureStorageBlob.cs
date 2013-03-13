@@ -16,9 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 {
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class AzureStorageBlob : AzureStorageBase
     {
