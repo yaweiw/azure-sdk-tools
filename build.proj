@@ -23,6 +23,7 @@
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
+    <StorageScenarioTestDebug>WindowsAzurePowershell\src\Management.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
 	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
 	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
@@ -237,14 +238,17 @@
   </Target>
   
   <!-- Run the scenario tests -->
-  <Target Name="ScenarioTest" DependsOnTargets="Clean;BuildDebug">
+  <Target Name="ScenarioTest" DependsOnTargets="">
     <Message Importance="high" Text="Running scenario tests..." />
     <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
     <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     
     <Message Importance="high" Text="Scenario tests:" />
-    <Exec
+    <!--<Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />-->
+    <Exec
+      Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
       ContinueOnError="false" />
   </Target>
   

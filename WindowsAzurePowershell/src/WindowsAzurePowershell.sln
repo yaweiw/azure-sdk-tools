@@ -60,11 +60,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Store", "Managem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Store.Test", "Management.Store.Test\Management.Store.Test.csproj", "{3958B2D7-74CF-44D5-99BA-CF280782F380}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.MsTestLib", "MsTestLib\Management.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.MsTestLib", "Management.Storage.MsTestLib\Management.Storage.MsTestLib.csproj", "{CE97967B-7479-43B9-9561-776232AC5D47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.StorageTestLib", "StorageTestLib\Management.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.StorageTestLib", "Management.Storage.StorageTestLib\Management.Storage.StorageTestLib.csproj", "{0A513849-2690-4D07-8DE7-0ACE39645D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.ScenarioTest", "CLITest\Management.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.ScenarioTest", "Management.Storage.ScenarioTest\Management.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
