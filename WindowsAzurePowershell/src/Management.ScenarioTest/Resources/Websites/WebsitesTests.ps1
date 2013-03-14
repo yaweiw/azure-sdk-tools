@@ -87,7 +87,7 @@ function Test-GetAzureWebsiteLogTail
 {
 	# Setup
 	$name = Get-WebsiteName
-	git clone https://github.com/wapTestApps/basic-log-app.git $name
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
 	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
 	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
 	cd $name
@@ -115,7 +115,7 @@ function Test-GetAzureWebsiteLogTailPath
 {
 	# Setup
 	$name = Get-WebsiteName
-	git clone https://github.com/wapTestApps/basic-log-app.git $name
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
 	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
 	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
 	cd $name
@@ -127,14 +127,13 @@ function Test-GetAzureWebsiteLogTailPath
 	$count = 0
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
 	Restart-AzureWebsite
-	Start-Sleep -Seconds 30
-	$client.DownloadString($uri)
+	1..10 | % { $client.DownloadString($uri) }
+	Start-Sleep -Seconds 120
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Path http | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
+	$reached = $false
+	Get-AzureWebsiteLog -Tail -Path http | % { $reached = $true; exit }
 
 	# Assert
-	$found = $false
-	$logs | % { if ($_ -like "*GET*") { $found = $true; exit } }
-	Assert-True { $found }
+	Assert-True { $reached }
 }
