@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string BlobName = String.Empty;
 
-        [Parameter(HelpMessage = "Source Container name", Mandatory = true, Position = 1,
+        [Parameter(HelpMessage = "Source Container name", Mandatory = true,
             ParameterSetName = NameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string SrcContainer
@@ -83,10 +83,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Alias("Uri")]
-        [Parameter(HelpMessage = "Source blob uri", Mandatory = true, ValueFromPipeline = true,
+        [Alias("SrcUri")]
+        [Parameter(HelpMessage = "Source blob uri", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
-        public string SrcUri { get; set; }
+        public string AbsoluteUri { get; set; }
 
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
             ParameterSetName = NameParameterSet)]
@@ -215,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     break;
 
                 case UriParameterSet:
-                    destinationBlob = StartCopyBlob(SrcUri, DestContainer, DestBlob, Context);
+                    destinationBlob = StartCopyBlob(AbsoluteUri, DestContainer, DestBlob, Context);
                     break;
 
                 case SrcBlobParameterSet:
