@@ -2189,14 +2189,14 @@ C:\PS&gt;			</maml:introduction>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
           <maml:name>Path</maml:name>
           <maml:description>
-            <maml:para>The log path, by default it is Root</maml:para>
+            <maml:para>The path from which the log will be retrieved. By default it is Root which means include all the paths.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
         <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
           <maml:name>Message</maml:name>
           <maml:description>
-            <maml:para>The search message</maml:para>
+            <maml:para>A string which will be used to filter the log message. Only logs which contains this string will be retrieved.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
         </command:parameter>
@@ -2220,14 +2220,14 @@ C:\PS&gt;			</maml:introduction>
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "2" >
         <maml:name>Path</maml:name>
         <maml:description>
-          <maml:para>The log path, by default it is Root</maml:para>
+          <maml:para>The path from which the log will be retrieved. By default it is Root which means include all the paths.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>
       <command:parameter required = "false" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "3" >
         <maml:name>Message</maml:name>
         <maml:description>
-          <maml:para>The search message</maml:para>
+          <maml:para>A string which will be used to filter the log message. Only logs which contains this string will be retrieved.</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
       </command:parameter>

@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
         private Mock<LogStreamWaitHandle> logStreamWaitHandleMock;
 
-        private GetAzureWebsiteLogCommand cmdlet;
+        private GetAzureWebsiteLogCommand getAzureWebsiteLogCmdlet;
 
         private string websiteName = "TestWebsiteName";
 
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             logStreamWaitHandleMock.Setup(f => f.Dispose());
             logStreamWaitHandleMock.Setup(f => f.WaitNextLine(GetAzureWebsiteLogCommand.WaitInterval))
                 .Returns(() => logs[logIndex++]);
-            cmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, deploymentChannelMock.Object)
+            getAzureWebsiteLogCmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, deploymentChannelMock.Object)
             {
                 CommandRuntime = commandRuntimeMock.Object,
                 RemoteLogStreamManager = remoteLogStreamManagerMock.Object,
@@ -91,9 +91,9 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                     }
                 }
             };
-            Cache.AddSite(cmdlet.CurrentSubscription.SubscriptionId, website);
+            Cache.AddSite(getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId, website);
             websiteChannelMock.Setup(f => f.BeginGetSite(
-                cmdlet.CurrentSubscription.SubscriptionId,
+                getAzureWebsiteLogCmdlet.CurrentSubscription.SubscriptionId,
                 string.Empty,
                 websiteName,
                 "repositoryuri,publishingpassword,publishingusername",
@@ -106,23 +106,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void GetAzureWebsiteLogTest()
         {
-            cmdlet.Tail = true;
+            getAzureWebsiteLogCmdlet.Tail = true;
 
-            cmdlet.ExecuteCmdlet();
+            getAzureWebsiteLogCmdlet.ExecuteCmdlet();
 
-            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<object>()), Times.AtLeastOnce()));
             logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
         }
 
         [TestMethod]
-        public void GetAzureWebsiteLogWithPathTest()
+        public void CanGetAzureWebsiteLogWithPath()
         {
-            cmdlet.Tail = true;
-            cmdlet.Path = "http";
+            getAzureWebsiteLogCmdlet.Tail = true;
+            getAzureWebsiteLogCmdlet.Path = "http";
 
-            cmdlet.ExecuteCmdlet();
+            getAzureWebsiteLogCmdlet.ExecuteCmdlet();
 
-            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(l), Times.Once()));
+            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<object>()), Times.AtLeastOnce()));
             logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
         }
     }

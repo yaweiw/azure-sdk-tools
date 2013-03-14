@@ -36,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             webSpaces = GetWebSpaces(proxy, subscriptionName);
             Cache.SaveSpaces(subscriptionName, webSpaces);
 
-            return webSpaces ?? new WebSpaces();
+            return webSpaces;
         }
 
         public static WebSpace GetWebSpace(this IWebsitesServiceManagement proxy, string subscriptionName, string name)
