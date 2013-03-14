@@ -537,4 +537,8 @@ Successful: {1}.
 Failed: {2}.</value>
     <comment>0 for total task count, 1 for successful count, 2 for failed count</comment>
   </data>
+  <data name="StartCopySourceContextMismatch" xml:space="preserve">
+    <value>Ignore mismatch source storage context.. The source uri is {0}, the end point is {1}.</value>
+    <comment>0 for source uri, 1 for blob end point.</comment>
+  </data>
 </root>
