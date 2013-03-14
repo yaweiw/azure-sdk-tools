@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         Stream stream;
         List<string> lines;
         Semaphore sem;
-        ManualResetEvent disposed = new ManualResetEvent(false);
+        ManualResetEvent readCompleted = new ManualResetEvent(false);
 
         /// <summary>
         /// Parameterless constructor for mocking.
@@ -41,6 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
             this.stream = stream;
             this.lines = new List<string>();
             this.sem = new Semaphore(0, Int32.MaxValue);
+            object thisLock = new Object();
             Task.Factory.StartNew(() =>
             {
                 try
@@ -60,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
                                     initial = false;
                                 }
 
-                                lock (lines)
+                                lock (thisLock)
                                 {
                                     lines.Add(line);
                                     this.sem.Release();
@@ -74,13 +75,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
                 }
                 finally
                 {
-                    lock (lines)
+                    lock (thisLock)
                     {
                         lines.Add(null);
                         this.sem.Release();
                     }
 
-                    disposed.Set();
+                    readCompleted.Set();
                 }
             });
         }
@@ -88,8 +89,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Utilities
         public virtual void Dispose()
         {
             this.stream.Close();
-            this.disposed.WaitOne(WaitInterval);
-            this.disposed.Dispose();
+            this.readCompleted.WaitOne(WaitInterval);
+            this.readCompleted.Dispose();
             this.sem.Dispose();
         }
 
