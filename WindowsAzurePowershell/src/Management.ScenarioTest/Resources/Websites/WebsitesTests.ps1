@@ -76,3 +76,65 @@ function Test-RemoveAzureServiceWithWhatIf
 	# Assert
 	Assert-Throws { Get-AzureWebsite $name } $expected
 }
+
+########################################################################### Get-AzureWebsiteLog Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteLog with -Tail
+#>
+function Test-GetAzureWebsiteLogTail
+{
+	# Setup
+	$name = Get-WebsiteName
+	git clone https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$client = New-Object System.Net.WebClient
+	$uri = "http://" + $website.HostNames[0]
+	$client.BaseAddress = $uri
+	$logs = @()
+	$count = 0
+
+	#Test
+	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
+
+	# Assert
+	$found = $false
+	$logs | % { if ($_ -like "*㯑䲘䄂㮉*") { $found = $true; exit } }
+	Assert-True { $found }
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteLog with -Tail
+#>
+function Test-GetAzureWebsiteLogTailPath
+{
+	# Setup
+	$name = Get-WebsiteName
+	git clone https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$client = New-Object System.Net.WebClient
+	$uri = "http://" + $website.HostNames[0]
+	$client.BaseAddress = $uri
+	$logs = @()
+	$count = 0
+	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
+	Restart-AzureWebsite
+	Start-Sleep -Seconds 30
+	$client.DownloadString($uri)
+
+	#Test
+	Get-AzureWebsiteLog -Tail -Path http | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
+
+	# Assert
+	$found = $false
+	$logs | % { if ($_ -like "*GET*") { $found = $true; exit } }
+	Assert-True { $found }
+}
