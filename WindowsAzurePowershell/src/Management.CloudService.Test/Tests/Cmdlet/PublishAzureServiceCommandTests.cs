@@ -330,10 +330,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
                 
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe;http://DATACENTER/iisnode/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.exe;http://DATACENTER/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://cdn/node/default.exe;http://cdn/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://cdn/node/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://cdn/node/foo.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://cdn/node/foo.exe;http://cdn/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);
