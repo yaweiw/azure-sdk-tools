@@ -64,5 +64,39 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         }
 
         #endregion
+
+        #region Get-AzureWebsiteLog Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name $(Get-WebsiteName) }");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTail()
+        {
+            RunPowerShellTest(
+                "Initialize-WebsiteTest",
+                "Test-GetAzureWebsiteLogTail");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1177
+        public void TestGetAzureWebsiteLogTailPath()
+        {
+            RunPowerShellTest(
+                "Initialize-WebsiteTest",
+                "Test-GetAzureWebsiteLogTailPath");
+        }
+        
+
+        #endregion
     }
 }

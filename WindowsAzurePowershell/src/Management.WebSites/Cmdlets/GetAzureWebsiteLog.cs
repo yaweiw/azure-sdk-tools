@@ -102,12 +102,15 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 new LogStreamWaitHandle(RemoteLogStreamManager.GetStream().Result))
             {
                 bool doStreaming = true;
-
+                
                 while (doStreaming)
                 {
                     string line = LogStreamWaitHandle.WaitNextLine(WaitInterval);
-                    
-                    WriteObject(line);
+
+                    if (line != null)
+                    {
+                        WriteObject(line);
+                    }
 
                     doStreaming = EndStreaming == null ? true : EndStreaming(line);
                 }
