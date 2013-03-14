@@ -49,6 +49,8 @@ namespace CLITest
         private PowerShell GetPowerShellInstance()
         {
             PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
+            PowerShellAgent.PowerShellInstance.Streams.Error.Clear();
+            PowerShellAgent.PowerShellInstance.AddScript("$ErrorActionPreference='Continue'");
             PowerShellAgent.PowerShellInstance.AddStatement();
             return PowerShellAgent.PowerShellInstance;
         }
