@@ -457,7 +457,7 @@
     <value>Copy Blob Status Summary.</value>
   </data>
   <data name="CopyBlobSummaryCount" xml:space="preserve">
-    <value>Total: {0}. Finished: {1}. Active:{2}. Failed: {3}.</value>
+    <value>Total: {0}. Successful: {1}. Active: {2}. Failed: {3}.</value>
     <comment>0,1,2,3 for related task count.</comment>
   </data>
   <data name="CopyTaskNotFound" xml:space="preserve">
