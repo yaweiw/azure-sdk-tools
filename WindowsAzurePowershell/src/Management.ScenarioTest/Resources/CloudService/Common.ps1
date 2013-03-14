@@ -20,13 +20,13 @@ Gets valid and available cloud service name.
 #>
 function Get-CloudServiceName
 {
-	do
-	{
-		$name = "onesdk" + (Get-Random).ToString()
-		$used = Test-AzureName -Service $name
-	} while ($used)
+    do
+    {
+        $name = "onesdk" + (Get-Random).ToString()
+        $used = Test-AzureName -Service $name
+    } while ($used)
 
-	return $name
+    return $name
 }
 
 <#
@@ -35,7 +35,7 @@ Gets the default location
 #>
 function Get-DefaultLocation
 {
-	return (Get-AzureLocation)[0].Name
+    return (Get-AzureLocation)[0].Name
 }
 
 <#
@@ -47,16 +47,16 @@ The number of cloud services to create.
 #>
 function New-CloudService
 {
-	param([int] $count, [ScriptBlock] $cloudServiceProject)
+    param([int] $count, [ScriptBlock] $cloudServiceProject)
 	
-	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+    if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
 
-	1..$count | % { 
-		$name = Get-CloudServiceName;
-		Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
-		Publish-AzureServiceProject -Force;
-		$global:createdCloudServices += $name;
-	}
+    1..$count | % { 
+        $name = Get-CloudServiceName;
+        Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
+        Publish-AzureServiceProject -Force;
+        $global:createdCloudServices += $name;
+    }
 }
 
 <#
@@ -65,27 +65,33 @@ Creates cloud services and runs validation the count specified
 
 .PARAMETER count
 The number of cloud services to create.
+.PARAMETER cloudServiceProject
+Code block to create a cloud service project
+.PARAMETER verifier
+Code block to verify successful publishing of service
+.PARAMETER updater
+Code block to update the service and verify the correct update
 #>
 function PublishAndUpdate-CloudService
 {
-	param([int] $count, [ScriptBlock] $cloudServiceProject, [ScriptBlock] $verifier, [ScriptBlock] $updater)
-	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
-	if ($verifier -eq $null) {$verifier = {return $true}}
-	1..$count | % { 
-		$name = Get-CloudServiceName;
-		Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
-		$service = Publish-AzureServiceProject -Force;
-		$global:createdCloudServices += $name;
-		$worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
-		Assert-True {$worked -eq $true} "Error verifying first application deployment"
+    param([int] $count, [ScriptBlock] $cloudServiceProject, [ScriptBlock] $verifier, [ScriptBlock] $updater)
+    if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+    if ($verifier -eq $null) {$verifier = {return $true}}
+    1..$count | % { 
+        $name = Get-CloudServiceName;
+        Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
+        $service = Publish-AzureServiceProject -Force;
+        $global:createdCloudServices += $name;
+        $worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
+        Assert-True {$worked -eq $true} "Error verifying first application deployment"
         if ($updater -ne $null)
-		{
+        {
 		    Invoke-Command -ScriptBlock $updater
 		    $service = Publish-AzureServiceProject -Force;
 		    $worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
 		    Assert-True {$worked -eq $true} "Error verifying application update"
-		}
-	}
+        }
+    }
 }
 
 <#
@@ -94,8 +100,8 @@ Removes all cloud services/storage accounts in the current subscription.
 #>
 function Initialize-CloudServiceTest
 {
-	<# To Do: implement when we have unsigned version from Management.ServiceManagement assembly #>
-	$global:createdCloudServices = @()
+    <# To Do: implement when we have unsigned version from Management.ServiceManagement assembly #>
+    $global:createdCloudServices = @()
 }
 
 <#
@@ -104,10 +110,10 @@ Creates new cloud service project with one node web role.
 #>
 function New-TinyCloudServiceProject
 {
-	param([string] $name)
+    param([string] $name)
 
-	New-AzureServiceProject $name
-	Add-AzureNodeWebRole
+    New-AzureServiceProject $name
+    Add-AzureNodeWebRole
 }
 
 <#
@@ -116,16 +122,16 @@ Creates new cloud service project with a web role connected to a cache.
 #>
 function New-CacheCloudServiceProject
 {
-	param([string] $name)
+    param([string] $name)
 
-	New-AzureServiceProject $name
-	Add-AzureNodeWebRole ClientRole
-	copy ..\CloudService\Cache\*.js .\ClientRole\
-	cd .\ClientRole
-	npm install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz
-	cd ..
-	Add-AzureCacheWorkerRole CacheRole
-	Enable-AzureMemcacheRole ClientRole CacheRole
+    New-AzureServiceProject $name
+    Add-AzureNodeWebRole ClientRole
+    copy ..\CloudService\Cache\*.js .\ClientRole\
+    cd .\ClientRole
+    npm install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz
+    cd ..
+    Add-AzureCacheWorkerRole CacheRole
+    Enable-AzureMemcacheRole ClientRole CacheRole
 }
 
 <#
@@ -135,11 +141,11 @@ Places and retrieves a key value pair from a cache app
 function Verify-CacheApp
 {
     param([string]$uri)
-	$client = New-Object System.Net.WebClient
-	$client.BaseAddress = $uri
-	$toss = $client.UploadString("/add", "key=key1&value=value1")
-	$check = $client.UploadString("/get", "key=key1")
-	return $check.Contains("key1") -and $check.Contains("value1")
+    $client = New-Object System.Net.WebClient
+    $client.BaseAddress = $uri
+    $toss = $client.UploadString("/add", "key=key1&value=value1")
+    $check = $client.UploadString("/get", "key=key1")
+    return $check.Contains("key1") -and $check.Contains("value1")
 }
 
 <#
@@ -150,6 +156,6 @@ Updates a service definition by adding remote desktop
 function Test-RemoteDesktop
 {
     $password = New-Object System.Security.SecureString
-	foreach ($c in "P@ssw0rd!".ToCharArray()) {$password.AppendChar($c)}
-	Enable-AzureServiceProjectRemoteDesktop -Username user1 -Password $password
+    foreach ($c in "P@ssw0rd!".ToCharArray()) {$password.AppendChar($c)}
+    Enable-AzureServiceProjectRemoteDesktop -Username user1 -Password $password
 }
