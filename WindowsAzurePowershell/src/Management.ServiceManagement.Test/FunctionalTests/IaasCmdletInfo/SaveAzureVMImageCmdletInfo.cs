@@ -18,16 +18,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class SaveAzureVMImageCmdletInfo : CmdletsInfo
     {
-        public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel, string postAction)
+        //public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel, string postAction)
+        public SaveAzureVMImageCmdletInfo(string serviceName, string vmName, string newName, string newLabel)
         {
             cmdletName = Utilities.SaveAzureVMImageCmdletName;
             this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
             this.cmdletParams.Add(new CmdletParam("NewImageName", newName));
-            this.cmdletParams.Add(new CmdletParam("NewImageLabel", newLabel));
-            this.cmdletParams.Add(new CmdletParam("PostCaptureAction", postAction));
-           
-
+            if (!System.String.IsNullOrWhiteSpace(newLabel))
+            {
+                this.cmdletParams.Add(new CmdletParam("NewImageLabel", newLabel));
+            }            
+            //this.cmdletParams.Add(new CmdletParam("PostCaptureAction", postAction));
         }
     }
 }

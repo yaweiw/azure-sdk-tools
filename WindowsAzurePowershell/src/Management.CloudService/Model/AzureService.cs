@@ -12,22 +12,23 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Security.AccessControl;
-using System.Security.Permissions;
-using System.Security.Principal;
-using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
-using Microsoft.WindowsAzure.Management.CloudService.Properties;
-using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
-using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Security.AccessControl;
+    using System.Security.Permissions;
+    using System.Security.Principal;
+    using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Management.CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
+    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
+
     /// <summary>
     /// Class that encapsulates all of the info about a service, to which we can add roles.  This is all in memory, so no disk operations occur.
     /// </summary>
@@ -168,8 +169,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private void AddRoleCore(string scaffolding, RoleInfo role)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
-            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+            parameters[ScaffoldParams.NodeModules] = CloudServiceUtilities.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = CloudServiceUtilities.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
 
             GenerateScaffolding(scaffolding, role.Name, parameters);
         }
@@ -306,7 +307,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
         {
             CloudRuntimeCollection collection;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
             return collection;
         }
 
@@ -323,7 +324,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (this.Components.RoleExists(roleName))
             {
                 CloudRuntimeCollection collection;
-                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out collection, manifest);
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
                 CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
                 CloudRuntimePackage foundPackage;
                 if (collection.TryFindMatch(desiredRuntime, out foundPackage))

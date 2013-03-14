@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Model;
 
@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             this.ExecuteClientActionInOCS(
                 null, this.CommandRuntime.ToString(),
                 s => this.Channel.GetVirtualNetworkGateway(s, this.VNetName), 
-                this.WaitForGatewayOperation,
+                this.WaitForNewGatewayOperation,
                 (operation, operationResponse) => new VirtualNetworkGatewayContext
                     {
                         OperationId = operation.OperationTrackingId,

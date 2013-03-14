@@ -18,17 +18,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System.Management.Automation;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
-    using Samples.WindowsAzure.ServiceManagement;
     using Cmdlets.Common;
     using Extensions;
     using Management.Model;
     using System.Security.Permissions;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.
     /// </summary>
     [Cmdlet(VerbsCommon.Add, "AzureCertificate"), OutputType(typeof(ManagementOperationContext))]
-    public class AddAzureCertificate : CloudBaseCmdlet<IServiceManagement>
+    public class AddAzureCertificate : ServiceManagementBaseCmdlet
     {
         public AddAzureCertificate()
         {

@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Management.Model;
 
     public class OSImageContext : ManagementOperationContext
     {
@@ -23,16 +23,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
         public string Category { get; set; }
 
-        public string Label { get; set; }
-
         public string Location { get; set; }
+
+        public int LogicalSizeInGB { get; set; }
+
+        public string Label { get; set; }
 
         public Uri MediaLink { get; set; }
 
         public string ImageName { get; set; }
 
         public string OS { get; set; }
+        
+        public string Eula { get; set; }
 
-        public int LogicalSizeInGB { get; set; }
+        public string Description { get; set; }
+
+        public string ImageFamily { get; set; }
+
+        public DateTime? PublishedDate { get; set; }
+     
+        public bool? IsPremium { get; set; }
+        
+        public Uri PrivacyUri { get; set; }
+
+        public string RecommendedVMSize { get; set; }
+
+        public string PublisherName { get; set; }
     }
 }

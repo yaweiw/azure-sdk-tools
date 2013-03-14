@@ -22,7 +22,8 @@ namespace Microsoft.WindowsAzure.Management.Service.Gateway
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
     using System.Xml;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
 
     public static class GatewayManagementHelper
     {

@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 {
     using System;
     using System.IO;
     using System.Xml.Serialization;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using WindowsAzure.ServiceManagement;
+    using Model;
 
     public static class PersistentVMHelper
     {
@@ -32,9 +33,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             XmlAttributeOverrides overrides = new XmlAttributeOverrides();
             XmlAttributes ignoreAttrib = new XmlAttributes();
             ignoreAttrib.XmlIgnore = true;
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.DataVirtualHardDisk), "MediaLink", ignoreAttrib);
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.DataVirtualHardDisk), "SourceMediaLink", ignoreAttrib);
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.OSVirtualHardDisk), "MediaLink", ignoreAttrib);
+            overrides.Add(typeof(DataVirtualHardDisk), "MediaLink", ignoreAttrib);
+            overrides.Add(typeof(DataVirtualHardDisk), "SourceMediaLink", ignoreAttrib);
+            overrides.Add(typeof(OSVirtualHardDisk), "MediaLink", ignoreAttrib);
 
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
             using (TextWriter writer = new StreamWriter(filePath))
@@ -53,10 +54,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             XmlAttributeOverrides overrides = new XmlAttributeOverrides();
             XmlAttributes ignoreAttrib = new XmlAttributes();
             ignoreAttrib.XmlIgnore = true;
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.DataVirtualHardDisk), "MediaLink", ignoreAttrib);
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.DataVirtualHardDisk), "SourceMediaLink", ignoreAttrib);
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.OSVirtualHardDisk), "MediaLink", ignoreAttrib);
-            overrides.Add(typeof(Microsoft.Samples.WindowsAzure.ServiceManagement.OSVirtualHardDisk), "SourceImageName", ignoreAttrib);
+            overrides.Add(typeof(DataVirtualHardDisk), "MediaLink", ignoreAttrib);
+            overrides.Add(typeof(DataVirtualHardDisk), "SourceMediaLink", ignoreAttrib);
+            overrides.Add(typeof(OSVirtualHardDisk), "MediaLink", ignoreAttrib);
+            overrides.Add(typeof(OSVirtualHardDisk), "SourceImageName", ignoreAttrib);
 
             var serializer = new System.Xml.Serialization.XmlSerializer(typeof(PersistentVM), overrides, new Type[] { typeof(NetworkConfigurationSet) }, null, null);
 
