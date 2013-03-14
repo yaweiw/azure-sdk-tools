@@ -32,6 +32,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         private const string TailParameterSet = "Tail";
 
+        private const string ListPathParameterSet = "ListPath";
+
         public RemoteLogStreamManager RemoteLogStreamManager;
 
         public LogStreamWaitHandle LogStreamWaitHandle;
@@ -51,6 +53,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
             ParameterSetName = TailParameterSet, HelpMessage = "The log streaming switch.")]
         public SwitchParameter Tail { get; set; }
+
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ListPathParameterSet, HelpMessage = "List the available paths")]
+        public SwitchParameter ListPath { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteLogCommand class.
@@ -84,6 +90,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (Tail.IsPresent)
             {
                 LogStreaming();
+            }
+            else if (ListPath.IsPresent)
+            {
+                DeploymentChannel.ListPaths();
             }
         }
 
