@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     {
         public StartAzureVMCmdletInfo(string vmName, string serviceName)
         {
-            this.cmdletName = Utilities.StartAzureCmdletName;
+            this.cmdletName = Utilities.StartAzureVMCmdletName;
             this.cmdletParams.Add(new CmdletParam("Name", vmName));
             this.cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
         }

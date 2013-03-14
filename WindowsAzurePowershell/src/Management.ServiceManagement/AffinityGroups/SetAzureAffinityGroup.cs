@@ -14,18 +14,17 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
-    using Management.Model;
     using Cmdlets.Common;
-    using Extensions;
+    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Updates the label and/or the description for an affinity group for the specified subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureAffinityGroup"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureAffinityGroup : CloudBaseCmdlet<IServiceManagement>
+    public class SetAzureAffinityGroup : ServiceManagementBaseCmdlet
     {
         public SetAzureAffinityGroup()
         {

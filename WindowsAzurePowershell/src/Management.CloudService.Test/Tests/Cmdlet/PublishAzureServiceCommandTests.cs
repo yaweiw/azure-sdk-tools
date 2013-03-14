@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System;
@@ -20,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System.IO;
     using System.IO.Packaging;
     using System.Linq;
+    using System.Net;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using CloudService.Cmdlet;
@@ -28,12 +30,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Properties;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Extensions;
     using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
@@ -68,11 +71,24 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
             enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
             addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
-            publishServiceCmdlet = new PublishAzureServiceProjectCommand(channel) { ShareChannel = true };
+            publishServiceCmdlet = new PublishAzureServiceProjectCommandTestStub(channel) { ShareChannel = true };
 
             addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
             enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
             publishServiceCmdlet.CommandRuntime = mockCommandRuntime;
+        }
+
+        class PublishAzureServiceProjectCommandTestStub : PublishAzureServiceProjectCommand
+        {
+            public PublishAzureServiceProjectCommandTestStub(IServiceManagement channel)
+                : base(channel)
+            {
+            }
+
+            protected override IContextChannel ToContextChannel()
+            {
+                return Channel as IContextChannel;
+            }
         }
 
         /// <summary>
@@ -314,10 +330,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
                 
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe;http://DATACENTER/iisnode/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.exe;http://DATACENTER/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://cdn/node/default.exe;http://cdn/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://cdn/node/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://cdn/node/foo.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://cdn/node/foo.exe;http://cdn/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);
@@ -354,7 +370,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
@@ -419,7 +435,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.GetDeploymentBySlotThunk = ar => expectedDeployment;
@@ -515,7 +531,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                     () => { storageService.StorageServiceProperties.Status = StorageServiceStatus.Created; return storageService; });
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar =>
                 {
@@ -524,7 +540,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 () => deployment,
                 () => { deployment.Status = DeploymentStatus.Starting; return deployment; });
                 };
-                channel.GetDeploymentBySlotThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetDeploymentBySlotThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.ListCertificatesThunk = ar => new CertificateList();
 
                 // Create a new service that we're going to publish
@@ -624,7 +640,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 
                 channel.GetStorageServiceThunk = ar => new StorageService();
                 channel.CreateHostedServiceThunk = ar => createdHostedService = true;
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar => createdOrUpdatedDeployment = true;
                 channel.UpgradeDeploymentThunk = ar => createdOrUpdatedDeployment = true;
@@ -687,13 +703,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 {
                     if (createdOrUpdatedDeployment)
                     {
-                        Deployment deployment = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
+                        Deployment deployment = new Deployment{Name = "TEST_SERVICE_NAME", DeploymentSlot = "Production", Status = DeploymentStatus.Running};
                         deployment.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
                         return deployment;
                     }
                     else
                     {
-                        throw new EndpointNotFoundException();
+                        throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                     }
                 };
                 channel.ListCertificatesThunk = ar => new CertificateList();
@@ -938,7 +954,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                             return storageService; });
                 channel.CreateStorageServiceThunk = ar => storageCreated = true;
                 channel.CreateHostedServiceThunk = ar => { createdHostedService = true; cloudService = new HostedService() { HostedServiceProperties = new HostedServiceProperties() { AffinityGroup = affinityGroup } }; };
-                channel.GetHostedServiceWithDetailsThunk = ar => { throw new EndpointNotFoundException(); };
+                channel.GetHostedServiceWithDetailsThunk = ar => { throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty); };
                 channel.GetStorageKeysThunk = ar => new StorageService() { StorageServiceKeys = new StorageServiceKeys() { Primary = "VGVzdEtleSE=" } };
                 channel.CreateOrUpdateDeploymentThunk = ar =>
                 {
@@ -951,13 +967,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
                 {
                     if (createdHostedService)
                     {
-                        Deployment deploymentCreated = new Deployment("TEST_SERVICE_NAME", "Production", DeploymentStatus.Running);
+                        Deployment deploymentCreated = new Deployment{Name = "TEST_SERVICE_NAME", DeploymentSlot = "Production", Status = DeploymentStatus.Running};
                         deploymentCreated.RoleInstanceList = new RoleInstanceList(new RoleInstance[] { new RoleInstance() { InstanceName = "Role_IN_0", InstanceStatus = RoleInstanceStatus.ReadyRole } });
                         return deployment;
                     }
                     else
                     {
-                        throw new EndpointNotFoundException();
+                        throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
                     }
                 };
 

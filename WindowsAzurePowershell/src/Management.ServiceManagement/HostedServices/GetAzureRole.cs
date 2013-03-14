@@ -15,17 +15,16 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Collections.Generic;
     using System.ServiceModel;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
-    public class GetAzureRoleCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureRoleCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureRoleCommand()
         {
@@ -73,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 if (this.InstanceDetails.IsPresent == false)
                 {
-                    Collection<RoleContext> roleContexts = new Collection<RoleContext>();
+                    var roleContexts = new Collection<RoleContext>();
                     RoleList roles = null;
                     if (string.IsNullOrEmpty(this.RoleName))
                     {
@@ -149,21 +148,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         private Deployment GetCurrentDeployment(out Operation operation)
         {
-            using (new OperationContextScope((IContextChannel)Channel))
+            using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                try
-                {
-                    List<PersistentVMRoleContext> roles = new List<PersistentVMRoleContext>();
-                    var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                    operation = WaitForOperation("Get Deployment");
-                    return currentDeployment;
-                }
-                catch (CommunicationException)
-                {
-                    throw;
-                }
+                var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
+                operation = WaitForOperation("Get Deployment");
+                return currentDeployment;
             }
         }
-
     }
 }

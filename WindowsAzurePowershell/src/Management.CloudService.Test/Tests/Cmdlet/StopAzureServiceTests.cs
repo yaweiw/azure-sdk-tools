@@ -18,10 +18,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Model;
     using Extensions;
     using Management.Test.Stubs;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Services;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using ServiceManagement;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -30,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     {
         private const string serviceName = "AzureService";
 
-        string slot = ArgumentConstants.Slots[Slot.Production];
+        string slot = ArgumentConstants.Slots[SlotType.Production];
 
         private MockCommandRuntime mockCommandRuntime;
 
@@ -59,9 +60,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             channel.UpdateDeploymentStatusBySlotThunk = ar =>
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.GetDeploymentBySlotThunk = ar => new Deployment{ Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
             channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
 
             using (FileSystemHelper files = new FileSystemHelper(this))
@@ -83,9 +84,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             channel.UpdateDeploymentStatusBySlotThunk = ar =>
             {
                 statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment(serviceName, slot, newStatus);
+                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
             };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment(serviceName, slot, currentStatus);
+            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
             channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
 
             using (FileSystemHelper files = new FileSystemHelper(this))

@@ -12,19 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding {
+namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
+{
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Model;
     using ServiceConfigurationSchema;
     using ServiceDefinitionSchema;
     using Utilities;
 
-    public static class PythonRules {
+    public static class PythonRules
+    {
         public static void AddRoleToConfig(string path, Dictionary<string, object> parameters) {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            RoleSettings settings = General.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
+            RoleSettings settings = CloudServiceUtilities.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
 
             components.AddRoleToConfiguration(settings, DevEnv.Cloud);
             components.AddRoleToConfiguration(settings, DevEnv.Local);
@@ -35,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            WebRole webRole = General.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
+            WebRole webRole = CloudServiceUtilities.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
 
             role.AddRoleToDefinition(components.Definition, webRole);
             components.Save(paths);
@@ -45,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding {
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            WorkerRole workerRole = General.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
+            WorkerRole workerRole = CloudServiceUtilities.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
 
             role.AddRoleToDefinition(components.Definition, workerRole);
             components.Save(paths);

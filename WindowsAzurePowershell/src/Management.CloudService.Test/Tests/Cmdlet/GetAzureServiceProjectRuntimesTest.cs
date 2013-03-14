@@ -15,13 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     [TestClass]
     public class GetAzureServiceProjectRuntimesTests : TestBase
@@ -50,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 string manifest = RuntimePackageHelper.GetTestManifest(files);
                 CloudRuntimeCollection runtimes;
-                CloudRuntimeCollection.CreateCloudRuntimeCollection(Location.NorthCentralUS, out runtimes, manifest);
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(out runtimes, manifest);
 
                 cmdlet.GetAzureRuntimesProcess(string.Empty, manifest);
 

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Service.Gateway;
     using Model;
 
@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.GetVirtualNetworkSharedKey(s, this.VNetName, this.LocalNetworkSiteName),
-                WaitForGatewayOperation,
+                WaitForNewGatewayOperation,
                 (operation, sharedKey) => new SharedKeyContext
                 {
                     OperationId = operation.OperationTrackingId,

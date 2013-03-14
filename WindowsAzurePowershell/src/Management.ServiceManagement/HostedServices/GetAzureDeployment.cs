@@ -14,17 +14,16 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
-    using System;
     using System.Management.Automation;
-    using Samples.WindowsAzure.ServiceManagement;
     using Model;
     using Cmdlets.Common;
+    using WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// View details of a specified deployment.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureDeployment"), OutputType(typeof(DeploymentInfoContext))]
-    public class GetAzureDeploymentCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureDeploymentCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureDeploymentCommand()
         {

@@ -16,14 +16,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
 
     /// <summary>
     /// Lists all service bus locations available for a subscription.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureSBLocation"), OutputType(typeof(List<ServiceBusRegion>))]
-    public class GetAzureSBLocationCommand : CloudBaseCmdlet<IServiceManagement>
+    public class GetAzureSBLocationCommand : CloudBaseCmdlet<IServiceBusManagement>
     {
         /// <summary>
         /// Initializes a new instance of the GetAzureSBLocationCommand class.
@@ -39,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet
         /// <param name="channel">
         /// Channel used for communication with Azure's service management APIs.
         /// </param>
-        public GetAzureSBLocationCommand(IServiceManagement channel)
+        public GetAzureSBLocationCommand(IServiceBusManagement channel)
         {
             Channel = channel;
         }

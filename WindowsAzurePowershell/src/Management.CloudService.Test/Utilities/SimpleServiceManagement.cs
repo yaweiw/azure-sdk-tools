@@ -15,13 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 {
     using System;
-    using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
-    using Microsoft.Samples.WindowsAzure.ServiceManagement;
     using VisualStudio.TestTools.UnitTesting;
+    using ServiceManagement;
 
     /// <summary>
-    /// Simple implementation of teh IServiceManagement interface that can be
+    /// Simple implementation of the IServiceManagement interface that can be
     /// used for mocking basic interactions without involving Azure directly.
     /// </summary>
     public class SimpleServiceManagement : IServiceManagement
@@ -142,7 +141,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         #region ListCertificates
 
         public Func<SimpleServiceManagementAsyncResult, CertificateList> ListCertificatesThunk { get; set; }
-        
+
+        public void EndDeleteDiskEx(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginListCertificates(string subscriptionId, string serviceName, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -985,6 +989,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         #region GetOperationStatus
         public Func<SimpleServiceManagementAsyncResult, Operation> GetOperationStatusThunk { get; set; }
 
+        public OSImageDetails EndGetOSImageWithDetails(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginGetOperationStatus(string subscriptionId, string operationTrackingId, AsyncCallback callback, object state)
         {
             SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
@@ -1560,6 +1569,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
+        public IAsyncResult BeginDeleteDiskEx(string subscriptionID, string diskName, string comp, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAsyncResult BeginAddRole(string subscriptionID, string serviceName, string deploymentName, Role role, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
@@ -1801,11 +1815,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginSetVirtualNetworkGatewayConfiguration(string subscriptionId, string virtualnetworkId, VirtualNetworkGatewayConfiguration gatewayConfiguration, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
         public void EndSetVirtualNetworkGatewayConfiguration(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
@@ -1857,6 +1866,61 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         }
 
         public void EndDeleteOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginDeleteOSImageEx(string subscriptionID, string imageName, string comp, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndDeleteOSImageEx(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginReplicateOSImage(string subscriptionID, string imageName, ReplicationInput replicationInput, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string EndReplicateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginShareOSImage(string subscriptionID, string imageName, string permission, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EndShareOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginUnReplicateOSImage(string subscriptionID, string imageName, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndUnReplicateOSImage(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginQueryOSImages(string subscriptionID, string location, string publisher, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public OSImageList EndQueryOSImages(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginGetOSImageWithDetails(string subscriptionID, string imageName, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
@@ -1930,187 +1994,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         public System.ServiceModel.Channels.Message EndProcessMessage(IAsyncResult result)
         {
             throw new NotImplementedException();
-        }
-
-        public IAsyncResult BeginGetServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["name"] = name;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-            
-            return result;
-        }
-
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> GetNamespaceThunk { get; set; }
-        public ServiceBusNamespace EndGetServiceBusNamespace(IAsyncResult asyncResult)
-        {
-            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
-
-            if (GetNamespaceThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                serviceBusNamespase = GetNamespaceThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("GetNamespaceThunk is not implemented!");
-            }
-
-            return serviceBusNamespase;
-        }
-
-        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusNamespace>> ListNamespacesThunk { get; set; }
-        public IAsyncResult BeginListServiceBusNamespaces(string subscriptionId, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-
-            return result;
-        }
-
-        public List<ServiceBusNamespace> EndListServiceBusNamespaces(IAsyncResult asyncResult)
-        {
-            List<ServiceBusNamespace> serviceBusNamespase = new List<ServiceBusNamespace>();
-
-            if (ListNamespacesThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                serviceBusNamespase = ListNamespacesThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("ListNamespacesThunk is not implemented!");
-            }
-
-            return serviceBusNamespase;
-        }
-
-        public Func<SimpleServiceManagementAsyncResult, List<ServiceBusRegion>> ListServiceBusRegionsThunk { get; set; }
-        public IAsyncResult BeginListServiceBusRegions(string subscriptionId, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-
-            return result;
-        }
-
-        public List<ServiceBusRegion> EndListServiceBusRegions(IAsyncResult asyncResult)
-        {
-            List<ServiceBusRegion> serviceBusNamespase = new List<ServiceBusRegion>();
-
-            if (ListServiceBusRegionsThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                serviceBusNamespase = ListServiceBusRegionsThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("ListServiceBusRegionsThunk is not implemented!");
-            }
-
-            return serviceBusNamespase;
-        }
-
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespace> CreateServiceBusNamespaceThunk { get; set; }
-        public IAsyncResult BeginCreateServiceBusNamespace(string subscriptionId, ServiceBusNamespace namespaceDescription, string name, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["namespaceDescription"] = namespaceDescription;
-            result.Values["name"] = name;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-
-            return result;
-        }
-
-        public ServiceBusNamespace EndCreateServiceBusNamespace(IAsyncResult asyncResult)
-        {
-            ServiceBusNamespace serviceBusNamespase = new ServiceBusNamespace();
-
-            if (CreateServiceBusNamespaceThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                serviceBusNamespase = CreateServiceBusNamespaceThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("CreateServiceBusNamespaceThunk is not implemented!");
-            }
-
-            return serviceBusNamespase;
-        }
-
-        public Action<SimpleServiceManagementAsyncResult> DeleteServiceBusNamespaceThunk { get; set; }
-        public IAsyncResult BeginDeleteServiceBusNamespace(string subscriptionId, string name, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["name"] = name;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-
-            return result;
-        }
-
-        public void EndDeleteServiceBusNamespace(IAsyncResult asyncResult)
-        {
-            if (DeleteServiceBusNamespaceThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                DeleteServiceBusNamespaceThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("DeleteServiceBusNamespaceThunk is not implemented!");
-            }
-        }
-
-        public Func<SimpleServiceManagementAsyncResult, ServiceBusNamespaceAvailabiliyResponse> IsServiceBusNamespaceAvailableThunk { get; set; }
-        public IAsyncResult BeginIsServiceBusNamespaceAvailable(string subscriptionId, string serviceName, AsyncCallback callback, object state)
-        {
-            SimpleServiceManagementAsyncResult result = new SimpleServiceManagementAsyncResult();
-            result.Values["subscriptionId"] = subscriptionId;
-            result.Values["serviceName"] = serviceName;
-            result.Values["callback"] = callback;
-            result.Values["state"] = state;
-
-            return result;
-        }
-
-        public ServiceBusNamespaceAvailabiliyResponse EndIsServiceBusNamespaceAvailable(IAsyncResult asyncResult)
-        {
-            ServiceBusNamespaceAvailabiliyResponse availabilityResponse = new ServiceBusNamespaceAvailabiliyResponse();
-
-            if (IsServiceBusNamespaceAvailableThunk != null)
-            {
-                SimpleServiceManagementAsyncResult result = asyncResult as SimpleServiceManagementAsyncResult;
-                Assert.IsNotNull(result, "asyncResult was not SimpleServiceManagementAsyncResult!");
-
-                availabilityResponse = IsServiceBusNamespaceAvailableThunk(result);
-            }
-            else if (ThrowsIfNotImplemented)
-            {
-                throw new NotImplementedException("IsServiceBusNamespaceAvailableThunk is not implemented!");
-            }
-
-            return availabilityResponse;
         }
     }
 }
