@@ -148,9 +148,11 @@ namespace CLITest.BVT
         {
             CommonBlockFilePath = Test.Data.Get("BlockFilePath");
             CommonPageFilePath = Test.Data.Get("PageFilePath");
+            string downloadDir = Test.Data.Get("DownloadDirPath");
 
             CreateDirIfNotExits(Path.GetDirectoryName(CommonBlockFilePath));
             CreateDirIfNotExits(Path.GetDirectoryName(CommonPageFilePath));
+            CreateDirIfNotExits(downloadDir);
 
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(CommonBlockFilePath, 1);
