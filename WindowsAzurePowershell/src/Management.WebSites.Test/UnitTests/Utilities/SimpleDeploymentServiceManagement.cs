@@ -203,6 +203,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
         #endregion
 
         #endregion
+
+        public IAsyncResult BeginListPaths(AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string EndListPaths(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
