@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System;
     using System.Management.Automation;
     using System.Net;
+    using System.Web;
     using Common;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
     using Services;
@@ -91,6 +92,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             ICredentials credentials = new NetworkCredential(
             Repository.PublishingUsername,
             Repository.PublishingPassword);
+            Path = HttpUtility.UrlEncode(Path);
+            Message = HttpUtility.UrlEncode(Message);
 
             RemoteLogStreamManager = RemoteLogStreamManager ?? new RemoteLogStreamManager(
                 Repository.RepositoryUri,

@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.IO;
     using System.Management.Automation;
     using System.Threading.Tasks;
+    using System.Web;
     using Microsoft.WindowsAzure.Management.Websites.Services;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
     using Moq;
@@ -122,6 +123,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 
             getAzureWebsiteLogCmdlet.ExecuteCmdlet();
 
+            logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<object>()), Times.AtLeastOnce()));
+            logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestGetAzureWebsiteLogUrlEncoding()
+        {
+            getAzureWebsiteLogCmdlet.Tail = true;
+            string path = "my path";
+            string message = "mes/a:q;";
+            getAzureWebsiteLogCmdlet.Path = path;
+            getAzureWebsiteLogCmdlet.Message = message;
+
+            getAzureWebsiteLogCmdlet.ExecuteCmdlet();
+
+            Assert.AreEqual<string>(HttpUtility.UrlEncode(path), getAzureWebsiteLogCmdlet.Path);
+            Assert.AreEqual<string>(HttpUtility.UrlEncode(message), getAzureWebsiteLogCmdlet.Message);
             logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<object>()), Times.AtLeastOnce()));
             logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
         }
