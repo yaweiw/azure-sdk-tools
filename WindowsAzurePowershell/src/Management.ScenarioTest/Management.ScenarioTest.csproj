@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="CloudServiceTests\PublishAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
+    <Compile Include="CloudServiceTests\StopAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
