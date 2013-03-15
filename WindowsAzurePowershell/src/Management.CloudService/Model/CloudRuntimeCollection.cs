@@ -37,13 +37,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             }
         }
 
-        public static bool CreateCloudRuntimeCollection(LocationName location, out CloudRuntimeCollection runtimes, string manifestFile = null)
+        public static bool CreateCloudRuntimeCollection(out CloudRuntimeCollection runtimes, string manifestFile = null)
         {
             runtimes = new CloudRuntimeCollection();
             XmlDocument manifest = runtimes.GetManifest(manifestFile);
             string baseUri;
             Collection<CloudRuntimePackage> runtimePackages;
-            bool success = TryGetBlobUriFromManifest(manifest, location, out baseUri);
+            bool success = TryGetBlobUriFromManifest(manifest, out baseUri);
             success &= TryGetRuntimePackages(manifest, baseUri, out runtimePackages);
             foreach (CloudRuntimePackage package in runtimePackages)
             {
@@ -107,13 +107,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             base.SetItem(index, item);
         }
 
-        private static bool TryGetBlobUriFromManifest(XmlDocument manifest, LocationName location, out string baseUri)
+        private static bool TryGetBlobUriFromManifest(XmlDocument manifest, out string baseUri)
         {
             Debug.Assert(manifest != null);
             bool found = false;
             baseUri = null;
-            string query = string.Format(Resources.DatacenterBlobQuery, ArgumentConstants.Locations[location].ToUpperInvariant());
-            XmlNode node = manifest.SelectSingleNode(query);
+            XmlNode node = manifest.SelectSingleNode(Resources.ManifestBaseUriQuery);
             if (node != null)
             {
                 found = true;
@@ -210,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public static string GetRuntimeUrl(string runtimeType, string runtimeVersion, string manifest = null)
         {
             CloudRuntimeCollection collection;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out collection, manifest);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
             CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, null, null);
             CloudRuntimePackage foundPackage;
             bool found = collection.TryFindMatch(desiredRuntime, out foundPackage);
