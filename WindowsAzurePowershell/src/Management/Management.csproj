@@ -164,6 +164,7 @@
     <Compile Include="Cmdlets\GetAzurePublishSettings.cs" />
     <Compile Include="Extensions\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Extensions\CmdletExtensions.cs" />
+    <Compile Include="Extensions\ServiceManagementClientExtensions.cs" />
     <Compile Include="Model\AzureServiceManagementException.cs" />
     <Compile Include="Model\CloudStorageAccountFactory.cs" />
     <Compile Include="Model\HttpRestMessageInspector.cs" />
