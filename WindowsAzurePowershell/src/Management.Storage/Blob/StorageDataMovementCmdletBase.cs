@@ -100,7 +100,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="msg">Confirmation message</param>
         /// <returns>True if the opeation is confirmed, otherwise return false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual bool ConfirmOverwrite(string destinationPath)
         {
             string overwriteMessage = String.Format(Resources.OverwriteConfirmation, destinationPath);
@@ -121,7 +120,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// on download start
         /// </summary>
         /// <param name="progress">progress information</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void OnTaskStart(object progress)
         {
             ProgressRecord pr = progress as ProgressRecord;
@@ -138,7 +136,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="progress">progress information</param>
         /// <param name="speed">download speed</param>
         /// <param name="percent">download percent</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void OnTaskProgress(object progress, double speed, double percent)
         {
             ProgressRecord pr = progress as ProgressRecord;
@@ -157,7 +154,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="progress">progress information</param>
         /// <param name="e">run time exception</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void OnTaskFinish(object progress, Exception e)
         {
             finished = true;

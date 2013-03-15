@@ -132,7 +132,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name pattern</param>
         /// <returns>An enumerable collection of IListBlobItem</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<IListBlobItem> ListBlobsByName(string containerName, string blobName)
         {
             CloudBlobContainer container = null;
@@ -199,7 +198,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="containerName">container name</param>
         /// <param name="prefix">blob preifx</param>
         /// <returns>An enumerable collection of IListBlobItem</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<IListBlobItem> ListBlobsByPrefix(string containerName, string prefix)
         {
             CloudBlobContainer container = GetCloudBlobContainerByName(containerName);
@@ -215,7 +213,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// write blobs with storage context
         /// </summary>
         /// <param name="blobList">An enumerable collection of IListBlobItem</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal void WriteBlobsWithContext(IEnumerable<IListBlobItem> blobList)
         {
             if (null == blobList)

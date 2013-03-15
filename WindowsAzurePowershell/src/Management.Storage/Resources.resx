@@ -541,4 +541,8 @@ Failed: {2}.</value>
     <value>Ignore mismatch source storage context.. The source uri is {0}, the end point is {1}.</value>
     <comment>0 for source uri, 1 for blob end point.</comment>
   </data>
+  <data name="GetContainerPermissionException" xml:space="preserve">
+    <value>Fetch Permission for container '{0}' failed. Exception: {1}</value>
+    <comment>0 for container name, 1 for error message.</comment>
+  </data>
 </root>
