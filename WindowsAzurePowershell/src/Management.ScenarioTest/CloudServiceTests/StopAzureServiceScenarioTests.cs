@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
-    public class StartAzureServiceScenarioTests : WindowsAzurePowerShellTest
+    public class StopAzureServiceScenarioTests : WindowsAzurePowerShellTest
     {
-        public StartAzureServiceScenarioTests()
+        public StopAzureServiceScenarioTests()
             : base("CloudService\\Common.ps1",
                    "CloudService\\CloudServiceTests.ps1")
         {
@@ -39,41 +39,41 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithInvalidCredentials()
+        public void TestStopAzureServiceWithInvalidCredentials()
         {
-            RunPowerShellTest("Test-WithInvalidCredentials { Start-AzureService $(Get-CloudServiceName) }");
+            RunPowerShellTest("Test-WithInvalidCredentials { Stop-AzureService $(Get-CloudServiceName) }");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithNonExistingService()
+        public void TestStopAzureServiceWithNonExistingService()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithNonExistingService");
+            RunPowerShellTest("Test-StopAzureServiceWithNonExistingService");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithProductionDeployment()
+        public void TestStopAzureServiceWithProductionDeployment()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithProductionDeployment");
+            RunPowerShellTest("Test-StopAzureServiceWithProductionDeployment");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithStagingDeployment()
+        public void TestStopAzureServiceWithStagingDeployment()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithStagingDeployment");
+            RunPowerShellTest("Test-StopAzureServiceWithStagingDeployment");
         }
 
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
-        public void TestStartAzureServiceWithEmptyDeployment()
+        public void TestStopAzureServiceWithEmptyDeployment()
         {
-            RunPowerShellTest("Test-StartAzureServiceWithEmptyDeployment");
+            RunPowerShellTest("Test-StopAzureServiceWithEmptyDeployment");
         }
     }
 }

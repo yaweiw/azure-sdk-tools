@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
+    <Compile Include="CloudServiceTests\StopAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
     <Compile Include="CloudServiceTests\RemoveAzureServiceScenarioTests.cs" />
@@ -154,7 +155,9 @@
     <Resource Include="Resources\Websites\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\Credentials.ps1" />
     <None Include="Resources\Credstests.ps1" />
     <None Include="Resources\CredUtils.ps1" />
