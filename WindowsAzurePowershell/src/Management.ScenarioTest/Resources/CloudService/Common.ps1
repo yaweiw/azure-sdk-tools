@@ -47,9 +47,9 @@ The number of cloud services to create.
 #>
 function New-CloudService
 {
-	param([int] $count, [ScriptBlock] $cloudServiceProject, [string] $slot)
+    param([int] $count, [ScriptBlock] $cloudServiceProject, [string] $slot)
 	
-    if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
 	if ($slot -eq $null) { $slot = "Production" }
 
 	1..$count | % { 
