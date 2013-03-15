@@ -647,15 +647,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to //blobcontainer[@datacenter=&apos;{0}&apos;].
-        /// </summary>
-        internal static string DatacenterBlobQuery {
-            get {
-                return ResourceManager.GetString("DatacenterBlobQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to none.
         /// </summary>
         internal static string DefaultFileVersion {
@@ -1165,6 +1156,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         internal static string LookingForServiceMessage {
             get {
                 return ResourceManager.GetString("LookingForServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to //baseuri.
+        /// </summary>
+        internal static string ManifestBaseUriQuery {
+            get {
+                return ResourceManager.GetString("ManifestBaseUriQuery", resourceCulture);
             }
         }
         
