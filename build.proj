@@ -24,10 +24,11 @@
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
-	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
-	<ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
+    <CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
+    <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+    <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+    <WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
+    <StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
@@ -221,6 +222,9 @@
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"
+      ContinueOnError="false" />	
+	<Exec
+      Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
       ContinueOnError="false" />
   </Target>
   

@@ -323,6 +323,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} begin processing without ParameterSet..
+        /// </summary>
+        internal static string BeginProcessingWithoutParameterSetLog {
+            get {
+                return ResourceManager.GetString("BeginProcessingWithoutParameterSetLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} begin processing with ParameterSet &apos;{1}&apos;..
+        /// </summary>
+        internal static string BeginProcessingWithParameterSetLog {
+            get {
+                return ResourceManager.GetString("BeginProcessingWithParameterSetLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://{0}.blob.core.windows.net/.
         /// </summary>
         internal static string BlobEndpointUri {
@@ -1008,6 +1026,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}..
+        /// </summary>
+        internal static string EndProcessingLog {
+            get {
+                return ResourceManager.GetString("EndProcessingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to download available runtimes for location &apos;{0}&apos;.
         /// </summary>
         internal static string ErrorRetrievingRuntimesForLocation {
@@ -1602,6 +1629,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to //baseuri.
+        /// </summary>
+        internal static string ManifestBaseUriQuery {
+            get {
+                return ResourceManager.GetString("ManifestBaseUriQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to uri.
         /// </summary>
         internal static string ManifestBlobUriKey {
@@ -1611,7 +1647,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml.
+        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest_v3.xml.
         /// </summary>
         internal static string ManifestUri {
             get {

@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BlobAlreadyExists" xml:space="preserve">
+    <value>Blob '{0}' in container '{1}' already exists.</value>
+  </data>
+  <data name="BlobNameNotFound" xml:space="preserve">
+    <value>Can not find blob name or container name.</value>
+  </data>
+  <data name="BlobNotFound" xml:space="preserve">
+    <value>Can not find blob '{0}' in container '{1}'.</value>
+  </data>
+  <data name="ConfirmRemoveContainer" xml:space="preserve">
+    <value>Are you sure to remove container '{0}'?</value>
+  </data>
+  <data name="ConfirmRemoveContainerCaption" xml:space="preserve">
+    <value>Confirm to remove azure container.</value>
+  </data>
+  <data name="ContainerAlreadyExists" xml:space="preserve">
+    <value>Container '{0}' already exists.</value>
+  </data>
+  <data name="ContainerNotFound" xml:space="preserve">
+    <value>Can not find the container '{0}'.</value>
+  </data>
+  <data name="DirectoryNotExists" xml:space="preserve">
+    <value>Directory '{0}' doesn't exist.</value>
+  </data>
+  <data name="DownloadBlobFailed" xml:space="preserve">
+    <value>Cannot download the blob '{0}' in container '{1}' into local file '{2}'. Error: {3}</value>
+    <comment>place holder 0 for blob name, 1 for blob's container name, 2 for download destination in local machine. 3 for excpetion error message.</comment>
+  </data>
+  <data name="DownloadBlobSuccessful" xml:space="preserve">
+    <value>Download blob '{0}' successful.</value>
+  </data>
+  <data name="FileAlreadyExists" xml:space="preserve">
+    <value>File '{0}' already exists.</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>Can not find the specified file '{0}'.</value>
+  </data>
+  <data name="FileTransmitStatus" xml:space="preserve">
+    <value>Percent : {0}% Speed : {1} bytes/second.</value>
+  </data>
+  <data name="InvalidBlobName" xml:space="preserve">
+    <value>Blob name '{0}' is invalid.</value>
+  </data>
+  <data name="InvalidContainerName" xml:space="preserve">
+    <value>Container name '{0}' is invalid.</value>
+  </data>
+  <data name="InvalidExpiryTime" xml:space="preserve">
+    <value>Invalid expiry time '{0}'.</value>
+  </data>
+  <data name="InvalidStartTime" xml:space="preserve">
+    <value>Invalid start time '{0}'.</value>
+  </data>
+  <data name="OnlyOnePermissionForContainer" xml:space="preserve">
+    <value>You must supply only one permission for container.</value>
+  </data>
+  <data name="QueueAlreadyExists" xml:space="preserve">
+    <value>Queue '{0}' already exists.</value>
+  </data>
+  <data name="QueueNotFound" xml:space="preserve">
+    <value>Can not find queue '{0}'.</value>
+  </data>
+  <data name="RemoveBlobSuccessfully" xml:space="preserve">
+    <value>Removed blob '{0}' in container '{1}' successfully.</value>
+  </data>
+  <data name="RemoveContainerCancelled" xml:space="preserve">
+    <value>The remove operation of container '{0}' has been cancelled.</value>
+  </data>
+  <data name="RemoveContainerSuccessfully" xml:space="preserve">
+    <value>Removed container '{0}' successfully.</value>
+  </data>
+  <data name="RemoveQueueSuccessfully" xml:space="preserve">
+    <value>Removed queue '{0}' successfully.</value>
+  </data>
+  <data name="RemoveTableSuccessfully" xml:space="preserve">
+    <value>Removed table '{0}' successfully.</value>
+  </data>
+  <data name="StartDownloadBlob" xml:space="preserve">
+    <value>Start to download blob '{0}' to '{1}'.</value>
+  </data>
+  <data name="StartUploadFile" xml:space="preserve">
+    <value>Start to upload '{0}' to blob '{1}'.</value>
+  </data>
+  <data name="DefaultStorageCredentialsNotFound" xml:space="preserve">
+    <value>Can not find your azure storage credential. Please set current storage account using "Set-AzureSubscription" or set the "AZURE_STORAGE_CONNECTION_STRING" environment variable.</value>
+  </data>
+  <data name="TableAlreadyExists" xml:space="preserve">
+    <value>Table '{0}' already exists.</value>
+  </data>
+  <data name="TableNotFound" xml:space="preserve">
+    <value>Can not find table '{0}'.</value>
+  </data>
+  <data name="UnknownBlob" xml:space="preserve">
+    <value>Unknown blob.</value>
+  </data>
+  <data name="Upload2BlobFailed" xml:space="preserve">
+    <value>Can not upload file to azure blob. Error: {0}.</value>
+  </data>
+  <data name="UploadFileFailed" xml:space="preserve">
+    <value>Upload file '{0}' failed.  Error: '{1}'.</value>
+  </data>
+  <data name="UploadFileSuccessfully" xml:space="preserve">
+    <value>Upload file '{0}' successfully.</value>
+  </data>
+  <data name="BlobTypeMismatch" xml:space="preserve">
+    <value>Blob type mismatched, the current blob type of '{0}' is {1}.</value>
+  </data>
+  <data name="CannotSendDirectory" xml:space="preserve">
+    <value>Can not send the directory '{0}' to azure. This cmdlet only works with files.</value>
+  </data>
+  <data name="PrepareUploadingBlob" xml:space="preserve">
+    <value>Prepare to upload blob.</value>
+  </data>
+  <data name="SendAzureBlobActivity" xml:space="preserve">
+    <value>Upload file '{0}' to blob '{1}' in container '{2}'.</value>
+  </data>
+  <data name="SendAzureBlobCancelled" xml:space="preserve">
+    <value>Upload file '{0}' to blob '{1}' cancelled.</value>
+  </data>
+  <data name="ReceiveAzureBlobActivity" xml:space="preserve">
+    <value>Download blob '{0}' into '{1}'.</value>
+  </data>
+  <data name="InvalidQueueName" xml:space="preserve">
+    <value>Queue name '{0}' is invalid.</value>
+  </data>
+  <data name="InvalidTableName" xml:space="preserve">
+    <value>Table name '{0}' is invalid.</value>
+  </data>
+  <data name="RemoveQueueCancelled" xml:space="preserve">
+    <value>The remove operation of queue '{0}' has been cancelled.</value>
+  </data>
+  <data name="RemoveTableCancelled" xml:space="preserve">
+    <value>The remove operation of table '{0}' has been cancelled.</value>
+  </data>
+  <data name="InvalidAccountParameterCombination" xml:space="preserve">
+    <value>invalid parameter combination, please see the command help.</value>
+  </data>
+  <data name="BlobEndPointTips" xml:space="preserve">
+    <value>Blob End Point: {0}.</value>
+  </data>
+  <data name="InvalidBlobWithoutContainer" xml:space="preserve">
+    <value>ICloudBlob "{0}" should contain container properties.</value>
+  </data>
+  <data name="ObjectCannotBeNull" xml:space="preserve">
+    <value>Object '{0}' cannot be null.</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>File name "{0}" is invalid.</value>
+  </data>
+  <data name="StorageExceptionDetails" xml:space="preserve">
+    <value>Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}</value>
+  </data>
+  <data name="ClientRequestIdFormat" xml:space="preserve">
+    <value>Azure-Storage-PowerShell-{0}</value>
+  </data>
+  <data name="EndProcessingLog" xml:space="preserve">
+    <value>{0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}.</value>
+    <comment>0 for cmdlet name. 1 for started remote call counter, 2 for finished remote call counter, 3 for running time, 4 for client request id</comment>
+  </data>
+  <data name="ExceptionCannotEmpty" xml:space="preserve">
+    <value>Exception cannot be null or empty.</value>
+  </data>
+  <data name="FinishRemoteCall" xml:space="preserve">
+    <value>Finish remote call for {0} with status code {1} and service request id {2}. Elapsed time {3:0.00} ms.</value>
+    <comment>0 for request uri, 1 http status code, 2 service request id, 3 for elapsed time.</comment>
+  </data>
+  <data name="InitOperationContextLog" xml:space="preserve">
+    <value>Init cmdlet operation context with operation id {0}.</value>
+  </data>
+  <data name="StartRemoteCall" xml:space="preserve">
+    <value>Start {0}th remote call, method: {1}, destination: {2}.</value>
+    <comment>0 for int counter, 1 for request method, 2 for request uri</comment>
+  </data>
+  <data name="StopProcessingLog" xml:space="preserve">
+    <value>{0} stop processing, Use {1} remote calls. Elapsed time {2:0.00} ms. Client operation id: {3}.</value>
+    <comment>0 for cmdlet name. 1 for remote call counter, 2 for running time, 3 for client request id</comment>
+  </data>
+  <data name="VerboseLogFormat" xml:space="preserve">
+    <value>{0} {1}.</value>
+    <comment>0 for time, 1 for message</comment>
+  </data>
+  <data name="DefaultBlobEndPointFormat" xml:space="preserve">
+    <value>http://{0}.blob.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="DefaultQueueEndPointFormat" xml:space="preserve">
+    <value>http://{0}.queue.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="DefaultTableEndPointFormat" xml:space="preserve">
+    <value>http://{0}.table.core.windows.net/</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="CurrentStorageAccountNameNotFound" xml:space="preserve">
+    <value>Current Storage Account not found in subscription '{0}'. Please set it use "Set-AzureSubscription".</value>
+    <comment>0 subscription name</comment>
+  </data>
+  <data name="HTTPPrefix" xml:space="preserve">
+    <value>http://</value>
+  </data>
+  <data name="HTTPSPrefix" xml:space="preserve">
+    <value>https://</value>
+  </data>
+  <data name="CurrentStorageAccountNotFoundOnAzure" xml:space="preserve">
+    <value>Can not found current storage account '{0}' of subsciption '{1}' on azure, please check whether the specified storage account exists.</value>
+    <comment>0 storage account name, 1 subscription name</comment>
+  </data>
+  <data name="UseCurrentStorageAccountFromSubscription" xml:space="preserve">
+    <value>Use current storage account '{0}' from subscription '{1}'.</value>
+    <comment>0 storage account name 1 subscription name</comment>
+  </data>
+  <data name="GetStorageAccountFromEnvironmentVariable" xml:space="preserve">
+    <value>Get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'.</value>
+  </data>
+  <data name="EnvConnectionString" xml:space="preserve">
+    <value>AZURE_STORAGE_CONNECTION_STRING</value>
+  </data>
+  <data name="InitChannelFromSubscription" xml:space="preserve">
+    <value>Init service channel from current subscription.</value>
+  </data>
+  <data name="UseStorageAccountFromContext" xml:space="preserve">
+    <value>Use storage account '{0}' from storage context.</value>
+    <comment>0 for storage account name</comment>
+  </data>
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing without ParameterSet.</value>
+  </data>
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing with ParameterSet '{1}'.</value>
+  </data>
+  <data name="CannotDeleteSnapshotForSnapshot" xml:space="preserve">
+    <value>The specified blob '{0}' is already a snapshot with snapshot time {1}. Can't use "DeleteSnapshot" option for it.</value>
+    <comment>0 for blob name, 1 for snapshot time </comment>
+  </data>
+  <data name="ConfirmRemoveBlobWithSnapshot" xml:space="preserve">
+    <value>The blob '{0}' in container '{1}' has snapshots. Are you sure to remove blob and its snapshots?</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
+  <data name="RemoveBlobCancelled" xml:space="preserve">
+    <value>The remove operation of  blob '{0}' in container '{1}' is cancelled.</value>
+    <comment>0 for blob name, 1 for container name</comment>
+  </data>
+  <data name="GetAzureStorageContainerAclCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainerAcl</value>
+  </data>
+  <data name="GetAzureStorageContainerCmdletName" xml:space="preserve">
+    <value>Get-AzureStorageContainer</value>
+  </data>
+  <data name="NewAlias" xml:space="preserve">
+    <value>New-Alias</value>
+  </data>
+  <data name="NewAliasName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NewAliasValue" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="CannotGetSotrageAccountFromSubscription" xml:space="preserve">
+    <value>Can not get storage account  from subscription. Please check the subscription settings using "Get-AzureSubscription".</value>
+    <comment>0 storage account name 1 subscription name</comment>
+  </data>
+  <data name="CannotGetStorageAccountFromEnvironmentVariable" xml:space="preserve">
+    <value>Can not get storage account from environment variable 'AZURE_STORAGE_CONNECTION_STRING'. Please check whether this environment variable is valid.</value>
+  </data>
+  <data name="AnonymousAccountName" xml:space="preserve">
+    <value>[Anonymous]</value>
+  </data>
+</root>

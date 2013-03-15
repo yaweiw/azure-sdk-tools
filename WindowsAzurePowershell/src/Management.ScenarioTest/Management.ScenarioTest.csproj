@@ -118,6 +118,9 @@
     <Compile Include="Common\PowerShellTest.cs" />
     <Compile Include="Common\TestCredentialHelper.cs" />
     <Compile Include="Common\WindowsAzurePowerShellTest.cs" />
+    <None Include="Resources\Storage\StorageContext.ps1" />
+    <Compile Include="StorageTests\StorageContainerTest.cs" />
+    <Compile Include="StorageTests\StorageContextTest.cs" />
     <Compile Include="StoreTests\StoreTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
@@ -172,6 +175,7 @@
     <Resource Include="Resources\Store\StoreTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <None Include="Resources\Storage\StorageContainer.ps1" />
     <Resource Include="Resources\Store\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -188,6 +192,10 @@
     <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Management.Test.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
+      <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
+      <Name>Management.Storage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>

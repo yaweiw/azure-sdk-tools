@@ -307,7 +307,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public CloudRuntimeCollection GetCloudRuntimes(ServicePathInfo paths, string manifest)
         {
             CloudRuntimeCollection collection;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out collection, manifest);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
             return collection;
         }
 
@@ -324,7 +324,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             if (this.Components.RoleExists(roleName))
             {
                 CloudRuntimeCollection collection;
-                CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out collection, manifest);
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(out collection, manifest);
                 CloudRuntime desiredRuntime = CloudRuntime.CreateCloudRuntime(runtimeType, runtimeVersion, roleName, Path.Combine(paths.RootPath, roleName));
                 CloudRuntimePackage foundPackage;
                 if (collection.TryFindMatch(desiredRuntime, out foundPackage))
