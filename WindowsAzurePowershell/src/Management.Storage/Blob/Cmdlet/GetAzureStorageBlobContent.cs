@@ -119,15 +119,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public GetAzureStorageBlobContentCommand(IStorageBlobManagement channel)
         {
             Channel = channel;
-            fileNameResolver = new AzureToFileSystemFileNameResolver(delegate() { return NameUtil.WindowsMaxFileNameLength; });
+            fileNameResolver = new AzureToFileSystemFileNameResolver(() => NameUtil.WindowsMaxFileNameLength);
         }
 
         /// <summary>
-        /// Download blob to lcoal file
+        /// Download blob to local file
         /// </summary>
         /// <param name="blob">Source blob object</param>
         /// <param name="filePath">Destination file path</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void DownloadBlob(ICloudBlob blob, string filePath)
         {
             int id = 0;
@@ -135,10 +134,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             string status = Resources.PrepareDownloadingBlob;
             ProgressRecord pr = new ProgressRecord(id, activity, status);
 
-            Action<BlobTransferManager> taskAction = delegate(BlobTransferManager transferManager)
-            {
-                transferManager.QueueDownload(blob, filePath, checkMd5, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
-            };
+            Action<BlobTransferManager> taskAction = (transferManager) => transferManager.QueueDownload(blob, filePath, checkMd5, OnTaskStart, OnTaskProgress, OnTaskFinish, pr);
 
             StartSyncTaskInTransferManager(taskAction, pr);
         }
@@ -150,7 +146,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="blobName">source blob name</param>
         /// <param name="fileName">file name</param>
         /// <returns>the downloaded AzureStorageBlob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob GetBlobContent(string containerName, string blobName, string fileName)
         {
             if (!NameUtil.IsValidBlobName(blobName))
@@ -184,7 +179,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="blobName">source blob name</param>
         /// <param name="fileName">destination file name</param>
         /// <returns>the downloaded AzureStorageBlob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob GetBlobContent(CloudBlobContainer container, string blobName, string fileName)
         {
             if (!NameUtil.IsValidBlobName(blobName))
@@ -214,7 +208,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="fileName">destination file path</param>
         /// <param name="isValidBlob">whether the source container validated</param>
         /// <returns>the downloaded AzureStorageBlob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob GetBlobContent(ICloudBlob blob, string fileName, bool isValidBlob = false)
         {
             if (null == blob)
@@ -278,7 +271,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="blobName">Source blob name</param>
         /// <param name="snapshotTime">Source blob snapshot time</param>
         /// <returns>full file path if file path is valid, otherwise throw an exception</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetFullReceiveFilePath(string fileName, string blobName, DateTimeOffset? snapshotTime)
         {
             String filePath = Path.Combine(CurrentPath(), fileName);

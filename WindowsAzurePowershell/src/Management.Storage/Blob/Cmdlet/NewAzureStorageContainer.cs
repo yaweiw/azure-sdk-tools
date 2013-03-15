@@ -71,7 +71,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// create a new azure container
         /// </summary>
         /// <param name="name">container name</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageContainer CreateAzureContainer(string name, string accesslevel)
         {
             if (!NameUtil.IsValidContainerName(name))

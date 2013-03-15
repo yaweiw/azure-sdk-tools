@@ -177,7 +177,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="filePath">local file path</param>
         /// <param name="blob">destination azure blob object</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual void Upload2Blob(string filePath, ICloudBlob blob)
         {
             int id = 0;
@@ -198,7 +197,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="fileName">file name</param>
         /// <returns>full file path if fileName is valid, empty string if file name is directory</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetFullSendFilePath(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
@@ -229,7 +227,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="filePath">absolute file path</param>
         /// <returns>blob name</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal string GetBlobNameFromRelativeFilePath(string filePath)
         {
             string blobName = string.Empty;
@@ -258,7 +255,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name</param>
         /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, string containerName, string blobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
@@ -272,7 +268,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="container">destination container</param>
         /// <param name="blobName">blob name</param>
         /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, CloudBlobContainer container, string blobName)
         {
             string filePath = GetFullSendFilePath(fileName);
@@ -313,7 +308,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="blob">destination blob</param>
         /// <param name="isValidContainer">whether the destination container is validated</param>
         /// <returns>null if user cancel the overwrite operation, otherwise return destination blob object</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageBlob SetAzureBlobContent(string fileName, ICloudBlob blob, bool isValidContainer = false)
         {
             string filePath = GetFullSendFilePath(fileName);
@@ -401,7 +395,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// check whether the blob properties is valid
         /// </summary>
         /// <param name="properties">Blob properties table</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void ValidateBlobProperties(Hashtable properties)
         {
             if(properties == null)
@@ -423,7 +416,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">ICloudBlob object</param>
         /// <param name="meta">blob properties hashtable</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void SetBlobProperties(ICloudBlob blob, Hashtable properties)
         {
             if (properties == null)
@@ -454,7 +446,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">azure storage blob object</param>
         /// <param name="meta">blob properties hashtable</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void SetBlobProperties(AzureStorageBlob azureBlob, Hashtable properties)
         {
             SetBlobProperties(azureBlob.ICloudBlob, properties);
@@ -465,7 +456,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">ICloudBlob object</param>
         /// <param name="meta">meta data hashtable</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void SetBlobMeta(ICloudBlob blob, Hashtable meta)
         {
             if (meta == null)
@@ -499,7 +489,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="azureBlob">azure storage blob object</param>
         /// <param name="meta">meta data hashtable</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         private void SetBlobMeta(AzureStorageBlob azureBlob, Hashtable meta)
         {
             SetBlobMeta(azureBlob.ICloudBlob, meta);
@@ -508,7 +497,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <summary>
         /// execute command
         /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
             AzureStorageBlob blob = null;
