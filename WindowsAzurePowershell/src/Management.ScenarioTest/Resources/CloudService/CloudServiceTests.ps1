@@ -188,13 +188,12 @@ Tests Start-AzureService with an existing service that has staging deployment on
 function Test-StartAzureServiceWithStagingDeployment
 {
 	# Setup
-	New-Deployment
+	New-CloudService 1 $null "Staging"
 	$name = $global:createdCloudServices[0]
-	$slot = "Staging"
-	Stop-AzureService $name -Slot $slot
+	Stop-AzureService $name -Slot "Staging"
 
 	# Test
-	$started = Start-AzureService $name -PassThru -Slot $slot
+	$started = Start-AzureService $name -PassThru -Slot "Staging"
 
 	# Assert
 	Assert-True { $started }
