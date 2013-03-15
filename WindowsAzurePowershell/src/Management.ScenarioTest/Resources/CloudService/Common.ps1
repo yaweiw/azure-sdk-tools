@@ -128,7 +128,7 @@ function New-CacheCloudServiceProject
     Add-AzureNodeWebRole ClientRole
     copy ..\CloudService\Cache\*.js .\ClientRole\
     cd .\ClientRole
-    npm install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz
+    Start-Process npm "install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz" -WAIT
     cd ..
     Add-AzureCacheWorkerRole CacheRole
     Enable-AzureMemcacheRole ClientRole CacheRole
