@@ -502,14 +502,7 @@ namespace CLITest.BVT
 
                 Test.Assert(blob.BlobType == blobUtil.Blob.BlobType, String.Format("The destination blob type should be {0}, actually {1}.", blobUtil.Blob.BlobType, blob.BlobType));
 
-                if (useUri)
-                {
-                    Test.Assert(blob.CopyState.Source.ToString() == sourceUri, String.Format("The source of destination blob should be {0}, and actually it's {1}", sourceUri, blob.CopyState.Source.ToString()));
-                }
-                else
-                {
-                    Test.Assert(blob.CopyState.Source.ToString().StartsWith(sourceUri), String.Format("The source of destination blob should start with {0}, and actually it's {1}", sourceUri, blob.CopyState.Source.ToString()));
-                }
+                Test.Assert(blob.CopyState.Source.ToString().StartsWith(sourceUri), String.Format("The source of destination blob should start with {0}, and actually it's {1}", sourceUri, blob.CopyState.Source.ToString()));
             }
             finally
             {
