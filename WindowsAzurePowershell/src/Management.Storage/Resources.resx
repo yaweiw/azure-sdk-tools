@@ -155,7 +155,7 @@
     <value>Can not find the specified file '{0}'.</value>
   </data>
   <data name="FileTransmitStatus" xml:space="preserve">
-    <value>Percent : {0}%. Speed : {1}/Second.</value>
+    <value>Percent : {0}%. Average Speed : {1}/Second.</value>
   </data>
   <data name="InvalidBlobName" xml:space="preserve">
     <value>Blob name '{0}' is invalid.</value>
