@@ -102,6 +102,7 @@ function Test-GetAzureWebsiteLogTail
 	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
 
 	# Assert
+	cd ..
 	$found = $false
 	$logs | % { if ($_ -like "*㯑䲘䄂㮉*") { $found = $true; exit } }
 	Assert-True { $found }
@@ -135,5 +136,6 @@ function Test-GetAzureWebsiteLogTailPath
 	Get-AzureWebsiteLog -Tail -Path http | % { $reached = $true; exit }
 
 	# Assert
+	cd ..
 	Assert-True { $reached }
 }
