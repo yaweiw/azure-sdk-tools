@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudServiceTests\PublishAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\StartAzureServiceScenarioTests.cs" />
     <Compile Include="CloudServiceTests\TestAzureNameScenarioTests.cs" />
     <Compile Include="CloudServiceTests\EmulatorTests.cs" />
