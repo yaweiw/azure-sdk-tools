@@ -25,10 +25,8 @@
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
 	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
-	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
 	<ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
 	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-	<StoreTestDebug>.\WindowsAzurePowershell\src\Management.Store.Test\bin\Debug\Microsoft.WindowsAzure.Management.Store.Test.dll</StoreTestDebug>
 	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
@@ -216,16 +214,10 @@
       Command="MSTest.exe /testcontainer:$(CloudServiceTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\CloudServiceDebug.trx"
       ContinueOnError="false" />
 	<Exec
-      Command="MSTest.exe /testcontainer:$(ServiceBusTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceBusDebug.trx"
-      ContinueOnError="false" />
-	<Exec
       Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(StoreTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StoreDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"

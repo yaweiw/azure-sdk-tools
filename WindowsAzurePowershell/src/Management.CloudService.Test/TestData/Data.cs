@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
         static Data()
         {
-            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), Management.Properties.Resources.AzureDirectory);
+            AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure PowerShell");
             TestResultDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             ValidServiceNames = new List<string>();
