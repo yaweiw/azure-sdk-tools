@@ -29,6 +29,26 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
+########################################################################### Publish-AzureServiceProject Scenario Tests ###################################################################
+
+<#
+.SYNOPSIS
+Tests Publishing a Cache Service.
+#>
+function Test-PublishCacheService
+{
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+}
+
+<#
+.SYNOPSIS
+Tests Publishing and updating a Cache Service.
+#>
+function Test-UpdateCacheService
+{
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+}
+
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
 
 <#
@@ -325,4 +345,69 @@ function Test-AzureNameWithInvalidServiceBusNamespace
 {
 	# Test
 	Assert-Throws { Test-AzureName -ServiceBusNamespace "Invalid Name" }
+}
+
+########################################################################### Stop-AzureService Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with non-existing service.
+#>
+function Test-StopAzureServiceWithNonExistingService
+{
+	# Test
+	Assert-Throws { Stop-AzureService "DoesNotExist" } "The specified cloud service `"DoesNotExist`" does not exist."
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that does not have any deployments
+#>
+function Test-StopAzureServiceWithEmptyDeployment
+{
+	# Setup
+	$name = Get-CloudServiceName
+	New-AzureService $name -Location $(Get-DefaultLocation)
+
+	# Test
+	$Stoped = Stop-AzureService $name -Slot Staging -PassThru
+
+	# Assert
+	Assert-False { $Stoped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that has production deployment only
+#>
+function Test-StopAzureServiceWithProductionDeployment
+{
+	# Setup
+	New-CloudService 1
+	$name = $global:createdCloudServices[0]
+	Start-AzureService $name
+
+	# Test
+	$Stoped = Stop-AzureService $name -PassThru
+
+	# Assert
+	Assert-True { $Stoped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that has staging deployment only
+#>
+function Test-StopAzureServiceWithStagingDeployment
+{
+	# Setup
+	New-CloudService 1 $null "Staging"
+	$name = $global:createdCloudServices[0]
+	Start-AzureService $name -Slot "Staging"
+
+	# Test
+	$Stoped = Stop-AzureService $name -PassThru -Slot "Staging"
+
+	# Assert
+	Assert-True { $Stoped }
 }
