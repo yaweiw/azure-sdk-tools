@@ -101,12 +101,11 @@ Removes all cloud services/storage accounts in the current subscription.
 #>
 function Initialize-CloudServiceTest
 {
-
-    <# To Do: implement when we have unsigned version from Management.ServiceManagement assembly #>
-    $global:createdCloudServices = @()
-	Get-AzureStorageAccount | Remove-AzureStorageAccount
-	Get-AzureService | Remove-AzureService -Force
-
+	try { Get-AzureStorageAccount | Remove-AzureStorageAccount }
+	catch { <# Proceed #> }
+	
+	try { Get-AzureService | Remove-AzureService -Force }
+	catch { <# Proceed #> }
 }
 
 <#
