@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                     InvokeInOperationContext(() =>
                     {
-                        this.RetryCall(s => found = !Channel.IsDNSAvailableTask(CurrentSubscription.SubscriptionId, serviceName).Result.Result);
+                        this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
                     });
 
                     if (found)
@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 InvokeInOperationContext(() =>
                 {
-                    this.RetryCall(s => this.Channel.DeleteDeploymentBySlotTask(s, serviceName, slot));
+                    this.RetryCall(s => this.Channel.DeleteDeploymentBySlot(s, serviceName, slot));
                 });
 
                 // Wait until deployment is removed
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         private void RemoveService(string serviceName)
         {
             WriteVerboseWithTimestamp(string.Format(Resources.RemoveAzureServiceWaitMessage, serviceName));
-            InvokeInOperationContext(() => RetryCall(s => this.Channel.DeleteHostedServiceTask(s, serviceName)));
+            InvokeInOperationContext(() => RetryCall(s => this.Channel.DeleteHostedService(s, serviceName)));
         }
 
         public override void ExecuteCmdlet()

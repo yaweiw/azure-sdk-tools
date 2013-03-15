@@ -23,7 +23,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using Management.Model;
     using Utilities;
     using WindowsAzure.ServiceManagement;
-    using System.Threading.Tasks;
 
 
     /// <summary>
@@ -189,7 +188,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 {
                     try
                     {
-                        ExecuteClientAction(upgradeDeploymentInput, CommandRuntime.ToString(), s => this.Channel.UpgradeDeploymentBySlotTask(s, this.ServiceName, this.Slot, upgradeDeploymentInput), WaitForOperation);
+                        ExecuteClientAction(upgradeDeploymentInput, CommandRuntime.ToString(), s => this.Channel.UpgradeDeploymentBySlot(s, this.ServiceName, this.Slot, upgradeDeploymentInput), WaitForOperation);
                         if (removePackage == true)
                         {
                             this.RetryCall(s =>
@@ -214,7 +213,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Configuration = configString
                 };
 
-                ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlotTask(s, this.ServiceName, this.Slot, changeConfiguration), WaitForOperation);
+                ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, changeConfiguration), WaitForOperation);
             }
 
             else
@@ -225,7 +224,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Status = this.NewStatus
                 };
 
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UpdateDeploymentStatusBySlotTask(s, this.ServiceName, this.Slot, updateDeploymentStatus), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.UpdateDeploymentStatusBySlot(s, this.ServiceName, this.Slot, updateDeploymentStatus), WaitForOperation);
             }
         }
 

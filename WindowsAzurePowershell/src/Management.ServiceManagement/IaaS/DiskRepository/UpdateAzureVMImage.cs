@@ -105,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
             ExecuteClientActionInOCS(
                 image,
                 CommandRuntime.ToString(),
-                s => this.Channel.UpdateOSImageTask(s, this.ImageName, image).Result,
+                s => this.Channel.UpdateOSImage(s, this.ImageName, image),
                 WaitForOperation,
                 (op, responseImage) => new OSImageContext
                 {

@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             string rdpFilePath = LocalPath ?? Path.GetTempFileName();
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                using (var stream = RetryCall(s => Channel.DownloadRDPFileTask(s, ServiceName, CurrentDeployment.Name, Name + "_IN_0").Result))
+                using (var stream = RetryCall(s => Channel.DownloadRDPFile(s, ServiceName, CurrentDeployment.Name, Name + "_IN_0")))
                 {
                     using (var file = File.Create(rdpFilePath))
                     {

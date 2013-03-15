@@ -53,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 {
                     try
                     {
-                        CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlotTask(s, ServiceName, "Production").Result);
+                        CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Production"));
                         GetDeploymentOperation = WaitForOperation("Get Deployment");
                     }
                     catch (Exception e)

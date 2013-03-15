@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetOSImageTask(s, this.ImageName).Result,
+                    s => this.Channel.GetOSImage(s, this.ImageName),
                     WaitForOperation,
                     (operation, image) => func(operation, new[] { image }));
             }
@@ -71,7 +71,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListOSImagesTask(s).Result,
+                    s => this.Channel.ListOSImages(s),
                     WaitForOperation,
                     (operation, images) => func(operation, images));
 

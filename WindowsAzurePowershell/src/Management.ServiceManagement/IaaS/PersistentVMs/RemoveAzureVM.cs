@@ -50,16 +50,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             int roleCount = 0;
 
             Deployment deployment = null;
-            InvokeInOperationContext(() => deployment = RetryCall(s => Channel.GetDeploymentBySlotTask(s, ServiceName, "Production").Result));
+            InvokeInOperationContext(() => deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Production")));
             roleCount = deployment.RoleInstanceList.Count;
 
             if (roleCount > 1)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRoleTask(s, ServiceName, CurrentDeployment.Name, Name), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name), WaitForOperation);
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlotTask(s, ServiceName, "Production"), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, "Production"), WaitForOperation);
             }
         }
     }

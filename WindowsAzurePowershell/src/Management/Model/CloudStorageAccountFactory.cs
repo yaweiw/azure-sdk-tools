@@ -37,8 +37,8 @@ namespace Microsoft.WindowsAzure.Management.Model
             CloudStorageAccount currentStorage = null;
             using (new OperationContextScope(channel.ToContextChannel()))
             {
-                var storageService = channel.GetStorageServiceTask(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount).Result;
-                var storageServiceKeys = channel.GetStorageKeysTask(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount).Result;
+                var storageService = channel.GetStorageService(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount);
+                var storageServiceKeys = channel.GetStorageKeys(subscriptionData.SubscriptionId, subscriptionData.CurrentStorageAccount);
                 if (storageService != null && storageServiceKeys != null)
                 {
                     string connectionString = General.BuildConnectionString("https", storageService.ServiceName, storageServiceKeys.StorageServiceKeys.Primary, storageService.StorageServiceProperties.Endpoints[0].Replace("http://", "https://"), storageService.StorageServiceProperties.Endpoints[2].Replace("http://", "https://"), storageService.StorageServiceProperties.Endpoints[1].Replace("http://", "https://"));

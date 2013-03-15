@@ -123,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
             ExecuteClientActionInOCS(
                 image,
                 CommandRuntime.ToString(),
-                s => this.Channel.CreateOSImageTask(s, image).Result,
+                s => this.Channel.CreateOSImage(s, image),
                 WaitForOperation,
                 (op, responseImage) => new OSImageContext
                 {

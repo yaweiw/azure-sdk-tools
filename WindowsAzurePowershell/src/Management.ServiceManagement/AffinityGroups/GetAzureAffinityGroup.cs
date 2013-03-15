@@ -70,11 +70,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 
             if (this.Name != null)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.GetAffinityGroupTask(s, this.Name).Result, WaitForOperation, (operation, affinityGroups) => func(operation, new[] { affinityGroups }));
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.GetAffinityGroup(s, this.Name), WaitForOperation, (operation, affinityGroups) => func(operation, new[] { affinityGroups }));
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ListAffinityGroupsTask(s).Result, WaitForOperation, (operation, affinityGroups) => func(operation, affinityGroups));
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.ListAffinityGroups(s), WaitForOperation, (operation, affinityGroups) => func(operation, affinityGroups));
             }
         }
     }

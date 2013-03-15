@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 
         internal void ExecuteCommand()
         {
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.DeleteAffinityGroupTask(s, this.Name), this.WaitForOperation);
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.DeleteAffinityGroup(s, this.Name), this.WaitForOperation);
         }
 
         protected override void OnProcessRecord()

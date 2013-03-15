@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             ExecuteClientActionInOCS(
                 disk, 
                 CommandRuntime.ToString(), 
-                s => this.Channel.CreateDiskTask(s, disk).Result, 
+                s => this.Channel.CreateDisk(s, disk), 
                 WaitForOperation, 
                 (op,responseDisk) => new DiskContext
                 {

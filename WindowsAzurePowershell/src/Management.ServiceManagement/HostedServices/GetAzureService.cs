@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetHostedServiceTask(s, this.ServiceName).Result,
+                    s => this.Channel.GetHostedService(s, this.ServiceName),
                     WaitForOperation,
                     (operation, service) => func(operation, new[] { service }));
             }
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListHostedServicesTask(s).Result,
+                    s => this.Channel.ListHostedServices(s),
                     WaitForOperation,
                     (operation, service) => func(operation, service));
             }
