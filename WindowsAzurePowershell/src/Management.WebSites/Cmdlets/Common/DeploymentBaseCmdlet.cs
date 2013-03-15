@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Model;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Properties;
     using Services;
@@ -24,6 +25,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {
         protected IDeploymentServiceManagement DeploymentChannel { get; set; }
+
+        protected Repository Repository { get; private set; }
 
         private Repository GetRepository(string websiteName)
         {
@@ -45,6 +48,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 throw new Exception(Resources.RepositoryNotSetup);    
             }
 
+            this.Repository = repository;
             DeploymentChannel = CreateDeploymentChannel(repository);
         }
 
@@ -58,7 +62,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
                 return DeploymentChannel;
             }
             
-            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(new Uri(repository.RepositoryUri), repository.PublishingUsername, repository.PublishingPassword);
+            return ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(
+                new Uri(repository.RepositoryUri),
+                repository.PublishingUsername,
+                repository.PublishingPassword,
+                new HttpRestMessageInspector(text => this.WriteDebug(text)));
         }
 
         /// <summary>
