@@ -321,7 +321,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceName)
                         };
 
-                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedServiceTask(s, chsi), WaitForOperation);
+                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -359,7 +359,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                                 deployment.Dns.DnsServers.Add(dns);
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeploymentTask(s, this.ServiceName, deployment), WaitForOperation);
+                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -397,7 +397,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     try
                     {
-                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRoleTask(s, this.ServiceName, this.ServiceName, vm), WaitForOperation);
+                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm), WaitForOperation);
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -429,7 +429,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 try
                 {
-                    AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailableTask(s, serviceName).Result);
+                    AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
                     WaitForOperation(CommandRuntime.ToString(), true);
                     IsPresent = !response.Result;
                 }

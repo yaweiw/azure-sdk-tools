@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.GetDiskTask(s, this.DiskName).Result,
+                    s => this.Channel.GetDisk(s, this.DiskName),
                     WaitForOperation,
                     (operation, disk) => func(operation, new[] { disk }));
             }
@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 ExecuteClientActionInOCS(
                     null,
                     CommandRuntime.ToString(),
-                    s => this.Channel.ListDisksTask(s).Result,
+                    s => this.Channel.ListDisks(s),
                     WaitForOperation,
                     (operation, disks) => func(operation, disks));
 

@@ -77,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
 
         private void ListAvailableAddOns()
         {
- 	        LocationList locations = Channel.ListLocationsTask(CurrentSubscription.SubscriptionId).Result;
+ 	        LocationList locations = Channel.ListLocations(CurrentSubscription.SubscriptionId);
             MarketplaceClient = MarketplaceClient ?? 
                 new MarketplaceClient(locations.Select<Location, string>(l => l.Name));
 

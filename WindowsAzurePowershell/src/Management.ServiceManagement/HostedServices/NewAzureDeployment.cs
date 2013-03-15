@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
                     WriteProgress(progress);
 
-                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeploymentTask(s, this.ServiceName, this.Slot, deploymentInput), WaitForOperation);
+                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput), WaitForOperation);
 
                     if (removePackage == true)
                     {
@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 try
                 {
-                    Deployment currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlotTask(s, this.ServiceName, slot).Result);
+                    Deployment currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, slot));
                     if (currentDeployment.RoleList != null)
                     {
                         if (string.Compare(currentDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)

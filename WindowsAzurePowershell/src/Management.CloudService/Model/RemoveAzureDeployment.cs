@@ -82,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         {
             string results;
 
-            InvokeInOperationContext(() => this.RetryCall(s => this.Channel.DeleteDeploymentBySlotTask(s, serviceName, slot)));
+            InvokeInOperationContext(() => this.RetryCall(s => this.Channel.DeleteDeploymentBySlot(s, serviceName, slot)));
 
             results = string.Format(Resources.DeploymentRemovedMessage, slot, serviceName);
 

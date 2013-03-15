@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
             string roleName = this.Name;
             PostCaptureAction p = (PostCaptureAction)Enum.Parse(typeof(PostCaptureAction), "Delete");
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.CaptureRoleTask(s, this.ServiceName, CurrentDeployment.Name, roleName, this.NewImageName, string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel, p, null), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.CaptureRole(s, this.ServiceName, CurrentDeployment.Name, roleName, this.NewImageName, string.IsNullOrEmpty(this.NewImageLabel) ? this.NewImageName : this.NewImageLabel, p, null), WaitForOperation);
         }
 
     }

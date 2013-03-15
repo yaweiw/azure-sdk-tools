@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     {
         public void OnPublish(IServiceManagement channel, AzureService service, ServiceSettings publishSettings, string subscriptionId)
         {
-            StorageService storageService = channel.GetStorageKeysTask(subscriptionId, publishSettings.StorageAccountName).Result;
+            StorageService storageService = channel.GetStorageKeys(subscriptionId, publishSettings.StorageAccountName);
             string name = publishSettings.StorageAccountName;
             string key = storageService.StorageServiceKeys.Primary;
 

@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             ExecuteClientActionInOCS(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.GetStorageKeysTask(s, this.StorageAccountName).Result,
+                s => this.Channel.GetStorageKeys(s, this.StorageAccountName),
                 WaitForOperation,
                 func);
         }

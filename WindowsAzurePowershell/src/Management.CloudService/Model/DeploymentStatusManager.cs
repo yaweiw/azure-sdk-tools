@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 GetDeploymentStatus deploymentStatusCommand = new GetDeploymentStatus(Channel, CommandRuntime)
                 { ShareChannel = ShareChannel, CurrentSubscription = CurrentSubscription };
                 deploymentStatusCommand.WaitForState(newStatus, rootPath, serviceName, slot, CurrentSubscription.SubscriptionName);
-                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlotTask(s, serviceName, slot).Result);
+                Deployment deployment = this.RetryCall<Deployment>(s => this.Channel.GetDeploymentBySlot(s, serviceName, slot));
 
                 if (PassThru)
                 {
@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             try
             {
-                var deployment = RetryCall(s => Channel.GetDeploymentBySlotTask(s, serviceName, slot).Result);
+                var deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, serviceName, slot));
 
                 // Check to see if the service is in transitioning state
                 //
@@ -141,7 +141,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 Status = status
             };
 
-            InvokeInOperationContext(() => RetryCall(s => Channel.UpdateDeploymentStatusBySlotTask(
+            InvokeInOperationContext(() => RetryCall(s => Channel.UpdateDeploymentStatusBySlot(
                 s,
                 serviceName,
                 slot,

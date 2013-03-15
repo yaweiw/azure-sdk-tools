@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public AvailabilityResponse IsDNSAvailable(string subscriptionId, string name)
         {
-            AvailabilityResponse result = Channel.IsDNSAvailableTask(subscriptionId, name).Result;
+            AvailabilityResponse result = Channel.IsDNSAvailable(subscriptionId, name);
 
             WriteObject(!result.Result);
 
@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public AvailabilityResponse IsStorageServiceAvailable(string subscriptionId, string name)
         {
-            AvailabilityResponse result = Channel.IsStorageServiceAvailableTask(subscriptionId, name).Result;
+            AvailabilityResponse result = Channel.IsStorageServiceAvailable(subscriptionId, name);
             
             WriteObject(!result.Result);
 

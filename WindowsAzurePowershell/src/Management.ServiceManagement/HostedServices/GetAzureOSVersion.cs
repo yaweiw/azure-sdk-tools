@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             ExecuteClientActionInOCS(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.ListOperatingSystemsTask(s).Result,
+                s => this.Channel.ListOperatingSystems(s),
                 WaitForOperation,
                 (operation, operatingSystems) => operatingSystems.Select(os => new OSVersionsContext
                 {

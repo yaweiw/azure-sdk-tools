@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             ExecuteClientActionInOCS(
                 null,
                 CommandRuntime.ToString(),
-                s => this.Channel.GetDeploymentBySlotTask(s, this.ServiceName, this.Slot).Result,
+                s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot),
                 WaitForOperation,
                 (operation, deployment) => new DeploymentInfoContext(UpdateDeploymentSlofIfEmpty(deployment))
                 {

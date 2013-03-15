@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             ExecuteClientActionInOCS(
                 disk,
                 CommandRuntime.ToString(),
-                s => this.Channel.UpdateDiskTask(s, this.DiskName, disk).Result,
+                s => this.Channel.UpdateDisk(s, this.DiskName, disk),
                 WaitForOperation,
                 (op, responseDisk) => new DiskContext
                 {
