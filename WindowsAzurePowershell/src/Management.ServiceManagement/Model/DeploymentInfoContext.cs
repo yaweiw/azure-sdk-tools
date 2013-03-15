@@ -53,11 +53,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 
             this.Configuration = string.IsNullOrEmpty(deployment.Configuration)
                                      ? string.Empty
-                                     : deployment.Configuration;
+                                     : ServiceManagementHelper.DecodeFromBase64String(deployment.Configuration);
 
             this.Label = string.IsNullOrEmpty(deployment.Label)
                              ? string.Empty
-                             : deployment.Label;
+                             : ServiceManagementHelper.DecodeFromBase64String(deployment.Label);
 
             if (deployment.RoleInstanceList != null)
             {
