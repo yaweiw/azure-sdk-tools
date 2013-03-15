@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/cache/1.8.0.exe.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/cache/1.8.0.exe.
         /// </summary>
         internal static string CacheRuntimeUrl {
             get {
