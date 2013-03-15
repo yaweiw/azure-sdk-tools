@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         public void RemoveDeploymentProcess()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => ServiceManagementExtensionMethods.DeleteDeploymentBySlot(this.Channel, s, this.ServiceName, this.Slot), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteDeploymentBySlot(s, this.ServiceName, this.Slot), WaitForOperation);
         }
 
         protected override void OnProcessRecord()
