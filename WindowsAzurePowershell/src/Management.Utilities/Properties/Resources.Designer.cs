@@ -1647,7 +1647,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://nodertncu.blob.core.windows.net/node/runtimemanifest_v3.xml.
+        ///   Looks up a localized string similar to http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml.
         /// </summary>
         internal static string ManifestUri {
             get {
