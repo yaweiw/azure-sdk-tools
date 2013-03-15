@@ -800,7 +800,7 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml</value>
+    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest_v3.xml</value>
   </data>
   <data name="MaxSupportAzureSdkVersion" xml:space="preserve">
     <value>v1.8</value>
@@ -1196,5 +1196,18 @@ use and privacy statement at &lt;url&gt; and (c) agree to sharing my contact inf
   </data>
   <data name="x86InProgramFiles1" xml:space="preserve">
     <value> (x86)</value>
+  </data>
+  <data name="BeginProcessingWithoutParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing without ParameterSet.</value>
+  </data>
+  <data name="BeginProcessingWithParameterSetLog" xml:space="preserve">
+    <value>{0} begin processing with ParameterSet '{1}'.</value>
+  </data>
+  <data name="EndProcessingLog" xml:space="preserve">
+    <value>{0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}.</value>
+    <comment>0 for cmdlet name. 1 for started remote call counter, 2 for finished remote call counter, 3 for running time, 4 for client request id</comment>
+  </data>
+  <data name="ManifestBaseUriQuery" xml:space="preserve">
+    <value>//baseuri</value>
   </data>
 </root>
