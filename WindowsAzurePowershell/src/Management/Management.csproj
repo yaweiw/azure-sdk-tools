@@ -213,6 +213,12 @@
       <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
       <Name>Management.Utilities</Name>
     </ProjectReference>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XmlSchema\SubscriptionsData.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
