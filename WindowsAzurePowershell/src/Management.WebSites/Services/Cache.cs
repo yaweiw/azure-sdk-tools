@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
                                                     string.Format("spaces.{0}.json", subscriptionId));
                 if (!File.Exists(webspacesFile))
                 {
-                    return null;
+                    return new WebSpaces();
                 }
 
                 JavaScriptSerializer javaScriptSerializer = new JavaScriptSerializer();
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
             catch
             {
-                return null;
+                return new WebSpaces();
             }
         }
 

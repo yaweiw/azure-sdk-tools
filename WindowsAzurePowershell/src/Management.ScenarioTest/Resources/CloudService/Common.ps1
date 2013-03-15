@@ -47,16 +47,17 @@ The number of cloud services to create.
 #>
 function New-CloudService
 {
-    param([int] $count, [ScriptBlock] $cloudServiceProject)
+    param([int] $count, [ScriptBlock] $cloudServiceProject, [string] $slot)
 	
-    if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+	if ($cloudServiceProject -eq $null) { $cloudServiceProject = { New-TinyCloudServiceProject $args[0] } }
+	if ($slot -eq $null) { $slot = "Production" }
 
-    1..$count | % { 
-        $name = Get-CloudServiceName;
-        Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
-        Publish-AzureServiceProject -Force;
-        $global:createdCloudServices += $name;
-    }
+	1..$count | % { 
+		$name = Get-CloudServiceName;
+		Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
+		Publish-AzureServiceProject -Force -Slot $slot
+		$global:createdCloudServices += $name;
+	}
 }
 
 <#
@@ -100,8 +101,12 @@ Removes all cloud services/storage accounts in the current subscription.
 #>
 function Initialize-CloudServiceTest
 {
+
     <# To Do: implement when we have unsigned version from Management.ServiceManagement assembly #>
     $global:createdCloudServices = @()
+	Get-AzureStorageAccount | Remove-AzureStorageAccount
+	Get-AzureService | Remove-AzureService -Force
+
 }
 
 <#

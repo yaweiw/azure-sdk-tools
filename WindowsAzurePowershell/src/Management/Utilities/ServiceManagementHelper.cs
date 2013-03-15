@@ -104,11 +104,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Disposing the factory would also dispose the channel we are returning.")]
-        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password)
+        public static T CreateServiceManagementChannel<T>(Uri remoteUri, string username, string password, params IEndpointBehavior[] behaviors)
             where T : class
         {
             WebChannelFactory<T> factory = new WebChannelFactory<T>(remoteUri);
-
+            factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
+            foreach (IEndpointBehavior behavior in behaviors)
+            {
+                factory.Endpoint.Behaviors.Add(behavior);
+            }
             WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
             wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
             wb.Security.Mode = WebHttpSecurityMode.Transport;
