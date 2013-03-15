@@ -67,6 +67,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
         }
 
         [TestMethod]
+        public void GetEmptyWebspaceTest()
+        {
+            WebSpaces getWebSpaces = Cache.GetWebSpaces("NotExisting");
+            Assert.IsNotNull(getWebSpaces);
+            Assert.AreEqual<int>(0, getWebSpaces.Count);
+        }
+
+        [TestMethod]
         public void AddWebSpaceTest()
         {
             WebSpace webSpace = new WebSpace {Name = "newwebspace"};
@@ -97,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
         public void GetSetWebSpacesTest()
         {
             // Test no webspaces
-            Assert.IsNull(Cache.GetWebSpaces(SubscriptionName));
+            Assert.AreEqual<int>(0, Cache.GetWebSpaces(SubscriptionName).Count);
 
             // Test valid webspaces
             WebSpaces webSpaces = new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" }});
