@@ -14,4 +14,8 @@
   <DownloadDir>.\Data\download\getblobcontent\</DownloadDir>
   <UploadDir>.\Data\upload\setblobcontent\</UploadDir>
   <EnvContextKey>AZURE_STORAGE_CONNECTION_STRING</EnvContextKey>
+  <HttpsCopyHosts>
+    <!--Azure will use https to copy blob no matter what you set, please split your host using space.-->
+    windows.net windowsazure.com
+  </HttpsCopyHosts>
 </TestConfig>
