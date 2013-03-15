@@ -230,10 +230,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
         {
             AddTestContainers();
             string fileName = @"c:\Windows\System32\cmd.exe";
-            string contianerName = "test";
+            string containerName = "test";
             string blobName = "";
             command.File = fileName;
-            command.Container = contianerName;
+            command.Container = containerName;
             command.Blob = blobName;
             command.ExecuteCmdlet();
             AzureStorageBlob azureblob = (AzureStorageBlob)((MockCommandRuntime)command.CommandRuntime).OutputPipeline.FirstOrDefault();

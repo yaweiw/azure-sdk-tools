@@ -111,7 +111,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="message">confirmation message</param>
         /// <returns>true if the operation is confirmed by user, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual bool ConfirmRemove(string message)
         {
             return ShouldProcess(message);
@@ -122,7 +121,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <returns>true if the specified blob has snapshot, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal bool HasSnapShot(ICloudBlob blob)
         {
             BlobListingDetails details = BlobListingDetails.Snapshots;
@@ -155,7 +153,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="blob">ICloudblob object</param>
         /// <param name="isValidBlob">whether the ICloudblob parameter is validated</param>
         /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal bool RemoveAzureBlob(ICloudBlob blob, bool isValidBlob = false)
         {
             if (!isValidBlob)
@@ -200,7 +197,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="blobName">blob name</param>
         /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal bool RemoveAzureBlob(CloudBlobContainer container, string blobName)
         {
             if (!NameUtil.IsValidBlobName(blobName))
@@ -227,7 +223,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         /// <param name="containerName">container name</param>
         /// <param name="blobName">blob name</param>
         /// <returns>true if the blob is removed successfully, false if user cancel the remove operation</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal bool RemoveAzureBlob(string containerName, string blobName)
         {
             CloudBlobContainer container = Channel.GetContainerReference(containerName);

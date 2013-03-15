@@ -94,28 +94,37 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         {
             string blobName = string.Empty;
             string containerName = string.Empty;
+            bool stopped = false;
 
             switch (ParameterSetName)
             { 
                 case NameParameterSet:
-                    StopCopyBlob(ContainerName, BlobName, copyId);
+                    stopped = StopCopyBlob(ContainerName, BlobName, copyId);
                     blobName = BlobName;
                     containerName = ContainerName;
                     break;
                 case ContainerPipelineParmeterSet:
-                    StopCopyBlob(CloudBlobContainer, BlobName, copyId);
+                    stopped = StopCopyBlob(CloudBlobContainer, BlobName, copyId);
                     blobName = BlobName;
                     containerName = CloudBlobContainer.Name;
                     break;
                 case BlobPipelineParameterSet:
-                    StopCopyBlob(ICloudBlob, copyId, true);
+                    stopped = StopCopyBlob(ICloudBlob, copyId, true);
                     blobName = ICloudBlob.Name;
                     containerName = ICloudBlob.Container.Name;
                     break;
             }
 
-            string message = String.Format(Resources.StopCopyBlobSuccessfully, blobName, containerName);
-            WriteObject(message);
+            if (stopped)
+            {
+                string message = String.Format(Resources.StopCopyBlobSuccessfully, blobName, containerName);
+                WriteObject(message);
+            }
+            else
+            {
+                string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blobName, containerName);
+                WriteVerboseWithTimestamp(cancelMessage);
+            }
         }
 
         /// <summary>
@@ -124,10 +133,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="containerName">Container name</param>
         /// <param name="blobName">Blob name</param>
         /// <param name="copyId">copy id</param>
-        private void StopCopyBlob(string containerName, string blobName, string copyId)
+        private bool StopCopyBlob(string containerName, string blobName, string copyId)
         {            
             CloudBlobContainer container = Channel.GetContainerReference(containerName);
-            StopCopyBlob(container, blobName, copyId);
+            return StopCopyBlob(container, blobName, copyId);
         }
 
         /// <summary>
@@ -136,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="container">CloudBlobContainer object</param>
         /// <param name="blobName">Blob name</param>
         /// <param name="copyId">Copy id</param>
-        private void StopCopyBlob(CloudBlobContainer container, string blobName, string copyId)
+        private bool StopCopyBlob(CloudBlobContainer container, string blobName, string copyId)
         {
             ValidateBlobName(blobName);
 
@@ -151,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                 throw new ResourceNotFoundException(String.Format(Resources.BlobNotFound, blobName, container.Name));
             }
 
-            StopCopyBlob(blob, copyId);
+            return StopCopyBlob(blob, copyId);
         }
 
         /// <summary>
@@ -169,7 +178,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="blob">ICloudBlob object</param>
         /// <param name="copyId">Copy id</param>
-        private void StopCopyBlob(ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
+        private bool StopCopyBlob(ICloudBlob blob, string copyId, bool fetchCopyIdFromBlob = false)
         {
             AccessCondition accessCondition = null;
             BlobRequestOptions abortRequestOption = new BlobRequestOptions();
@@ -215,9 +224,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     string confirmation = String.Format(Resources.ConfirmAbortCopyOperation, blob.Name, blob.Container.Name, abortCopyId);
                     if (!ConfirmAbort(confirmation))
                     {
-                        string cancelMessage = String.Format(Resources.StopCopyOperationCancelled, blob.Name, blob.Container.Name);
-                        WriteVerboseWithTimestamp(cancelMessage);
-                        return;
+                        return false;
                     }
                 }
             }
@@ -227,6 +234,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
             }
 
             Channel.AbortCopy(blob, abortCopyId, accessCondition, abortRequestOption, OperationContext);
+            return true;
         }
     }
 }

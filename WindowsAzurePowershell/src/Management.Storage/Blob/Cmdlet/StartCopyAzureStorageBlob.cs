@@ -41,7 +41,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <summary>
         /// Container pipeline paremeter set name
         /// </summary>
-        private const string ContainerPipelineParmeterSet = "ContainerPipeline";
+        private const string ContainerPipelineParameterSet = "ContainerPipeline";
 
         /// <summary>
         /// Blob name and container name parameter set
@@ -61,10 +61,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         public ICloudBlob ICloudBlob { get; set; }
 
         [Parameter(HelpMessage = "CloudBlobContainer Object", Mandatory = true,
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParameterSet)]
         public CloudBlobContainer CloudBlobContainer { get; set; }
 
-        [Parameter(ParameterSetName = ContainerPipelineParmeterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
+        [Parameter(ParameterSetName = ContainerPipelineParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         [Parameter(ParameterSetName = NameParameterSet, Mandatory = true, Position = 0, HelpMessage = "Blob name")]
         public string SrcBlob
         {
@@ -73,7 +73,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string BlobName = String.Empty;
 
-        [Parameter(HelpMessage = "Source Container name", Mandatory = true, Position = 1,
+        [Parameter(HelpMessage = "Source Container name", Mandatory = true,
             ParameterSetName = NameParameterSet)]
         [ValidateNotNullOrEmpty]
         public string SrcContainer
@@ -83,10 +83,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private string ContainerName = String.Empty;
 
-        [Alias("Uri")]
+        [Alias("SrcUri")]
         [Parameter(HelpMessage = "Source blob uri", Mandatory = true,
             ValueFromPipelineByPropertyName = true, ParameterSetName = UriParameterSet)]
-        public string SrcUri { get; set; }
+        public string AbsoluteUri { get; set; }
 
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
             ParameterSetName = NameParameterSet)]
@@ -95,17 +95,17 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
             ParameterSetName = SrcBlobParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = true,
-            ParameterSetName = ContainerPipelineParmeterSet)]
+            ParameterSetName = ContainerPipelineParameterSet)]
         public string DestContainer { get; set; }
 
-        [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
-            ParameterSetName = NameParameterSet)]
         [Parameter(HelpMessage = "Destination blob name", Mandatory = true,
             ParameterSetName = UriParameterSet)]
         [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
+            ParameterSetName = NameParameterSet)]
+        [Parameter(HelpMessage = "Destination blob name", Mandatory = false,
             ParameterSetName = SrcBlobParameterSet)]
         [Parameter(HelpMessage = "Destination container name", Mandatory = false,
-            ParameterSetName = ContainerPipelineParmeterSet)]
+            ParameterSetName = ContainerPipelineParameterSet)]
         public string DestBlob { get; set; }
 
         [Parameter(HelpMessage = "Destination ICloudBlob object", Mandatory = true,
@@ -120,7 +120,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         [Parameter(HelpMessage = "Source Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true, ParameterSetName = DestBlobPipelineParameterSet)]
         [Parameter(HelpMessage = "Source Azure Storage Context Object",
-            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParmeterSet)]
+            ValueFromPipelineByPropertyName = true, ParameterSetName = ContainerPipelineParameterSet)]
+        [Parameter(HelpMessage = "Source Azure Storage Context Object", ParameterSetName = UriParameterSet)]
         public override AzureStorageContext Context { get; set; }
 
         [Parameter(HelpMessage = "Destination Storage context object", Mandatory = false)]
@@ -214,14 +215,14 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
                     break;
 
                 case UriParameterSet:
-                    destinationBlob = StartCopyBlob(SrcUri, DestContainer, DestBlob);
+                    destinationBlob = StartCopyBlob(AbsoluteUri, DestContainer, DestBlob, Context);
                     break;
 
                 case SrcBlobParameterSet:
                     destinationBlob = StartCopyBlob(ICloudBlob, DestContainer, DestBlob);
                     break;
 
-                case ContainerPipelineParmeterSet:
+                case ContainerPipelineParameterSet:
                     destinationBlob = StartCopyBlob(CloudBlobContainer.Name, SrcBlob, DestContainer, DestBlob);
                     break;
 
@@ -274,10 +275,27 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// <param name="destContainer">Destinaion container name</param>
         /// <param name="destBlobName">Destination blob name</param>
         /// <returns>Destination ICloudBlob object</returns>
-        private ICloudBlob StartCopyBlob(string srcUri, string destContainer, string destBlobName)
+        private ICloudBlob StartCopyBlob(string srcUri, string destContainer, string destBlobName, AzureStorageContext context)
         {
+            if (context != null)
+            {
+                Uri sourceUri = new Uri(srcUri);
+                Uri contextUri = new Uri(context.BlobEndPoint);
+
+                if (sourceUri.Host.ToLower() == contextUri.Host.ToLower())
+                {
+                    CloudBlobClient blobClient = context.StorageAccount.CreateCloudBlobClient();
+                    ICloudBlob blobReference = blobClient.GetBlobReferenceFromServer(sourceUri);
+                    return StartCopyBlob(blobReference, destContainer, destBlobName);
+                }
+                else
+                {
+                    WriteVerbose(String.Format(Resources.StartCopySourceContextMismatch, srcUri, context.BlobEndPoint));
+                }
+            }
+
             CloudBlobContainer container = destChannel.GetContainerReference(destContainer);
-            return StartCopyInTransferManager(new Uri(srcUri), container, destBlobName);   
+            return StartCopyInTransferManager(new Uri(srcUri), container, destBlobName);
         }
 
         /// <summary>
