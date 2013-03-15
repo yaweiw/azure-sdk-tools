@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void GetAzureRuntimesProcess(string runtimeType, string manifest = null)
         {
             CloudRuntimeCollection runtimes;
-            CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out runtimes, manifest);
+            CloudRuntimeCollection.CreateCloudRuntimeCollection(out runtimes, manifest);
             WriteObject(runtimes.Where<CloudRuntimePackage>(p => string.IsNullOrEmpty(runtimeType) ||
                 p.Runtime == CloudRuntime.GetRuntimeByType(runtimeType)).ToList<CloudRuntimePackage>(), true);
         }

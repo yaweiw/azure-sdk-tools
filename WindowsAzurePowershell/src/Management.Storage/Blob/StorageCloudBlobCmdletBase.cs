@@ -139,7 +139,7 @@ namespace Microsoft.WindowsAzure.Management.Storage
         }
 
         /// <summary>
-        /// Write ICloudBlob to output using speicifed service channel
+        /// Write ICloudBlob to output using specified service channel
         /// </summary>
         /// <param name="blob">The output ICloudBlob object</param>
         /// <param name="channel">IStorageBlobManagement channel object</param>

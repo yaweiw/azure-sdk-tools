@@ -268,7 +268,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total: {0}. Finished: {1}. Active:{2}. Failed: {3}..
+        ///   Looks up a localized string similar to Total: {0}. Successful: {1}. Active: {2}. Failed: {3}..
         /// </summary>
         internal static string CopyBlobSummaryCount {
             get {
@@ -457,7 +457,7 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Percent : {0}%. Speed : {1}/Second..
+        ///   Looks up a localized string similar to Percent : {0}%. Average Speed : {1}/Second..
         /// </summary>
         internal static string FileTransmitStatus {
             get {
@@ -489,6 +489,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string GetAzureStorageContainerCmdletName {
             get {
                 return ResourceManager.GetString("GetAzureStorageContainerCmdletName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fetch Permission for container &apos;{0}&apos; failed. Exception: {1}.
+        /// </summary>
+        internal static string GetContainerPermissionException {
+            get {
+                return ResourceManager.GetString("GetContainerPermissionException", resourceCulture);
             }
         }
         
@@ -957,6 +966,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string SkipDownloadSnapshot {
             get {
                 return ResourceManager.GetString("SkipDownloadSnapshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore mismatch source storage context.. The source uri is {0}, the end point is {1}..
+        /// </summary>
+        internal static string StartCopySourceContextMismatch {
+            get {
+                return ResourceManager.GetString("StartCopySourceContextMismatch", resourceCulture);
             }
         }
         

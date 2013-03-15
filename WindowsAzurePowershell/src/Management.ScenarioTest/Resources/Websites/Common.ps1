@@ -47,6 +47,29 @@ Removes all websites in the current subscription.
 #>
 function Initialize-WebsiteTest
 {
-	foreach ($name in $global:createdWebsites) { Remove-AzureWebsite $name }
-	$global:createdWebsites = @()
+	Get-AzureWebsite | Remove-AzureWebsite -Force
+}
+
+<#
+.SYNOPSIS
+Clones git repo
+#>
+function Clone-GitRepo
+{
+	param([string] $repo, [string] $dir)
+
+	$cloned = $false
+	do
+	{
+		try
+		{
+			git clone $repo $dir
+			$cloned = $true
+		}
+		catch
+		{
+			# Do nothing
+		}
+	}
+	while (!$cloned)
 }

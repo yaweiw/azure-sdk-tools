@@ -64,12 +64,11 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>BlobType</Label>
-            <width>10</width>
+            <width>15</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Length</Label>
-            <width>10</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -276,7 +275,6 @@
           <TableColumnHeader>
             <Label>Length</Label>
             <Alignment>Left</Alignment>
-            <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>ContentType</Label>
