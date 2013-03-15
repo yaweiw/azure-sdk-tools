@@ -665,7 +665,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_v2.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml</value>
   </data>
   <data name="NodeRuntimeValue" xml:space="preserve">
     <value>node</value>
