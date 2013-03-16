@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Store.Cmdlet
+namespace Microsoft.WindowsAzure.Management.Store
 {
     using System.Collections.Generic;
     using System.Management.Automation;
