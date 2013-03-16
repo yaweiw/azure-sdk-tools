@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
     using System.Text;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public static class Data

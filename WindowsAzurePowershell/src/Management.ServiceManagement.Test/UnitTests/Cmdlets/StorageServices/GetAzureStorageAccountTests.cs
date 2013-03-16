@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.StorageServices
 {
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using VisualStudio.TestTools.UnitTesting;

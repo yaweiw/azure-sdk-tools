@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using AzureTools;
     using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using Properties;
 

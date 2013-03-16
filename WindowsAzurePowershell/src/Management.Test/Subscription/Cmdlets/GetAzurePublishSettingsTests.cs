@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using System;
     using Management.Cmdlets;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     [TestClass]

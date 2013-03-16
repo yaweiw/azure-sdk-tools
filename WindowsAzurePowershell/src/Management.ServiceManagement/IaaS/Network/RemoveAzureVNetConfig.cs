@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Xml;
     using System.Xml.Linq;
     using Cmdlets.Common;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]

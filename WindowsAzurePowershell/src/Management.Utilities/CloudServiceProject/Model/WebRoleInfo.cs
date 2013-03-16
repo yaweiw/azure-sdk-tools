@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System.Linq;
-    using ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
 
     /// <summary>
     /// RoleInfo implementation for WebRole

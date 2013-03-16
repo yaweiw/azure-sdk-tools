@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Collections;
     using System.Linq;
     using System.Management.Automation;
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using WindowsAzure.ServiceManagement;
     using ServiceManagement.Certificates;

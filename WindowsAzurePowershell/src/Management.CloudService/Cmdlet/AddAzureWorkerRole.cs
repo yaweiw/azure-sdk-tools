@@ -17,11 +17,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
     /// Create scaffolding for a new worker role, change cscfg file and csdef to include the added worker role

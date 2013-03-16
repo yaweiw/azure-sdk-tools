@@ -14,8 +14,8 @@
 
 
 using System.Threading;
-using Microsoft.WindowsAzure.Management.Extensions;
-using Microsoft.WindowsAzure.Management.Model;
+using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.ServiceModel.Web;
     using System.Xml;
     using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Service.Gateway;
 

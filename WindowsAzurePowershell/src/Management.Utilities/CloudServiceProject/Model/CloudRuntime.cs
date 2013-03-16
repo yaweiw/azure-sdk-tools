@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Linq;
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public abstract class CloudRuntime
     {

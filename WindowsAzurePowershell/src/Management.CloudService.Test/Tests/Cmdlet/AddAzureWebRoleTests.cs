@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;

@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.Certificates
 {
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;

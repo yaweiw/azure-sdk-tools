@@ -18,13 +18,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Linq;
     using CloudService.Model;
     using Cmdlet;
-    using Extensions;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Node.Cmdlet;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Basic unit tests for the Enable-Enable-AzureServiceProjectRemoteDesktop command.
@@ -53,11 +54,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
         private static void VerifyDisableRoleSettings(AzureService service)
         {
-            IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
+            IEnumerable<RoleSettings> settings =
                 Enumerable.Concat(
                     service.Components.CloudConfig.Role,
                     service.Components.LocalConfig.Role);
-            foreach (ServiceConfigurationSchema.RoleSettings roleSettings in settings)
+            foreach (RoleSettings roleSettings in settings)
             {
                 Assert.AreEqual(
                     1,

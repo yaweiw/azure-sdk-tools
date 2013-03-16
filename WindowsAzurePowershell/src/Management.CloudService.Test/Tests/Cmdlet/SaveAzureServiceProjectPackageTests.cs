@@ -20,8 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Security;
     using CloudService.Model;
     using Cmdlet;
-    using Extensions;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Node.Cmdlet;
@@ -31,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.IO;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.

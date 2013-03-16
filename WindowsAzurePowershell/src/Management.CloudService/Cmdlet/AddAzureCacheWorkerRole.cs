@@ -23,12 +23,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Model;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
     using Utilities;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Adds dedicated caching node worker role.

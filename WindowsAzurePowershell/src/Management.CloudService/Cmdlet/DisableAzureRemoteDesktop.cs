@@ -20,9 +20,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Model;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
+    using ConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to
@@ -90,12 +91,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             foreach (ServiceConfiguration config in new[] { service.Components.LocalConfig, service.Components.CloudConfig })
             {
-                foreach (ServiceConfigurationSchema.RoleSettings role in config.Role)
+                foreach (RoleSettings role in config.Role)
                 {
                     if (role.ConfigurationSettings != null)
                     {
-                        ServiceConfigurationSchema.ConfigurationSetting setting = role.ConfigurationSettings.
-                            FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals(
+                        ConfigurationSetting setting = role.ConfigurationSettings.
+                            FirstOrDefault<ConfigurationSetting>(t => t.name.Equals(
                                 "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled"));
                         if (setting != null)
                         {
@@ -104,8 +105,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
                         if (role.name == forwarderName)
                         {
-                            ServiceConfigurationSchema.ConfigurationSetting forwarderSetting = role.ConfigurationSettings.
-                                FirstOrDefault<ServiceConfigurationSchema.ConfigurationSetting>(t => t.name.Equals(
+                            ConfigurationSetting forwarderSetting = role.ConfigurationSettings.
+                                FirstOrDefault<ConfigurationSetting>(t => t.name.Equals(
                                     "Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled"));
                             if (forwarderSetting != null)
                             {

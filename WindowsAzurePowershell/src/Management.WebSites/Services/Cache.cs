@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.IO;
     using System.Linq;
     using System.Web.Script.Serialization;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WebEntities;
 
     public static class Cache

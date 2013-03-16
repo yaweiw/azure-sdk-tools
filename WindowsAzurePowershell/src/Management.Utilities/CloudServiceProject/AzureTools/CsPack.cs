@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
     using System.IO;
     using System.Linq;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Utilities;
 
     /// <summary>

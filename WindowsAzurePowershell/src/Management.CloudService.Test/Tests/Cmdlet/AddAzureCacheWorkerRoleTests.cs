@@ -20,18 +20,18 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using CloudService.Cmdlet;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     [TestClass]
     public class AddAzureCacheWorkerRoleTests : TestBase

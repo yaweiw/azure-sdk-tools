@@ -15,8 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Model
 {
     using System;
-    using Management.Services;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class DeploymentSettings

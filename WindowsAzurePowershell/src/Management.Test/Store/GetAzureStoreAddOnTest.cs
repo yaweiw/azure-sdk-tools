@@ -18,11 +18,12 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Store.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Store.Model;
-    using Microsoft.WindowsAzure.Management.Store.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
@@ -43,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
             mockCommandRuntime = new Mock<ICommandRuntime>();
             mockStoreClient = new Mock<StoreClient>();

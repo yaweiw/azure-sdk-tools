@@ -25,9 +25,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Class that encapsulates all of the info about a service, to which we can add roles.  This is all in memory, so no disk operations occur.

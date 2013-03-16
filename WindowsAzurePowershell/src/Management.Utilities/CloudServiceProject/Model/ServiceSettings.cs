@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Linq;
     using System.Text;
     using System.Web.Script.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Utilities;
 

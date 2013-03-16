@@ -14,8 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
 {
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using VisualStudio.TestTools.UnitTesting;
 
     internal static class AzureAssert

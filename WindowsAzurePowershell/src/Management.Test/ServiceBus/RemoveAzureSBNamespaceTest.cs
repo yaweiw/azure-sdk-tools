@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -29,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
         }
 

@@ -19,10 +19,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using Cmdlets.Common;
-    using Extensions;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using System.Security.Permissions;
     using WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Upload a service certificate for the specified hosted service.

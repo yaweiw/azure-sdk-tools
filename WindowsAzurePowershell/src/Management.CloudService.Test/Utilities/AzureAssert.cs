@@ -18,13 +18,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using System.IO;
     using CloudService.Model;
     using CloudService.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Scaffolding;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
-    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 
     internal static class AzureAssert
     {
@@ -193,14 +193,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
         /// </summary>
         /// <param name="actual">Service definition to be checked</param>
         /// <param name="serviceName">New created service name</param>
-        public static void IsValidServiceDefinition(ServiceDefinitionSchema.ServiceDefinition actual, string serviceName)
+        public static void IsValidServiceDefinition(ServiceDefinition actual, string serviceName)
         {
             Assert.AreEqual<string>(serviceName, actual.name);
             Assert.IsNull(actual.WebRole);
             Assert.IsNull(actual.WorkerRole);
         }
 
-        public static void AreEqualServiceDefinition(ServiceDefinitionSchema.ServiceDefinition expected, ServiceDefinitionSchema.ServiceDefinition actual)
+        public static void AreEqualServiceDefinition(ServiceDefinition expected, ServiceDefinition actual)
         {
             throw new NotImplementedException();
         }

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Stubs
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class InMemorySessionManager : ISessionManager
     {

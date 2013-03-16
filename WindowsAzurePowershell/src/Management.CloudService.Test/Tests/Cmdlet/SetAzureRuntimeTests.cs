@@ -19,11 +19,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     [TestClass]
     public class SetAzureRuntimeTests : TestBase

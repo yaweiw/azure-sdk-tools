@@ -16,10 +16,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet
 {
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
     /// Create scaffolding for a new node web role, change cscfg file and csdef to include the added web role
