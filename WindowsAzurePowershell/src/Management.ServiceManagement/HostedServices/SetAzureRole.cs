@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 try
                 {
                     XNamespace ns = "http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration";
-                    var configuration = XDocument.Parse(ServiceManagementHelper.DecodeFromBase64String(currentDeployment.Configuration));
+                    var configuration = XDocument.Parse(currentDeployment.Configuration);
                     var role = configuration.Root.Elements(ns + "Role").SingleOrDefault(p => string.Compare(p.Attribute("name").Value, this.RoleName, true) == 0);
 
                     if (role != null)
@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         var updatedConfiguration = new ChangeConfigurationInput
                         {
-                            Configuration = ServiceManagementHelper.EncodeToBase64String(configuration.ToString())
+                            Configuration = configuration.ToString()
                         };
 
                         ExecuteClientAction(configuration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, updatedConfiguration), WaitForOperation);

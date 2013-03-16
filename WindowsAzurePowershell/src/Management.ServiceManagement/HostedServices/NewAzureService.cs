@@ -83,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             var createHostedServiceInput = new CreateHostedServiceInput
             {
                 ServiceName = this.ServiceName,
-                Label = ServiceManagementHelper.EncodeToBase64String(string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label),
+                Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location
