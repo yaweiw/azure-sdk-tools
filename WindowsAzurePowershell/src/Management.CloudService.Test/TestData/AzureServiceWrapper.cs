@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
     using System.IO;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
 
     class AzureServiceWrapper : AzureService
     {

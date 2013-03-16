@@ -20,13 +20,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security;
     using System.Security.Permissions;
-    using AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
-            AddAzureCacheWorkerRoleProcess(Name, Instances, CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
+            AddAzureCacheWorkerRoleProcess(Name, Instances, General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -117,12 +117,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             RoleSettings cacheRoleSettings = azureService.Components.GetCloudConfigRole(cacheRoleInfo.Name);
 
             // Add caching module to the role imports
-            cacheWorkerRole.Imports = CloudServiceUtilities.ExtendArray<Import>(cacheWorkerRole.Imports, new Import { moduleName = Resources.CachingModuleName });
+            cacheWorkerRole.Imports = General.ExtendArray<Import>(cacheWorkerRole.Imports, new Import { moduleName = Resources.CachingModuleName });
 
             // Enable caching Diagnostic store.
             LocalStore diagnosticStore = new LocalStore { name = Resources.CacheDiagnosticStoreName, cleanOnRoleRecycle = false };
-            cacheWorkerRole.LocalResources = CloudServiceUtilities.InitializeIfNull<LocalResources>(cacheWorkerRole.LocalResources);
-            cacheWorkerRole.LocalResources.LocalStorage = CloudServiceUtilities.ExtendArray<LocalStore>(cacheWorkerRole.LocalResources.LocalStorage, diagnosticStore);
+            cacheWorkerRole.LocalResources = General.InitializeIfNull<LocalResources>(cacheWorkerRole.LocalResources);
+            cacheWorkerRole.LocalResources.LocalStorage = General.ExtendArray<LocalStore>(cacheWorkerRole.LocalResources.LocalStorage, diagnosticStore);
 
             // Remove input endpoints.
             cacheWorkerRole.Endpoints.InputEndpoint = null;
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.DiagnosticLevelName, value = Resources.DiagnosticLevelValue });
             cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingCacheSizePercentageSettingName, value = string.Empty });
             cachingConfigSettings.Add(new ConfigConfigurationSetting { name = Resources.CachingConfigStoreConnectionStringSettingName, value = connectionString });
-            cacheRoleSettings.ConfigurationSettings = CloudServiceUtilities.ExtendArray<ConfigConfigurationSetting>(cacheRoleSettings.ConfigurationSettings, cachingConfigSettings);
+            cacheRoleSettings.ConfigurationSettings = General.ExtendArray<ConfigConfigurationSetting>(cacheRoleSettings.ConfigurationSettings, cachingConfigSettings);
         }
     }
 }

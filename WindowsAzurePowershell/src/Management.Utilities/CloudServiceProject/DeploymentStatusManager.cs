@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System.Linq;
     using System.Management.Automation;
@@ -151,8 +151,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         public override void ExecuteCmdlet()
         {
             string serviceName;
-            string rootPath = CloudServiceUtilities.TryGetServiceRootPath(CurrentPath());
-            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
+            string rootPath = General.TryGetServiceRootPath(CurrentPath());
+            ServiceSettings settings = General.GetDefaultSettings(
                 rootPath,
                 ServiceName,
                 Slot,

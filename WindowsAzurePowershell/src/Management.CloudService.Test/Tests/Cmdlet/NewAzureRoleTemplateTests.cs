@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using System.Reflection;
     using CloudService.Cmdlet;
     using CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

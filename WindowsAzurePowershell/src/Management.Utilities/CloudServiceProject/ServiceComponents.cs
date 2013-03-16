@@ -12,13 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
@@ -53,9 +52,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
                 File.WriteAllText(paths.Settings, Resources.SettingsFileEmptyContent);
             }
 
-            Definition = CloudServiceUtilities.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
-            CloudConfig = CloudServiceUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
-            LocalConfig = CloudServiceUtilities.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
+            Definition = General.DeserializeXmlFile<ServiceDefinition>(paths.Definition);
+            CloudConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.CloudConfiguration);
+            LocalConfig = General.DeserializeXmlFile<ServiceConfiguration>(paths.LocalConfiguration);
             Settings = ServiceSettings.Load(paths.Settings);
         }
 
@@ -64,9 +63,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             // Validate directory exists and it's valid
             if (paths == null) throw new ArgumentNullException("paths");
 
-            CloudServiceUtilities.SerializeXmlFile<ServiceDefinition>(Definition, paths.Definition);
-            CloudServiceUtilities.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
-            CloudServiceUtilities.SerializeXmlFile<ServiceConfiguration>(LocalConfig, paths.LocalConfiguration);
+            General.SerializeXmlFile<ServiceDefinition>(Definition, paths.Definition);
+            General.SerializeXmlFile<ServiceConfiguration>(CloudConfig, paths.CloudConfiguration);
+            General.SerializeXmlFile<ServiceConfiguration>(LocalConfig, paths.LocalConfiguration);
             Settings.Save(paths.Settings);
         }
 

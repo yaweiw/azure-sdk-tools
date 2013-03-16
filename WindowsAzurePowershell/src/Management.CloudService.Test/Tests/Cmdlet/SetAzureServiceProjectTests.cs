@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System;
     using System.Collections.Generic;
     using CloudService.Cmdlet;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

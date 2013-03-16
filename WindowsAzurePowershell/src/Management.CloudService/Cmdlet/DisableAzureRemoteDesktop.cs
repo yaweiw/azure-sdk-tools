@@ -17,12 +17,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using AzureTools;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using ConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public void DisableRemoteDesktop()
         {
-            AzureService service = new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null);
+            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 

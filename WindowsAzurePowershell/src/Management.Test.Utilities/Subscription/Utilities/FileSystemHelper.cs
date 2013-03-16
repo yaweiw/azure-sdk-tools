@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Stubs
     using System.Diagnostics;
     using System.IO;
     using Cmdlets;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using TestData;

@@ -12,32 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Services
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
-    using System;
-    using System.Runtime.Serialization;
+    using ServiceManagement;
 
-    [Serializable]
-    public class InnerDataServiceException : Exception
+    internal interface IPublishListener
     {
-        public InnerDataServiceException()
-            : base()
-        {
-        }
-
-        public InnerDataServiceException(string message)
-            : base(message)
-        {
-        }
-
-        public InnerDataServiceException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
-
-        protected InnerDataServiceException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+        void OnPublish(IServiceManagement channel, AzureService service, ServiceSettings publishSettings, string subscriptionId);
     }
 }

@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Configure the number of instances or installed runtimes for a web/worker role. Updates the cscfg with the number of instances
@@ -135,8 +135,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void  ExecuteCmdlet()
         {
-            string rootPath = CloudServiceUtilities.GetServiceRootPath(CurrentPath());
-            RoleName = string.IsNullOrEmpty(RoleName) ? CloudServiceUtilities.GetRoleName(rootPath, CurrentPath()) : RoleName;
+            string rootPath = General.GetServiceRootPath(CurrentPath());
+            RoleName = string.IsNullOrEmpty(RoleName) ? General.GetRoleName(rootPath, CurrentPath()) : RoleName;
 
             if (string.Equals(this.ParameterSetName, InstancesParameterSet, StringComparison.OrdinalIgnoreCase))
             {
