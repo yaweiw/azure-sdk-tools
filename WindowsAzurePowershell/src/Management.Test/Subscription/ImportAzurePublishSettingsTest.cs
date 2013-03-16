@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System;
     using System.IO;
     using System.Linq;
-    using Management.Cmdlets;
+    using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;

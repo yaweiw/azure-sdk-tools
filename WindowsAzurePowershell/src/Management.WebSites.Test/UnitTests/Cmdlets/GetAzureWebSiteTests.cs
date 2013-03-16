@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Cmdlets;
+    using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites.Properties;
     using Utilities;

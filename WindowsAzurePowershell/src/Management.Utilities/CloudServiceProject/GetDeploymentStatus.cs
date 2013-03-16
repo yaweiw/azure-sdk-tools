@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
     using System.Management.Automation;
     using System.ServiceModel;
     using Utilities;
-    using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

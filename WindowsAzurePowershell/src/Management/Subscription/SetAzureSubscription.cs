@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System;
     using System.IO;

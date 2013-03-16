@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
-    using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Properties;

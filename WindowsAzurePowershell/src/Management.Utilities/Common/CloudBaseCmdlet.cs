@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
+namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Globalization;
