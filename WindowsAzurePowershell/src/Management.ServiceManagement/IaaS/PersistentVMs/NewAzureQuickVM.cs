@@ -257,6 +257,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 WindowsProvisioningConfigurationSet windowsConfig = new WindowsProvisioningConfigurationSet
                 {
+                    AdminUsername = "PSAdmin",
                     AdminPassword = Password,
                     ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
