@@ -193,6 +193,7 @@ function Test-StartAzureServiceWithProductionDeployment
 	New-CloudService 1
 	$name = $global:createdCloudServices[0]
 	Stop-AzureService $name
+	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
 
 	# Test
 	$started = Start-AzureService $name -PassThru
@@ -370,10 +371,10 @@ function Test-StopAzureServiceWithEmptyDeployment
 	New-AzureService $name -Location $(Get-DefaultLocation)
 
 	# Test
-	$Stoped = Stop-AzureService $name -Slot Staging -PassThru
+	$Stopped = Stop-AzureService $name -Slot Staging -PassThru
 
 	# Assert
-	Assert-False { $Stoped }
+	Assert-False { $Stopped }
 }
 
 <#
@@ -388,10 +389,10 @@ function Test-StopAzureServiceWithProductionDeployment
 	Start-AzureService $name
 
 	# Test
-	$Stoped = Stop-AzureService $name -PassThru
+	$Stopped = Stop-AzureService $name -PassThru
 
 	# Assert
-	Assert-True { $Stoped }
+	Assert-True { $Stopped }
 }
 
 <#
@@ -406,8 +407,8 @@ function Test-StopAzureServiceWithStagingDeployment
 	Start-AzureService $name -Slot "Staging"
 
 	# Test
-	$Stoped = Stop-AzureService $name -PassThru -Slot "Staging"
+	$Stopped = Stop-AzureService $name -PassThru -Slot "Staging"
 
 	# Assert
-	Assert-True { $Stoped }
+	Assert-True { $Stopped }
 }
