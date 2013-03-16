@@ -46,7 +46,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
             var subscriptions = cmdletStub.GetSubscriptions(null);
 
             // All subscriptions from both the publish settings file and the subscriptions file were imported
-            Assert.AreEqual(3, subscriptions.Count);
+            Assert.AreEqual(6, subscriptions.Count);
 
             // There's a single default subscription
             Assert.AreEqual("Windows Azure Sandbox 9-220", subscriptions.Values.Single(subscription => subscription.IsDefault).SubscriptionName);

@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             var getSubscriptionCommand = new GetSubscriptionCommandStub();
             getSubscriptionCommand.GetSubscriptionProcess("ByName", null, null);
 
-            Assert.AreEqual(3, getSubscriptionCommand.Messages.Count);
+            Assert.AreEqual(6, getSubscriptionCommand.Messages.Count);
 
             // Test the get for a specific susbcription
             getSubscriptionCommand = new GetSubscriptionCommandStub();

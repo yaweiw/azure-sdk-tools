@@ -44,7 +44,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         public static StorageServiceList ValidStorageService { get; private set; }
 
         public static List<string> InvalidSubscriptionsData { get; private set; }
-        public static List<string> InvalidServiceRootNames { get; private set; }
         public static List<string> InvalidLocations { get; private set; }
         public static List<string> InvalidSlots { get; private set; }
         public static List<string> InvalidPublishSettings { get; private set; }
@@ -106,6 +105,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             ValidStorageService = new StorageServiceList();
             InitializeValidStorageServiceData();
 
+            InvalidServiceRootName = new List<string>();
+            InitializeInvalidServiceRootNameData();
+
             InvalidPublishSettings = new List<string>();
             InitializeInvalidPublishSettingsData();
 
@@ -117,9 +119,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
             InvalidServiceNames = new List<string>();
             InitializeInvalidServiceNameData();
-
-            InvalidRoleNames = new List<string>();
-            InitializeInvalidRoleNameData();
 
             InvalidRoleInstances = new List<int>();
             InitializeInvalidRoleInstancesData();
@@ -133,8 +132,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
             InvalidSubscriptionsData = new List<string>();
             InitializeInvalidSubscriptionsData();
 
-            InvalidServiceRootName = new List<string>();
-            InitializeInvalidServiceRootNameData();
+            InvalidRoleNames = new List<string>();
+            InitializeInvalidRoleNameData();
         }
 
         private static void InitializeValidStorageServiceData()
@@ -172,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         private static void InitializeInvalidPathData()
         {
-            foreach (string invalidFolderName in InvalidServiceRootNames)
+            foreach (string invalidFolderName in InvalidServiceRootName)
             {
                 InvalidPaths.Add(string.Format("{0}\\{1}", Directory.GetCurrentDirectory(), invalidFolderName));
             }
@@ -218,7 +217,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         private static void InitializeInvalidRoleNameData()
         {
-            InvalidRoleNames.AddRange(InvalidServiceRootNames);
+            InvalidRoleNames.AddRange(InvalidServiceRootName);
         }
 
         private static void InitializeValidRoleNameData()
@@ -272,14 +271,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// </summary>
         private static void InitializeInvalidServiceRootNameData()
         {
-            char[] invalidPathNameChars = System.IO.Path.GetInvalidPathChars();
+            char[] invalidPathNameChars = Path.GetInvalidPathChars();
 
             for (int i = 0, j = 0; i < invalidPathNameChars.Length; i++)
 			{
                 StringBuilder invalidPath = new StringBuilder(ValidServiceRootNames[j]);
                 invalidPath[invalidPath.Length / 2] = invalidPathNameChars[i];
                 j %= ValidServiceRootNames.Count;
-                InvalidServiceRootNames.Add(invalidPath.ToString());
+                InvalidServiceRootName.Add(invalidPath.ToString());
 			}
         }
 
@@ -298,10 +297,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         private static void InitializeValidSubscriptionNameData()
         {
-            ValidSubscriptionName.Add("Windows Azure Sandbox 9-220");
-            ValidSubscriptionName.Add("_MySubscription");
-            ValidSubscriptionName.Add("This is my subscription");
-            ValidSubscriptionName.Add("Windows Azure Sandbox 284-1232");
+            ValidSubscriptionName.Add("mysub1");
+            ValidSubscriptionName.Add("mysub2");
+            ValidSubscriptionName.Add(Data.Subscription1);
+            ValidSubscriptionName.Add(Data.SampleSubscription1);
+            ValidSubscriptionName.Add("TestSubscription1");
+            ValidSubscriptionName.Add("TestSubscription2");
         }
 
         private static void InitializeValidServiceNameData()
