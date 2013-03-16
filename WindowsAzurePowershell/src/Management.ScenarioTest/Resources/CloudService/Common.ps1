@@ -83,13 +83,13 @@ function PublishAndUpdate-CloudService
         Invoke-Command -ScriptBlock $cloudServiceProject -ArgumentList $name;
         $service = Publish-AzureServiceProject -Force;
         $global:createdCloudServices += $name;
-        $worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
+        $worked = Retry-Function $verifier $service 3 30
         Assert-True {$worked -eq $true} "Error verifying first application deployment"
         if ($updater -ne $null)
         {
 		    Invoke-Command -ScriptBlock $updater
 		    $service = Publish-AzureServiceProject -Force;
-		    $worked = Invoke-Command -ScriptBlock $verifier -ArgumentList $service
+		    $worked = Retry-Function $verifier $service 3 30
 		    Assert-True {$worked -eq $true} "Error verifying application update"
         }
     }
@@ -132,10 +132,31 @@ function New-CacheCloudServiceProject
     Add-AzureNodeWebRole ClientRole
     copy ..\CloudService\Cache\*.js .\ClientRole\
     cd .\ClientRole
-    Start-Process npm "install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz" -WAIT
+    Npm-Install "install ..\..\CloudService\Cache\mc.tgz ..\..\CloudService\Cache\connman.tgz";
     cd ..
     Add-AzureCacheWorkerRole CacheRole
     Enable-AzureMemcacheRole ClientRole CacheRole
+}
+
+<#
+.SYNOPSIS
+Runs npm and verifies the results.
+
+.PARAMETER command
+The npm command to run
+#>
+
+function Npm-Install
+{
+    param([string] $command)
+
+	$scriptBlock = {
+	    $toss = Start-Process npm $command -WAIT; 
+	    $modules = Get-Item * | Where-Object Name node_modules -EQ;
+		return $modules -ne $null;
+	}
+    
+    Retry-Function $scriptBlock $null 3 30
 }
 
 <#
