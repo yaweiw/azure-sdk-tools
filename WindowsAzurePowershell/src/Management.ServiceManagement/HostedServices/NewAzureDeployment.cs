@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Management.Automation;
     using Helpers;
     using Cmdlets.Common;
-    using Management.Model;
     using WindowsAzure.ServiceManagement;
     using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

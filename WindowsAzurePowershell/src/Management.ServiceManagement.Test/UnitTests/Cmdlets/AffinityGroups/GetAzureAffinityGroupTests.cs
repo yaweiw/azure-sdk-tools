@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;

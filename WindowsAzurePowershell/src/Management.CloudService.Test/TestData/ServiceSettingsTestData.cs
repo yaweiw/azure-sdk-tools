@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 {
     using System.Collections.Generic;
     using CloudService.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     class ServiceSettingsTestData
     {

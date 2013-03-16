@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
     using CloudService.Test;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Services;
     using SqlDatabase.Server.Cmdlet;
     using VisualStudio.TestTools.UnitTesting;
@@ -30,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]

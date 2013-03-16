@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
 
     [TestClass]
     public class TestAzureNameTests : TestBase
@@ -38,7 +39,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             serviceBusChannel = new SimpleServiceBusManagement();
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new TestAzureNameCommand(channel, serviceBusChannel) { CommandRuntime = mockCommandRuntime };
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
         }
 
         [TestMethod]

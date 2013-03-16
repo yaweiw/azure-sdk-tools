@@ -3,8 +3,8 @@
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Extensions;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Stubs;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;

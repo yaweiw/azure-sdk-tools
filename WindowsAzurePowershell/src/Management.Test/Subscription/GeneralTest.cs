@@ -19,12 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using Management.Cmdlets;
-    using Management.Extensions;
-    using Management.Services;
     using Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
-    using XmlSchema;
 
     [TestClass]
     public class GeneralTests

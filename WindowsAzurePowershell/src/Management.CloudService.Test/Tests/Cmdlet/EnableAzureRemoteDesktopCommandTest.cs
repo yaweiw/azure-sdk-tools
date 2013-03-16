@@ -20,8 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Security;
     using CloudService.Model;
     using Cmdlet;
-    using Extensions;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
     using Node.Cmdlet;
     using TestData;
@@ -29,6 +28,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
     using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.
@@ -93,13 +95,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             enableRDCmdlet.EnableRemoteDesktop();
         }
 
-        public static void VerifyWebRole(ServiceDefinitionSchema.WebRole role, bool isForwarder)
+        public static void VerifyWebRole(WebRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
         }
 
-        public static void VerifyWorkerRole(ServiceDefinitionSchema.WorkerRole role, bool isForwarder)
+        public static void VerifyWorkerRole(WorkerRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
@@ -107,11 +109,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
         public static void VerifyRoleSettings(AzureService service)
         {
-            IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
+            IEnumerable<RoleSettings> settings =
                 Enumerable.Concat(
                     service.Components.CloudConfig.Role,
                     service.Components.LocalConfig.Role);
-            foreach (ServiceConfigurationSchema.RoleSettings roleSettings in settings)
+            foreach (RoleSettings roleSettings in settings)
             {
                 Assert.AreEqual(
                     1,

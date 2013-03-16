@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
 {
     using System.Collections.Generic;
     using System.IO;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Services;
     using Websites.Services.WebEntities;

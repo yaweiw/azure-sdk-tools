@@ -16,10 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
     using System;
     using CloudService.Model;
-    using Extensions;
-    using Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;

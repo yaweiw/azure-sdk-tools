@@ -18,15 +18,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
     using System.IO;
     using System.Linq;
     using Management.Cmdlets;
-    using Management.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Management.Services;
     using Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using XmlSchema;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.TestData;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
 
     [TestClass]
     public class GlobalComponentsTests

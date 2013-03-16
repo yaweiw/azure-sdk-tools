@@ -18,11 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Extensions;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
 
     /// <summary>
     /// Removes a previously imported subscription.

@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Extensions
 {
     using System.Management.Automation;
-    using Management.Extensions;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
 
     [TestClass]
     public class CmdletExtensionsTest

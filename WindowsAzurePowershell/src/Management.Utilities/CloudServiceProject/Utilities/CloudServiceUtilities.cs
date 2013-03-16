@@ -24,9 +24,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Utilities
     using System.Security.Permissions;
     using System.Xml.Serialization;
     using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using RoleSettings = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.RoleSettings;
 
     internal static class CloudServiceUtilities
     {

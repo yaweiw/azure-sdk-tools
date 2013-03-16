@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using System.Security.Permissions;
     using Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Properties;
 
     /// <summary>

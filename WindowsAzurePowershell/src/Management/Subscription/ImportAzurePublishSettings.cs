@@ -19,11 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Services;
 
     /// <summary>
     /// Imports publish profiles.

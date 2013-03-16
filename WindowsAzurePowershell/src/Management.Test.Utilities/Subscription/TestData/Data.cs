@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Test.TestData
     using System.IO;
     using System.Linq;
     using System.Text;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Tests.Utilities;
-    using WindowsAzure.Management.Utilities.Properties;
 
     public static class Data
     {

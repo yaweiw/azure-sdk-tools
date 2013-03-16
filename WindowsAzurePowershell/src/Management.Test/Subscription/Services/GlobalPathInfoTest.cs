@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
 {
     using System.IO;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Management.Services;
     using TestData;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;

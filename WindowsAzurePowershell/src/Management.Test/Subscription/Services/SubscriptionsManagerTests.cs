@@ -4,12 +4,11 @@
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Management.Services;
     using Management.Utilities;
-    using Model;
     using TestData;
     using VisualStudio.TestTools.UnitTesting;
-    using XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
 
     [TestClass]
     public class SubscriptionsManagerTests

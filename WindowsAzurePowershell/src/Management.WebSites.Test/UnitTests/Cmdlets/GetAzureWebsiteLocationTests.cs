@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Management.Services;
     using Management.Test.Stubs;
     using Management.Test.Tests.Utilities;
     using Utilities;
