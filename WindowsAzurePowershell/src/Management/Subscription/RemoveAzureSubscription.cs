@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
 
     /// <summary>
     /// Removes a previously imported subscription.

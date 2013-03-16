@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using Model;
     using Properties;
     using Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database server in the selected subscription.

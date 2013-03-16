@@ -12,24 +12,29 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Services
+namespace Microsoft.WindowsAzure.Management.Test.Common
 {
-    using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Utilities;
+    using System.Management.Automation;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
-    public class GlobalPathInfoTest
+    public class CmdletExtensionsTest
     {
         [TestMethod]
-        public void GlobalPathInfoTests()
+        public void ResolvePathTest()
         {
-            GlobalPathInfo pathInfo = new GlobalPathInfo(Data.AzureAppDir);
-            string azureSdkPath = Data.AzureAppDir;
-            AzureAssert.AreEqualGlobalPathInfo(azureSdkPath, Path.Combine(azureSdkPath, Resources.PublishSettingsFileName), pathInfo);
+            StubCmdlet stubCmdlet = new StubCmdlet();
+
+            // Null path
+            Assert.AreEqual(null, stubCmdlet.ResolvePath(null));
+
+            // No session state
+            Assert.AreEqual(".\\", stubCmdlet.ResolvePath(".\\"));
         }
+    }
+
+    internal class StubCmdlet : PSCmdlet
+    {
     }
 }

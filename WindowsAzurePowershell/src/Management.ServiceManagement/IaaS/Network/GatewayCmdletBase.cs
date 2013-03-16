@@ -12,11 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using System.Threading;
-using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
-using Microsoft.WindowsAzure.Management.Utilities.Common;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
@@ -28,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
+    using System.Threading;
     using System.Xml;
     using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

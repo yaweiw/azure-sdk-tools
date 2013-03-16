@@ -28,7 +28,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
