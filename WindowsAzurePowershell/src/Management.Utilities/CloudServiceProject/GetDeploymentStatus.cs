@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Net;
@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.
@@ -73,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
         private void InitializeArguments(string rootPath, string inServiceName, string inSlot, string subscription, out string serviceName, out string slot)
         {
-            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
+            ServiceSettings settings = General.GetDefaultSettings(
                 rootPath,
                 inServiceName,
                 inSlot,
@@ -113,7 +114,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
             try
             {
                 base.ProcessRecord();
-                string result = this.GetDeploymentStatusProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
+                string result = this.GetDeploymentStatusProcess(General.TryGetServiceRootPath(CurrentPath()), ServiceName, Slot, Subscription);
                 WriteObject(result);
             }
             catch (Exception ex)

@@ -25,14 +25,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using System.Threading;
-    using AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Properties;
     using Utilities;
     using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            PublishService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
+            PublishService(General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>

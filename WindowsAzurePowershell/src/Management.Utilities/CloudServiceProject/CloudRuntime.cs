@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

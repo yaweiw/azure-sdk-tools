@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Diagnostics;
@@ -313,7 +313,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
 
             // If none of previous succeed, get random location from "North Central US" or "South Central US"
             //
-            int randomLocation = CloudServiceUtilities.GetRandomFromTwo((int)LocationName.WestUS, (int)LocationName.EastUS);
+            int randomLocation = General.GetRandomFromTwo((int)LocationName.WestUS, (int)LocationName.EastUS);
             return ArgumentConstants.Locations[(LocationName)randomLocation];
         }
 

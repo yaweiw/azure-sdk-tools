@@ -12,16 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Creates basic scaffolding structure for azure web/worker role.
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            RootPath = RootPath ?? CloudServiceUtilities.GetServiceRootPath(CurrentPath());
+            RootPath = RootPath ?? General.GetServiceRootPath(CurrentPath());
             AzureService service = new AzureService(RootPath, null);
             RoleInfo roleInfo = null;
             

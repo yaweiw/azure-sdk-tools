@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.AzureTools
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools
 {
     using System;
     using System.Diagnostics;

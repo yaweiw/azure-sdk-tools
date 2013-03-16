@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using VisualStudio.TestTools.UnitTesting;

@@ -12,12 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
-    using ServiceManagement;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
-    internal interface IPublishListener
+    public class SetSettings : CmdletBase
     {
-        void OnPublish(IServiceManagement channel, AzureService service, ServiceSettings publishSettings, string subscriptionId);
+        // Uncomment this to enable global set for settings
+        //[Parameter(Position = 1, Mandatory = false)]
+        //[Alias("g")]
+        public SwitchParameter Global { get; set; }
+
+        internal string GetServiceSettingsPath(bool global)
+        {
+            return new AzureService(General.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
+        }
     }
 }

@@ -12,22 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-
-    public class SetSettings : CmdletBase
+    class Parameters
     {
-        // Uncomment this to enable global set for settings
-        //[Parameter(Position = 1, Mandatory = false)]
-        //[Alias("g")]
-        public SwitchParameter Global { get; set; }
+        public const string ServiceName = "ServiceName";
 
-        internal string GetServiceSettingsPath(bool global)
-        {
-            return new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null).Paths.Settings;
-        }
+        public const string RootPath = "RootPath";
+
+        public const string CacheWorkerRoleName = "CacheWorkerRoleName";
+     
+        public const string Instances = "Instances";
+
+        public const string RoleName = "RoleName";
+
+        public const string PackagePath = "PackagePath";
+
+        public const string Path = "Path";
     }
 }

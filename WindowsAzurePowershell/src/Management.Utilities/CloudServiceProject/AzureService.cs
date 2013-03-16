@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Model
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
 {
     using System;
     using System.Collections.Generic;
@@ -22,11 +22,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
     using System.Security.AccessControl;
     using System.Security.Permissions;
     using System.Security.Principal;
-    using Microsoft.WindowsAzure.Management.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
@@ -169,8 +168,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Model
         private void AddRoleCore(string scaffolding, RoleInfo role)
         {
             Dictionary<string, object> parameters = CreateDefaultParameters(role);
-            parameters[ScaffoldParams.NodeModules] = CloudServiceUtilities.GetNodeModulesPath();
-            parameters[ScaffoldParams.NodeJsProgramFilesX86] = CloudServiceUtilities.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
+            parameters[ScaffoldParams.NodeModules] = General.GetNodeModulesPath();
+            parameters[ScaffoldParams.NodeJsProgramFilesX86] = General.GetWithProgramFilesPath(Resources.NodeProgramFilesFolderName, false);
 
             GenerateScaffolding(scaffolding, role.Name, parameters);
         }
