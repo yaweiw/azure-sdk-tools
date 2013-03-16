@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet
+namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
     using System.Management.Automation;
@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus;
 
     /// <summary>
     /// Creates new service bus namespace.

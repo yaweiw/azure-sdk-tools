@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet
+namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System.Collections.Generic;
     using System.Management.Automation;
