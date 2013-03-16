@@ -20,11 +20,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using CloudService.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
 
     [TestClass]
     public class ServiceComponentsTests : TestBase

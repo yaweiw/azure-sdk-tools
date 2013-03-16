@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
     /// <summary>
     /// Role Info for a worker role
     /// </summary>
-    internal class WorkerRoleInfo : RoleInfo
+    public class WorkerRoleInfo : RoleInfo
     {
         public WorkerRoleInfo(string name, int instanceCount = 1) : base(name, instanceCount) { }
 

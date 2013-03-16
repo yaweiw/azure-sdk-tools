@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject
 {
     using System;
-    using Management.Test.Tests.Utilities;
-    using VisualStudio.TestTools.UnitTesting;
+    using System.ServiceModel.Channels;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using ServiceManagement;
+    using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Simple implementation of the IServiceManagement interface that can be
@@ -1986,7 +1987,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
             throw new NotImplementedException();
         }
 
-        public IAsyncResult BeginProcessMessage(System.ServiceModel.Channels.Message request, AsyncCallback callback, object state)
+        public IAsyncResult BeginProcessMessage(Message request, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }

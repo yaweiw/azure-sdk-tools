@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.Server.Cm
     using System.ServiceModel;
     using System.Xml;
     using CloudService.Test;
-    using Management.Test.Stubs;
-    using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Services;
     using SqlDatabase.Server.Cmdlet;

@@ -17,15 +17,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Test.UnitTests.
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
-    using ManagementTesting = WindowsAzure.Management.Test.Tests.Utilities.Testing;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
@@ -112,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Test.UnitTests.
                 GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
                 string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
 
-                ManagementTesting.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
+                Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
             }
         }
     }

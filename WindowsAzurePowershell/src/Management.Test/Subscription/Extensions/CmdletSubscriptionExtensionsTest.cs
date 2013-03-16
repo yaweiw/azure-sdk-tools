@@ -5,8 +5,7 @@
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
-    using Stubs;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

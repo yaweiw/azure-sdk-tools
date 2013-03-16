@@ -22,17 +22,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.CloudService.Node.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using CloudServiceTesting = Microsoft.WindowsAzure.Management.CloudService.Test.Testing;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
-    using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     [TestClass]
@@ -105,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 enableCacheCmdlet.PassThru = true;
                 enableCacheCmdlet.EnableAzureMemcacheRoleProcess(workerRoleName, cacheRoleName, rootPath);
 
-                WorkerRole workerRole = CloudServiceTesting.GetWorkerRole(rootPath, workerRoleName);
+                WorkerRole workerRole = Testing.GetWorkerRole(rootPath, workerRoleName);
 
                 AzureAssert.RuntimeUrlAndIdExists(workerRole.Startup.Task, Resources.CacheRuntimeValue);
 
@@ -127,8 +125,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 AzureAssert.ConfigurationSettingExist(diagnosticLevel, workerRole.ConfigurationSettings);
 
                 ConfigConfigurationSetting clientDiagnosticLevel = new ConfigConfigurationSetting { name = Resources.ClientDiagnosticLevelName, value = Resources.ClientDiagnosticLevelValue };
-                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, CloudServiceTesting.GetCloudRole(rootPath, workerRoleName).ConfigurationSettings);
-                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, CloudServiceTesting.GetLocalRole(rootPath, workerRoleName).ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, Testing.GetCloudRole(rootPath, workerRoleName).ConfigurationSettings);
+                AzureAssert.ConfigurationSettingExist(clientDiagnosticLevel, Testing.GetLocalRole(rootPath, workerRoleName).ConfigurationSettings);
 
                 string workerConfigPath = string.Format(@"{0}\{1}\{2}", rootPath, workerRoleName, "web.config");
                 string workerCloudConfig = File.ReadAllText(workerConfigPath);
@@ -282,8 +280,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
 
         private void AssertCachingEnabled(FileSystemHelper files, string serviceName, string rootPath, string webRoleName, string expectedMessage)
         {
-            WebRole webRole = CloudServiceTesting.GetWebRole(rootPath, webRoleName);
-            RoleSettings roleSettings = CloudServiceTesting.GetCloudRole(rootPath, webRoleName);
+            WebRole webRole = Testing.GetWebRole(rootPath, webRoleName);
+            RoleSettings roleSettings = Testing.GetCloudRole(rootPath, webRoleName);
 
             AzureAssert.RuntimeUrlAndIdExists(webRole.Startup.Task, Resources.CacheRuntimeValue);
 

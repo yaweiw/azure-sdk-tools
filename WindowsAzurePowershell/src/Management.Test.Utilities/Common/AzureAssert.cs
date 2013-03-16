@@ -12,22 +12,44 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System;
     using System.IO;
-    using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 
-    internal static class AzureAssert
+    public static class AzureAssert
     {
+        public static void AreEqualGlobalPathInfo(GlobalPathInfo expected, GlobalPathInfo actual)
+        {
+            AreEqualGlobalPathInfo(expected.AzureDirectory, expected.PublishSettingsFile, actual);
+        }
+
+        public static void AreEqualGlobalPathInfo(string azureSdkPath, string publishSettings, GlobalPathInfo actual)
+        {
+            Assert.AreEqual(publishSettings, actual.PublishSettingsFile);
+            Assert.AreEqual(azureSdkPath, actual.AzureDirectory);
+        }
+
+        public static void AreEqualGlobalComponents(GlobalComponents expected, GlobalComponents actual)
+        {
+            AreEqualGlobalComponents(expected.GlobalPaths, expected.PublishSettings, actual);
+        }
+
+        public static void AreEqualGlobalComponents(GlobalPathInfo paths, PublishData publishSettings, GlobalComponents actual)
+        {
+            AreEqualGlobalPathInfo(paths, actual.GlobalPaths);
+        }
+
         public static void AreEqualServiceSettings(ServiceSettings expected, ServiceSettings actual)
         {
             AreEqualServiceSettings(expected.Location, expected.Slot, expected.StorageAccountName, expected.Subscription, actual);
@@ -233,7 +255,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public static void LocalResourcesLocalStoreExists(LocalStore expected, LocalResources actual)
         {
-            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalStorage, l => l.name.Equals(expected.name) && 
+            Assert.IsTrue(Array.Exists<LocalStore>(actual.LocalStorage, l => l.name.Equals(expected.name) &&
                 l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
         }
 
@@ -268,7 +290,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
 
         public static void InternalEndpointExists(InternalEndpoint[] internalEndpoints, InternalEndpoint internalEndpoint)
         {
-            Assert.IsTrue(Array.Exists<InternalEndpoint>(internalEndpoints, i => i.name == internalEndpoint.name && 
+            Assert.IsTrue(Array.Exists<InternalEndpoint>(internalEndpoints, i => i.name == internalEndpoint.name &&
                 i.port == internalEndpoint.port && i.protocol == internalEndpoint.protocol));
         }
     }

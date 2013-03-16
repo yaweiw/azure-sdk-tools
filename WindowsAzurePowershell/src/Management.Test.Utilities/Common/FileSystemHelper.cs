@@ -12,16 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Stubs
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System;
     using System.Diagnostics;
     using System.IO;
     using Cmdlets;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using TestData;
 
     /// <summary>
     /// Utility used to create files and directories and clean them up when

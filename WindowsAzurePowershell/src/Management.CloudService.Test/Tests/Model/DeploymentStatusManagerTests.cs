@@ -19,13 +19,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
-    using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using ServiceManagement;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
 
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase
@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 deploymentManager.ShareChannel = true;
                 deploymentManager.CommandRuntime = new MockCommandRuntime();
                 deploymentManager.PassThru = true;
-                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
 
                 Assert.IsTrue(statusUpdated);
                 Deployment actual = ((MockCommandRuntime)deploymentManager.CommandRuntime).OutputPipeline[0] as Deployment;
@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
                 deploymentManager.CommandRuntime = new MockCommandRuntime();
-                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
                 resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).WarningStream[0];
 
                 Assert.IsFalse(statusUpdated);
@@ -126,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
                 deploymentManager.CommandRuntime = new MockCommandRuntime();
-                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
                 resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).WarningStream[0];
 
                 Assert.IsFalse(statusUpdated);
@@ -156,7 +156,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 var deploymentManager = new DeploymentStatusManager(channel);
                 deploymentManager.ShareChannel = true;
                 deploymentManager.CommandRuntime = new MockCommandRuntime();
-                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionNames[0], serviceName);
+                deploymentManager.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
                 resultMessage = ((MockCommandRuntime)deploymentManager.CommandRuntime).WarningStream[0];
 
                 Assert.IsFalse(statusUpdated);

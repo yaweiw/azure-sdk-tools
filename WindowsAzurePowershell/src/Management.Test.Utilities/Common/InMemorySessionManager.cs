@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Stubs
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System.Collections.Generic;
     using System.Management.Automation;

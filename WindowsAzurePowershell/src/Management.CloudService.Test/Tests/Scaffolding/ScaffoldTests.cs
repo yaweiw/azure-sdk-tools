@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Scaffolding
 {
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Properties;
 
     [TestClass]
     public class ScaffoldTests : TestBase
@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Scaffolding
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 string path = files.CreateEmptyFile("Scaffold.xml");
-                File.WriteAllText(path, Properties.Resources.ValidScaffoldXml);
+                File.WriteAllText(path, Resources.ValidScaffoldXml);
 
                 Scaffold scaffold = Scaffold.Parse(path);
 

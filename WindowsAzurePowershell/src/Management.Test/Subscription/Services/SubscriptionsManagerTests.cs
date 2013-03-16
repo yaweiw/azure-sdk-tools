@@ -5,7 +5,7 @@
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Management.Utilities;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;

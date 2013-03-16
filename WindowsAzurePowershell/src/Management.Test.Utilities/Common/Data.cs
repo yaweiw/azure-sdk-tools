@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Text;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using WindowsAzure.ServiceManagement;
 
     public static class Data
@@ -28,26 +28,36 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
         // To Do:
         // Add invalid service/storage account name data: http://social.msdn.microsoft.com/Forums/en-US/windowsazuredevelopment/thread/75b05a42-cd3b-4ab8-aa26-dc8366ede115
         // Add invalid deployment name data
+        public static string Subscription1 = "Windows Azure Sandbox 9-220";
+        public static string SampleSubscription1 = "Sample Subscription 1";
+
         public static List<string> ValidServiceNames { get; private set; }
-        public static List<string> ValidSubscriptionNames { get; private set; }
+        public static List<string> ValidSubscriptionName { get; private set; }
+        public static List<string> ValidSubscriptionsData { get; private set; }
         public static List<string> ValidServiceRootNames { get; private set; }
         public static List<string> ValidDeploymentNames { get; private set; }
         public static List<string> ValidStorageNames { get; private set; }
         public static List<string> ValidPublishSettings { get; private set; }
+        public static List<string> ValidPublishSettings2 { get; private set; }
         public static List<string> ValidRoleNames { get; private set; }
         public static List<int> ValidRoleInstances { get; private set; }
+        public static StorageServiceList ValidStorageService { get; private set; }
+
+        public static List<string> InvalidSubscriptionsData { get; private set; }
         public static List<string> InvalidServiceRootNames { get; private set; }
         public static List<string> InvalidLocations { get; private set; }
         public static List<string> InvalidSlots { get; private set; }
         public static List<string> InvalidPublishSettings { get; private set; }
         public static List<string> InvalidServiceNames { get; private set; }
         public static List<string> InvalidRoleNames { get; private set; }
-        public static List<string> InvalidFileNames { get; private set; }
+        public static List<string> InvalidFileName { get; private set; }
         public static List<string> InvalidPaths { get; private set; }
+        public static List<string> InvalidServiceRootName { get; private set; }
         public static List<int> InvalidRoleInstances { get; private set; }
-        public static StorageServiceList ValidStorageService { get; private set; }
+        
         public static string AzureSdkAppDir { get; private set; }
         public static string TestResultDirectory { get; private set; }
+        public static string AzureAppDir { get; private set; }
 
         public static string NodeWebRoleScaffoldingPath = Path.Combine(Resources.NodeScaffolding, RoleType.WebRole.ToString());
         public static string NodeWorkerRoleScaffoldingPath = Path.Combine(Resources.NodeScaffolding, RoleType.WorkerRole.ToString());
@@ -59,13 +69,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
         static Data()
         {
+            AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), Resources.AzureDirectoryName);
             AzureSdkAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure PowerShell");
             TestResultDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
 
             ValidServiceNames = new List<string>();
             InitializeValidServiceNameData();
 
-            ValidSubscriptionNames = new List<string>();
+            ValidSubscriptionName = new List<string>();
             InitializeValidSubscriptionNameData();
 
             ValidServiceRootNames = new List<string>();
@@ -77,11 +88,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             ValidStorageNames = new List<string>();
             InitializeValidStorageNameData();
 
-            InvalidServiceRootNames = new List<string>();
-            InitializeInvalidServiceRootNameData();
-
             ValidPublishSettings = new List<string>();
             InitializeValidPublishSettingsData();
+
+            ValidPublishSettings2 = new List<string>();
+            InitializeValidPublishSettings2Data();
+
+            ValidSubscriptionsData = new List<string>();
+            InitializeValidSubscriptionsData();
+
+            ValidRoleNames = new List<string>();
+            InitializeValidRoleNameData();
+
+            ValidRoleInstances = new List<int>();
+            InitializeValidRoleInstancesData();
+
+            ValidStorageService = new StorageServiceList();
+            InitializeValidStorageServiceData();
 
             InvalidPublishSettings = new List<string>();
             InitializeInvalidPublishSettingsData();
@@ -95,26 +118,23 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             InvalidServiceNames = new List<string>();
             InitializeInvalidServiceNameData();
 
-            ValidRoleNames = new List<string>();
-            InitializeValidRoleNameData();
-
             InvalidRoleNames = new List<string>();
             InitializeInvalidRoleNameData();
-
-            ValidRoleInstances = new List<int>();
-            InitializeValidRoleInstancesData();
 
             InvalidRoleInstances = new List<int>();
             InitializeInvalidRoleInstancesData();
 
-            InvalidFileNames = new List<string>();
+            InvalidFileName = new List<string>();
             InitializeInvalidFileNameData();
 
             InvalidPaths = new List<string>();
             InitializeInvalidPathData();
 
-            ValidStorageService = new StorageServiceList();
-            InitializeValidStorageServiceData();
+            InvalidSubscriptionsData = new List<string>();
+            InitializeInvalidSubscriptionsData();
+
+            InvalidServiceRootName = new List<string>();
+            InitializeInvalidServiceRootNameData();
         }
 
         private static void InitializeValidStorageServiceData()
@@ -176,7 +196,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
                 j %= ValidServiceRootNames.Count - 1;
                 StringBuilder invalidFile = new StringBuilder(ValidServiceRootNames[j]);
                 invalidFile[invalidFile.Length / 2] = invalidFileNameChars[i];
-                InvalidFileNames.Add(invalidFile.ToString());
+                InvalidFileName.Add(invalidFile.ToString());
             }
         }
 
@@ -242,6 +262,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
             ValidPublishSettings.Add(Testing.GetTestResourcePath("ValidProfile.PublishSettings"));
         }
 
+        private static void InitializeValidPublishSettings2Data()
+        {
+            ValidPublishSettings2.Add(Testing.GetTestResourcePath("ValidProfile2.PublishSettings"));
+        }
+
         /// <summary>
         /// This method must run after InitializeServiceRootNameData()
         /// </summary>
@@ -273,10 +298,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
 
         private static void InitializeValidSubscriptionNameData()
         {
-            ValidSubscriptionNames.Add("Windows Azure Sandbox 9-220");
-            ValidSubscriptionNames.Add("_MySubscription");
-            ValidSubscriptionNames.Add("This is my subscription");
-            ValidSubscriptionNames.Add("Windows Azure Sandbox 284-1232");
+            ValidSubscriptionName.Add("Windows Azure Sandbox 9-220");
+            ValidSubscriptionName.Add("_MySubscription");
+            ValidSubscriptionName.Add("This is my subscription");
+            ValidSubscriptionName.Add("Windows Azure Sandbox 284-1232");
         }
 
         private static void InitializeValidServiceNameData()
@@ -320,6 +345,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
         private static void InitializeValidServiceRootNameData()
         {
             ValidServiceRootNames.AddRange(ValidServiceNames);
-        }        
+        }
+
+        private static void InitializeValidSubscriptionsData()
+        {
+            ValidSubscriptionsData.Add(Testing.GetTestResourcePath("subscriptions.xml"));
+        }
+
+        private static void InitializeInvalidSubscriptionsData()
+        {
+            InvalidSubscriptionsData.Add(Testing.GetTestResourcePath("invalidsubscriptions.xml"));
+        }
     }
 }

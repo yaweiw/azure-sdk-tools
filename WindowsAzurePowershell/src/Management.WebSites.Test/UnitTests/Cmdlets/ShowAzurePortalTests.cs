@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.IO;
-    using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
     using VisualStudio.TestTools.UnitTesting;

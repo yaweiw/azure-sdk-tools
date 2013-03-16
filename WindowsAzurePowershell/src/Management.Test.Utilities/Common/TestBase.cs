@@ -12,22 +12,31 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Tests.Utilities
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
-    using System.Management.Automation;
+    using System.Diagnostics;
+    using VisualStudio.TestTools.UnitTesting;
 
-    public static class PSObjectExtensions
+    /// <summary>
+    /// Base class for Windows Azure PowerShell unit tests.
+    /// </summary>
+    public abstract class TestBase
     {
         /// <summary>
-        /// Gets the value of specific property for the given PSObject.
+        /// Gets or sets a reference to the TestContext used for interacting
+        /// with the test framework.
         /// </summary>
-        /// <typeparam name="T">The return value type</typeparam>
-        /// <param name="obj">The powershell obbject</param>
-        /// <param name="name">The property name</param>
-        /// <returns>The property value</returns>
-        public static T GetVariableValue<T>(this PSObject psobject, string name)
+        public TestContext TestContext { get; set; }
+
+        /// <summary>
+        /// Log a message with the test framework.
+        /// </summary>
+        /// <param name="format">Format string.</param>
+        /// <param name="args">Arguments.</param>
+        public void Log(string format, params object[] args)
         {
-            return (T)psobject.Members[name].Value;
+            Debug.Assert(TestContext != null);
+            TestContext.WriteLine(format, args);
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Tests.Cmdlets
     using System.Security.Cryptography.X509Certificates;
     using Management.Cmdlets;
     using Management.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;

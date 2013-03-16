@@ -20,11 +20,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using CloudService.Properties;
     using Cmdlets;
-    using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
 

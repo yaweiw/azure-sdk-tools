@@ -15,13 +15,14 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;
 
     [TestClass]
     public class GetAzureSBLocationTests : TestBase

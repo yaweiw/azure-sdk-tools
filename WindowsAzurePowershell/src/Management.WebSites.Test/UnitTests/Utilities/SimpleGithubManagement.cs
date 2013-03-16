@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github;
     using Microsoft.WindowsAzure.Management.Websites.Services.Github.Entities;
     using System;
