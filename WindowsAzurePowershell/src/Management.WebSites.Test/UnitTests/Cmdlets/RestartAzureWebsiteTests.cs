@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
     using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites.Cmdlets;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
 
     [TestClass]
     public class RestartAzureWebsiteTests : WebsitesTestBase

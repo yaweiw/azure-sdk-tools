@@ -23,12 +23,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Node.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
     using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
