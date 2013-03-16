@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using System;
     using System.Collections.Generic;
     using Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Contract;
-    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
