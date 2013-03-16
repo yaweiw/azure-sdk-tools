@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Test.ServiceBus
     using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet;
+    using Microsoft.WindowsAzure.Management.ServiceBus;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet
+namespace Microsoft.WindowsAzure.Management.ServiceBus
 {
     using System;
     using System.Collections.Generic;
@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus;
 
     /// <summary>
     /// Lists all service bus namespaces asscoiated with a subscription
