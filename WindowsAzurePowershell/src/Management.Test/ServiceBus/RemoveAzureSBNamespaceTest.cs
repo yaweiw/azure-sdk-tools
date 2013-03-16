@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
+namespace Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Test.UnitTests.Cmdlet
 {
     using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Cmdlet;
     using Microsoft.WindowsAzure.Management.Test.Stubs;
     using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;

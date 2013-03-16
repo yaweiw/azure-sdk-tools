@@ -219,9 +219,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceBus\ServiceBus\Contract\Namespace.cs" />
-    <Compile Include="ServiceBus\ServiceBus\ResourceModel\Namespace.cs" />
-    <Compile Include="ServiceBus\ServiceBus\ServiceBusHelper.cs" />
+    <Compile Include="ServiceBus\Contract\Namespace.cs" />
+    <Compile Include="ServiceBus\ResourceModel\Namespace.cs" />
+    <Compile Include="ServiceBus\ServiceBusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\MarketplaceServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
