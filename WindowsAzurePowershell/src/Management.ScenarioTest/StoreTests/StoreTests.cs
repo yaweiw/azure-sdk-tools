@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
     using Microsoft.WindowsAzure.Management.Store.Model;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Store.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     [TestClass]
     [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184

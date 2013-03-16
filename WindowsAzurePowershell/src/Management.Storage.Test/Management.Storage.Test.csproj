@@ -18,6 +18,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkProfile />
     <RestorePackages>true</RestorePackages>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,9 +115,17 @@
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Management.Storage</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
+      <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
+      <Name>Management.Test.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
       <Name>Management.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Management.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
