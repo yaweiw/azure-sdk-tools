@@ -4,8 +4,8 @@ cd /d "%~dp0"
 if "%EMULATED%"=="true" goto setup_emulator
 
 :start_cache
-WindowsAzure.Caching.MemcacheShim\ClientPerfCountersInstaller.exe install
-WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe
+bin\WindowsAzure.Caching.MemcacheShim\ClientPerfCountersInstaller.exe install
+bin\WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe
 if %ERRORLEVEL% neq 0 goto error
 
 echo SUCCESS
