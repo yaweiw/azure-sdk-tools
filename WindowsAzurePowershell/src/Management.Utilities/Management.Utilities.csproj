@@ -183,8 +183,8 @@
     <Compile Include="Common\CloudBaseCmdlet.cs" />
     <Compile Include="Common\CmdletBase.cs" />
     <Compile Include="Common\ServiceManagementBaseCmdlet.cs" />
-    <Compile Include="Common\Extensions\CmdletExtensions.cs" />
-    <Compile Include="Common\Extensions\CmdletSubscriptionExtensions.cs" />
+    <Compile Include="Common\CmdletExtensions.cs" />
+    <Compile Include="Common\CmdletSubscriptionExtensions.cs" />
     <Compile Include="Common\AzureServiceManagementException.cs" />
     <Compile Include="Common\CloudStorageAccountFactory.cs" />
     <Compile Include="Common\HttpRestMessageInspector.cs" />
@@ -296,6 +296,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

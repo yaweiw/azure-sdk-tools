@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
 
     [Cmdlet(VerbsCommon.Add, "AzureDataDisk", DefaultParameterSetName = "CreateNew"), OutputType(typeof(IPersistentVM))]

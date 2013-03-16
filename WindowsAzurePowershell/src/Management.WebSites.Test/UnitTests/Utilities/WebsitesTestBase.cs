@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class WebsitesTestBase : TestBase

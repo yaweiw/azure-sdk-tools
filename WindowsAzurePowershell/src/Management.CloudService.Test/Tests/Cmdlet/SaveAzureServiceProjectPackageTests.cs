@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Security;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Cmdlet;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Node.Cmdlet;

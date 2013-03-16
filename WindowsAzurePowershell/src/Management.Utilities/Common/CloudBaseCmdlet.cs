@@ -27,7 +27,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
 
     public abstract class CloudBaseCmdlet<T> : CmdletBase
         where T : class

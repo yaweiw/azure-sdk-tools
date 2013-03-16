@@ -19,11 +19,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.ServiceModel;
     using Helpers;
     using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Utilities;
     using WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-
 
     /// <summary>
     /// Update deployment configuration, upgrade or status

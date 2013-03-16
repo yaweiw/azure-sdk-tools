@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Selects a subscription from the previously imported ones.

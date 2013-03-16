@@ -20,10 +20,9 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets details about subscriptions.
