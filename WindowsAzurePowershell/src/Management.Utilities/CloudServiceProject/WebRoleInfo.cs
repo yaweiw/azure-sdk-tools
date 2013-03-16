@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject
     /// <summary>
     /// RoleInfo implementation for WebRole
     /// </summary>
-    internal class WebRoleInfo : RoleInfo
+    public class WebRoleInfo : RoleInfo
     {
         public WebRoleInfo(string name, int instanceCount) : base(name, instanceCount) { }
 

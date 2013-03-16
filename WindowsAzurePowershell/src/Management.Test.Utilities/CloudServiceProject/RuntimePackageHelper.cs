@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject
 {
     using System;
     using System.Collections.Generic;
@@ -21,10 +21,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Utilities
     using System.Xml;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
-    using Microsoft.WindowsAzure.Management.CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using TestResources = Microsoft.WindowsAzure.Management.CloudService.Test.Properties.Resources;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using TestResources = Microsoft.WindowsAzure.Management.Test.Utilities.Properties.Resources;
 
     public class RuntimePackageHelper
     {

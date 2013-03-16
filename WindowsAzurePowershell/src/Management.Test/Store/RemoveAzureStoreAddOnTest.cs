@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.Store.Test.UnitTests.Cmdlet
     using Microsoft.WindowsAzure.Management.Store.Cmdlet;
     using Microsoft.WindowsAzure.Management.Utilities.Store;
     using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Moq;

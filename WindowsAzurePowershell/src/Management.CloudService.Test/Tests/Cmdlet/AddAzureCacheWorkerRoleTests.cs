@@ -21,16 +21,16 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
-    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
+    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     [TestClass]
@@ -101,9 +101,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
                 string rootPath = Path.Combine(files.RootPath, "AzureService");
                 newServiceCmdlet.NewAzureServiceProcess(files.RootPath, "AzureService");
 
-                foreach (string invalidName in TestData.Data.InvalidRoleNames)
+                foreach (string invalidName in Data.InvalidRoleNames)
                 {
-                    ManagementTesting.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
+                    Testing.AssertThrows<ArgumentException>(() => addCacheRoleCmdlet.AddAzureCacheWorkerRoleProcess(invalidName, 1, rootPath));
                 }
             }
         }

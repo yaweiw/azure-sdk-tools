@@ -21,9 +21,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.Extensions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using TestData;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -48,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         [TestMethod]
         public void SetAzureServiceProjectTestsSubscriptionValid()
         {
-            foreach (string item in Data.ValidSubscriptionNames)
+            foreach (string item in Data.ValidSubscriptionName)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {

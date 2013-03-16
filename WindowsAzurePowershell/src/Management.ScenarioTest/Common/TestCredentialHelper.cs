@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Common;
 
     public class TestCredentialHelper

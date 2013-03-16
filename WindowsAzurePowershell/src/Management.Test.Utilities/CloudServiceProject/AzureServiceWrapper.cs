@@ -12,12 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Test.TestData
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject
 {
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
 
-    class AzureServiceWrapper : AzureService
+    public class AzureServiceWrapper : AzureService
     {
         public AzureServiceWrapper(string rootPath, string serviceName, string scaffoldingPath) : base(rootPath, serviceName, scaffoldingPath) { }
         
