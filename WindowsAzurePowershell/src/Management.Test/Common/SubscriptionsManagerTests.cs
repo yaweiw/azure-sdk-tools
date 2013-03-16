@@ -44,7 +44,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
                     publishSettings);
 
                 // All subscriptions from both the publish settings file and the subscriptions file were imported
-                Assert.AreEqual(5, subscriptionsManager.Subscriptions.Count);
+                Assert.AreEqual(6, subscriptionsManager.Subscriptions.Count);
                 Assert.IsTrue(Data.ValidSubscriptionName.SequenceEqual(subscriptionsManager.Subscriptions.Keys));
             }
         }

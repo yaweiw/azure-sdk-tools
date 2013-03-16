@@ -72,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
 
             // Create with both an existing ouput subscription data file and the publish settings file
             GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(Data.AzureAppDir, outputSubscriptionDataFile, publishSettingsFile);
-            Assert.AreEqual(5, globalComponents.Subscriptions.Count);
+            Assert.AreEqual(6, globalComponents.Subscriptions.Count);
 
             // Remove one of the subscriptions from the publish settings file
             globalComponents.Subscriptions.Remove("TestSubscription1");
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
 
             // Load and make sure the subscription is still gone although it still is in the publish settings file
             globalComponents = GlobalComponents.Load(Data.AzureAppDir, outputSubscriptionDataFile);
-            Assert.AreEqual(4, globalComponents.Subscriptions.Count);
+            Assert.AreEqual(5, globalComponents.Subscriptions.Count);
 
             // Clean
             globalComponents.DeleteGlobalComponents();
