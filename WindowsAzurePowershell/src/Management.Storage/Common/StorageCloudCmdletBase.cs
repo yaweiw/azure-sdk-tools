@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Diagnostics;
     using System.Management.Automation;
     using ServiceModel = System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Base cmdlet for all storage cmdlet that works with cloud

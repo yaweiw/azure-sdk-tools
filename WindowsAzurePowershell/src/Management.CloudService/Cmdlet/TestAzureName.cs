@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System;
     using System.Management.Automation;
-    using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

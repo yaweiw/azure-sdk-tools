@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Management.Automation;
     using Model;
-    using Cmdlets.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureDisk"), OutputType(typeof(DiskContext))]
