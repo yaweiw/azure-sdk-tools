@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="deploy.cmd" />
+    <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
