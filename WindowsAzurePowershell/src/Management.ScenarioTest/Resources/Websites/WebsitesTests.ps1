@@ -95,16 +95,10 @@ function Test-GetAzureWebsiteLogTail
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
-	$logs = @()
 	$count = 0
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
-
-	# Assert
-	$found = $false
-	$logs | % { if ($_ -like "*㯑䲘䄂㮉*") { $found = $true; exit } }
-	Assert-True { $found }
+	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }; $client.DownloadString($uri); $count++; if ($count -gt 50) { cd ..; throw "Logs were not found"; } }
 }
 
 <#
@@ -123,8 +117,6 @@ function Test-GetAzureWebsiteLogTailPath
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
-	$logs = @()
-	$count = 0
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
 	Restart-AzureWebsite
 	1..10 | % { $client.DownloadString($uri) }
@@ -132,8 +124,5 @@ function Test-GetAzureWebsiteLogTailPath
 
 	#Test
 	$reached = $false
-	Get-AzureWebsiteLog -Tail -Path http | % { $reached = $true; exit }
-
-	# Assert
-	Assert-True { $reached }
+	Get-AzureWebsiteLog -Tail -Path http | % { cd ..; exit }
 }
