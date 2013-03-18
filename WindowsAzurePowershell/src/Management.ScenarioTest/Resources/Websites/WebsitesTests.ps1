@@ -125,11 +125,27 @@ function Test-GetAzureWebsiteLogTailPath
 	$retry = $false
 	do
 	{
-		try { Get-AzureWebsiteLog -Tail -Path http | % { cd ..; exit } }
+		try
+		{
+			Get-AzureWebsiteLog -Tail -Path http | % {
+				if ($_ -like "*log-streaming*")
+				{
+					cd ..
+					exit
+				}
+				throw "HTTP path is not reached"
+			}
+		}
 		catch
 		{
-			if ($_.Exception.Message -eq "One or more errors occured") { $retry = $true }
-			Write-Warning "Retry calling -Path with http"
+			if ($_.Exception.Message -eq "One or more errors occured")
+			{
+				$retry = $true;
+				Write-Warning "Retry calling -Path with http"
+				continue;
+			}
+
+			throw $_.Exception
 		}
 	}
 	while ($retry)
