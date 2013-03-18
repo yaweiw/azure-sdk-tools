@@ -117,6 +117,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = true, ParameterSetName = "Windows", HelpMessage = "Specifies the Administrator to create.")]
+        [ValidateNotNullOrEmpty]
+        public string AdminUsername
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
         public CertificateSettingList Certificates
@@ -257,7 +265,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 WindowsProvisioningConfigurationSet windowsConfig = new WindowsProvisioningConfigurationSet
                 {
-                    AdminUsername = "PSAdmin",
+                    AdminUsername = this.AdminUsername,
                     AdminPassword = Password,
                     ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
