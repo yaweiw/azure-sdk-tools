@@ -13,6 +13,9 @@
     <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
     <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
     <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
+    <ServiceManagementCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.ServiceManagement\bin</ServiceManagementCmdletBinDirectory>
+    <ServiceManagementTestDirectory>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin</ServiceManagementTestDirectory>
+    <ServiceManagementTestAssemblyName>Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestAssemblyName>
     
     <ScaffoldingReleaseSourceDir>.\Package\Release\Resources</ScaffoldingReleaseSourceDir>
     <ScaffoldingReleaseDestinationDir>.\Package\Release</ScaffoldingReleaseDestinationDir>
@@ -22,7 +25,9 @@
     <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
 
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
+    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
+    <AzureRTTestContainer>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</AzureRTTestContainer>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
 	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
 	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
@@ -174,8 +179,10 @@
     <ItemGroup>
       <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
 	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
+      <DebugFiles Include="$(ServiceManagementCmdletBinDirectory)\Debug\**\*.*" />
       <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
 	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
+      <ReleaseFiles Include="$(ServiceManagementCmdletBinDirectory)\Release\**\*.*" />
     </ItemGroup>
     <MakeDir
       Directories="$(BuildOutputDirectory)"
@@ -247,6 +254,29 @@
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="false" />
   </Target>
+  
+  <!-- Run the scenario tests -->
+  <Target Name="AzureRTScenarioTest2" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+    
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:ServiceManagemenet /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="AzureRTScenarioTest1" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running AzureRT scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+	Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(ScenarioTestSettings) /category:Scenario /resultsfile:$(TestOutputDirectory)\Debug.trx"
+   	ContinueOnError="false" />
+  </Target> 
   
   <!-- Do everything possible -->
   <Target
