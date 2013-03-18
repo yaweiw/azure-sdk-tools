@@ -33,12 +33,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         private SubscriptionData defaultAzureSubscription;
         private StorageServiceKeyOperationContext storageAccountKey;
-        
         private string perfFile;
-
-
         private string blobUrlRoot;
-        private TestContext testContextInstance;
+        
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -47,11 +44,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             get
             {
-                return testContextInstance;
+                return TestContext;
             }
             set
             {
-                testContextInstance = value;
+                TestContext = value;
             }
         }
 
