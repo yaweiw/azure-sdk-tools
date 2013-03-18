@@ -91,20 +91,14 @@ function Test-GetAzureWebsiteLogTail
 	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
 	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
 	cd $name
-	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$website = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
-	$logs = @()
 	$count = 0
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { $logs += $_; $client.DownloadString($uri); $count++; if ($count -gt 50) { exit } }
-
-	# Assert
-	$found = $false
-	$logs | % { if ($_ -like "*㯑䲘䄂㮉*") { $found = $true; exit } }
-	Assert-True { $found }
+	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }; $client.DownloadString($uri); $count++; if ($count -gt 50) { cd ..; throw "Logs were not found"; } }
 }
 
 <#
@@ -119,21 +113,40 @@ function Test-GetAzureWebsiteLogTailPath
 	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
 	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
 	cd $name
-	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$website = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
-	$logs = @()
-	$count = 0
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
-	Restart-AzureWebsite
 	1..10 | % { $client.DownloadString($uri) }
-	Start-Sleep -Seconds 120
+	Start-Sleep -Seconds 30
 
 	#Test
-	$reached = $false
-	Get-AzureWebsiteLog -Tail -Path http | % { $reached = $true; exit }
+	$retry = $false
+	do
+	{
+		try
+		{
+			Get-AzureWebsiteLog -Tail -Path http | % {
+				if ($_ -like "*")
+				{
+					cd ..
+					exit
+				}
+				throw "HTTP path is not reached"
+			}
+		}
+		catch
+		{
+			if ($_.Exception.Message -eq "One or more errors occurred.")
+			{
+				$retry = $true;
+				Write-Warning "Retry calling -Path with http"
+				continue;
+			}
 
-	# Assert
-	Assert-True { $reached }
+			throw $_.Exception
+		}
+	}
+	while ($retry)
 }

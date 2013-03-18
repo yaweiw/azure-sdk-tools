@@ -113,12 +113,26 @@ namespace Microsoft.WindowsAzure.Management.Utilities
                     }
                 }
                 catch (SerializationException)
+
                 {
                     return false;
                 }
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// is not found communication exception
+        /// </summary>
+        /// <param name="exception">Communication Exception</param>
+        /// <returns>true if exception caused by resource not found, otherwise, false</returns>
+        public static bool IsNotFoundCommunicationException(CommunicationException exception)
+        {
+            ServiceManagementError error = null;
+            string operationId = string.Empty;
+            ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
+            return error != null && error.Code == HttpStatusCode.NotFound.ToString();
         }
     }
 }

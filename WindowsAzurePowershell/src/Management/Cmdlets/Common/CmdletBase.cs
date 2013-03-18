@@ -47,11 +47,26 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
         }
 
+        protected void WriteVerboseWithTimestamp(string message)
+        {
+            WriteVerbose(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
+        protected void WriteDebugWithTimestamp(string message, params object[] args)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, string.Format(message, args)));
+        }
+
+        protected void WriteDebugWithTimestamp(string message)
+        {
+            WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
+        }
+
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>
         /// <param name="ex">The exception resulting from the error.</param>
-        protected void WriteExceptionError(Exception ex)
+        protected virtual void WriteExceptionError(Exception ex)
         {
             Debug.Assert(ex != null, "ex cannot be null or empty.");
             WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
@@ -98,6 +113,34 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 WriteExceptionError(ex);
             }
+        }
+
+        /// <summary>
+        /// Cmdlet begin process
+        /// </summary>
+        protected override void BeginProcessing()
+        {
+            if (string.IsNullOrEmpty(ParameterSetName))
+            {
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithoutParameterSetLog, this.GetType().Name));
+            }
+            else
+            {
+                WriteDebugWithTimestamp(String.Format(Resources.BeginProcessingWithParameterSetLog, this.GetType().Name, ParameterSetName));
+            }
+
+            base.BeginProcessing();
+        }
+
+        /// <summary>
+        /// End processing
+        /// </summary>
+        protected override void EndProcessing()
+        {
+            string message = string.Format(Resources.EndProcessingLog, this.GetType().Name);
+            WriteDebugWithTimestamp(message);
+
+            base.EndProcessing();
         }
 
         /// <summary>

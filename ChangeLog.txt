@@ -1,3 +1,9 @@
+2013.03.06 Version 0.6.11
+ * Windows Azure Store cmdlets
+ * Upgraded to the latest service management library and update service management version header to 2012-12-01
+ * Added Save-AzureVhd cmdlet
+ * Updated Add-AzureVMImage, Get-AzureVMImage and Set-AzureVMImage cmdlets to support new attributes in service management version header 2012-12-01
+
 2013.02.11 Version 0.6.10
  * Upgrade to use PowerShell 3.0
  * Released source code for VM and Cloud Services cmdlets
