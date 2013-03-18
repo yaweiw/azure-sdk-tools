@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
             {
                 string manifest = RuntimePackageHelper.GetTestManifest(files);
                 CloudRuntimeCollection runtimes;
-                CloudRuntimeCollection.CreateCloudRuntimeCollection(LocationName.NorthCentralUS, out runtimes, manifest);
+                CloudRuntimeCollection.CreateCloudRuntimeCollection(out runtimes, manifest);
 
                 cmdlet.GetAzureRuntimesProcess(string.Empty, manifest);
 

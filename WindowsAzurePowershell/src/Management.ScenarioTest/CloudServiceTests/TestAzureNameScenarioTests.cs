@@ -112,6 +112,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.CloudService)]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1185
         public void TestAzureNameWithInvalidServiceBusNamespace()
         {
             RunPowerShellTest("Test-AzureNameWithInvalidServiceBusNamespace");
