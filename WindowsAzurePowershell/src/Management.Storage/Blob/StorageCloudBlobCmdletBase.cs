@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage.Common
+namespace Microsoft.WindowsAzure.Management.Storage
 {
+    using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Text;
 
     /// <summary>
     /// Base cmdlet for storage blob/container cmdlet
@@ -111,13 +109,77 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <returns>IStorageManagement object</returns>
         protected override IStorageBlobManagement CreateChannel()
         {
-            //Init storage blob managment channel
+            //Init storage blob management channel
             if (Channel == null || !ShareChannel)
             {
                 Channel = new StorageBlobManagement(GetCloudBlobClient());
             }
 
             return Channel;
+        }
+
+        /// <summary>
+        /// Get a service channel object using specified storage account
+        /// </summary>
+        /// <param name="account">Cloud storage account object</param>
+        /// <returns>IStorageBlobManagement channel object</returns>
+        protected IStorageBlobManagement CreateChannel(CloudStorageAccount account)
+        {
+            return new StorageBlobManagement(account.CreateCloudBlobClient());
+        }
+
+        /// <summary>
+        /// whether the specified blob is a snapshot
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <returns>true if the specified blob is snapshot, otherwise false</returns>
+        internal bool IsSnapshot(ICloudBlob blob)
+        {
+            return !string.IsNullOrEmpty(blob.Name) && blob.SnapshotTime != null;
+        }
+
+        /// <summary>
+        /// Write ICloudBlob to output using specified service channel
+        /// </summary>
+        /// <param name="blob">The output ICloudBlob object</param>
+        /// <param name="channel">IStorageBlobManagement channel object</param>
+        internal void WriteICloudBlobWithProperties(ICloudBlob blob, IStorageBlobManagement channel = null)
+        {
+            if (channel == null)
+            {
+                channel = Channel;
+            }
+
+            AccessCondition accessCondition = null;
+            BlobRequestOptions options = null;
+            channel.FetchBlobAttributes(blob, accessCondition, options, OperationContext);
+            AzureStorageBlob azureBlob = new AzureStorageBlob(blob);
+
+            WriteObjectWithStorageContext(azureBlob);
+        }
+        
+        /// <summary>
+        /// Check whether the blob name is valid. If not throw an exception
+        /// </summary>
+        /// <param name="name">Blob name</param>
+        protected void ValidateBlobName(string name)
+        {
+            if (!NameUtil.IsValidBlobName(name))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidBlobName, name));
+            }
+        }
+
+        /// <summary>
+        /// Check whether the container name is valid. If not throw an exception
+        /// </summary>
+        /// <param name="name">Container name</param>
+        protected void ValidateContainerName(string name)
+        {
+            if (!NameUtil.IsValidContainerName(name))
+            {
+                throw new ArgumentException(String.Format(Resources.InvalidContainerName, name));
+            }
         }
     }
 }

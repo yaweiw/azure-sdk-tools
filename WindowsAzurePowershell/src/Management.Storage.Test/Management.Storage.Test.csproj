@@ -66,6 +66,14 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.2.0.4.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
@@ -74,6 +82,10 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\System.Spatial.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -88,11 +100,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Blob\Cmdlet\GetAzureStorageBlobContentTest.cs" />
     <Compile Include="Blob\Cmdlet\GetAzureStorageBlobTest.cs" />
     <Compile Include="Blob\Cmdlet\GetAzureStorageContainerTest.cs" />
     <Compile Include="Blob\Cmdlet\NewAzureStorageContainerTest.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageBlobTest.cs" />
     <Compile Include="Blob\Cmdlet\RemoveAzureStorageContainerTest.cs" />
+    <Compile Include="Blob\Cmdlet\SetAzureStorageBlobContentTest.cs" />
     <Compile Include="Blob\Cmdlet\SetAzureStorageContainerAclTest.cs" />
     <Compile Include="Blob\FakeRemoveAzureContainerCommand.cs" />
     <Compile Include="Blob\StorageBlobTestBase.cs" />
@@ -101,6 +115,7 @@
     <Compile Include="Common\CommunicationExceptionUtilTest.cs" />
     <Compile Include="Common\IStorageManagement.cs" />
     <Compile Include="Common\NameUtilTest.cs" />
+    <Compile Include="Common\CmdletOperationContextTest.cs" />
     <Compile Include="Common\ResourceAlreadyExistExceptionTest.cs" />
     <Compile Include="Common\ResourceNotFoundExceptionTest.cs" />
     <Compile Include="Common\StorageCloudCmdletBaseTest.cs" />
