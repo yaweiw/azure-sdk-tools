@@ -6,6 +6,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudBlobContainer</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Blob End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -47,6 +51,10 @@
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudBlockBlob</TypeName>
         <TypeName>Microsoft.WindowsAzure.Storage.Blob.CloudPageBlob</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.Container.Uri</ScriptBlock>
+        <Label>Container Uri</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -56,12 +64,11 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>BlobType</Label>
-            <width>10</width>
+            <width>15</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Length</Label>
-            <width>10</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -71,6 +78,11 @@
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>LastModified</Label>
+            <width>30</width>
+            <Alignment>Left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>SnapshotTime</Label>
             <width>30</width>
             <Alignment>Left</Alignment>
           </TableColumnHeader>
@@ -93,6 +105,9 @@
               <TableColumnItem>
                 <ScriptBlock>$_.Properties.LastModified</ScriptBlock>
               </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.SnapshotTime</ScriptBlock>
+              </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
         </TableRowEntries>
@@ -103,6 +118,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Table.CloudTable</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Table End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -135,6 +154,10 @@
       <ViewSelectedBy>
         <TypeName>Microsoft.WindowsAzure.Storage.Queue.CloudQueue</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Queue End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -188,9 +211,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageContainer</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageContainer</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageContainer</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageContainer</TypeName>
       </ViewSelectedBy>
       <GroupBy>
         <ScriptBlock>$_.CloudBlobContainer.ServiceClient.BaseUri</ScriptBlock>
@@ -205,6 +228,7 @@
           <TableColumnHeader>
             <Label>PublicAccess</Label>
             <Alignment>Left</Alignment>
+            <Width>20</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>LastModified</Label>
@@ -229,10 +253,14 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageBlob</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageBlob</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Blob.ResourceModel.AzureStorageBlob</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageBlob</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.ICloudBlob.Container.Uri</ScriptBlock>
+        <Label>Container Uri</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -242,6 +270,7 @@
           <TableColumnHeader>
             <Label>BlobType</Label>
             <Alignment>Left</Alignment>
+            <Width>10</Width>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Length</Label>
@@ -287,10 +316,14 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageQueue</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageQueue</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.AzureStorageQueue</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageQueue</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudQueue.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Queue End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -331,10 +364,14 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel.AzureStorageTable</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageTable</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Table.ResourceModel.AzureStorageTable</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageTable</TypeName>
       </ViewSelectedBy>
+      <GroupBy>
+        <ScriptBlock>$_.CloudTable.ServiceClient.BaseUri</ScriptBlock>
+        <Label>Table End Point</Label>
+      </GroupBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
@@ -361,9 +398,9 @@
       </TableControl>
     </View>
     <View>
-      <Name>Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel.AzureStorageContext</Name>
+      <Name>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageContext</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Storage.Common.ResourceModel.AzureStorageContext</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel.AzureStorageContext</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
