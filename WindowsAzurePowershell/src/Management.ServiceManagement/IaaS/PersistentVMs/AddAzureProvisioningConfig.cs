@@ -103,7 +103,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     .SingleOrDefault();
                 if (provisioningConfiguration == null)
                 {
-                    provisioningConfiguration = new WindowsProvisioningConfigurationSet() { AdminUsername = "PSAdmin" };
+                    provisioningConfiguration = new WindowsProvisioningConfigurationSet();
                     role.ConfigurationSets.Add(provisioningConfiguration);
                 }
 

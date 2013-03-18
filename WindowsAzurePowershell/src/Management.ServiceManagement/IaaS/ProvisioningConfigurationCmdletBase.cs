@@ -70,6 +70,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Mandatory = true, ParameterSetName = "Windows", HelpMessage = "Specifies the Administrator to create.")]
+        [Parameter(Mandatory = true, ParameterSetName = "WindowsDomain", HelpMessage = "Specifies the Administrator to create.")]
+        [ValidateNotNullOrEmpty]
+        public string AdminUsername
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = "WindowsDomain", HelpMessage = "Set configuration to Windows with Domain Join.")]
         public SwitchParameter WindowsDomain
         {
@@ -193,7 +202,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         }
 
         protected void SetProvisioningConfiguration(WindowsProvisioningConfigurationSet provisioningConfiguration)
-        {            
+        {
+            provisioningConfiguration.AdminUsername = AdminUsername;
             provisioningConfiguration.AdminPassword = Password;            
             provisioningConfiguration.ResetPasswordOnFirstLogon = ResetPasswordOnFirstLogon.IsPresent;
             provisioningConfiguration.StoredCertificateSettings = Certificates;
