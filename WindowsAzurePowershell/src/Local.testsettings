@@ -13,8 +13,9 @@
     <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child02.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50.vhd" />
-    <DeploymentItem filename="..\..\Package\Debug" />
     <DeploymentItem filename="Management.Test.Utilities\Resources\" />
+    <DeploymentItem filename="..\..\Package\Debug" />
+    <DeploymentItem filename="CLITest\TestData.xml" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />

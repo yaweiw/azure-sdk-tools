@@ -25,7 +25,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// List azure storage container
@@ -78,7 +77,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="name">Container name pattern</param>
         /// <returns>An enumerable collection of cloudblob container</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByName(string name)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
@@ -132,7 +130,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="prefix">Container name prefix</param>
         /// <returns>An enumerable collection of cloudblobcontainer</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<CloudBlobContainer> ListContainersByPrefix(string prefix)
         {
             ContainerListingDetails details = ContainerListingDetails.Metadata;
@@ -152,7 +149,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="containerList">An enumerable collection of CloudBlobContainer</param>
         /// <returns>An enumerable collection of AzureStorageContainer</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal IEnumerable<AzureStorageContainer> PackCloudBlobContainerWithAcl(IEnumerable<CloudBlobContainer> containerList)
         {
             if (null == containerList)
@@ -165,7 +161,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
             foreach (CloudBlobContainer container in containerList)
             {
-                BlobContainerPermissions permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                BlobContainerPermissions permissions = null;
+                
+                try
+                {
+                    permissions = Channel.GetContainerPermissions(container, accessCondition, requestOptions, OperationContext);
+                }
+                catch (Exception e)
+                { 
+                    //Log the error message and continue the process
+                    WriteVerboseWithTimestamp(String.Format(Resources.GetContainerPermissionException, container.Name, e.Message));
+                }
+
                 AzureStorageContainer azureContainer = new AzureStorageContainer(container, permissions);
                 yield return azureContainer;
             }

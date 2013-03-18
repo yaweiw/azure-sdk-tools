@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             }
 
             CloudStorageAccount currentStorage = null;
-            using (new OperationContextScope(channel.ToContextChannel()))
+            using (new OperationContextScope((IContextChannel)channel))
             {
                 var storageService = channel.GetStorageService(SubscriptionId, CurrentStorageAccount);
                 var storageServiceKeys = channel.GetStorageKeys(SubscriptionId, CurrentStorageAccount);
