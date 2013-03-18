@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             WriteDebug(string.Format("{0:T} - {1}", DateTime.Now, message));
         }
 
-
         /// <summary>
         /// Write an error message for a given exception.
         /// </summary>

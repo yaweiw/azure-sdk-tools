@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Storage.Blob;
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
@@ -25,7 +24,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob.Cmdlet
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Unit test for get azure storage container cmdlet

@@ -2,7 +2,6 @@
 <TestSettings name="Local" id="cdbdc350-d4c9-4e43-a4f9-37455108ceaa" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Deployment>
-    <DeploymentItem filename="..\..\Package\Debug" />
     <DeploymentItem filename="Management.SqlDatabase.Test\Resources\" />
     <DeploymentItem filename="Management.CloudService.Test\Resources\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50_child02.vhd" />
@@ -14,6 +13,8 @@
     <DeploymentItem filename="Management.SqlDatabase.Test\TestScripts\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child02.vhd" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50.vhd" />
+    <DeploymentItem filename="..\..\Package\Debug" />
+    <DeploymentItem filename="CLITest\TestData.xml" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\dynamic_50.vhd" />
     <DeploymentItem filename="Management.ScenarioTest\Resources\" />
     <DeploymentItem filename="Management.ServiceManagement.Test\VhdFiles\fixed_50_child01.vhd" />
