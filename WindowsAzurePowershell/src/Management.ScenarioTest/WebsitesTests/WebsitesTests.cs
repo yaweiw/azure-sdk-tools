@@ -102,7 +102,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1177
         public void TestGetAzureWebsiteLogTailPath()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
