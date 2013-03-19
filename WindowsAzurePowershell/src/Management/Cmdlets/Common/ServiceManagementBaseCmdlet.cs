@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
 
             var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, RetryPolicy.NoRetryPolicy, ServiceManagementClientOptions.DefaultOptions.WaitTimeForOperationToComplete, messageInspectors);
             var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate, clientOptions);
-            return smClient.Service;
+            return smClient.SyncService;
         }
 
         /// <summary>
