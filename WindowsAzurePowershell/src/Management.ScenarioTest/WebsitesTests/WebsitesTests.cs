@@ -106,7 +106,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
         }
-        
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogListPath()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogListPath");
+        }
 
         #endregion
     }
