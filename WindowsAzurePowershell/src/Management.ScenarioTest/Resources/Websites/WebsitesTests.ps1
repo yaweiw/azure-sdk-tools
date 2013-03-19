@@ -90,7 +90,6 @@ function Test-GetAzureWebsiteLogTail
 	$website = $global:currentWebsite
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
-	Write-Warning $uri
 	$client.BaseAddress = $uri
 	$count = 0
 
