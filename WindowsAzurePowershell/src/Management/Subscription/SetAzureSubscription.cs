@@ -12,17 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using Extensions;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Services;
 
     /// <summary>
     /// Sets an azure subscription.

@@ -17,12 +17,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
-    using Extensions;
-    using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
 
     [TestClass]
     public class AddAzureCertificateTests : TestBase

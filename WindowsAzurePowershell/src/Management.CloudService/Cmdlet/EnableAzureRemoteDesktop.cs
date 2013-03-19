@@ -24,13 +24,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Text;
-    using AzureTools;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Model;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Utilities;
+    using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
+    using ConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     /// <summary>
     /// Enable Remote Desktop by adding appropriate imports and settings to
@@ -73,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                 throw new ArgumentException(Properties.Resources.EnableAzureRemoteDesktopCommand_Enable_NeedComplexPassword);
             }
 
-            AzureService service = new AzureService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()), null);
+            AzureService service = new AzureService(General.GetServiceRootPath(CurrentPath()), null);
             WebRole[] webRoles = service.Components.Definition.WebRole ?? new WebRole[0];
             WorkerRole[] workerRoles = service.Components.Definition.WorkerRole ?? new WorkerRole[0];
 
@@ -82,7 +83,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             AddRemoteAccess(webRoles, workerRoles);
 
             X509Certificate2 cert = ChooseCertificate();
-            ServiceConfigurationSchema.Certificate certElement = new ServiceConfigurationSchema.Certificate
+            Certificate certElement = new Certificate
             {
                 name = "Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption",
                 thumbprintAlgorithm = ThumbprintAlgorithmTypes.sha1,
@@ -180,7 +181,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     WorkerRole firstWorkerRole = workerRoles.FirstOrDefault();
                     if (firstWorkerRole != null)
                     {
-                        firstWorkerRole.Imports = CloudServiceUtilities.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                        firstWorkerRole.Imports = General.Append(firstWorkerRole.Imports, new Import { moduleName = "RemoteForwarder" });
                         forwarderName = firstWorkerRole.name;
                     }
                     else // no worker role, use a web role
@@ -188,7 +189,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         WebRole firstWebRole = webRoles.FirstOrDefault();
                         if (firstWebRole != null)
                         {
-                            firstWebRole.Imports = CloudServiceUtilities.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
+                            firstWebRole.Imports = General.Append(firstWebRole.Imports, new Import { moduleName = "RemoteForwarder" });
                             forwarderName = firstWebRole.name;
                         }
                         else
@@ -229,26 +230,26 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             // Add RemoteAccess to all roles
             foreach (WebRole webRole in webRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                webRole.Imports = CloudServiceUtilities.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
+                webRole.Imports = General.Append(webRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
             foreach (WorkerRole workerRole in workerRoles.Where(r => r.Imports == null || !r.Imports.Any(i => i.moduleName == "RemoteAccess")))
             {
-                workerRole.Imports = CloudServiceUtilities.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
+                workerRole.Imports = General.Append(workerRole.Imports, new Import { moduleName = "RemoteAccess" });
             }
         }
 
-        private void UpdateServiceConfigurations(AzureService service, string forwarderName, ServiceConfigurationSchema.Certificate certElement, string encryptedPassword)
+        private void UpdateServiceConfigurations(AzureService service, string forwarderName, Certificate certElement, string encryptedPassword)
         {
             foreach (ServiceConfiguration config in new[] { service.Components.LocalConfig, service.Components.CloudConfig })
             {
-                foreach (ServiceConfigurationSchema.RoleSettings role in config.Role)
+                foreach (RoleSettings role in config.Role)
                 {
                     if (role.Certificates == null)
                     {
-                        role.Certificates = new ServiceConfigurationSchema.Certificate[0];
+                        role.Certificates = new Certificate[0];
                     }
 
-                    ServiceConfigurationSchema.Certificate existingCert = role.Certificates.FirstOrDefault(c => c.name == certElement.name);
+                    Certificate existingCert = role.Certificates.FirstOrDefault(c => c.name == certElement.name);
                     if (existingCert != null)
                     {
                         // ensure we're referencing the right cert
@@ -260,7 +261,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     }
 
                     Dictionary<string, string> settings = new Dictionary<string, string>();
-                    foreach (ServiceConfigurationSchema.ConfigurationSetting setting in role.ConfigurationSettings)
+                    foreach (ConfigurationSetting setting in role.ConfigurationSettings)
                     {
                         settings[setting.name] = setting.value;
                     }
@@ -274,7 +275,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                         settings["Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled"] = "true";
                     }
 
-                    role.ConfigurationSettings = settings.Select(pair => new ServiceConfigurationSchema.ConfigurationSetting { name = pair.Key, value = pair.Value }).ToArray();
+                    role.ConfigurationSettings = settings.Select(pair => new ConfigurationSetting { name = pair.Key, value = pair.Value }).ToArray();
                 }
             }
         }   

@@ -12,18 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Extensions;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Services;
 
     /// <summary>
     /// Imports publish profiles.
