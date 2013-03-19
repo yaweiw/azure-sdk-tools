@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
+    using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 WebRole webRole = azureService.Components.GetWebRole(roleName);
                 webRole.LocalResources = General.InitializeIfNull<LocalResources>(webRole.LocalResources);
-                DefConfigurationSetting[] configurationSettings = webRole.ConfigurationSettings;
+                DefinitionConfigurationSetting[] configurationSettings = webRole.ConfigurationSettings;
 
                 CachingConfigurationFactoryMethod(
                         azureService,
@@ -194,7 +194,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             {
                 WorkerRole workerRole = azureService.Components.GetWorkerRole(roleName);
                 workerRole.LocalResources = General.InitializeIfNull<LocalResources>(workerRole.LocalResources);
-                DefConfigurationSetting[] configurationSettings = workerRole.ConfigurationSettings;
+                DefinitionConfigurationSetting[] configurationSettings = workerRole.ConfigurationSettings;
 
                 CachingConfigurationFactoryMethod(
                         azureService,
@@ -235,7 +235,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             Startup startup,
             Endpoints endpoints,
             LocalResources localResources,
-            ref DefConfigurationSetting[] configurationSettings,
+            ref DefinitionConfigurationSetting[] configurationSettings,
             string sdkVersion)
         {
             switch (sdkVersion)
@@ -283,7 +283,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             Startup startup,
             Endpoints endpoints,
             LocalResources localResources,
-            ref DefConfigurationSetting[] configurationSettings)
+            ref DefinitionConfigurationSetting[] configurationSettings)
         {
             if (isWebRole)
             {
@@ -333,8 +333,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
             };
             localResources.LocalStorage = General.ExtendArray<LocalStore>(localResources.LocalStorage, localStore);
 
-            DefConfigurationSetting diagnosticLevel = new DefConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
-            configurationSettings = General.ExtendArray<DefConfigurationSetting>(configurationSettings, diagnosticLevel);
+            DefinitionConfigurationSetting diagnosticLevel = new DefinitionConfigurationSetting { name = Resources.CacheClientDiagnosticLevelAssemblyName };
+            configurationSettings = General.ExtendArray<DefinitionConfigurationSetting>(configurationSettings, diagnosticLevel);
 
             // Add ClientDiagnosticLevel setting to service configuration.
             AddClientDiagnosticLevelToConfig(azureService.Components.GetCloudConfigRole(roleName));
