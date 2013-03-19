@@ -20,9 +20,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Python.Cmdlet
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Properties;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Win32;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
 
     public class WindowsAzureOffer
     {

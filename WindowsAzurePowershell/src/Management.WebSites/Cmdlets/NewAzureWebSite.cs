@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using Common;
-    using Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Properties;
     using Services;

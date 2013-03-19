@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using Helpers;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

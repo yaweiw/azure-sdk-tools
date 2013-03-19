@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Store
     using System.Collections.Generic;
     using System.Data.Services.Client;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference;
+    using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class MarketplaceClient

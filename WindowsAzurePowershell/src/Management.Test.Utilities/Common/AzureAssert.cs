@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
@@ -140,7 +140,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         public static void AzureServiceExists(string serviceRootPath, string scaffoldFilePath, string serviceName, ServiceSettings settings = null, WebRoleInfo[] webRoles = null, WorkerRoleInfo[] workerRoles = null, string webScaff = null, string workerScaff = null, RoleInfo[] roles = null)
         {
-            ServiceComponents components = new Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.ServiceComponents(new Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.ServicePathInfo(serviceRootPath));
+            ServiceComponents components = new Microsoft.WindowsAzure.Management.Utilities.CloudService.ServiceComponents(new Microsoft.WindowsAzure.Management.Utilities.CloudService.ServicePathInfo(serviceRootPath));
 
             ScaffoldingExists(serviceRootPath, scaffoldFilePath);
 

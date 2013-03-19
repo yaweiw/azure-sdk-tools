@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using XmlSchema;
 
     public class SubscriptionsManager : ISubscriptionsManager

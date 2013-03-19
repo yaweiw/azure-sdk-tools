@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     using System.Management.Automation;
     using CloudService.Properties;
     using CloudService.Python.Cmdlet;
-    using Management.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
