@@ -26,6 +26,8 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Manage certificate.
 * Storage
   * Manage storage account and access key.
+  * Manage storage container and blob.
+  * Copy storage blob.
 * SQL Azure
   * CRUD support for database server, database and firewall rule
 * Service Bus
