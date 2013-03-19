@@ -387,6 +387,7 @@
     </Content>
     <Content Include="Resources\Scaffolding\Cache\WorkerRole\web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Scaffolding\General\WebRole\bin\download.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -479,9 +480,11 @@
     </Content>
     <Content Include="Resources\Scaffolding\Python\WebRole\Web.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\Scaffolding\PHP\WebRole\bin\php_entry.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
