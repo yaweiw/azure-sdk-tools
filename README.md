@@ -1,5 +1,3 @@
-[![Build Status](http://10.0.0.5:8080/job/azure-sdk-tools%20dev%20win2k8/badge/icon)](http://10.0.0.5:8080/job/azure-sdk-tools%20dev%20win2k8/)
-
 # Windows Azure PowerShell
 
 This repo contains a set of PowerShell cmddlets for developers and administrators to deploy and manage 
