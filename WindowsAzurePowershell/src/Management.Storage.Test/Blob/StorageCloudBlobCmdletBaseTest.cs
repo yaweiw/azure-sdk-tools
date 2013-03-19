@@ -21,9 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class StorageCloudBlobCmdletBaseTest : StorageBlobTestBase
