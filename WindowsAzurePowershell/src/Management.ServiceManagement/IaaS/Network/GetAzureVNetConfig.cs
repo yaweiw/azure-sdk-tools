@@ -52,8 +52,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 try
                 {
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
+
                     var netConfigStream = this.RetryCall(s => this.Channel.GetNetworkConfiguration(s)) as Stream;
-                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                    Operation operation = GetOperation();
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
 
                     if (netConfigStream != null)
                     {

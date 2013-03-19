@@ -53,8 +53,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 {
                     try
                     {
+                        WriteVerboseWithTimestamp("Begin Operation: Get Deployment");
                         CurrentDeployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, "Production"));
-                        GetDeploymentOperation = WaitForOperation("Get Deployment");
+                        GetDeploymentOperation = GetOperation();
+                        WriteVerboseWithTimestamp("Completed Operation: Get Deployment");
                     }
                     catch (Exception e)
                     {

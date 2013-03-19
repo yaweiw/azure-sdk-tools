@@ -81,23 +81,41 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        protected void ExecuteClientAction(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
+        protected void ExecuteClientAction(object input, string operationDescription, Action<string> action)
         {
-            RetryCall(action);
-            Operation operation = waitOperation(operationDescription);
-            var context = new ManagementOperationContext
-            {
-                OperationDescription = operationDescription,
-                OperationId = operation.OperationTrackingId,
-                OperationStatus = operation.Status
-            };
+            Operation operation = null;
 
-            WriteObject(context, true);
+            WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+
+            try
+            {
+                RetryCall(action);
+                operation = GetOperation();
+            }
+            catch (ServiceManagementClientException ex)
+            {
+                WriteErrorDetails(ex);
+            }
+
+            WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
+
+            if (operation != null)
+            {
+                var context = new ManagementOperationContext
+                {
+                    OperationDescription = operationDescription,
+                    OperationId = operation.OperationTrackingId,
+                    OperationStatus = operation.Status
+                };
+
+                WriteObject(context, true);
+            }
         }
 
-        protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action, Func<string, Operation> waitOperation)
+        protected void ExecuteClientActionInOCS(object input, string operationDescription, Action<string> action)
         {
             IContextChannel contextChannel = null;
+
             try
             {
                 contextChannel = Channel.ToContextChannel();
@@ -106,15 +124,29 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 // Do nothing, proceed.
             }
-            
+
             if (contextChannel != null)
             {
                 using (new OperationContextScope(contextChannel))
                 {
+                    Operation operation = null;
+
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+
                     try
                     {
                         RetryCall(action);
-                        Operation operation = waitOperation(operationDescription);
+                        operation = GetOperation();
+                    }
+                    catch (ServiceManagementClientException ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
+
+                    if (operation != null)
+                    {
                         var context = new ManagementOperationContext
                         {
                             OperationDescription = operationDescription,
@@ -123,10 +155,6 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         };
 
                         WriteObject(context, true);
-                    }
-                    catch (ServiceManagementClientException  ex)
-                    {
-                        WriteErrorDetails(ex);
                     }
                 }
             }
@@ -144,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<string, Operation> waitOperation, Func<Operation, TResult, object> contextFactory) where TResult : class
+        protected void ExecuteClientActionInOCS<TResult>(object input, string operationDescription, Func<string, TResult> action, Func<Operation, TResult, object> contextFactory) where TResult : class
         {
             IContextChannel contextChannel = null;
 
@@ -161,19 +189,27 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             {
                 using (new OperationContextScope(contextChannel))
                 {
+                    TResult result = null;
+                    Operation operation = null;
+
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+
                     try
                     {
-                        TResult result = RetryCall(action);
-                        Operation operation = waitOperation(operationDescription);
-                        if (result != null)
-                        {
-                            object context = contextFactory(operation, result);
-                            WriteObject(context, true);
-                        }
+                        result = RetryCall(action);
+                        operation = GetOperation();
                     }
                     catch (ServiceManagementClientException ex)
                     {
                         WriteErrorDetails(ex);
+                    }
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
+
+                    if (result != null && operation != null)
+                    {
+                        object context = contextFactory(operation, result);
+                        WriteObject(context, true);
                     }
                 }
             }
@@ -187,44 +223,17 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
             }
         }
 
-        protected override Operation GetOperationStatus(string subscriptionId, string operationId)
+        protected Operation GetOperation()
         {
-            var channel = (IServiceManagement)Channel;
-            return channel.GetOperationStatus(subscriptionId, operationId);
-        }
-
-        protected override Operation WaitForOperation(string opdesc)
-        {
-            return WaitForOperation(opdesc, false);
-        }
-
-        protected override Operation WaitForOperation(string opdesc, bool silent)
-        {
-            string operationId = RetrieveOperationId();
             Operation operation = null;
 
-            if (!string.IsNullOrEmpty(operationId))
+            try
             {
-                try
+                string operationId = RetrieveOperationId();
+
+                if (!string.IsNullOrEmpty(operationId))
                 {
-                    SubscriptionData currentSubscription = this.CurrentSubscription;
-
-                    operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
-
-                    var activityId = new Random().Next(1, 999999);
-                    var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
-
-                    while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
-                            string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
-                    {
-                        if (silent == false)
-                        {
-                            WriteProgress(progress);
-                        }
-
-                        Thread.Sleep(1 * 1000);
-                        operation = RetryCall(s => GetOperationStatus(currentSubscription.SubscriptionId, operationId));
-                    }
+                    operation = RetryCall(s => GetOperationStatus(this.CurrentSubscription.SubscriptionId, operationId));
 
                     if (string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
                     {
@@ -232,28 +241,28 @@ namespace Microsoft.WindowsAzure.Management.Cmdlets.Common
                         var exception = new Exception(errorMessage);
                         WriteError(new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null));
                     }
-
-                    if (silent == false)
-                    {
-                        progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
-                        WriteProgress(progress);
-                    }
                 }
-                catch (ServiceManagementClientException ex)
+                else
                 {
-                    WriteErrorDetails(ex);
+                    operation = new Operation
+                    {
+                        OperationTrackingId = string.Empty,
+                        Status = OperationState.Failed
+                    };
                 }
             }
-            else
+            catch (ServiceManagementClientException ex)
             {
-                operation = new Operation
-                {
-                    OperationTrackingId = string.Empty,
-                    Status = OperationState.Failed
-                };
+                WriteErrorDetails(ex);
             }
 
             return operation;
+        }
+
+        protected override Operation GetOperationStatus(string subscriptionId, string operationId)
+        {
+            var channel = (IServiceManagement)Channel;
+            return channel.GetOperationStatus(subscriptionId, operationId);
         }
     }
 }

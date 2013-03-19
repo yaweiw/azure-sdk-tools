@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Location = this.Location
             };
 
-            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput), WaitForOperation);
+            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput));
         }
 
         protected override void OnProcessRecord()

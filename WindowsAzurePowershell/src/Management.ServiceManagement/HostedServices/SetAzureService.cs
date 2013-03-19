@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Description =  this.Description
             };
 
-            ExecuteClientActionInOCS(updateHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.UpdateHostedService(s, this.ServiceName, updateHostedServiceInput), WaitForOperation);
+            ExecuteClientActionInOCS(updateHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.UpdateHostedService(s, this.ServiceName, updateHostedServiceInput));
         }
     }
 }

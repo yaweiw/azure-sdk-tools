@@ -330,7 +330,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             Label = this.ServiceName
                         };
 
-                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
+                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi));
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -368,7 +368,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                                 deployment.Dns.DnsServers.Add(dns);
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
+                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -406,7 +406,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     try
                     {
-                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm), WaitForOperation);
+                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm));
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -438,8 +438,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 try
                 {
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
                     AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    WaitForOperation(CommandRuntime.ToString(), true);
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
                     IsPresent = !response.Result;
                 }
                 catch (ServiceManagementClientException ex)

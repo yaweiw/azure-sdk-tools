@@ -51,7 +51,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 disk,
                 CommandRuntime.ToString(),
                 s => this.Channel.UpdateDisk(s, this.DiskName, disk),
-                WaitForOperation,
                 (op, responseDisk) => new DiskContext
                 {
                     DiskName = responseDisk.Name,

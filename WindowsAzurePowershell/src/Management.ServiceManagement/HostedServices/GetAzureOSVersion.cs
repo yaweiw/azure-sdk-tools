@@ -43,7 +43,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListOperatingSystems(s),
-                WaitForOperation,
                 (operation, operatingSystems) => operatingSystems.Select(os => new OSVersionsContext
                 {
                     OperationId = operation.OperationTrackingId,

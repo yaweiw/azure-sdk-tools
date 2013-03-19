@@ -106,7 +106,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 image,
                 CommandRuntime.ToString(),
                 s => this.Channel.UpdateOSImage(s, this.ImageName, image),
-                WaitForOperation,
                 (op, responseImage) => new OSImageContext
                 {
                     AffinityGroup = responseImage.AffinityGroup,

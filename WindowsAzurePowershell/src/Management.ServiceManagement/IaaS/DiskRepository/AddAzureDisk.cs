@@ -71,7 +71,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 disk, 
                 CommandRuntime.ToString(), 
                 s => this.Channel.CreateDisk(s, disk), 
-                WaitForOperation, 
                 (op,responseDisk) => new DiskContext
                 {
                     DiskName = responseDisk.Name,
