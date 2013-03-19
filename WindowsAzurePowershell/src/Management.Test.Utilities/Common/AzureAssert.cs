@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
-    using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
+    using DefinitionConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
 
     public static class AzureAssert
     {
@@ -259,9 +259,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
                 l.cleanOnRoleRecycle.Equals(expected.cleanOnRoleRecycle) && l.sizeInMB.Equals(expected.sizeInMB)));
         }
 
-        public static void ConfigurationSettingExist(DefConfigurationSetting expected, DefConfigurationSetting[] actual)
+        public static void ConfigurationSettingExist(DefinitionConfigurationSetting expected, DefinitionConfigurationSetting[] actual)
         {
-            Assert.IsTrue(Array.Exists<DefConfigurationSetting>(actual, c => c.name == expected.name));
+            Assert.IsTrue(Array.Exists<DefinitionConfigurationSetting>(actual, c => c.name == expected.name));
         }
 
         public static void ConfigurationSettingExist(ConfigConfigurationSetting expected, ConfigConfigurationSetting[] actual)
