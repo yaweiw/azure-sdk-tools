@@ -15,10 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Web;
     using Common;
+    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
     using Services;
 
@@ -93,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
             else if (ListPath.IsPresent)
             {
-                DeploymentChannel.ListPaths();
+                WriteObject(DeploymentChannel.ListPaths().Select<Item, string>(i => i.Name));
             }
         }
 
