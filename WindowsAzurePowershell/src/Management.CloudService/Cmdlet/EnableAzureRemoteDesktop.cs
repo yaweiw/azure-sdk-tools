@@ -24,12 +24,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Text;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using ConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel;
     using Microsoft.WindowsAzure.Storage;
     using ServiceManagement;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using System.ServiceModel.Channels;
 
     public class SubscriptionData

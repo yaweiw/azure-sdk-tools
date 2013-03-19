@@ -25,14 +25,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using System.Threading;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Properties;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
     using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;

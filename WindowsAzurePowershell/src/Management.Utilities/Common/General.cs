@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Text;
     using System.Xml;
     using System.Xml.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 

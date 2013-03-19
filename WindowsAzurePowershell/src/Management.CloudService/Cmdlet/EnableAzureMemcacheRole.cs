@@ -23,13 +23,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security;
     using System.Security.Permissions;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using DefConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema.ConfigurationSetting;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;

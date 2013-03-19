@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 // Original file name:
-// Generation date: 3/14/2013 6:52:09 PM
-namespace Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference
+// Generation date: 3/19/2013 12:07:40 PM
+namespace Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference
 {
     
     /// <summary>
@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceR
         {
             if (typeName.StartsWith("Microsoft.DataMarket.CatalogService.Model", global::System.StringComparison.Ordinal))
             {
-                return this.GetType().Assembly.GetType(string.Concat("Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference", typeName.Substring(41)), false);
+                return this.GetType().Assembly.GetType(string.Concat("Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference", typeName.Substring(41)), false);
             }
             return null;
         }
@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceR
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected string ResolveNameFromType(global::System.Type clientType)
         {
-            if (clientType.Namespace.Equals("Microsoft.WindowsAzure.Management.Utilities.Common.MarketplaceServiceReference", global::System.StringComparison.Ordinal))
+            if (clientType.Namespace.Equals("Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference", global::System.StringComparison.Ordinal))
             {
                 return string.Concat("Microsoft.DataMarket.CatalogService.Model.", clientType.Name);
             }

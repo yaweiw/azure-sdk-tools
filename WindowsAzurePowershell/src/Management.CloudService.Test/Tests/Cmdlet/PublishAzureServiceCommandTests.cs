@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using CloudService.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;

@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Common
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using Microsoft.WindowsAzure.Management.Subscription;
-    using Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;

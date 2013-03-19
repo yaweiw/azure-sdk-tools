@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Scaffolding
 {
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Properties;
