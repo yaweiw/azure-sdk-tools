@@ -21,12 +21,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Threading.Tasks;
     using System.Web;
     using Microsoft.WindowsAzure.Management.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
     using Moq;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
     using Websites.Services.WebEntities;
+    using System.Linq;
 
     [TestClass]
     public class GetAzureWebsiteLogTests : WebsitesTestBase
@@ -142,6 +144,23 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             Assert.AreEqual<string>(HttpUtility.UrlEncode(message), getAzureWebsiteLogCmdlet.Message);
             logs.ForEach(l => commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<object>()), Times.AtLeastOnce()));
             logStreamWaitHandleMock.Verify(f => f.Dispose(), Times.Once());
+        }
+
+        [TestMethod]
+        public void TestGetAzureWebsiteLogListPath()
+        {
+            List<Item> paths = new List<Item>() { new Item() { Name = "http" }, new Item() { Name = "Git" } };
+            List<string> expected = new List<string>() { "http", "Git" };
+            List<string> actual = new List<string>();
+            deploymentChannelMock.Setup(f => f.BeginListPaths(null, null));
+            deploymentChannelMock.Setup(f => f.EndListPaths(It.IsAny<IAsyncResult>())).Returns(paths);
+            commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<IEnumerable<string>>(), true))
+                .Callback<object, bool>((o, b) => actual = actual = ((IEnumerable<string>)o).ToList<string>());
+            getAzureWebsiteLogCmdlet.ListPath = true;
+
+            getAzureWebsiteLogCmdlet.ExecuteCmdlet();
+
+            CollectionAssert.AreEquivalent(expected, actual);
         }
     }
 }

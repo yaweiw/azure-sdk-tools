@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
             else if (ListPath.IsPresent)
             {
-                WriteObject(DeploymentChannel.ListPaths().Select<Item, string>(i => i.Name));
+                WriteObject(DeploymentChannel.ListPaths().Select<Item, string>(i => i.Name), true);
             }
         }
 
