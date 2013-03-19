@@ -14,10 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// storage management interface for all cmdlet that works without cloud

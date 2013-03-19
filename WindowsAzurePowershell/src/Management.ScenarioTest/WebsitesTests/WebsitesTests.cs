@@ -14,19 +14,35 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
 {
-    using System.Management.Automation;
+    using System.IO;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class WebsitesTests : WindowsAzurePowerShellTest
     {
+        private string currentDirectory;
+
         public WebsitesTests()
             : base("Websites\\Common.ps1",
                    "Websites\\WebsitesTests.ps1")
         {
 
+        }
+
+        [TestInitialize]
+        public override void TestSetup()
+        {
+            base.TestSetup();
+            powershell.AddScript("Initialize-WebsiteTest");
+            currentDirectory = Directory.GetCurrentDirectory();
+        }
+
+        [TestCleanup]
+        public override void TestCleanup()
+        {
+            base.TestCleanup();
+            Directory.SetCurrentDirectory(currentDirectory);
         }
 
         #region Remove-AzureWebsite Scenario Tests
@@ -62,6 +78,36 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithWhatIf");
         }
+
+        #endregion
+
+        #region Get-AzureWebsiteLog Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name $(Get-WebsiteName) }");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTail()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTail");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1177
+        public void TestGetAzureWebsiteLogTailPath()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
+        }
+        
 
         #endregion
     }
