@@ -649,8 +649,8 @@
   <data name="RuntimeTypeKey" xml:space="preserve">
     <value>RUNTIMEID</value>
   </data>
-  <data name="ManifestBaseUriQuery" xml:space="preserve">
-    <value>//baseuri</value>
+  <data name="DatacenterBlobQuery" xml:space="preserve">
+    <value>//blobcontainer[@datacenter='{0}']</value>
   </data>
   <data name="IISNodeRuntimeValue" xml:space="preserve">
     <value>iisnode</value>
