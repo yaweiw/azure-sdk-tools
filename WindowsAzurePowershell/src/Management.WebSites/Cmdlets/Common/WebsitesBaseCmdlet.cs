@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
     using System.Net;
     using System.ServiceModel;
     using System.Xml.Serialization;
-    using Management.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Properties;
     using ServiceManagement;
     using Services;

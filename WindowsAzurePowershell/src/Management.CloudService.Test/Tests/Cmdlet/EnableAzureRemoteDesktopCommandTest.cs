@@ -18,17 +18,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
     using System.Collections.Generic;
     using System.Linq;
     using System.Security;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Cmdlet;
-    using Extensions;
-    using Management.Services;
-    using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Node.Cmdlet;
-    using TestData;
     using VisualStudio.TestTools.UnitTesting;
-    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
-    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.MockCommandRuntime;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
+    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.
@@ -93,13 +93,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             enableRDCmdlet.EnableRemoteDesktop();
         }
 
-        public static void VerifyWebRole(ServiceDefinitionSchema.WebRole role, bool isForwarder)
+        public static void VerifyWebRole(WebRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
         }
 
-        public static void VerifyWorkerRole(ServiceDefinitionSchema.WorkerRole role, bool isForwarder)
+        public static void VerifyWorkerRole(WorkerRole role, bool isForwarder)
         {
             Assert.AreEqual(isForwarder ? 1 : 0, role.Imports.Where(i => i.moduleName == "RemoteForwarder").Count());
             Assert.AreEqual(1, role.Imports.Where(i => i.moduleName == "RemoteAccess").Count());
@@ -107,11 +107,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
         public static void VerifyRoleSettings(AzureService service)
         {
-            IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
+            IEnumerable<RoleSettings> settings =
                 Enumerable.Concat(
                     service.Components.CloudConfig.Role,
                     service.Components.LocalConfig.Role);
-            foreach (ServiceConfigurationSchema.RoleSettings roleSettings in settings)
+            foreach (RoleSettings roleSettings in settings)
             {
                 Assert.AreEqual(
                     1,
@@ -133,21 +133,21 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
 
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(null, null));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop(string.Empty, string.Empty));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", null));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", string.Empty));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "short"));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "onlylower"));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "ONLYUPPER"));
-                ManagementTesting.AssertThrows<ArgumentException>(
+                Testing.AssertThrows<ArgumentException>(
                     () => EnableRemoteDesktop("user", "1234567890"));
             }
         }
@@ -162,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 files.CreateNewService("NEW_SERVICE");
-                ManagementTesting.AssertThrows<InvalidOperationException>(() =>
+                Testing.AssertThrows<InvalidOperationException>(() =>
                     EnableRemoteDesktop("user", "GoodPassword!"));
             }
         }

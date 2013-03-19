@@ -113,43 +113,22 @@
     <Compile Include="Store\RemoveAzureStoreAddOnTest.cs" />
     <Compile Include="Store\SetAzureStoreAddOnTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Subscription\Cmdlets\GetSubscriptionTest.cs" />
-    <Compile Include="Subscription\Cmdlets\GetAzurePublishSettingsTests.cs" />
-    <Compile Include="Subscription\Cmdlets\ImportAzurePublishSettingsTest.cs" />
-    <Compile Include="Subscription\Cmdlets\RemoveSubscriptionTest.cs" />
-    <Compile Include="Subscription\Cmdlets\SelectSubscriptionTest.cs" />
-    <Compile Include="Subscription\Cmdlets\SetSubscriptionTest.cs" />
-    <Compile Include="Subscription\Extensions\CmdletSubscriptionExtensionsTest.cs" />
-    <Compile Include="Subscription\Extensions\CmdletExtensionsTest.cs" />
-    <Compile Include="Subscription\GeneralTest.cs" />
-    <Compile Include="Subscription\Services\GlobalComponentsTests.cs" />
-    <Compile Include="Subscription\Services\GlobalPathInfoTest.cs" />
-    <Compile Include="Subscription\Services\SubscriptionsManagerTests.cs" />
+    <Compile Include="Subscription\GetSubscriptionTest.cs" />
+    <Compile Include="Subscription\GetAzurePublishSettingsTests.cs" />
+    <Compile Include="Subscription\ImportAzurePublishSettingsTest.cs" />
+    <Compile Include="Common\RemoveSubscriptionTest.cs" />
+    <Compile Include="Subscription\SelectSubscriptionTest.cs" />
+    <Compile Include="Subscription\SetSubscriptionTest.cs" />
+    <Compile Include="Common\CmdletSubscriptionExtensionsTest.cs" />
+    <Compile Include="Common\CmdletExtensionsTest.cs" />
+    <Compile Include="Common\GeneralTest.cs" />
+    <Compile Include="Common\GlobalComponentsTests.cs" />
+    <Compile Include="Common\GlobalPathInfoTest.cs" />
+    <Compile Include="Common\SubscriptionsManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
-    <None Include="Resources\ValidProfile2.PublishSettings" />
-    <None Include="Resources\ValidProfile.PublishSettings" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Azure.publishsettings" />
-    <None Include="Resources\InvalidProfile.PublishSettings" />
-    <None Include="Resources\subscriptions.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invalidsubscriptions.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">

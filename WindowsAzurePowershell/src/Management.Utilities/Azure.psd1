@@ -75,10 +75,8 @@ FormatsToProcess = @(
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
 				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll',
 				'.\Microsoft.WindowsAzure.Management.Websites.dll',
-				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll',
-				'.\Microsoft.WindowsAzure.Management.Storage.dll',
-				'.\Microsoft.WindowsAzure.Management.Store.dll'
+				'.\Microsoft.WindowsAzure.Management.Storage.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'
@@ -100,7 +98,7 @@ FileList =	'.\Microsoft.WindowsAzure.Management.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml',
-			'.\Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml',
+			'.\Microsoft.WindowsAzure.Management.Utilities.ServiceBus.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Storage.dll-Help.xml',
 			'.\Microsoft.WindowsAzure.Management.Store.dll-Help.xml'
 

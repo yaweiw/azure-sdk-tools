@@ -12,16 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Cmdlets
+namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Common;
-    using Extensions;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
 

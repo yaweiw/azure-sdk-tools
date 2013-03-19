@@ -25,18 +25,15 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Security.Permissions;
     using System.Text;
     using System.Threading;
-    using AzureTools;
-    using Extensions;
-    using Management.Services;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    //using Microsoft.WindowsAzure.Management.Service;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
     using Properties;
-    using Services;
     using Utilities;
+    using Certificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
     using DeploymentStatus = Microsoft.WindowsAzure.ServiceManagement.DeploymentStatus;
     using RoleInstanceStatus = Microsoft.WindowsAzure.ServiceManagement.RoleInstanceStatus;
     using UpgradeType = Microsoft.WindowsAzure.ServiceManagement.UpgradeType;
@@ -126,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public override void ExecuteCmdlet()
         {
-            PublishService(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
+            PublishService(General.GetServiceRootPath(CurrentPath()));
         }
 
         /// <summary>
@@ -327,13 +324,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
                     deploymentLocation));
             }
 
-            ServiceDefinitionSchema.ServiceDefinition definition = service.Components.Definition;
+            ServiceDefinition definition = service.Components.Definition;
             StringBuilder warningText = new StringBuilder();
             bool shouldWarn = false;
             List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
             if (definition.WebRole != null)
             {
-                foreach (ServiceDefinitionSchema.WebRole role in definition.WebRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
+                foreach (WebRole role in definition.WebRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     CloudRuntime.ClearRuntime(role);
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
@@ -358,7 +355,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (definition.WorkerRole != null)
             {
-                foreach (ServiceDefinitionSchema.WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
+                foreach (WorkerRole role in definition.WorkerRole.Where(role => role.Startup != null && CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
                 {
                     string rolePath = Path.Combine(service.Paths.RootPath, role.name);
                     CloudRuntime.ClearRuntime(role);
@@ -699,7 +696,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         /// <summary>
         /// Wait until a certificate has been added to a hosted service.
         /// </summary>
-        private void WaitForCertificateToBeAdded(ServiceConfigurationSchema.Certificate certificate)
+        private void WaitForCertificateToBeAdded(Certificate certificate)
         {
             Debug.Assert(
                 !string.IsNullOrEmpty(_hostedServiceName),
@@ -865,8 +862,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             if (_azureService.Components.CloudConfig.Role != null)
             {
-                foreach (ServiceConfigurationSchema.Certificate certElement in _azureService.Components.CloudConfig.Role.
-                    SelectMany(r => r.Certificates ?? new ServiceConfigurationSchema.Certificate[0]).Distinct())
+                foreach (Certificate certElement in _azureService.Components.CloudConfig.Role.
+                    SelectMany(r => r.Certificates ?? new Certificate[0]).Distinct())
                 {
                     if (uploadedCertificates == null || (uploadedCertificates.Count(c => c.Thumbprint.Equals(
                         certElement.thumbprint, StringComparison.OrdinalIgnoreCase)) < 1))

@@ -21,13 +21,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Python.Cmdle
     using CloudService.Properties;
     using CloudService.Python.Cmdlet;
     using Management.Utilities;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

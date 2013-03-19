@@ -12,14 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
+namespace Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject.Scaffolding
 {
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Model;
-    using ServiceConfigurationSchema;
-    using ServiceDefinitionSchema;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
 
     public static class PythonRules
     {
@@ -27,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            RoleSettings settings = CloudServiceUtilities.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
+            RoleSettings settings = General.DeserializeXmlFile<ServiceConfiguration>(path).Role[0];
 
             components.AddRoleToConfiguration(settings, DevEnv.Cloud);
             components.AddRoleToConfiguration(settings, DevEnv.Local);
@@ -38,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            WebRole webRole = CloudServiceUtilities.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
+            WebRole webRole = General.DeserializeXmlFile<ServiceDefinition>(path).WebRole[0];
 
             role.AddRoleToDefinition(components.Definition, webRole);
             components.Save(paths);
@@ -48,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Scaffolding
             RoleInfo role = parameters["Role"] as RoleInfo;
             ServiceComponents components = parameters["Components"] as ServiceComponents;
             ServicePathInfo paths = parameters["Paths"] as ServicePathInfo;
-            WorkerRole workerRole = CloudServiceUtilities.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
+            WorkerRole workerRole = General.DeserializeXmlFile<ServiceDefinition>(path).WorkerRole[0];
 
             role.AddRoleToDefinition(components.Definition, workerRole);
             components.Save(paths);

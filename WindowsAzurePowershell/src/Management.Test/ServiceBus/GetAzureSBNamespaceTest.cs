@@ -12,19 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
+namespace Microsoft.WindowsAzure.Management.Test.ServiceBus
 {
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.ServiceBus.Cmdlet;
-    using Microsoft.WindowsAzure.Management.ServiceBus.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.ServiceBus;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.ServiceBus;
+    using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
     using VisualStudio.TestTools.UnitTesting;
-    using ManagementTesting = WindowsAzure.Management.Test.Tests.Utilities.Testing;
 
     [TestClass]
     public class GetAzureSBNamespaceTests : TestBase
@@ -36,7 +35,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
         [TestInitialize]
         public void SetupTest()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             new FileSystemHelper(this).CreateAzureSdkDirectoryAndImportPublishSettings();
             channel = new SimpleServiceBusManagement();
             mockCommandRuntime = new MockCommandRuntime();
@@ -111,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceBus.Test.UnitTests.Cmdlet
                 GetAzureSBNamespaceCommand cmdlet = new GetAzureSBNamespaceCommand() { Name = invalidName, CommandRuntime = mockCommandRuntime };
                 string expected = string.Format("{0}\r\nParameter name: Name", string.Format(Resources.InvalidNamespaceName, invalidName));
 
-                ManagementTesting.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
+                Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet(), expected);
             }
         }
     }
