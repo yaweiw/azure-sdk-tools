@@ -58,7 +58,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetDisk(s, this.DiskName),
-                    WaitForOperation,
                     (operation, disk) => func(operation, new[] { disk }));
             }
             else
@@ -67,7 +66,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListDisks(s),
-                    WaitForOperation,
                     (operation, disks) => func(operation, disks));
 
             }

@@ -60,7 +60,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
 
         internal void ExecuteCommand()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint));
         }
 
         protected override void OnProcessRecord()

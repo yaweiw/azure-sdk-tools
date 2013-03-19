@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 // Remove the image from the image repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName));
                 }
 
                 if (this.DeleteVHD.IsPresent)

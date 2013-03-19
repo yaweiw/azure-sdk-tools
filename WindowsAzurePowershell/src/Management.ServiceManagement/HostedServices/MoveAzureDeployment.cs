@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Production = prodDeployment == null ? null : prodDeployment.Name
             };
 
-            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
+            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput));
         }
 
         private Deployment GetDeploymentBySlot(string slot)

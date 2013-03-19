@@ -99,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                             Configuration = configuration.ToString()
                         };
 
-                        ExecuteClientAction(configuration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, updatedConfiguration), WaitForOperation);
+                        ExecuteClientAction(configuration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, updatedConfiguration));
                     }
                 }
                 catch (ServiceManagementClientException ex)
@@ -118,9 +118,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
-                var deployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = WaitForOperation("Get Deployment");
-                return deployment;
+                WriteVerboseWithTimestamp("Begin Operation: Get Deployment");
+
+                var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
+                operation = GetOperation();
+
+                WriteVerboseWithTimestamp("Completed Operation: Get Deployment");
+                return currentDeployment;
             }
         }
     }

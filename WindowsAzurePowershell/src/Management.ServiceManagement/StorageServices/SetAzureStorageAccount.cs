@@ -96,7 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 Label = this.Label != null ? this.Label : null
             };
 
-            ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput), WaitForOperation);
+            ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput));
         }
 
         protected override void OnProcessRecord()

@@ -93,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 Location = this.Location
             };
 
-            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput), WaitForOperation);
+            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
         }
 
         protected override void OnProcessRecord()

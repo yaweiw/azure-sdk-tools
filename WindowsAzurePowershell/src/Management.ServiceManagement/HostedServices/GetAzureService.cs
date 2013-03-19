@@ -71,7 +71,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetHostedService(s, this.ServiceName),
-                    WaitForOperation,
                     (operation, service) => func(operation, new[] { service }));
             }
             else
@@ -80,7 +79,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListHostedServices(s),
-                    WaitForOperation,
                     (operation, service) => func(operation, service));
             }
         }

@@ -111,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 RoleType = VM.RoleType
             };
 
-            ExecuteClientActionInOCS(role, CommandRuntime.ToString(), s => this.Channel.UpdateRole(s, this.ServiceName, CurrentDeployment.Name, this.Name, role), WaitForOperation);
+            ExecuteClientActionInOCS(role, CommandRuntime.ToString(), s => this.Channel.UpdateRole(s, this.ServiceName, CurrentDeployment.Name, this.Name, role));
 
         }
     }

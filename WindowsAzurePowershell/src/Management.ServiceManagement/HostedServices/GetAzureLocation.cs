@@ -41,7 +41,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
-                WaitForOperation,
                 (op, locations) => locations.Select(location => new LocationsContext
                 {
                     OperationId = op.OperationTrackingId,

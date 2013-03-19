@@ -74,7 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
                 Password = Password,
                 CertificateFormat = "pfx"
             };
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]

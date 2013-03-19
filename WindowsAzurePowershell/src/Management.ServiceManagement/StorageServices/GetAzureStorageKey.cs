@@ -73,7 +73,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.GetStorageKeys(s, this.StorageAccountName),
-                WaitForOperation,
                 func);
         }
     }

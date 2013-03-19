@@ -150,7 +150,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
                     WriteProgress(progress);
 
-                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput), WaitForOperation);
+                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput));
 
                     if (removePackage == true)
                     {

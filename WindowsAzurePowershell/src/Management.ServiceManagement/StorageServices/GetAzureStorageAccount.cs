@@ -74,7 +74,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetStorageService(s, this.StorageAccountName),
-                    WaitForOperation,
                     (operation, storageService) => func(operation, new[] { storageService }));
             }
             else
@@ -83,7 +82,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListStorageServices(s),
-                    WaitForOperation,
                     (operation, storageServices) => func(operation, storageServices));
             }
         }
