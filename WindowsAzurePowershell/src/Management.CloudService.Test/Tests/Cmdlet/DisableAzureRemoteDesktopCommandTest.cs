@@ -16,14 +16,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 {
     using System.Collections.Generic;
     using System.Linq;
-    using CloudService.Model;
     using Cmdlet;
-    using Extensions;
-    using Management.Services;
-    using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Node.Cmdlet;
-    using TestData;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -53,11 +51,11 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test
 
         private static void VerifyDisableRoleSettings(AzureService service)
         {
-            IEnumerable<ServiceConfigurationSchema.RoleSettings> settings =
+            IEnumerable<RoleSettings> settings =
                 Enumerable.Concat(
                     service.Components.CloudConfig.Role,
                     service.Components.LocalConfig.Role);
-            foreach (ServiceConfigurationSchema.RoleSettings roleSettings in settings)
+            foreach (RoleSettings roleSettings in settings)
             {
                 Assert.AreEqual(
                     1,

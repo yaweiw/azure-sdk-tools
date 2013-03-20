@@ -17,11 +17,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Management.Services;
-    using Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Subscription;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites.Properties;
-    using Model;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
@@ -147,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
                 GlobalPathInfo.GlobalSettingsDirectory,
                 null,
-                Microsoft.WindowsAzure.Management.CloudService.Test.TestData.Data.ValidPublishSettings[0]);
+                Data.ValidPublishSettings[0]);
             RemoveAzureSubscriptionCommand removeCmdlet = new RemoveAzureSubscriptionCommand();
             removeCmdlet.CommandRuntime = new MockCommandRuntime();
             ICollection<string> subscriptions = globalComponents.Subscriptions.Keys;

@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 {
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     /// <summary>
     /// Adjusts the service configuration.
