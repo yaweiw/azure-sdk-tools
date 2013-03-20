@@ -1,5 +1,4 @@
 # Windows Azure PowerShell
-[![Build Status](http://azuresdkci.cloudapp.net:80/job/azure-sdk-tools%20dev%20win2k8/badge/icon)](http://azuresdkci.cloudapp.net:80/job/azure-sdk-tools%20dev%20win2k8/)
 
 This repo contains a set of PowerShell cmddlets for developers and administrators to deploy and manage 
 Windows Azure applications. It includes the following:
