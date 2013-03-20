@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests
     using CloudService.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;

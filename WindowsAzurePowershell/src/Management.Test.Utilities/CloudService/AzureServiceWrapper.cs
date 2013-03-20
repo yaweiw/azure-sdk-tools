@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.CloudService
 {
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
