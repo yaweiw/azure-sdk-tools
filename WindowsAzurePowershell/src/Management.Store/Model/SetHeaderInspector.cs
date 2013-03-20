@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Store.Model
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
 
-    class HeadersInspector : IClientMessageInspector, IEndpointBehavior
+    public class HeadersInspector : IClientMessageInspector, IEndpointBehavior
     {
         public Dictionary<string, string> RequestHeaders { get; set; }
 

@@ -213,6 +213,26 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
         {
             throw new NotImplementedException();
         }
+
+        public IAsyncResult BeginGetDiagnosticsSettings(AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DiagnosticsSettings EndGetDiagnosticsSettings(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetDiagnosticsSettings(DiagnosticsSettings diagnosticsSettings, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetDiagnosticsSettings(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

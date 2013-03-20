@@ -64,5 +64,20 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [WebInvoke(Method = "GET", UriTemplate = "vfs/LogFiles")]
         IAsyncResult BeginListPaths(AsyncCallback callback, object state);
         List<Item> EndListPaths(IAsyncResult asyncResult);
+
+        [Description("Gets diagnostics settings")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "diagnostics/settings")]
+        IAsyncResult BeginGetDiagnosticsSettings(AsyncCallback callback, object state);
+        DiagnosticsSettings EndGetDiagnosticsSettings(IAsyncResult asyncResult);
+
+        [Description("Sets diagnostics settings")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "POST", UriTemplate = "diagnostics/settings")]
+        IAsyncResult BeginSetDiagnosticsSettings(
+            DiagnosticsSettings diagnosticsSettings,
+            AsyncCallback callback,
+            object state);
+        void EndSetDiagnosticsSettings(IAsyncResult asyncResult);
     }
 }

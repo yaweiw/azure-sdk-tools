@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
     using System.Collections;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
+    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
     using Utilities;
 
     public interface ISiteConfig
@@ -43,18 +44,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         ConnStringPropertyBag ConnectionStrings { get; set; }
 
         HandlerMapping[] HandlerMappings { get; set; }
+
+        bool? AzureDriveTraceEnabled { get; set; }
+
+        string AzureDriveTraceLevel { get; set; }
+
+        bool? AzureTableTraceEnabled { get; set; }
+
+        string AzureTableTraceLevel { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
     {
         private Site Site { get; set; }
-        private SiteConfig SiteConfig { set; get; }
+
+        private SiteConfig SiteConfig { get; set; }
+
+        private DiagnosticsSettings DiagnosticsSettings { get; set; }
 
         public SiteWithConfig()
         {
             Site = new Site();
             SiteConfig = new SiteConfig();
             AppSettings = new Hashtable();
+            DiagnosticsSettings = new DiagnosticsSettings();
         }
 
         public SiteWithConfig(Site site, SiteConfig siteConfig)
@@ -62,6 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
             Site = site;
             SiteConfig = siteConfig;
             AppSettings = new Hashtable();
+            DiagnosticsSettings = new DiagnosticsSettings();
             
             if (SiteConfig.AppSettings != null)
             {
@@ -70,6 +84,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
                     AppSettings[setting.Name] = setting.Value;
                 }
             }
+        }
+
+        public SiteWithConfig(Site site, SiteConfig siteConfig, DiagnosticsSettings diagnosticsSettings) :
+            this(site, siteConfig)
+        {
+            DiagnosticsSettings = diagnosticsSettings;
         }
 
         public SiteConfig GetSiteConfig()
@@ -124,6 +144,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
             get { return SiteConfig.RequestTracingEnabled; }
             set { SiteConfig.RequestTracingEnabled = value; }
         }
+
         public bool? HttpLoggingEnabled
         {
             get { return SiteConfig.HttpLoggingEnabled; }
@@ -262,6 +283,30 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.WebEntities
         {
             get { return Site.HostNameSslStates; }
             set { Site.HostNameSslStates = value; }
+        }
+
+        public bool? AzureDriveTraceEnabled
+        {
+            get { return DiagnosticsSettings.AzureDriveTraceEnabled; }
+            set { DiagnosticsSettings.AzureDriveTraceEnabled = value; }
+        }
+
+        public string AzureDriveTraceLevel
+        {
+            get { return DiagnosticsSettings.AzureDriveTraceLevel; }
+            set { DiagnosticsSettings.AzureDriveTraceLevel = value; }
+        }
+
+        public bool? AzureTableTraceEnabled
+        {
+            get { return DiagnosticsSettings.AzureTableTraceEnabled; }
+            set { DiagnosticsSettings.AzureTableTraceEnabled = value; }
+        }
+
+        public string AzureTableTraceLevel
+        {
+            get { return DiagnosticsSettings.AzureTableTraceLevel; }
+            set { DiagnosticsSettings.AzureTableTraceLevel = value; }
         }
     }
 

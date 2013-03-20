@@ -49,5 +49,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         {
             return proxy.EndListPaths(proxy.BeginListPaths(null, null));
         }
+
+        public static DiagnosticsSettings GetDiagnosticsSettings(this IDeploymentServiceManagement proxy)
+        {
+            return proxy.EndGetDiagnosticsSettings(proxy.BeginGetDiagnosticsSettings(null, null));
+        }
+
+        public static void SetDiagnosticsSettings(
+            this IDeploymentServiceManagement proxy,
+            DiagnosticsSettings diagnosticsSettings)
+        {
+            proxy.EndSetDiagnosticsSettings(proxy.BeginSetDiagnosticsSettings(diagnosticsSettings, null, null));
+        }
     }
 }
