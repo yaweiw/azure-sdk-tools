@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
 
     [TestClass]
     public class ServiceBusNamespaceTests : WindowsAzurePowerShellTest

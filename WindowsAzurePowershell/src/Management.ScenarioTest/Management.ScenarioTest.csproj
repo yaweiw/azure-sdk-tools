@@ -200,21 +200,21 @@
       <Project>{b6f73ab3-1207-4b52-b90a-065cd5e107eb}</Project>
       <Name>Management.CloudService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
-      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
-      <Name>Management.ServiceBus</Name>
+    <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
+      <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
+      <Name>Management.Test.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Management.Storage</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.Store\Management.Store.csproj">
-      <Project>{2ac37c6a-41de-4341-88a4-a79f209bba83}</Project>
-      <Name>Management.Store</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
       <Name>Management.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Management.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
       <Project>{c8d37385-6d1b-493a-9eec-88a9ffeb47f6}</Project>
