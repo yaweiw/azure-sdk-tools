@@ -51,6 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string serviceName;
         private string vmName;
         protected static string vhdBlobLocation;
+        private const string filePath = @".\vnetconfig.netcfg";
         
 
         [ClassInitialize]
@@ -84,6 +85,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     throw;
                 }
             }
+
+            vmPowershellCmdlets.SetAzureVNetConfig(filePath);
 
             
         }
@@ -1080,6 +1083,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         /// Note: You have to manually create a virtual network, a Local network, a gateway, and connect them.
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureVNetGatewayKey, Get-AzureVNetConnection)")]
+        [Ignore]
         public void AzureVNetGatewayKeyTest()
         {
             cleanup = false;
@@ -1111,7 +1115,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
 
-            string filePath = @".\vnetconfig.netcfg";
+            
             string affinityGroup = "WestUsAffinityGroup";
 
             try
@@ -1120,9 +1124,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, Resource.Location, null, null);
                 }
-
-
-                vmPowershellCmdlets.SetAzureVNetConfig(filePath);
+                
 
                 var result = vmPowershellCmdlets.GetAzureVNetConfig(filePath);
 
