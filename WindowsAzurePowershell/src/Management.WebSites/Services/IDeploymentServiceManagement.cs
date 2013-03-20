@@ -63,6 +63,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [OperationContract(AsyncPattern = true)]
         [WebInvoke(Method = "GET", UriTemplate = "vfs/LogFiles")]
         IAsyncResult BeginListPaths(AsyncCallback callback, object state);
-        List<Item> EndListPaths(IAsyncResult asyncResult);
+        List<LogPath> EndListPaths(IAsyncResult asyncResult);
     }
 }
