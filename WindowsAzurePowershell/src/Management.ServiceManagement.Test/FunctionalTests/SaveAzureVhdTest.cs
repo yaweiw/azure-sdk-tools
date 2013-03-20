@@ -28,7 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private BlobHandle blobHandle;
         static bool deleteUploadedBlob = false;
         private const string vhdBlob = "vhdstore/temp.vhd";
-        
+        protected static string vhdBlobLocation;
 
         [ClassInitialize]        
         public static void ClassInit(TestContext context)

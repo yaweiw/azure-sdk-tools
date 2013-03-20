@@ -29,7 +29,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string vmNamePrefix = "PSTestVM";
         protected const string password = "p@ssw0rd";
         protected const string localFile = @"\\watest\public\PSTest\oneGBFixedWS2008R2.vhd";
-        protected static string vhdBlobLocation;
+       
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
         protected static SubscriptionData defaultAzureSubscription;

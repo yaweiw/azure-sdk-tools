@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string vhdName = "os.vhd";
         private string serviceName;
         private string vmName;
-
+        protected static string vhdBlobLocation;
         
 
         [ClassInitialize]
