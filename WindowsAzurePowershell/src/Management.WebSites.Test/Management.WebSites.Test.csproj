@@ -132,6 +132,7 @@
     <Compile Include="UnitTests\Utilities\WebsitesTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -140,9 +141,17 @@
       <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
       <Name>Management.CloudService.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
+      <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
+      <Name>Management.Test.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{B7FD03F6-98BC-4F54-9A14-0455E579FCD4}</Project>
       <Name>Management.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Management.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.WebSites\Management.Websites.csproj">
       <Project>{C8D37385-6D1B-493A-9EEC-88A9FFEB47F6}</Project>

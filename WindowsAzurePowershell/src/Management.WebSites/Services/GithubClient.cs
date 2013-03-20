@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Properties;
     using Github;
     using Github.Entities;
@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common;
 
     public static class SecureStringExtensionMethods
     {

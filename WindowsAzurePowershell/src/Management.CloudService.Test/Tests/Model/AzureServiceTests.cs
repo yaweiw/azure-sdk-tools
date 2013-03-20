@@ -18,13 +18,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using System.IO;
     using System.Linq;
     using CloudService.Cmdlet;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using TestData;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
 
     [TestClass]
     public class AzureServiceTests: TestBase
@@ -56,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void AzureServiceCreateNewInvalidParentDirectoryFail()
         {
-            foreach (string invalidName in Data.InvalidFileNames)
+            foreach (string invalidName in Data.InvalidFileName)
             {
                 Testing.AssertThrows<ArgumentException>(() => new AzureService(string.Empty, serviceName, null), string.Format(Resources.InvalidOrEmptyArgumentMessage, "service parent directory"));
             }
@@ -89,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestMethod]
         public void AzureServiceCreateNewInvalidServiceNameFail()
         {
-            foreach (string invalidFileName in Data.InvalidFileNames)
+            foreach (string invalidFileName in Data.InvalidFileName)
             {
                 using (FileSystemHelper files = new FileSystemHelper(this))
                 {

@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class OSImageContext : ManagementOperationContext
     {
