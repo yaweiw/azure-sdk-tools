@@ -151,6 +151,7 @@
     <Compile Include="Cmdlets\NewAzureWebsite.cs" />
     <Compile Include="Cmdlets\ShowAzurePortal.cs" />
     <Compile Include="Services\Cache.cs" />
+    <Compile Include="Services\DeploymentEntities\DiagnosticsSettings.cs" />
     <Compile Include="Services\DeploymentEntities\Item.cs" />
     <Compile Include="Services\DeploymentEntities\DeployStatus.cs" />
     <Compile Include="Services\DeploymentEntities\LogEntryType.cs" />
@@ -252,6 +253,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Management.Store\Management.Store.csproj">
+      <Project>{2ac37c6a-41de-4341-88a4-a79f209bba83}</Project>
+      <Name>Management.Store</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>

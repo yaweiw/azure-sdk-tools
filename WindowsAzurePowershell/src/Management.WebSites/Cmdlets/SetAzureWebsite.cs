@@ -20,16 +20,19 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using System.ServiceModel;
     using Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Store.Model;
+    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
     using Properties;
     using Services;
     using Services.WebEntities;
     using Websites.Cmdlets.Common;
-    
+
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
-    public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
+    public class SetAzureWebsiteCommand : DeploymentBaseCmdlet, ISiteConfig
     {
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
@@ -80,6 +83,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure drive trace enabled")]
+        public bool? AzureDriveTraceEnabled { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure drive trace level")]
+        public string AzureDriveTraceLevel { get; set; }
+        
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace enabled")]
+        public bool? AzureTableTraceEnabled { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace level")]
+        public string AzureTableTraceLevel { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
         /// </summary>
@@ -101,8 +116,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         public override void ExecuteCmdlet()
         {
+            base.ExecuteCmdlet();
+
             Site website = null;
             SiteConfig websiteConfig = null;
+
             InvokeInOperationContext(() =>
             {
                 try
@@ -128,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 websiteConfigUpdate = SiteWithConfig;
                 changes = true;
             }
-            
+
             if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
             {
                 changes = true;
@@ -140,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 changes = true;
                 websiteConfigUpdate.DefaultDocuments = DefaultDocuments;
             }
-       
+
             if (NetFrameworkVersion != null && !NetFrameworkVersion.Equals(websiteConfig.NetFrameworkVersion))
             {
                 changes = true;
@@ -188,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 changes = true;
                 websiteConfigUpdate.ConnectionStrings = ConnectionStrings;
             }
-            
+
             if (HandlerMappings != null && !HandlerMappings.Equals(websiteConfig.HandlerMappings))
             {
                 changes = true;
@@ -239,10 +257,59 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 });
             }
 
+            SetDiagnosticsSettings();
+
             if (PassThru.IsPresent)
             {
                 WriteObject(true);
             }
+        }
+
+        private void SetDiagnosticsSettings()
+        {
+            DiagnosticsSettings diagnosticsSettings = DeploymentChannel.GetDiagnosticsSettings();
+            bool changes = false;
+            
+            if (IsChanged<bool?>(diagnosticsSettings.AzureDriveTraceEnabled, AzureDriveTraceEnabled))
+            {
+                changes = true;
+                diagnosticsSettings.AzureDriveTraceEnabled = AzureDriveTraceEnabled;
+            }
+
+            if (IsChanged<string>(diagnosticsSettings.AzureDriveTraceLevel, AzureDriveTraceLevel))
+            {
+                changes = true;
+                diagnosticsSettings.AzureDriveTraceLevel = AzureDriveTraceLevel;
+            }
+
+            if (IsChanged<bool?>(diagnosticsSettings.AzureTableTraceEnabled, AzureTableTraceEnabled))
+            {
+                changes = true;
+                diagnosticsSettings.AzureTableTraceEnabled = AzureTableTraceEnabled;
+            }
+
+            if (IsChanged<string>(diagnosticsSettings.AzureTableTraceLevel, AzureTableTraceLevel))
+            {
+                changes = true;
+                diagnosticsSettings.AzureTableTraceLevel = AzureTableTraceLevel;
+            }
+
+            if (changes)
+            {
+                IDeploymentServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(
+                new Uri(Repository.RepositoryUri),
+                Repository.PublishingUsername,
+                Repository.PublishingPassword,
+                new HeadersInspector("Content-Type", "Application/json"),
+                new HttpRestMessageInspector(text => this.WriteDebug(text)));
+
+                channel.SetDiagnosticsSettings(diagnosticsSettings);
+            }
+        }
+
+        private bool IsChanged<T>(T original, T current)
+        {
+            return current != null && !current.Equals(original);
         }
     }
 }
