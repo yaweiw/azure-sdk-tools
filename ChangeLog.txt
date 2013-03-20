@@ -1,3 +1,21 @@
+2013.03.20 Version 0.6.12
+ * Windows Azure Storage entity level cmdlets
+   * New-AzureStorageContext
+   * New-AzureStorageContainer
+   * Get-AzureStorageContainer
+   * Remove-AzureStorageContainer
+   * Get-AzureStorageContainerAcl
+   * Set-AzureStorageContainerAcl
+   * Get-AzureStorageBlob
+   * Get-AzureStorageBlobContent
+   * Set-AzureStorageBlobContent
+   * Remove-AzureStorageBlob
+   * Start-CopyAzureStorageBlob
+   * Stop-CopyAzureStorageBlob
+   * Get-AzureStorageBlobCopyState
+ * Windows Azure Web Sites diagnostics log streaming cmdlet
+   * Get-AzureWebsitLog -Tail
+
 2013.03.06 Version 0.6.11
  * Windows Azure Store cmdlets
  * Upgraded to the latest service management library and update service management version header to 2012-12-01
