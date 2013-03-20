@@ -1026,7 +1026,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}..
+        ///   Looks up a localized string similar to {0} end processing.
         /// </summary>
         internal static string EndProcessingLog {
             get {

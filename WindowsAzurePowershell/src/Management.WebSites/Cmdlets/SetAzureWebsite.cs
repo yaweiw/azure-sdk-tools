@@ -300,7 +300,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 new Uri(Repository.RepositoryUri),
                 Repository.PublishingUsername,
                 Repository.PublishingPassword,
-                new HeadersInspector("Content-Type", "Application/json"),
+                new HeadersInspector("Content-Type", "Application/xml"),
                 new HttpRestMessageInspector(text => this.WriteDebug(text)));
 
                 channel.SetDiagnosticsSettings(diagnosticsSettings);
