@@ -17,15 +17,14 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using System;
     using System.IO;
     using System.Linq;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using CloudService.Properties;
-    using Cmdlets;
-    using Management.Services;
-    using Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using TestData;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.Subscription;
 
     [TestClass]
     public class DeploymentSettingsTests : TestBase
@@ -50,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
         [TestInitialize()]
         public void TestInitialize()
         {
-            Management.Extensions.CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
 
             serviceName = Path.GetRandomFileName();
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;

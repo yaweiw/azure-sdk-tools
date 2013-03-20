@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
     using System.Globalization;
-    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public sealed class DiskContext : ManagementOperationContext
     {
