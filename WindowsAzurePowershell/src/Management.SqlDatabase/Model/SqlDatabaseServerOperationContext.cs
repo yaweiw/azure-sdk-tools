@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Model
 {
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class SqlDatabaseServerOperationContext : ManagementOperationContext
     {
