@@ -17,12 +17,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Management.Services;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Properties;
 
     /// <summary>
@@ -65,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         public void RemoveAzureServiceProcess(string rootName, string inSubscription, string inServiceName)
         {
             string serviceName;
-            ServiceSettings settings = CloudServiceUtilities.GetDefaultSettings(
+            ServiceSettings settings = General.GetDefaultSettings(
                 rootName,
                 inServiceName,
                 null,
@@ -145,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
         public override void ExecuteCmdlet()
         {
-            RemoveAzureServiceProcess(CloudServiceUtilities.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
+            RemoveAzureServiceProcess(General.TryGetServiceRootPath(CurrentPath()), Subscription, ServiceName);
         }
     }
 }

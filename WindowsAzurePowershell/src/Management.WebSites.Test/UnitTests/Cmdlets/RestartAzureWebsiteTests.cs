@@ -19,15 +19,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System.IO;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities;
     using Microsoft.WindowsAzure.Management.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites.Cmdlets;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
 
     [TestClass]
     public class RestartAzureWebsiteTests : WebsitesTestBase
