@@ -44,5 +44,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         {
             return proxy.EndDownloadLogs(proxy.BeginDownloadLogs(null, null));
         }
+
+        public static List<LogPath> ListPaths(this IDeploymentServiceManagement proxy)
+        {
+            return proxy.EndListPaths(proxy.BeginListPaths(null, null));
+        }
     }
 }

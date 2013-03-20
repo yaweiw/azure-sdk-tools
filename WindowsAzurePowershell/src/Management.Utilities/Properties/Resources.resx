@@ -448,8 +448,7 @@
     <value>Windows Azure Certificate</value>
   </data>
   <data name="EndProcessingLog" xml:space="preserve">
-    <value>{0} end processing, Start {1} remote calls. Finish {2} remote calls. Elapsed time {3:0.00} ms. Client operation id: {4}.</value>
-    <comment>0 for cmdlet name. 1 for started remote call counter, 2 for finished remote call counter, 3 for running time, 4 for client request id</comment>
+    <value>{0} end processing.</value>
   </data>
   <data name="ErrorRetrievingRuntimesForLocation" xml:space="preserve">
     <value>Unable to download available runtimes for location '{0}'</value>
