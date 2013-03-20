@@ -149,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
         [TestMethod]
         public void TestGetAzureWebsiteLogListPath()
         {
-            List<Item> paths = new List<Item>() { new Item() { Name = "http" }, new Item() { Name = "Git" } };
+            List<LogPath> paths = new List<LogPath>() { new LogPath() { Name = "http" }, new LogPath() { Name = "Git" } };
             List<string> expected = new List<string>() { "http", "Git" };
             List<string> actual = new List<string>();
             deploymentChannelMock.Setup(f => f.BeginListPaths(null, null));

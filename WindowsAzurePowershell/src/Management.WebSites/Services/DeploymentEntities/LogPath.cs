@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities
     /// <summary>
     /// Item.
     /// </summary>
-    [DataContract]
-    public class Item
+    [DataContract(Name = "Item")]
+    public class LogPath
     {
         [DataMember]
         public string Name { get; set; }
