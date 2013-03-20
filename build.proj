@@ -33,6 +33,7 @@
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
+    <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
@@ -103,6 +104,17 @@
       ContinueOnError="false" />
     <RemoveDir
       Directories="$(PublishDirectory)"
+      ContinueOnError="false" />
+	  
+    <Message Importance="high" Text="Cleaning package files..." ContinueOnError="false" />
+    <ItemGroup>
+      <PackageFiles Include="$(PackageDirectory)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(PackageFiles)"
+      ContinueOnError="false" />
+    <RemoveDir
+      Directories="$(PackageDirectory)"
       ContinueOnError="false" />
   </Target>
   
