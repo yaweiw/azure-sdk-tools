@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
     using ServiceManagement;
     using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
 
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase

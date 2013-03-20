@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudServiceProject;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
 
     [TestClass]
     public class AddAzureCertificateTests : TestBase
