@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
-    using Extensions;
-    using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using ServiceManagement.AffinityGroups;
     using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
 
     [TestClass]
     public class SetAzureAffinityGroupTests : TestBase
