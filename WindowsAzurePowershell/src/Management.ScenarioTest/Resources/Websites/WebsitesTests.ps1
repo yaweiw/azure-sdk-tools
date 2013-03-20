@@ -86,19 +86,20 @@ Tests Get-AzureWebsiteLog with -Tail
 function Test-GetAzureWebsiteLogTail
 {
 	# Setup
-	$name = Get-WebsiteName
-	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
-	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
-	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
-	cd $name
-	$website = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	New-BasicLogWebsite
+	$website = $global:currentWebsite
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	$count = 0
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }; $client.DownloadString($uri); $count++; if ($count -gt 50) { cd ..; throw "Logs were not found"; } }
+	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % {
+		if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }
+		$client.DownloadString($uri)
+		$count++
+		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
+	}
 }
 
 <#
@@ -108,12 +109,8 @@ Tests Get-AzureWebsiteLog with -Tail
 function Test-GetAzureWebsiteLogTailPath
 {
 	# Setup
-	$name = Get-WebsiteName
-	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
-	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
-	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
-	cd $name
-	$website = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	New-BasicLogWebsite
+	$website = $global:currentWebsite
 	$client = New-Object System.Net.WebClient
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
@@ -141,12 +138,48 @@ function Test-GetAzureWebsiteLogTailPath
 			if ($_.Exception.Message -eq "One or more errors occurred.")
 			{
 				$retry = $true;
-				Write-Warning "Retry calling -Path with http"
+				Write-Warning "Retry Test-GetAzureWebsiteLogTailPath"
 				continue;
 			}
 
 			throw $_.Exception
 		}
-	}
-	while ($retry)
+	} while ($retry)
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteLog with -ListPath
+#>
+function Test-GetAzureWebsiteLogListPath
+{
+	# Setup
+	New-BasicLogWebsite
+
+	#Test
+	$retry = $false
+	do
+	{
+		try
+		{
+			$actual = Get-AzureWebsiteLog -ListPath;
+			$retry = $false
+		}
+		catch
+		{
+			if ($_.Exception.Message -like "For security reasons DTD is prohibited in this XML document.*")
+			{
+				$retry = $true;
+				Write-Warning "Retry Test-GetAzureWebsiteLogListPath"
+				continue;
+			}
+			cd ..
+			throw $_.Exception
+		}
+	} while ($retry)
+
+	# Assert
+	Assert-AreEqual 1 $actual.Count
+	Assert-AreEqual "Git" $actual
+	cd ..
 }

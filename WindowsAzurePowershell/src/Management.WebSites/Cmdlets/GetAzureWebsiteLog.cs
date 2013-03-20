@@ -15,10 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
     using System.Net;
     using System.Web;
     using Common;
+    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Websites.Utilities;
     using Services;
 
@@ -31,6 +34,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public const int WaitInterval = 10000;
 
         private const string TailParameterSet = "Tail";
+
+        private const string ListPathParameterSet = "ListPath";
 
         public RemoteLogStreamManager RemoteLogStreamManager;
 
@@ -51,6 +56,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
             ParameterSetName = TailParameterSet, HelpMessage = "The log streaming switch.")]
         public SwitchParameter Tail { get; set; }
+
+        [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true,
+            ParameterSetName = ListPathParameterSet, HelpMessage = "List the available paths")]
+        public SwitchParameter ListPath { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the GetAzureWebsiteLogCommand class.
@@ -84,6 +93,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             if (Tail.IsPresent)
             {
                 LogStreaming();
+            }
+            else if (ListPath.IsPresent)
+            {
+                WriteObject(DeploymentChannel.ListPaths().Select<LogPath, string>(i => i.Name), true);
             }
         }
 

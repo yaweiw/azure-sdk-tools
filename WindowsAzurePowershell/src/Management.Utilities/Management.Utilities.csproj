@@ -256,7 +256,9 @@
     <Content Include="Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml" />
+    <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Service References\MarketplaceServiceReference\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
