@@ -32,6 +32,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             pass = true;
             testStartTime = DateTime.Now;
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
 
             // Set the source blob
             //blobHandle = getBlobHandle(vhdBlobLocation);               
