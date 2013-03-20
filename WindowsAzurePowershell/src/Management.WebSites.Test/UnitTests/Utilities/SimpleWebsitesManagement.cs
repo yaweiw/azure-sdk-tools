@@ -15,7 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 {
     using System;
-    using Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Services;
     using Websites.Services.GeoEntities;

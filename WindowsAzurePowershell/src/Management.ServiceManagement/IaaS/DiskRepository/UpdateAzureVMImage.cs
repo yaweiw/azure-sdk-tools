@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
 {
     using System.Management.Automation;
     using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System;
     using Microsoft.WindowsAzure.ServiceManagement;
 

@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

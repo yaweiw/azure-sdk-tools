@@ -303,6 +303,10 @@
       <Project>{ED57ECAF-AD30-4C7A-99A6-8757A83B19F0}</Project>
       <Name>ConsoleAppUtils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Management.Utilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{CD5AA507-F5EF-473D-855B-84B91A1ABE54}</Project>
       <Name>Management</Name>

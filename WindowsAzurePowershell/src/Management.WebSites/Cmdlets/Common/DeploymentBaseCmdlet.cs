@@ -16,8 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets.Common
 {
     using System;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Properties;
     using Services;
     using Services.WebEntities;
