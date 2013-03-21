@@ -84,6 +84,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     {
                         powershell.AddScript(cmdlets[i]);
                     }
+
+                    PrintPSCommand(powershell);
+
                     result = powershell.Invoke();
 
                     if (powershell.Streams.Error.Count > 0)
