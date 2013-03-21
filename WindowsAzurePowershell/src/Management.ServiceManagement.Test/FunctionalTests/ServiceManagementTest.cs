@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string serviceNamePrefix = "PSTestService";
         protected const string vmNamePrefix = "PSTestVM";
         protected const string password = "p@ssw0rd";
+        protected const string username = "pstestuser";
         protected const string localFile = @"\\watest\public\PSTest\oneGBFixedWS2008R2.vhd";
        
 
@@ -80,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false); // Get-AzureLocation
             Console.WriteLine("Location Name: {0}", locationName);
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false); // Get-AzureVMImage
+            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
             Console.WriteLine("Image Name: {0}", imageName);
         }
 

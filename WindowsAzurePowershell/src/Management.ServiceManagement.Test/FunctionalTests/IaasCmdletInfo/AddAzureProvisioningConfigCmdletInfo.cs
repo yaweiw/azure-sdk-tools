@@ -36,6 +36,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 this.cmdletParams.Add(new CmdletParam("LinuxUser", provConfig.LinuxUser));
             }
 
+            if (provConfig.AdminUsername != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("AdminUsername", provConfig.AdminUsername));
+
+            }
             if (provConfig.Option != null && provConfig.Option == "WindowsDomain")
             {
                 this.cmdletParams.Add(new CmdletParam("WindowsDomain"));
