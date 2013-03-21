@@ -1169,15 +1169,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to //baseuri.
-        /// </summary>
-        internal static string ManifestBaseUriQuery {
-            get {
-                return ResourceManager.GetString("ManifestBaseUriQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to uri.
         /// </summary>
         internal static string ManifestBlobUriKey {

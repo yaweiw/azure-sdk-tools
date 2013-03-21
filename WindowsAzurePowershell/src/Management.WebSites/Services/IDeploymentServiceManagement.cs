@@ -58,5 +58,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
         [WebInvoke(Method = "GET", UriTemplate = "dump")]
         IAsyncResult BeginDownloadLogs(AsyncCallback callback, object state);
         Stream EndDownloadLogs(IAsyncResult asyncResult);
+
+        [Description("Lists all available log paths")]
+        [OperationContract(AsyncPattern = true)]
+        [WebInvoke(Method = "GET", UriTemplate = "vfs/LogFiles")]
+        IAsyncResult BeginListPaths(AsyncCallback callback, object state);
+        List<LogPath> EndListPaths(IAsyncResult asyncResult);
     }
 }
