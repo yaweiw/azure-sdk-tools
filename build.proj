@@ -25,16 +25,15 @@
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
     <StorageScenarioTestDebug>WindowsAzurePowershell\src\Management.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
-	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
-	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
-	<ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-	<StoreTestDebug>.\WindowsAzurePowershell\src\Management.Store.Test\bin\Debug\Microsoft.WindowsAzure.Management.Store.Test.dll</StoreTestDebug>
-	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
-	<StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
+    <CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
+    <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+    <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+    <WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
+    <StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
+    <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
     <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
@@ -105,6 +104,17 @@
       ContinueOnError="false" />
     <RemoveDir
       Directories="$(PublishDirectory)"
+      ContinueOnError="false" />
+	  
+    <Message Importance="high" Text="Cleaning package files..." ContinueOnError="false" />
+    <ItemGroup>
+      <PackageFiles Include="$(PackageDirectory)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(PackageFiles)"
+      ContinueOnError="false" />
+    <RemoveDir
+      Directories="$(PackageDirectory)"
       ContinueOnError="false" />
   </Target>
   
@@ -218,16 +228,10 @@
       Command="MSTest.exe /testcontainer:$(CloudServiceTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\CloudServiceDebug.trx"
       ContinueOnError="false" />
 	<Exec
-      Command="MSTest.exe /testcontainer:$(ServiceBusTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceBusDebug.trx"
-      ContinueOnError="false" />
-	<Exec
       Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(StoreTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StoreDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"

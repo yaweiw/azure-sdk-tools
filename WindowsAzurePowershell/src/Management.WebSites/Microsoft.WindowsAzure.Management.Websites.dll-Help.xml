@@ -2207,6 +2207,13 @@ C:\PS&gt;			</maml:introduction>
           </maml:description>
           <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
         </command:parameter>
+        <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "5" >
+          <maml:name>ListPath</maml:name>
+          <maml:description>
+            <maml:para>List log paths switch parameter</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -2235,6 +2242,13 @@ C:\PS&gt;			</maml:introduction>
         <maml:name>Tail</maml:name>
         <maml:description>
           <maml:para>Log streaming switch parameter</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "true" variableLength = "false" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "5" >
+        <maml:name>ListPath</maml:name>
+        <maml:description>
+          <maml:para>List log paths switch parameter</maml:para>
         </maml:description>
         <command:parameterValue required="true" variableLength = "false" >SwitchParameter</command:parameterValue>
       </command:parameter>
@@ -2333,6 +2347,30 @@ C:\PS&gt;			</maml:introduction>
         <dev:code>Get-AzureWebsiteLog -Tail -Message Error</dev:code>
         <dev:remarks>
           <maml:para>Starts log streaming and show error logs only</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para>
+          </maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText>
+            </command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          --------------  List available log paths --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+          C:\PS&gt;
+        </maml:introduction>
+        <dev:code>Get-AzureWebsiteLog -Name MyWebsite -ListPath</dev:code>
+        <dev:remarks>
+          <maml:para>Lists all available log paths in the website</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para>

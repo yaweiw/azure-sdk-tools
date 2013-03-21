@@ -15,16 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
 {
     using System;
-    using CloudService.Model;
-    using Extensions;
-    using Management.Services;
-    using Management.Test.Stubs;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities;
-    using TestData;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using ManagementTesting = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.Testing;
-    using TestBase = Microsoft.WindowsAzure.Management.Test.Tests.Utilities.TestBase;
+    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
+    using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
 
     [TestClass]
     public class ServiceSettingsTests : TestBase
@@ -59,9 +56,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Model
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
 
                 string serviceName = null;
-                ManagementTesting.AssertThrows<ArgumentException>(() =>
+                Testing.AssertThrows<ArgumentException>(() =>
                     ServiceSettings.LoadDefault(null, null, null, null, null, "I HAVE INVALID CHARACTERS !@#$%", null, null, out serviceName));
-                ManagementTesting.AssertThrows<ArgumentException>(() =>
+                Testing.AssertThrows<ArgumentException>(() =>
                     ServiceSettings.LoadDefault(null, null, null, null, null, "ihavevalidcharsbutimjustwaytooooooooooooooooooooooooooooooooooooooooolong", null, null, out serviceName));
             }
         }

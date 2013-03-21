@@ -19,7 +19,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests
     using System.Management.Automation;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
