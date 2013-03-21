@@ -61,7 +61,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Windows Azure Internal Consumption.
+        ///   Looks up a localized string similar to azrtsdk.
         /// </summary>
         internal static string DefaultSubscriptionName {
             get {
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to c:\pstest\test.publishsettings.
+        ///   Looks up a localized string similar to \\watest\public\PSTest\AZRTSDK.publishsettings.
         /// </summary>
         internal static string PublishSettingsFile {
             get {
