@@ -937,6 +937,51 @@
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="LoadBalancedEndpointSetName">
+          <maml:name>LBSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a load-balanced endpoint. Multiple virtual machines in the cloud service can use a load-balanced endpoint. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Add-AzureEndpoint</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>ProbePath</maml:name>
           <maml:description>
             <maml:para>Required if ProbeProtocol is set to “http”. Omit otherwise. Specifies the URI whose health will be probed.</maml:para>
@@ -970,6 +1015,20 @@
             <maml:para>Specifies the protocol of the endpoint to be probed. Acceptable values are “http” or “tcp”. If “tcp” is specified, a received ACK is required for the probe to be successful. If “http” is specified, a 200 OK response from the ProbePath URI is required.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeIntervalInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeTimeoutInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
           <maml:name>VM</maml:name>
@@ -1088,6 +1147,20 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeIntervalInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeTimeoutInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes>
@@ -11633,39 +11706,11 @@
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbePath</maml:name>
-          <maml:description>
-            <maml:para>Required if ProbeProtocol is set to “http”. Omit otherwise. Specifies the URI whose health will be probed.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
           <maml:name>PublicPort</maml:name>
           <maml:description>
             <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>LoadBalancedEndpointSetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of a load-balanced endpoint, which multiple virtual machines in the cloud service can use. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbePort</maml:name>
-          <maml:description>
-            <maml:para>Optional. Specifies the public port that the probe will use. If none is specified, the probe uses the same public port as specified for the load-balanced endpoint.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>ProbeProtocol</maml:name>
-          <maml:description>
-            <maml:para>Specifies the protocol of the endpoint to be probed. Acceptable values are “http” or “tcp”. If “tcp” is specified, a received ACK is required for the probe to be successful. If “http” is specified, a 200 OK response from the ProbePath URI is required.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
           <maml:name>VM</maml:name>
@@ -11702,6 +11747,93 @@
           <maml:name>PublicPort</maml:name>
           <maml:description>
             <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LoadBalancedEndpointSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a load-balanced endpoint, which multiple virtual machines in the cloud service can use. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
+          <maml:name>VM</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual machine object for which the endpoint will be created.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">IPersistentVM</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureEndpoint</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1" aliases="">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the endpoint. Either LBSetName or Name must be specified, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>Protocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint. Acceptable values are “http” or “tcp”.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>LocalPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the local (private) port that will be used for the endpoint. Applications within the virtual machine listen to this port to service input requests over the endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbePath</maml:name>
+          <maml:description>
+            <maml:para>Required if ProbeProtocol is set to “http”. Omit otherwise. Specifies the URI whose health will be probed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>PublicPort</maml:name>
+          <maml:description>
+            <maml:para>Specifies the public port that the endpoint will use. If not specified, Windows Azure will assign an available free port.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>LoadBalancedEndpointSetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a load-balanced endpoint, which multiple virtual machines in the cloud service can use. Either LBSetName or Name must be specified for the endpoint, but not both.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbePort</maml:name>
+          <maml:description>
+            <maml:para>Optional. Specifies the public port that the probe will use. If none is specified, the probe uses the same public port as specified for the load-balanced endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeProtocol</maml:name>
+          <maml:description>
+            <maml:para>Specifies the protocol of the endpoint to be probed. Acceptable values are “http” or “tcp”. If “tcp” is specified, a received ACK is required for the probe to be successful. If “http” is specified, a 200 OK response from the ProbePath URI is required.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeIntervalInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ProbeTimeoutInSeconds</maml:name>
+          <maml:description>
+            <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
         </command:parameter>
@@ -11810,6 +11942,20 @@
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeIntervalInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the polling interval of the load balancer probe in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ProbeTimeoutInSeconds</maml:name>
+        <maml:description>
+          <maml:para>Specifies the timeout of the load balancer probe in seconds.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
       </command:parameter>
       <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="InputObject">
         <maml:name>VM</maml:name>
