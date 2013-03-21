@@ -474,9 +474,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureQuickVM
 
-        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string password, string locationName)
+        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
         {
-            NewAzureQuickVMCmdletInfo newAzureQuickVMCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, password, locationName);
+            NewAzureQuickVMCmdletInfo newAzureQuickVMCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName);
             WindowsAzurePowershellCmdletSequence sequence = new WindowsAzurePowershellCmdletSequence();
 
             SubscriptionData currentSubscription;
