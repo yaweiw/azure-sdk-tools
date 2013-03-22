@@ -17,10 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using System;
     using System.Collections.Generic;
     using System.Net;
+    using System.Net.Http;
     using System.Web;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     public class WebsitesClient
@@ -108,11 +110,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             Predicate<string> endStreaming = null,
             int waitInternal = 10000)
         {
-            name = string.IsNullOrEmpty(name) ? GetCurrentDirectoryWebsite() : name;
-            Repository repository = GetRepository(name);
-            ICredentials credentials = new NetworkCredential(
-                repository.PublishingUsername,
-                repository.PublishingPassword);
+            Repository repository;
+            ICredentials credentials;
+            name = GetWebsiteDeploymentHttpConfiguration(name, out repository, out credentials);
             path = HttpUtility.UrlEncode(path);
             message = HttpUtility.UrlEncode(message);
 
@@ -139,6 +139,43 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                     doStreaming = endStreaming == null ? true : endStreaming(line);
                 }
             }
+        }
+
+        /// <summary>
+        /// List log paths for a given website.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public List<LogPath> ListLogPaths(string name)
+        {
+            List<LogPath> logPaths = new List<LogPath>();
+            using (HttpClient client = CreateHttpClient(name))
+            {
+                logPaths = client.GetJson<List<LogPath>>(UriElements.LogPaths, Logger);
+            }
+
+            return logPaths;
+        }
+
+        private HttpClient CreateHttpClient(string websiteName)
+        {
+            Repository repository;
+            ICredentials credentials;
+            websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
+            return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
+        }
+
+        private string GetWebsiteDeploymentHttpConfiguration(
+            string name,
+            out Repository repository,
+            out ICredentials credentials)
+        {
+            name = string.IsNullOrEmpty(name) ? GetCurrentDirectoryWebsite() : name;
+            repository = GetRepository(name);
+            credentials = new NetworkCredential(
+                repository.PublishingUsername,
+                repository.PublishingPassword);
+            return name;
         }
     }
 }

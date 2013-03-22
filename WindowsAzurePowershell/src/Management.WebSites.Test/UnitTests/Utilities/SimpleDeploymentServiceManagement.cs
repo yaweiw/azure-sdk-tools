@@ -204,16 +204,6 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
-        public IAsyncResult BeginListPaths(AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<LogPath> EndListPaths(IAsyncResult asyncResult)
-        {
-            throw new NotImplementedException();
-        }
-
         public IAsyncResult BeginGetDiagnosticsSettings(AsyncCallback callback, object state)
         {
             throw new NotImplementedException();

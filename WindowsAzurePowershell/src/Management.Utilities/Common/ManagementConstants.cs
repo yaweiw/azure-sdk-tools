@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System.Collections.Generic;
+    using System.Net.Http.Headers;
 
     public class ArgumentConstants
     {
@@ -142,5 +143,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public const string CustomDomainsEnabledSettingsName = "CustomDomainsEnabled";
         public const string SslSupportSettingsName = "SslSupport";
+
+        public const string UserAgentHeaderValue = "Windows Azure Powershell/v.0.6.12";
+
+        public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue("WindowsAzurePowershell", "0.6.12");
     }
 }

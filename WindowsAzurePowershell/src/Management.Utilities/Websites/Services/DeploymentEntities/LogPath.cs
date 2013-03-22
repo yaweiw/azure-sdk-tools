@@ -15,27 +15,26 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities
 {
     using System;
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// LogPath.
     /// </summary>
-    [DataContract]
     public class LogPath
     {
-        [DataMember]
+        [JsonProperty]
         public string Name { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public int Size { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public string MTime { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public string Mime { get; set; }
 
-        [DataMember]
+        [JsonProperty]
         public Uri Href { get; set; }
     }
 }

@@ -84,11 +84,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
+            WebsiteClient = WebsiteClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
             if (Tail.IsPresent)
             {
-                WebsiteClient = WebsiteClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-
                 foreach (string logLine in WebsiteClient.StartLogStreaming(Name, Path, Message))
                 {
                     WriteObject(logLine);
@@ -96,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
             }
             else if (ListPath.IsPresent)
             {
-                WriteObject(DeploymentChannel.ListPaths().Select<LogPath, string>(i => i.Name), true);
+                WriteObject(WebsiteClient.ListLogPaths(Name).Select<LogPath, string>(i => i.Name), true);
             }
         }
     }
