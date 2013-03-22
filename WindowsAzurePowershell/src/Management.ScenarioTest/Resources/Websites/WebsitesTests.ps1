@@ -76,3 +76,53 @@ function Test-RemoveAzureServiceWithWhatIf
 	# Assert
 	Assert-Throws { Get-AzureWebsite $name } $expected
 }
+
+########################################################################### Get-AzureWebsiteLog Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteLog with -Tail
+#>
+function Test-GetAzureWebsiteLogTail
+{
+	# Setup
+	$name = Get-WebsiteName
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$client = New-Object System.Net.WebClient
+	$uri = "http://" + $website.HostNames[0]
+	$client.BaseAddress = $uri
+	$count = 0
+
+	#Test
+	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % { if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }; $client.DownloadString($uri); $count++; if ($count -gt 50) { cd ..; throw "Logs were not found"; } }
+}
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsiteLog with -Tail
+#>
+function Test-GetAzureWebsiteLogTailPath
+{
+	# Setup
+	$name = Get-WebsiteName
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$website = New-AzureWebsite $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+	$client = New-Object System.Net.WebClient
+	$uri = "http://" + $website.HostNames[0]
+	$client.BaseAddress = $uri
+	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
+	Restart-AzureWebsite
+	1..10 | % { $client.DownloadString($uri) }
+	Start-Sleep -Seconds 120
+
+	#Test
+	$reached = $false
+	Get-AzureWebsiteLog -Tail -Path http | % { cd ..; exit }
+}

@@ -321,8 +321,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             CloudRuntimeCollection availableRuntimePackages;
             LocationName deploymentLocation = GetSettingsLocation(settings);
-            if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(deploymentLocation,
-                out availableRuntimePackages, manifestFile: manifest))
+            if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(out availableRuntimePackages, manifestFile: manifest))
             {
                 throw new ArgumentException(string.Format(Resources.ErrorRetrievingRuntimesForLocation,
                     deploymentLocation));
