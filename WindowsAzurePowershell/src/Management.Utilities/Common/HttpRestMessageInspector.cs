@@ -33,49 +33,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             this.logger = logger;
         }
 
-        private string MessageHeadersToString(WebHeaderCollection headers)
-        {
-            string[] keys = headers.AllKeys;
-            StringBuilder result = new StringBuilder();
-
-            foreach (string key in keys)
-            {
-                result.AppendLine(string.Format(
-                    "{0,-30}: {1}",
-                    key,
-                    General.ArrayToString<string>(headers.GetValues(key), ",")));
-            }
-
-            return result.ToString();
-        }
-
         #region IClientMessageInspector
 
         public virtual void AfterReceiveReply(ref Message reply, object correlationState)
         {
-            HttpResponseMessageProperty responseProperties = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
-            StringBuilder httpResponseLog = new StringBuilder();
-            string body = General.ReadBody(ref reply);
-
-            httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
-            httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, responseProperties.StatusCode.ToString()));
-            httpResponseLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(responseProperties.Headers)));
-            httpResponseLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-            logger(httpResponseLog.ToString());
+            HttpResponseMessageProperty prop = (HttpResponseMessageProperty)reply.Properties[HttpResponseMessageProperty.Name];
+            string body = General.ReadMessageBody(ref reply);
+            logger(General.GetHttpResponseLog(prop.StatusCode.ToString(), prop.Headers, body));
         }
 
         public virtual object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
-            HttpRequestMessageProperty requestProperties = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
-            StringBuilder httpRequestLog = new StringBuilder();
-            string body = General.ReadBody(ref request);
-
-            httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
-            httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, requestProperties.Method));
-            httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, request.Headers.To.AbsoluteUri));
-            httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(requestProperties.Headers)));
-            httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-            logger(httpRequestLog.ToString());
+            HttpRequestMessageProperty prop = (HttpRequestMessageProperty)request.Properties[HttpRequestMessageProperty.Name];
+            string body = General.ReadMessageBody(ref request);
+            logger(General.GetHttpRequestLog(prop.Method, request.Headers.To.AbsoluteUri, prop.Headers, body));
 
             return request;
         }

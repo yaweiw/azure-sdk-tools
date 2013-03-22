@@ -20,11 +20,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Websites.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     [TestClass]
     public class GetAzureWebsiteTests : WebsitesTestBase

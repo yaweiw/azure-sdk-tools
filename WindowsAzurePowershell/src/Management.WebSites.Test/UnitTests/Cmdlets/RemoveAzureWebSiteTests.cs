@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     [TestClass]
     public class RemoveAzureWebsiteTests : WebsitesTestBase

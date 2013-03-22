@@ -20,14 +20,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using System.Management.Automation;
     using System.Threading.Tasks;
     using System.Web;
-    using Microsoft.WindowsAzure.Management.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.Websites.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Moq;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using System.Linq;
 
     [TestClass]
@@ -72,17 +72,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             logIndex = 0;
             logStreamWaitHandleMock = new Mock<LogStreamWaitHandle>();
             logStreamWaitHandleMock.Setup(f => f.Dispose());
-            logStreamWaitHandleMock.Setup(f => f.WaitNextLine(GetAzureWebsiteLogCommand.WaitInterval))
-                .Returns(() => logs[logIndex++]);
-            getAzureWebsiteLogCmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, deploymentChannelMock.Object)
-            {
-                CommandRuntime = commandRuntimeMock.Object,
-                RemoteLogStreamManager = remoteLogStreamManagerMock.Object,
-                LogStreamWaitHandle = logStreamWaitHandleMock.Object,
-                Name = websiteName,
-                EndStreaming = (string line) => line != null,
-                ShareChannel = true
-            };
+            //logStreamWaitHandleMock.Setup(f => f.WaitNextLine(GetAzureWebsiteLogCommand.WaitInterval))
+            //    .Returns(() => logs[logIndex++]);
+            //getAzureWebsiteLogCmdlet = new GetAzureWebsiteLogCommand(websiteChannelMock.Object, deploymentChannelMock.Object)
+            //{
+            //    CommandRuntime = commandRuntimeMock.Object,
+            //    RemoteLogStreamManager = remoteLogStreamManagerMock.Object,
+            //    LogStreamWaitHandle = logStreamWaitHandleMock.Object,
+            //    Name = websiteName,
+            //    EndStreaming = (string line) => line != null,
+            //    ShareChannel = true
+            //};
             website = new Site()
             {
                 Name = websiteName,

@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
     using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Websites.Services;
-    using Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
     
     /// <summary>
     /// Simple implementation of the <see cref="IDeploymentServiceManagement"/> interface that can be

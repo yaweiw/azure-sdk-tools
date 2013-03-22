@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System;
     using System.Management.Automation;
-    using Properties;
-    using Services;
-    using Services.WebEntities;
-    using Websites.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
 
     /// <summary>
     /// Removes an azure website.
