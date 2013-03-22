@@ -17,14 +17,17 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Management.Automation;
+    using System.Management.Automation.Runspaces;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public static class PowerShellExtensions
     {
         public static string PowerShellEnvironmentFormat = "Set-Item env:{0} \"{1}\"";
         public static string PowerShellVariableFormat = "${0}={1}";
         public static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
-        
+
         /// <summary>
         /// Gets a powershell varibale from the current session and convernts it back to it's original type.
         /// </summary>
@@ -35,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         public static T GetPowerShellVariable<T>(this PowerShell powershell, string name)
         {
             object obj = powershell.Runspace.SessionStateProxy.GetVariable(name);
-            
+
             if (obj is PSObject)
             {
                 return (T)(obj as PSObject).BaseObject;
@@ -94,19 +97,20 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         /// PowerShell error record if available
         /// </summary>
         /// <param name="runtimeException">The exception to parse</param>
-        public static void LogPowerShellException(this PowerShell powershell, Exception runtimeException)
+        public static void LogPowerShellException(this PowerShell powershell, Exception runtimeException, TestContext context)
         {
-            Console.WriteLine("Caught Exception: {0}", runtimeException);
-            Console.WriteLine("Message: {0}", runtimeException.Message);
+            context.WriteLine("Caught Exception: {0}\n", runtimeException);
+            context.WriteLine("Message: {0}\n", runtimeException.Message);
             IContainsErrorRecord recordContainer = runtimeException as IContainsErrorRecord;
             if (recordContainer != null)
             {
                 ErrorRecord record = recordContainer.ErrorRecord;
-                Console.WriteLine("PowerShell Error Record: {0}\nException:{1}\nDetails:{2}\nScript Stack Trace: {3}\n: Target: {4}", record, record.Exception, record.ErrorDetails, record.ScriptStackTrace, record.TargetObject);
+                context.WriteLine("PowerShell Error Record: {0}\nException:{1}\nDetails:{2}\nScript Stack Trace: {3}\n: Target: {4}\n", record, record.Exception, record.ErrorDetails, record.ScriptStackTrace, record.TargetObject);
             }
+
             if (runtimeException.InnerException != null)
             {
-                powershell.LogPowerShellException(runtimeException.InnerException);
+                powershell.LogPowerShellException(runtimeException.InnerException, context);
             }
         }
 
@@ -114,26 +118,38 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         /// Log the PowerShell Streams from a PowerShell invocation
         /// </summary>
         /// <param name="powershell">The PowerShell instance to log</param>
-        public static void LogPowerShellResults(this PowerShell powershell)
+        public static void LogPowerShellResults(this PowerShell powershell, TestContext context)
         {
-            powershell.LogPowerShellResults(null);
+            powershell.LogPowerShellResults(null, context);
         }
 
         /// <summary>
         /// Log the PowerShell Streams from a PowerShell invocation
         /// </summary>
         /// <param name="powershell">The PowerShell instance to log</param>
-        public static void LogPowerShellResults(this PowerShell powershell, Collection<PSObject> output)
+        public static void LogPowerShellResults(this PowerShell powershell, Collection<PSObject> output, TestContext context)
         {
             if (output != null)
             {
-                LogPowerShellStream<PSObject>(output, "OUTPUT");
+                LogPowerShellStream<PSObject>(output, "OUTPUT", context);
             }
-            LogPowerShellStream<DebugRecord>(powershell.Streams.Debug, "DEBUG");
-            LogPowerShellStream<ErrorRecord>(powershell.Streams.Error, "ERROR");
-            LogPowerShellStream<ProgressRecord>(powershell.Streams.Progress, "PROGRESS");
-            LogPowerShellStream<VerboseRecord>(powershell.Streams.Verbose, "VERBOSE");
-            LogPowerShellStream<WarningRecord>(powershell.Streams.Warning, "WARNING");
+            if (powershell.Commands != null && powershell.Commands.Commands != null && 
+                powershell.Commands.Commands.Count > 0)
+            {
+                context.WriteLine("================== COMMANDS =======================\n");
+                foreach (Command command in powershell.Commands.Commands)
+                {
+                    context.WriteLine("{0}\n", command.CommandText);
+                }
+
+                context.WriteLine("===================================================\n");
+            }
+
+            LogPowerShellStream<DebugRecord>(powershell.Streams.Debug, "DEBUG", context);
+            LogPowerShellStream<ErrorRecord>(powershell.Streams.Error, "ERROR", context);
+            LogPowerShellStream<ProgressRecord>(powershell.Streams.Progress, "PROGRESS", context);
+            LogPowerShellStream<VerboseRecord>(powershell.Streams.Verbose, "VERBOSE", context);
+            LogPowerShellStream<WarningRecord>(powershell.Streams.Warning, "WARNING", context);
         }
 
         /// <summary>
@@ -182,19 +198,20 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
         /// <typeparam name="T">The type of the internal data record (different for every stream)</typeparam>
         /// <param name="stream">The stream to log</param>
         /// <param name="name">The name of the stream to print in the log</param>
-        private static void LogPowerShellStream<T>(ICollection<T> stream, string name)
+        private static void LogPowerShellStream<T>(ICollection<T> stream, string name, TestContext context)
         {
             if (stream != null && stream.Count > 0)
             {
-                Console.WriteLine("---------------------------------------------------------------");
-                Console.WriteLine("{0} STREAM", name);
-                Console.WriteLine("---------------------------------------------------------------");
+
+                context.WriteLine("---------------------------------------------------------------\n");
+                context.WriteLine("{0} STREAM\n", name);
+                context.WriteLine("---------------------------------------------------------------\n");
                 foreach (T item in stream)
                 {
-                    Console.WriteLine(item.ToString());
+                    context.WriteLine("{0}\n", item.ToString());
                 }
-                Console.WriteLine("---------------------------------------------------------------");
-                Console.WriteLine();
+                context.WriteLine("---------------------------------------------------------------\n");
+                context.WriteLine("");
             }
         }
     }

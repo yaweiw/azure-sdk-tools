@@ -17,7 +17,9 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Manage AffinityGroup
 * Website
   * Manage website, such as CRUD, start and stop.
-  * Save log
+  * Diagnostics
+      * Log streaming
+      * Save log
 * Cloud service
   * Create scaffolding for cloud service and role. Role support includes Node.js, PHP, Django and Cache.
   * Manage cloud service and role, such as CRUD, start and stop.
@@ -26,6 +28,8 @@ For documentation on how to build and deploy applications to Windows Azure pleas
   * Manage certificate.
 * Storage
   * Manage storage account and access key.
+  * Manage storage container and blob.
+  * Copy storage blob.
 * SQL Azure
   * CRUD support for database server, database and firewall rule
 * Service Bus
@@ -64,6 +68,8 @@ For detail descriptions and examples of the cmdlets, type
 1. Install [Microsoft Web Platform Installer](http://www.microsoft.com/web/downloads/platform.aspx).
 2. Open Microsoft Web Platform Installer and search for __Windows Azure PowerShell__.
 3. Install.
+
+You can also find the list of previous versions at [Downloads](https://github.com/WindowsAzure/azure-sdk-tools/wiki/Downloads)
 
 ## Download Source Code
 
