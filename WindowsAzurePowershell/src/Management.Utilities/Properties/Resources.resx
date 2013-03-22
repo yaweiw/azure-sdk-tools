@@ -448,7 +448,7 @@
     <value>Windows Azure Certificate</value>
   </data>
   <data name="EndProcessingLog" xml:space="preserve">
-    <value>{0} end processing</value>
+    <value>{0} end processing.</value>
   </data>
   <data name="ErrorRetrievingRuntimesForLocation" xml:space="preserve">
     <value>Unable to download available runtimes for location '{0}'</value>
