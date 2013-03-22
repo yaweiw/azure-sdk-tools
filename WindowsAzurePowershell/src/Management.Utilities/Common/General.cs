@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Globalization;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
@@ -439,7 +440,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return false;
         }
 
-        public static string ReadBody(ref Message originalMessage)
+        public static string ReadMessageBody(ref Message originalMessage)
         {
             StringBuilder strBuilder = new StringBuilder();
 
@@ -801,6 +802,59 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             // Couldn't locate the service root, exit
             return null;
+        }
+
+        public static string EnsureTrailingSlash(string url)
+        {
+            UriBuilder address = new UriBuilder(url);
+            if (!address.Path.EndsWith("/", StringComparison.Ordinal))
+            {
+                address.Path += "/";
+            }
+            return address.Uri.AbsoluteUri;
+        }
+
+        public static string GetHttpResponseLog(string statusCode, WebHeaderCollection headers, string body)
+        {
+            StringBuilder httpResponseLog = new StringBuilder();
+            httpResponseLog.AppendLine(string.Format("============================ HTTP RESPONSE ============================{0}", Environment.NewLine));
+            httpResponseLog.AppendLine(string.Format("Status Code:{0}{1}{0}", Environment.NewLine, statusCode));
+            httpResponseLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(headers)));
+            httpResponseLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+
+            return httpResponseLog.ToString();
+        }
+
+        private static string MessageHeadersToString(WebHeaderCollection headers)
+        {
+            string[] keys = headers.AllKeys;
+            StringBuilder result = new StringBuilder();
+
+            foreach (string key in keys)
+            {
+                result.AppendLine(string.Format(
+                    "{0,-30}: {1}",
+                    key,
+                    General.ArrayToString<string>(headers.GetValues(key), ",")));
+            }
+
+            return result.ToString();
+        }
+
+        public static string GetHttpRequestLog(
+            string method,
+            string absoluteUri,
+            WebHeaderCollection headers,
+            string body)
+        {
+            StringBuilder httpRequestLog = new StringBuilder();
+            httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
+            httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, method));
+            httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, absoluteUri));
+            httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(headers)));
+            httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+
+            return httpRequestLog.ToString();
         }
     }
 }

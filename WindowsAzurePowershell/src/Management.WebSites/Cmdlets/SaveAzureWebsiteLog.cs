@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 {
     using System.IO;
     using System.Management.Automation;
-    using Common;
-    using Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     
     /// <summary>
     /// Gets the azure logs.

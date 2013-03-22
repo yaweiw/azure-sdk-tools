@@ -16,10 +16,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 {
     using System;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using VisualStudio.TestTools.UnitTesting;
-    using Websites.Services;
-    using Websites.Services.GeoEntities;
-    using Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntities;
 
     /// <summary>
     /// Simple implementation of the <see cref="IWebsitesServiceManagement"/> interface that can be

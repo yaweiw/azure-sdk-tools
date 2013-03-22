@@ -119,6 +119,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="deploy.cmd" />
     <None Include="MSSharedLibKey.snk" />
   </ItemGroup>
