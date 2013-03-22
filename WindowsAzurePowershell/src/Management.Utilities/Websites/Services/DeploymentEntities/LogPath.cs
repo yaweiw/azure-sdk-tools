@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Deployme
     using System.Runtime.Serialization;
 
     /// <summary>
-    /// Item.
+    /// LogPath.
     /// </summary>
     [DataContract]
-    public class Item
+    public class LogPath
     {
         [DataMember]
         public string Name { get; set; }

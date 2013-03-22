@@ -209,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
             throw new NotImplementedException();
         }
 
-        public List<Item> EndListPaths(IAsyncResult asyncResult)
+        public List<LogPath> EndListPaths(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

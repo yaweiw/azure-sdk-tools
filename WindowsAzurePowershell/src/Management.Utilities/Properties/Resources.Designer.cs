@@ -1053,7 +1053,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} end processing.
+        ///   Looks up a localized string similar to {0} end processing..
         /// </summary>
         internal static string EndProcessingLog {
             get {
