@@ -17,10 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Net.Http.Headers;
     using System.Reflection;
     using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
@@ -31,6 +33,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Newtonsoft.Json;
+    using JsonFormatting = Newtonsoft.Json.Formatting;
 
     public static class General
     {
@@ -825,6 +829,43 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return httpResponseLog.ToString();
         }
 
+        public static string GetHttpResponseLog(string statusCode, HttpHeaders headers, string body)
+        {
+            return GetHttpResponseLog(statusCode, ConvertHttpHeadersToWebHeaderCollection(headers), body);
+        }
+
+        public static string GetHttpRequestLog(
+            string method,
+            string requestUri,
+            WebHeaderCollection headers,
+            string body)
+        {
+            StringBuilder httpRequestLog = new StringBuilder();
+            httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
+            httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, method));
+            httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, requestUri));
+            httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(headers)));
+            httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
+
+            return httpRequestLog.ToString();
+        }
+
+        public static string GetHttpRequestLog(string method, string requestUri, HttpHeaders headers, string body)
+        {
+            return GetHttpRequestLog(method, requestUri, ConvertHttpHeadersToWebHeaderCollection(headers), body);
+        }
+
+        private static WebHeaderCollection ConvertHttpHeadersToWebHeaderCollection(HttpHeaders headers)
+        {
+            WebHeaderCollection webHeaders = new WebHeaderCollection();
+            foreach (KeyValuePair<string, IEnumerable<string>> pair in headers)
+            {
+                pair.Value.ForEach<string>(v => webHeaders.Add(pair.Key, v));
+            }
+
+            return webHeaders;
+        }
+
         private static string MessageHeadersToString(WebHeaderCollection headers)
         {
             string[] keys = headers.AllKeys;
@@ -841,20 +882,19 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             return result.ToString();
         }
 
-        public static string GetHttpRequestLog(
-            string method,
-            string absoluteUri,
-            WebHeaderCollection headers,
-            string body)
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Handling the failure by returning the original string.")]
+        public static string TryFormatJson(string str)
         {
-            StringBuilder httpRequestLog = new StringBuilder();
-            httpRequestLog.AppendLine(string.Format("============================ HTTP REQUEST ============================{0}", Environment.NewLine));
-            httpRequestLog.AppendLine(string.Format("HTTP Method:{0}{1}{0}", Environment.NewLine, method));
-            httpRequestLog.AppendLine(string.Format("Absolute Uri:{0}{1}{0}", Environment.NewLine, absoluteUri));
-            httpRequestLog.AppendLine(string.Format("Headers:{0}{1}", Environment.NewLine, MessageHeadersToString(headers)));
-            httpRequestLog.AppendLine(string.Format("Body:{0}{1}{0}", Environment.NewLine, body));
-
-            return httpRequestLog.ToString();
+            try
+            {
+                object parsedJson = JsonConvert.DeserializeObject(str);
+                return JsonConvert.SerializeObject(parsedJson, JsonFormatting.Indented);
+            }
+            catch
+            {
+                // can't parse JSON, return the original string
+                return str;
+            }
         }
     }
 }

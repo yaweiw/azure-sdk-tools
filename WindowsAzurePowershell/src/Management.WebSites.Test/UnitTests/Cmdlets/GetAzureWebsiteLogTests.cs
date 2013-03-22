@@ -152,8 +152,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             List<LogPath> paths = new List<LogPath>() { new LogPath() { Name = "httpLogPath" }, new LogPath() { Name = "Git" } };
             List<string> expected = new List<string>() { "http", "Git" };
             List<string> actual = new List<string>();
-            deploymentChannelMock.Setup(f => f.BeginListPaths(null, null));
-            deploymentChannelMock.Setup(f => f.EndListPaths(It.IsAny<IAsyncResult>())).Returns(paths);
+            //deploymentChannelMock.Setup(f => f.BeginListPaths(null, null));
+            //deploymentChannelMock.Setup(f => f.EndListPaths(It.IsAny<IAsyncResult>())).Returns(paths);
             commandRuntimeMock.Setup(f => f.WriteObject(It.IsAny<IEnumerable<string>>(), true))
                 .Callback<object, bool>((o, b) => actual = actual = ((IEnumerable<string>)o).ToList<string>());
             getAzureWebsiteLogCmdlet.ListPath = true;

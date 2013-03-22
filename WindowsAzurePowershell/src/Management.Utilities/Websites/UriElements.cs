@@ -154,5 +154,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 
         public const string DatabaseCheckAvailability = "databases/{name}?CheckAvailability";
         public const string WebSiteCheckAvailability = "sites/{name}?CheckAvailability";
+
+        public const string LogPaths = "vfs/LogFiles";
     }
 }
