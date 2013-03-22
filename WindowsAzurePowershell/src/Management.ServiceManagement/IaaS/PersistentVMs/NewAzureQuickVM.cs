@@ -12,7 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
@@ -128,6 +130,38 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
         public CertificateSettingList Certificates
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Waits for VM to boot")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter WaitForBoot
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disables WinRM on http/https")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter DisableWinRMHttps
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Enables WinRM over http")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter EnableWinRMHttp
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Certs that will be associated with WinRM endpoint")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2 WinRMCertificate
         {
             get;
             set;
@@ -270,12 +304,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
-                    StoredCertificateSettings = Certificates
+                    StoredCertificateSettings = Certificates,
+                    WinRM = GetWinRmConfiguration()
                 };
 
                 InputEndpoint rdpEndpoint = new InputEndpoint { LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop" };
+                InputEndpoint winRmEndpoint = new InputEndpoint { LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs" };
 
                 netConfig.InputEndpoints.Add(rdpEndpoint);
+                netConfig.InputEndpoints.Add(winRmEndpoint);
                 vm.ConfigurationSets.Add(windowsConfig);
                 vm.ConfigurationSets.Add(netConfig);
             }
@@ -303,9 +340,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 vm.ConfigurationSets.Add(netConfig);
             }
 
-            string CreateCloudServiceOperationID = String.Empty;
-            string CreateDeploymentOperationID = String.Empty;
-            List<String> CreateVMOperationIDs = new List<String>();
             Operation lastOperation = null;
 
             bool ServiceExists = DoesCloudServiceExist(this.ServiceName);
@@ -352,12 +386,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     {
                         var deployment = new Deployment
                         {
-                            DeploymentSlot = "Production",
+                            DeploymentSlot = DeploymentSlotType.Production,
                             Name = this.ServiceName,
                             Label = this.ServiceName,
-                            RoleList = new RoleList(new List<Role> { vm }),
+                            RoleList = new RoleList { vm },
                             VirtualNetworkName = this.VNetName
-
                         };
 
                         if (this.DnsSettings != null)
@@ -369,6 +402,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         }
 
                         ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
+
+                        if(WaitForBoot.IsPresent)
+                        {
+                            WaitForDesiredRoleState(vm, RoleInstanceStatus.ReadyRole);
+                        }
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -407,6 +445,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     try
                     {
                         ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm));
+                        if(WaitForBoot.IsPresent)
+                        {
+                            WaitForDesiredRoleState(vm, "ReadyRole");
+                        }
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -415,6 +457,72 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     }
                 }
             }
+        }
+
+        private WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
+        {
+            if(this.DisableWinRMHttps.IsPresent)
+            {
+                return null;
+            }
+
+            if(!this.EnableWinRMHttp.IsPresent)
+            {
+                return WinRMConfigurationFactory.GetWinRmConfigurationHttpsOnly();
+            }
+
+            return WinRMConfigurationFactory.GetWinRmConfiguration();
+        }
+
+        private void WaitForDesiredRoleState(PersistentVMRole vm, string roleState)
+        {
+            DateTime timeout = DateTime.UtcNow.AddHours(1);
+            string currentInstanceStatus = null;
+            RoleInstance durableRoleInstance;
+            do
+            {
+                Deployment deployment = null;
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                    }
+                    catch (Exception e)
+                    {
+                        var we = e.InnerException as WebException;
+                        if (we != null && ((HttpWebResponse)we.Response).StatusCode != HttpStatusCode.NotFound)
+                        {
+                            throw;
+                        }
+                    }
+                });
+
+                if(deployment == null)
+                {
+                    throw new ApplicationException(String.Format("Could not find a deployment for '{0}' in '{1}' slot.", ServiceName, DeploymentSlotType.Production));
+                }
+                durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == vm.RoleName);
+
+                if(currentInstanceStatus == null)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if(currentInstanceStatus != durableRoleInstance.InstanceStatus)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if (DateTime.UtcNow >= timeout)
+                {
+                    var message = string.Format("RoleInstance instance status is '{0}', it has not reached to '{1}'", durableRoleInstance.InstanceStatus, roleState);
+                    throw new ApplicationException(message);
+                }
+
+            } while (durableRoleInstance.InstanceStatus != roleState);
         }
 
         protected override void ProcessRecord()
@@ -513,6 +621,79 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 throw new ArgumentException("Virtual Network Name may only be specified on the initial deployment. Specify Location or Affinity Group to create a new cloud service and deployment.");
             }
 
+        }
+    }
+
+    class WinRMConfigurationFactory
+    {
+        public static WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfigurationHttpsOnly()
+        {
+            var result = new WindowsProvisioningConfigurationSet.WinRmConfiguration
+            {
+                Listeners = new WindowsProvisioningConfigurationSet.WinRmListenerCollection
+                {   
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Https.ToString()
+                    }
+                }
+            };
+            return result;
+        }
+
+        public static WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration()
+        {
+            var result = new WindowsProvisioningConfigurationSet.WinRmConfiguration
+            {
+                Listeners = new WindowsProvisioningConfigurationSet.WinRmListenerCollection
+                {   
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Http.ToString()
+                    },
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Https.ToString()
+                    }
+                }
+            };
+            return result;
+        }
+
+        public static WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfigurationHttpsOnly(string thumbPrint)
+        {
+            var result = new WindowsProvisioningConfigurationSet.WinRmConfiguration
+            {
+                Listeners = new WindowsProvisioningConfigurationSet.WinRmListenerCollection
+                {   
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Https.ToString(),
+                        CertificateThumbprint = thumbPrint
+                    }
+                }
+            };
+            return result;
+        }
+
+        public static WindowsProvisioningConfigurationSet.WinRmConfiguration GetWinRmConfiguration(string thumbPrint)
+        {
+            var result = new WindowsProvisioningConfigurationSet.WinRmConfiguration
+            {
+                Listeners = new WindowsProvisioningConfigurationSet.WinRmListenerCollection
+                {   
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Http.ToString()
+                    },
+                    new WindowsProvisioningConfigurationSet.WinRmListenerProperties
+                    {
+                        Protocol = WindowsProvisioningConfigurationSet.WinRmProtocol.Https.ToString(),
+                        CertificateThumbprint = thumbPrint
+                    }
+                }
+            };
+            return result;
         }
     }
 }
