@@ -25,6 +25,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Moq;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
 
     [TestClass]
     public class GetAzureWebsiteTests : WebsitesTestBase
@@ -106,7 +108,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
-                Name = "website1"
+                Name = "website1",
+                WebsitesClient = new Mock<WebsitesClient>().Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -125,7 +128,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
-                Name = "WEBSiTe1"
+                Name = "WEBSiTe1",
+                WebsitesClient = new Mock<WebsitesClient>().Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -177,6 +181,63 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             };
 
             Testing.AssertThrows<Exception>(() => getAzureWebsiteCommand.ExecuteCmdlet(), Resources.NoDefaultSubscriptionMessage);
+        }
+
+        [TestMethod]
+        public void TestGetAzreWebsiteWithDiagnosticsSettings()
+        {
+            // Setup
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = "webspace1" }, new WebSpace { Name = "webspace2" } });
+            channel.GetSiteThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                }
+
+                return new Site { Name = "website2", WebSpace = "webspace2" };
+            };
+
+            channel.GetSiteConfigThunk = ar =>
+            {
+                if (ar.Values["name"].Equals("website1") && ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new SiteConfig
+                    {
+                        PublishingUsername = "user1"
+                    };
+                }
+
+                return null;
+            };
+
+            channel.GetSitesThunk = ar =>
+            {
+                if (ar.Values["webspaceName"].Equals("webspace1"))
+                {
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                }
+
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+            };
+
+            Mock<WebsitesClient> websitesClientMock = new Mock<WebsitesClient>();
+            GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = new MockCommandRuntime(),
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                Name = "website1",
+                WebsitesClient = websitesClientMock.Object
+            };
+
+            // Test
+            getAzureWebsiteCommand.ExecuteCmdlet();
+
+            // Assert
+            Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
+            websitesClientMock.Verify(f => f.GetDiagnosticsSettings("website1"), Times.Once());
         }
     }
 }

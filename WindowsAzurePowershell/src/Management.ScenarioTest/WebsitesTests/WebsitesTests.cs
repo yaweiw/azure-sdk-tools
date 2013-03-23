@@ -124,5 +124,17 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         }
 
         #endregion
+
+        #region Get-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsite()
+        {
+            RunPowerShellTest("Test-GetAzureWebsite");
+        }
+
+        #endregion
     }
 }
