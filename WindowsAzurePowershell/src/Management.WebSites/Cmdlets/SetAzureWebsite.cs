@@ -27,13 +27,16 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+using Microsoft.WindowsAzure.Management.Utilities.Websites;
 
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
-    public class SetAzureWebsiteCommand : DeploymentBaseCmdlet, ISiteConfig
+    public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
     {
+        public WebsitesClient WebsitesClient { get; set; }
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
         public int? NumberOfWorkers { get; set; }
@@ -87,13 +90,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         public bool? AzureDriveTraceEnabled { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure drive trace level")]
-        public string AzureDriveTraceLevel { get; set; }
+        public LogEntryType AzureDriveTraceLevel { get; set; }
         
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace enabled")]
         public bool? AzureTableTraceEnabled { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace level")]
-        public string AzureTableTraceLevel { get; set; }
+        public LogEntryType AzureTableTraceLevel { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
@@ -257,59 +260,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 });
             }
 
-            SetDiagnosticsSettings();
+            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+            WebsitesClient.SetDiagnosticsSettings(
+                Name,
+                AzureDriveTraceEnabled,
+                AzureDriveTraceLevel,
+                AzureTableTraceEnabled,
+                AzureTableTraceLevel);
 
             if (PassThru.IsPresent)
             {
                 WriteObject(true);
             }
-        }
-
-        private void SetDiagnosticsSettings()
-        {
-            DiagnosticsSettings diagnosticsSettings = DeploymentChannel.GetDiagnosticsSettings();
-            bool changes = false;
-            
-            if (IsChanged<bool?>(diagnosticsSettings.AzureDriveTraceEnabled, AzureDriveTraceEnabled))
-            {
-                changes = true;
-                diagnosticsSettings.AzureDriveTraceEnabled = AzureDriveTraceEnabled;
-            }
-
-            if (IsChanged<string>(diagnosticsSettings.AzureDriveTraceLevel, AzureDriveTraceLevel))
-            {
-                changes = true;
-                diagnosticsSettings.AzureDriveTraceLevel = AzureDriveTraceLevel;
-            }
-
-            if (IsChanged<bool?>(diagnosticsSettings.AzureTableTraceEnabled, AzureTableTraceEnabled))
-            {
-                changes = true;
-                diagnosticsSettings.AzureTableTraceEnabled = AzureTableTraceEnabled;
-            }
-
-            if (IsChanged<string>(diagnosticsSettings.AzureTableTraceLevel, AzureTableTraceLevel))
-            {
-                changes = true;
-                diagnosticsSettings.AzureTableTraceLevel = AzureTableTraceLevel;
-            }
-
-            if (changes)
-            {
-                IDeploymentServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IDeploymentServiceManagement>(
-                new Uri(Repository.RepositoryUri),
-                Repository.PublishingUsername,
-                Repository.PublishingPassword,
-                new HeadersInspector("Content-Type", "Application/xml"),
-                new HttpRestMessageInspector(text => this.WriteDebug(text)));
-
-                channel.SetDiagnosticsSettings(diagnosticsSettings);
-            }
-        }
-
-        private bool IsChanged<T>(T original, T current)
-        {
-            return current != null && !current.Equals(original);
         }
     }
 }

@@ -47,11 +47,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
 
         bool? AzureDriveTraceEnabled { get; set; }
 
-        string AzureDriveTraceLevel { get; set; }
+        LogEntryType AzureDriveTraceLevel { get; set; }
 
         bool? AzureTableTraceEnabled { get; set; }
 
-        string AzureTableTraceLevel { get; set; }
+        LogEntryType AzureTableTraceLevel { get; set; }
     }
 
     public class SiteWithConfig : ISite, ISiteConfig
@@ -291,7 +291,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
             set { DiagnosticsSettings.AzureDriveTraceEnabled = value; }
         }
 
-        public string AzureDriveTraceLevel
+        public LogEntryType AzureDriveTraceLevel
         {
             get { return DiagnosticsSettings.AzureDriveTraceLevel; }
             set { DiagnosticsSettings.AzureDriveTraceLevel = value; }
@@ -303,7 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
             set { DiagnosticsSettings.AzureTableTraceEnabled = value; }
         }
 
-        public string AzureTableTraceLevel
+        public LogEntryType AzureTableTraceLevel
         {
             get { return DiagnosticsSettings.AzureTableTraceLevel; }
             set { DiagnosticsSettings.AzureTableTraceLevel = value; }

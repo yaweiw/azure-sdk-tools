@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Newtonsoft.Json.Linq;
 
     public class WebsitesClient
     {
@@ -94,6 +95,27 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return null;
         }
 
+        private HttpClient CreateHttpClient(string websiteName)
+        {
+            Repository repository;
+            ICredentials credentials;
+            websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
+            return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
+        }
+
+        private string GetWebsiteDeploymentHttpConfiguration(
+            string name,
+            out Repository repository,
+            out ICredentials credentials)
+        {
+            name = string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
+            repository = GetRepository(name);
+            credentials = new NetworkCredential(
+                repository.PublishingUsername,
+                repository.PublishingPassword);
+            return name;
+        }
+
         /// <summary>
         /// Starts log streaming for the given website.
         /// </summary>
@@ -157,25 +179,59 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return logPaths;
         }
 
-        private HttpClient CreateHttpClient(string websiteName)
+        public virtual void SetDiagnosticsSettings(string name, bool? drive, LogEntryType driveLevel, bool? table, LogEntryType tableLevel)
         {
-            Repository repository;
-            ICredentials credentials;
-            websiteName = GetWebsiteDeploymentHttpConfiguration(websiteName, out repository, out credentials);
-            return HttpClientHelper.CreateClient(repository.RepositoryUri, credentials);
+            DiagnosticsSettings diagnosticsSettings;
+
+            using (HttpClient client = CreateHttpClient(name))
+            {
+                diagnosticsSettings = client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
+
+                JObject json = null;
+
+                IncludeIfChanged<bool?>(
+                    drive,
+                    diagnosticsSettings.AzureDriveTraceEnabled,
+                    UriElements.AzureDriveTraceEnabled,
+                    ref json);
+
+                IncludeIfChanged<LogEntryType>(
+                    driveLevel,
+                    diagnosticsSettings.AzureDriveTraceLevel,
+                    UriElements.AzureDriveTraceLevel,
+                    ref json);
+
+                IncludeIfChanged<bool?>(
+                    table,
+                    diagnosticsSettings.AzureTableTraceEnabled,
+                    UriElements.AzureTableTraceEnabled,
+                    ref json);
+
+                IncludeIfChanged<LogEntryType>(
+                    tableLevel,
+                    diagnosticsSettings.AzureTableTraceLevel,
+                    UriElements.AzureTableTraceLevel,
+                    ref json);
+
+                if (json != null)
+                {
+                    client.PostAsJsonAsync(UriElements.DiagnosticsSettings, json, Logger);
+                }
+            }
         }
 
-        private string GetWebsiteDeploymentHttpConfiguration(
-            string name,
-            out Repository repository,
-            out ICredentials credentials)
+        private void IncludeIfChanged<T>(T current, T original, string key, ref JObject json)
         {
-            name = string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
-            repository = GetRepository(name);
-            credentials = new NetworkCredential(
-                repository.PublishingUsername,
-                repository.PublishingPassword);
-            return name;
+            if (IsChanged<T>(original, current))
+            {
+                json = json ?? new JObject();
+                json[key] = JToken.FromObject(current);
+            }
+        }
+
+        private bool IsChanged<T>(T original, T current)
+        {
+            return current != null && !current.Equals(original);
         }
     }
 }

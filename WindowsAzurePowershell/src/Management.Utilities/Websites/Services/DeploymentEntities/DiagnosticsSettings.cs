@@ -14,25 +14,23 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities
 {
-    using System;
-    using System.Runtime.Serialization;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Diagnostics settings.
     /// </summary>
-    [DataContract(Name = "root", Namespace = "")]
     public class DiagnosticsSettings
     {
-        [DataMember(Name = "AzureDriveEnabled")]
+        [JsonProperty(PropertyName = "AzureDriveEnabled")]
         public bool? AzureDriveTraceEnabled { get; set; }
 
-        //[DataMember]
-        public string AzureDriveTraceLevel { get; set; }
+        [JsonProperty]
+        public LogEntryType AzureDriveTraceLevel { get; set; }
 
-        //[DataMember(Name = "AzureTableEnabled")]
+        [JsonProperty(PropertyName = "AzureTableEnabled")]
         public bool? AzureTableTraceEnabled { get; set; }
 
-        //[DataMember]
-        public string AzureTableTraceLevel { get; set; }
+        [JsonProperty]
+        public LogEntryType AzureTableTraceLevel { get; set; }
     }
 }
