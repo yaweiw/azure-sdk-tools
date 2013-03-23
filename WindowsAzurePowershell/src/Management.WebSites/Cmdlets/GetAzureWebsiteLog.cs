@@ -37,6 +37,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         public WebsitesClient WebsiteClient;
 
+        public Predicate<string> StopCondition;
+
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = TailParameterSet, HelpMessage = "The log path.")]
         [ValidateNotNullOrEmpty]
@@ -88,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
             if (Tail.IsPresent)
             {
-                foreach (string logLine in WebsiteClient.StartLogStreaming(Name, Path, Message))
+                foreach (string logLine in WebsiteClient.StartLogStreaming(Name, Path, Message, StopCondition))
                 {
                     WriteObject(logLine);
                 }

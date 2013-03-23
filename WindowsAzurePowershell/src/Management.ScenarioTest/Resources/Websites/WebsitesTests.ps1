@@ -104,6 +104,29 @@ function Test-GetAzureWebsiteLogTail
 
 <#
 .SYNOPSIS
+Tests Get-AzureWebsiteLog with -Tail with special characters in uri.
+#>
+function Test-GetAzureWebsiteLogTailUriEncoding
+{
+	# Setup
+	New-BasicLogWebsite
+	$website = $global:currentWebsite
+	$client = New-Object System.Net.WebClient
+	$uri = "http://" + $website.HostNames[0]
+	$client.BaseAddress = $uri
+	$count = 0
+
+	#Test
+	Get-AzureWebsiteLog -Tail -Message "mes/a:q;" | % {
+		if ($_ -like "*mes/a:q;*") { cd ..; exit; }
+		$client.DownloadString($uri)
+		$count++
+		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
+	}
+}
+
+<#
+.SYNOPSIS
 Tests Get-AzureWebsiteLog with -Tail
 #>
 function Test-GetAzureWebsiteLogTailPath
