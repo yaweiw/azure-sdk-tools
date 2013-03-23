@@ -61,12 +61,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// Gets website name in the current directory.
         /// </summary>
         /// <returns></returns>
-        public string GetCurrentDirectoryWebsite()
+        private string GetWebsiteFromCurrentDirectory()
         {
             return GitWebsite.ReadConfiguration().Name;
         }
 
-        public Repository GetRepository(string websiteName)
+        private Repository GetRepository(string websiteName)
         {
             Site site = WebsiteChannel.GetSite(
                 SubscriptionId,
@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             throw new Exception(Resources.RepositoryNotSetup);
         }
 
-        public Repository TryGetRepository(string websiteName)
+        private Repository TryGetRepository(string websiteName)
         {
             Site site = WebsiteChannel.GetSite(
                 SubscriptionId,
@@ -146,7 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public List<LogPath> ListLogPaths(string name)
+        public virtual List<LogPath> ListLogPaths(string name)
         {
             List<LogPath> logPaths = new List<LogPath>();
             using (HttpClient client = CreateHttpClient(name))
@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             out Repository repository,
             out ICredentials credentials)
         {
-            name = string.IsNullOrEmpty(name) ? GetCurrentDirectoryWebsite() : name;
+            name = string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
             repository = GetRepository(name);
             credentials = new NetworkCredential(
                 repository.PublishingUsername,
