@@ -152,15 +152,6 @@
     <Compile Include="Cmdlets\StopAzureWebsite.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.WindowsAzure.Management.Websites.dll-Help.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Microsoft.WindowsAzure.Management.Websites.Types.ps1xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Microsoft.WindowsAzure.Management.Websites.format.ps1xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Scaffolding\Node\.gitignore">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

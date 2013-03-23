@@ -343,6 +343,12 @@
     <Content Include="Microsoft.WindowsAzure.Management.Store.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Microsoft.WindowsAzure.Management.WebSites.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Service References\MarketplaceServiceReference\Reference.datasvcmap">
       <Generator>DataServicesCoreClientGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -353,6 +359,9 @@
     </Content>
     <Content Include="Microsoft.WindowsAzure.Management.Store.dll-Help.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Microsoft.WindowsAzure.Management.Websites.dll-Help.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="WelcomeMessage.txt">
