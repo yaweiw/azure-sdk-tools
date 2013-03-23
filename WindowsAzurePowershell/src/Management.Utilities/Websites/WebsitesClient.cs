@@ -58,6 +58,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 new HttpRestMessageInspector(logger));
         }
 
+        private void IncludeIfChanged<T>(T current, T original, string key, ref JObject json)
+        {
+            if (IsChanged<T>(original, current))
+            {
+                json = json ?? new JObject();
+                json[key] = JToken.FromObject(current);
+            }
+        }
+
+        private bool IsChanged<T>(T original, T current)
+        {
+            return current != null && !current.Equals(original);
+        }
+
         /// <summary>
         /// Gets website name in the current directory.
         /// </summary>
@@ -179,7 +193,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return logPaths;
         }
 
-        public virtual void SetDiagnosticsSettings(string name, bool? drive, LogEntryType driveLevel, bool? table, LogEntryType tableLevel)
+        public virtual void SetDiagnosticsSettings(
+            string name,
+            bool? drive,
+            LogEntryType driveLevel,
+            bool? table,
+            LogEntryType tableLevel)
         {
             DiagnosticsSettings diagnosticsSettings;
 
@@ -220,18 +239,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             }
         }
 
-        private void IncludeIfChanged<T>(T current, T original, string key, ref JObject json)
+        public virtual DiagnosticsSettings GetDiagnosticsSettings(string name)
         {
-            if (IsChanged<T>(original, current))
-            {
-                json = json ?? new JObject();
-                json[key] = JToken.FromObject(current);
-            }
-        }
+            DiagnosticsSettings diagnosticsSettings = null;
 
-        private bool IsChanged<T>(T original, T current)
-        {
-            return current != null && !current.Equals(original);
+            using (HttpClient client = CreateHttpClient(name))
+            {
+                diagnosticsSettings = client.GetJson<DiagnosticsSettings>(UriElements.DiagnosticsSettings, Logger);
+            }
+
+            return diagnosticsSettings;
         }
     }
 }

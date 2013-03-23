@@ -72,6 +72,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 site.HostNames = website.HostNames;
                 updatedSite = true;
             };
+            websitesClientMock = new Mock<WebsitesClient>();
 
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
@@ -80,7 +81,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
-                NumberOfWorkers = 3
+                NumberOfWorkers = 3,
+                WebsitesClient = websitesClientMock.Object
             };
 
             setAzureWebsiteCommand.ExecuteCmdlet();
@@ -96,7 +98,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
-                HostNames = new [] { "stuff.com" }
+                HostNames = new [] { "stuff.com" },
+                WebsitesClient = websitesClientMock.Object
             };
 
             setAzureWebsiteCommand.ExecuteCmdlet();
@@ -143,6 +146,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 updatedSite = true;
             };
 
+            websitesClientMock = new Mock<WebsitesClient>();
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
             {
@@ -150,7 +154,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
-                NumberOfWorkers = 3
+                NumberOfWorkers = 3,
+                WebsitesClient = websitesClientMock.Object
             };
 
             setAzureWebsiteCommand.ExecuteCmdlet();
@@ -166,7 +171,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
-                HostNames = new[] { "stuff.com" }
+                HostNames = new[] { "stuff.com" },
+                WebsitesClient = websitesClientMock.Object
             };
 
             setAzureWebsiteCommand.ExecuteCmdlet();

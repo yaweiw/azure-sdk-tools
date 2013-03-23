@@ -206,3 +206,23 @@ function Test-GetAzureWebsiteLogListPath
 	Assert-AreEqual "Git" $actual
 	cd ..
 }
+
+########################################################################### Get-AzureWebsite Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Get-AzureWebsite
+#>
+function Test-GetAzureWebsite
+{
+	# Setup
+	New-BasicLogWebsite
+	$website = $global:currentWebsite
+	Set-AzureWebsite $website.Name -AzureDriveTraceEnabled $true
+
+	#Test
+	$config = Get-AzureWebsite -Name $website.Name
+
+	# Assert
+	Assert-AreEqual $true $config.AzureDriveTraceEnabled
+}
