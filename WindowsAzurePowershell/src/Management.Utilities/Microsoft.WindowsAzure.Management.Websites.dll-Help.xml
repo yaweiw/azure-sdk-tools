@@ -1364,6 +1364,41 @@ C:\PS&gt;			</maml:introduction>
 				</maml:description>
 			<command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
 			</command:parameter>
+      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>When specified, a boolean value is returned</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>AzureDriveTraceEnabled</maml:name>
+        <maml:description>
+          <maml:para>The flag to enable drive logging</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+        <maml:name>AzureDriveTraceLevel</maml:name>
+        <maml:description>
+          <maml:para>The level of logging</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+      </command:parameter>
+      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureTableTraceEnabled</maml:name>
+      <maml:description>
+        <maml:para>The flag to enable table logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
+    </command:parameter>
+      <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureTableTraceLevel</maml:name>
+      <maml:description>
+        <maml:para>The level of logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+    </command:parameter>
 		</command:syntaxItem>
 	</command:syntax>
 	<command:parameters>
@@ -1523,6 +1558,41 @@ C:\PS&gt;			</maml:introduction>
 			</dev:type>
 			<dev:defaultValue></dev:defaultValue>
 		</command:parameter>
+    <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>PassThru</maml:name>
+      <maml:description>
+        <maml:para>When specified, a boolean value is returned</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Switch</command:parameterValue>
+    </command:parameter>
+    <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureDriveTraceEnabled</maml:name>
+      <maml:description>
+        <maml:para>The flag to enable drive logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
+    </command:parameter>
+    <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureDriveTraceLevel</maml:name>
+      <maml:description>
+        <maml:para>The level of logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+    </command:parameter>
+    <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureTableTraceEnabled</maml:name>
+      <maml:description>
+        <maml:para>The flag to enable table logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >Boolean</command:parameterValue>
+    </command:parameter>
+    <command:parameter required = "false" variableLength = "true" globbing = "false" pipelineInput = "true (ByPropertyName)" position = "named" >
+      <maml:name>AzureTableTraceLevel</maml:name>
+      <maml:description>
+        <maml:para>The level of logging</maml:para>
+      </maml:description>
+      <command:parameterValue required="true" variableLength = "false" >String</command:parameterValue>
+    </command:parameter>
 		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="1">
 			<maml:name>Name</maml:name>
 			<maml:description>
@@ -1618,6 +1688,27 @@ Set-AzureWebsite -AppSettings $settings myWebsite</dev:code>
 				</command:commandLine>
 			</command:commandLines>
 		</command:example>
+    <command:example>
+      <maml:title>
+        --------------  Enable Drive Logging --------------
+      </maml:title>
+      <maml:introduction>
+        <maml:para>C:\PS&gt;</maml:para>
+        C:\PS&gt;
+      </maml:introduction>
+      <dev:code>
+        Set-AzureWebsite -AzureDriveTraceEnabled $true
+      </dev:code>
+      <dev:remarks>
+        <maml:para>Enable drive logging for the specified website</maml:para>
+      </dev:remarks>
+      <command:commandLines>
+        <command:commandLine>
+          <command:commandText>
+          </command:commandText>
+        </command:commandLine>
+      </command:commandLines>
+    </command:example>
 	</command:examples>
 	<maml:relatedLinks>
 		<maml:navigationLink>
