@@ -256,10 +256,15 @@
       ContinueOnError="false" />
   </Target>
   
-  <!-- Do everything possible -->
+  <!-- Run complete build with unit tests -->
   <Target
     Name="Full"
     DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+  
+  <!-- Run Full switch with scenario tests -->
+  <Target
+    Name="FullWithScenarioTests"
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;ScenarioTest;BuildSetupDebug;BuildSetup" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned">
