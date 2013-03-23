@@ -58,20 +58,5 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         [WebInvoke(Method = "GET", UriTemplate = "dump")]
         IAsyncResult BeginDownloadLogs(AsyncCallback callback, object state);
         Stream EndDownloadLogs(IAsyncResult asyncResult);
-
-        [Description("Gets diagnostics settings")]
-        [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "GET", UriTemplate = "diagnostics/settings")]
-        IAsyncResult BeginGetDiagnosticsSettings(AsyncCallback callback, object state);
-        DiagnosticsSettings EndGetDiagnosticsSettings(IAsyncResult asyncResult);
-
-        [Description("Sets diagnostics settings")]
-        [OperationContract(AsyncPattern = true)]
-        [WebInvoke(Method = "POST", UriTemplate = "diagnostics/settings")]
-        IAsyncResult BeginSetDiagnosticsSettings(
-            DiagnosticsSettings diagnosticsSettings,
-            AsyncCallback callback,
-            object state);
-        void EndSetDiagnosticsSettings(IAsyncResult asyncResult);
     }
 }

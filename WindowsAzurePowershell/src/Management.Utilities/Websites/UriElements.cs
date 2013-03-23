@@ -155,6 +155,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public const string DatabaseCheckAvailability = "databases/{name}?CheckAvailability";
         public const string WebSiteCheckAvailability = "sites/{name}?CheckAvailability";
 
+        public const string AzureDriveTraceEnabled = "AzureDriveEnabled";
+        public const string AzureDriveTraceLevel = "AzureDriveTraceLevel";
+        public const string AzureTableTraceEnabled = "AzureTableEnabled";
+        public const string AzureTableTraceLevel = "AzureTableTraceLevel";
+
         public const string LogPaths = "vfs/LogFiles";
+        public const string DiagnosticsSettings = "diagnostics/settings";
     }
 }
