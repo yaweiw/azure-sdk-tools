@@ -15,18 +15,25 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
+    using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Moq;
     using Utilities;
     using VisualStudio.TestTools.UnitTesting;
     using Websites.Cmdlets;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     [TestClass]
     public class SetAzureWebsiteTests : WebsitesTestBase
     {
+        private Mock<ICommandRuntime> commandRuntimeMock;
+
+        private Mock<WebsitesClient> websitesClientMock;
+
         [TestMethod]
         public void SetAzureWebsiteProcess()
         {
@@ -170,6 +177,71 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Cmdlets
             setAzureWebsiteCommand.ExecuteCmdlet();
             Assert.AreEqual<int?>(3, siteConfig.NumberOfWorkers);
             Assert.AreEqual<string>("v2.0", siteConfig.NetFrameworkVersion);
+        }
+
+        [TestMethod]
+        public void SetAzureWebsiteAzureDriveTraceEnabled()
+        {
+            const string websiteName = "website1";
+            const string webspaceName = "webspace";
+
+            // Setup
+            bool updatedSite = false;
+            bool updatedSiteConfig = false;
+            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
+
+            Site site = new Site { Name = websiteName, WebSpace = webspaceName };
+            SiteConfig siteConfig = new SiteConfig { NumberOfWorkers = 1 };
+            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
+            channel.GetSitesThunk = ar => new Sites(new List<Site> { site });
+            channel.GetSiteThunk = ar => site;
+            channel.GetSiteConfigThunk = ar => siteConfig;
+            channel.UpdateSiteConfigThunk = ar =>
+            {
+                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
+                SiteConfig website = ar.Values["siteConfig"] as SiteConfig;
+                Assert.IsNotNull(website);
+                Assert.AreEqual(website.NumberOfWorkers, 3);
+                siteConfig.NumberOfWorkers = website.NumberOfWorkers;
+                updatedSiteConfig = true;
+            };
+
+            channel.UpdateSiteThunk = ar =>
+            {
+                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
+                Site website = ar.Values["site"] as Site;
+                Assert.IsNotNull(website);
+                Assert.AreEqual(websiteName, website.Name);
+                Assert.IsTrue(website.HostNames.Any(hostname => hostname.Equals(websiteName + General.AzureWebsiteHostNameSuffix)));
+                Assert.IsNotNull(website.HostNames.Any(hostname => hostname.Equals("stuff.com")));
+                site.HostNames = website.HostNames;
+                updatedSite = true;
+            };
+            commandRuntimeMock = new Mock<ICommandRuntime>();
+            websitesClientMock = new Mock<WebsitesClient>();
+
+            // Test
+            SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
+            {
+                ShareChannel = true,
+                CommandRuntime = commandRuntimeMock.Object,
+                Name = websiteName,
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                WebsitesClient = websitesClientMock.Object,
+                NumberOfWorkers = 3,
+                AzureDriveTraceEnabled = false
+            };
+
+            setAzureWebsiteCommand.ExecuteCmdlet();
+            Assert.IsTrue(updatedSiteConfig);
+            Assert.IsFalse(updatedSite);
+            websitesClientMock.Verify(f => f.SetDiagnosticsSettings(
+                websiteName,
+                false,
+                default(LogEntryType),
+                null,
+                default(LogEntryType)),
+                Times.Once());
         }
     }
 }
