@@ -157,6 +157,21 @@ namespace Microsoft.WindowsAzure.Management.Websites.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must create your first web site using the Windows Azure portal before using Windows Azure PowerShell.
+        ///Please follow these steps in the portal:
+        ///1. At the bottom of the page, click on New &gt; Web Site &gt; Quick Create
+        ///2. Type a valid name in the URL field
+        ///3. Click on &quot;Create Web Site&quot;
+        ///4. Once the site has been created, click on the site name
+        ///5. Click on &quot;Set up Git publishing&quot; or &quot;Reset deployment credentials&quot; and setup a publishing username and password. Use those credentials for all new websites you c [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ListLocationExceptionWorkaround {
+            get {
+                return ResourceManager.GetString("ListLocationExceptionWorkaround", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multiple possible publishing users. Please go to the Portal and use the listed deployment user, or click &apos;set/reset deployment credentials&apos; to set up a new user account, then reurn this cmdlet and specify PublishingUsername..
         /// </summary>
         internal static string MultiplePublishingUsernames {

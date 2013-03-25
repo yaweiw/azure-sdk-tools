@@ -15,14 +15,24 @@
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
     using System.Linq;
+    using System.ServiceModel.Security;
     using GeoEntities;
+    using Microsoft.WindowsAzure.Management.Websites.Properties;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
     {
         public static WebSpaces GetWebSpaces(this IWebsitesServiceManagement proxy, string subscriptionName)
         {
-            return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
+            try
+            {
+                return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
+            }
+            catch (MessageSecurityException getWebspacesException)
+            {
+                throw new System.Management.Automation.CmdletInvocationException(Resources.ListLocationExceptionWorkaround, getWebspacesException);
+            }
+
         }
 
         public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
