@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites.Services
 {
+    using System;
     using System.Linq;
     using System.ServiceModel.Security;
     using GeoEntities;
@@ -30,9 +31,25 @@ namespace Microsoft.WindowsAzure.Management.Websites.Services
             }
             catch (MessageSecurityException getWebspacesException)
             {
-                throw new System.Management.Automation.CmdletInvocationException(Resources.ListLocationExceptionWorkaround, getWebspacesException);
+                // TODO, 1238: Remove when we have added RDFE resource registration logic
+                if (IsAccessDeniedException(getWebspacesException))
+                {
+                    throw new System.Management.Automation.CmdletInvocationException(Resources.ListLocationExceptionWorkaround, getWebspacesException);
+                }
+                else
+                {
+                    throw getWebspacesException;
+                }
             }
+        }
 
+        // TODO, 1238: Remove when we have added RDFE resource registration logic
+        static bool IsAccessDeniedException(MessageSecurityException exceptionToCheck)
+        {
+            return (null != exceptionToCheck && null != exceptionToCheck.InnerException && 
+                !string.IsNullOrEmpty(exceptionToCheck.InnerException.Message) &&
+                string.Equals(exceptionToCheck.InnerException.Message, Resources.AccessDeniedExceptionMessage, 
+                StringComparison.OrdinalIgnoreCase));
         }
 
         public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
