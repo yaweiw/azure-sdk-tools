@@ -40,7 +40,7 @@
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
 	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
-	<ReleaseBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
 	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
   </PropertyGroup>
   <ItemGroup>
@@ -56,11 +56,6 @@
       Projects="@(CmdletSln)"
       Targets="Clean"
       Properties="$(DebugBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Clean"
-      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
@@ -125,11 +120,6 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="$(DebugBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Build"
-      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
