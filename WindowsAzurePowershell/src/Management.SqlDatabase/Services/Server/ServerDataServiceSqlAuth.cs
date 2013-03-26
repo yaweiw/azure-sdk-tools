@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
@@ -485,7 +486,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
 
             // Add the UserAgent string
-            request.UserAgent = Constants.WindowsAzurePowerShellUserAgent;
+            request.UserAgent = ApiConstants.UserAgentHeaderValue;
 
             // Add the access token header
             request.Headers[DataServiceConstants.AccessTokenHeader] = context.accessToken.AccessToken;

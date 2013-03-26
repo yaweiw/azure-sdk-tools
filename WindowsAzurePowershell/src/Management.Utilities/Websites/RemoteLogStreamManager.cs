@@ -56,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public virtual Task<Stream> GetStream()
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(ServiceUrl);
-            request.UserAgent = "Windows Azure Powershell/v.0.6.11";
+            request.UserAgent = ApiConstants.UserAgentHeaderValue;
             TaskCompletionSource<Stream> tcs = new TaskCompletionSource<Stream>();
             RequestState state = new RequestState { Manager = this, TaskCompletionSource = tcs, Request = request };
 
