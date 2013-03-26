@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
     using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Websites.Services;
-    using Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
     
     /// <summary>
     /// Simple implementation of the <see cref="IDeploymentServiceManagement"/> interface that can be
@@ -204,12 +204,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Utilities
 
         #endregion
 
-        public IAsyncResult BeginListPaths(AsyncCallback callback, object state)
+        public IAsyncResult BeginGetDiagnosticsSettings(AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }
 
-        public List<LogPath> EndListPaths(IAsyncResult asyncResult)
+        public DiagnosticsSettings EndGetDiagnosticsSettings(IAsyncResult asyncResult)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IAsyncResult BeginSetDiagnosticsSettings(DiagnosticsSettings diagnosticsSettings, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void EndSetDiagnosticsSettings(IAsyncResult asyncResult)
         {
             throw new NotImplementedException();
         }

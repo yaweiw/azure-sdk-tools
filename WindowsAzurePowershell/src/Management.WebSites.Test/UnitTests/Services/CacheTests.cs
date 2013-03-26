@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Test.UnitTests.Services
     using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
-    using Websites.Services;
-    using Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     [TestClass]
     public class CacheTests

@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,
-                new HttpRestMessageInspector(text => this.WriteDebug(text)));
+                new HttpRestMessageInspector(WriteDebug));
         }
 
         protected void RetryCall(Action<string> call)

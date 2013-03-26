@@ -21,17 +21,22 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.ServiceModel;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Properties;
-    using Services;
-    using Services.WebEntities;
-    using Websites.Cmdlets.Common;
-    
+    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+using Microsoft.WindowsAzure.Management.Utilities.Websites;
+
     /// <summary>
     /// Sets an azure website properties.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
     {
+        public WebsitesClient WebsitesClient { get; set; }
+
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
         public int? NumberOfWorkers { get; set; }
@@ -81,6 +86,18 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure drive trace enabled")]
+        public bool? AzureDriveTraceEnabled { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure drive trace level")]
+        public LogEntryType AzureDriveTraceLevel { get; set; }
+        
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace enabled")]
+        public bool? AzureTableTraceEnabled { get; set; }
+
+        [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Azure table trace level")]
+        public LogEntryType AzureTableTraceLevel { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the SetAzureWebsiteCommand class.
         /// </summary>
@@ -102,8 +119,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
 
         public override void ExecuteCmdlet()
         {
+            base.ExecuteCmdlet();
+
             Site website = null;
             SiteConfig websiteConfig = null;
+
             InvokeInOperationContext(() =>
             {
                 try
@@ -129,7 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 websiteConfigUpdate = SiteWithConfig;
                 changes = true;
             }
-            
+
             if (NumberOfWorkers != null && !NumberOfWorkers.Equals(websiteConfig.NumberOfWorkers))
             {
                 changes = true;
@@ -141,7 +161,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 changes = true;
                 websiteConfigUpdate.DefaultDocuments = DefaultDocuments;
             }
-       
+
             if (NetFrameworkVersion != null && !NetFrameworkVersion.Equals(websiteConfig.NetFrameworkVersion))
             {
                 changes = true;
@@ -189,7 +209,7 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 changes = true;
                 websiteConfigUpdate.ConnectionStrings = ConnectionStrings;
             }
-            
+
             if (HandlerMappings != null && !HandlerMappings.Equals(websiteConfig.HandlerMappings))
             {
                 changes = true;
@@ -239,6 +259,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                     }
                 });
             }
+
+            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+            WebsitesClient.SetDiagnosticsSettings(
+                Name,
+                AzureDriveTraceEnabled,
+                AzureDriveTraceLevel,
+                AzureTableTraceEnabled,
+                AzureTableTraceLevel);
 
             if (PassThru.IsPresent)
             {

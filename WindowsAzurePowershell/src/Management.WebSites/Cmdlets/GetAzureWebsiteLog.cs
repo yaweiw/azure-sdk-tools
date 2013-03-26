@@ -20,10 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using System.Net;
     using System.Web;
-    using Common;
-    using Microsoft.WindowsAzure.Management.Websites.Services.DeploymentEntities;
-    using Microsoft.WindowsAzure.Management.Websites.Utilities;
-    using Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
 
     /// <summary>
     /// Gets an azure website.
@@ -31,17 +31,13 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsiteLog"), OutputType(typeof(string))]
     public class GetAzureWebsiteLogCommand : DeploymentBaseCmdlet
     {
-        public const int WaitInterval = 10000;
-
         private const string TailParameterSet = "Tail";
 
         private const string ListPathParameterSet = "ListPath";
 
-        public RemoteLogStreamManager RemoteLogStreamManager;
+        public WebsitesClient WebsiteClient;
 
-        public LogStreamWaitHandle LogStreamWaitHandle;
-
-        public Predicate<string> EndStreaming;
+        public Predicate<string> StopCondition;
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, 
             ParameterSetName = TailParameterSet, HelpMessage = "The log path.")]
@@ -84,52 +80,24 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         {
             Channel = channel;
             DeploymentChannel = deploymentChannel;
+            WebsiteClient = null;
         }
 
         public override void ExecuteCmdlet()
         {
             base.ExecuteCmdlet();
+            WebsiteClient = WebsiteClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
 
             if (Tail.IsPresent)
             {
-                LogStreaming();
+                foreach (string logLine in WebsiteClient.StartLogStreaming(Name, Path, Message, StopCondition))
+                {
+                    WriteObject(logLine);
+                }
             }
             else if (ListPath.IsPresent)
             {
-                WriteObject(DeploymentChannel.ListPaths().Select<LogPath, string>(i => i.Name), true);
-            }
-        }
-
-        private void LogStreaming()
-        {
-            ICredentials credentials = new NetworkCredential(
-            Repository.PublishingUsername,
-            Repository.PublishingPassword);
-            Path = HttpUtility.UrlEncode(Path);
-            Message = HttpUtility.UrlEncode(Message);
-
-            RemoteLogStreamManager = RemoteLogStreamManager ?? new RemoteLogStreamManager(
-                Repository.RepositoryUri,
-                Path,
-                Message,
-                credentials);
-
-            using (LogStreamWaitHandle = LogStreamWaitHandle ?? 
-                new LogStreamWaitHandle(RemoteLogStreamManager.GetStream().Result))
-            {
-                bool doStreaming = true;
-                
-                while (doStreaming)
-                {
-                    string line = LogStreamWaitHandle.WaitNextLine(WaitInterval);
-
-                    if (line != null)
-                    {
-                        WriteObject(line);
-                    }
-
-                    doStreaming = EndStreaming == null ? true : EndStreaming(line);
-                }
+                WriteObject(WebsiteClient.ListLogPaths(Name).Select<LogPath, string>(i => i.Name), true);
             }
         }
     }
