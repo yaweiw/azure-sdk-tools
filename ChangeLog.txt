@@ -1,3 +1,6 @@
+2013.03.26 Version 0.6.12.1
+ * Hotfix to fix issues with first website creation on a new account.
+ 
 2013.03.20 Version 0.6.12
  * Windows Azure Storage entity level cmdlets
    * New-AzureStorageContext
