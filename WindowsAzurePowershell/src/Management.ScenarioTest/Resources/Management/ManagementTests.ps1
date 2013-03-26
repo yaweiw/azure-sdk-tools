@@ -21,7 +21,7 @@ Tests Remove-AzureSubscription with valid subscription
 function Test-RemoveAzureSubscriptionWithDefaultSubscription
 {
 	# Setup
-	$name = Get-AzureSubscription -Default | % { $_.SubscriptionName }
+	$name = (Get-AzureSubscription -Default).SubscriptionName
 	$expectedDefaultWarning = "The default subscription is being removed. Use Select-Subscription <subscriptionName> to select a new default subscription."
 	$expectedCurrentWarning = "The current subscription is being removed. Use Select-Subscription <subscriptionName> to select a new current subscription."
 
@@ -67,7 +67,7 @@ Tests Remove-AzureSubscription with WhatIf
 function Test-RemoveAzureSubscriptionWithWhatIf
 {
 	# Setup
-	$name = Get-AzureSubscription -Default | % { $_.SubscriptionName }
+	$name = (Get-AzureSubscription -Default).SubscriptionName
 
 	# Test
 	Remove-AzureSubscription $name -Force -WhatIf
