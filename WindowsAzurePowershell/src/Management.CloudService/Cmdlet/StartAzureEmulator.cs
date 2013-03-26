@@ -44,6 +44,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (Directory.Exists(service.Paths.LocalPackage))
             {
+                WriteVerbose(Resources.StopEmulatorMessage);
+                service.StopEmulator(out standardOutput, out standardError);
+                WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, service.Paths.LocalPackage));
                 Directory.Delete(service.Paths.LocalPackage, true);
             }
