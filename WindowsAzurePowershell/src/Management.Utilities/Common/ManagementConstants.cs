@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System.Collections.Generic;
+    using System.Net.Http.Headers;
 
     public class ArgumentConstants
     {
@@ -120,5 +121,32 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public const string ResolvingDns = "Suspending";
         public const string Created = "Created";
         public const string Creating = "Creating";
+    }
+
+    public static class ApiConstants
+    {
+        public static string DefaultApiVersion = "2011-03-01";
+
+        public const string VersionHeaderName = "x-ms-version";
+        public const string RequestHeaderName = "x-ms-request-id";
+        public const string MarkerHeaderName = "x-ms-continuation-Marker";
+        public const string TracingHeaderName = "x-ms-tracing";
+
+        public const string AuthorizationHeaderName = "Authorization";
+
+        public const string BasicAuthorization = "Basic";
+
+        public const string TracingEventResponseHeaderPrefix = "TracingEvent_";
+
+        public const string RunningState = "Running";
+        public const string StoppedState = "Stopped";
+
+        public const string CustomDomainsEnabledSettingsName = "CustomDomainsEnabled";
+        public const string SslSupportSettingsName = "SslSupport";
+
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.12";
+        public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
+            "WindowsAzurePowershell",
+            "v0.6.12");
     }
 }

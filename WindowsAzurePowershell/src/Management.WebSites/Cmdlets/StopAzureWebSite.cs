@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Properties;
-    using Services;
-    using Services.WebEntities;
-    using Websites.Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
 
     /// <summary>
     /// Stops an azure website.

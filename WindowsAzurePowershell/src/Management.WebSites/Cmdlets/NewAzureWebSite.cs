@@ -22,13 +22,14 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Properties;
-    using Services;
-    using Services.Github;
-    using Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using GitClass = Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Git;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
 
     /// <summary>
     /// Creates a new azure website.
@@ -202,17 +203,17 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
         internal void AddRemoteToLocalGitRepo(Site website)
         {
             // Get remote repos
-            IList<string> remoteRepositories = Services.Git.GetRemoteRepositories();
+            IList<string> remoteRepositories = GitClass.GetRemoteRepositories();
             if (remoteRepositories.Any(repository => repository.Equals("azure")))
             {
                 // Removing existing azure remote alias
-                Services.Git.RemoveRemoteRepository("azure");
+                GitClass.RemoveRemoteRepository("azure");
             }
 
             string repositoryUri = website.GetProperty("RepositoryUri");
 
-            string uri = Services.Git.GetUri(repositoryUri, Name, PublishingUsername);
-            Services.Git.AddRemoteRepository("azure", uri);
+            string uri = GitClass.GetUri(repositoryUri, Name, PublishingUsername);
+            GitClass.AddRemoteRepository("azure", uri);
         }
 
         [EnvironmentPermission(SecurityAction.LinkDemand, Unrestricted = true)]

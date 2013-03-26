@@ -17,10 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
-    using Common;
-    using Properties;
-    using Services;
-    using Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Gets an azure website.
@@ -28,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
     public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
     {
+        public WebsitesClient WebsitesClient { get; set; }
+
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
         public string Name
@@ -86,8 +90,11 @@ namespace Microsoft.WindowsAzure.Management.Websites.Cmdlets
                 // Add to cache
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
+                WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+                DiagnosticsSettings diagnosticsSettings = WebsitesClient.GetDiagnosticsSettings(Name);
+
                 // Output results
-                WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration), false);
+                WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration, diagnosticsSettings), false);
             }
             else
             {
