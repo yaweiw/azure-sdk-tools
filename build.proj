@@ -60,11 +60,6 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="$(ReleaseBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Clean"
       Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
@@ -125,11 +120,6 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="$(DebugBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Build"
-      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
