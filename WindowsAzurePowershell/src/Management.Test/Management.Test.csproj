@@ -125,6 +125,23 @@
     <Compile Include="Common\GlobalComponentsTests.cs" />
     <Compile Include="Common\GlobalPathInfoTest.cs" />
     <Compile Include="Common\SubscriptionsManagerTests.cs" />
+    <Compile Include="Websites\GetAzureWebsiteDeploymentTests.cs" />
+    <Compile Include="Websites\GetAzureWebsiteLocationTests.cs" />
+    <Compile Include="Websites\GetAzureWebsiteLogTests.cs" />
+    <Compile Include="Websites\GetAzureWebSiteTests.cs" />
+    <Compile Include="Websites\NewAzureWebSiteTests.cs" />
+    <Compile Include="Websites\RemoveAzureWebSiteTests.cs" />
+    <Compile Include="Websites\RestartAzureWebsiteTests.cs" />
+    <Compile Include="Websites\RestoreAzureWebsiteDeploymentTests.cs" />
+    <Compile Include="Websites\SaveAzureWebsiteLogTests.cs" />
+    <Compile Include="Websites\SetAzureWebSiteTests.cs" />
+    <Compile Include="Websites\ShowAzurePortalTests.cs" />
+    <Compile Include="Websites\ShowAzureWebsiteTests.cs" />
+    <Compile Include="Websites\StartAzureWebSiteTests.cs" />
+    <Compile Include="Websites\StopAzureWebSiteTests.cs" />
+    <Compile Include="Websites\Services\CacheTests.cs" />
+    <Compile Include="Websites\Services\GithubClientTests.cs" />
+    <Compile Include="Websites\Services\GitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
