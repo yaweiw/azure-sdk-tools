@@ -20,11 +20,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Management.Store.Model;
+    using Microsoft.WindowsAzure.Management.Store;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Store.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Store;
 
     [TestClass]
+    [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1184
     public class StoreTests : WindowsAzurePowerShellTest
     {
         public static string StoreCredentialFile = "store.publishsettings";
@@ -182,7 +184,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestGetAzureStoreAddOnWithInvalidName()
         {
             RunPowerShellTest("Test-GetAzureStoreAddOnWithInvalidName");
@@ -239,7 +241,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestNewAzureStoreAddOnWithInvalidName()
         {
             PromptSetup();
@@ -249,7 +251,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestNewAzureStoreAddOnWithInvalidWindowsAzureLocation()
         {
             PromptSetup();
@@ -279,7 +281,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestNewAzureStoreAddOnWithInvalidAddOn()
         {
             PromptSetup();
@@ -289,7 +291,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestNewAzureStoreAddOnWithInvalidPlan()
         {
             PromptSetup();
@@ -299,7 +301,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1094 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1094
         public void TestNewAzureStoreAddOnWithInvalidLocation()
         {
             PromptSetup();
@@ -318,7 +320,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Store)]
-        [Ignore] // Activate when https://github.com/WindowsAzure/azure-sdk-tools/issues/1097 is fixed
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1097
         public void TestNewAzureStoreAddOnWithValidPromoCode()
         {
             PromptSetup();

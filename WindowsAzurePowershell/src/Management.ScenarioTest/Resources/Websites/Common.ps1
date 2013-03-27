@@ -13,6 +13,7 @@
 # ----------------------------------------------------------------------------------
 
 $createdWebsites = @()
+$currentWebsite = $null
 
 <#
 .SYNOPSIS
@@ -47,6 +48,43 @@ Removes all websites in the current subscription.
 #>
 function Initialize-WebsiteTest
 {
-	foreach ($name in $global:createdWebsites) { Remove-AzureWebsite $name }
-	$global:createdWebsites = @()
+	Get-AzureWebsite | Remove-AzureWebsite -Force
+}
+
+<#
+.SYNOPSIS
+Clones git repo
+#>
+function Clone-GitRepo
+{
+	param([string] $repo, [string] $dir)
+
+	$cloned = $false
+	do
+	{
+		try
+		{
+			git clone $repo $dir
+			$cloned = $true
+		}
+		catch
+		{
+			# Do nothing
+		}
+	}
+	while (!$cloned)
+}
+
+<#
+.SYNOPSIS
+Creates new website using the sample log app template.
+#>
+function New-BasicLogWebsite
+{
+	$name = Get-WebsiteName
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$global:currentWebsite = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
 }

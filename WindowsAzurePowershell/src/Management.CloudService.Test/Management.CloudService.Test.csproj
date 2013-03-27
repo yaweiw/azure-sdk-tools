@@ -112,7 +112,6 @@
     <Compile Include="Tests\Cmdlet\NewAzureRoleTemplateTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureVMSizeTests.cs" />
     <Compile Include="Tests\Cmdlet\SaveAzureServiceProjectPackageTests.cs" />
-    <Compile Include="TestData\AzureServiceWrapper.cs" />
     <Compile Include="Tests\AzureTools\CsPackTests.cs" />
     <Compile Include="Tests\AzureTools\CsRunTests.cs" />
     <Compile Include="Tests\Cmdlet\AddAzureCacheWorkerRoleTests.cs" />
@@ -138,16 +137,10 @@
     <Compile Include="Tests\Python\Cmdlet\AddAzurePythonWebRoleTests.cs" />
     <Compile Include="Tests\Model\ServiceSettingsTests.cs" />
     <Compile Include="Tests\Scaffolding\ScaffoldTests.cs" />
-    <Compile Include="Utilities\AzureAssert.cs" />
-    <Compile Include="Utilities\RuntimePackageHelper.cs" />
-    <Compile Include="Utilities\SimpleServiceManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestData\Data.cs" />
-    <Compile Include="TestData\ServiceSettingsTestData.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWebRoleTests.cs" />
     <Compile Include="Tests\Node\Cmdlet\AddAzureNodeWorkerRoleTests.cs" />
     <Compile Include="Tests\Cmdlet\SetAzureInstancesTests.cs" />
-    <Compile Include="Utilities\Testing.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\TemplateMissingScaffoldXml\RoleSettings.xml">
@@ -213,17 +206,17 @@
       <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
       <Name>Management.CloudService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Management.ServiceBus.Test\Management.ServiceBus.Test.csproj">
-      <Project>{16098AC2-5C1D-4D3C-B499-80A61D1AB7E2}</Project>
-      <Name>Management.ServiceBus.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Management.ServiceBus\Management.ServiceBus.csproj">
-      <Project>{8bbe3c78-69c6-42fe-b1fe-b3aa24771ece}</Project>
-      <Name>Management.ServiceBus</Name>
+    <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
+      <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
+      <Name>Management.Test.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
       <Name>Management.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
+      <Project>{4900ec4e-8deb-4412-9108-0bc52f81d457}</Project>
+      <Name>Management.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management\Management.csproj">
       <Project>{cd5aa507-f5ef-473d-855b-84b91a1abe54}</Project>
@@ -231,13 +224,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\testruntimemanifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
