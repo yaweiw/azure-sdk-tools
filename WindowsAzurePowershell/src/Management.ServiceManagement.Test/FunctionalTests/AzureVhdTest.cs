@@ -25,9 +25,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     public class AzureVhdTest : ServiceManagementTest
     {
         
-        
-        
-        
         protected bool deleteLocalFileIfFailed = true;
         protected bool deleteLocalFileIfPassed = true;
         protected string perfFile = "perf.csv";

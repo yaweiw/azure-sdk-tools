@@ -32,12 +32,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.IO;
     using System.Text;
 
+    using System.Xml.Linq;
+    using Microsoft.WindowsAzure.Management.Service.Gateway;
+
     [TestClass]
     public class ScenarioTest : ServiceManagementTest
     {        
-        private string serviceName;
-        
-        bool cleanup = false;        
+        private string serviceName;                
         string perfFile;
 
         [TestInitialize]
@@ -65,8 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
 
-            pass = true;
-            cleanup = true;
+            pass = true;            
         }
 
         // Basic Provisioning a Virtual Machine	  
@@ -112,8 +112,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             //            vmPowershellCmdlets.RemoveAzureService(newAzureQuickVMSvcName);
             //            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureService(newAzureQuickVMSvcName));
 
-            pass = true;
-            cleanup = true;            
+            pass = true;            
         }
 
         //Verify Advanced Provisioning
@@ -122,8 +121,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string newAzureVM1Name = Utilities.GetUniqueShortName("PSTestVM");
-            string newAzureVM2Name = Utilities.GetUniqueShortName("PSTestVM");
+            string newAzureVM1Name = Utilities.GetUniqueShortName(vmNamePrefix);
+            string newAzureVM2Name = Utilities.GetUniqueShortName(vmNamePrefix);
             
             vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
 
@@ -147,8 +146,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             vmPowershellCmdlets.RemoveAzureVM(newAzureVM2Name, serviceName);            
             
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM1Name, serviceName));
-            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM2Name, serviceName));
-            cleanup = true;
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureVM2Name, serviceName));            
             pass = true;
         }
 
@@ -160,7 +158,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");
+            string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
             
             vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, password, locationName);
 
@@ -180,8 +178,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, serviceName);
                         
-            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
-            cleanup = true;
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));            
             pass = true;
         }
 
@@ -210,8 +207,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, serviceName);
                         
-            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
-            cleanup = true;
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));            
             pass = true;
         }
 
@@ -221,9 +217,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Create a unique VM name and Service Name
-            string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");           
+            string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);           
 
-            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, "p@ssw0rd", locationName); // New-AzureQuickVM
+            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, password, locationName); // New-AzureQuickVM
             Console.WriteLine("VM is created successfully: -Name {0} -ServiceName {1}", newAzureQuickVMName, serviceName);
 
             // starting the test.
@@ -278,9 +274,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         Assert.Fail("Exception: {0}", e.ToString());
                     }
                 }
-            }
-
-            cleanup = true;
+            }            
             pass = true;           
         }
 
@@ -345,8 +339,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(persistentVM.RoleName, serviceName);            
-            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName));
-            cleanup = true;
+            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(persistentVM.RoleName, serviceName));         
         }
 
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "IaaS"), Priority(1), Owner("hylee"), Description("Test the cmdlets (Export-AzureVM,Remove-AzureVM,Import-AzureVM,New-AzureVM)")]
@@ -410,8 +403,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, serviceName);
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
-
-            cleanup = true;
+            
             pass = true;
         }
 
@@ -445,15 +437,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Cleanup
             vmPowershellCmdlets.RemoveAzureVM(newAzureQuickVMName, serviceName);
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName));
-
-            cleanup = true;
-            pass = true;
-
-            //TODO: Need to do proper cleanup of the service
-            //            vmPowershellCmdlets.RemoveAzureService(newAzureQuickVMSvcName);
-            //            Assert.AreEqual(null, vmPowershellCmdlets.GetAzureService(newAzureQuickVMSvcName));
-
-
+            
+            pass = true;            
         }
 
         // Basic Provisioning a Virtual Machine
@@ -462,8 +447,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public void DeploymentUpgrade()        
         {
 
-            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
-            cleanup = true;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);            
             perfFile = @".\deployment2.csv";
 
 
@@ -512,42 +496,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 Console.WriteLine("site: {0}", site.ToString());
                 Console.WriteLine("Time for all instances to become in ready state: {0}", DateTime.Now - start);
-
-
-                // Auto-Upgrade the deployment
-                //start = DateTime.Now;
-                //vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Auto, packagePath1.FullName, configPath1.FullName);
-                //duration = DateTime.Now - start;
-
-                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Auto Upgrade, {0}", duration) });
-
-                //Console.WriteLine("Auto upgrade took {0}.", duration);
-
-                //result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                //Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
-                //Console.WriteLine("successfully updated the deployment");
-
-                // DISABLED: Upgrade the deployment simultaneously
-                //start = DateTime.Now;
-                //vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Simultaneous, packagePath1.FullName, configPath1.FullName);
-                //TimeSpan duration2 = DateTime.Now - start;                
-
-                //Console.WriteLine("Simultaneous Upgrade took {0}.", duration2);
-                //Assert.IsTrue(duration2 < duration, "Simultaneous upgrade took more time!!");
-
-
-                //Utilities.GetDeploymentAndWaitForReady(serviceName, DeploymentSlotType.Production, 1, 600);
-                //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Simultaneous Upgrade, {0}, {1}", duration2, DateTime.Now - start) });
-
-                //Console.WriteLine("site: {0}", site.ToString());
-                //Console.WriteLine("Time for all instances to become in ready state: {0}", DateTime.Now - start);
-  
-
-                //result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                //Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 8);
-                //Console.WriteLine("successfully updated the deployment");
-
-
+                
                 // Manual-Upgrade the deployment
                 start = DateTime.Now;
                 vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Manual, packagePath1.FullName, configPath1.FullName);
@@ -568,84 +517,158 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("Manual Upgrade, {0}, {1}", duration, DateTime.Now - start) });
 
-
-
-                //Console.WriteLine(GetSiteContent(site, 3, false));
-
-
-
-               
-
-
-                //Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Staging, null, 1);
-                //Console.WriteLine("successfully deployed the package");
-
-                
-
-
-
-
-              
-                //// Update the deployment
-                //vmPowershellCmdlets.SetAzureDeploymentConfig(serviceName, DeploymentSlotType.Production, configPath2.FullName);
-                //result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                ////PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
-                //Console.WriteLine("successfully updated the deployment");
-
-
-                
-                //// Upgrade the deployment simultaneously
-                //start = DateTime.Now;
-                //vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Simultaneous, packagePath2.FullName, configPath2.FullName);
-                //TimeSpan duration2 = DateTime.Now - start;
-                //Console.WriteLine("Simultaneous Upgrade took {0}.", duration2);
-                //Assert.IsTrue(duration2 < duration, "Simultaneous upgrade took more time!!");
-
-                //result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                ////PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 2);
-                //Console.WriteLine("successfully updated the deployment");
-
-
-
-
-
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
-                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName);
-                //try
-                //{
-                //    vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                //    Console.WriteLine("the deployment is not removed!");
-                //    pass = false;
-                //}
-                //catch (Exception e1)
-                //{
-                //    if (e1.ToString().Contains("ResourceNotFound"))
-                //    {
-                //        Console.WriteLine("Successfully removed the deployment");
-                //    }
-                //    else
-                //    {
-                //        Assert.Fail("Exception occurred: {0}", e1.ToString());
-                //    }
-                //}
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName);                                
+            }
+            catch (Exception e)
+            {
+                pass = false;                
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
 
-                //pass &= true;
-                cleanup = true;
+
+        /// <summary>
+        /// AzureVNetGatewayTest()       
+        /// </summary>
+        /// Note: Create a VNet, a LocalNet from the portal without creating a gateway.
+        [TestMethod(), TestCategory("LongRunningTest"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"),
+        Description("Test the cmdlet ((Set,Remove)-AzureVNetConfig, Get-AzureVNetSite, (New,Get,Set,Remove)-AzureVNetGateway, Get-AzureVNetConnection)")]        
+        public void VNetTest()
+        {
+
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            
+            string newAzureQuickVMName = Utilities.GetUniqueShortName(vmNamePrefix);
+
+            // Read the vnetconfig file and get the names of local networks, virtual networks and affinity groups.
+            XDocument vnetconfigxml = XDocument.Load(vnetConfigFilePath);            
+            List<string> localNets = new List<string>();
+            List<string> virtualNets = new List<string>();
+            HashSet<string> affinityGroups = new HashSet<string>();
+
+            foreach (XElement el in vnetconfigxml.Descendants())
+            {
+                switch (el.Name.LocalName)
+                {
+
+                    case "LocalNetworkSite":
+                        localNets.Add(el.FirstAttribute.Value);
+                        break;
+                    case "VirtualNetworkSite":
+                        virtualNets.Add(el.Attribute("name").Value);
+                        affinityGroups.Add(el.Attribute("AffinityGroup").Value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (string aff in affinityGroups)
+            {
+                if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, aff))
+                {
+
+                    vmPowershellCmdlets.NewAzureAffinityGroup(aff, Resource.Location, null, null);
+                }
+            }
+
+            string vnet1 = virtualNets[0];
+            string lnet1 = localNets[0];
+
+            try
+            {
+
+                vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, serviceName, imageName, password, locationName); // New-AzureQuickVM
+                Console.WriteLine("VM is created successfully: -Name {0} -ServiceName {1}", newAzureQuickVMName, serviceName);
+
+                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
+
+                foreach (VirtualNetworkSiteContext site in vmPowershellCmdlets.GetAzureVNetSite(null))
+                {
+                    Console.WriteLine("Name: {0}, AffinityGroup: {1}", site.Name, site.AffinityGroup);
+                }
+
+                foreach (string vnet in virtualNets)
+                {
+                    Assert.AreEqual(vnet, vmPowershellCmdlets.GetAzureVNetSite(vnet)[0].Name);
+                    Assert.AreEqual(ProvisioningState.NotProvisioned, vmPowershellCmdlets.GetAzureVNetGateway(vnet)[0].State);
+                }
+
+
+                vmPowershellCmdlets.NewAzureVNetGateway(vnet1);
+
+                Assert.IsTrue(GetVNetState(vnet1, ProvisioningState.Provisioned, 12, 60));
+
+                // Set-AzureVNetGateway -Connect Test
+                vmPowershellCmdlets.SetAzureVNetGateway("connect", vnet1, lnet1);
+
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnet1))
+                {
+                    Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
+                    Assert.IsFalse(connection.ConnectivityState.ToLowerInvariant().Contains("notconnected"));
+                }
+
+                // Get-AzureVNetGatewayKey
+                SharedKeyContext result = vmPowershellCmdlets.GetAzureVNetGatewayKey(vnet1,
+                    vmPowershellCmdlets.GetAzureVNetConnection(vnet1)[0].LocalNetworkSiteName);
+                Console.WriteLine("Gateway Key: {0}", result.Value);
+
+
+                // Set-AzureVNetGateway -Disconnect
+                vmPowershellCmdlets.SetAzureVNetGateway("disconnect", vnet1, lnet1);
+
+                foreach (GatewayConnectionContext connection in vmPowershellCmdlets.GetAzureVNetConnection(vnet1))
+                {
+                    Console.WriteLine("Connectivity: {0}, LocalNetwork: {1}", connection.ConnectivityState, connection.LocalNetworkSiteName);
+                }
+
+                // Remove-AzureVnetGateway
+                vmPowershellCmdlets.RemoveAzureVNetGateway(vnet1);
+
+                foreach (string vnet in virtualNets)
+                {
+                    VirtualNetworkGatewayContext gateway = vmPowershellCmdlets.GetAzureVNetGateway(vnet)[0];
+
+                    Console.WriteLine("State: {0}, VIP: {1}", gateway.State.ToString(), gateway.VIPAddress);
+                    if (vnet.Equals(vnet1))
+                    {
+                        Assert.AreEqual(ProvisioningState.Deprovisioning, gateway.State);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(ProvisioningState.NotProvisioned, gateway.State);
+                    }
+
+                }
+
+                Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "currently in use", 10, 30);
+
                 pass = true;
 
             }
             catch (Exception e)
             {
                 pass = false;
-                cleanup = false;
+                if (cleanupIfFailed)
+                {
+                    try
+                    {
+                        vmPowershellCmdlets.RemoveAzureVNetGateway(vnet1);
+                    }
+                    catch { }
+                    Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "currently in use", 10, 30);
+                }
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
+            finally
+            {
+                foreach (string aff in affinityGroups)
+                {
+                    vmPowershellCmdlets.RemoveAzureAffinityGroup(aff);
+                }
+            }            
         }
-
-
-       
-
-
 
         [TestCleanup]
         public virtual void CleanUp()
@@ -654,7 +677,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Test {0}", pass ? "passed" : "failed");            
 
             // Remove the service
-            if (cleanup)
+            if ((cleanupIfPassed && pass) || (cleanupIfFailed && !pass))
             {
                 vmPowershellCmdlets.RemoveAzureService(serviceName);
                 try
@@ -732,6 +755,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine(responseString);
 
             return responseString;
+        }
+
+        private bool GetVNetState(string vnet, ProvisioningState expectedState, int maxTime, int intervalTime)
+        {
+            ProvisioningState vnetState;
+            int i = 0;
+            do
+            {
+                    
+                vnetState = vmPowershellCmdlets.GetAzureVNetGateway(vnet)[0].State;
+                Thread.Sleep(intervalTime * 1000);
+                i++;
+            }
+            while (!vnetState.Equals(expectedState) || i < maxTime);
+
+            return vnetState.Equals(expectedState);
         }
     }
 }

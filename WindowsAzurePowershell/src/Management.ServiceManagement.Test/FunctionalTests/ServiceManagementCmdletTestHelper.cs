@@ -26,6 +26,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using ConfigDataInfo;
 
     using System.Collections.Generic;
+
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using Sync.Download;
     
 
     public class ServiceManagementCmdletTestHelper 
@@ -541,18 +544,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public void ImportAzurePublishSettingsFile()
         {
-            string pubSF = Utilities.publishSettingsFile;
-            if (pubSF.StartsWith("\\\\"))
+
+            string localFile = @".\temp.publishsettings";
+
+            // Delete the file if it exists. 
+            if (File.Exists(localFile))
             {
-                string localPSF = "c:\\temp.publishsettings";
-                File.Copy(pubSF, localPSF, true);
-                this.ImportAzurePublishSettingsFile(localPSF);
-                File.Delete(localPSF);
+                File.Delete(localFile);
+            }
+
+            if (String.IsNullOrEmpty(Resource.BlobKey))
+            {
+                // Get a publish settings file from a local or shared directory.
+                string publishSettingsFile = Resource.PublishSettingsFile;
+
+                if (publishSettingsFile.StartsWith("\\\\"))
+                {
+                    // A publish settings file is located in a shared directory.  Copy it to a local directory and use it.
+                    File.Copy(publishSettingsFile, localFile, true);                    
+                }
+                else
+                {
+                    // A publish settings file is located in a local directory.
+                    this.ImportAzurePublishSettingsFile(publishSettingsFile);
+                    return;
+                }
             }
             else
             {
-                this.ImportAzurePublishSettingsFile(pubSF);
+                // Get a publish settings file from a blob storage.                
+                BlobHandle blobRepo = Utilities.GetBlobHandle(Resource.BlobUrl + Resource.PublishSettingsFile, Resource.BlobKey);
+            
+                // Copy it to a local directory.
+                using (FileStream fs = File.Create(localFile))
+                {
+                    blobRepo.Blob.DownloadToStream(fs);                                
+                }                                
             }
+
+            this.ImportAzurePublishSettingsFile(localFile);
+            File.Delete(localFile);
         }
 
         internal void ImportAzurePublishSettingsFile(string publishSettingsFile)
@@ -865,12 +896,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         #region AzureVhd
-
-        //public VhdUploadContext AddAzureVhd(AddAzureVhdCmdletInfo cmdletInfo)
-        //{
-        //    return RunPSCmdletAndReturnFirst<VhdUploadContext>(cmdletInfo);           
-        //}
-
+        
         public string AddAzureVhdStop(FileInfo localFile, string destination, int ms)
         {
             WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(new AddAzureVhdCmdletInfo(destination, localFile.FullName, null, false, null));
