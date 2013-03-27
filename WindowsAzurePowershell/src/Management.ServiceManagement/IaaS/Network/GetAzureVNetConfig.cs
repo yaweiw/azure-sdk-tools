@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConfig"), OutputType(typeof(VirtualNetworkConfigContext))]
     public class GetAzureVNetConfigCommand : ServiceManagementBaseCmdlet

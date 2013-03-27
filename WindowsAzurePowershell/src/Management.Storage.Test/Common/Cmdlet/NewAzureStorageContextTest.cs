@@ -17,12 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage.Auth;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     [TestClass]
     public class NewAzureStorageContextTest : StorageTestBase
@@ -57,9 +54,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         [TestMethod]
         public void GetStorageAccountBySasTokenTest()
         {
-            command.GetStorageAccountBySasToken("a", "?st=d");
-            AssertThrows<Exception>(()=>command.GetStorageAccountBySasToken("a", string.Empty));
-            AssertThrows<Exception>(() => command.GetStorageAccountBySasToken("a", "token"));
+            command.GetStorageAccountBySasToken("a", "?st=d", true);
+            AssertThrows<Exception>(()=>command.GetStorageAccountBySasToken("a", string.Empty, false));
+            AssertThrows<Exception>(() => command.GetStorageAccountBySasToken("a", "token", false));
         }
 
         [TestMethod]
@@ -80,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         [TestMethod]
         public void GetAnonymousStorageAccountTest()
         {
-            Assert.IsNotNull(command.GetAnonymousStorageAccount("a"));
+            Assert.IsNotNull(command.GetAnonymousStorageAccount("a", false));
         }
 
         [TestMethod]
@@ -88,10 +85,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Common.Cmdlet
         {
             string name = string.Empty;
             StorageCredentials credential = new StorageCredentials();
-            AssertThrows<ArgumentException>(() => command.GetStorageAccountWithEndPoint(credential, name), String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
+            AssertThrows<ArgumentException>(() => command.GetStorageAccountWithEndPoint(credential, name, false), String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
 
             name = "test";
-            Assert.IsNotNull(command.GetStorageAccountWithEndPoint(credential, name));
+            Assert.IsNotNull(command.GetStorageAccountWithEndPoint(credential, name, false));
         }
 
         [TestMethod]

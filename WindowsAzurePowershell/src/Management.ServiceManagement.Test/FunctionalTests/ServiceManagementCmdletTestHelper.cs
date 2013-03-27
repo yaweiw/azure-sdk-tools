@@ -20,13 +20,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Management.Automation;
    
     using WindowsAzure.ServiceManagement;
-    using Management.Model;
     using Model;
     using IaasCmdletInfo;
     using ConfigDataInfo;
 
     using System.Collections.Generic;
-    
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class ServiceManagementCmdletTestHelper 
     {

@@ -24,7 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using System.Security.Permissions;
     using IaaS;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureRemoteDesktopFile", DefaultParameterSetName = "Download"), OutputType(typeof(ManagementOperationContext))]
     public class GetAzureRemoteDesktopFileCommand : IaaSDeploymentManagementCmdletBase

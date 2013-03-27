@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Linq;
     using System.Management.Automation;
     using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
