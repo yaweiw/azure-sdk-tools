@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Microsoft.WindowsAzure.Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class SharedKeyContext : ManagementOperationContext
     {

@@ -58,11 +58,8 @@ ScriptsToProcess = @()
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
 NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
-				'.\Microsoft.WindowsAzure.Management.Websites.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll',
-				'.\Microsoft.WindowsAzure.Management.ServiceBus.dll',
-				'.\Microsoft.WindowsAzure.Management.Storage.dll',
-				'.\Microsoft.WindowsAzure.Management.Store.dll'
+				'.\Microsoft.WindowsAzure.Management.Storage.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'

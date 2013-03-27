@@ -17,7 +17,7 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
 
     [Cmdlet(VerbsLifecycle.Start, "AzureVM", DefaultParameterSetName = "ByName"), OutputType(typeof(ManagementOperationContext))]

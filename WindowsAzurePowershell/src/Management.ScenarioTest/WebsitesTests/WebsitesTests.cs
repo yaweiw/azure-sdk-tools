@@ -14,19 +14,35 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
 {
-    using System.Management.Automation;
+    using System.IO;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class WebsitesTests : WindowsAzurePowerShellTest
     {
+        private string currentDirectory;
+
         public WebsitesTests()
             : base("Websites\\Common.ps1",
                    "Websites\\WebsitesTests.ps1")
         {
 
+        }
+
+        [TestInitialize]
+        public override void TestSetup()
+        {
+            base.TestSetup();
+            powershell.AddScript("Initialize-WebsiteTest");
+            currentDirectory = Directory.GetCurrentDirectory();
+        }
+
+        [TestCleanup]
+        public override void TestCleanup()
+        {
+            base.TestCleanup();
+            Directory.SetCurrentDirectory(currentDirectory);
         }
 
         #region Remove-AzureWebsite Scenario Tests
@@ -61,6 +77,90 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         public void TestRemoveAzureServiceWithWhatIf()
         {
             RunPowerShellTest("Test-RemoveAzureServiceWithWhatIf");
+        }
+
+        #endregion
+
+        #region Get-AzureWebsiteLog Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogWithInvalidCredentials()
+        {
+            RunPowerShellTest("Test-WithInvalidCredentials { Get-AzureWebsiteLog -Tail -Name $(Get-WebsiteName) }");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTail()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTail");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTailPath()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTailUriEncoding()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTailUriEncoding");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogListPath()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogListPath");
+        }
+
+        #endregion
+
+        #region Get-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsite()
+        {
+            RunPowerShellTest("Test-GetAzureWebsite");
+        }
+
+        #endregion
+
+        #region Set-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestSetAzureWebsiteDiagnosticSettings()
+        {
+            RunPowerShellTest("Test-SetAzureWebsiteDiagnosticSettings");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestSetAzureWebsiteMultipleDiagnosticSettings()
+        {
+            RunPowerShellTest("Test-SetAzureWebsiteMultipleDiagnosticSettings");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestSetAzureWebsiteWithInvalidValues()
+        {
+            RunPowerShellTest("Test-SetAzureWebsiteWithInvalidValues");
         }
 
         #endregion

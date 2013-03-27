@@ -25,21 +25,17 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System.ServiceModel;
     using System.Text.RegularExpressions;
     using CloudService.Cmdlet;
-    using CloudService.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using CloudService.Node.Cmdlet;
     using CloudService.Properties;
-    using Management.Test.Stubs;
-    using Management.Test.Tests.Utilities;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Test.TestData;
-    using Microsoft.WindowsAzure.Management.Extensions;
-    using Microsoft.WindowsAzure.Management.Services;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using ServiceManagement;
-    using Utilities;
     using VisualStudio.TestTools.UnitTesting;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.CloudService.ServiceConfigurationSchema.ConfigurationSetting;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
 
     /// <summary>
     /// Tests for the Publish-AzureServiceProject command.
@@ -330,10 +326,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
 
                 AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
                 
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://DATACENTER/node/default.exe;http://DATACENTER/iisnode/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://DATACENTER/node/default.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://DATACENTER/node/foo.exe", null);
-                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://DATACENTER/node/foo.exe;http://DATACENTER/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://cdn/node/default.exe;http://cdn/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://cdn/node/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://cdn/node/foo.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://cdn/node/foo.exe;http://cdn/iisnode/default.exe", null);
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
                 RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);

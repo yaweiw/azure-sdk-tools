@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
     using System.Management.Automation;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
 
     [TestClass]
     public class EmulatorTests : WindowsAzurePowerShellTest
@@ -25,12 +25,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         static string TrueIsNotFalseException = "Assertion failed: $true -eq $false";
         static string ExceptionMatchFailedException = "Exception match failed, '{0}' != '{1}'";
         public EmulatorTests()
-            : base(
-                "Microsoft.WindowsAzure.Management.dll", 
-                "Microsoft.WindowsAzure.Management.CloudService.dll", 
-                "Assert.ps1",
-                "Common.ps1"
-            )
+            : base("CloudService\\Common.ps1",
+                   "CloudService\\CloudServiceTests.ps1")
         {
         }
 
@@ -69,6 +65,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
                 Assert.AreEqual<string>(TrueIsNotFalseException, runtimeException.Message,
                     string.Format(ExceptionMatchFailedException, TrueIsNotFalseException, runtimeException.Message));
             }
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestStartAzureEmulatorTwice()
+        {
+            RunPowerShellTest("Test-StartAzureEmulatorTwice");
         }
     }
 }
