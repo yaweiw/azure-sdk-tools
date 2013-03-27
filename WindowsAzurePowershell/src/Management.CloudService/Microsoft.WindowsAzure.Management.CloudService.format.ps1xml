@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.Samples.WindowsAzure.ServiceManagement.Deployment</Name>
+      <Name>Microsoft.WindowsAzure.ServiceManagement.Deployment</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Samples.WindowsAzure.ServiceManagement.Deployment</TypeName>
+        <TypeName>Microsoft.WindowsAzure.ServiceManagement.Deployment</TypeName>
       </ViewSelectedBy>
       <ListControl>
         <ListEntries>
