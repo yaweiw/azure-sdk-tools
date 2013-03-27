@@ -179,6 +179,20 @@
     <Compile Include="Subscription\SelectAzureSubscription.cs" />
     <Compile Include="Subscription\SetAzureSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Websites\GetAzureWebSite.cs" />
+    <Compile Include="Websites\GetAzureWebsiteDeployment.cs" />
+    <Compile Include="Websites\GetAzureWebsiteLocation.cs" />
+    <Compile Include="Websites\GetAzureWebsiteLog.cs" />
+    <Compile Include="Websites\NewAzureWebSite.cs" />
+    <Compile Include="Websites\RemoveAzureWebSite.cs" />
+    <Compile Include="Websites\RestartAzureWebsite.cs" />
+    <Compile Include="Websites\RestoreAzureWebsiteDeployment.cs" />
+    <Compile Include="Websites\SaveAzureWebsiteLog.cs" />
+    <Compile Include="Websites\SetAzureWebsite.cs" />
+    <Compile Include="Websites\ShowAzurePortal.cs" />
+    <Compile Include="Websites\ShowAzureWebsite.cs" />
+    <Compile Include="Websites\StartAzureWebSite.cs" />
+    <Compile Include="Websites\StopAzureWebSite.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

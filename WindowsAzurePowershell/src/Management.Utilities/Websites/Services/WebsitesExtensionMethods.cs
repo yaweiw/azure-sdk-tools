@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.Linq;
     using System.ServiceModel.Security;
     using GeoEntities;
-    using Microsoft.WindowsAzure.Management.Websites.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
