@@ -61,6 +61,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to B1Au9+aCEUsZUcdYtmSno7CLYl5GaxdxP6useaqo4A5B6Up1fcZCdbh/DRfPJ3qEBL5u1C7XoP3kDN5Pzbl5yw==.
+        /// </summary>
+        internal static string BlobKey {
+            get {
+                return ResourceManager.GetString("BlobKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://pstestrepo.blob.core.windows.net/.
+        /// </summary>
+        internal static string BlobUrl {
+            get {
+                return ResourceManager.GetString("BlobUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to azrtsdk.
         /// </summary>
         internal static string DefaultSubscriptionName {
@@ -79,11 +97,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \\watest\public\PSTest\AZRTSDK.publishsettings.
+        ///   Looks up a localized string similar to publishsettings/AZRTSDK.publishsettings.
         /// </summary>
         internal static string PublishSettingsFile {
             get {
                 return ResourceManager.GetString("PublishSettingsFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to \\watest\public\PSTest\oneGBFixedWS2008R2.vhd.
+        /// </summary>
+        internal static string Vhd {
+            get {
+                return ResourceManager.GetString("Vhd", resourceCulture);
             }
         }
     }
