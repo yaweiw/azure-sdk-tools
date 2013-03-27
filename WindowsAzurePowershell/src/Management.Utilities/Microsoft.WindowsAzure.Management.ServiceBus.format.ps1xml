@@ -2,9 +2,9 @@
 <Configuration>
   <ViewDefinitions>
     <View>
-      <Name>Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel.ServiceBusRegion</Name>
+      <Name>Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel.ServiceBusRegion</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Samples.WindowsAzure.ServiceManagement.ServiceBus.ResourceModel.ServiceBusRegion</TypeName>
+        <TypeName>Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel.ServiceBusRegion</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
