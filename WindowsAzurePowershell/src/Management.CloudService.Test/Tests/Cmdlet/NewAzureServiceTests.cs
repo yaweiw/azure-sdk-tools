@@ -19,10 +19,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
     using System.Management.Automation;
     using CloudService.Cmdlet;
     using CloudService.Properties;
-    using Microsoft.WindowsAzure.Management.CloudService.Model;
-    using Microsoft.WindowsAzure.Management.Test.Stubs;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
-    using Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -70,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Test.Tests.Cmdlet
         {
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
-                foreach (string name in TestData.Data.InvalidServiceNames)
+                foreach (string name in Data.InvalidServiceNames)
                 {
                     cmdlet.ServiceName = name;
                     Testing.AssertThrows<ArgumentException>(() => cmdlet.ExecuteCmdlet());

@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
+    using System.Text;
+    using System;
 
     public abstract class PowershellEnvironment
     {
@@ -44,5 +46,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         public abstract Collection<PSObject> Run();
+
+        protected void PrintPSCommand(PowerShell powershell)
+        {
+
+            StringBuilder command = new StringBuilder();
+            for (int i = 0; i < powershell.Commands.Commands.Count; i++)
+            {
+
+                command.Append(powershell.Commands.Commands[i].CommandText + " ");
+
+                for (int j = 0; j < powershell.Commands.Commands[i].Parameters.Count; j++)
+                {
+                    command.Append("-" + powershell.Commands.Commands[i].Parameters[j].Name + " ");
+                    var value = powershell.Commands.Commands[i].Parameters[j].Value;
+                    if (value != null)
+                    {
+                        command.Append("\"" + value.ToString() + "\" ");
+                    }
+                    command.Append("\n");
+                }
+            }
+
+            Console.WriteLine(command);
+
+        }
     }
 }

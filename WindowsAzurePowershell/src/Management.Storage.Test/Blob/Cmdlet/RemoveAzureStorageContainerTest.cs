@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
     using Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using System;
     using System.Linq;
 

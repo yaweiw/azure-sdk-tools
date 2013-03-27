@@ -18,11 +18,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
     using System.Management.Automation;
     using System.Security.Permissions;
     using System.Text;
-    using AzureTools;
-    using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.CloudService.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Model;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Properties;
 
     /// <summary>
@@ -46,6 +44,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
 
             if (Directory.Exists(service.Paths.LocalPackage))
             {
+                WriteVerbose(Resources.StopEmulatorMessage);
+                service.StopEmulator(out standardOutput, out standardError);
+                WriteVerbose(Resources.StoppedEmulatorMessage);
                 WriteVerbose(string.Format(Resources.RemovePackage, service.Paths.LocalPackage));
                 Directory.Delete(service.Paths.LocalPackage, true);
             }
@@ -71,7 +72,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Cmdlet
         {
             AzureTool.Validate();
             base.ExecuteCmdlet();
-            StartAzureEmulatorProcess(CloudServiceUtilities.GetServiceRootPath(CurrentPath()));
+            StartAzureEmulatorProcess(General.GetServiceRootPath(CurrentPath()));
         }
     }
 }

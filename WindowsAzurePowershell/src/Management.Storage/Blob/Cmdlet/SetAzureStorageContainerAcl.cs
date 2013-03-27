@@ -74,7 +74,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
         /// </summary>
         /// <param name="name">container name</param>
         /// <param name="accessLevel">access level in ("off", "blob", "container")</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal void SetContainerAcl(string name, string accessLevel)
         {
             if (!NameUtil.IsValidContainerName(name))

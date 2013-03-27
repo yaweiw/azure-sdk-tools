@@ -665,7 +665,7 @@
     <value>uri</value>
   </data>
   <data name="ManifestUri" xml:space="preserve">
-    <value>http://nodertncu.blob.core.windows.net/node/runtimemanifest_v2.xml</value>
+    <value>http://az413943.vo.msecnd.net/node/runtimemanifest_v3.xml</value>
   </data>
   <data name="NodeRuntimeValue" xml:space="preserve">
     <value>node</value>
@@ -894,5 +894,8 @@
   </data>
   <data name="RemoveServiceWhatIfMessage" xml:space="preserve">
     <value>Remove cloud service and all it's deployments</value>
+  </data>
+  <data name="ManifestBaseUriQuery" xml:space="preserve">
+    <value>//baseuri</value>
   </data>
 </root>

@@ -24,9 +24,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
-    using Extensions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using IaaS;
-    using Management.Model;
     using Storage;
     using WindowsAzure.ServiceManagement;
     using Helpers;
@@ -167,7 +166,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = "Windows", HelpMessage = "Certificate that will be associated with WinRM endpoint")]
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Certificate that will be associated with WinRM endpoint")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2 WinRMCertificate
         {
@@ -321,16 +320,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                     ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
                 }
 
-                var certificateFilesWithThumbprint = from c in X509Certificates
-                                                     select new
-                                                     {
-                                                         c.Thumbprint,
-                                                         CertificateFile = CertificateFileFactory.Create(c, this.SkipCertAutoUpload.IsPresent)
-                                                     };
-                foreach (var current in certificateFilesWithThumbprint.ToList())
+                if(X509Certificates != null)
                 {
-                    var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    var certificateFilesWithThumbprint = from c in X509Certificates
+                                                         select new
+                                                         {
+                                                             c.Thumbprint,
+                                                             CertificateFile = CertificateFileFactory.Create(c, this.SkipCertAutoUpload.IsPresent)
+                                                         };
+                    foreach (var current in certificateFilesWithThumbprint.ToList())
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    }
                 }
             }
             var vm = CreatePersistenVMRole(currentStorage);
