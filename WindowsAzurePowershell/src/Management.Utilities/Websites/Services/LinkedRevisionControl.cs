@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             {
                 // Scaffold gitignore
                 string cmdletPath = Directory.GetParent(InvocationPath).FullName;
-                File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/.gitignore"), ".gitignore");
+                File.Copy(Path.Combine(cmdletPath, "Scaffolding/Node/Website/.gitignore"), ".gitignore");
             }
         }
 
