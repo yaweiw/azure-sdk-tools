@@ -36,46 +36,5 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 cmdletParams.Add(new CmdletParam("BaseImageUriToPatch", baseImage));
             }
         }
-
-
-
-        //public AddAzureVhdCmdletInfo(string destination, string locaFilePath)
-        //{ }
-        //{
-        //    cmdletName = Utilities.AddAzureVhdCmdletName;
-        //    cmdletParams.Add(new CmdletParam("Destination", destination));
-        //    cmdletParams.Add(new CmdletParam("LocalFilePath", locaFilePath));
-        //}
-
-        //public AddAzureVhdCmdletInfo(string destination, string locaFilePath, string baseImage) { }
-        //{
-        //    cmdletName = Utilities.AddAzureVhdCmdletName;
-        //    cmdletParams.Add(new CmdletParam("Destination", destination));
-        //    cmdletParams.Add(new CmdletParam("LocalFilePath", locaFilePath));
-        //    cmdletParams.Add(new CmdletParam("BaseImageUriToPatch", baseImage));
-        //}
-
-        //public AddAzureVhdCmdletInfo(string destination, string locaFilePath, bool overWrite) { }
-        //{
-        //    cmdletName = Utilities.AddAzureVhdCmdletName;
-        //    cmdletParams.Add(new CmdletParam("Destination", destination));
-        //    cmdletParams.Add(new CmdletParam("LocalFilePath", locaFilePath));
-        //    if(overWrite)
-        //    {
-        //        cmdletParams.Add(new CmdletParam("OverWrite", null));
-        //    }
-        //}
-
-        //public AddAzureVhdCmdletInfo(string destination, string locaFilePath, int numberOfUploaderThreads, bool overWrite)
-        //{
-        //    cmdletName = Utilities.AddAzureVhdCmdletName;
-        //    cmdletParams.Add(new CmdletParam("Destination", destination));
-        //    cmdletParams.Add(new CmdletParam("LocalFilePath", locaFilePath));
-        //    cmdletParams.Add(new CmdletParam("NumberOfUploaderThreads", numberOfUploaderThreads));
-        //    if(overWrite)
-        //    {
-        //        cmdletParams.Add(new CmdletParam("OverWrite", null));
-        //    }
-        //}
     }
 }

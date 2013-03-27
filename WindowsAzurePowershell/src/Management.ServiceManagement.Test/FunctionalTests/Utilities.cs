@@ -24,7 +24,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using System.Threading;
+    using Sync.Download;
 
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     internal class Utilities 
     {
@@ -34,7 +36,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
 
-        public static string publishSettingsFile = Resource.PublishSettingsFile.Replace("\"", string.Empty);
+        //public static string publishSettingsFile = Resource.PublishSettingsFile;
 
         public enum OS
         {
@@ -250,15 +252,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public static Uri GetDeploymentAndWaitForReady(string serviceName, string slot, int waitTime, int maxWaitTime)
         {
 
-            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
-            //DeploymentInfoContext result = vmPowershellCmdlets.GetAzureDeployment(serviceName, slot);
-
-            //int instanceNum = result.RoleInstanceList.Count;
-            //bool[] isReady = new bool[instanceNum];
-            //for (int i = 0; i < instanceNum; i++)
-            //{
-            //    isReady[i] = false;
-            //}
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();            
                        
             DateTime startTime = DateTime.Now;
             while (true)
@@ -335,7 +329,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 if (e.ToString().Contains("ResourceNotFound"))
                 {
-                    Console.WriteLine("{0} is successfully removed", name);
+                    Console.WriteLine("{0} does not exist.", name);
                     return true;
                 }
                 else
@@ -390,6 +384,40 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     return false;
                 }
             }
+        }
+
+        public static BlobHandle GetBlobHandle(string blob, string key)
+        {
+            BlobUri blobPath;
+            Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
+            return new BlobHandle(blobPath, key);
+        }
+        public static bool RetryUntilSuccess <T> (Func<T> fn, string errorMessage, int maxTry, int intervalSeconds)
+        {
+            int i = 0;
+            while (i < maxTry)
+            {
+                try
+                {
+
+                    fn();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    if (e.ToString().Contains(errorMessage))
+                    {
+                        Thread.Sleep(intervalSeconds * 1000);
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return false;            
         }
     }
 }

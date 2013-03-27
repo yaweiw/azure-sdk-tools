@@ -60,15 +60,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);  
 
             // Set the source blob
-            blobHandle = getBlobHandle(vhdBlobLocation);
+            blobHandle = Utilities.GetBlobHandle(vhdBlobLocation, storageAccountKey.Primary);            
         }
-        
-        private static BlobHandle getBlobHandle(string blob)
-        {
-            BlobUri blobPath;
-            Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
-            return new BlobHandle(blobPath, storageAccountKey.Primary);
-        }
+                
      
         /// <summary>
         /// 
@@ -228,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\wrongPara_VHD.csv", "wrongPara_VHD#csv", DataAccessMethod.Sequential)]
-        public void SaveAzureVhdWrongParaTest()
+        public void SaveAzureVhdWrongParameterTest()
         {
 
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -257,28 +251,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestCleanup]
         public virtual void CleanUp()
         {
-            Console.WriteLine("Test {0}", pass ? "passed" : "failed");
-            //if (pass)
-            //{                
-            //    Console.WriteLine("{0} passed.", testName);
-                
-            //    //DateTime testEndTime = DateTime.Now;
-            //    //Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
-            //    //Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
-
-            //    //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
-            //}
-            //else
-            //{
-            //    Assert.Fail("{0} failed.", testName);
-            //}
+            Console.WriteLine("Test {0}", pass ? "passed" : "failed");            
         }
         [ClassCleanup]
         public static void ClassClean()
         {
             if (deleteUploadedBlob)
             {
-                getBlobHandle(vhdBlobLocation).Blob.Delete();                
+                Utilities.GetBlobHandle(vhdBlobLocation, storageAccountKey.Primary).Blob.Delete();                
             }
         }
     }
