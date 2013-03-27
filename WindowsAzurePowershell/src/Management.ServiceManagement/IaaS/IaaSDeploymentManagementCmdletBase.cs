@@ -82,5 +82,57 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
         }
+
+        protected void WaitForDesiredRoleState(string roleName, string roleState)
+        {
+            DateTime timeout = DateTime.UtcNow.AddHours(1);
+            string currentInstanceStatus = null;
+            RoleInstance durableRoleInstance;
+            do
+            {
+                Deployment deployment = null;
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                    }
+                    catch (Exception e)
+                    {
+                        var we = e.InnerException as WebException;
+                        if (we != null && ((HttpWebResponse)we.Response).StatusCode != HttpStatusCode.NotFound)
+                        {
+                            throw;
+                        }
+                    }
+                });
+
+                if (deployment == null)
+                {
+                    throw new ApplicationException(String.Format("Could not find a deployment for '{0}' in '{1}' slot.", ServiceName, DeploymentSlotType.Production));
+                }
+                durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == roleName);
+
+                if (currentInstanceStatus == null)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if (currentInstanceStatus != durableRoleInstance.InstanceStatus)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if (DateTime.UtcNow >= timeout)
+                {
+                    var message = string.Format("RoleInstance instance status is '{0}', it has not reached to '{1}'", durableRoleInstance.InstanceStatus, roleState);
+                    throw new ApplicationException(message);
+                }
+
+            } while (durableRoleInstance.InstanceStatus != roleState);
+            
+        }
     }
 }

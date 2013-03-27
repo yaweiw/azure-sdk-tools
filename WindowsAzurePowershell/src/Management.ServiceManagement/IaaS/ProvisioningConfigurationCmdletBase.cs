@@ -12,11 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using System.Security.Cryptography.X509Certificates;
     
     public class ProvisioningConfigurationCmdletBase : PSCmdlet
     {
@@ -176,6 +176,51 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Machine object organization unit.")]
         [ValidateNotNullOrEmpty]
         public string MachineObjectOU
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Enables WinRM over http")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Enables WinRM over http")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter EnableWinRMHttp
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disables WinRM on http/https")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Disables WinRM on http/https")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter DisableWinRMHttps
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disables WinRM on http/https")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Disables WinRM on http/https")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2 WinRMCertificate
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "X509Certificates that will be deployed")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "X509Certificates that will be deployed")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2[] X509Certificates
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Prevents the private key from being uploaded")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Prevents the private key from being uploaded")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoExportPrivateKey
         {
             get;
             set;
