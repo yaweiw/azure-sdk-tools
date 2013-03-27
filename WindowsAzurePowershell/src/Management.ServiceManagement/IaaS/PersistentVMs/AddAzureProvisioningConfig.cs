@@ -12,15 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.ServiceManagement;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Linq;
     using System.Management.Automation;
+    using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
+    using WindowsAzure.ServiceManagement;
     using Common;
     using Model;
+    using Helpers;
 
     /// <summary>
     /// Updates a persistent VM object with a provisioning configuration.
@@ -145,8 +147,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         netConfig.InputEndpoints.Add(rdpEndpoint);
                     }
                 }
+
+                if (!this.DisableWinRMHttps.IsPresent)
+                {
+                    var builder = new WinRmConfigurationBuilder();
+                    if (this.EnableWinRMHttp.IsPresent)
+                    {
+                        builder.AddHttpListener();
+                    }
+                    builder.AddHttpsListener(this.WinRMCertificate);
+                    provisioningConfiguration.WinRM = builder.Configuration;
+                }
+                role.WinRMCertificate = WinRMCertificate;
             }
 
+            role.X509Certificates = new List<X509Certificate2>();
+            if(this.X509Certificates != null)
+            {
+                role.X509Certificates.AddRange(this.X509Certificates);
+            }
+            role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
             WriteObject(VM, true);
         }
 

@@ -157,6 +157,7 @@
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Helpers\CertUtils.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="IaaS\Network\SetAzureVNetGateway.cs" />
     <Compile Include="IaaS\IaaSDeploymentManagementCmdletBase.cs" />
     <Compile Include="IaaS\PersistentVMs\AddAzureProvisioningConfig.cs" />
+    <Compile Include="Helpers\CertificateFileFactory.cs" />
     <Compile Include="IaaS\PersistentVMs\ExportAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureOSDisk.cs" />
     <Compile Include="IaaS\PersistentVMs\GetAzureRemoteDesktopFile.cs" />
@@ -226,6 +228,7 @@
     <Compile Include="IaaS\PersistentVMs\StartAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\StopAzureVM.cs" />
     <Compile Include="IaaS\PersistentVMs\UpdateAzureVM.cs" />
+    <Compile Include="Helpers\WinRmConfigurationBuilder.cs" />
     <Compile Include="IaaS\ProvisioningConfigurationCmdletBase.cs" />
     <Compile Include="IaaS\VirtualMachineConfigurationCmdletBase.cs" />
     <Compile Include="Model\AffinityGroupContext.cs" />
