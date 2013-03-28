@@ -176,7 +176,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             else if (ParameterSetName == LoadBalancedParameterSet)
             {
                 endpoint.LoadBalancedEndpointSetName = LBSetName;
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe();
             }
 
             endpoints.Add(endpoint);
@@ -242,19 +241,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                 }
             }
 
-            if (LocalPort < 0 || LocalPort > 65535)
+            if (LocalPort < 1 || LocalPort > 65535)
             {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
+                throw new ArgumentException("Ports must be in the range of 1 - 65535");
             }
 
-            if (PublicPort != null && (PublicPort < 0 || PublicPort > 65535))
+            if (PublicPort != null && (PublicPort < 1 || PublicPort > 65535))
             {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
+                throw new ArgumentException("Ports must be in the range of 1 - 65535");
             }
 
-            if (ProbePort < 0 || ProbePort > 65535)
+            if (ParameterSetName == "LoadBalancedProbe")
             {
-                throw new ArgumentException("Ports must be in the range of 0 - 65535");
+                if (ProbePort < 1 || ProbePort > 65535)
+                {
+                    throw new ArgumentException("Ports must be in the range of 1 - 65535");
+                }
             }
         }       
     }
