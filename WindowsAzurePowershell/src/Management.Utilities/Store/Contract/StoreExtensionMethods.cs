@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Store.Contract
 {
-    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
 
     public static class StoreExtensionMethods

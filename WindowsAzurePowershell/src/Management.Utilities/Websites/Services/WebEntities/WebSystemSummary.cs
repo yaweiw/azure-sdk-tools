@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities
 {
     using System.Runtime.Serialization;
-    using Utilities;
 
     /// <summary>
     /// Class that represents a Web System summary.

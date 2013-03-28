@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Model;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase

@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.Contract;
     using Microsoft.WindowsAzure.Management.Utilities.ServiceBus.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using ServiceManagement;
 
     [Cmdlet(VerbsDiagnostic.Test, "AzureName"), OutputType(typeof(bool))]

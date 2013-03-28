@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Sync.Upload;
     using Sync;
+    using Sync.Upload;
 
     public class VhdUploaderModel
     {

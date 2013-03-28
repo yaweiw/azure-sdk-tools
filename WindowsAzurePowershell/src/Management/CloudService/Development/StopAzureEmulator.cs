@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
 {
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>

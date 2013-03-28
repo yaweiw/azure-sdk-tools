@@ -18,8 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Management.Automation;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities;
 
     /// <summary>
     /// Get publish profile

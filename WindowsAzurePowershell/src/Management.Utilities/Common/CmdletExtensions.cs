@@ -16,14 +16,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Data.Services.Client;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Management.Automation;
     using System.Runtime.Serialization;
     using System.Xml;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public static class CmdletExtensions
     {

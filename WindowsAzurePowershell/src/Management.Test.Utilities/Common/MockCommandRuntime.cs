@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 {
     using System.Collections.Generic;
     using System.Management.Automation;
-    using System.Text;
 
     public class MockCommandRuntime : ICommandRuntime
     {

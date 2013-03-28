@@ -17,12 +17,10 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development.Tests.
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.CloudService.Development;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
 
     [TestClass]
     public class GetAzureServiceProjectRuntimesTests : TestBase

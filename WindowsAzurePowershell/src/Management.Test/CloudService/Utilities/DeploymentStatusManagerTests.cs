@@ -15,14 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 {
     using System.Net;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using ServiceManagement;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class DeploymentStatusManagerTests : TestBase
