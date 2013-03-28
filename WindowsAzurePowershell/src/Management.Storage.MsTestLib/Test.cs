@@ -33,16 +33,20 @@ namespace MS.Test.Common.MsTestLib
 
         public static int ErrorCount = 0;
 
+        public static List<String> FailedCases = null;
+
         public static void Init()
         {
             Data = new TestConfig(TestDataFile);
             Logger = new TestLogger(Data);
+            FailedCases = new List<string>();
         }
 
         public static void Init(string testDataFile)
         {
             Data = new TestConfig(testDataFile);
             Logger = new TestLogger(Data);
+            FailedCases = new List<string>();
         }
 
         public static void Close()
@@ -113,7 +117,7 @@ namespace MS.Test.Common.MsTestLib
                 FailCount++;
                 Logger.EndTest(testClass + "." + testMethod, TestResult.FAIL);
                 AssertFail(string.Format("There " + (ErrorCount > 1 ? "are {0} errors" : "is {0} error") + " so the case fails. Please check the detailed case log.", ErrorCount));
-
+                FailedCases.Add(String.Format("{0}.{1}", testClass, testMethod));
             }
 
         }
