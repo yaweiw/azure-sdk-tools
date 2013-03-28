@@ -669,35 +669,83 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             createOwnService = false;
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string epName1 = "tcp1";
-            int localPort1 = 60010;
-            int port1 = 60011;
+            string ep1Name = "tcp1";
+            int ep1LocalPort = 60010;
+            int ep1PublicPort = 60011;
+            string ep1LBSetName = "lbset1";
+            int ep1ProbePort = 60012;
+            string ep1ProbePath = @"/";
+            int? ep1ProbeInterval = 7;
+            int? ep1ProbeTimeout = null;
 
-            string epName2 = "tcp2";
-            int localPort2 = 60020;
-            int port2 = 60021;
+            string ep2Name = "tcp2";
+            int ep2LocalPort = 60020;
+            int ep2PublicPort = 60021;
+            int ep2LocalPortChanged = 60030;
+            int ep2PublicPortChanged = 60031;
+            string ep2LBSetName = "lbset2";
+            int ep2ProbePort = 60022;
+            string ep2ProbePath = @"/";
+            int? ep2ProbeInterval = null;
+            int? ep2ProbeTimeout = 32;
 
+
+            AzureEndPointConfigInfo ep1Info = new AzureEndPointConfigInfo(
+                ProtocolInfo.tcp, 
+                ep1LocalPort, 
+                ep1PublicPort, 
+                ep1Name,
+                ep1LBSetName,
+                ep1ProbePort,
+                ProtocolInfo.tcp,
+                ep1ProbePath,
+                ep1ProbeInterval,
+                ep1ProbeTimeout);
+
+            AzureEndPointConfigInfo ep2Info = new AzureEndPointConfigInfo(
+                ProtocolInfo.tcp, 
+                ep2LocalPort, 
+                ep2PublicPort, 
+                ep2Name,
+                ep2LBSetName,
+                ep2ProbePort,
+                ProtocolInfo.tcp,
+                ep2ProbePath,
+                ep2ProbeInterval,
+                ep2ProbeTimeout);
 
             try
             {
-                // Add two new endpoints
-                AzureEndPointConfigInfo epInfo1 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, localPort1, port1, epName1);
-                AzureEndPointConfigInfo epInfo2 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, localPort2, port2, epName2);
+                foreach (AzureEndPointConfigInfo.ParameterSet p in Enum.GetValues(typeof(AzureEndPointConfigInfo.ParameterSet)))
+                {
+                    string pSetName = Enum.GetName(typeof(AzureEndPointConfigInfo.ParameterSet), p);
+                    Console.WriteLine("--Begin Endpoint Test with '{0}' parameter set.", pSetName);
 
-                vmPowershellCmdlets.AddEndPoint(defaultVm , defaultService, new[] { epInfo1, epInfo2 }); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm                             
-                Assert.IsTrue(CheckEndpoint(defaultVm, defaultService, epInfo1), "Error: Endpoint was not added!");
-                Assert.IsTrue(CheckEndpoint(defaultVm, defaultService, epInfo2), "Error: Endpoint was not added!");
+                    ep1Info.ParamSet = p;
+                    ep2Info.ParamSet = p;
+                    ep2Info.EndpointLocalPort = ep2LocalPort;
+                    ep2Info.EndpointPublicPort = ep2PublicPort;
 
-                // Change the endpoint
-                AzureEndPointConfigInfo epInfo3 = new AzureEndPointConfigInfo(ProtocolInfo.tcp, 60030, 60031, epName2);
-                vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, epInfo3); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
-                Assert.IsTrue(CheckEndpoint(defaultVm, defaultService, epInfo3), "Error: Endpoint was not changed!");
+                    // Add two new endpoints
+                    Console.WriteLine("-----Add 2 new endpoints.");
+                    vmPowershellCmdlets.AddEndPoint(defaultVm, defaultService, new[] { ep1Info, ep2Info }); // Add-AzureEndpoint with Get-AzureVM and Update-AzureVm                             
+                    CheckEndpoint(defaultVm, defaultService, new[] { ep1Info, ep2Info });
 
-                // Remove Endpoint
-                vmPowershellCmdlets.RemoveEndPoint(defaultVm, defaultService, new[] { epName1, epName2 }); // Remove-AzureEndpoint                
-                Assert.IsFalse(CheckEndpoint(defaultVm, defaultService, epInfo1), "Error: Endpoint was not removed!");
-                Assert.IsFalse(CheckEndpoint(defaultVm, defaultService, epInfo3), "Error: Endpoint was not removed!");
+                    // Change the endpoint
+                    Console.WriteLine("-----Change the second endpoint.");
+                    ep2Info.EndpointLocalPort = ep2LocalPortChanged;
+                    ep2Info.EndpointPublicPort = ep2PublicPortChanged;
+                    vmPowershellCmdlets.SetEndPoint(defaultVm, defaultService, ep2Info); // Set-AzureEndpoint with Get-AzureVM and Update-AzureVm                 
+                    CheckEndpoint(defaultVm, defaultService, new[] { ep2Info });
 
+                    // Remove Endpoint
+                    Console.WriteLine("-----Remove endpoints.");
+                    vmPowershellCmdlets.RemoveEndPoint(defaultVm, defaultService, new[] { ep1Name, ep2Name }); // Remove-AzureEndpoint                
+                    CheckEndpointRemoved(defaultVm, defaultService, new[] { ep1Info, ep2Info });
+
+                    Console.WriteLine("Endpoint Test passed with '{0}' parameter set.", pSetName);
+                }
+                
                 pass = true;
 
             }
@@ -708,21 +756,85 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
-        private bool CheckEndpoint(string vmName, string serviceName, AzureEndPointConfigInfo epInfo)
+        private bool CheckEndpoint(string vmName, string serviceName, AzureEndPointConfigInfo [] epInfos)
         {
-            bool found = false;
-            foreach (InputEndpointContext ep in vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName)))
+            var serverEndpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName));
+            
+            // List the endpoints found for debugging.
+            Console.WriteLine("***** Checking for Endpoints **************************************************");
+            Console.WriteLine("***** Listing Returned Endpoints");
+            foreach (InputEndpointContext ep in serverEndpoints)
             {
-                Console.WriteLine("Endpoint - Name:{0}, Protocol:{1}, Port:{2}, LocalPort:{3}, Vip:{4}", ep.Name, ep.Protocol, ep.Port, ep.LocalPort, ep.Vip);
-                if (ep.Name == epInfo.EndpointName && ep.LocalPort == epInfo.InternalPort && ep.Port == epInfo.ExternalPort && ep.Protocol == epInfo.Protocol.ToString())
+                Console.WriteLine("Endpoint - Name:{0} Protocol:{1} Port:{2} LocalPort:{3} Vip:{4}", ep.Name, ep.Protocol, ep.Port, ep.LocalPort, ep.Vip);
+                
+                if (!string.IsNullOrEmpty(ep.LBSetName))
                 {
-                    found = true;
-                    Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
+                    Console.WriteLine("\t- LBSetName:{0}", ep.LBSetName);
+                    Console.WriteLine("\t- Probe - Port:{0} Protocol:{1} Interval:{2} Timeout:{3}", ep.ProbePort, ep.ProbeProtocol, ep.ProbeIntervalInSeconds, ep.ProbeTimeoutInSeconds);
                 }
             }
-            return found;
+
+            Console.WriteLine("*******************************************************************************");
+
+            // Check if the specified endpoints were found.
+            foreach (AzureEndPointConfigInfo epInfo in epInfos)
+            {
+                bool found = false;
+
+                foreach (InputEndpointContext ep in serverEndpoints)
+                {
+                    if (epInfo.CheckInputEndpointContext(ep))
+                    {
+                        found = true;
+                        Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
+                    }
+                }
+                
+                Assert.IsTrue(found, string.Format("Error: Endpoint '{0}' was not found!", epInfo.EndpointName));
+            }
+
+            return true;
         }
 
+        private bool CheckEndpointRemoved(string vmName, string serviceName, AzureEndPointConfigInfo[] epInfos)
+        {
+            var serverEndpoints = vmPowershellCmdlets.GetAzureEndPoint(vmPowershellCmdlets.GetAzureVM(vmName, serviceName));
+
+            // List the endpoints found for debugging.
+            Console.WriteLine("***** Checking for Removed Endpoints ******************************************");
+            Console.WriteLine("***** Listing Returned Endpoints");
+            foreach (InputEndpointContext ep in serverEndpoints)
+            {
+                Console.WriteLine("Endpoint - Name:{0} Protocol:{1} Port:{2} LocalPort:{3} Vip:{4}", ep.Name, ep.Protocol, ep.Port, ep.LocalPort, ep.Vip);
+
+                if (!string.IsNullOrEmpty(ep.LBSetName))
+                {
+                    Console.WriteLine("\t- LBSetName:{0}", ep.LBSetName);
+                    Console.WriteLine("\t- Probe - Port:{0} Protocol:{1} Interval:{2} Timeout:{3}", ep.ProbePort, ep.ProbeProtocol, ep.ProbeIntervalInSeconds, ep.ProbeTimeoutInSeconds);
+                }
+            }
+
+            Console.WriteLine("*******************************************************************************");
+
+            // Check if the specified endpoints were found.
+            foreach (AzureEndPointConfigInfo epInfo in epInfos)
+            {
+                bool found = false;
+
+                foreach (InputEndpointContext ep in serverEndpoints)
+                {
+                    if (epInfo.CheckInputEndpointContext(ep))
+                    {
+                        found = true;
+                        Console.WriteLine("Endpoint found: {0}", epInfo.EndpointName);
+                    }
+                }
+
+                Assert.IsFalse(found, string.Format("Error: Endpoint '{0}' was found!", epInfo.EndpointName));
+            }
+
+            return true;
+        }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
         public void AzureLocationTest()
@@ -746,12 +858,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }            
         }
-
-
-
-  
-
-
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
         public void AzureOSDiskTest()
