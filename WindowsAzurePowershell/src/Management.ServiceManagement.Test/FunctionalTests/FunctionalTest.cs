@@ -87,11 +87,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     throw;
                 }
-            }
-
-            vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
-
-            
+            }            
         }
                                
 
@@ -506,7 +502,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.AreEqual(newLabel, disk2.Label);
                 Console.WriteLine("Disk Label is successfully updated");
 
-                vmPowershellCmdlets.RemoveAzureDisk(vhdName, true);
+                vmPowershellCmdlets.RemoveAzureDisk(vhdName, false);
                 Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDisk, vhdName), "The disk was not removed");
 
             }
@@ -1038,7 +1034,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 {
                     vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroup, Resource.Location, null, null);
                 }
-                
+
+                vmPowershellCmdlets.SetAzureVNetConfig(vnetConfigFilePath);
 
                 var result = vmPowershellCmdlets.GetAzureVNetConfig(vnetConfigFilePath);
 
