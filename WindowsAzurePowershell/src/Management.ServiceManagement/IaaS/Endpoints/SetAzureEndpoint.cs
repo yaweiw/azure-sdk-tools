@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using IaaS;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureEndpoint", DefaultParameterSetName = "NoLB"), OutputType(typeof(IPersistentVM))]

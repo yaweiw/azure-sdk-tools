@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities;
 
     public class CsRun : AzureTool
     {

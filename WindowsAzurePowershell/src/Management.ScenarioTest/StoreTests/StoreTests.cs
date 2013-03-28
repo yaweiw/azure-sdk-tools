@@ -14,14 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.StoreTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Management.Automation.Runspaces;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell;
-    using Microsoft.WindowsAzure.Management.Store;
-    using System.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Store;
 
