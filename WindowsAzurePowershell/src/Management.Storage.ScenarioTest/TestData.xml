@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TestConfig>
+  <!-- //TODO clean this file-->
+  <wttlogger>true</wttlogger>
   <consolelogger>true</consolelogger>
   <filelogger>true</filelogger>
   <logfilename>storage__PowerShellBVT__</logfilename>
@@ -7,15 +9,41 @@
   <logverbose>true</logverbose>
   <logwarning>true</logwarning>
   <logerror>true</logerror>
-  <ModuleFilePath></ModuleFilePath>
-  <BlockFilePath>Data\upload\中文路径path\Windows Azure是微软基于云计算的操作系统.txt</BlockFilePath>
-  <PageFilePath>Data\upload\page.bin</PageFilePath>
-  <DownloadDirPath>Data\download</DownloadDirPath>
-  <DownloadDir>.\Data\download\getblobcontent\</DownloadDir>
-  <UploadDir>.\Data\upload\setblobcontent\</UploadDir>
-  <EnvContextKey>AZURE_STORAGE_CONNECTION_STRING</EnvContextKey>
+  <AzureSubscriptionPath></AzureSubscriptionPath>
+  <AzureSubscriptionName></AzureSubscriptionName>
+  <SubscriptionStorageAccountName></SubscriptionStorageAccountName>
+  <StorageAccountName></StorageAccountName>
+  <StorageAccountKey></StorageAccountKey>
+  <BigFileUri></BigFileUri>
   <HttpsCopyHosts>
     <!--Azure will use https to copy blob no matter what you set, please split your host using space.-->
     windows.net windowsazure.com
   </HttpsCopyHosts>
+  <StorageConnectionString></StorageConnectionString>
+  <StorageConnectionString2></StorageConnectionString2>
+  <ModuleFilePath>Microsoft.WindowsAzure.Management.Storage.dll</ModuleFilePath>
+  <BlockFilePath>Data\upload\中文路径path\Windows Azure是微软基于云计算的操作系统.txt</BlockFilePath>
+  <PageFilePath>Data\upload\page.bin</PageFilePath>
+  <DownloadDirPath>Data\download</DownloadDirPath>
+  <HTTPSConnectionString></HTTPSConnectionString>
+  <HTTPConnectionString></HTTPConnectionString>
+  <HTTPSEnvConnectionString></HTTPSEnvConnectionString>
+  <HTTPEnvConnectionString></HTTPEnvConnectionString>
+  <DownloadDir>.\Data\download\getblobcontent\</DownloadDir>
+  <UploadDir>.\Data\upload\setblobcontent\</UploadDir>
+  <EnvContextKey>AZURE_STORAGE_CONNECTION_STRING</EnvContextKey>
+  <TestClass name="CLITest.CLIBlobFunc">
+    <UploadDirPath>Data\upload</UploadDirPath>
+    <BlockFilePath>Data\upload\中文路径path\中文文件file.dat</BlockFilePath>
+    <PageFilePath>Data\upload\ConfigMgrAdminUISetup.log</PageFilePath>
+    <DownloadDirPath>Data\download</DownloadDirPath>
+  </TestClass>
+  <TestClass name="CLITest.Functional.StorageContext">
+    <StorageConnectionString1></StorageConnectionString1>
+    <StorageConnectionString2></StorageConnectionString2>
+  </TestClass>
+  <TestClass name="CLITest.CLIContextFunc">
+    <BlockFilePath>Data\upload\中文路径path\中文文件file.dat</BlockFilePath>
+    <PageFilePath>Data\upload\ConfigMgrAdminUISetup.log</PageFilePath>
+  </TestClass>
 </TestConfig>
