@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     // Role is a user friendly way of grouping together a set of permissions and their scopes
     [DataContract(Name = "Role", Namespace = UriElements.ServiceNamespace)]

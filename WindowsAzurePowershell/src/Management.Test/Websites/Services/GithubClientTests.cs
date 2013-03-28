@@ -14,19 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using Utilities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Host;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GithubClientTests

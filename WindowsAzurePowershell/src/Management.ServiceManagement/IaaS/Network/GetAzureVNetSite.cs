@@ -17,13 +17,13 @@ using System.Net;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
-    using System.ServiceModel;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.Management.Automation;
     using System.Linq;
-    using Model;
+    using System.Management.Automation;
+    using System.ServiceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Model;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetSite"), OutputType(typeof(IEnumerable<VirtualNetworkSiteContext>))]

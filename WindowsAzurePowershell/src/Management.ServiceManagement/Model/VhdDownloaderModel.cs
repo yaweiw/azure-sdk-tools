@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
+    using System.IO;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Sync;
     using Sync.Download;
-    using System.IO;
 
     public class VhdDownloaderModel
     {

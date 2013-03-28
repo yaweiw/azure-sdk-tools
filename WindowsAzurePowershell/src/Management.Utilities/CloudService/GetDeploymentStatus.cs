@@ -15,13 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 {
     using System;
-    using System.Net;
     using System.Management.Automation;
+    using System.Net;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Gets the status for a specified deployment. This class is candidate for being cmdlet so it has this name which similar to cmdlets.

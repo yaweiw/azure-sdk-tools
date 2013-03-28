@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
 {
-    using WebEntities;
     using System.Management.Automation;
+    using WebEntities;
 
     public class GitClient : LinkedRevisionControl
     {

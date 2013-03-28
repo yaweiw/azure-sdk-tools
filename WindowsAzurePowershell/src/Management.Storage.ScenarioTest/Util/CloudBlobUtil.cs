@@ -16,12 +16,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
-using System.Threading;
 
 namespace CLITest.Util
 {

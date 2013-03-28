@@ -14,12 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob
 {
-    using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Management.Automation;
     using System.Net;
-    using System.Security.Permissions;
     using System.Threading;
+    using Microsoft.WindowsAzure.Storage.DataMovement;
 
     public class StorageDataMovementCmdletBase : StorageCloudBlobCmdletBase, IDisposable
     {

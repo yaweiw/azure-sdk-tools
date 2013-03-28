@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using System;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class OSVersionsContext : ManagementOperationContext

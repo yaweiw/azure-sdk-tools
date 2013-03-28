@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
     using System.Collections.Generic;
-    using WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github.Entities;
 
     public static class GithubExtensionMethods
     {
