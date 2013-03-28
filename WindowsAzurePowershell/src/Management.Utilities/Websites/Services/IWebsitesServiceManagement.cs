@@ -21,7 +21,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.ServiceModel.Web;
     using System.Xml.Serialization;
     using GeoEntities;
-    using Utilities;
     using WebEntities;
 
     [XmlRoot(ElementName = "Error", Namespace = UriElements.ServiceNamespace)]

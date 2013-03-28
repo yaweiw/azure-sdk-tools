@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities
 {
     using System.Runtime.Serialization;
-    using Utilities;
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class HandlerMapping

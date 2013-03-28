@@ -14,9 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Sync.Upload
 {
-    using System;
     using System.IO;
-    using Microsoft.WindowsAzure.Storage.Auth;
     using Sync.Download;
 
 

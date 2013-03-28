@@ -16,9 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Internal.Common
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Diagnostics;
+    using System.Linq;
 
     public class ConsoleApplicationStandardOutputEvents : 
         StandardOutputEvents,

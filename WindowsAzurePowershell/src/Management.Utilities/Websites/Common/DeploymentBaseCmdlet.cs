@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Common
     using System;
     using System.ServiceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Properties;
 
     public abstract class DeploymentBaseCmdlet : WebsiteContextBaseCmdlet
     {

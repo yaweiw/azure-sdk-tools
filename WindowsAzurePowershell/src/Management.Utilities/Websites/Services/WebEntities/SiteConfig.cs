@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
     using System.Collections.Generic;
     using System.Runtime.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
-    using Utilities;
 
     public interface ISiteConfig
     {

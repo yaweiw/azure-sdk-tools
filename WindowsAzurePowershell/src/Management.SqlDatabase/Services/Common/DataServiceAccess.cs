@@ -19,9 +19,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System.IO;
     using System.Net;
     using System.Text;
-    using System.Threading;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>

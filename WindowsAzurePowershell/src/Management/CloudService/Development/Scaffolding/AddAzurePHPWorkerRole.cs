@@ -16,11 +16,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
 {
     using System.IO;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>
     /// Create scaffolding for a new php worker role, change cscfg file and csdef to include the added worker role

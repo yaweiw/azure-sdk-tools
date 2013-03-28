@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using System.Web.Script.Serialization;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class GlobalComponents
     {

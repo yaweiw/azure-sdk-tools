@@ -18,18 +18,17 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
     using System.Collections.Generic;
     using System.Linq;
     using System.Security;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.CloudService.Development;
     using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using VisualStudio.TestTools.UnitTesting;
-    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
     using MockCommandRuntime = Microsoft.WindowsAzure.Management.Test.Utilities.Common.MockCommandRuntime;
     using TestBase = Microsoft.WindowsAzure.Management.Test.Utilities.Common.TestBase;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.CloudService.Development;
+    using Testing = Microsoft.WindowsAzure.Management.Test.Utilities.Common.Testing;
 
     /// <summary>
     /// Basic unit tests for the Enable-AzureServiceProjectRemoteDesktop enableRDCmdlet.

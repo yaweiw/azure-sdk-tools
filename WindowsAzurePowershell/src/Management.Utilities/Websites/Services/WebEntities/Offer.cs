@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     /// <summary>
     /// Offer Contract (has to be implemented by all resource providers called by the RDFE)

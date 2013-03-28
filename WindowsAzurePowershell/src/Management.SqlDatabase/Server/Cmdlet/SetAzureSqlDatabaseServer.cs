@@ -18,11 +18,11 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Globalization;
     using System.Management.Automation;
     using System.ServiceModel;
-    using ServiceManagement;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using Properties;
+    using ServiceManagement;
     using Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Update settings for an existing Windows Azure SQL Database server in the selected subscription.

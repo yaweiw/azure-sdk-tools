@@ -19,8 +19,8 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding
     using System.Reflection;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>
     /// Creates new azure template for web/worker role.

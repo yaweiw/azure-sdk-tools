@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
     /// Deletes the specified hosted service from Windows Azure.

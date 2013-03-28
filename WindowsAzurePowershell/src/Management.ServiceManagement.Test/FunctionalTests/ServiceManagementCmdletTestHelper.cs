@@ -15,15 +15,15 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
     using ConfigDataInfo;
     using IaasCmdletInfo;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
-    using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class ServiceManagementCmdletTestHelper 
     {
