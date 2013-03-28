@@ -10,15 +10,10 @@
     <ManagementTestDirectory>.\WindowsAzurePowershell\src\Management.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Management.Test.dll</ManagementTestAssemblyName>
 
-    <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
-    <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
-    <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
-
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
     <StorageScenarioTestDebug>WindowsAzurePowershell\src\Management.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
-    <CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
     <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
     <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
     <StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
@@ -140,46 +135,7 @@
   </Target>
   
   <!-- Build the Cmdlets and Setup in all configurations -->
-  <Target
-    Name="Build"
-    DependsOnTargets="BuildCmdlets;BuildSetup" />
-  
-  <!-- Publish any build artificates to the Publish directory -->
-  <Target Name="Publish" DependsOnTargets="Build">
-    
-    <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="false" />
-    <ItemGroup>
-      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
-	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
-	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
-    </ItemGroup>
-    <MakeDir
-      Directories="$(BuildOutputDirectory)"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(DebugFiles)"
-      DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-    <Copy
-      SourceFiles="@(ReleaseFiles)"
-      DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-    
-    <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="false" />
-    <ItemGroup>
-      <SetupFiles Include="$(SetupDirectory)\**\*.*" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(SetupFiles)"
-      DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="false" />
-  </Target>
+  <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
   
   <!-- Run the unit tests -->
   <Target Name="Test" DependsOnTargets="BuildDebug;BuildReleaseSigned">
@@ -190,9 +146,6 @@
     <Message Importance="high" Text="Debug tests:" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(CloudServiceTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\CloudServiceDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
