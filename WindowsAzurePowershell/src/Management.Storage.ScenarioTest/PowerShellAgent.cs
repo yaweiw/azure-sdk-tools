@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,11 +48,18 @@ namespace CLITest
 
         private PowerShell GetPowerShellInstance()
         {
-            PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
-            PowerShellAgent.PowerShellInstance.Streams.Error.Clear();
-            PowerShellAgent.PowerShellInstance.AddScript("$ErrorActionPreference='Continue'");
-            PowerShellAgent.PowerShellInstance.AddStatement();
-            return PowerShellAgent.PowerShellInstance;
+            if (PowerShellInstance != null)
+            {
+                PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
+                PowerShellAgent.PowerShellInstance.Streams.Error.Clear();
+                PowerShellAgent.PowerShellInstance.AddScript("$ErrorActionPreference='Continue'");
+                PowerShellAgent.PowerShellInstance.AddStatement();
+                return PowerShellAgent.PowerShellInstance;
+            }
+            else
+            {
+                return PowerShell.Create(_InitState);
+            }
         }
 
         public static void SetPowerShellInstance(PowerShell instance)
@@ -198,6 +205,44 @@ namespace CLITest
         public static void CleanStorageContext()
         {
             AgentContext = null;
+        }
+
+        internal static object GetStorageContext(Collection<PSObject> objects)
+        {
+            foreach (PSObject result in objects)
+            {
+                foreach (PSMemberInfo member in result.Members)
+                {
+                    if (member.Name.Equals("Context"))
+                    {
+                        return member.Value;
+                    }
+                }
+            }
+            return null;
+        }
+
+        internal static object GetStorageContext(string ConnectionString)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("New-AzureStorageContext");
+            ps.AddParameter("ConnectionString", ConnectionString);
+
+            Test.Info("{0} Test...\n{1}", MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
+
+            return GetStorageContext(ps.Invoke());
+        }
+
+        internal static object GetStorageContext(string StorageAccountName, string StorageAccountKey)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("New-AzureStorageContext");
+            ps.AddParameter("StorageAccountName", StorageAccountName);
+            ps.AddParameter("StorageAccountKey", StorageAccountKey);
+
+            Test.Info("{0} Test...\n{1}", MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
+
+            return GetStorageContext(ps.Invoke());
         }
 
         public override bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey)
