@@ -215,8 +215,6 @@ namespace CLITest.BVT
         /// BVT case : for New-AzureStorageContainer
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void NewContainerTest()
@@ -228,8 +226,6 @@ namespace CLITest.BVT
         /// BVT case : for Get-AzureStorageContainer
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void GetContainerTest()
@@ -241,8 +237,6 @@ namespace CLITest.BVT
         /// BVT case : for Remove-AzureStorageContainer
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void RemoveContainerTest()
@@ -254,8 +248,6 @@ namespace CLITest.BVT
         /// BVT case : for Set-AzureStorageContainerACL
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void SetContainerACLTest()
@@ -267,8 +259,6 @@ namespace CLITest.BVT
         /// BVT case : for Set-AzureStorageBlobContent
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void UploadBlobTest()
@@ -281,8 +271,6 @@ namespace CLITest.BVT
         /// BVT case : for Get-AzureStorageBlob
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void GetBlobTest()
@@ -295,8 +283,6 @@ namespace CLITest.BVT
         /// BVT case : for Get-AzureStorageBlobContent
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void DownloadBlobTest()
@@ -310,8 +296,6 @@ namespace CLITest.BVT
         /// BVT case : for Remove-AzureStorageBlob
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void RemoveBlobTest()
@@ -324,8 +308,6 @@ namespace CLITest.BVT
         /// BVT case : for Start-CopyAzureStorageBlob
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void StartCopyBlobUsingName()
@@ -337,8 +319,6 @@ namespace CLITest.BVT
         /// BVT case : for Start-CopyAzureStorageBlob
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void StartCopyBlobUsingUri()
@@ -350,8 +330,6 @@ namespace CLITest.BVT
         /// BVT case : for Get-AzureStorageBlobCopyState
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void GetBlobCopyStateTest()
@@ -389,8 +367,6 @@ namespace CLITest.BVT
         /// BVT case : for Stop-CopyAzureStorageBlob
         /// </summary>
         [TestMethod]
-        [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
         [TestCategory(Category.All)]
         [TestCategory(Category.Storage)]
         public void StopCopyBlobTest()
