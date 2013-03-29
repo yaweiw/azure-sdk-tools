@@ -105,14 +105,8 @@ namespace MS.Test.Common.MsTestLib
             
             name = type.FullName;
 
-            //AssemblyInitMethod = TestMethodUnit.GetAssemblyInitMethod(type);
-            //AssemblyCleanupMethod = TestMethodUnit.GetAssemblyCleanMethod(type);
 
-            //ClassInitMethod = TestMethodUnit.GetClassInitMethod(type);
-            //ClassCleanupMethod = TestMethodUnit.GetClassCleanupMethod(type);
 
-            //TestInitMethod = TestMethodUnit.GetTestInitMethod(type);
-            //TestCleanupMethod = TestMethodUnit.GetTestCleanupMethod(type);
 
             foreach (MethodInfo methodInfo in type.GetMethods())
             {
