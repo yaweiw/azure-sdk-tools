@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Server.Cmdlet
     using System.Management.Automation;
     using System.ServiceModel;
     using System.Xml;
-    using ServiceManagement;
     using Model;
     using Properties;
+    using ServiceManagement;
     using Services;
 
     /// <summary>

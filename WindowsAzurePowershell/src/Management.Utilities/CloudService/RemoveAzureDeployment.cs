@@ -16,10 +16,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Deletes the specified deployment. Note that the deployment should be in suspended state.

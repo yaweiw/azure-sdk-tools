@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.GeoEntit
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     [DataContract]
     public class GeoRegion

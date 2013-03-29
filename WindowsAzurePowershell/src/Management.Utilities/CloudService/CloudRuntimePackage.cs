@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System;
     using System.Diagnostics;
     using System.Xml;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class CloudRuntimePackage
     {

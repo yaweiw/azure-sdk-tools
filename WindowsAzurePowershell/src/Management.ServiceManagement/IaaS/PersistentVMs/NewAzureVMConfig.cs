@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
     public class NewAzureVMConfigCommand : PSCmdlet

@@ -12,8 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using System.Threading; //
+//
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
