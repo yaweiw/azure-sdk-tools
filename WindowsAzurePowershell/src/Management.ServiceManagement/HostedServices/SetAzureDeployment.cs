@@ -12,17 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.ServiceManagement.Common;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Helpers;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Common;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
