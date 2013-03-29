@@ -72,8 +72,7 @@ FormatsToProcess = @(
 )
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.WindowsAzure.Management.CloudService.dll',
-				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll',
+NestedModules =	'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll',
 				'.\Microsoft.WindowsAzure.Management.ServiceManagement.dll',
 				'.\Microsoft.WindowsAzure.Management.Storage.dll'
 

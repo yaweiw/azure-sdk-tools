@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Tools.Vhd.Model.Persistence
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Text;
     using Tools.Common.General;
 

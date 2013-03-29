@@ -21,9 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools
     using System.Linq;
     using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>
     /// Package services for deployment to Azure.

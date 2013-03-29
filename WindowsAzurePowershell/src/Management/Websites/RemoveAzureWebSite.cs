@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
 
     /// <summary>
     /// Removes an azure website.

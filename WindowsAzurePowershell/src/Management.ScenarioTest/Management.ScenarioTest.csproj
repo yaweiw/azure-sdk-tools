@@ -203,10 +203,6 @@
     <None Include="Resources\tipsf004.publishsettings" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
-      <Project>{b6f73ab3-1207-4b52-b90a-065cd5e107eb}</Project>
-      <Name>Management.CloudService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.Test.Utilities\Management.Test.Utilities.csproj">
       <Project>{bc420543-c04e-4bf3-96e1-cd81b823bdd7}</Project>
       <Name>Management.Test.Utilities</Name>

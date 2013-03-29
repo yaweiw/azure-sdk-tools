@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
 
     [TestClass]
     public class ServerTest

@@ -22,7 +22,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities;
 
     public class ServiceSettings
     {

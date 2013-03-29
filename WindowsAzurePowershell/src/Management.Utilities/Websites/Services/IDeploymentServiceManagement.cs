@@ -16,9 +16,9 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.IO;
     using System.ServiceModel;
     using System.ServiceModel.Web;
     using DeploymentEntities;

@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Linq;
     using System.Management.Automation;
-    using Model;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureSubnet"), OutputType(typeof(IPersistentVM))]
     public class SetAzureSubnetCommand : VirtualMachineConfigurationCmdletBase

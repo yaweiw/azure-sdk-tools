@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
 {
-    using WebEntities;
+    using System;
     using System.IO;
     using System.Linq;
-    using System;
+    using WebEntities;
 
     public abstract class LinkedRevisionControl : IDisposable
     {

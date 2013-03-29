@@ -15,12 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
 {
     using System;
-    using System.IO;
     using System.Collections.Generic;
+    using System.IO;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using VisualStudio.TestTools.UnitTesting;
     
     /// <summary>
     /// Simple implementation of the <see cref="IDeploymentServiceManagement"/> interface that can be

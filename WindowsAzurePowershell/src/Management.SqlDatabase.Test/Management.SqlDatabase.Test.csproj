@@ -145,14 +145,6 @@
     <None Include="TestScripts\Server\ResetPassword.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
-      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
-      <Name>Management.CloudService.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
-      <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
-      <Name>Management.CloudService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.SqlDatabase\Management.SqlDatabase.csproj">
       <Project>{DDF5D225-C9C5-42B7-BDB5-2C3646E479AA}</Project>
       <Name>Management.SqlDatabase</Name>

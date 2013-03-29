@@ -16,9 +16,9 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
     using System;
     using Microsoft.WindowsAzure.Management.Subscription;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzurePublishSettingsTests
