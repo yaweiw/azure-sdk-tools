@@ -674,7 +674,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             int ep1PublicPort = 60011;
             string ep1LBSetName = "lbset1";
             int ep1ProbePort = 60012;
-            string ep1ProbePath = @"/";
+            string ep1ProbePath = string.Empty;
             int? ep1ProbeInterval = 7;
             int? ep1ProbeTimeout = null;
 
@@ -685,7 +685,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             int ep2PublicPortChanged = 60031;
             string ep2LBSetName = "lbset2";
             int ep2ProbePort = 60022;
-            string ep2ProbePath = @"/";
+            string ep2ProbePath = string.Empty;
             int? ep2ProbeInterval = null;
             int? ep2ProbeTimeout = 32;
 
