@@ -13,7 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 
-using System.Linq;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
@@ -23,8 +22,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Collections.ObjectModel;
     using System.Management.Automation;
     using System.ServiceModel;
+    using System.Linq;
     using Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using IaaS;
     using Storage;
     using WindowsAzure.ServiceManagement;
@@ -245,8 +245,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", IgnoreCase = true)]
-        [ValidateNotNullOrEmpty]
+        [ValidateVMSize]
         public string InstanceSize
         {
             get;
@@ -278,9 +277,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
             }
 
-            bool ServiceExists = DoesCloudServiceExist(this.ServiceName);
+            bool serviceExists = DoesCloudServiceExist(this.ServiceName);
 
-            if (string.IsNullOrEmpty(this.Location) == false || string.IsNullOrEmpty(AffinityGroup) == false || (!String.IsNullOrEmpty(VNetName) && ServiceExists == false))
+            if(!string.IsNullOrEmpty(this.Location))
+            {
+                if(serviceExists)
+                {
+                    throw new ApplicationException("Service already exists, Location cannot be specified.");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(this.AffinityGroup))
+            {
+                if (serviceExists)
+                {
+                    throw new ApplicationException("Service already exists, AffinityGroup cannot be specified.");
+                }
+            }
+
+            if (!String.IsNullOrEmpty(VNetName) && serviceExists == false)
             {
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
@@ -365,7 +380,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                         if(WaitForBoot.IsPresent)
                         {
-                            WaitForDesiredRoleState(vm.RoleName, RoleInstanceStatus.ReadyRole);
+                            WaitForRoleToBoot(vm.RoleName);
                         }
                     }
 
@@ -405,7 +420,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         ExecuteClientAction(vm, operationDescription, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm));
                         if(WaitForBoot.IsPresent)
                         {
-                            WaitForDesiredRoleState(vm.RoleName, RoleInstanceStatus.ReadyRole);
+                            WaitForRoleToBoot(vm.RoleName);
                         }
                     }
                     catch (ServiceManagementClientException ex)
@@ -622,7 +637,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if(String.IsNullOrEmpty(this.VNetName) == false && (String.IsNullOrEmpty(this.Location) && String.IsNullOrEmpty(this.AffinityGroup)))
+            if (!string.IsNullOrEmpty(this.Location) && !string.IsNullOrEmpty(this.AffinityGroup))
+            {
+                throw new ArgumentException("Location or AffinityGroup, only one of them needs to be specified.");
+            }
+
+            if (String.IsNullOrEmpty(this.VNetName) == false && (String.IsNullOrEmpty(this.Location) && String.IsNullOrEmpty(this.AffinityGroup)))
             {
                 throw new ArgumentException("Virtual Network Name may only be specified on the initial deployment. Specify Location or Affinity Group to create a new cloud service and deployment.");
             }

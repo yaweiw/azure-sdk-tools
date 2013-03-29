@@ -255,7 +255,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                         if(this.WaitForBoot.IsPresent)
                         {
-                            WaitForDesiredRoleState(persistentVMs[0].RoleName, RoleInstanceStatus.ReadyRole);
+                            WaitForRoleToBoot(persistentVMs[0].RoleName);
                         }
                     }
                     catch (ServiceManagementClientException ex)
@@ -299,7 +299,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 for (int i = startingVM; i < persistentVMs.Count; i++)
                 {
-                    WaitForDesiredRoleState(persistentVMs[i].RoleName, RoleInstanceStatus.ReadyRole);
+                    WaitForRoleToBoot(persistentVMs[i].RoleName);
                 }
             }
         }

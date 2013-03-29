@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.ServiceManagement.Common;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
@@ -95,8 +97,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual")]
-        [ValidateSet(UpgradeType.Auto, UpgradeType.Manual)]
+        [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual | Simultaneous")]
+        [ValidateDeploymentUpgradeType]
         public string Mode
         {
             get;

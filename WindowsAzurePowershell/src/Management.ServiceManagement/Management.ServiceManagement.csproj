@@ -153,6 +153,8 @@
     <Compile Include="Certificates\AddAzureCertificate.cs" />
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
+    <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
+    <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Helpers\CertUtils.cs" />
     <Compile Include="Helpers\Disks.cs" />
@@ -177,7 +179,6 @@
     <Compile Include="IaaS\DiskRepository\AddAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\GetAzureVMImage.cs" />
-    <Compile Include="IaaS\DiskRepository\RecommendedVMSizeType.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureDisk.cs" />
     <Compile Include="IaaS\DiskRepository\RemoveAzureVMImage.cs" />
     <Compile Include="IaaS\DiskRepository\UpdateAzureDisk.cs" />
