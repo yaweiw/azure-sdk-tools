@@ -1,2 +1,2 @@
 MsTest2.exe -lib CLITest.dll -tag bvt
-MsTest2.exe -lib CLITest -tag function
+MsTest2.exe -lib CLITest.dll -tag function

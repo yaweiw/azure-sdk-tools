@@ -177,7 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="deploy.cmd" />
+    <None Include="deploy.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="MSSharedLibKey.snk" />
     <None Include="packages.config" />
     <None Include="storagetest.cmd">
