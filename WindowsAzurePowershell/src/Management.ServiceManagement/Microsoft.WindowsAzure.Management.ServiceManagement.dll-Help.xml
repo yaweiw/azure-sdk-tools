@@ -6556,600 +6556,806 @@
     </command:examples>
     <maml:relatedLinks></maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>New-AzureQuickVM</command:name>
+      <command:name>
+        New-AzureQuickVM
+      </command:name>
       <maml:description>
-        <maml:para>Creates and provisions a new Windows Azure virtual machine.</maml:para>
+        <maml:para></maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>New</command:verb>
       <command:noun>AzureQuickVM</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureQuickVM sets the configuration for a new virtual machine and creates the virtual machine. It can create a new Windows Azure service, or deploy the new virtual machine into an existing service if neither –Location or –AffinityGroup is specified.</maml:para>
+      <maml:para>The New-AzureQuickVM sets the configuration for a new virtual machine and creates the virtual machine. It can create a new Windows Azure service, or deploy the new virtual machine into an existing service if neither -Location or -AffinityGroup is specified.</maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-AzureQuickVM</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>AffinityGroup</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>AvailabilitySetName</maml:name>
-          <maml:description>
-            <maml:para>Specify the availability set to use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Certificates</maml:name>
-          <maml:description>
-            <maml:para>Specifies a certificate list to use for creating the service. </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">CertificateSettingList</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>DnsSettings</maml:name>
-          <maml:description>
-            <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment. Use New-AzureDNS to create the DNS server object.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>HostCaching</maml:name>
-          <maml:description>
-            <maml:para>Specifies the host caching mode to use. Supported options are: "ReadOnly" and "ReadWrite".</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>InstanceSize</maml:name>
-          <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are "ExtraSmall", "Small", "Medium", "Large", and "ExtraLarge".</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Location</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>MediaLocation</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Name</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of the virtual machine.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>SubnetNames</maml:name>
-          <maml:description>
-            <maml:para>Specifies a list of subnet names the virtual machine will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>VNetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the name of a virtual network the virtual machine will use.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ImageName</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the operating system image to use to create the operating system disk.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>AdminUsername</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Linux</maml:name>
           <maml:description>
-            <maml:para>Specifies Specifies the Administrator to create.</maml:para>
+            <maml:para>Specify to create a Linux virtual machine.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>LinuxUser</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Linux administrative account name to create.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Password</maml:name>
           <maml:description>
             <maml:para>Specifies the password for the administrative account.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the new or existing service name. </maml:para>
+            <maml:para>Specifies the new or existing service name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Windows</maml:name>
-          <maml:description>
-            <maml:para>Include to create a Windows virtual machine.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>New-AzureQuickVM</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>AffinityGroup</maml:name>
           <maml:description>
             <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>AvailabilitySetName</maml:name>
           <maml:description>
             <maml:para>Specify the availability set to use.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>DnsSettings</maml:name>
           <maml:description>
             <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment. Use New-AzureDNS to create the DNS server object.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>HostCaching</maml:name>
           <maml:description>
-            <maml:para>Specifies the host caching mode to use. Supported options are: "ReadOnly" and "ReadWrite".</maml:para>
+            <maml:para>Specifies the host caching mode to use. Supported options are: &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>InstanceSize</maml:name>
           <maml:description>
-            <maml:para>Specifies the size of the instance. Supported values are "ExtraSmall", "Small", "Medium", "Large", and "ExtraLarge".</maml:para>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Location</maml:name>
           <maml:description>
             <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>MediaLocation</maml:name>
           <maml:description>
             <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Name</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the virtual machine.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>SSHKeyPairs</maml:name>
           <maml:description>
             <maml:para>Specifies a list of SSH key pairs already deployed in the subscription to deploy in the virtual machine.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SSHKeyPairList</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>SSHPublicKeys</maml:name>
           <maml:description>
             <maml:para>Specifies a list of SSH public keys already deployed in the subscription to deploy in the virtual machine.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">SSHPublicKeyList</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>SubnetNames</maml:name>
           <maml:description>
             <maml:para>Specifies a list of subnet names the virtual machine will use.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>VNetName</maml:name>
           <maml:description>
             <maml:para>Specifies the name of a virtual network the virtual machine will use.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureQuickVM</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>AdminUsername</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Administrator account to create.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ImageName</maml:name>
           <maml:description>
             <maml:para>Specifies the name of the operating system image to use to create the operating system disk.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>Linux</maml:name>
-          <maml:description>
-            <maml:para>Specify to create a Linux virtual machine.</maml:para>
-          </maml:description>
-          <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>LinuxUser</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Linux administrative account name to create.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Password</maml:name>
           <maml:description>
             <maml:para>Specifies the password for the administrative account.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>Specifies the new or existing service name. </maml:para>
+            <maml:para>Specifies the new or existing service name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Windows</maml:name>
+          <maml:description>
+            <maml:para>Include to create a Windows virtual machine.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>AffinityGroup</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>AvailabilitySetName</maml:name>
+          <maml:description>
+            <maml:para>Specify the availability set to use.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Certificates</maml:name>
+          <maml:description>
+            <maml:para>Specifies a certificate list to use for creating the service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">CertificateSettingList</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DisableWinRMHttps</maml:name>
+          <maml:description>
+            <maml:para>Disables WinRM on http which is added by default.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DnsSettings</maml:name>
+          <maml:description>
+            <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment. Use New-AzureDNS to create the DNS server object.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>EnableWinRMHttp</maml:name>
+          <maml:description>
+            <maml:para>Enables WinRM over http.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>HostCaching</maml:name>
+          <maml:description>
+            <maml:para>Specifies the host caching mode to use. Supported options are: &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>InstanceSize</maml:name>
+          <maml:description>
+            <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Location</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>MediaLocation</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>NoExportPrivateKey</maml:name>
+          <maml:description>
+            <maml:para>Prevents the private key from being uploaded</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>SkipCertAutoUpload</maml:name>
+          <maml:description>
+            <maml:para>Disables the upload of certificates specified by WinRMCertificate and X509Certificates.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>SubnetNames</maml:name>
+          <maml:description>
+            <maml:para>Specifies a list of subnet names the virtual machine will use.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>VNetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of a virtual network the virtual machine will use.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WaitForBoot</maml:name>
+          <maml:description>
+            <maml:para>Waits for VM to boot.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WinRMCertificate</maml:name>
+          <maml:description>
+            <maml:para>Certificate that will be associated with WinRM endpoint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+          <maml:name>X509Certificates</maml:name>
+          <maml:description>
+            <maml:para>X509 certificates that will be deployed to hosted service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">X509Certificate2[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>AdminUsername</maml:name>
+        <maml:description>
+          <maml:para>Specifies the Administrator account to create.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>AffinityGroup</maml:name>
         <maml:description>
           <maml:para>Specifies the Windows Azure affinity group the virtual machine will reside in. Only valid for a new cloud service.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>AvailabilitySetName</maml:name>
         <maml:description>
           <maml:para>Specify the availability set to use.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Certificates</maml:name>
         <maml:description>
-          <maml:para>Specifies a certificate list to use for creating the service. </maml:para>
+          <maml:para>Specifies a certificate list to use for creating the service.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">CertificateSettingList</command:parameterValue>
         <dev:type>
           <maml:name>CertificateSettingList</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>DisableWinRMHttps</maml:name>
+        <maml:description>
+          <maml:para>Disables WinRM on http which is added by default.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>DnsSettings</maml:name>
         <maml:description>
           <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment. Use New-AzureDNS to create the DNS server object.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
         <dev:type>
           <maml:name>DnsServer[]</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>HostCaching</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>EnableWinRMHttp</maml:name>
         <maml:description>
-          <maml:para>Specifies the host caching mode to use. Supported options are: "ReadOnly" and "ReadWrite".</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>ImageName</maml:name>
-        <maml:description>
-          <maml:para>Specifies the name of the operating system image to use to create the operating system disk.</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>InstanceSize</maml:name>
-        <maml:description>
-          <maml:para>Specifies the size of the instance. Supported values are "ExtraSmall", "Small", "Medium", "Large", and "ExtraLarge".</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>Linux</maml:name>
-        <maml:description>
-          <maml:para>Specify to create a Linux virtual machine.</maml:para>
+          <maml:para>Enables WinRM over http.</maml:para>
+
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>HostCaching</maml:name>
+        <maml:description>
+          <maml:para>Specifies the host caching mode to use. Supported options are: &quot;ReadOnly&quot; and &quot;ReadWrite&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ImageName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the operating system image to use to create the operating system disk.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>InstanceSize</maml:name>
+        <maml:description>
+          <maml:para>Specifies the size of the instance. Supported values are &quot;ExtraSmall&quot;, &quot;Small&quot;, &quot;Medium&quot;, &quot;Large&quot;, &quot;ExtraLarge&quot;, &quot;A6&quot;, &quot;A7&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Linux</maml:name>
+        <maml:description>
+          <maml:para>Specify to create a Linux virtual machine.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>LinuxUser</maml:name>
         <maml:description>
           <maml:para>Specifies the Linux administrative account name to create.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Location</maml:name>
         <maml:description>
           <maml:para>Specifies the Windows Azure data center location that will host the virtual machine. When specified, New-AzureQuickVM will create a new Windows Azure service in the specified location. Only valid for a new cloud service.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>MediaLocation</maml:name>
         <maml:description>
           <maml:para>Specifies the Windows Azure storage location to use for the virtual machines disks.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Name</maml:name>
         <maml:description>
           <maml:para>Specifies the name of the virtual machine.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>NoExportPrivateKey</maml:name>
+        <maml:description>
+          <maml:para>Prevents the private key from being uploaded</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>Password</maml:name>
         <maml:description>
           <maml:para>Specifies the password for the administrative account.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>Specifies the new or existing service name. </maml:para>
+          <maml:para>Specifies the new or existing service name.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>SkipCertAutoUpload</maml:name>
+        <maml:description>
+          <maml:para>Disables the upload of certificates specified by WinRMCertificate and X509Certificates.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>SSHKeyPairs</maml:name>
         <maml:description>
           <maml:para>Specifies a list of SSH key pairs already deployed in the subscription to deploy in the virtual machine.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SSHKeyPairList</command:parameterValue>
         <dev:type>
           <maml:name>SSHKeyPairList</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>SSHPublicKeys</maml:name>
         <maml:description>
           <maml:para>Specifies a list of SSH public keys already deployed in the subscription to deploy in the virtual machine.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="false">SSHPublicKeyList</command:parameterValue>
         <dev:type>
           <maml:name>SSHPublicKeyList</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>SubnetNames</maml:name>
         <maml:description>
           <maml:para>Specifies a list of subnet names the virtual machine will use.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="true">String[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         <dev:type>
-          <maml:name>String[]</maml:name>
-          <maml:uri />
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>VNetName</maml:name>
         <maml:description>
           <maml:para>Specifies the name of a virtual network the virtual machine will use.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-        <maml:name>Windows</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WaitForBoot</maml:name>
         <maml:description>
-          <maml:para>Include to create a Windows virtual machine.</maml:para>
+          <maml:para>Waits for VM to boot.</maml:para>
+
         </maml:description>
         <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         <dev:type>
           <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Windows</maml:name>
+        <maml:description>
+          <maml:para>Include to create a Windows virtual machine.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WinRMCertificate</maml:name>
+        <maml:description>
+          <maml:para>Certificate that will be associated with WinRM endpoint.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
+        <maml:name>X509Certificates</maml:name>
+        <maml:description>
+          <maml:para>X509 certificates that will be deployed to hosted service.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">X509Certificate2[]</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2[]</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri />
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;New-AzureQuickVM –Windows –ServiceName "MySvc1" –name "MyWinVM1" –ImageName $image –Password $adminPasswd
+          New-AzureQuickVM -Windows -ServiceName &quot;MySvc1&quot; -name &quot;MyWinVM1&quot; -ImageName $image -Password $adminPasswd
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example creates a new Windows virtual machine in an existing service from an image. (Use Get-AzureVMImage to get a list of images.)
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Windows virtual machine in an existing service from an image. (Use Get-AzureVMImage to get a list of images.)</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 2 --------------
+          -------------------------- EXAMPLE 2 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;New-AzureQuickVM –Linux –ServiceName "MySvc2" –name "MyLxVM1" –ImageName $image –LinuxUser $user –Password $adminPasswd –Location $dclocation
+          New-AzureQuickVM -Linux -ServiceName &quot;MySvc2&quot; -name &quot;MyLxVM1&quot; -ImageName $image -LinuxUser $user -Password $adminPasswd -Location $dclocation
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example creates a new Linux virtual machine from an image, and creates a new service to host it.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Linux virtual machine from an image, and creates a new service to host it.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 3 --------------
+          -------------------------- EXAMPLE 3 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;$dclocations = Get-AzureLocation
-          C:\PC&gt;$images = Get-AzureVMImage
-          C:\PS&gt;New-AzureQuickVM –Windows –InstanceSize "Large" –ServiceName "MySvc3" –name "MyWinVM1" –ImageName $images[4].imagename –Password $adminPasswd –location $dclocations[0].name
+          $dclocations = Get-AzureLocation
+          $images = Get-AzureVMImage
+          New-AzureQuickVM -Windows -InstanceSize &quot;Large&quot; -ServiceName &quot;MySvc3&quot; -name &quot;MyWinVM1&quot; -ImageName $images[4].imagename -Password $adminPasswd -location $dclocations[0].name
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example gets a list of data center locations, and a list of virtual machine images, and then creates a new large Windows virtual machine and a new service.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example gets a list of data center locations, and a list of virtual machine images, and then creates a new large Windows virtual machine and a new service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Get-AzureVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-AzureVMConfig</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-AzureVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
@@ -7994,390 +8200,483 @@
     </command:examples>
     <maml:relatedLinks></maml:relatedLinks>
   </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
-      <command:name>New-AzureVM</command:name>
+      <command:name>
+        New-AzureVM
+      </command:name>
       <maml:description>
         <maml:para>Creates a new Windows Azure virtual machine.</maml:para>
       </maml:description>
       <maml:copyright>
-        <maml:para />
+        <maml:para></maml:para>
       </maml:copyright>
       <command:verb>New</command:verb>
       <command:noun>AzureVM</command:noun>
-      <dev:version />
+      <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>The New-AzureVM cmdlet adds a new virtual machine to an existing Windows Azure service, or creates a new virtual machine and service in the current subscription if either the -Location or -AffinityGroup is specified. </maml:para>
+      <maml:para>The New-AzureVM cmdlet adds a new virtual machine to an existing Windows Azure service, or creates a new virtual machine and service in the current subscription if either the -Location or -AffinityGroup is specified.</maml:para>
     </maml:description>
+    <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
         <maml:name>New-AzureVM</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
-          <maml:name>DeploymentLabel</maml:name>
-          <maml:description>
-            <maml:para>Specifies a label for the deployment</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
-          <maml:name>DeploymentName</maml:name>
-          <maml:description>
-            <maml:para>
-              Specifies a deployment name. If not specified, the service name will be used as the deployment name.
-            </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
-          <maml:name>DnsSettings</maml:name>
-          <maml:description>
-            <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
-          <maml:name>VNetName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the virtual network name where the new virtual machine will be deployed.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the new or existing service name.
-            </maml:para>
+            <maml:para>Specifies the new or existing service name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
           <maml:name>VMs</maml:name>
           <maml:description>
             <maml:para>A list of virtual machine objects to create.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">PersistentVM[]</command:parameterValue>
         </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>New-AzureVM</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>AffinityGroup</maml:name>
           <maml:description>
             <maml:para>Specifies the Windows Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>DeploymentLabel</maml:name>
           <maml:description>
             <maml:para>Specifies a label for the deployment</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>DeploymentName</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies a deployment name. If not specified, the service name will be used as the deployment name.
-            </maml:para>
+            <maml:para>Specifies a deployment name. If not specified, the service name will be used as the deployment name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>DnsSettings</maml:name>
           <maml:description>
             <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>Location</maml:name>
           <maml:description>
             <maml:para>Specifies the location where the new service will be hosted.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>ServiceDescription</maml:name>
           <maml:description>
             <maml:para>Specifies a description for the new service.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
           <maml:name>ServiceLabel</maml:name>
           <maml:description>
             <maml:para>Specifies a label for the new service.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>SkipCertAutoUpload</maml:name>
+          <maml:description>
+            <maml:para>Disables the upload of certificates specified by WinRMCertificate and X509Certificates on PersistentVM object in VMs property.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>VNetName</maml:name>
           <maml:description>
             <maml:para>Specifies the virtual network name where the new virtual machine will be deployed.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WaitForBoot</maml:name>
+          <maml:description>
+            <maml:para>Waits for VM to boot.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureVM</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>DeploymentLabel</maml:name>
+          <maml:description>
+            <maml:para>Specifies a label for the deployment</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
+          <maml:name>DeploymentName</maml:name>
+          <maml:description>
+            <maml:para>Specifies a deployment name. If not specified, the service name will be used as the deployment name.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
+          <maml:name>DnsSettings</maml:name>
+          <maml:description>
+            <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>
-              Specifies the new or existing service name.
-            </maml:para>
+            <maml:para>Specifies the new or existing service name.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>SkipCertAutoUpload</maml:name>
+          <maml:description>
+            <maml:para>Disables the upload of certificates specified by WinRMCertificate and X509Certificates on PersistentVM object in VMs property.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
           <maml:name>VMs</maml:name>
           <maml:description>
             <maml:para>A list of virtual machine objects to create.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">PersistentVM[]</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>VNetName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the virtual network name where the new virtual machine will be deployed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>WaitForBoot</maml:name>
+          <maml:description>
+            <maml:para>Waits for VM to boot.</maml:para>
+          </maml:description>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
+    <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>AffinityGroup</maml:name>
         <maml:description>
           <maml:para>Specifies the Windows Azure affinity group the cloud service will reside in. Only valid when creating a new cloud service.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>DeploymentLabel</maml:name>
         <maml:description>
           <maml:para>Specifies a label for the deployment</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>DeploymentName</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies a deployment name. If not specified, the service name will be used as the deployment name.
-          </maml:para>
+          <maml:para>Specifies a deployment name. If not specified, the service name will be used as the deployment name.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
-        <dev:defaultValue>Service Name</dev:defaultValue>
+        <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="named">
         <maml:name>DnsSettings</maml:name>
         <maml:description>
           <maml:para>Specifies a DNS Server object that defines the DNS settings for the new deployment.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="true">DnsServer[]</command:parameterValue>
         <dev:type>
           <maml:name>DnsServer[]</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>Location</maml:name>
         <maml:description>
           <maml:para>Specifies the location where the new service will be hosted.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>ServiceDescription</maml:name>
         <maml:description>
           <maml:para>Specifies a description for the new service.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="True (ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="true (ByPropertyName)" position="named">
         <maml:name>ServiceLabel</maml:name>
         <maml:description>
           <maml:para>Specifies a label for the new service.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
         <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>
-            Specifies the new or existing service name.
-          </maml:para>
+          <maml:para>Specifies the new or existing service name.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue, ByPropertyName)" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>SkipCertAutoUpload</maml:name>
+        <maml:description>
+          <maml:para>Disables the upload of certificates specified by WinRMCertificate and X509Certificates on PersistentVM object in VMs property.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="true (ByValue, ByPropertyName)" position="named">
         <maml:name>VMs</maml:name>
         <maml:description>
           <maml:para>A list of virtual machine objects to create.</maml:para>
+
         </maml:description>
         <command:parameterValue required="true" variableLength="true">PersistentVM[]</command:parameterValue>
         <dev:type>
           <maml:name>PersistentVM[]</maml:name>
-          <maml:uri />
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
         <maml:name>VNetName</maml:name>
         <maml:description>
           <maml:para>Specifies the virtual network name where the new virtual machine will be deployed.</maml:para>
+
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>WaitForBoot</maml:name>
+        <maml:description>
+          <maml:para>Waits for VM to boot.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
     </command:parameters>
+    <!-- Input - Output section-->
     <command:inputTypes>
       <command:inputType>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri/>
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:inputType>
     </command:inputTypes>
     <command:returnValues>
       <command:returnValue>
         <dev:type>
           <maml:name></maml:name>
-          <maml:uri></maml:uri>
-          <maml:description>
-            <maml:para />
-          </maml:description>
+          <maml:uri />
+          <maml:description />
         </dev:type>
-        <maml:description></maml:description>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
       </command:returnValue>
     </command:returnValues>
+    <!-- Error section-->
     <command:terminatingErrors />
     <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
     <command:examples>
+
       <command:example>
         <maml:title>
-          --------------  Example 1 --------------
+          -------------------------- EXAMPLE 1 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;New-AzureVMConfig -Name "MyNewVM" -InstanceSize ExtraSmall -ImageName (Get-AzureVMImage)[4].ImageName `
-          | Add-AzureProvisioningConfig –Windows –Password $adminPassword `
-          | New-AzureVM –ServiceName "MySvc2" –AffinityGroup "Contoso"
+          New-AzureVMConfig -Name &quot;MyNewVM&quot; -InstanceSize ExtraSmall -ImageName (Get-AzureVMImage)[4].ImageName `
+          | Add-AzureProvisioningConfig -Windows -Password $adminPassword `
+          | New-AzureVM -ServiceName &quot;MySvc2&quot; -AffinityGroup &quot;Contoso&quot;
+
+          This example creates a new Windows Azure virtual machine, &quot;MyNewVM&quot;, and a new Windows Azure service, &quot;MySvc2&quot;.
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example creates a new Windows Azure virtual machine, “MyNewVM”, and a new Windows Azure service, “MySvc2”.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 2 --------------
+          -------------------------- EXAMPLE 2 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;New-AzureVMConfig -Name "MySUSEVM2" -InstanceSize ExtraSmall -ImageName (Get-AzureVMImage)[7].ImageName `
-          | Add-AzureProvisioningConfig –Linux –LinuxUser $lxUser -Password $adminPassword `
+          New-AzureVMConfig -Name &quot;MySUSEVM2&quot; -InstanceSize ExtraSmall -ImageName (Get-AzureVMImage)[7].ImageName `
+          | Add-AzureProvisioningConfig -Linux -LinuxUser $lxUser -Password $adminPassword `
           | New-AzureVM
         </dev:code>
         <dev:remarks>
-          <maml:para>
-            This example adds a new Linux virtual machine to an existing service.
-          </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example adds a new Linux virtual machine to an existing service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
+
       <command:example>
         <maml:title>
-          --------------  Example 3 --------------
+          -------------------------- EXAMPLE 3 --------------------------
         </maml:title>
         <maml:introduction>
-          <maml:para></maml:para>
+          <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          C:\PS&gt;$Images = Get-AzureVMImage
-          C:\PS&gt;$myImage = $Images[4]
-          C:\PS&gt;$myVM = New-AzureVMConfig -Name "MyVM2" -InstanceSize ExtraSmall -ImageName $myImage.ImageName `
+          $Images = Get-AzureVMImage
+          $myImage = $Images[4]
+          $myVM = New-AzureVMConfig -Name &quot;MyVM2&quot; -InstanceSize ExtraSmall -ImageName $myImage.ImageName `
           | Add-AzureProvisioningConfig -Windows -Password $adminPassword `
-          | Add-AzureDataDisk -CreateNew -DiskSizeInGB 50 -DiskLabel "DataDisk50" -LUN 0
-          C:\PS&gt;New-AzureVM –ServiceName "MySvc1" –VMs $myVM
+          | Add-AzureDataDisk -CreateNew -DiskSizeInGB 50 -DiskLabel &quot;DataDisk50&quot; -LUN 0
+          New-AzureVM -ServiceName &quot;MySvc1&quot; -VMs $myVM
         </dev:code>
         <dev:remarks>
-          <maml:para>This example builds a new virtual machine configuration and then creates the virtual machine with New-AzureVM. </maml:para>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example builds a new virtual machine configuration and then creates the virtual machine with New-AzureVM.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
         </dev:remarks>
         <command:commandLines>
           <command:commandLine>
-            <command:commandText />
+            <command:commandText></command:commandText>
           </command:commandLine>
         </command:commandLines>
       </command:example>
     </command:examples>
+    <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
         <maml:linkText>Get-AzureVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-AzureVMConfig</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>New-AzureQuickVM</maml:linkText>
-        <maml:uri />
+        <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
