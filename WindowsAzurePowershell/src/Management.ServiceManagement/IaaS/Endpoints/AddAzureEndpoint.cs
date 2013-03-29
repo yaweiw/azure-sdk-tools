@@ -222,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
 
         private void ValidateParameters()
         {
-            if (string.Compare(ParameterSetName, "LoadBalanced", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Compare(ParameterSetName, "LoadBalancedProbe", StringComparison.OrdinalIgnoreCase) == 0)
             {
                 if (string.Compare(ProbeProtocol, "tcp", StringComparison.OrdinalIgnoreCase) == 0)
                 {
