@@ -17,11 +17,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Management.Automation;
     using System.Net;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
+        private static IList<string> TerminalStates = new List<string>
+        {
+            "FailedStartingVM",
+            "ProvisioningFailed",
+            "ProvisioningTimeout"
+        };
+
         public IaaSDeploymentManagementCmdletBase()
         {
             CurrentDeployment = null;
@@ -83,9 +94,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             }
         }
 
-        protected void WaitForDesiredRoleState(string roleName, string roleState)
+        protected void WaitForRoleToBoot(string roleName)
         {
-            DateTime timeout = DateTime.UtcNow.AddHours(1);
             string currentInstanceStatus = null;
             RoleInstance durableRoleInstance;
             do
@@ -125,14 +135,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     currentInstanceStatus = durableRoleInstance.InstanceStatus;
                 }
 
-                if (DateTime.UtcNow >= timeout)
+                if(TerminalStates.FirstOrDefault(r => String.Compare(durableRoleInstance.InstanceStatus, r, true, CultureInfo.InvariantCulture) == 0) != null)
                 {
-                    var message = string.Format("RoleInstance instance status is '{0}', it has not reached to '{1}'", durableRoleInstance.InstanceStatus, roleState);
+                    var message = string.Format("VM creation failed, VM status is '{0}'", durableRoleInstance.InstanceStatus);
                     throw new ApplicationException(message);
                 }
+                
+                if(String.Compare(durableRoleInstance.InstanceStatus, RoleInstanceStatus.ReadyRole, true, CultureInfo.InvariantCulture) == 0)
+                {
+                    break;
+                }
+                
+                //Once we move Tasks, we should remove Thread.Sleep
+                Thread.Sleep(TimeSpan.FromSeconds(30));
 
-            } while (durableRoleInstance.InstanceStatus != roleState);
-            
+            } while (true);
         }
     }
 }

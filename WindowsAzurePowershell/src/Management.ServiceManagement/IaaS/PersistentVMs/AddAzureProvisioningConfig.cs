@@ -150,6 +150,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
                 if (!this.DisableWinRMHttps.IsPresent)
                 {
+                    var netConfig = role.ConfigurationSets
+                        .OfType<NetworkConfigurationSet>()
+                        .SingleOrDefault();
+
+                    if (netConfig == null)
+                    {
+                        netConfig = new NetworkConfigurationSet();
+                        role.ConfigurationSets.Add(netConfig);
+                    }
+
+                    if (netConfig.InputEndpoints == null)
+                    {
+                        netConfig.InputEndpoints = new System.Collections.ObjectModel.Collection<InputEndpoint>();
+                    }
+
                     var builder = new WinRmConfigurationBuilder();
                     if (this.EnableWinRMHttp.IsPresent)
                     {
@@ -157,6 +172,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     }
                     builder.AddHttpsListener(this.WinRMCertificate);
                     provisioningConfiguration.WinRM = builder.Configuration;
+
+                    var winRmEndpoint = new InputEndpoint {LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs"};
+                    netConfig.InputEndpoints.Add(winRmEndpoint);
                 }
                 role.WinRMCertificate = WinRMCertificate;
             }

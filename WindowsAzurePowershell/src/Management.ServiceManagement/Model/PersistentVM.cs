@@ -87,6 +87,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
             set;
         }
 
+        public string DefaultWinRmCertificateThumbprint
+        {
+            get; 
+            set;
+        }
+
         public PersistentVM GetInstance()
         {
             return this;

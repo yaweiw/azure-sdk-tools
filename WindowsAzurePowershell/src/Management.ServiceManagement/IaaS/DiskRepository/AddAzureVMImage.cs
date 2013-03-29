@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using System;
     using System.Management.Automation;
     using Model;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-
+    using Utilities.Common;
+    using Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class AddAzureVMImage : ServiceManagementBaseCmdlet
@@ -96,8 +96,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
             set;
         }
         [Parameter(Position = 9, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(RecommendedVMSizeType.Small, RecommendedVMSizeType.Medium, RecommendedVMSizeType.Large, RecommendedVMSizeType.ExtraLarge)]
+        [ValidateVMSize(false)]
         public string RecommendedVMSize
         {
             get;
