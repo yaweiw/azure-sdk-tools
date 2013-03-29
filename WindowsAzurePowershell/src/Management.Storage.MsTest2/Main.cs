@@ -150,7 +150,6 @@ namespace MS.Test.Common.MsTestLib
                 return -9009;
             }
             
-            //Assembly testAssembly = Assembly.LoadFrom("TestSample.dll");
             Assembly testAssembly = Assembly.LoadFrom(testDllName);
             
             TestClassUnit[] testClasses = TestClassUnit.GetTestGroupUnits(testAssembly);
@@ -168,14 +167,12 @@ namespace MS.Test.Common.MsTestLib
 
                     if (testClassNames == null)
                     {
-                        // testClass.Enable = true;
                     }
                     else
                     {
 
                         if (testClassNames.Contains(testClass.Name))
                         {
-                            // testClass.Enable = true;
                         }
                         else
                         {
@@ -188,15 +185,11 @@ namespace MS.Test.Common.MsTestLib
                     {
                         if (testMethodNames == null)
                         {
-                            //testMethod.Enable = true;
-                            //testClass.ActiveCases++;
                         }
                         else
                         {
                             if (testMethodNames.Contains(testMethod.Name))
                             {
-                                //testMethod.Enable = true;
-                                //testClass.ActiveCases++;
                             }
                             else
                             {
@@ -210,7 +203,6 @@ namespace MS.Test.Common.MsTestLib
 
                             if (testMethod.Tag != null && testCategories.Intersect<string>(testMethod.Tag).Count<string>() > 0)
                             {
-                                //testMethod.Enable = true;
                             }
                             else
                             {
@@ -374,10 +366,7 @@ namespace MS.Test.Common.MsTestLib
                             if (testInitOK)
                             {
                                 // deal with timeout
-                                //testMethod.TestCase.Invoke(testObject, new object[] { });
 
-                                //Exception innerException = null;
-                                //AutoResetEvent testExecutionDone = new AutoResetEvent(false);
 
                                 TestThreadArgs threadArgs = new TestThreadArgs();
                                 threadArgs.InnerException = null;
