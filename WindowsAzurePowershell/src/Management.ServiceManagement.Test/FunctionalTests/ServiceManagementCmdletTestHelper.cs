@@ -386,12 +386,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             return RunPSCmdletAndReturnFirst<PersistentVM>(new AddAzureEndpointCmdletInfo(endPointConfig));            
         }
-
-        public PersistentVM AddAzureEndPointNoLB(AzureEndPointConfigInfo endPointConfig)
-        {
-            return RunPSCmdletAndReturnFirst<PersistentVM>(AddAzureEndpointCmdletInfo.BuildNoLoadBalancedCmdletInfo(endPointConfig));            
-        }
-
+        
         public void AddEndPoint(string vmName, string serviceName, AzureEndPointConfigInfo [] endPointConfigs)
         {          
             
@@ -400,7 +395,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             foreach (AzureEndPointConfigInfo config in endPointConfigs)
             {
                 config.Vm = vm;
-                vm = AddAzureEndPointNoLB(config);
+                vm = AddAzureEndPoint(config);
             }
             UpdateAzureVM(vmName, serviceName, vm);
         }
@@ -414,7 +409,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             if (null != endPointConfig)
             {
-                return RunPSCmdletAndReturnFirst<PersistentVM>(SetAzureEndpointCmdletInfo.BuildNoLoadBalancedCmdletInfo(endPointConfig));                
+                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureEndpointCmdletInfo(endPointConfig));                
             }
             return null;
         }
