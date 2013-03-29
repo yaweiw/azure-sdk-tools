@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ namespace CLITest.Util
         private static void GenerateTempFiles(string rootPath, string relativePath, int depth, List<string> files)
         {
             Random random = new Random();
-            string[] specialNames = { "pageabc", "blockabc ", "pagea b", "block abc", "page??", "block? ?", "page ??", "block?? ", "page.abc", "block.a bc", "page .abc", "block .abc ", string.Empty };
+            string[] specialNames = { "pageabc", "blockabc ", "pagea b", "block abc", "page中文", "block中 文", "page 中文", "block中文 ", "page.abc", "block.a bc", "page .abc", "block .abc ", string.Empty };
 
             //TODO minEntityCount should be 0 after using parallel uploading and downloading. refer to bug#685185
             int minEntityCount = 1;

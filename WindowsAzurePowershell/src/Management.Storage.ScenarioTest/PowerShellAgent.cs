@@ -114,7 +114,7 @@ namespace CLITest
         public static void RemoveAzureSubscriptionIfExists()
         {
             PowerShell ps = PowerShell.Create(_InitState);
-            ps.AddScript("Get-AzureSubscription | Remove-AzureSubscription");
+            ps.AddScript("Get-AzureSubscription | Remove-AzureSubscription -Force");
             ps.Invoke();
         }
 
@@ -533,7 +533,7 @@ namespace CLITest
             bool Force = true, int ConcurrentCount = -1)
         {
             PowerShell ps = GetPowerShellInstance();
-            //AttachPipeline(ps);
+            AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlobContent");
 
             if (!string.IsNullOrEmpty(Blob))
