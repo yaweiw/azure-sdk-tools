@@ -86,11 +86,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     Vip = ep.Vip
                 };
 
+                
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
                 {
                     endpointCtx.ProbePath = ep.LoadBalancerProbe.Path;
                     endpointCtx.ProbePort = ep.LoadBalancerProbe.Port;
                     endpointCtx.ProbeProtocol = ep.LoadBalancerProbe.Protocol;
+                    endpointCtx.ProbeIntervalInSeconds = ep.LoadBalancerProbe.IntervalInSeconds;
+                    endpointCtx.ProbeTimeoutInSeconds = ep.LoadBalancerProbe.TimeoutInSeconds;
                 }
 
                 endpoints.Add(endpointCtx);

@@ -172,8 +172,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             }
             else if (ParameterSetName == LoadBalancedParameterSet)
             {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe();
+                endpoint.LoadBalancedEndpointSetName = LBSetName;                
             }
 
             WriteObject(VM, true);
