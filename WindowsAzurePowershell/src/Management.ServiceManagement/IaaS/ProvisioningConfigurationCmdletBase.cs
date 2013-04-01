@@ -199,8 +199,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disables WinRM on http/https")]
-        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Disables WinRM on http/https")]
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Certificate that will be associated with WinRM endpoint.")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Certificate that will be associated with WinRM endpoint.")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2 WinRMCertificate
         {
@@ -208,8 +208,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "X509Certificates that will be deployed")]
-        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "X509Certificates that will be deployed")]
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "X509Certificates that will be deployed to hosted service.")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "X509Certificates that will be deployed to hosted service.")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2[] X509Certificates
         {
