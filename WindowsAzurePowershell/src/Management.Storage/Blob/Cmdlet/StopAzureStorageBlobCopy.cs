@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 
     [Cmdlet(VerbsLifecycle.Stop, StorageNouns.CopyBlob, ConfirmImpact = ConfirmImpact.High, DefaultParameterSetName = NameParameterSet),
        OutputType(typeof(AzureStorageBlob))]
-    public class StopCopyAzureStorageBlob : StorageCloudBlobCmdletBase
+    public class StopAzureStorageBlobCopy : StorageCloudBlobCmdletBase
     {
         /// <summary>
         /// Blob Pipeline parameter set name
