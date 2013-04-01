@@ -158,14 +158,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disable the upload of certificates")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter SkipCertAutoUpload
-        {
-            get;
-            set;
-        }
-
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Certificate that will be associated with WinRM endpoint")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2 WinRMCertificate
@@ -295,7 +287,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (!String.IsNullOrEmpty(VNetName) && serviceExists == false)
+            if (!serviceExists)
             {
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
@@ -326,30 +318,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (!this.SkipCertAutoUpload.IsPresent)
+            if (WinRMCertificate != null)
             {
-                if (WinRMCertificate != null)
-                {
-                    var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, WinRMCertificate.Thumbprint);
-                    var certificateFile = CertificateFileFactory.Create(WinRMCertificate, this.SkipCertAutoUpload.IsPresent);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
-                }
+                var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, WinRMCertificate.Thumbprint);
+                var certificateFile = CertificateFileFactory.Create(WinRMCertificate, this.NoExportPrivateKey.IsPresent);
+                ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+            }
 
-                if(X509Certificates != null)
+            if(X509Certificates != null)
+            {
+                var certificateFilesWithThumbprint = from c in X509Certificates
+                                                        select new
+                                                        {
+                                                            c.Thumbprint,
+                                                            CertificateFile = CertificateFileFactory.Create(c, this.NoExportPrivateKey.IsPresent)
+                                                        };
+                foreach (var current in certificateFilesWithThumbprint.ToList())
                 {
-                    var certificateFilesWithThumbprint = from c in X509Certificates
-                                                         select new
-                                                         {
-                                                             c.Thumbprint,
-                                                             CertificateFile = CertificateFileFactory.Create(c, this.SkipCertAutoUpload.IsPresent)
-                                                         };
-                    foreach (var current in certificateFilesWithThumbprint.ToList())
-                    {
-                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
-                    }
+                    var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
                 }
             }
+
             var vm = CreatePersistenVMRole(currentStorage);
 
             // If the current deployment doesn't exist set it create it

@@ -126,14 +126,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
-        [Parameter(Mandatory = false, HelpMessage = "Disable the upload of certificates")]
-        [ValidateNotNullOrEmpty]
-        public SwitchParameter SkipCertAutoUpload
-        {
-            get;
-            set;
-        }
-
         [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter WaitForBoot
@@ -195,33 +187,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 return;
             }
 
-            if (!this.SkipCertAutoUpload.IsPresent)
+            foreach (var vm in VMs)
             {
-                foreach (var vm in VMs)
+                var configuration = vm.ConfigurationSets.OfType<WindowsProvisioningConfigurationSet>().FirstOrDefault();
+                if (configuration == null)
                 {
-                    var configuration = vm.ConfigurationSets.OfType<WindowsProvisioningConfigurationSet>().FirstOrDefault();
-                    if (configuration == null)
-                    {
-                        var message = string.Format("PersistentVM '{0}' does not have WindowsProvisioningConfigurationSet", vm.RoleName);
-                        throw new ArgumentOutOfRangeException(message);
-                    }
-                    if (vm.WinRMCertificate != null)
-                    {
-                        var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
-                        var certificateFile = CertificateFileFactory.Create(vm.WinRMCertificate, vm.NoExportPrivateKey);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
-                    }
-                    var certificateFilesWithThumbprint = from c in vm.X509Certificates
-                                                         select new
-                                                         {
-                                                             c.Thumbprint,
-                                                             CertificateFile = CertificateFileFactory.Create(c, vm.NoExportPrivateKey)
-                                                         };
-                    foreach (var current in certificateFilesWithThumbprint.ToList())
-                    {
-                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
-                    }
+                    var message = string.Format("PersistentVM '{0}' does not have WindowsProvisioningConfigurationSet", vm.RoleName);
+                    throw new ArgumentOutOfRangeException(message);
+                }
+                if (vm.WinRMCertificate != null)
+                {
+                    var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
+                    var certificateFile = CertificateFileFactory.Create(vm.WinRMCertificate, vm.NoExportPrivateKey);
+                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+                }
+                var certificateFilesWithThumbprint = from c in vm.X509Certificates
+                                                        select new
+                                                        {
+                                                            c.Thumbprint,
+                                                            CertificateFile = CertificateFileFactory.Create(c, vm.NoExportPrivateKey)
+                                                        };
+                foreach (var current in certificateFilesWithThumbprint.ToList())
+                {
+                    var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
                 }
             }
 
