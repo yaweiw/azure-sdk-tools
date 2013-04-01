@@ -178,6 +178,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0}-{1}.
+        /// </summary>
+        internal static string CmdletFormat {
+            get {
+                return ResourceManager.GetString("CmdletFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to blob &apos;{0}&apos; in container &apos;{1}&apos; with CopyId {2}..
         /// </summary>
         internal static string ConfirmAbortCopyOperation {
