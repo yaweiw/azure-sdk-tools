@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -24,6 +24,5 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         public const string ClientSessionIdHeaderName = "x-ms-client-session-id";
         public const string ClientRequestIdHeaderName = "x-ms-client-request-id";
         public const string RequestIdHeaderName = "x-ms-request-id";
-        public const string WindowsAzurePowerShellUserAgent = "Windows Azure PowerShell/v0.6.5";
     }
 }

@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
-    using System;    using System.IO;
+    using System;
+    using System.IO;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Microsoft.WindowsAzure.Management.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
 
     [TestClass]
     public class ServerTest

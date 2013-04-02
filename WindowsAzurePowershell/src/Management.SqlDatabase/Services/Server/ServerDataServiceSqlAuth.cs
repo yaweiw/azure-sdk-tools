@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------
 //
-// Copyright 2011 Microsoft Corporation
+// Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
     using System.Xml.Linq;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Implementation of the <see cref="IServerDataServiceContext"/> with Sql Authentication.
@@ -485,7 +486,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Server
             }
 
             // Add the UserAgent string
-            request.UserAgent = Constants.WindowsAzurePowerShellUserAgent;
+            request.UserAgent = ApiConstants.UserAgentHeaderValue;
 
             // Add the access token header
             request.Headers[DataServiceConstants.AccessTokenHeader] = context.accessToken.AccessToken;
