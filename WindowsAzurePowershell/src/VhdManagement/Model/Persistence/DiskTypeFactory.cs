@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Tools.Vhd.Model.Persistence
 {
     using System;
-    using System.IO;
 
     public class DiskTypeFactory
     {

@@ -19,12 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Sync.Upload
     using System.IO;
     using System.Linq;
     using System.Threading;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
+    using Sync.Download;
     using Tools.Vhd;
     using Tools.Vhd.Model.Persistence;
-    using Sync.Download;
 
     public class PatchingBlobCreator : BlobCreatorBase
     {

@@ -17,16 +17,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Management.Automation;
 using CLITest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
-using System.Management.Automation;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CLITest.BVT

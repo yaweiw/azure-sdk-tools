@@ -18,11 +18,11 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
-    using System.ServiceModel;
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.ServiceModel;
     using IaaS;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
 

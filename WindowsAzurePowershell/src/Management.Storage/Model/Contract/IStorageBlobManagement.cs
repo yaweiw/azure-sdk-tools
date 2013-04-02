@@ -14,10 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
 {
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
     using System.Collections.Generic;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// Blob management interface

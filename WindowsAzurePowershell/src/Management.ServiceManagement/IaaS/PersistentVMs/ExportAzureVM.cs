@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using Helpers;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsData.Export, "AzureVM")]

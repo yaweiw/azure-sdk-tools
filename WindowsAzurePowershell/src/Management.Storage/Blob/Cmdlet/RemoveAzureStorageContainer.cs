@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Management.Automation;
-    using System.Security.Permissions;
 
     /// <summary>
     /// remove specified azure container

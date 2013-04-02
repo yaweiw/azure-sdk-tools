@@ -16,8 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Sync
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Internal.Common;
     using Microsoft.WindowsAzure.Storage;
     using Sync.Upload;
