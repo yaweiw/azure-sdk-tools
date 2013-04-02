@@ -17,12 +17,10 @@ using System.Net;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.ServiceModel;
     using System.Management.Automation;
-    using Helpers;
+    using System.ServiceModel;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 

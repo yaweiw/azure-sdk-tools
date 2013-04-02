@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.UnitTests.MockServer
 {
     using System;
-    using System.Net;
     using System.Runtime.Serialization;
 
     /// <summary>

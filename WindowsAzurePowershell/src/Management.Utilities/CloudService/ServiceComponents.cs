@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class ServiceComponents
     {

@@ -412,3 +412,22 @@ function Test-StopAzureServiceWithStagingDeployment
 	# Assert
 	Assert-True { $Stopped }
 }
+
+########################################################################### Start-AzureEmulator Scenario Tests ###################################################################
+
+<#
+.SYNOPSIS
+Executes Start-AzureEmulator two times and expect to proceed.
+#>
+function Test-StartAzureEmulatorTwice
+{
+	# Setup
+	New-TinyCloudServiceProject test
+	Start-AzureEmulator
+
+	# Test
+	$service = Start-AzureEmulator
+	
+	# Assert
+	Assert-NotNull $service
+}

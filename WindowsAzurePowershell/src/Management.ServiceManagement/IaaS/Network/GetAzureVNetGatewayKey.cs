@@ -14,11 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
-    using Service.Gateway;
     using Model;
+    using Service.Gateway;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetGatewayKey"), OutputType(typeof(SharedKeyContext))]
     public class GetAzureVNetGatewayKeyCommand : GatewayCmdletBase

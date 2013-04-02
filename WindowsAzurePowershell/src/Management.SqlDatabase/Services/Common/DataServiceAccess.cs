@@ -19,9 +19,8 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
     using System.IO;
     using System.Net;
     using System.Text;
-    using System.Threading;
     using System.Xml.Linq;
-    using Microsoft.WindowsAzure.Management.SqlDatabase.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     /// <summary>
     /// Defines the implementation of the <see cref="DataServiceAccess"/> utility class.
@@ -112,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services.Common
             string encodedCredentials = Convert.ToBase64String(Encoding.UTF8.GetBytes(escapedCredentials));
 
             request.Headers[LogOnServiceHeader] = string.Format(CultureInfo.InvariantCulture, HeaderFormatter, encodedCredentials);
-            request.UserAgent = Constants.WindowsAzurePowerShellUserAgent;
+            request.UserAgent = ApiConstants.UserAgentHeaderValue;
 
             request.CookieContainer = new CookieContainer();
 

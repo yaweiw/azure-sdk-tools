@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
 {
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
-    using System;
 
     /// <summary>
     /// unit test for NameUtil

@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Threading;
+    using Microsoft.WindowsAzure.Storage;
 
     internal class CmdletOperationContext
     {

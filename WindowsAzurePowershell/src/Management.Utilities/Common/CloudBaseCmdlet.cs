@@ -24,7 +24,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
     using System.Threading;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
 
@@ -206,7 +205,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 ServiceBinding,
                 new Uri(ServiceEndpoint),
                 CurrentSubscription.Certificate,
-                new HttpRestMessageInspector(text => this.WriteDebug(text)));
+                new HttpRestMessageInspector(WriteDebug));
         }
 
         protected void RetryCall(Action<string> call)
