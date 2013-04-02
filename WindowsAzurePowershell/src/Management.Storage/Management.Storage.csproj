@@ -100,6 +100,12 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
+    <Compile Include="Model\Contract\IStorageTableManagement.cs" />
+    <Compile Include="Model\Contract\StorageQueueManagement.cs" />
+    <Compile Include="Model\Contract\StorageTableManagement.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageQueue.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageTable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageBlob.cs" />
     <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
@@ -107,11 +113,19 @@
     <Compile Include="Model\ResourceModel\AzureStorageBase.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageContext.cs" />
+    <Compile Include="Queue\Cmdlet\GetAzureStorageQueue.cs" />
+    <Compile Include="Queue\Cmdlet\NewAzureStorageQueue.cs" />
+    <Compile Include="Queue\Cmdlet\RemoveAzureStorageQueue.cs" />
+    <Compile Include="Queue\StorageQueueBaseCmdlet.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Table\Cmdlet\GetStorageAzureTable.cs" />
+    <Compile Include="Table\Cmdlet\NewStorageAzureTable.cs" />
+    <Compile Include="Table\Cmdlet\RemoveStorageAzureTable.cs" />
+    <Compile Include="Table\StorageCloudTableCmdletBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
