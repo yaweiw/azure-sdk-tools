@@ -28,7 +28,7 @@ namespace CLITest
     /// <summary>
     /// this class contains all the functional test cases for PowerShell Table cmdlets
     /// </summary>
-    //[TestClass]
+    [TestClass]
     class CLITableFunc
     {
         private static CloudStorageAccount _StorageAccount;

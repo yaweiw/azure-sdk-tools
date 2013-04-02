@@ -239,8 +239,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for New-AzureStorageTable
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void NewTableTest()
         {
             NewTableTest(new PowerShellAgent());
@@ -249,8 +249,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Get-AzureStorageTable
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void GetTableTest()
         {
             GetTableTest(new PowerShellAgent());
@@ -259,8 +259,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Remove-AzureStorageTable
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void RemoveTableTest()
         {
             RemoveTableTest(new PowerShellAgent());
@@ -269,8 +269,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for New-AzureStorageQueue
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void NewQueueTest()
         {
             NewQueueTest(new PowerShellAgent());
@@ -279,8 +279,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Get-AzureStorageQueue
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void GetQueueTest()
         {
             GetQueueTest(new PowerShellAgent());
@@ -289,8 +289,8 @@ namespace CLITest.BVT
         /// <summary>
         /// BVT case : for Remove-AzureStorageQueue
         /// </summary>
-        //[TestMethod]
-        //[TestCategory(Tag.BVT)]
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
         public void RemoveQueueTest()
         {
             RemoveQueueTest(new PowerShellAgent());

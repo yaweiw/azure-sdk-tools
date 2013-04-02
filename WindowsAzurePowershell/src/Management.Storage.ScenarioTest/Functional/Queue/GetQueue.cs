@@ -25,7 +25,7 @@ namespace CLITest.Functional.Queue
     /// <summary>
     /// general settings for queue related tests
     /// </summary>
-    //[TestClass]
+    [TestClass]
     public class GetQueue : TestBase
     {
 
@@ -46,10 +46,10 @@ namespace CLITest.Functional.Queue
         /// 8.7	Get-AzureStorageQueue Positive Functional cases
         ///     6. Write Metadata to the specific queue Get the Metadata from the specific queue
         /// </summary>
-        //[TestMethod()]
-        //[TestCategory(Tag.Function)]
-        //[TestCategory(PsTag.Queue)]
-        //[TestCategory(PsTag.GetQueue)]
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Queue)]
+        [TestCategory(PsTag.GetQueue)]
         //TODO add test for Get-AzureStorageQueue -Name String.Empty
         public void GetSpecifiedQueueWithMetaData()
         {
