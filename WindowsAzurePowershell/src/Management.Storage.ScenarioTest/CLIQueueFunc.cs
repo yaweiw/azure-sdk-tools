@@ -29,7 +29,7 @@ namespace CLITest
     /// <summary>
     /// this class contains all the functional test cases for PowerShell Queue cmdlets
     /// </summary>
-    //[TestClass]
+    [TestClass]
     class CLIQueueFunc
     {
         private static CloudStorageAccount _StorageAccount;
