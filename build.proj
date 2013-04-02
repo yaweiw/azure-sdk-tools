@@ -2,7 +2,7 @@
 <Project
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   ToolsVersion="4.0"
-  DefaultTargets="Clean;Build;Publish">
+  DefaultTargets="Clean;BuildDebug;BuildReleaseSigned;BuildSetupDebug">
   
   <!-- Define build properties -->
   <PropertyGroup>
@@ -10,19 +10,25 @@
     <ManagementTestDirectory>.\WindowsAzurePowershell\src\Management.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Management.Test.dll</ManagementTestAssemblyName>
 
-    <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
-    <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
-    <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
-
-	<TestMetadata>.\WindowsAzurePowershell\src\WindowsAzurePowershell.vsmdi</TestMetadata>	
-    <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>	
+    <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
+    <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
+    <StorageScenarioTestDebug>WindowsAzurePowershell\src\Management.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
+    <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
+    <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+    <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+    <StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
+    <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>!Functional</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
+    <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
+	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
+	<ReleaseBuildConfig>Configuration=Release;Platform=Any CPU</ReleaseBuildConfig>
+	<ReleaseSignedBuildConfig>Configuration=ReleaseSigned;Platform=Any CPU</ReleaseSignedBuildConfig>
   </PropertyGroup>
   <ItemGroup>
     <CmdletSln Include=".\WindowsAzurePowershell\src\WindowsAzurePowershell.sln" />
@@ -32,39 +38,51 @@
   <!-- Clean the build in all configurations -->
   <Target Name="Clean">
     <!-- Clean the solutions -->
-    <Message Importance="high" Text="Cleaning Cmdlets..." ContinueOnError="true" />
+    <Message Importance="high" Text="Cleaning Cmdlets..." ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Debug"
-      ContinueOnError="true" />
+      Properties="$(DebugBuildConfig)"
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
-      ContinueOnError="true" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Clean"
-      Properties="Configuration=ReleaseSigned"
-      ContinueOnError="true" />
+      Properties="$(ReleaseSignedBuildConfig)"
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Clean"
-      Properties="Configuration=Release"
-      ContinueOnError="true" />
+      Properties="$(ReleaseBuildConfig)"
+      ContinueOnError="false" />
+	<MSBuild
+      Projects="@(SetupSln)"
+      Targets="Clean"
+      Properties="$(DebugBuildConfig)"
+      ContinueOnError="false" />
 
     <!-- Delete the publish files -->
-    <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="true" />
+    <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="false" />
     <ItemGroup>
       <PublishFiles Include="$(PublishDirectory)\**\*.*" />
     </ItemGroup>
     <Delete
       Files="@(PublishFiles)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <RemoveDir
       Directories="$(PublishDirectory)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
+	  
+	<!-- Delete the package files -->
+    <Message Importance="high" Text="Cleaning package files..." ContinueOnError="false" />
+    <ItemGroup>
+      <PackageFiles Include="$(PackageDirectory)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(PackageFiles)"
+      ContinueOnError="false" />
+    <RemoveDir
+      Directories="$(PackageDirectory)"
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build all flavors of the Cmdlets -->
@@ -73,18 +91,30 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Debug"
-      ContinueOnError="true" />
+      Properties="$(DebugBuildConfig)"
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Build"
-      Properties="Configuration=Release"
-      ContinueOnError="true" />
+      Properties="$(ReleaseSignedBuildConfig)"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Build the Setup -->
+  <Target Name="BuildSetupDebug">
+    <Message
+      Importance="high"
+      Text="Building Setup..."
+      ContinueOnError="false" />
+    <Message
+      Importance="high"
+      Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
+      ContinueOnError="false" />
     <MSBuild
-      Projects="@(CmdletSln)"
+      Projects="@(SetupSln)"
       Targets="Build"
-      Properties="Configuration=ReleaseSigned"
-      ContinueOnError="true" />
+      Properties="$(DebugBuildConfig)"
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build the Setup -->
@@ -92,78 +122,84 @@
     <Message
       Importance="high"
       Text="Building Setup..."
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Message
       Importance="high"
       Text="You are required to have installed the WiX Toolset at http://wix.codeplex.com/releases/view/60102 (Wix35.msi)"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <MSBuild
       Projects="@(SetupSln)"
       Targets="Build"
-      Properties="Configuration=Release"
-      ContinueOnError="true" />
+      Properties="$(ReleaseBuildConfig)"
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build the Cmdlets and Setup in all configurations -->
-  <Target
-    Name="Build"
-    DependsOnTargets="BuildCmdlets;BuildSetup" />
-  
-  <!-- Publish any build artificates to the Publish directory -->
-  <Target Name="Publish" DependsOnTargets="Build">
-    
-    <!-- Copy code artifacts -->
-    <Message Importance="high" Text="Publishing Cmdlets..." ContinueOnError="true" />
-    <ItemGroup>
-      <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
-	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
-      <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
-	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
-    </ItemGroup>
-    <MakeDir
-      Directories="$(BuildOutputDirectory)"
-      ContinueOnError="true" />
-    <Copy
-      SourceFiles="@(DebugFiles)"
-      DestinationFiles="@(DebugFiles->'$(BuildOutputDirectory)\Debug\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="true" />
-    <Copy
-      SourceFiles="@(ReleaseFiles)"
-      DestinationFiles="@(ReleaseFiles->'$(BuildOutputDirectory)\Release\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="true" />
-    
-    <!-- Copy the Setup artifacts -->
-    <Message Importance="high" Text="Publishing Setup..." ContinueOnError="true" />
-    <ItemGroup>
-      <SetupFiles Include="$(SetupDirectory)\**\*.*" />
-    </ItemGroup>
-    <Copy
-      SourceFiles="@(SetupFiles)"
-      DestinationFiles="@(SetupFiles->'$(PublishDirectory)\Setup\%(RecursiveDir)%(Filename)%(Extension)')"
-      SkipUnchangedFiles="true"
-      ContinueOnError="true" />
-  </Target>
+  <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
   
   <!-- Run the unit tests -->
-  <Target Name="Test" DependsOnTargets="BuildCmdlets">
+  <Target Name="Test" DependsOnTargets="BuildDebug;BuildReleaseSigned">
     <Message Importance="high" Text="Running tests..." />
-    <Message Importance="high" Text="You are required to have installed the a version of Visual Studio with support for MSTest (and MSTest on your path)." />
-    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="true" />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
     
     <Message Importance="high" Text="Debug tests:" />
     <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="true" />
-    <Message Importance="high" Text="Release tests:" />
-    <Exec
-      Command="MSTest.exe /testmetadata:$(TestMetadata) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\Release.trx"
-      ContinueOnError="true" />
+      Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
+      ContinueOnError="false" />
+	<Exec
+      Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
+      ContinueOnError="false" />
   </Target>
   
-  <!-- Do everything possible -->
+  <!-- Run the scenario tests -->
+  <Target Name="ScenarioTest" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+    
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <!-- Run complete build with unit tests -->
   <Target
     Name="Full"
-    DependsOnTargets="Clean;Build;Publish;Test" />
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+  
+  <!-- Run Full switch with scenario tests -->
+  <Target
+    Name="FullWithScenarioTests"
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;ScenarioTest;BuildSetupDebug;BuildSetup" />
+
+  <!-- Build the Cmdlets in ReleaseSigned configuration -->
+  <Target Name="BuildReleaseSigned">
+    <Message Importance="high" Text="Building Cmdlets in ReleaseSigned config..." />
+    <MSBuild
+      Projects="@(CmdletSln)"
+      Targets="Build"
+      Properties="$(ReleaseSignedBuildConfig)"
+      ContinueOnError="false" />
+  </Target>
+
+  <!-- Build the Cmdlets in Debug configuration -->
+  <Target Name="BuildDebug">
+    <Message Importance="high" Text="Building Cmdlets in Debug config..." />
+    <MSBuild
+      Projects="@(CmdletSln)"
+      Targets="Build"
+      Properties="$(DebugBuildConfig)"
+      ContinueOnError="false" />
+  </Target>
 </Project>
