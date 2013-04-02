@@ -185,9 +185,8 @@ namespace CLITest
             //TODO The test is too large, need to split it into different tests
             StorageContainerTest(agent);
 
-            //TODO roll back the source code after March release in 2013.
-            //StorageQueueTest(agent);
-            //StorageTableTest(agent);
+            StorageQueueTest(agent);
+            StorageTableTest(agent);
 
             string BlockFilePath = Test.Data.Get("BlockFilePath");
             string PageFilePath = Test.Data.Get("PageFilePath");
