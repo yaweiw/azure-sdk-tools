@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using Management.Model;
     using Model;
-    using Extensions;
+    using Management.Extensions;
     using Microsoft.WindowsAzure.Storage;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
