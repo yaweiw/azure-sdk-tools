@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
@@ -251,7 +253,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             provisioningConfiguration.AdminUsername = AdminUsername;
             provisioningConfiguration.AdminPassword = Password;            
             provisioningConfiguration.ResetPasswordOnFirstLogon = ResetPasswordOnFirstLogon.IsPresent;
-            provisioningConfiguration.StoredCertificateSettings = Certificates;
+            provisioningConfiguration.StoredCertificateSettings = CertUtils.GetCertificateSettings(Certificates, X509Certificates);
             provisioningConfiguration.EnableAutomaticUpdates = !DisableAutomaticUpdates.IsPresent;
 
             if (!string.IsNullOrEmpty(TimeZone))

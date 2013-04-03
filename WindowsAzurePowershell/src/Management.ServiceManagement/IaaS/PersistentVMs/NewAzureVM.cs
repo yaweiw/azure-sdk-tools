@@ -13,6 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 
+using System.Security.Cryptography.X509Certificates;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
@@ -152,7 +154,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storage account to set it.");
             }
 
-            var persistentVMs = this.VMs.Select(vm => CreatePersistenVMRole(vm, currentStorage)).ToList();
 
             Operation lastOperation = null;
 
@@ -190,29 +191,29 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             foreach (var vm in VMs)
             {
                 var configuration = vm.ConfigurationSets.OfType<WindowsProvisioningConfigurationSet>().FirstOrDefault();
-                if (configuration == null)
+                if (configuration != null)
                 {
-                    var message = string.Format("PersistentVM '{0}' does not have WindowsProvisioningConfigurationSet", vm.RoleName);
-                    throw new ArgumentOutOfRangeException(message);
-                }
-                if (vm.WinRMCertificate != null)
-                {
-                    var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
-                    var certificateFile = CertificateFileFactory.Create(vm.WinRMCertificate, vm.NoExportPrivateKey);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
-                }
-                var certificateFilesWithThumbprint = from c in vm.X509Certificates
-                                                        select new
-                                                        {
-                                                            c.Thumbprint,
-                                                            CertificateFile = CertificateFileFactory.Create(c, vm.NoExportPrivateKey)
-                                                        };
-                foreach (var current in certificateFilesWithThumbprint.ToList())
-                {
-                    var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    if (vm.WinRMCertificate != null)
+                    {
+                        var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
+                        var certificateFile = CertUtils.Create(vm.WinRMCertificate);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+                    }
+                    var certificateFilesWithThumbprint = from c in vm.X509Certificates
+                                                         select new
+                                                                {
+                                                                    c.Thumbprint,
+                                                                    CertificateFile = CertUtils.Create(c, vm.NoExportPrivateKey)
+                                                                };
+                    foreach (var current in certificateFilesWithThumbprint.ToList())
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    }
                 }
             }
+
+            var persistentVMs = this.VMs.Select(vm => CreatePersistenVMRole(vm, currentStorage)).ToList();
 
             // If the current deployment doesn't exist set it create it
             if (CurrentDeployment == null)
@@ -281,7 +282,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             for (int i = startingVM; i < persistentVMs.Count; i++)
             {
                 var operationDescription = string.Format("{0} - Create VM {1}", CommandRuntime, persistentVMs[i].RoleName);
-                ExecuteClientActionInOCS(persistentVMs[i],operationDescription, s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName, persistentVMs[i]));
+                ExecuteClientActionInOCS(persistentVMs[i],operationDescription, s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName ?? this.ServiceName, persistentVMs[i]));
             }
 
             if(this.WaitForBoot.IsPresent)

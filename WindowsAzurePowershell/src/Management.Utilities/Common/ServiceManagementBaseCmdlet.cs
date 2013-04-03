@@ -86,15 +86,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
 
-            try
-            {
-                RetryCall(action);
-                operation = GetOperation();
-            }
-            catch (ServiceManagementClientException ex)
-            {
-                WriteErrorDetails(ex);
-            }
+            RetryCall(action);
+            operation = GetOperation();
 
             WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
 
