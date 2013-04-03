@@ -89,8 +89,8 @@
     <Compile Include="Common\CmdletOperationContext.cs" />
     <Compile Include="Blob\StorageDataMovementCmdletBase.cs" />
     <Compile Include="Common\AzureToFileSystemFileNameResolver.cs" />
-    <Compile Include="Blob\Cmdlet\StartCopyAzureStorageBlob.cs" />
-    <Compile Include="Blob\Cmdlet\StopCopyAzureStorageBlob.cs" />
+    <Compile Include="Blob\Cmdlet\StartAzureStorageBlobCopy.cs" />
+    <Compile Include="Blob\Cmdlet\StopAzureStorageBlobCopy.cs" />
     <Compile Include="Common\CommunicationExceptionUtil.cs" />
     <Compile Include="Common\NameUtil.cs" />
     <Compile Include="Common\Cmdlet\NewAzureStorageContext.cs" />
