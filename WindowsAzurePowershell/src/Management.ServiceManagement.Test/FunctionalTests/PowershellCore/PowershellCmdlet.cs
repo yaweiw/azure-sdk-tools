@@ -54,8 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         public override Collection<PSObject> Run()
-        {
-            //string command;
+        {            
             Collection<PSObject> result;
             runspace.Open();
             using (var powershell = PowerShell.Create())
@@ -129,30 +128,5 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             return result;
         }
-
-        //private void PrintPSCommand(PowerShell powershell)
-        //{
-
-        //    StringBuilder command = new StringBuilder();
-        //    for (int i = 0; i < powershell.Commands.Commands.Count; i++)
-        //    {
-
-        //        command.Append(powershell.Commands.Commands[i].CommandText + " ");
-
-        //        for (int j = 0; j < powershell.Commands.Commands[i].Parameters.Count; j++)
-        //        {
-        //            command.Append("-" + powershell.Commands.Commands[i].Parameters[j].Name + " ");
-        //            var value = powershell.Commands.Commands[i].Parameters[j].Value;
-        //            if (value != null)
-        //            {
-        //                command.Append("\"" + value.ToString() + "\" ");
-        //            }
-        //            command.Append("\n");
-        //        }
-        //    }
-
-        //    Console.WriteLine(command);
-
-        //}
     }
 }

@@ -70,7 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://pstestrepo.blob.core.windows.net/.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string BlobUrl {
             get {
@@ -79,7 +79,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to RdfeNextDan.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string DefaultSubscriptionName {
             get {
@@ -97,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C:\Users\dagarv\Desktop\RDFENextDan.publishsettings.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string PublishSettingsFile {
             get {
@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \\watest\public\PSTest\oneGBFixedWS2008R2.vhd.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string Vhd {
             get {

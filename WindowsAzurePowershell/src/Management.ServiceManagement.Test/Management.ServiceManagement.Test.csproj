@@ -231,7 +231,6 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureSubscriptionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellCmdletSequence.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellCmdlet.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureQuickLinuxVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\CmdletsInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\CmdletParam.cs" />
     <Compile Include="FunctionalTests\PowershellCore\PowershellCmdlet.cs" />
