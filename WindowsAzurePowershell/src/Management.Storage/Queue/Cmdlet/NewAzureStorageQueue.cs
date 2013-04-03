@@ -70,9 +70,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
                 throw new ResourceAlreadyExistException(String.Format(Resources.QueueAlreadyExists, name));
             }
 
-            //set msg count
-            Channel.FetchAttributes(queue, requestOptions, OperationContext);
-
             return new AzureStorageQueue(queue);
         }
 
