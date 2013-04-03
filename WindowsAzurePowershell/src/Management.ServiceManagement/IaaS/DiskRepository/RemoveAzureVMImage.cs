@@ -17,11 +17,10 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
     using System;
-    using System.ServiceModel;
     using System.Management.Automation;
-    using Management.Model;
+    using System.ServiceModel;
     using Helpers;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet

@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Storage;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Storage;
     using ServiceModel = System.ServiceModel;
 
     /// <summary>
@@ -31,7 +31,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     {
         [Parameter(HelpMessage = "Azure Storage Context Object",
             ValueFromPipelineByPropertyName = true)]
-        public AzureStorageContext Context {get; set;}
+        public virtual AzureStorageContext Context {get; set;}
 
         /// <summary>
         /// whether stop processing
@@ -105,6 +105,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         internal void WriteObjectWithStorageContext(AzureStorageBase item)
         {
             item.Context = Context;
+
             WriteObject(item);
         }
 
@@ -207,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
             }
             else
             {
-                WriteVerboseWithTimestamp(Resources.GetStorageAccountFromEnvironmentVariable);
+                WriteDebugLog(Resources.GetStorageAccountFromEnvironmentVariable);
 
                 try
                 {
@@ -238,10 +239,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
-        /// get the error category for specificed exception
+        /// Get the error category for specificed exception
         /// </summary>
-        /// <param name="e">exception object</param>
-        /// <returns>error category</returns>
+        /// <param name="e">Exception object</param>
+        /// <returns>Error category</returns>
         protected ErrorCategory GetExceptionErrorCategory(Exception e)
         {
             ErrorCategory errorCategory = ErrorCategory.CloseError; //default error category

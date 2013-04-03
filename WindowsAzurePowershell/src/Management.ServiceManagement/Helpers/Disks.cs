@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
 {
     using System;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Storage.Blob;
     using Microsoft.WindowsAzure.Storage.Auth;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     public static class Disks
     {

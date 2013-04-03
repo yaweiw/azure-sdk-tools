@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
     using IaaS;
+    using Microsoft.WindowsAzure.ServiceManagement;
     using Model;
 
     [Cmdlet(VerbsCommon.Set, "AzureEndpoint", DefaultParameterSetName = "NoLB"), OutputType(typeof(IPersistentVM))]
@@ -172,8 +172,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             }
             else if (ParameterSetName == LoadBalancedParameterSet)
             {
-                endpoint.LoadBalancedEndpointSetName = LBSetName;
-                endpoint.LoadBalancerProbe = new LoadBalancerProbe();
+                endpoint.LoadBalancedEndpointSetName = LBSetName;                
             }
 
             WriteObject(VM, true);

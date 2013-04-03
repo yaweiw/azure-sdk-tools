@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -26,6 +25,11 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
     /// </summary>
     internal class NameUtil
     {
+        /// <summary>
+        /// Max file length in windows
+        /// </summary>
+        public const int WindowsMaxFileNameLength = 256;
+
         /// <summary>
         /// Is valid container name <see cref="http://msdn.microsoft.com/en-us/library/windowsazure/dd135715.aspx"/>
         /// </summary>
@@ -171,9 +175,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         public static bool IsValidFileName(string fileName)
         {
             //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#maxpath
-            int maxFileLength = 256;
 
-            if (string.IsNullOrEmpty(fileName) || fileName.Length > maxFileLength)
+            if (string.IsNullOrEmpty(fileName) || fileName.Length > WindowsMaxFileNameLength)
             {
                 return false;
             }
@@ -193,6 +196,52 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 bool forbidden = forbiddenList.Contains(realName);
                 return !forbidden;
             }
+        }
+
+        /// <summary>
+        /// convert blob name into valid file name
+        /// </summary>
+        /// <param name="blobName">blob name</param>
+        /// <returns>valid file name</returns>
+        public static string ConvertBlobNameToFileName(string blobName, DateTimeOffset? snapshotTime)
+        {
+            string fileName = blobName;
+
+            //replace dirctionary
+            Dictionary<string, string> replaceRules = new Dictionary<string, string>()
+	            {
+	                {"/", "\\"}
+	            };
+
+            foreach (KeyValuePair<string, string> rule in replaceRules)
+            {
+                fileName = fileName.Replace(rule.Key, rule.Value);
+            }
+
+            if (snapshotTime != null)
+            {
+                int index = fileName.LastIndexOf('.');
+
+                string prefix = string.Empty;
+                string postfix = string.Empty;
+                string timeStamp = string.Format("{0:u}", snapshotTime.Value);
+                timeStamp = timeStamp.Replace(":", string.Empty).TrimEnd(new char[] { 'Z' });
+
+                if(index == -1)
+                {
+                    prefix = fileName;
+                    postfix = string.Empty;
+                }
+                else
+                {
+                    prefix = fileName.Substring(0, index);
+                    postfix = fileName.Substring(index);
+                }
+
+                fileName = string.Format(Resources.FileNameFormatForSnapShot, prefix, timeStamp, postfix);
+            }
+
+            return fileName;
         }
     }
 }

@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Globalization;
-    using System.Management.Automation;
-    using System.Security.Permissions;
 
     /// <summary>
     /// create a new azure container
@@ -71,7 +71,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// create a new azure container
         /// </summary>
         /// <param name="name">container name</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal AzureStorageContainer CreateAzureContainer(string name, string accesslevel)
         {
             if (!NameUtil.IsValidContainerName(name))

@@ -12,8 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using System.Threading; //
+//
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
@@ -84,6 +83,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                     {
                         powershell.AddScript(cmdlets[i]);
                     }
+
+                    PrintPSCommand(powershell);
+
                     result = powershell.Invoke();
 
                     if (powershell.Streams.Error.Count > 0)

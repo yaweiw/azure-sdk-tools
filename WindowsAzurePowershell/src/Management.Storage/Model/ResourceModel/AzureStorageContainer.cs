@@ -14,11 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
 {
-    using Microsoft.WindowsAzure.Storage.Blob;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Microsoft.WindowsAzure.Storage.Blob;
 
     /// <summary>
     /// azure storage container
@@ -33,12 +30,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         /// <summary>
         /// the permission of CloudBlobContainer
         /// </summary>
-        public BlobContainerPermissions Permissions { get; private set; }
+        public BlobContainerPermissions Permission { get; private set; }
 
         /// <summary>
         /// the public accesss level of CloudBlobContainer
         /// </summary>
-        public BlobContainerPublicAccessType PublicAccess { get; private set; }
+        public BlobContainerPublicAccessType? PublicAccess { get; private set; }
 
         /// <summary>
         /// last modified of CloudBlobContainer
@@ -53,9 +50,18 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         public AzureStorageContainer(CloudBlobContainer container, BlobContainerPermissions permissions)
         {
             CloudBlobContainer = container;
-            Permissions = permissions;
+            Permission = permissions;
             Name = container.Name;
-            PublicAccess = permissions.PublicAccess;
+
+            if (permissions == null)
+            {
+                PublicAccess = null;
+            }
+            else
+            {
+                PublicAccess = permissions.PublicAccess;
+            }
+
             LastModified = container.Properties.LastModified;
         }
     }

@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
     using System.Management.Automation;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");
             string newAzureQuickVMSvcName = Utilities.GetUniqueShortName("PSTestService");
 
-            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "p@ssw0rd", locationName);
+            vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, newAzureQuickVMName, newAzureQuickVMSvcName, imageName, "pstestuser", "p@ssw0rd", locationName);
 
             // Verify
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);

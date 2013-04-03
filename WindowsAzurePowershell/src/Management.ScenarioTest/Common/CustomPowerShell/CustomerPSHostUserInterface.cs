@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common.CustomPowerShell
     using System.Management.Automation;
     using System.Management.Automation.Host;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Store.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Store;
 
     class CustomerPSHostUserInterface : PSHostUserInterface
     {

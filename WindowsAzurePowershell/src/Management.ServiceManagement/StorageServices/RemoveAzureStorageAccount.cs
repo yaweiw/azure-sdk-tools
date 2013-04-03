@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
-    using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     /// <summary>
     /// Deletes the specified storage account from Windows Azure.
