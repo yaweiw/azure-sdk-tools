@@ -32,10 +32,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             pass = true;
             testStartTime = DateTime.Now;
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
-
-            // Set the source blob
-            //blobHandle = getBlobHandle(vhdBlobLocation);               
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);          
         }
 
 
@@ -766,8 +763,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string childVhdDestUri = blobUrlRoot + childVhdBlobName;
 
             // Start uploading the child vhd...
-            Console.WriteLine("uploads {0} to {1}", childVhdName, childVhdBlobName);
-            //var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(childVhdDestUri, childVhdLocalPath.FullName, vhdDestUri));
+            Console.WriteLine("uploads {0} to {1}", childVhdName, childVhdBlobName);            
             var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(childVhdLocalPath, childVhdDestUri, vhdDestUri);
             Console.WriteLine("uploading completed: {0}", childVhdName);
 
@@ -844,7 +840,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         /// <summary>
-        /// 
+        /// This test is ignored until patching scenario is available for SAS Uri.
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
@@ -1057,22 +1053,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestCleanup]
         public virtual void CleanUp()
         {
-            Console.WriteLine("Test {0}", pass ? "passed" : "failed");
-            
-            //if (pass)
-            //{                
-            //    Console.WriteLine("Test passed.");
-
-            //    //DateTime testEndTime = DateTime.Now;
-            //    //Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
-            //    //Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
-
-            //    //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
-            //}
-            //else
-            //{
-            //    Assert.Fail("Test failed.");
-            //}
+            Console.WriteLine("Test {0}", pass ? "passed" : "failed");                        
         }
     }
 }
