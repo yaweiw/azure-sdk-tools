@@ -14,13 +14,14 @@
 
 namespace Microsoft.WindowsAzure.Management.SqlDatabase.Test.FunctionalTests
 {
-    using System;    using System.IO;
+    using System;
+    using System.IO;
     using System.Xml.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Firewall.Cmdlet;
     using Microsoft.WindowsAzure.Management.SqlDatabase.Test.Utilities;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Microsoft.WindowsAzure.Management.XmlSchema;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema;
 
     [TestClass]
     public class ServerTest

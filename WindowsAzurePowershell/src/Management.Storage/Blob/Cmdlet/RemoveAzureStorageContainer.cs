@@ -14,16 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
 {
+    using System;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Management.Automation;
-    using System.Security.Permissions;
-    using System.Text;
 
     /// <summary>
     /// remove specified azure container
@@ -73,7 +70,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// </summary>
         /// <param name="message">confirmation message</param>
         /// <returns>true if the operation is confirmed by user, otherwise false</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal virtual bool ConfirmRemove(string message)
         {
             return ShouldProcess(message);
@@ -83,7 +79,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         /// remove azure container by container name
         /// </summary>
         /// <param name="name">container name</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal void RemoveAzureContainer(string name)
         {
             if (!NameUtil.IsValidContainerName(name))

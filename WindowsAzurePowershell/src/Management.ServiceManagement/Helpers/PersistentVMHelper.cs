@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
     using System;
     using System.IO;
     using System.Xml.Serialization;
-    using WindowsAzure.ServiceManagement;
     using Model;
+    using WindowsAzure.ServiceManagement;
 
     public static class PersistentVMHelper
     {

@@ -14,12 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.Storage;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading;
+    using Microsoft.WindowsAzure.Storage;
 
     internal class CmdletOperationContext
     {
@@ -139,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 
                 double elapsedTime = (context.EndTime - context.StartTime).TotalMilliseconds;
                 string message = String.Format(Resources.FinishRemoteCall,
-                    e.Request.RequestUri.ToString(), e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
+                    e.Request.RequestUri.ToString(), (int)e.Response.StatusCode, e.Response.StatusCode, e.RequestInformation.ServiceRequestID, elapsedTime);
 
                 try
                 {

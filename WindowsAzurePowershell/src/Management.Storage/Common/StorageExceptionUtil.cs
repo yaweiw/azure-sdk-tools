@@ -14,11 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common
 {
-    using Microsoft.WindowsAzure.Storage;
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using Microsoft.WindowsAzure.Storage;
 
     /// <summary>
     /// Storage exception utility
@@ -36,6 +33,16 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         }
 
         /// <summary>
+        /// Is the storage exception thrown with 2xx http status code
+        /// </summary>
+        /// <param name="e">Storage exception</param>
+        /// <returns>True if the http status code is 2xx, otherwise false</returns>
+        public static bool IsSuccessfulResponse(this StorageException e)
+        {
+            return e.RequestInformation != null && (e.RequestInformation.HttpStatusCode / 100 == 2);
+        }
+
+        /// <summary>
         /// Replace storage exception to expose more information in Message.
         /// </summary>
         /// <param name="e">StorageException from storage client</param>
@@ -46,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
                 null != e.RequestInformation.HttpStatusMessage)
             {
                 String msg = string.Format(
-                    "Error Message {0}. HTTP Status Code: {1} - HTTP Error Message: {2}",
+                    "{0} HTTP Status Code: {1} - HTTP Error Message: {2}",
                     e.Message,
                     e.RequestInformation.HttpStatusCode,
                     e.RequestInformation.HttpStatusMessage);

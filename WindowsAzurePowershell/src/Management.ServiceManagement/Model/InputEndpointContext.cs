@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using System;
 
     public class InputEndpointContext
     {
@@ -35,5 +34,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
         public int ProbePort { get; set; }
 
         public string ProbeProtocol { get; set; }
+
+        public int? ProbeIntervalInSeconds { get; set; }
+
+        public int? ProbeTimeoutInSeconds { get; set; }
     }
 }

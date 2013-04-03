@@ -18,7 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -28,6 +28,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
         protected PowerShell powershell;
         protected List<string> modules;
+
+        public TestContext TestContext { get; set; }
 
         public PowerShellTest(params string[] modules)
         {
@@ -64,13 +66,12 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
             }
             catch (Exception psException)
             {
-                powershell.LogPowerShellException(psException);
+                powershell.LogPowerShellException(psException, this.TestContext);
                 throw;
             }
             finally
             {
-                Console.WriteLine("History: {0}", powershell.HistoryString);
-                powershell.LogPowerShellResults(output);
+                powershell.LogPowerShellResults(output, this.TestContext);
             }
         }
 

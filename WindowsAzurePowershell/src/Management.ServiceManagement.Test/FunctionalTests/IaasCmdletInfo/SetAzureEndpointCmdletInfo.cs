@@ -14,23 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
     public class SetAzureEndpointCmdletInfo : CmdletsInfo
     {
-        public static SetAzureEndpointCmdletInfo BuildNoLoadBalancedCmdletInfo(AzureEndPointConfigInfo endPointConfig)
-        {
-            var result = new SetAzureEndpointCmdletInfo();
-
-            result.cmdletParams.Add(new CmdletParam("Name", endPointConfig.EndpointName));
-            result.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.InternalPort));
-            result.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.ExternalPort));
-            result.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.Protocol.ToString()));
-            result.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm));
-            return result;
-        }
-
         public SetAzureEndpointCmdletInfo()
         {
             this.cmdletName = Utilities.SetAzureEndpointCmdletName;
@@ -41,14 +29,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.cmdletName = Utilities.SetAzureEndpointCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("Name", endPointConfig.EndpointName));
-            this.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.InternalPort));
-            this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.ExternalPort));
-            this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.Protocol.ToString()));
-            this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
-            this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort));
-            this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString()));
-            this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
+            this.cmdletParams.Add(new CmdletParam("LocalPort", endPointConfig.EndpointLocalPort));
+            if (endPointConfig.EndpointPublicPort.HasValue)
+            {
+                this.cmdletParams.Add(new CmdletParam("PublicPort", endPointConfig.EndpointPublicPort));
+            }
+            this.cmdletParams.Add(new CmdletParam("Protocol", endPointConfig.EndpointProtocol.ToString()));
             this.cmdletParams.Add(new CmdletParam("VM", endPointConfig.Vm));
+
+            if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalanced)
+            {
+                this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
+            }
+            else if (endPointConfig.ParamSet == AzureEndPointConfigInfo.ParameterSet.LoadBalancedProbe)
+            {
+                this.cmdletParams.Add(new CmdletParam("LBSetName", endPointConfig.LBSetName));
+                this.cmdletParams.Add(new CmdletParam("ProbePort", endPointConfig.ProbePort));
+                this.cmdletParams.Add(new CmdletParam("ProbeProtocol", endPointConfig.ProbeProtocol.ToString()));
+                this.cmdletParams.Add(new CmdletParam("ProbePath", endPointConfig.ProbePath));
+
+                if (endPointConfig.ProbeInterval.HasValue)
+                {
+                    this.cmdletParams.Add(new CmdletParam("ProbeIntervalInSeconds", endPointConfig.ProbeInterval));
+                }
+
+                if (endPointConfig.ProbeTimeout.HasValue)
+                {
+                    this.cmdletParams.Add(new CmdletParam("ProbeTimeoutInSeconds", endPointConfig.ProbeTimeout));
+                }
+            }
         }
     }
 }

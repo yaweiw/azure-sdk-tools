@@ -15,7 +15,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class ServiceExtensionImageContext : ManagementOperationContext
     {

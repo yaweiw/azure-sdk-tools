@@ -14,14 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
-    using System;
-    using System.Globalization;
     using System.Linq;
     using System.Management.Automation;
-    using WindowsAzure.ServiceManagement;
-    using Service;
-    using Service.Gateway;
     using Model;
+    using Service.Gateway;
 
     [Cmdlet(VerbsCommon.Get, "AzureVNetConnection"), OutputType(typeof(GatewayConnectionContext))]
     public class GetAzureVNetConnectionCommand : GatewayCmdletBase

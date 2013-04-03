@@ -29,6 +29,26 @@ function Test-WithInvalidCredentials
 	Assert-Throws $cloudCmdlet "Call Set-AzureSubscription and Select-AzureSubscription first."
 }
 
+########################################################################### Publish-AzureServiceProject Scenario Tests ###################################################################
+
+<#
+.SYNOPSIS
+Tests Publishing a Cache Service.
+#>
+function Test-PublishCacheService
+{
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+}
+
+<#
+.SYNOPSIS
+Tests Publishing and updating a Cache Service.
+#>
+function Test-UpdateCacheService
+{
+    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+}
+
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
 
 <#
@@ -173,6 +193,7 @@ function Test-StartAzureServiceWithProductionDeployment
 	New-CloudService 1
 	$name = $global:createdCloudServices[0]
 	Stop-AzureService $name
+	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
 
 	# Test
 	$started = Start-AzureService $name -PassThru
@@ -188,13 +209,12 @@ Tests Start-AzureService with an existing service that has staging deployment on
 function Test-StartAzureServiceWithStagingDeployment
 {
 	# Setup
-	New-Deployment
+	New-CloudService 1 $null "Staging"
 	$name = $global:createdCloudServices[0]
-	$slot = "Staging"
-	Stop-AzureService $name -Slot $slot
+	Stop-AzureService $name -Slot "Staging"
 
 	# Test
-	$started = Start-AzureService $name -PassThru -Slot $slot
+	$started = Start-AzureService $name -PassThru -Slot "Staging"
 
 	# Assert
 	Assert-True { $started }
@@ -326,4 +346,88 @@ function Test-AzureNameWithInvalidServiceBusNamespace
 {
 	# Test
 	Assert-Throws { Test-AzureName -ServiceBusNamespace "Invalid Name" }
+}
+
+########################################################################### Stop-AzureService Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with non-existing service.
+#>
+function Test-StopAzureServiceWithNonExistingService
+{
+	# Test
+	Assert-Throws { Stop-AzureService "DoesNotExist" } "The specified cloud service `"DoesNotExist`" does not exist."
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that does not have any deployments
+#>
+function Test-StopAzureServiceWithEmptyDeployment
+{
+	# Setup
+	$name = Get-CloudServiceName
+	New-AzureService $name -Location $(Get-DefaultLocation)
+
+	# Test
+	$Stopped = Stop-AzureService $name -Slot Staging -PassThru
+
+	# Assert
+	Assert-False { $Stopped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that has production deployment only
+#>
+function Test-StopAzureServiceWithProductionDeployment
+{
+	# Setup
+	New-CloudService 1
+	$name = $global:createdCloudServices[0]
+	Start-AzureService $name
+
+	# Test
+	$Stopped = Stop-AzureService $name -PassThru
+
+	# Assert
+	Assert-True { $Stopped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService with an existing service that has staging deployment only
+#>
+function Test-StopAzureServiceWithStagingDeployment
+{
+	# Setup
+	New-CloudService 1 $null "Staging"
+	$name = $global:createdCloudServices[0]
+	Start-AzureService $name -Slot "Staging"
+
+	# Test
+	$Stopped = Stop-AzureService $name -PassThru -Slot "Staging"
+
+	# Assert
+	Assert-True { $Stopped }
+}
+
+########################################################################### Start-AzureEmulator Scenario Tests ###################################################################
+
+<#
+.SYNOPSIS
+Executes Start-AzureEmulator two times and expect to proceed.
+#>
+function Test-StartAzureEmulatorTwice
+{
+	# Setup
+	New-TinyCloudServiceProject test
+	Start-AzureEmulator
+
+	# Test
+	$service = Start-AzureEmulator
+	
+	# Assert
+	Assert-NotNull $service
 }

@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
 {
-    using Microsoft.WindowsAzure.Management.Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Auth;
     using System;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
 
     /// <summary>
     /// New storage context
@@ -33,11 +33,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// Default parameter set name
         /// </summary>
         private const string AccountNameKeyParameterSet = "AccountNameAndKey";
-
-        /// <summary>
-        /// Sas token parameter set name
-        /// </summary>
-        private const string SasTokenParameterSet = "SasToken";
 
         /// <summary>
         /// Connection string parameter set name
@@ -58,8 +53,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             Mandatory = true, ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
-        [Parameter(Position = 0, HelpMessage = "Azure Storage Acccount Name",
-            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
         [ValidateNotNullOrEmpty]
         public string StorageAccountName { get; set; }
 
@@ -68,13 +61,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [ValidateNotNullOrEmpty]
         public string StorageAccountKey { get; set; }
 
-        [Alias("sas")]
-        [Parameter(HelpMessage = "Azure Storage SAS Token",
-            Mandatory = true, ParameterSetName = SasTokenParameterSet)]
-        [ValidateNotNullOrEmpty]
-        public string SasToken { get; set; }
-
-        [Alias("conn")]
         [Parameter(HelpMessage = "Azure Storage Connection String",
             Mandatory = true, ParameterSetName = ConnectionStringParameterSet)]
         [ValidateNotNullOrEmpty]
@@ -89,7 +75,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         }
         private bool isLocalDevAccount;
 
-        [Alias("anon")]
         [Parameter(HelpMessage = "Use anonymous storage account",
             Mandatory = true, ParameterSetName = AnonymousParameterSet)]
         public SwitchParameter Anonymous
@@ -102,8 +87,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
             ParameterSetName = AccountNameKeyParameterSet)]
         [Parameter(HelpMessage = "Protocol specification (HTTP or HTTPS), default is HTTPS",
-            ParameterSetName = SasTokenParameterSet)]
-        [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS)]
+            ParameterSetName = AnonymousParameterSet)]
+        [ValidateSet(StorageNouns.HTTP, StorageNouns.HTTPS, IgnoreCase = true)]
         public string Protocol
         {
             get { return protocolType; }
@@ -118,7 +103,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="accountKey">Storage account key</param>
         /// <param name="useHttps">Use https or not</param>
         /// <returns>A storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountByNameAndKey(string accountName, string accountKey, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(accountName, accountKey);
@@ -132,11 +116,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="sasToken">Sas token</param>
         /// <param name="useHttps">Use https or not</param>
         /// <returns>a storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken)
+        internal CloudStorageAccount GetStorageAccountBySasToken(string storageAccountName, string sasToken, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials(sasToken);
-            return GetStorageAccountWithEndPoint(credential, storageAccountName);
+            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps);
         }
 
         /// <summary>
@@ -144,7 +127,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="connectionString">Azure storage connection string</param>
         /// <returns>A storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetStorageAccountByConnectionString(string connectionString)
         {
             return CloudStorageAccount.Parse(connectionString);
@@ -154,7 +136,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// Get local development storage account
         /// </summary>
         /// <returns>A storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal CloudStorageAccount GetLocalDevelopmentStorageAccount()
         {
             return CloudStorageAccount.DevelopmentStorageAccount;
@@ -165,11 +146,10 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// </summary>
         /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
         /// <returns>A storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName)
+        internal CloudStorageAccount GetAnonymousStorageAccount(string storageAccountName, bool useHttps)
         {
             StorageCredentials credential = new StorageCredentials();
-            return GetStorageAccountWithEndPoint(credential, storageAccountName);
+            return GetStorageAccountWithEndPoint(credential, storageAccountName, useHttps);
         }
 
         /// <summary>
@@ -178,17 +158,28 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
         /// <param name="credential">Storage credentail</param>
         /// <param name="storageAccountName">Storage account name, it's used for build end point</param>
         /// <returns>A storage account</returns>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
-        internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName)
+        internal CloudStorageAccount GetStorageAccountWithEndPoint(StorageCredentials credential, string storageAccountName, bool useHttps)
         {
             if (String.IsNullOrEmpty(storageAccountName))
             {
                 throw new ArgumentException(String.Format(Resources.ObjectCannotBeNull, StorageNouns.StorageAccountName));
             }
 
-            string blobEndPoint = String.Format(Resources.DefaultBlobEndPointFormat, storageAccountName);
-            string tableEndPoint = String.Format(Resources.DefaultTableEndPointFormat, storageAccountName);
-            string queueEndPoint = String.Format(Resources.DefaultQueueEndPointFormat, storageAccountName);
+            string blobEndPoint = string.Empty;
+            string tableEndPoint = string.Empty;
+            string queueEndPoint = string.Empty;
+            if (useHttps)
+            {
+                blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName);
+                tableEndPoint = String.Format(Resources.HttpsTableEndPointFormat, storageAccountName);
+                queueEndPoint = String.Format(Resources.HttpsQueueEndPointFormat, storageAccountName);
+            }
+            else
+            {
+                blobEndPoint = String.Format(Resources.HttpBlobEndPointFormat, storageAccountName);
+                tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName);
+                queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName);
+            }
             return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
         }
 
@@ -206,9 +197,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 case AccountNameKeyParameterSet:
                     account = GetStorageAccountByNameAndKey(StorageAccountName, StorageAccountKey, useHttps);
                     break;
-                case SasTokenParameterSet:
-                    account = GetStorageAccountBySasToken(StorageAccountName, SasToken);
-                    break;
                 case ConnectionStringParameterSet:
                     account = GetStorageAccountByConnectionString(ConnectionString);
                     break;
@@ -216,7 +204,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                     account = GetLocalDevelopmentStorageAccount();
                     break;
                 case AnonymousParameterSet:
-                    account = GetAnonymousStorageAccount(StorageAccountName);
+                    account = GetAnonymousStorageAccount(StorageAccountName, useHttps);
                     break;
                 default:
                     throw new ArgumentException(Resources.DefaultStorageCredentialsNotFound);

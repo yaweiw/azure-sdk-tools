@@ -14,15 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
 {
+    using System;
+    using System.Globalization;
+    using System.Management.Automation;
+    using System.Security.Permissions;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Globalization;
-    using System.Management.Automation;
-    using System.Security.Permissions;
 
     /// <summary>
     /// set access level for specified container
@@ -74,7 +74,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Cmdlet
         /// </summary>
         /// <param name="name">container name</param>
         /// <param name="accessLevel">access level in ("off", "blob", "container")</param>
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal void SetContainerAcl(string name, string accessLevel)
         {
             if (!NameUtil.IsValidContainerName(name))

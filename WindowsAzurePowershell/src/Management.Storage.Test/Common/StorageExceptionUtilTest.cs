@@ -15,13 +15,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Common
 {
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Storage;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// unit test for StorageExceptionUtil

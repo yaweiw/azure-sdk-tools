@@ -22,10 +22,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
     using System.Management.Automation;
     using System.ServiceModel;
     using Common;
-    using Management.Extensions;
     using IaaS;
-    using Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Storage;
     using WindowsAzure.ServiceManagement;
 

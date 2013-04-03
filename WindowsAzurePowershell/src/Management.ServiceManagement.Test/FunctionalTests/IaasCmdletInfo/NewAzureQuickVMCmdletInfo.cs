@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
     public class NewAzureQuickVMCmdletInfo : CmdletsInfo
     {
@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
             cmdletParams.Add(new CmdletParam("Name", name));
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
+            cmdletParams.Add(new CmdletParam("AdminUsername", "DanAdmin"));
             cmdletParams.Add(new CmdletParam("Password", password));
             cmdletParams.Add(new CmdletParam("Location", locationName));
         }
@@ -46,7 +47,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
             cmdletParams.Add(new CmdletParam("Name", name));
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            cmdletParams.Add(new CmdletParam("LinuxUser", userName));
+            if (os == OS.Windows)
+                cmdletParams.Add(new CmdletParam("AdminUsername", userName));
+            else
+                cmdletParams.Add(new CmdletParam("LinuxUser", userName));
             cmdletParams.Add(new CmdletParam("Password", password));
             cmdletParams.Add(new CmdletParam("Location", locationName));
         }

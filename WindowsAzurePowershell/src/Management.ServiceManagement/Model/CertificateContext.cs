@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System;
-    using System.Collections.Generic;
 
     public class CertificateContext : ServiceOperationContext
     {

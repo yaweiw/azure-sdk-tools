@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 {
+    using System;
+    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Mock blob management
@@ -398,6 +398,19 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
         /// <param name="options">blob request options</param>
         /// <param name="operationContext">An object that represents the context for the current operation.</param>
         public void SetBlobMetadata(ICloudBlob blob, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
+        {
+            return;
+        }
+
+        /// <summary>
+        /// Abort copy operation on specified blob
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        /// <param name="copyId">Copy id</param>
+        /// <param name="accessCondition">Access condition</param>
+        /// <param name="options">Blob request options</param>
+        /// <param name="operationContext">Operation context</param>
+        public void AbortCopy(ICloudBlob blob, string copyId, AccessCondition accessCondition, BlobRequestOptions options, OperationContext operationContext)
         {
             return;
         }
