@@ -530,15 +530,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
             string configName = Convert.ToString(TestContext.DataRow["configName"]);
             string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
-            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
-            //string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);
+            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);            
 
 
             var packagePath1 = new FileInfo(@".\" + packageName);
             var configPath1 = new FileInfo(@".\" + configName);
             var packagePath2 = new FileInfo(@".\" + upgradePackageName);
             var configPath2 = new FileInfo(@".\" + upgradeConfigName);
-            //var configPath3 = new FileInfo(@".\" + upgradeConfigName2);
 
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
