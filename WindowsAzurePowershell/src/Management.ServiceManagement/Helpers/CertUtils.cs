@@ -18,9 +18,42 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
     using System.Linq;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public static class CertUtils
     {
+        private const string LocalMachine = "LocalMachine";
+        private const string MyStoreName = "My";
+
+
+        public static CertificateFile Create(X509Certificate2 certificate)
+        {
+            var certificateData = GetCertificateData(certificate);
+            var certificateFile = new CertificateFile
+            {
+                Data = Convert.ToBase64String(certificateData),
+                Password = CertUtils.RandomBase64PasswordString(),
+                CertificateFormat = "pfx"
+            };
+            return certificateFile;
+        }
+
+        public static CertificateFile Create(X509Certificate2 certificate, bool dropPrivateKey)
+        {
+            if (dropPrivateKey)
+            {
+                certificate = DropPrivateKey(certificate);
+            }
+            var certificateData = GetCertificateData(certificate);
+            var certificateFile = new CertificateFile
+            {
+                Data = Convert.ToBase64String(certificateData),
+                Password = CertUtils.RandomBase64PasswordString(),
+                CertificateFormat = "pfx"
+            };
+            return certificateFile;
+        }
+
         public static byte[] GetCertificateData(X509Certificate2 cert)
         {
             try
@@ -47,7 +80,41 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             return new X509Certificate2(noPrivateKey);
         }
 
-        #region from CsUpload
+        public static CertificateSettingList GetCertificateSettings(CertificateSettingList Certificates, X509Certificate2[] X509Certificates)
+        {
+            CertificateSettingList result = null;
+            if (Certificates != null && X509Certificates != null)
+            {
+                var certSettings = from x in X509Certificates
+                                   where !Certificates.Any(s => s.Thumbprint.Equals(x.Thumbprint, StringComparison.InvariantCultureIgnoreCase))
+                                   select new CertificateSetting
+                                   {
+                                       StoreLocation = LocalMachine,
+                                       StoreName = MyStoreName,
+                                       Thumbprint = x.Thumbprint
+                                   };
+                result = new CertificateSettingList();
+                result.AddRange(certSettings);
+            }
+            else if (Certificates == null && X509Certificates != null)
+            {
+                var certSettings = from x in X509Certificates
+                                   select new CertificateSetting
+                                   {
+                                       StoreLocation = LocalMachine,
+                                       StoreName = MyStoreName,
+                                       Thumbprint = x.Thumbprint
+                                   };
+                result = new CertificateSettingList();
+                result.AddRange(certSettings);
+            }
+            else if (Certificates != null && X509Certificates == null)
+            {
+                result = new CertificateSettingList();
+                result.AddRange(Certificates);
+            }
+            return result;
+        }
 
         public static string RandomBase64PasswordString()
         {
@@ -64,62 +131,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             }
         }
 
-        private static string CanonicalizeThumbprintString(string s)
-        {
-            var chars = from ch in s.ToCharArray()
-                        where !Char.IsWhiteSpace(ch)
-                        select Char.ToUpperInvariant(ch);
-            return new String(chars.ToArray());
-        }
-
-        private static bool IsValidThumbprint(string thumbprint)
-        {
-            if (String.IsNullOrEmpty(thumbprint))
-            {
-                return false;
-            }
-            var isHexString = thumbprint.ToCharArray().All(Uri.IsHexDigit);
-            if (!isHexString)
-            {
-                return false;
-            }
-            return true;
-        }
-
         public static X509Certificate2 FindCertificate(X509Certificate2[] certificates, string thumbprint)
         {
             X509Certificate2 result = null;
             result = certificates.FirstOrDefault(cert => String.Compare(cert.Thumbprint, thumbprint, StringComparison.InvariantCultureIgnoreCase) == 0);
             return result;
         }
-
-        public static X509Certificate2 FindCertificate(string thumbprint)
-        {
-            var cannonicalized = CanonicalizeThumbprintString(thumbprint);
-            if (!IsValidThumbprint(cannonicalized))
-            {
-//                Program.Output.ErrorInvalidThumbprint(thumbprint);
-                return null;
-            }
-
-            var store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            try
-            {
-                var certs = store.Certificates.Find(X509FindType.FindByThumbprint, cannonicalized, false);
-                if (certs == null || certs.Count == 0)
-                {
-//                    Program.Output.ErrorCertificateNotFound(thumbprint);
-                    return null;
-                }
-
-                return certs[0];
-            }
-            finally
-            {
-                store.Close();
-            }
-        }
-        #endregion
     }
 }

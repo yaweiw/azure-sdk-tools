@@ -318,25 +318,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 }
             }
 
-            if (WinRMCertificate != null)
+            if (ParameterSetName.Equals("Windows", StringComparison.OrdinalIgnoreCase))
             {
-                var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, WinRMCertificate.Thumbprint);
-                var certificateFile = CertificateFileFactory.Create(WinRMCertificate, this.NoExportPrivateKey.IsPresent);
-                ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
-            }
-
-            if(X509Certificates != null)
-            {
-                var certificateFilesWithThumbprint = from c in X509Certificates
-                                                        select new
-                                                        {
-                                                            c.Thumbprint,
-                                                            CertificateFile = CertificateFileFactory.Create(c, this.NoExportPrivateKey.IsPresent)
-                                                        };
-                foreach (var current in certificateFilesWithThumbprint.ToList())
+                if (WinRMCertificate != null)
                 {
-                    var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
-                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, WinRMCertificate.Thumbprint);
+                    var certificateFile = CertUtils.Create(WinRMCertificate);
+                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+                }
+
+                if (X509Certificates != null)
+                {
+                    var certificateFilesWithThumbprint = from c in X509Certificates
+                                                         select new
+                                                         {
+                                                             c.Thumbprint,
+                                                             CertificateFile = CertUtils.Create(c, this.NoExportPrivateKey.IsPresent)
+                                                         };
+                    foreach (var current in certificateFilesWithThumbprint.ToList())
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    }
                 }
             }
 
@@ -465,15 +468,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
                     ResetPasswordOnFirstLogon = false,
-                    StoredCertificateSettings = Certificates,
+                    StoredCertificateSettings = CertUtils.GetCertificateSettings(this.Certificates, this.X509Certificates),
                     WinRM = GetWinRmConfiguration()
                 };
 
-                var rdpEndpoint = new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"};
-                var winRmEndpoint = new InputEndpoint {LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs"};
-
-                netConfig.InputEndpoints.Add(rdpEndpoint);
-                netConfig.InputEndpoints.Add(winRmEndpoint);
+                netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
+                if(this.DisableWinRMHttps.IsPresent)
+                {
+                    netConfig.InputEndpoints.Add(new InputEndpoint { LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs" });
+                }
                 vm.ConfigurationSets.Add(windowsConfig);
                 vm.ConfigurationSets.Add(netConfig);
             }

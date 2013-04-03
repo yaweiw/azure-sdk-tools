@@ -177,14 +177,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     netConfig.InputEndpoints.Add(winRmEndpoint);
                 }
                 role.WinRMCertificate = WinRMCertificate;
+                role.X509Certificates = new List<X509Certificate2>();
+                if (this.X509Certificates != null)
+                {
+                    role.X509Certificates.AddRange(this.X509Certificates);
+                }
+                role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
             }
 
-            role.X509Certificates = new List<X509Certificate2>();
-            if(this.X509Certificates != null)
-            {
-                role.X509Certificates.AddRange(this.X509Certificates);
-            }
-            role.NoExportPrivateKey = this.NoExportPrivateKey.IsPresent;
             WriteObject(VM, true);
         }
 

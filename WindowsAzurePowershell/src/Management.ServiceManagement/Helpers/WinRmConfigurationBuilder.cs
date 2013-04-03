@@ -68,6 +68,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
         {
             if (certificate != null)
             {
+                if(!certificate.HasPrivateKey)
+                {
+                    throw new ArgumentOutOfRangeException("WinRMCertificate must have private key");
+                }
                 AddHttpsListener(certificate.Thumbprint);
             }
             else

@@ -12,6 +12,8 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Storage.Auth;
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
@@ -88,7 +90,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             set;
         }
 
-
         public UploadParameters ValidateParameters()
         {
             BlobUri destinationUri;
@@ -115,10 +116,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             var parameters = new UploadParameters(destinationUri, baseImageUri, LocalFilePath, OverWrite.IsPresent, NumberOfUploaderThreads)
             {
                 Cmdlet = this,
-                BlobObjectFactory = new CloudPageBlobObjectFactory(this.Channel, this.CurrentSubscription.SubscriptionId, TimeSpan.FromMinutes(1))
+                BlobObjectFactory = new CloudPageBlobObjectFactory(new StorageCredentialsFactory(this.Channel, this.CurrentSubscription), TimeSpan.FromMinutes(1))
             };
 
             return parameters;
+        }
+
+        protected override void InitChannelCurrentSubscription(bool force)
+        {
+            Channel = CreateChannel();
         }
 
         protected override void OnProcessRecord()
@@ -126,6 +132,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             var parameters = ValidateParameters();
             var vhdUploadContext = VhdUploaderModel.Upload(parameters);
             WriteObject(vhdUploadContext);
+        }
+    }
+
+    public class StorageCredentialsFactory
+    {
+        private IServiceManagement channel;
+        private SubscriptionData currentSubscription;
+
+        public StorageCredentialsFactory(IServiceManagement channel, SubscriptionData currentSubscription)
+        {
+            this.channel = channel;
+            this.currentSubscription = currentSubscription;
+        }
+
+        public StorageCredentials Create(BlobUri destination)
+        {
+            if (String.IsNullOrEmpty(destination.QueryString))
+            {
+                if(currentSubscription == null)
+                {
+                    throw new ArgumentException("Call Set-AzureSubscription and Select-AzureSubscription first.", "SubscriptionId");
+                }
+                StorageService sService = this.channel.GetStorageKeys(currentSubscription.SubscriptionId, destination.StorageAccountName);
+                return new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary);
+            }
+            return new StorageCredentials(destination.Uri.Query);
         }
     }
 }
