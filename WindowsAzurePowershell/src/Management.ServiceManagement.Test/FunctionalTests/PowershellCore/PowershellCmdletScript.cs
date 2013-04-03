@@ -12,8 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Linq;
-using System.Threading; //
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
@@ -25,30 +23,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     public class PowershellCmdletScript : PowershellEnvironment
     {
         private readonly List<string> cmdlets;
-        
-        //public string Name
-        //{
-        //    get
-        //    {
-        //        return cmdlet.name;
-        //    }
-        //}
-
-        //public List<CmdletParam> Params
-        //{
-        //    get
-        //    {
-        //        return cmdlet.parameters;
-        //    }
-        //}
-
+                
         public PowershellCmdletScript(List<string> cmdlet, params PowershellModule[] modules) : base(modules)
         {
             this.cmdlets = cmdlet;            
         }
-        
-       
-
+              
         public PowershellCmdletScript(List<string> cmdlet) : base()
         {
             this.cmdlets = cmdlet;
@@ -106,40 +86,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             runspace.Close();
 
             return result;
-        }
-
-        //public PSInvocationState RunAndStop(int ms)
-        //{
-        //    PSInvocationState result = 0;
-        //    runspace.Open();
-        //    using (var powershell = PowerShell.Create())
-        //    {
-        //        powershell.Runspace = runspace;
-        //        powershell.AddCommand(cmdlet.name);
-        //        if (cmdlet.parameters.Count > 0)
-        //        {
-        //            foreach (var cmdletparam in cmdlet.parameters)
-        //            {
-        //                if (cmdletparam.value == null)
-        //                {
-        //                    powershell.AddParameter(cmdletparam.name);
-        //                }
-        //                else
-        //                {
-        //                    powershell.AddParameter(cmdletparam.name, cmdletparam.value);
-        //                }
-        //            }
-        //        }
-
-        //        powershell.BeginInvoke();
-        //        Thread.Sleep(ms);
-        //        powershell.Stop();
-
-        //        result = powershell.InvocationStateInfo.State;
-        //    }
-        //    runspace.Close();
-
-        //    return result;
-        //}
+        }        
     }
 }
