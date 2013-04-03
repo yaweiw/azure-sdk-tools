@@ -157,6 +157,8 @@
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Extensions\GetAzureServiceExtension.cs" />
+    <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="Model\CertificateContext.cs" />
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\DiskContext.cs" />
+    <Compile Include="Model\ServiceExtensionImageContext.cs" />
     <Compile Include="Model\GatewayConnectionContext.cs" />
     <Compile Include="Model\GatewayManagementOperationContext.cs" />
     <Compile Include="Model\HostedServiceContext.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="Model\RoleInstanceCountContext.cs" />
     <Compile Include="Model\RoleInstanceStatusInfo.cs" />
     <Compile Include="Model\RoleInstanceStatusInfoContext.cs" />
+    <Compile Include="Model\HostedServiceExtensionContext.cs" />
     <Compile Include="Model\ServiceOperationContext.cs" />
     <Compile Include="Model\SharedKeyContext.cs" />
     <Compile Include="Model\StorageServiceKeyOperationContext.cs" />

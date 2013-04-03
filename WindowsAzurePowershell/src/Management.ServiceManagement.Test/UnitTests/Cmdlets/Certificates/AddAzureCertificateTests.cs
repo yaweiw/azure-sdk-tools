@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
-    using Extensions;
+    using Management.Extensions;
     using Management.Test.Stubs;
     using ServiceManagement.Certificates;
     using VisualStudio.TestTools.UnitTesting;

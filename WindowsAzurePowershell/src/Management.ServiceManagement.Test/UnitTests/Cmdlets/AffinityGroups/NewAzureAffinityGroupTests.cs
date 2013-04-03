@@ -14,7 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmdlets.AffinityGroups
 {
-    using Extensions;
+    using Management.Extensions;
     using Management.Test.Stubs;
     using WindowsAzure.ServiceManagement;
     using ServiceManagement.AffinityGroups;
