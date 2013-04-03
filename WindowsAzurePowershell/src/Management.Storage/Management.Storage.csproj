@@ -100,6 +100,9 @@
     <Compile Include="Blob\StorageCloudBlobCmdletBase.cs" />
     <Compile Include="Common\StorageExceptionUtil.cs" />
     <Compile Include="Common\StorageNouns.cs" />
+    <Compile Include="Model\Contract\IStorageQueueManagement.cs" />
+    <Compile Include="Model\Contract\StorageQueueManagement.cs" />
+    <Compile Include="Model\ResourceModel\AzureStorageQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageBlob.cs" />
     <Compile Include="Model\Contract\IStorageBlobManagement.cs" />
@@ -107,6 +110,10 @@
     <Compile Include="Model\ResourceModel\AzureStorageBase.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageContainer.cs" />
     <Compile Include="Model\ResourceModel\AzureStorageContext.cs" />
+    <Compile Include="Queue\Cmdlet\GetAzureStorageQueue.cs" />
+    <Compile Include="Queue\Cmdlet\NewAzureStorageQueue.cs" />
+    <Compile Include="Queue\Cmdlet\RemoveAzureStorageQueue.cs" />
+    <Compile Include="Queue\StorageQueueBaseCmdlet.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
