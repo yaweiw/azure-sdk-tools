@@ -704,8 +704,9 @@ namespace CLITest.BVT
             {
                 //--------------New operation--------------
                 Test.Assert(agent.NewAzureStorageQueue(NEW_QUEUE_NAME), Utility.GenComparisonData("NewAzureStorageQueue", true));
-                queue.FetchAttributes();
-                dic.Add("CloudQueue", queue);                
+                dic.Add("CloudQueue", queue);
+                dic["ApproximateMessageCount"] = null;
+
                 // Verification for returned values               
                 agent.OutputValidation(comp);
                 Test.Assert(queue.Exists(), "queue {0} should exist!", NEW_QUEUE_NAME);
