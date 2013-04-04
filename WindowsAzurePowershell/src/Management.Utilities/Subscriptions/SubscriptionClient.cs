@@ -51,10 +51,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
             request.Headers.Add("x-ms-version", "2012-08-01");
             request.Headers.Add("accept", "application/xml");
 
-            Task<HttpResponseMessage> responseTask = httpClient.SendAsync(request);
-            var getContentTask = ProcessListResourcesResponse(responseTask);
-            var deserializeTask = getContentTask.ContinueWith(st => DeserializeListResourcesResponse(st));
-            return deserializeTask;
+            return httpClient.SendAsync(request)
+                .ContinueWith(tr => ProcessListResourcesResponse(tr)).Unwrap()
+                .ContinueWith(ts => DeserializeListResourcesResponse(ts));
         }
 
         private Task<string> ProcessListResourcesResponse(Task<HttpResponseMessage> responseMessage)
