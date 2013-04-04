@@ -282,6 +282,7 @@
     <Compile Include="StorageServices\SaveAzureVhdCommand.cs" />
     <Compile Include="StorageServices\SetAzureStorageAccount.cs" />
     <Compile Include="Model\VhdUploaderModel.cs" />
+    <Compile Include="StorageServices\StorageCredentialsFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
