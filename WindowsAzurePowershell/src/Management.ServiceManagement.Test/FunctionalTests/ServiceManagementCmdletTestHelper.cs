@@ -23,9 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using WindowsAzure.ServiceManagement;
     using Model;
     using IaasCmdletInfo;
-    using ConfigDataInfo;
-
-    using System.Collections.Generic;
+    using ConfigDataInfo;    
 
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Sync.Download;
