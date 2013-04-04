@@ -109,9 +109,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\Management.Test\bin\Debug\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
@@ -142,6 +146,7 @@
     <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Common\TestBase.cs" />
     <Compile Include="Common\Testing.cs" />
+    <Compile Include="Subscriptions\SubscriptionsClientTest.cs" />
     <Compile Include="Websites\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="Websites\SimpleGithubManagement.cs" />
     <Compile Include="Websites\SimpleWebsitesManagement.cs" />
