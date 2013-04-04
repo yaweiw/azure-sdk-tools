@@ -232,11 +232,11 @@
     <Compile Include="Model\CertificateContext.cs" />
     <Compile Include="Model\DeploymentInfoContext.cs" />
     <Compile Include="Model\DiskContext.cs" />
-    <Compile Include="Model\ServiceExtensionImageContext.cs" />
     <Compile Include="Model\GatewayConnectionContext.cs" />
     <Compile Include="Model\GatewayManagementOperationContext.cs" />
     <Compile Include="Model\HostedServiceContext.cs" />
     <Compile Include="Model\HostedServiceDetailedContext.cs" />
+    <Compile Include="Model\HostedServiceExtensionImageContext.cs" />
     <Compile Include="Model\InputEndpointContext.cs" />
     <Compile Include="Model\IPersistentVM.cs" />
     <Compile Include="Model\LocationsContext.cs" />
