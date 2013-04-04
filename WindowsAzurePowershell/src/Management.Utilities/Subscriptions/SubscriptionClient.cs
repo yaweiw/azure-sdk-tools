@@ -90,6 +90,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
                 .ContinueWith(tr => ProcessActionResponse(tr));
         }
 
+        public Task<bool> UnregisterResourceTypeAsync(string resourceType)
+        {
+            var path = string.Format("/{0}/services?service={1}&action=unregister",
+                subscription.SubscriptionId, resourceType);
+            var request = new HttpRequestMessage(HttpMethod.Put, new Uri(path, UriKind.Relative));
+            request.Headers.Add("x-ms-version", "2012-08-01");
+            request.Headers.Add("accept", "application/xml");
+
+            return httpClient.SendAsync(request)
+                .ContinueWith(tr => ProcessActionResponse(tr));
+        }
+
         private bool ProcessActionResponse(Task<HttpResponseMessage> responseMessageTask)
         {
             HttpResponseMessage response = responseMessageTask.Result;
