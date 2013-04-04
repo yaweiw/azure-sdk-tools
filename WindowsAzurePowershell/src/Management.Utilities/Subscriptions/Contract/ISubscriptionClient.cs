@@ -23,6 +23,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions.Contract
         /// <param name="resourceType">Resource type to register</param>
         /// <returns>true if successful, false if already registered, throws on other errors.</returns>
         Task<bool> RegisterResourceTypeAsync(string resourceType);
+
+        /// <summary>
+        /// Unregister the requested resource type
+        /// </summary>
+        /// <param name="resourceType">Resource type to unregister</param>
+        /// <returns>true if successful, false if not registered, throws on other errors.</returns>
+        Task<bool> UnregisterResourceTypeAsync(string resourceType);
     }
 
     public static class SubscriptionClientExtensions
@@ -56,5 +63,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions.Contract
                 throw new HttpRequestException(ex.InnerExceptions[0].Message, ex);
             }
         }
+
+        /// <summary>
+        /// Synchronously unregister a resource type
+        /// </summary>
+        /// <param name="client">The client object.</param>
+        /// <param name="resourceType">Resource type to unregister</param>
+        /// <returns>true on success, false if not registered, throws on other errors.</returns>
+        public static bool UnregisterResourceType(this ISubscriptionClient client, string resourceType)
+        {
+            try
+            {
+                return client.UnregisterResourceTypeAsync(resourceType).Result;
+            }
+            catch (AggregateException ex)
+            {
+                throw new HttpRequestException(ex.InnerExceptions[0].Message, ex);
+            }
+        }
+    
     }
 }

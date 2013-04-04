@@ -105,6 +105,48 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
             }
         }
 
+        [TestMethod]
+        public void CanUnregisterProviderIfRegistered()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.OK));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            bool worked = client.UnregisterResourceType("someResource");
+
+            Assert.IsTrue(worked);
+        }
+
+
+        [TestMethod]
+        public void UnregisterProviderReturnsFalseIfAlreadyRegistered()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.Conflict));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            bool worked = client.UnregisterResourceType("someResource");
+
+            Assert.IsFalse(worked);
+        }
+
+        [TestMethod]
+        public void UnregisterProviderThrowsOnServerError()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.BadRequest));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+
+            try
+            {
+                client.UnregisterResourceType("someResource");
+                Assert.Fail("Should have gotten an exception");
+            }
+            catch (HttpRequestException ex)
+            {
+                Assert.AreNotEqual(-1, ex.Message.IndexOf("400", StringComparison.InvariantCulture));
+                // If we get here we're good
+            }
+        }
+        
         private HttpResponseMessage CreateListResourcesResponseMessage(params ProviderResource[] expectedResources)
         {
             var response = new HttpResponseMessage
