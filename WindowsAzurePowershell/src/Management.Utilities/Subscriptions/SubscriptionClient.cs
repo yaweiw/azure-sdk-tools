@@ -52,12 +52,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
             request.Headers.Add("accept", "application/xml");
 
             Task<HttpResponseMessage> responseTask = httpClient.SendAsync(request);
-            var getContentTask = processResponse(responseTask);
-            var deserializeTask = getContentTask.ContinueWith(st => deserializeResponse(st));
+            var getContentTask = ProcessListResourcesResponse(responseTask);
+            var deserializeTask = getContentTask.ContinueWith(st => DeserializeListResourcesResponse(st));
             return deserializeTask;
         }
 
-        private Task<string> processResponse(Task<HttpResponseMessage> responseMessage)
+        private Task<string> ProcessListResourcesResponse(Task<HttpResponseMessage> responseMessage)
         {
             var response = responseMessage.Result;
             response.EnsureSuccessStatusCode();
@@ -65,7 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
             return response.Content.ReadAsStringAsync();
         }
 
-        private IEnumerable<ProviderResource> deserializeResponse(Task<string> contentTask)
+        private IEnumerable<ProviderResource> DeserializeListResourcesResponse(Task<string> contentTask)
         {
             string content = contentTask.Result;
 
