@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
     using System.Xml.Linq;
@@ -75,6 +76,29 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
                     State = (string) (element.Element(azureNS + "State")),
                     Type = (string) (element.Element(azureNS + "Type"))
                 });
+        }
+
+        public Task<bool> RegisterResourceTypeAsync(string resourceType)
+        {
+            var path = string.Format("/{0}/services?service={1}&action=register",
+                subscription.SubscriptionId, resourceType);
+            var request = new HttpRequestMessage(HttpMethod.Put, new Uri(path, UriKind.Relative));
+            request.Headers.Add("x-ms-version", "2012-08-01");
+            request.Headers.Add("accept", "application/xml");
+
+            return httpClient.SendAsync(request)
+                .ContinueWith(tr => ProcessActionResponse(tr));
+        }
+
+        private bool ProcessActionResponse(Task<HttpResponseMessage> responseMessageTask)
+        {
+            HttpResponseMessage response = responseMessageTask.Result;
+            if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                return false;
+            }
+            response.EnsureSuccessStatusCode();
+            return true;
         }
 
         private static HttpClient CreateHttpClient(HttpMessageHandler handler)

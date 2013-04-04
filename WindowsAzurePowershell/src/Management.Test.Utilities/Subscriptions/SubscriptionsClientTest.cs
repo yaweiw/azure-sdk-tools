@@ -64,6 +64,47 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
             CollectionAssert.AreEquivalent(knownResourceTypes, actualResourceTypes.Select(rt => rt.Type.ToLower()).ToList());
         }
 
+        [TestMethod]
+        public void CanRegisterProviderIfUnregistered()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.OK));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            bool worked = client.RegisterResourceType("someResource");
+
+            Assert.IsTrue(worked);
+        }
+
+        [TestMethod]
+        public void RegisterProviderReturnsFalseIfAlreadyRegistered()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.Conflict));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            bool worked = client.RegisterResourceType("someResource");
+
+            Assert.IsFalse(worked);
+        }
+
+        [TestMethod]
+        public void RegisterProviderThrowsOnServerError()
+        {
+            var mockHandler = CreateMockHandler(() => CreateResponseMessageWithStatus(HttpStatusCode.BadRequest));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+
+            try
+            {
+                client.RegisterResourceType("someResource");
+                Assert.Fail("Should have gotten an exception");
+            }
+            catch (HttpRequestException ex)
+            {
+                Assert.AreNotEqual(-1, ex.Message.IndexOf("400", StringComparison.InvariantCulture));
+                // If we get here we're good
+            }
+        }
+
         private HttpResponseMessage CreateListResourcesResponseMessage(params ProviderResource[] expectedResources)
         {
             var response = new HttpResponseMessage
@@ -93,6 +134,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
             );
 
             return doc.ToString();
+        }
+
+        private HttpResponseMessage CreateResponseMessageWithStatus(HttpStatusCode status)
+        {
+            return new HttpResponseMessage
+            {
+                StatusCode = status
+            };
         }
 
         private HttpMessageHandler CreateMockHandler(Func<HttpResponseMessage> responseGenerator)
