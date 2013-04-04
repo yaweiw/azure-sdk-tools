@@ -50,6 +50,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string SetAzureAffinityGroupCmdletName = "Set-AzureAffinityGroup";
         public const string RemoveAzureAffinityGroupCmdletName = "Remove-AzureAffinityGroup";
 
+        // AzureAvailablitySet
+        public const string SetAzureAvailabilitySetCmdletName = "Set-AzureAvailabilitySet";
+
         // AzureCertificate & AzureCertificateSetting
         public const string AddAzureCertificateCmdletName = "Add-AzureCertificate";
         public const string GetAzureCertificateCmdletName = "Get-AzureCertificate";
