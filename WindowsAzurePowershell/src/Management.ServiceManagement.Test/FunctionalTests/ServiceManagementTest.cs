@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;    
     using System.Linq;
     using System.Threading;
-
+    using System.IO;
     using Sync.Download;
 
     [TestClass]
@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string username = "pstestuser";
         protected static string localFile = Resource.Vhd;
         protected const bool deleteDefaultStorageAccount = true;
-        protected const string vnetConfigFilePath = @".\vnetconfig.netcfg";
+        protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
        
 
         protected static ServiceManagementCmdletTestHelper vmPowershellCmdlets;
@@ -75,32 +75,42 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         
             vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             vmPowershellCmdlets.ImportAzurePublishSettingsFile();
-            defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
-            Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
-            if (defaultAzureSubscription.CurrentStorageAccount == null || Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, defaultAzureSubscription.CurrentStorageAccount))
+            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
             {
-                string defaultStorage = Utilities.GetUniqueShortName("storage");                
-                vmPowershellCmdlets.NewAzureStorageAccount(defaultStorage, Resource.Location);
-                defaultAzureSubscription = vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultStorage);
+                Console.WriteLine("No subscription is selected!");
             }
-            
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
-            Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
-            blobUrlRoot = (vmPowershellCmdlets.GetAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount)[0].Endpoints.ToArray())[0];
-
-            locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false); // Get-AzureLocation
-            if (String.IsNullOrEmpty(locationName))
+            else
             {
-                Console.WriteLine("No location is selected!");
+                defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
+                Assert.AreEqual(Resource.DefaultSubscriptionName, defaultAzureSubscription.SubscriptionName);
+
+                if (defaultAzureSubscription.CurrentStorageAccount == null || Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, defaultAzureSubscription.CurrentStorageAccount))
+                {
+                    string defaultStorage = Utilities.GetUniqueShortName("storage");
+                    vmPowershellCmdlets.NewAzureStorageAccount(defaultStorage, Resource.Location);
+                    defaultAzureSubscription = vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultStorage);
+                }
+
+                storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
+                Assert.AreEqual(defaultAzureSubscription.CurrentStorageAccount, storageAccountKey.StorageAccountName);
+                blobUrlRoot = (vmPowershellCmdlets.GetAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount)[0].Endpoints.ToArray())[0];
+
+
+                locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false); // Get-AzureLocation
+                if (String.IsNullOrEmpty(locationName))
+                {
+                    Console.WriteLine("No location is selected!");
+                }
+                Console.WriteLine("Location Name: {0}", locationName);
+
+
+                imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
+                if (String.IsNullOrEmpty(imageName))
+                {
+                    Console.WriteLine("No image is selected!");
+                }
+                Console.WriteLine("Image Name: {0}", imageName);
             }
-            Console.WriteLine("Location Name: {0}", locationName);
-
-            imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
-            if (String.IsNullOrEmpty(imageName))
-            {
-                Console.WriteLine("No image is selected!");
-            }            
-            Console.WriteLine("Image Name: {0}", imageName);
         }
         
 
@@ -113,7 +123,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public static void CleanUpAssembly()
         {
 
-            Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "currently in use");
+            Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
             if (deleteDefaultStorageAccount)
             {
                 vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);

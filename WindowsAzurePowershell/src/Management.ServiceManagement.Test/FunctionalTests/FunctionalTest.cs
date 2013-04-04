@@ -54,6 +54,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
+            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            {
+                Assert.Inconclusive("No Subscription is selected!");
+            }
 
             do
             {
@@ -90,7 +94,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestInitialize]
         public void Initialize()
-        {
+        {            
             pass = false;
             testStartTime = DateTime.Now;         
             
@@ -108,7 +112,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
         public void AzureAffinityGroupTest()
         {
             createOwnService = false;
@@ -192,7 +196,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
         public void AzureCertificateTest()
         {
             createOwnService = false;
@@ -300,7 +304,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureCertificateSetting)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
         public void AzureCertificateSettingTest()
         {
             createOwnService = true;
@@ -518,7 +522,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureDeploymentTest()
         {
             createOwnService = true;
@@ -533,10 +537,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);            
 
 
-            var packagePath1 = new FileInfo(@".\" + packageName);
-            var configPath1 = new FileInfo(@".\" + configName);
-            var packagePath2 = new FileInfo(@".\" + upgradePackageName);
-            var configPath2 = new FileInfo(@".\" + upgradeConfigName);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+            var packagePath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradePackageName);
+            var configPath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradeConfigName);
 
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
@@ -906,7 +910,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
         public void AzureRoleTest()
         {
             createOwnService = true;
@@ -919,8 +923,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
 
 
-            var packagePath1 = new FileInfo(@".\" + packageName);
-            var configPath1 = new FileInfo(@".\" + configName);
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
 
             Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
             Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);

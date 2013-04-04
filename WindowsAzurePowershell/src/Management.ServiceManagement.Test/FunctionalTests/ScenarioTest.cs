@@ -43,7 +43,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestInitialize]
         public void Initialize()
-        {           
+        {
+            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            {
+                Assert.Inconclusive("No Subscription is selected!");
+            }
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
             testStartTime = DateTime.Now;
@@ -443,7 +447,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         // Basic Provisioning a Virtual Machine
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]        
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]        
         public void DeploymentUpgrade()        
         {
 
