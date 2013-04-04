@@ -833,6 +833,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return true;
         }
 
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
+        public void AzureAvailabilitySetTest()
+        {
+            createOwnService = false;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            string testAVSetName = "testAVSet1";
+
+            try
+            {
+                var vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, testAVSetName);
+                vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
+
+                CheckAvailabilitySet(defaultVm, defaultService, testAVSetName);
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        private void CheckAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
+        {
+            var vm = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+            Assert.IsTrue(vm.AvailabilitySetName.Equals(availabilitySetName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
         public void AzureLocationTest()
         {
