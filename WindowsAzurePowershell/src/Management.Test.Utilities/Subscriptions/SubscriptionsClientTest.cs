@@ -1,0 +1,105 @@
+﻿// ----------------------------------------------------------------------------------
+//
+// Copyright Microsoft Corporation
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// http://www.apache.org/licenses/LICENSE-2.0
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------------
+
+namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Xml.Linq;
+    using Management.Utilities.Common;
+    using Management.Utilities.Subscriptions;
+    using Management.Utilities.Subscriptions.Contract;
+    using Moq;
+    using Moq.Protected;
+    using VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
+    public class SubscriptionsClientTest
+    {
+        private SubscriptionData subscriptionData;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            subscriptionData = new SubscriptionData
+            {
+                SubscriptionId = "test-id",
+                ServiceEndpoint = "https://fake.endpoint.example"
+            };
+        }
+
+        [TestMethod]
+        public void CanGetListOfRegisteredProviders()
+        {
+            string[] knownResourceTypes = {"website", "mobileservice"};
+
+            var mockHandler = CreateMockHandler(() => CreateListResourcesResponseMessage(
+                new ProviderResource {Type = "Website", State = "Unregistered"},
+                new ProviderResource {Type = "Mobileservice", State = "Registered"}
+                ));
+
+            ISubscriptionClient client = new SubscriptionClient(subscriptionData, mockHandler);
+            IEnumerable<ProviderResource> actualResourceTypes = client.ListResources(knownResourceTypes);
+
+            CollectionAssert.AreEquivalent(knownResourceTypes, actualResourceTypes.Select(rt => rt.Type.ToLower()).ToList());
+        }
+
+        private HttpResponseMessage CreateListResourcesResponseMessage(params ProviderResource[] expectedResources)
+        {
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(CreateListResourcesResponseContent(expectedResources))
+            };
+
+            response.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/xml");
+
+            return response;
+        }
+
+        private string CreateListResourcesResponseContent(IEnumerable<ProviderResource> expectedResources)
+        {
+            XNamespace azureNs = "http://schemas.microsoft.com/windowsazure";
+
+            var doc = new XDocument(
+                new XElement(azureNs + "Services",
+                    from resource in expectedResources 
+                    select new XElement(azureNs + "Service",
+                        new XElement(azureNs + "Resources"),
+                        new XElement(azureNs + "State", resource.State),
+                        new XElement(azureNs + "Type", resource.Type)
+                    )
+                )
+            );
+
+            return doc.ToString();
+        }
+
+        private HttpMessageHandler CreateMockHandler(Func<HttpResponseMessage> responseGenerator)
+        {
+            var mock = new Mock<HttpMessageHandler>();
+            mock.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .Returns(() => Task.Factory.StartNew(responseGenerator));
+
+            return mock.Object;
+        }
+    }
+}
