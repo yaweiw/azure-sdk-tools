@@ -111,9 +111,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -148,7 +145,6 @@
     <Compile Include="Common\SimpleServiceManagementAsyncResult.cs" />
     <Compile Include="Common\TestBase.cs" />
     <Compile Include="Common\Testing.cs" />
-    <Compile Include="Subscriptions\SubscriptionsClientTest.cs" />
     <Compile Include="Websites\SimpleDeploymentServiceManagement.cs" />
     <Compile Include="Websites\SimpleGithubManagement.cs" />
     <Compile Include="Websites\SimpleWebsitesManagement.cs" />
@@ -156,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
     <None Include="Resources\Azure.publishsettings" />
     <None Include="Resources\InvalidProfile.PublishSettings" />
     <None Include="Resources\ValidProfile.PublishSettings" />
@@ -183,6 +178,7 @@
   <ItemGroup>
     <None Include="Resources\subscriptions.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
+namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
     using System;
     using System.Collections.Generic;
@@ -20,12 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Security.Cryptography.X509Certificates;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using Management.Utilities.Common;
-    using Management.Utilities.Common.XmlSchema;
     using Management.Utilities.Subscriptions;
     using Management.Utilities.Subscriptions.Contract;
     using Moq;
@@ -162,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
 
         private string CreateListResourcesResponseContent(IEnumerable<ProviderResource> expectedResources)
         {
-            XNamespace azureNs = "http://schemas.microsoft.com/windowsazure";
+            XNamespace azureNs = ManagementConstants.ServiceManagementNS;
 
             var doc = new XDocument(
                 new XElement(azureNs + "Services",
@@ -194,19 +192,6 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Subscriptions
                 .Returns(() => Task.Factory.StartNew(responseGenerator));
 
             return mock.Object;
-        }
-
-        private static SubscriptionData LoadSubscriptionFromPublishSettingsFile(string filename)
-        {
-            PublishData publishData = General.DeserializeXmlFile<PublishData>(filename);
-            return new SubscriptionData
-            {
-                SubscriptionId = publishData.Items[0].Subscription[0].Id,
-                ServiceEndpoint = publishData.Items[0].Url,
-                Certificate =
-                    new X509Certificate2(Convert.FromBase64String(publishData.Items[0].ManagementCertificate),
-                        string.Empty)
-            };
         }
     }
 }
