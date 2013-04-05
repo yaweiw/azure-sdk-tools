@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Update Windows Azure Remote Desktop Extensions.
+    /// Set Windows Azure Remote Desktop Extensions.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceRemoteDesktopExtensionCommand : ServiceManagementBaseCmdlet
@@ -52,8 +52,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                                               "<PrivateConfig>" +
                                                               "<Password>{0}</Password>" +
                                                               "</PrivateConfig>";
-
-        private enum ExtensionConfigurationType { Enable, Disable };
 
         public SetAzureServiceRemoteDesktopExtensionCommand()
         {
@@ -113,7 +111,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         [Parameter(Position = 7, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
         [Parameter(Position = 3, Mandatory = false, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
-        [ValidateSet("Staging", "Production", IgnoreCase = true)]
+        [ValidateSet(ProductionSlotStr, StagingSlotStr, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -176,7 +174,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 catch (Exception ex)
                 {
                     // Error - Cannot parse the Xml of Configuration
-                    WriteExceptionError(new Exception("Deployment configuration parsing error: " + ex.Message));
+                    WriteExceptionError(new Exception("Deployment configuration parsing error: " + ex.Message
+                                                    + ". Cannot determine the legacy RDP settings."));
                 }
             }
             return enabled;
@@ -227,9 +226,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return string.IsNullOrEmpty(Slot) ? ProductionSlotStr : Slot;
         }
 
-        private string GetExtensionId(string inExtensionId)
+        private HostedServiceExtension GetHostedServiceExtension(string extensionId)
         {
-            return string.IsNullOrEmpty(inExtensionId) ? "RDPExtDefault" : inExtensionId;
+            return Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName).Find(ext => ext.Id == extensionId);
+        }
+
+        private void DeleteHostedServieExtension(string extensionId)
+        {
+            Channel.DeleteHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
         }
 
         private HostedServiceExtensionInput CreateHostedServiceExtensionInput(string extensionId)
@@ -246,16 +250,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             };
         }
 
-        private HostedServiceExtension GetHostedServiceExtension(string extensionId)
-        {
-            return Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName).Find(ext => ext.Id == extensionId);
-        }
-
-        private void DeleteHostedServieExtension(string extensionId)
-        {
-            Channel.DeleteHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-        }
-
         private void AddHostedServiceExtension(string extensionId)
         {
             HostedServiceExtensionInput hostedSvcExtInput = CreateHostedServiceExtensionInput(extensionId);
@@ -267,30 +261,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return deployment.ExtensionConfiguration;
         }
 
-        private ExtensionConfiguration CreateExtensionConfiguration(Deployment deployment, ExtensionConfigurationType extConfigType)
-        {
-            return CreateExtensionConfiguration(deployment, null, extConfigType);
-        }
-
-        private ExtensionConfiguration CreateExtensionConfiguration(Deployment deployment, string extensionId, ExtensionConfigurationType extConfigType)
+        private ExtensionConfiguration CreateExtensionConfiguration(Deployment deployment, string extensionId)
         {
             if (deployment == null)
             {
                 return null;
             }
 
-            if (deployment.ExtensionConfiguration == null)
+            ExtensionConfiguration newExtConfig = new ExtensionConfiguration();
+            newExtConfig.AllRoles = new AllRoles();
+            newExtConfig.NamedRoles = new NamedRoles();
+
+            if (deployment.ExtensionConfiguration != null)
             {
-                deployment.ExtensionConfiguration = new ExtensionConfiguration();
+                List<Extension> allNonRdpRoles = new List<Extension>();
+                if (deployment.ExtensionConfiguration.AllRoles != null)
+                {
+                    deployment.ExtensionConfiguration.AllRoles.FindAll(
+                        ext =>
+                        {
+                            var hostedSvcExt = GetHostedServiceExtension(ext.Id);
+                            return hostedSvcExt != null && hostedSvcExt.Type != GetExtensionType();
+                        });
+                }   
+                // Copy all non-RDP extensions
+                newExtConfig.AllRoles.AddRange(allNonRdpRoles);
+
+                if (deployment.ExtensionConfiguration.NamedRoles != null)
+                {
+                    // Copy original NamedRoles settings
+                    newExtConfig.NamedRoles.AddRange(deployment.ExtensionConfiguration.NamedRoles);
+                }
             }
 
-            deployment.ExtensionConfiguration.AllRoles.RemoveAll(ext => GetHostedServiceExtension(ext.Id) != null && GetHostedServiceExtension(ext.Id).Type == RdpExtensionTypeStr);
-            if (extConfigType == ExtensionConfigurationType.Enable)
+            if (extensionId != null)
             {
-                deployment.ExtensionConfiguration.AllRoles.Add(new Extension(extensionId));
+                // To enable RDP extension, add it to AllRoles
+                newExtConfig.AllRoles.Add(new Extension(extensionId));
             }
 
-            return deployment.ExtensionConfiguration;
+            return newExtConfig;
         }
 
         private ChangeConfigurationInput CreateChangeDeploymentInput(Deployment deployment, ExtensionConfiguration extConfig)
@@ -299,33 +309,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 return null;
             }
-
             ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput();
+            // Copy Original Settings
             changeConfigInput.Configuration = deployment.Configuration;
             changeConfigInput.TreatWarningsAsError = false;
             changeConfigInput.Mode = "Auto";
-            // Extended Properties
+            // Copy Extended Properties
             ExtendedPropertiesList extendedProperties = new ExtendedPropertiesList();
             if (deployment.ExtendedProperties != null)
             {
-                foreach (ExtendedProperty property in deployment.ExtendedProperties)
-                {
-                    extendedProperties.Add(new ExtendedProperty()
-                    {
-                        Name = property.Name,
-                        Value = property.Value,
-                    });
-                }
+                extendedProperties.AddRange(deployment.ExtendedProperties);
             }
             changeConfigInput.ExtendedProperties = extendedProperties;
-            // Extension Configuration
+            // Update Extension Configuration
             changeConfigInput.ExtensionConfiguration = extConfig;
             return changeConfigInput;
         }
 
         private void UpdateDeployment(Deployment deployment, ExtensionConfiguration extConfig)
         {
-            if (deployment == null || extConfig == null)
+            if (deployment == null)
             {
                 return;
             }
@@ -345,7 +348,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private string GetRemoveExtensionMessage()
         {
-            return "Removing Default remote desktop configuration for all roles from Cloud Service " + ServiceName;
+            return "Removing default remote desktop configuration for all roles from Cloud Service " + ServiceName;
         }
 
         private bool InstallExtension(Deployment deployment, string extensionId)
@@ -359,10 +362,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                if (extension.Type == RdpExtensionTypeStr)
+                if (extension.Type == GetExtensionType())
                 {
                     WriteObject(GetOverwriteExtensionMessage());
-                    DisableExtension(deployment);
+                    DisableExtension(deployment, false);
                     DeleteHostedServieExtension(extensionId);
                     AddHostedServiceExtension(extensionId);
                 }
@@ -377,24 +380,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return true;
         }
 
-        private bool NewExtension(Deployment deployment, string extensionId)
-        {
-            if (!InstallExtension(deployment, extensionId))
-            {
-                return false;
-            }
-            return EnableExtension(deployment, extensionId);
-        }
-
         private bool EnableExtension(Deployment deployment, string extensionId)
         {
             HostedServiceExtension existingExt = GetHostedServiceExtension(extensionId);
             if (existingExt != null)
             {
-                if (existingExt.Type == RdpExtensionTypeStr)
+                if (existingExt.Type == GetExtensionType())
                 {
-                    ExtensionConfiguration extConfig = CreateExtensionConfiguration(deployment, extensionId, ExtensionConfigurationType.Enable);
-                    UpdateDeployment(deployment, extConfig);
+                    UpdateDeployment(deployment, CreateExtensionConfiguration(deployment, extensionId));
                 }
                 else
                 {
@@ -415,10 +408,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return true;
         }
 
-        private void DisableExtension(Deployment deployment)
+        private bool NewExtension(Deployment deployment)
         {
-            ExtensionConfiguration extConfig = CreateExtensionConfiguration(deployment, ExtensionConfigurationType.Disable);
-            UpdateDeployment(deployment, extConfig);
+            if (!InstallExtension(deployment, ExtensionId))
+            {
+                return false;
+            }
+            return EnableExtension(deployment, ExtensionId);
+        }
+
+        private void DisableExtension(Deployment deployment, bool verbose)
+        {
+            if (verbose)
+            {
+                WriteObject(GetRemoveExtensionMessage());
+            }
+            UpdateDeployment(deployment, CreateExtensionConfiguration(deployment, null));
         }
 
         private void ExecuteCommand()
@@ -448,12 +453,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
             if (string.Compare(ParameterSetName, NewExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                ExtensionId = GetExtensionId(ExtensionId);
-                NewExtension(deployment, ExtensionId);
+                ExtensionId = string.IsNullOrEmpty(ExtensionId) ? "RDPExtDefault" : ExtensionId;
+                NewExtension(deployment);
             }
             else if (string.Compare(ParameterSetName, RemoveExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                DisableExtension(deployment);
+                ExtensionId = null;
+                DisableExtension(deployment, true);
             }
         }
 
