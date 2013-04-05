@@ -24,6 +24,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
     using Sync.Download;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
     [TestClass]
     public class AddAzureVhdTest : AzureVhdTest
@@ -32,12 +33,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
+            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            {
+                Assert.Inconclusive("No Subscription is selected!");
+            }
+
             pass = true;
             testStartTime = DateTime.Now;
-            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);
-
-            // Set the source blob
-            //blobHandle = getBlobHandle(vhdBlobLocation);               
+            storageAccountKey = vmPowershellCmdlets.GetAzureStorageAccountKey(defaultAzureSubscription.CurrentStorageAccount);          
         }
 
 
@@ -45,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// UploadDisk: 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDisk()
         {
            
@@ -53,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             
             // Choose the vhd file from local machine
             string vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            FileInfo vhdLocalPath = new FileInfo(@".\" + vhdName);
+            FileInfo vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -79,7 +82,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -87,7 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -162,7 +165,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskOverwrite()
         {
             testName = MethodBase.GetCurrentMethod().Name;
@@ -170,8 +173,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             // Choose the vhd file from local machine
-            var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);           
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);            
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -204,7 +207,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskResume()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -212,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -254,7 +257,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -262,7 +265,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -317,7 +320,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskOverwriteNonExist()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -325,7 +328,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -358,7 +361,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskOverwriteNonExistSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -366,7 +369,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -422,7 +425,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskSecondWithoutOverwrite()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -430,7 +433,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -470,14 +473,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskSecondWithoutOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -537,14 +540,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskThreadNumber()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -574,14 +577,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskThreadNumberSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -636,14 +639,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskThreadNumberOverwrite()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -674,14 +677,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
         public void UploadDiskThreadNumberOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -730,14 +733,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
         public void PatchFirstLevelDifferencingDisk()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -760,7 +763,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the vhd file from local machine
             var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            var childVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + childVhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
 
             // Set the destination
@@ -768,8 +771,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string childVhdDestUri = blobUrlRoot + childVhdBlobName;
 
             // Start uploading the child vhd...
-            Console.WriteLine("uploads {0} to {1}", childVhdName, childVhdBlobName);
-            //var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(new AddAzureVhdCmdletInfo(childVhdDestUri, childVhdLocalPath.FullName, vhdDestUri));
+            Console.WriteLine("uploads {0} to {1}", childVhdName, childVhdBlobName);            
             var patchVhdUploadContext = vmPowershellCmdlets.AddAzureVhd(childVhdLocalPath, childVhdDestUri, vhdDestUri);
             Console.WriteLine("uploading completed: {0}", childVhdName);
 
@@ -787,14 +789,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
         public void PatchFirstLevelDifferencingDiskSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the base vhd file from local machine
             var baseVhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
-            var baseVhdLocalPath = new FileInfo(@".\" + baseVhdName);
+            var baseVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + baseVhdName);
             Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -805,7 +807,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Choose the child vhd file from the local machine
 
             var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            var childVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + childVhdName);
             Assert.IsTrue(File.Exists(childVhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
 
             for (int i = 0; i < 16; i++)
@@ -846,10 +848,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         /// <summary>
-        /// 
+        /// This test is ignored until patching scenario is available for SAS Uri.
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
         [Ignore]
         public void PatchSasUriNormalBaseShouldFail()
         {
@@ -857,7 +859,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the base vhd file from local machine
             var baseVhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
-            var baseVhdLocalPath = new FileInfo(@".\" + baseVhdName);
+            var baseVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + baseVhdName);
             Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
 
             // Set the destination
@@ -875,7 +877,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             // Choose the child vhd file from the local machine
             var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            var childVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + childVhdName);
             Assert.IsTrue(File.Exists(childVhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
 
             for (int i = 0; i < 16; i++)
@@ -911,14 +913,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
         public void PatchNormalSasUriBase()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the base vhd file from local machine
             var baseVhdName = Convert.ToString(TestContext.DataRow["baseImage"]);
-            var baseVhdLocalPath = new FileInfo(@".\" + baseVhdName);
+            var baseVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + baseVhdName);
             Assert.IsTrue(File.Exists(baseVhdLocalPath.FullName), "VHD file not exist={0}", baseVhdLocalPath);
 
             // Get the pre-calculated MD5 hash of the fixed vhd that was converted from the original vhd.
@@ -928,7 +930,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
             // Choose the child vhd file from the local machine
             var childVhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var childVhdLocalPath = new FileInfo(@".\" + childVhdName);
+            var childVhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + childVhdName);
             Assert.IsTrue(File.Exists(childVhdLocalPath.FullName), "VHD file not exist={0}", childVhdLocalPath);
 
             int i = 0;
@@ -984,14 +986,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
         public void WrongProtocolShouldFail()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
             // Choose the vhd file from local machine
             var vhdName = Convert.ToString(TestContext.DataRow["vhdName"]);
-            var vhdLocalPath = new FileInfo(@".\" + vhdName);
+            var vhdLocalPath = new FileInfo(Directory.GetCurrentDirectory() + "\\" + vhdName);
             Assert.IsTrue(File.Exists(vhdLocalPath.FullName), "VHD file not exist={0}", vhdLocalPath);
 
             // Set the destination
@@ -1059,22 +1061,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestCleanup]
         public virtual void CleanUp()
         {
-            Console.WriteLine("Test {0}", pass ? "passed" : "failed");
-            
-            //if (pass)
-            //{                
-            //    Console.WriteLine("Test passed.");
-
-            //    //DateTime testEndTime = DateTime.Now;
-            //    //Console.WriteLine("{0} test passed at {1}.", testName, testEndTime);
-            //    //Console.WriteLine("Duration of the test pass: {0} seconds", (testEndTime - testStartTime).TotalSeconds);
-
-            //    //System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
-            //}
-            //else
-            //{
-            //    Assert.Fail("Test failed.");
-            //}
+            Console.WriteLine("Test {0}", pass ? "passed" : "failed");                        
         }
     }
 }
