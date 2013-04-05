@@ -67,7 +67,7 @@ $metadataHashDeclaration="namespace $clientModelNamespace
 {
     public abstract partial class $clientModelBaseContext
     {
-        public readonly string metadataHash = `"$metadataHash`";
+        public readonly string[] metadataHashes = new string[]{`"$metadataHash`", `"3070BEE06139E0754E2F022E56E9798BF8A57F30`"};
     }
 }"
 $metadataHashDeclaration | Add-Content "$clientModelClassFile"
