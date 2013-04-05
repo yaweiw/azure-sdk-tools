@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         private readonly HttpClient httpClient;
         private readonly SubscriptionData subscription;
 
-        private static readonly XNamespace azureNS = "http://schemas.microsoft.com/windowsazure";
+        private static readonly XNamespace azureNS = ManagementConstants.ServiceManagementNS;
 
         /// <summary>
         /// Create an instance of <see cref="SubscriptionClient"/> that
@@ -58,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         /// <param name="finalHandler">HttpMessageHandler used to send the messages to the server.</param>
         public SubscriptionClient(SubscriptionData subscription, HttpMessageHandler finalHandler)
         {
-            this.httpClient = CreateHttpClient(finalHandler);
+            httpClient = CreateHttpClient(finalHandler);
             this.subscription = subscription;
             httpClient.BaseAddress = new Uri(subscription.ServiceEndpoint);
         }
@@ -70,9 +70,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         /// <returns></returns>
         public Task<IEnumerable<ProviderResource>> ListResourcesAsync(IEnumerable<string> knownResourceTypes)
         {
-            string resourceList = string.Join(",", knownResourceTypes);
-            var path = string.Format("/{0}/services/?servicelist={1}&expandlist=ServiceResource",
-                subscription.SubscriptionId, resourceList);
+            var path = ProviderRegistrationConstants.ListResourcesPath(subscription.SubscriptionId, knownResourceTypes);
 
             var request = CreateRequest(HttpMethod.Get, path);
 
@@ -95,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
 
             XDocument doc = XDocument.Parse(content);
             return doc.Root.Descendants(azureNS + "Service").Select(element =>
-                new ProviderResource()
+                new ProviderResource
                 {
                     State = (string) (element.Element(azureNS + "State")),
                     Type = (string) (element.Element(azureNS + "Type"))
@@ -109,8 +107,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         /// <returns>true if successful, false if already registered, throws on other errors.</returns>
         public Task<bool> RegisterResourceTypeAsync(string resourceType)
         {
-            var path = string.Format("/{0}/services?service={1}&action=register",
-                subscription.SubscriptionId, resourceType);
+            var path = ProviderRegistrationConstants.ActionPath(subscription.SubscriptionId, 
+                resourceType, 
+                ProviderRegistrationConstants.Register);
+
             var request = CreateRequest(HttpMethod.Put, path);
 
             return httpClient.SendAsync(request)
@@ -124,8 +124,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         /// <returns>true if successful, false if not registered, throws on other errors.</returns>
         public Task<bool> UnregisterResourceTypeAsync(string resourceType)
         {
-            var path = string.Format("/{0}/services?service={1}&action=unregister",
-                subscription.SubscriptionId, resourceType);
+            var path = ProviderRegistrationConstants.ActionPath(subscription.SubscriptionId,
+                resourceType,
+                ProviderRegistrationConstants.Unregister);
+
             var request = CreateRequest(HttpMethod.Put, path);
 
             return httpClient.SendAsync(request)
@@ -158,8 +160,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         private static HttpRequestMessage CreateRequest(HttpMethod method, string path)
         {
             var request = new HttpRequestMessage(method, new Uri(path, UriKind.Relative));
-            request.Headers.Add("x-ms-version", "2012-08-01");
-            request.Headers.Add("accept", "application/xml");
+            request.Headers.Add(ApiConstants.VersionHeaderName, ApiConstants.ResourceRegistrationApiVersion);
+            request.Headers.Accept.Add(HttpConstants.XmlMediaType);
             return request;
         }
     }

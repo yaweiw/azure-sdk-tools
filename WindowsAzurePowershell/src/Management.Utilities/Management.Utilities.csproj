@@ -260,6 +260,7 @@
     <Compile Include="Store\WindowsAzureOffer.cs" />
     <Compile Include="Subscriptions\Contract\ISubscriptionClient.cs" />
     <Compile Include="Subscriptions\Contract\ProviderResource.cs" />
+    <Compile Include="Subscriptions\ProviderRegistrationConstants.cs" />
     <Compile Include="Subscriptions\SubscriptionClient.cs" />
     <Compile Include="Websites\Common\DeploymentBaseCmdlet.cs" />
     <Compile Include="Websites\Common\IGithubCmdlet.cs" />
