@@ -123,10 +123,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public static void CleanUpAssembly()
         {
 
-            Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
-            if (deleteDefaultStorageAccount)
+            if (defaultAzureSubscription != null)
             {
-                vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
+                Retry(String.Format("Get-AzureDisk | Where {{$_.DiskName.Contains(\"{0}\")}} | Remove-AzureDisk -DeleteVhd", serviceNamePrefix), "in use");
+                if (deleteDefaultStorageAccount && !string.IsNullOrEmpty(defaultAzureSubscription.CurrentStorageAccount))
+                {
+                    vmPowershellCmdlets.RemoveAzureStorageAccount(defaultAzureSubscription.CurrentStorageAccount);
+                }
             }
         }
 
