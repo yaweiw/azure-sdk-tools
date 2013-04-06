@@ -117,6 +117,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureServiceCmdletName = "Get-AzureService";
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
+        // AzureServiceDesktopExtension
+        public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
         
         // AzureSSHKey
         public const string NewAzureSSHKeyCmdletName = "New-AzureSSHKey";

@@ -1286,8 +1286,70 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             return result;
         }
- 
-       
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        public void AzureServiceRemoteDesktopExtensionTest()
+        {
+                   
+            createOwnService = true;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+            
+            // Choose the package and config files from local machine
+            string packageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
+            string configName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);            
+            var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
+            var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
+            
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+            
+            string deploymentName = "deployment1";
+            string deploymentLabel = "label1";
+            DeploymentInfoContext result;
+
+           
+            try
+            {
+                serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
+                Console.WriteLine("service, {0}, is created.", serviceName);
+
+                vmPowershellCmdlets.NewAzureDeployment(serviceName, packagePath1.FullName, configPath1.FullName, DeploymentSlotType.Production, deploymentLabel, deploymentName, false, false);
+                result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
+                pass = Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, deploymentLabel, DeploymentSlotType.Production, null, 2);
+                Console.WriteLine("successfully deployed the package");                
+
+                // Add RDP extension
+                vmPowershellCmdlets.SetAzureServiceRemoteDesktopExtension(serviceName, username, password);
+                vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, ".\\webrole1.rdp", false);
+
+                // Remove RDP extension
+                vmPowershellCmdlets.SetAzureServiceRemoteDesktopExtension(serviceName);
+                try
+                {
+                    vmPowershellCmdlets.GetAzureRemoteDesktopFile("WebRole1_IN_0", serviceName, ".\\webrole2.rdp", false);
+                    Assert.Fail("Should fail!");
+                }
+                catch
+                {
+                    // Should fail
+                }
+               
+                vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+            finally
+            {
+
+            }
+        }
+
         [TestCleanup]
         public virtual void CleanUp()
         {
