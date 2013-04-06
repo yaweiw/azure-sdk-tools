@@ -33,7 +33,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string password = "p@ssw0rd";
         protected const string username = "pstestuser";
         protected static string localFile = Resource.Vhd;
-        protected const bool deleteDefaultStorageAccount = false;
+        protected const bool deleteDefaultStorageAccount = true;
         protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
        
 
@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected string testName;
         protected DateTime testStartTime;
         protected bool cleanupIfPassed = true;
-        protected bool cleanupIfFailed = false;
+        protected bool cleanupIfFailed = true;
         
 
         private TestContext testContextInstance;
