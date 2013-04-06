@@ -387,7 +387,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             else
             {
                 // Error - No existing extension
-                WriteExceptionError(new Exception("Error: No existing hosted extension with ID \'"
+                WriteExceptionError(new Exception("Error: No existing service extension with ID \'"
                     + extensionId + "\' found."));
                 return false;
             }
@@ -438,7 +438,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 return;
             }
 
-            bool updated = true;
+            bool updated = false;
 
             if (string.Compare(ParameterSetName, NewExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -459,8 +459,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             else
             {
                 // Exception
-                WriteExceptionError(new Exception("Cannot enable RDP extension."));
-                return;
+                WriteExceptionError(new Exception("Cannot set RDP extension."));
             }
         }
 
