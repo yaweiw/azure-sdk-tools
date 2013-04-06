@@ -17,8 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Common;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
@@ -93,8 +94,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
-        [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual")]
-        [ValidateSet(UpgradeType.Auto, UpgradeType.Manual)]
+        [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual | Simultaneous")]
+        [ValidateDeploymentUpgradeType]
         public string Mode
         {
             get;

@@ -12,14 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using WindowsAzure.ServiceManagement;
     using Model;
+    using Common;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.New, "AzureVMConfig", DefaultParameterSetName = "ImageName"), OutputType(typeof(PersistentVM))]
     public class NewAzureVMConfigCommand : PSCmdlet
@@ -35,8 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         }
 
         [Parameter(Position = 1, Mandatory = true, HelpMessage = "Represents the size of the machine.")]
-        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", IgnoreCase = true)]
-        [ValidateNotNullOrEmpty]
+        [ValidateVMSize]
         public string InstanceSize
         {
             get;

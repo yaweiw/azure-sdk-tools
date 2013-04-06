@@ -17,11 +17,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System;
     using System.Management.Automation;
     using System.Net;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public class IaaSDeploymentManagementCmdletBase : ServiceManagementBaseCmdlet
     {
+        private static IList<string> TerminalStates = new List<string>
+        {
+            "FailedStartingVM",
+            "ProvisioningFailed",
+            "ProvisioningTimeout"
+        };
+
         public IaaSDeploymentManagementCmdletBase()
         {
             CurrentDeployment = null;
@@ -81,6 +92,64 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 WriteError(new ErrorRecord(ex, string.Empty, ErrorCategory.CloseError, null));
             }
+        }
+
+        protected void WaitForRoleToBoot(string roleName)
+        {
+            string currentInstanceStatus = null;
+            RoleInstance durableRoleInstance;
+            do
+            {
+                Deployment deployment = null;
+                InvokeInOperationContext(() =>
+                {
+                    try
+                    {
+                        deployment = RetryCall(s => Channel.GetDeploymentBySlot(s, ServiceName, DeploymentSlotType.Production));
+                    }
+                    catch (Exception e)
+                    {
+                        var we = e.InnerException as WebException;
+                        if (we != null && ((HttpWebResponse)we.Response).StatusCode != HttpStatusCode.NotFound)
+                        {
+                            throw;
+                        }
+                    }
+                });
+
+                if (deployment == null)
+                {
+                    throw new ApplicationException(String.Format("Could not find a deployment for '{0}' in '{1}' slot.", ServiceName, DeploymentSlotType.Production));
+                }
+                durableRoleInstance = deployment.RoleInstanceList.Find(ri => ri.RoleName == roleName);
+
+                if (currentInstanceStatus == null)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if (currentInstanceStatus != durableRoleInstance.InstanceStatus)
+                {
+                    this.WriteVerboseWithTimestamp("InstanceStatus is {0}", durableRoleInstance.InstanceStatus);
+                    currentInstanceStatus = durableRoleInstance.InstanceStatus;
+                }
+
+                if(TerminalStates.FirstOrDefault(r => String.Compare(durableRoleInstance.InstanceStatus, r, true, CultureInfo.InvariantCulture) == 0) != null)
+                {
+                    var message = string.Format("VM creation failed, VM status is '{0}'", durableRoleInstance.InstanceStatus);
+                    throw new ApplicationException(message);
+                }
+                
+                if(String.Compare(durableRoleInstance.InstanceStatus, RoleInstanceStatus.ReadyRole, true, CultureInfo.InvariantCulture) == 0)
+                {
+                    break;
+                }
+                
+                //Once we move Tasks, we should remove Thread.Sleep
+                Thread.Sleep(TimeSpan.FromSeconds(30));
+
+            } while (true);
         }
     }
 }
