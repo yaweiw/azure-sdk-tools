@@ -277,8 +277,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
                 else // all roles are ready
                 {
-                    Console.WriteLine("Result of the deployment: {0}", result.Status);
-                    Assert.IsTrue(result.Status.Equals("Running"));                                       
+                    Console.WriteLine("Result of the deployment: {0}", result.Status);                    
                     return result.Url;
                 }
             }
