@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                                               "<Expiration>{1}</Expiration>" +
                                                               "</PublicConfig>";
 
-        private const string PrivateConfigurationTemplate =   "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+        private const string PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
                                                               "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
                                                               "<PrivateConfig>" +
                                                               "<Password>{0}</Password>" +
@@ -78,7 +78,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Disable Remote Desktop Extensions")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Disable Remote Desktop Extensions")]
         public SwitchParameter Remove
         {
             get;
@@ -109,8 +109,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
+        [Parameter(Position = 5, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
         [ValidateSet(ProductionSlotStr, StagingSlotStr, IgnoreCase = true)]
         public string Slot
         {
@@ -175,12 +175,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     // Error - Cannot parse the Xml of Configuration
                     WriteExceptionError(new Exception("Deployment configuration parsing error: " + ex.Message
-                                                    + ". Cannot determine the legacy RDP settings."));
+                        + ". Cannot determine the legacy RDP settings."));
                 }
             }
             return enabled;
         }
-        
+
         private Deployment GetDeployment()
         {
             return Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, string.IsNullOrEmpty(Slot) ? ProductionSlotStr : Slot);
@@ -256,11 +256,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Channel.AddHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, hostedSvcExtInput);
         }
 
-        private ExtensionConfiguration GetExtensionConfiguration(Deployment deployment)
-        {
-            return deployment.ExtensionConfiguration;
-        }
-
         private ExtensionConfiguration CreateExtensionConfiguration(Deployment deployment, string extensionId)
         {
             if (deployment == null)
@@ -283,7 +278,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                             var hostedSvcExt = GetHostedServiceExtension(ext.Id);
                             return hostedSvcExt != null && hostedSvcExt.Type != GetExtensionType();
                         });
-                }   
+                }
                 // Copy all non-RDP extensions
                 newExtConfig.AllRoles.AddRange(allNonRdpRoles);
 
