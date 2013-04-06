@@ -298,7 +298,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return newExtConfig;
         }
 
-        private ChangeConfigurationInput CreateChangeDeploymentInput(Deployment deployment, ExtensionConfiguration extConfig)
+        private ChangeConfigurationInput CreateChangeDeploymentInput(Deployment deployment)
         {
             if (deployment == null)
             {
@@ -317,18 +317,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             changeConfigInput.ExtendedProperties = extendedProperties;
             // Update Extension Configuration
-            changeConfigInput.ExtensionConfiguration = extConfig;
+            changeConfigInput.ExtensionConfiguration = deployment.ExtensionConfiguration;
             return changeConfigInput;
-        }
-
-        private void UpdateDeployment(Deployment deployment, ExtensionConfiguration extConfig)
-        {
-            if (deployment == null)
-            {
-                return;
-            }
-            ChangeConfigurationInput changeConfigInput = CreateChangeDeploymentInput(deployment, extConfig);
-            Channel.ChangeConfigurationBySlot(CurrentSubscription.SubscriptionId, ServiceName, GetSlot(), changeConfigInput);
         }
 
         private string GetNewExtensionMessage()
@@ -361,6 +351,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     WriteObject(GetOverwriteExtensionMessage());
                     DisableExtension(deployment, false);
+                    Channel.ChangeConfigurationBySlot(CurrentSubscription.SubscriptionId, ServiceName, GetSlot(), CreateChangeDeploymentInput(deployment));
                     DeleteHostedServieExtension(extensionId);
                     AddHostedServiceExtension(extensionId);
                 }
@@ -382,7 +373,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 if (existingExt.Type == GetExtensionType())
                 {
-                    UpdateDeployment(deployment, CreateExtensionConfiguration(deployment, extensionId));
+                    deployment.ExtensionConfiguration = CreateExtensionConfiguration(deployment, extensionId);
                 }
                 else
                 {
@@ -412,13 +403,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return EnableExtension(deployment, ExtensionId);
         }
 
-        private void DisableExtension(Deployment deployment, bool verbose)
+        private bool DisableExtension(Deployment deployment, bool verbose)
         {
             if (verbose)
             {
                 WriteObject(GetRemoveExtensionMessage());
             }
-            UpdateDeployment(deployment, CreateExtensionConfiguration(deployment, null));
+            deployment.ExtensionConfiguration = CreateExtensionConfiguration(deployment, null);
+            return true;
         }
 
         private void ExecuteCommand()
@@ -446,15 +438,29 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 return;
             }
 
+            bool updated = true;
+
             if (string.Compare(ParameterSetName, NewExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 ExtensionId = string.IsNullOrEmpty(ExtensionId) ? "RDPExtDefault" : ExtensionId;
-                NewExtension(deployment);
+                updated = NewExtension(deployment);
             }
             else if (string.Compare(ParameterSetName, RemoveExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 ExtensionId = null;
-                DisableExtension(deployment, true);
+                updated = DisableExtension(deployment, true);
+            }
+
+            if (updated)
+            {
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(),
+                s => this.Channel.ChangeConfigurationBySlot(s, ServiceName, GetSlot(), CreateChangeDeploymentInput(deployment)));
+            }
+            else
+            {
+                // Exception
+                WriteExceptionError(new Exception("Cannot enable RDP extension."));
+                return;
             }
         }
 
