@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
     using System;
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     /// <summary>
     /// Class that represents usage of the quota resource.

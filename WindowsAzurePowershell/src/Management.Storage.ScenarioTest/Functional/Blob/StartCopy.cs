@@ -190,7 +190,7 @@ namespace CLITest.Functional.Blob
             {
                 Func<bool> StartCopyUsingICloudBlob = delegate()
                 {
-                    return agent.StartCopyAzureStorageBlob(snapshot, destContainer.Name, string.Empty, PowerShellAgent.Context);
+                    return agent.StartAzureStorageBlobCopy(snapshot, destContainer.Name, string.Empty, PowerShellAgent.Context);
                 };
 
                 ICloudBlob destBlob = AssertCopyBlobCrossContainer(snapshot, destContainer, string.Empty, PowerShellAgent.Context);
@@ -222,7 +222,7 @@ namespace CLITest.Functional.Blob
 
             try
             {
-                Test.Assert(!agent.StartCopyAzureStorageBlob(srcBlob.Container.Name, srcBlob.Name, srcContainer.Name, string.Empty, PowerShellAgent.Context), "blob copy should failed when copy itself");
+                Test.Assert(!agent.StartAzureStorageBlobCopy(srcBlob.Container.Name, srcBlob.Name, srcContainer.Name, string.Empty, PowerShellAgent.Context), "blob copy should failed when copy itself");
                 string errorMessage = "Source and destination cannot be the same.";
                 Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
             }
@@ -249,14 +249,14 @@ namespace CLITest.Functional.Blob
             string invalidContainerErrorMessage = String.Format("Container name '{0}' is invalid.", invalidContainerName);
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
             string errorMessage = invalidContainerErrorMessage;
-            Test.Assert(!agent.StartCopyAzureStorageBlob(invalidContainerName, Utility.GenNameString("blob"), Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src container name");
+            Test.Assert(!agent.StartAzureStorageBlobCopy(invalidContainerName, Utility.GenNameString("blob"), Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src container name");
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            Test.Assert(!agent.StartCopyAzureStorageBlob(Utility.GenNameString("container"), Utility.GenNameString("blob"), invalidContainerName, Utility.GenNameString("blob")), "Start copy should failed with invalid dest container name");
+            Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), invalidContainerName, Utility.GenNameString("blob")), "Start copy should failed with invalid dest container name");
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
             errorMessage = invalidBlobErrorMessage;
-            Test.Assert(!agent.StartCopyAzureStorageBlob(Utility.GenNameString("container"), invalidBlobName, Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src blob name");
+            Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), invalidBlobName, Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src blob name");
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            Test.Assert(!agent.StartCopyAzureStorageBlob(Utility.GenNameString("container"), Utility.GenNameString("blob"), Utility.GenNameString("container"), invalidBlobName), "Start copy should failed with invalid dest blob name");
+            Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), Utility.GenNameString("container"), invalidBlobName), "Start copy should failed with invalid dest blob name");
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
         }
 
@@ -276,17 +276,17 @@ namespace CLITest.Functional.Blob
             string blobName = Utility.GenNameString("blob");
 
             string errorMessage = string.Empty;
-            Test.Assert(!agent.StartCopyAzureStorageBlob(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing src container");
+            Test.Assert(!agent.StartAzureStorageBlobCopy(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing src container");
             errorMessage = string.Format("Can not find blob '{0}' in container '{1}'.", blobName, srcContainerName);
             ExpectedEqualErrorMessage(errorMessage);
 
             try
             {
                 CloudBlobContainer srcContainer = blobUtil.CreateContainer(srcContainerName);
-                Test.Assert(!agent.StartCopyAzureStorageBlob(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing blob");
+                Test.Assert(!agent.StartAzureStorageBlobCopy(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing blob");
                 ExpectedEqualErrorMessage(errorMessage);
                 blobUtil.CreateRandomBlob(srcContainer, blobName);
-                Test.Assert(!agent.StartCopyAzureStorageBlob(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing dest container");
+                Test.Assert(!agent.StartAzureStorageBlobCopy(srcContainerName, blobName, destContainerName, string.Empty), "Start copy should failed with not existing dest container");
                 ExpectedContainErrorMessage("The specified container does not exist.");
             }
             finally
@@ -312,9 +312,9 @@ namespace CLITest.Functional.Blob
 
             try
             {
-                Test.Assert(!agent.StartCopyAzureStorageBlob(blockBlob, container.Name, pageBlob.Name), "Start copy should failed with mismatched blob type");
+                Test.Assert(!agent.StartAzureStorageBlobCopy(blockBlob, container.Name, pageBlob.Name), "Start copy should failed with mismatched blob type");
                 ExpectedEqualErrorMessage("Cannot overwrite an existing PageBlob with a BlockBlob.");
-                Test.Assert(!agent.StartCopyAzureStorageBlob(container.Name, pageBlob.Name, container.Name, blockBlob.Name), "Start copy should failed with mismatched blob type");
+                Test.Assert(!agent.StartAzureStorageBlobCopy(container.Name, pageBlob.Name, container.Name, blockBlob.Name), "Start copy should failed with mismatched blob type");
                 ExpectedEqualErrorMessage("Cannot overwrite an existing BlockBlob with a PageBlob.");
             }
             finally
@@ -327,7 +327,7 @@ namespace CLITest.Functional.Blob
         {
             if (StartFunc == null)
             {
-                Test.Assert(agent.StartCopyAzureStorageBlob(srcBlob.Container.Name, srcBlob.Name, destContainer.Name, destBlobName, destContext), "blob copy should start sucessfully");
+                Test.Assert(agent.StartAzureStorageBlobCopy(srcBlob.Container.Name, srcBlob.Name, destContainer.Name, destBlobName, destContext), "blob copy should start sucessfully");
             }
             else
             {

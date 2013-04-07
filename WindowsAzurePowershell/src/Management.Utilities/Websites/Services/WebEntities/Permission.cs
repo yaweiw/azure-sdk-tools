@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities
 {
     using System.Runtime.Serialization;
-    using Utilities;
 
     [DataContract(Name = "Permission", Namespace = UriElements.ServiceNamespace)]
     public enum Permission

@@ -159,6 +159,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudService\Development\DisableAzureRemoteDesktop.cs" />
+    <Compile Include="CloudService\Development\EnableAzureMemcacheRole.cs" />
+    <Compile Include="CloudService\Development\EnableAzureRemoteDesktop.cs" />
+    <Compile Include="CloudService\Development\GetAzureServiceProjectRoleRuntime.cs" />
+    <Compile Include="CloudService\Development\SaveAzureServiceProjectPackage.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureCacheWorkerRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureDjangoWebRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureNodeWebRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureNodeWorkerRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzurePHPWebRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzurePHPWorkerRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureWebRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\AddAzureWorkerRole.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\NewAzureRoleTemplate.cs" />
+    <Compile Include="CloudService\Development\Scaffolding\NewAzureServiceProject.cs" />
+    <Compile Include="CloudService\Development\SetAzureServiceProject.cs" />
+    <Compile Include="CloudService\Development\SetAzureServiceProjectRole.cs" />
+    <Compile Include="CloudService\Development\StartAzureEmulator.cs" />
+    <Compile Include="CloudService\Development\StopAzureEmulator.cs" />
+    <Compile Include="CloudService\PublishAzureServiceProject.cs" />
+    <Compile Include="CloudService\RemoveAzureService.cs" />
+    <Compile Include="CloudService\StartAzureService.cs" />
+    <Compile Include="CloudService\StopAzureService.cs" />
+    <Compile Include="CloudService\TestAzureName.cs" />
     <Compile Include="ServiceBus\GetAzureSBLocation.cs" />
     <Compile Include="ServiceBus\GetAzureSBNamespace.cs" />
     <Compile Include="ServiceBus\NewAzureSBNamespace.cs" />
@@ -230,6 +254,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
-    using System;
 
     public class RoleContext : ServiceOperationContext
     {

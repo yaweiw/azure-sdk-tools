@@ -96,7 +96,7 @@ function Test-GetAzureWebsiteLogTail
 	#Test
 	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % {
 		if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }
-		$client.DownloadString($uri)
+		Retry-DownloadString $client $uri
 		$count++
 		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
 	}
@@ -119,7 +119,7 @@ function Test-GetAzureWebsiteLogTailUriEncoding
 	#Test
 	Get-AzureWebsiteLog -Tail -Message "mes/a:q;" | % {
 		if ($_ -like "*mes/a:q;*") { cd ..; exit; }
-		$client.DownloadString($uri)
+		Retry-DownloadString $client $uri
 		$count++
 		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
 	}
@@ -138,7 +138,7 @@ function Test-GetAzureWebsiteLogTailPath
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
-	1..10 | % { $client.DownloadString($uri) }
+	1..10 | % { Retry-DownloadString $client $uri }
 	Start-Sleep -Seconds 30
 
 	#Test

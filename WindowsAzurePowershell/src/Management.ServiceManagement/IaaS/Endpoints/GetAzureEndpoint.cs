@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using Model;
     using IaaS;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase

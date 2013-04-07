@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
 {
     using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [TestClass]
     public class WebsitesTestBase : TestBase
