@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
 
                 CloudTable table = Channel.GetTableReference(name);
 
-                if (Channel.IsTableExists(table, requestOptions, OperationContext))
+                if (Channel.DoesTableExist(table, requestOptions, OperationContext))
                 {
                     yield return table;
                 }

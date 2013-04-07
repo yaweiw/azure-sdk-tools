@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             TableRequestOptions requestOptions = null;
             CloudTable table = Channel.GetTableReference(name);
 
-            if (!Channel.IsTableExists(table, requestOptions, OperationContext))
+            if (!Channel.DoesTableExist(table, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.TableNotFound, name));
             }
