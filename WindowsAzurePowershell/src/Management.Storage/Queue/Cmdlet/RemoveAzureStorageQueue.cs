@@ -84,7 +84,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
             QueueRequestOptions requestOptions = null;
             CloudQueue queue = Channel.GetQueueReference(name);
 
-            if (!Channel.IsQueueExists(queue, requestOptions, OperationContext))
+            if (!Channel.DoesQueueExist(queue, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.QueueNotFound, name));
             }
