@@ -17,18 +17,16 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Subscription;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Utilities;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using Moq;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites;
+    using Moq;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GetAzureWebsiteTests : WebsitesTestBase

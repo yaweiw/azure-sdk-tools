@@ -15,15 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.Test.Websites
 {
     using System.Collections.Generic;
-    using System.IO;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Utilities;
-    using VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Websites;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class RemoveAzureWebsiteTests : WebsitesTestBase

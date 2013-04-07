@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.Sync.Download
     using System.Collections.Specialized;
     using System.Runtime.Serialization;
     using System.Text;
-    using System.Web;
 
     public class BlobUri
     {

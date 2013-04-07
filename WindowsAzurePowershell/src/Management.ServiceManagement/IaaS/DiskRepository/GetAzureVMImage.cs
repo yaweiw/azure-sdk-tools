@@ -18,9 +18,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Model;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureVMImage"), OutputType(typeof(IEnumerable<OSImageContext>))]
     public class GetAzureVMImage : ServiceManagementBaseCmdlet

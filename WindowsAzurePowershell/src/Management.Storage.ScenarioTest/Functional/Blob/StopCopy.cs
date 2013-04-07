@@ -90,7 +90,7 @@ namespace CLITest.Functional.Blob
                 ((PowerShellAgent)agent).AddPipelineScript(String.Format("Get-AzureStorageBlob -Container {0}", container.Name));
                 string copyId = "*";
                 bool force = true;
-                Test.Assert(agent.StopCopyAzureStorageBlob(string.Empty, string.Empty, copyId, force), "Stop multiple copy operations using blob pipeline should be successful");
+                Test.Assert(agent.StopAzureStorageBlobCopy(string.Empty, string.Empty, copyId, force), "Stop multiple copy operations using blob pipeline should be successful");
                 int expectedOutputCount = blobs.Count;
                 Test.Assert(agent.Output.Count == expectedOutputCount, String.Format("Should return {0} message, and actually it's {1}", expectedOutputCount, agent.Output.Count));
 
@@ -108,7 +108,7 @@ namespace CLITest.Functional.Blob
 
         /// <summary>
         /// Unit test for invalid blob or container name.
-        /// 8.20	Stop-CopyAzureStorageBlob Negative Functional Cases
+        /// 8.20	Stop-AzureStorageBlobCopy Negative Functional Cases
         ///     1.	Stop the copy task on invalid container name and blob name
         /// </summary>
         [TestMethod()]
@@ -124,16 +124,16 @@ namespace CLITest.Functional.Blob
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
             string errorMessage = invalidContainerErrorMessage;
             string copyId = "*";
-            Test.Assert(!agent.StopCopyAzureStorageBlob(invalidContainerName, Utility.GenNameString("blob"), copyId, false), "Stop copy should failed with invalid container name");
+            Test.Assert(!agent.StopAzureStorageBlobCopy(invalidContainerName, Utility.GenNameString("blob"), copyId, false), "Stop copy should failed with invalid container name");
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            Test.Assert(!agent.StopCopyAzureStorageBlob(Utility.GenNameString("container"), invalidBlobName, copyId, false), "Start copy should failed with invalid blob name");
+            Test.Assert(!agent.StopAzureStorageBlobCopy(Utility.GenNameString("container"), invalidBlobName, copyId, false), "Start copy should failed with invalid blob name");
             errorMessage = invalidBlobErrorMessage;
             Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
         }
 
         /// <summary>
         /// Stop the copy task on a not existing container and blob
-        /// 8.20	Stop-CopyAzureStorageBlob Negative Functional Cases
+        /// 8.20	Stop-AzureStorageBlobCopy Negative Functional Cases
         ///    2. Stop the copy task on a not existing container and blob
         /// </summary>
         [TestMethod()]
@@ -146,14 +146,14 @@ namespace CLITest.Functional.Blob
             string blobName = Utility.GenNameString("blob");
             string copyId = Guid.NewGuid().ToString();
             string errorMessage = string.Empty;
-            Test.Assert(!agent.StopCopyAzureStorageBlob(srcContainerName, blobName, copyId, false), "Stop copy should failed with not existing src container");
+            Test.Assert(!agent.StopAzureStorageBlobCopy(srcContainerName, blobName, copyId, false), "Stop copy should failed with not existing src container");
             errorMessage = string.Format("Can not find blob '{0}' in container '{1}'.", blobName, srcContainerName);
             ExpectedEqualErrorMessage(errorMessage);
 
             try
             {
                 CloudBlobContainer srcContainer = blobUtil.CreateContainer(srcContainerName);
-                Test.Assert(!agent.StopCopyAzureStorageBlob(srcContainerName, blobName, copyId, false), "Stop copy should failed with not existing src container");
+                Test.Assert(!agent.StopAzureStorageBlobCopy(srcContainerName, blobName, copyId, false), "Stop copy should failed with not existing src container");
                 errorMessage = string.Format("Can not find blob '{0}' in container '{1}'.", blobName, srcContainerName);
                 ExpectedEqualErrorMessage(errorMessage);
             }
@@ -168,7 +168,7 @@ namespace CLITest.Functional.Blob
             Test.Assert(blob.CopyState.Status == CopyStatus.Pending, String.Format("The copy status should be pending, actually it's {0}", blob.CopyState.Status));
             string copyId = "*";
             bool force = true;
-            Test.Assert(agent.StopCopyAzureStorageBlob(blob.Container.Name, blob.Name, copyId, force), "Stop copy operation should be successed");
+            Test.Assert(agent.StopAzureStorageBlobCopy(blob.Container.Name, blob.Name, copyId, force), "Stop copy operation should be successed");
             blob.FetchAttributes();
             Test.Assert(blob.CopyState.Status == CopyStatus.Aborted, String.Format("The copy status should be aborted, actually it's {0}", blob.CopyState.Status));
             int expectedOutputCount = 1;

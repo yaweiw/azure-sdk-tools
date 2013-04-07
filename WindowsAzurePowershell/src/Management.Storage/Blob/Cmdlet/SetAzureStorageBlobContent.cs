@@ -14,19 +14,18 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Blob
 {
-    using Microsoft.WindowsAzure.Management.Storage.Common;
-    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
-    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Storage;
-    using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.DataMovement;
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
     using System.Management.Automation;
-    using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Storage.Common;
+    using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
+    using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Blob;
+    using Microsoft.WindowsAzure.Storage.DataMovement;
 
     /// <summary>
     /// download blob from azure

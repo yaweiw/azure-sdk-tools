@@ -14,11 +14,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
 {
+    using System;
+    using System.Collections.Generic;
     using Microsoft.WindowsAzure.Management.Storage.Model.Contract;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Mock blob management

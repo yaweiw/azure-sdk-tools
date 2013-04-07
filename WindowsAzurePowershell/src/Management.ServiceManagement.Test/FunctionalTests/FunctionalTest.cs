@@ -12,25 +12,22 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-
-using System.Threading;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
-{    
+{
     using System.Collections.ObjectModel;
-    using System.Management.Automation;
-    using Microsoft.WindowsAzure.ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
-
     using System.IO;
+    using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.ServiceManagement;
     
 
     [TestClass]

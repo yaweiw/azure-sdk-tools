@@ -66,7 +66,7 @@ namespace CLITest.Functional.Blob
             try
             {
                 ((PowerShellAgent)agent).AddPipelineScript(String.Format("Get-AzureStorageBlob -Container {0}", srcContainer.Name));
-                ((PowerShellAgent)agent).AddPipelineScript(String.Format("Start-CopyAzureStorageBlob -DestContainer {0}", destContainer.Name));
+                ((PowerShellAgent)agent).AddPipelineScript(String.Format("Start-AzureStorageBlobCopy -DestContainer {0}", destContainer.Name));
 
                 Test.Assert(agent.GetAzureStorageBlobCopyState(string.Empty, string.Empty, true), "Get copy state for many blobs should be successed.");
                 Test.Assert(agent.Output.Count == blobs.Count, String.Format("Expected get {0} copy state, and actually get {1} copy state", blobs.Count, agent.Output.Count));
@@ -193,7 +193,7 @@ namespace CLITest.Functional.Blob
 
             try
             {
-                Test.Assert(agent.StartCopyAzureStorageBlob(blobUtil.Blob, destContainer.Name, string.Empty, destContext), "Start cross account copy should successed");
+                Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.Blob, destContainer.Name, string.Empty, destContext), "Start cross account copy should successed");
                 int expectedBlobCount = 1;
                 Test.Assert(agent.Output.Count == expectedBlobCount, String.Format("Expected get {0} copy blob, and actually it's {1}", expectedBlobCount, agent.Output.Count));
                 ICloudBlob destBlob = (ICloudBlob)agent.Output[0]["ICloudBlob"];
@@ -231,7 +231,7 @@ namespace CLITest.Functional.Blob
 
             try
             {
-                Test.Assert(agent.StartCopyAzureStorageBlob(blobUtil.Blob.Uri.ToString(), blobUtil.ContainerName, copiedName, PowerShellAgent.Context), Utility.GenComparisonData("Start copy blob using source uri", true));
+                Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.Blob.Uri.ToString(), blobUtil.ContainerName, copiedName, PowerShellAgent.Context), Utility.GenComparisonData("Start copy blob using source uri", true));
                 Test.Assert(agent.GetAzureStorageBlobCopyState(blobUtil.ContainerName, copiedName, true), "Get copy state in dest container should be successed.");
                 AssertFinishedCopyState(blobUtil.Blob.Uri);
             }

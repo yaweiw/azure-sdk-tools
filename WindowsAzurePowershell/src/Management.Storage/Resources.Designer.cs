@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Storage {
-    using System;
-    
-    
+namespace Microsoft.WindowsAzure.Management.Storage
+{
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -174,6 +174,15 @@ namespace Microsoft.WindowsAzure.Management.Storage {
         internal static string ClientRequestIdFormat {
             get {
                 return ResourceManager.GetString("ClientRequestIdFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}-{1}.
+        /// </summary>
+        internal static string CmdletFormat {
+            get {
+                return ResourceManager.GetString("CmdletFormat", resourceCulture);
             }
         }
         
