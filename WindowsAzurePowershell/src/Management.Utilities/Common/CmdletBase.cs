@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 

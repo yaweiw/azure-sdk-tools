@@ -17,10 +17,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System;
     using System.Globalization;
     using System.IO;
+    using ServiceManagement;
     using Storage;
     using Storage.Auth;
     using Storage.Blob;
-    using ServiceManagement;
 
 
     public static class AzureBlob

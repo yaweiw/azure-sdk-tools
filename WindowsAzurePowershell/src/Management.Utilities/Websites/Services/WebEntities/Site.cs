@@ -18,7 +18,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.Serialization;
-    using Utilities;
 
     [DataContract(Name = "UsageState", Namespace = UriElements.ServiceNamespace)]
     public enum UsageState

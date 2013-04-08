@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Collections.Generic;
     using System.Globalization;
     using System.Management.Automation;
+    using System.Reflection;
     using System.ServiceModel;
     using System.ServiceModel.Dispatcher;
     using System.Threading;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using ServiceManagement;
 
     public abstract class ServiceManagementBaseCmdlet : CloudBaseCmdlet<IServiceManagement>
@@ -44,7 +44,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             var clientOptions = new ServiceManagementClientOptions(null, null, null, 0, RetryPolicy.NoRetryPolicy, ServiceManagementClientOptions.DefaultOptions.WaitTimeForOperationToComplete, messageInspectors);
             var smClient = new ServiceManagementClient(new Uri(this.ServiceEndpoint), CurrentSubscription.SubscriptionId, CurrentSubscription.Certificate, clientOptions);
-            return smClient.SyncService;
+
+            Type serviceManagementClientType = typeof(ServiceManagementClient);
+            PropertyInfo propertyInfo = serviceManagementClientType.GetProperty("SyncService", BindingFlags.Instance | BindingFlags.NonPublic);
+            var syncService = (IServiceManagement)propertyInfo.GetValue(smClient, null);
+
+            return syncService;
         }
 
         /// <summary>

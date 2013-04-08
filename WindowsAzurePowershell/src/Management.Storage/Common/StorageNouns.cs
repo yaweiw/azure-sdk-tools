@@ -92,7 +92,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common
         /// <summary>
         /// Copy azure storage blob
         /// </summary>
-        public const string CopyBlob = "CopyAzureStorageBlob";
+        public const string CopyBlob = "AzureStorageBlobCopy";
+
+        /// <summary>
+        /// Copy azure storage blob deprecated name
+        /// </summary>
+        public const string CopyBlobDeprecatedName = "CopyAzureStorageBlob";
 
         /// <summary>
         /// Copy status for azure storage blob

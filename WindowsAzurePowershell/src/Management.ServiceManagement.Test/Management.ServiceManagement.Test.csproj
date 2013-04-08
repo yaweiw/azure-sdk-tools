@@ -231,7 +231,6 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureSubscriptionCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellCmdletSequence.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\WindowsAzurePowershellCmdlet.cs" />
-    <Compile Include="FunctionalTests\IaasCmdletInfo\NewAzureQuickLinuxVMCmdletInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\CmdletsInfo.cs" />
     <Compile Include="FunctionalTests\PowershellCore\CmdletParam.cs" />
     <Compile Include="FunctionalTests\PowershellCore\PowershellCmdlet.cs" />
@@ -323,14 +322,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Management.CloudService.Test\Management.CloudService.Test.csproj">
-      <Project>{C7C619E8-BB9B-43B6-9592-EC7F4ED3B55C}</Project>
-      <Name>Management.CloudService.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Management.CloudService\Management.CloudService.csproj">
-      <Project>{B6F73AB3-1207-4B52-B90A-065CD5E107EB}</Project>
-      <Name>Management.CloudService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Management.ServiceManagement\Management.ServiceManagement.csproj">
       <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
       <Name>Management.ServiceManagement</Name>

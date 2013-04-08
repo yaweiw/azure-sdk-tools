@@ -14,9 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Diagnostics;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
     /// Test base class for storage package

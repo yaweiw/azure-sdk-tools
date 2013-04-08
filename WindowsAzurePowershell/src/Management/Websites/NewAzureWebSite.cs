@@ -22,14 +22,13 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Security.Permissions;
     using System.ServiceModel;
     using System.Text.RegularExpressions;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using GitClass = Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Git;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Github;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using GitClass = Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Git;
 
     /// <summary>
     /// Creates a new azure website.

@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Management.Automation;
@@ -22,9 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using WindowsAzure.ServiceManagement;
     using Model;
     using IaasCmdletInfo;
-    using ConfigDataInfo;
-
-    using System.Collections.Generic;
+    using ConfigDataInfo;    
 
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Sync.Download;
@@ -553,7 +552,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 // Get a publish settings file from a local or shared directory.
                 string publishSettingsFile = Resource.PublishSettingsFile;
 
-                if (publishSettingsFile.StartsWith("\\\\"))
+                if (string.IsNullOrEmpty(publishSettingsFile))
+                {
+                    return;
+                }
+                else if (publishSettingsFile.StartsWith("\\\\"))
                 {
                     // A publish settings file is located in a shared directory.  Copy it to a local directory and use it.
                     File.Copy(publishSettingsFile, localFile, true);                    

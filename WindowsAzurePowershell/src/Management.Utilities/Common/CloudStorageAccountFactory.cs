@@ -16,9 +16,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using Storage;
     using ServiceManagement;
+    using Storage;
 
     public class CloudStorageAccountFactory
     {

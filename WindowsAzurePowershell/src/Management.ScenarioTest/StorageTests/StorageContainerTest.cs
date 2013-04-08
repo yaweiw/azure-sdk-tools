@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.StorageTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
-    using Microsoft.WindowsAzure.Management.Storage;
 
     [TestClass]
     public class StorageContainerTest : WindowsAzurePowerShellTest

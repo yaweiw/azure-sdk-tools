@@ -15,12 +15,12 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
-    using System.Management.Automation;
-    using Model;
     using System;
+    using System.Management.Automation;
     using WindowsAzure.ServiceManagement;
     using Utilities.Common;
     using Common;
+    using Model;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class UpdateAzureVMImage : ServiceManagementBaseCmdlet

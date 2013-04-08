@@ -18,10 +18,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.IO;
     using System.Linq;
     using Microsoft.WindowsAzure.Management.Subscription;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ImportAzurePublishSettingsTest

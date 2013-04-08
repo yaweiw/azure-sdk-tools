@@ -17,12 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Test.Store
     using System;
     using System.Collections.Generic;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Store;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.MarketplaceServiceReference;
     using Microsoft.WindowsAzure.Management.Utilities.Store;
     using Microsoft.WindowsAzure.Management.Utilities.Store.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Store;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;

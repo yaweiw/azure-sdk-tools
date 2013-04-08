@@ -14,43 +14,29 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
 
     public class NewAzureQuickVMCmdletInfo : CmdletsInfo
     {
-        public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string password, string locationName)
-        {
-            cmdletName = Utilities.NewAzureQuickVMCmdletName;
-             
-            if (os == OS.Windows)
-                cmdletParams.Add(new CmdletParam("Windows", null));
-            else
-                cmdletParams.Add(new CmdletParam("Linux", null));
-            cmdletParams.Add(new CmdletParam("ImageName", imageName));
-            cmdletParams.Add(new CmdletParam("Name", name));
-            cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            cmdletParams.Add(new CmdletParam("AdminUsername", "DanAdmin"));
-            cmdletParams.Add(new CmdletParam("Password", password));
-            cmdletParams.Add(new CmdletParam("Location", locationName));
-        }
-
-
+        
         public NewAzureQuickVMCmdletInfo(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
         {
             cmdletName = Utilities.NewAzureQuickVMCmdletName;
 
             if (os == OS.Windows)
+            {
                 cmdletParams.Add(new CmdletParam("Windows", null));
+                cmdletParams.Add(new CmdletParam("AdminUsername", userName));
+            }
             else
+            {
                 cmdletParams.Add(new CmdletParam("Linux", null));
+                cmdletParams.Add(new CmdletParam("LinuxUser", userName));
+            }
             cmdletParams.Add(new CmdletParam("ImageName", imageName));
             cmdletParams.Add(new CmdletParam("Name", name));
-            cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
-            if (os == OS.Windows)
-                cmdletParams.Add(new CmdletParam("AdminUsername", userName));
-            else
-                cmdletParams.Add(new CmdletParam("LinuxUser", userName));
+            cmdletParams.Add(new CmdletParam("ServiceName", serviceName));            
             cmdletParams.Add(new CmdletParam("Password", password));
             cmdletParams.Add(new CmdletParam("Location", locationName));
         }

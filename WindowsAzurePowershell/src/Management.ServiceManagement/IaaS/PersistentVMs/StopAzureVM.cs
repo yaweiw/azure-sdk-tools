@@ -16,7 +16,6 @@ using Microsoft.WindowsAzure.ServiceManagement;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
-    using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
