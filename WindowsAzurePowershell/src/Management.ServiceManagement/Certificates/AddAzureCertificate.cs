@@ -17,8 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using System.Security.Permissions;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
     using Helpers;
 

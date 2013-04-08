@@ -17,10 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System;
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
+    using System.ServiceModel.Channels;
     using Microsoft.WindowsAzure.Storage;
     using ServiceManagement;
-    using Microsoft.WindowsAzure.Management.Utilities;
-    using System.ServiceModel.Channels;
 
     public class SubscriptionData
     {

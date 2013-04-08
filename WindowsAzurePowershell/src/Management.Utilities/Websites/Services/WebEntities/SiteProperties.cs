@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntit
 {
     using System.Collections.Generic;
     using System.Runtime.Serialization;
-    using Utilities;
 
     [DataContract(Namespace = UriElements.ServiceNamespace)]
     public class SiteProperties

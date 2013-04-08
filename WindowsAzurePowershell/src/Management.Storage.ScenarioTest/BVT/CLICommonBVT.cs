@@ -17,16 +17,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Management.Automation;
 using CLITest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
-using System.Management.Automation;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CLITest.BVT
@@ -325,7 +325,7 @@ namespace CLITest.BVT
         }
 
         /// <summary>
-        /// BVT case : for Start-CopyAzureStorageBlob
+        /// BVT case : for Start-AzureStorageBlobCopy
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
@@ -338,7 +338,7 @@ namespace CLITest.BVT
         }
 
         /// <summary>
-        /// BVT case : for Start-CopyAzureStorageBlob
+        /// BVT case : for Start-AzureStorageBlobCopy
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
@@ -390,7 +390,7 @@ namespace CLITest.BVT
         }
 
         /// <summary>
-        /// BVT case : for Stop-CopyAzureStorageBlob
+        /// BVT case : for Stop-AzureStorageBlobCopy
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
@@ -407,13 +407,13 @@ namespace CLITest.BVT
             {
                 PowerShellAgent agent = new PowerShellAgent();
                 string copyId = Guid.NewGuid().ToString();
-                Test.Assert(!agent.StopCopyAzureStorageBlob(blobUtil.ContainerName, blobUtil.BlobName, copyId, true), "Stop copy operation should be fail since the specified blob don't have any copy operation");
+                Test.Assert(!agent.StopAzureStorageBlobCopy(blobUtil.ContainerName, blobUtil.BlobName, copyId, true), "Stop copy operation should be fail since the specified blob don't have any copy operation");
                 Test.Assert(agent.ErrorMessages.Count > 0, "Should return error message");
                 string errorMessage = String.Format("Can not find copy task on specified blob '{0}' in container '{1}'", blobUtil.BlobName, blobUtil.ContainerName);
                 Test.Assert(agent.ErrorMessages[0].IndexOf(errorMessage) != -1, String.Format("Error message should contain {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
 
                 errorMessage = "There is currently no pending copy operation.";
-                Test.Assert(!agent.StopCopyAzureStorageBlob(blobUtil.ContainerName, destBlob.Name, copyId, true), "Stop copy operation should be fail since the specified copy operation has finished");
+                Test.Assert(!agent.StopAzureStorageBlobCopy(blobUtil.ContainerName, destBlob.Name, copyId, true), "Stop copy operation should be fail since the specified copy operation has finished");
                 Test.Assert(agent.ErrorMessages.Count > 0, "Should return error message");
                 Test.Assert(agent.ErrorMessages[0].IndexOf(errorMessage) != -1, String.Format("Error message should contain {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
             }
@@ -470,11 +470,11 @@ namespace CLITest.BVT
             {
                 if (useUri)
                 {
-                    Test.Assert(agent.StartCopyAzureStorageBlob(blobUtil.Blob.Uri.ToString(), blobUtil.ContainerName, copiedName, PowerShellAgent.Context), Utility.GenComparisonData("Start copy blob using source uri", true));
+                    Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.Blob.Uri.ToString(), blobUtil.ContainerName, copiedName, PowerShellAgent.Context), Utility.GenComparisonData("Start copy blob using source uri", true));
                 }
                 else
                 {
-                    Test.Assert(agent.StartCopyAzureStorageBlob(blobUtil.ContainerName, blobUtil.BlobName, blobUtil.ContainerName, copiedName), Utility.GenComparisonData("Start copy blob using blob name", true));
+                    Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.ContainerName, blobUtil.BlobName, blobUtil.ContainerName, copiedName), Utility.GenComparisonData("Start copy blob using blob name", true));
                 }
 
                 Test.Info("Get destination blob in copy task");

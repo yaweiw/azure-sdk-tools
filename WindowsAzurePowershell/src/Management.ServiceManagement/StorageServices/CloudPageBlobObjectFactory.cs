@@ -19,9 +19,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using Storage.Auth;
     using Storage.Blob;
     using Storage.RetryPolicies;
-    using WindowsAzure.ServiceManagement;
     using Sync.Download;
     using Sync.Upload;
+    using WindowsAzure.ServiceManagement;
 
     public class CloudPageBlobObjectFactory : ICloudPageBlobObjectFactory
     {

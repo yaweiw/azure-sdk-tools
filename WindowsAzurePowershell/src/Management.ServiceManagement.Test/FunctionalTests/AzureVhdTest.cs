@@ -89,9 +89,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             using (var md5 = MD5.Create())
             {
-                using (var bs = new BufferedStream(stream))
+                using (var bufferdStream = new BufferedStream(stream))
                 {
-                    var md5Hash = md5.ComputeHash(bs);
+                    var md5Hash = md5.ComputeHash(bufferdStream);
                     return Convert.ToBase64String(md5Hash);
                 }
             }

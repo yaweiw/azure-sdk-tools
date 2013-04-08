@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.IO;
     using System.Linq;
     using System.Xml;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     public class CloudRuntimeCollection : Collection<CloudRuntimePackage>, IDisposable
     {

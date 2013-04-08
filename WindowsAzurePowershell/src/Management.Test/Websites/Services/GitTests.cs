@@ -14,8 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
 {
-    using VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class GitTests

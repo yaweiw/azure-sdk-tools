@@ -15,16 +15,13 @@
 namespace Microsoft.WindowsAzure.Management.Websites
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using System.Management.Automation;
+    using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     
     [Cmdlet(VerbsLifecycle.Restart, "AzureWebsite"), OutputType(typeof(bool))]

@@ -19,15 +19,14 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using System.Collections.Generic;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Store;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Store;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
-using Microsoft.WindowsAzure.Management.Utilities.Websites;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Sets an azure website properties.

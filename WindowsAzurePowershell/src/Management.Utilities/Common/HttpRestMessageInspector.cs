@@ -15,14 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System;
-    using System.Management.Automation;
-    using System.Net;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
-    using System.Text;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     public class HttpRestMessageInspector : IClientMessageInspector, IEndpointBehavior
     {
