@@ -109,9 +109,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public override void ExecuteCmdlet()
         {
             string result = string.Empty;
-            bool removed = RemoveAzureTable(Name);
+            bool success = RemoveAzureTable(Name);
 
-            if (removed)
+            if (success)
             {
                 result = String.Format(Resources.RemoveTableSuccessfully, Name);
             }
