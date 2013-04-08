@@ -108,9 +108,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
         {
             String result = string.Empty;
 
-            bool removed = RemoveAzureQueue(Name);
+            bool success = RemoveAzureQueue(Name);
 
-            if (removed)
+            if (success)
             {
                 result = String.Format(Resources.RemoveQueueSuccessfully, Name);
             }
