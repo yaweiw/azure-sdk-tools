@@ -48,7 +48,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
         /// <summary>
         /// Azure storage queue constructor.
         /// </summary>
-        /// <param name="queue"></param>
+        /// <param name="queue">Cloud queue object</param>
         public AzureStorageQueue(CloudQueue queue)
         {
             CloudQueue = queue;
