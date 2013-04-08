@@ -12,15 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Storage.Blob;
+using MS.Test.Common.MsTestLib;
+using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Storage.Blob;
-using MS.Test.Common.MsTestLib;
-using StorageTestLib;
+using Storage = Microsoft.WindowsAzure.Storage.Blob;
 
 namespace CLITest
 {
@@ -115,61 +116,6 @@ namespace CLITest
 
         /// <summary>
         /// Negative Functional case : 
-        ///     Do not specify the context parameter in the parameter set for each cmdlet   (Negative 1)
-        /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void NotSpecifyContext()
-        {
-            Agent agent = new PowerShellAgent();
-            agent.UseContextParam = false;
-
-            //StorageContainerTest(agent);
-            //StorageQueueTest(agent);
-            //StorageTableTest(agent);
-
-            //string BlockFilePath = Test.Data.Get("BlockFilePath");
-            //string PageFilePath = Test.Data.Get("PageFilePath");
-
-            //StorageBlobTest(agent, BlockFilePath, true);
-            //StorageBlobTest(agent, PageFilePath, false);
-        }
-
-        /// <summary>
-        /// Positive Functional case : 
-        ///     Use the parameter StorageAccountName/StorageAccountKey(http) to create a storage context and run all bvt cases (Positive 2)
-        /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void UseHttp()
-        {
-            Agent agent = new PowerShellAgent();
-        }
-
-        /// <summary>
-        /// Positive Functional case : 
-        ///     Use the parameter Local to create a storage context and run all bvt cases (Positive 4)
-        /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void UseLocal()
-        {
-            Agent agent = new PowerShellAgent();
-        }
-
-        /// <summary>
-        /// Positive Functional case : 
-        ///     Use the parameter Anonymous to create a storage context and run all bvt cases (Positive 5)
-        /// </summary>
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void UseAnonymous()
-        {
-            Agent agent = new PowerShellAgent();
-        }
-
-        /// <summary>
-        /// Negative Functional case : 
         ///     Use an invalid account to run all cmdlets   (Negative 2)
         /// </summary>
         [TestMethod]
@@ -191,8 +137,8 @@ namespace CLITest
             string BlockFilePath = Test.Data.Get("BlockFilePath");
             string PageFilePath = Test.Data.Get("PageFilePath");
 
-            StorageBlobTest(agent, BlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
-            StorageBlobTest(agent, PageFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.PageBlob);
+            StorageBlobTest(agent, BlockFilePath, Storage.BlobType.BlockBlob);
+            StorageBlobTest(agent, PageFilePath, Storage.BlobType.PageBlob);
         }
 
         internal void StorageContextTest(Agent agent)
@@ -236,7 +182,7 @@ namespace CLITest
             CheckErrorOutput(agent);
         }
 
-        internal void StorageBlobTest(Agent agent, string FilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType Type)
+        internal void StorageBlobTest(Agent agent, string FilePath, Storage.BlobType Type)
         {
             string NEW_CONTAINER_NAME = Utility.GenNameString("upload-");
             string BlobName = Path.GetFileName(FilePath);

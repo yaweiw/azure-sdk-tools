@@ -127,27 +127,6 @@ namespace CLITest
 
         [TestMethod]
         [TestCategory(Tag.Function)]
-        public void CreateInvalidBlob()
-        {
-            CreateInvalidBlob(new PowerShellAgent());
-        }
-
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void CreateExistingBlob()
-        {
-            CreateExistingBlob(new PowerShellAgent());
-        }
-
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void BlobListOperations()
-        {
-            BlobListOperations(new PowerShellAgent());
-        }
-
-        [TestMethod]
-        [TestCategory(Tag.Function)]
         public void GetNonExistingBlob()
         {
             GetNonExistingBlob(new PowerShellAgent());
@@ -155,23 +134,9 @@ namespace CLITest
 
         [TestMethod]
         [TestCategory(Tag.Function)]
-        public void EnumerateAllBlobs()
-        {
-            EnumerateAllBlobs(new PowerShellAgent());
-        }
-
-        [TestMethod]
-        [TestCategory(Tag.Function)]
         public void RemoveNonExistingBlob()
         {
             RemoveNonExistingBlob(new PowerShellAgent());
-        }
-
-        [TestMethod]
-        [TestCategory(Tag.Function)]
-        public void RemoveBlobWithoutForce()
-        {
-            RemoveBlobWithoutForce(new PowerShellAgent());
         }
 
         /// <summary>
@@ -235,151 +200,6 @@ namespace CLITest
         }
 
         /// <summary>
-        /// Functional Cases : for Set-AzureStorageBlobContent
-        /// 1. Upload a list of new Blobs (Positive 2)
-        /// 2. Upload a list of Blobs that already exist (Negative 4)
-        /// 3. Upload a list of Blobs that some of them already exist (Negative 5)
-        /// 
-        /// Functional Cases : for Get-AzureStorageBlob
-        /// 4.	Get a list of Blobs by using wildcards in the name (Positive 4)
-        /// 5.	Get a list of blobs by using Prefix parameter (Positive 2)
-        /// 
-        /// Functional Cases : for Remove-AzureStorageBlob
-        /// 6.	Remove a list of existing Blobs by using pipeline (Positive 4)
-        /// </summary>
-        internal void BlobListOperations(Agent agent)
-        {
-            //string PREFIX = Tool.GenNameString("uniqueprefix");
-            //string[] BLOB_NAMES = new string[] { Tool.GenNameString(PREFIX), Tool.GenNameString(PREFIX), Tool.GenNameString(PREFIX) };
-
-            //// PART_EXISTING_NAMES differs only the last element with Blob_NAMES
-            //string[] PARTLY_EXISTING_NAMES = new string[BLOB_NAMES.Length];
-            //Array.Copy(BLOB_NAMES, PARTLY_EXISTING_NAMES, BLOB_NAMES.Length - 1);
-            //PARTLY_EXISTING_NAMES[BLOB_NAMES.Length - 1] = Tool.GenNameString(PREFIX);
-
-            //string[] MERGED_NAMES = BLOB_NAMES.Union(PARTLY_EXISTING_NAMES).ToArray();
-            //Array.Sort(MERGED_NAMES);
-
-            //// Generate the comparison data
-            //Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
-            //foreach (string name in MERGED_NAMES)
-            //{
-            //    comp.Add(Tool.GenComparisonData(StorageObjectType.Blob, name));
-            //}
-
-            //CloudBlobClient blobClient = _StorageAccount.CreateCloudBlobClient();
-
-            //// Check if all the above Blobs have been removed
-            //foreach (string name in MERGED_NAMES)
-            //{
-            //    CloudBlob Blob = blobClient.GetBlobReference(name);
-            //    Blob.DeleteIfExists();
-            //}
-
-            ////--------------1. New operation--------------
-            //Test.Assert(agent.NewAzureStorageBlob(BLOB_NAMES), Tool.GenComparisonData("NewAzureStorageBlob", true));
-            //// Verification for returned values
-            //Test.Assert(agent.Output.Count == 3, "3 row returned : {0}", agent.Output.Count);
-
-            //// Check if all the above blobs have been created
-            //foreach (string name in BLOB_NAMES)
-            //{
-            //    CloudBlob blob = blobClient.GetBlobReference(name);
-            //    Test.Assert(blob.Exists(), "blob {0} should exist", name);
-            //}
-
-            //try
-            //{
-            //    //--------------2. New operation--------------
-            //    Test.Assert(!agent.NewAzureStorageBlob(BLOB_NAMES), Tool.GenComparisonData("NewAzureStorageBlob", false));
-            //    // Verification for returned values
-            //    Test.Assert(agent.Output.Count == 0, "0 row returned : {0}", agent.Output.Count);
-            //    int i = 0;
-            //    foreach (string name in BLOB_NAMES)
-            //    {
-            //        Test.Assert(agent.ErrorMessages[i].Equals(String.Format("Blob '{0}' already exists.", name)), agent.ErrorMessages[i]);
-            //        ++i;
-            //    }
-
-            //    //--------------3. New operation--------------
-            //    Test.Assert(!agent.NewAzureStorageBlob(PARTLY_EXISTING_NAMES), Tool.GenComparisonData("NewAzureStorageBlob", false));
-            //    // Verification for returned values
-            //    Test.Assert(agent.Output.Count == 1, "1 row returned : {0}", agent.Output.Count);
-
-            //    // Check if all the above blobs have been created
-            //    foreach (string name in BLOB_NAMES)
-            //    {
-            //        CloudBlob blob = blobClient.GetBlobReference(name);
-            //        Test.Assert(blob.Exists(), "blob {0} should exist", name);
-            //    }
-
-            //    //--------------4. Get operation--------------
-            //    Test.Assert(agent.GetAzureStorageBlob("*" + PREFIX + "*"), Tool.GenComparisonData("GetAzureStorageBlob", true));
-            //    // Verification for returned values
-            //    agent.OutputValidation(_StorageAccount.CreateCloudBlobClient().ListBlobs(PREFIX));
-
-            //    // failed due to bug#634898
-            //    // use Prefix parameter
-            //    //Test.Assert(agent.GetAzureStorageBlobByPrefix(PREFIX), Tool.GenComparisonData("GetAzureStorageBlobByPrefix", true));
-            //    // Verification for returned values
-            //    //agent.OutputValidation(_StorageAccount.CreateCloudBlobClient().ListBlobs(PREFIX));
-            //}
-            //finally { }
-
-            ////--------------5. Remove operation--------------
-            //Test.Assert(agent.RemoveAzureStorageBlob(MERGED_NAMES), Tool.GenComparisonData("RemoveAzureStorageBlob", true));
-            //// Check if all the above blobs have been removed
-            //foreach (string name in BLOB_NAMES)
-            //{
-            //    CloudBlob blob = blobClient.GetBlobReference(name);
-            //    Test.Assert(!blob.Exists(), "blob {0} should not exist", name);
-            //}
-        }
-
-        /// <summary>
-        /// Negative Functional Cases : for Set-AzureStorageBlobContent 
-        /// 1. Upload a Blob that already exists (Negative 3)
-        /// </summary>
-        internal void CreateExistingBlob(Agent agent)
-        {
-            //string BLOB_NAME = Tool.GenNameString("existing");
-
-            //// create blob if not exists
-            //CloudBlob blob = _StorageAccount.CreateCloudBlobClient().GetBlobReference(BLOB_NAME);
-            //blob.CreateIfNotExists();
-
-            //try
-            //{
-            //    //--------------New operation--------------
-            //    Test.Assert(!agent.NewAzureStorageBlob(BLOB_NAME), Tool.GenComparisonData("NewAzureStorageBlob", false));
-            //    // Verification for returned values
-            //    Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            //    Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Blob '{0}' already exists.", BLOB_NAME)), agent.ErrorMessages[0]);
-            //}
-            //finally
-            //{
-            //    // Recover the environment
-            //    blob.DeleteIfExists();
-            //}
-        }
-
-        /// <summary>
-        /// Negative Functional Cases : for Set-AzureStorageBlobContent 
-        /// 1. Upload a new blob with an invalid blob name (Negative 1)
-        /// </summary>
-        internal void CreateInvalidBlob(Agent agent)
-        {
-            //string BLOB_NAME = Tool.GenNameString("abc_");
-
-            ////--------------New operation--------------
-            //Test.Assert(!agent.NewAzureStorageBlob(BLOB_NAME), Tool.GenComparisonData("NewAzureStorageBlob", false));
-            //// Verification for returned values
-            //Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            //Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Blob name '{0}' is invalid.", BLOB_NAME)), agent.ErrorMessages[0]);
-        }
-
-
-        /// <summary>
         /// Negative Functional Cases : for Get-AzureStorageBlob 
         /// 1. Get a non-existing blob (Negative 1)
         /// </summary>
@@ -414,19 +234,6 @@ namespace CLITest
         }
 
         /// <summary>
-        /// Functional Cases : for Get-AzureStorageBlob
-        /// 1. Validate that all the blobs can be enumerated (Positive 5)
-        /// </summary>
-        internal void EnumerateAllBlobs(Agent agent)
-        {
-            ////--------------Get operation--------------
-            //Test.Assert(agent.GetAzureStorageBlob(""), Tool.GenComparisonData("EnumerateAllBlobs", false));
-
-            //// Verification for returned values
-            //agent.OutputValidation(_StorageAccount.CreateCloudBlobClient().ListBlobs());
-        }
-
-        /// <summary>
         /// Negative Functional Cases : for Remove-AzureStorageBlob 
         /// 1. Remove a non-existing blob (Negative 2)
         /// </summary>
@@ -456,33 +263,6 @@ namespace CLITest
             {
                 container.DeleteIfExists();
             }
-        }
-
-        /// <summary>
-        /// Negative Functional Cases : for Remove-AzureStorageBlob 
-        /// 1. Remove the blob without by force (Negative 3)
-        /// </summary>
-        internal void RemoveBlobWithoutForce(Agent agent)
-        {
-            //string BLOB_NAME = Tool.GenNameString("withoutforce");
-
-            //// create blob if not exists
-            //CloudBlob blob = _StorageAccount.CreateCloudBlobClient().GetBlobReference(BLOB_NAME);
-            //blob.CreateIfNotExists();
-
-            //try
-            //{
-            //    //--------------Remove operation--------------
-            //    Test.Assert(!agent.RemoveAzureStorageBlob(BLOB_NAME, false), Tool.GenComparisonData("RemoveAzureStorageBlob", false));
-            //    // Verification for returned values
-            //    Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            //    Test.Assert(agent.ErrorMessages[0].StartsWith("A command that prompts the user failed because"), agent.ErrorMessages[0]);
-            //}
-            //finally
-            //{
-            //    // Recover the environment
-            //    blob.DeleteIfExists();
-            //}
         }
     }
 }
