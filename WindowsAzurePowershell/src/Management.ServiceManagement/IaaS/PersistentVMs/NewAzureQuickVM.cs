@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
         }
 
         [Parameter(HelpMessage = "Represents the size of the machine.")]
-        [ValidateVMSize]
+        [ValidateSet("ExtraSmall", "Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
         public string InstanceSize
         {
             get;

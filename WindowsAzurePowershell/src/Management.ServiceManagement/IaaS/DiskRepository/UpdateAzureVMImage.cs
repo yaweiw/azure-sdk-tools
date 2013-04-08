@@ -81,7 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
             set;
         }
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateVMSize(false)]
+        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
         public string RecommendedVMSize
         {
             get;

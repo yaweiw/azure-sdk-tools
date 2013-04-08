@@ -95,7 +95,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 5, ParameterSetName = "Upgrade", HelpMessage = "Upgrade mode. Auto | Manual | Simultaneous")]
-        [ValidateDeploymentUpgradeType]
+        [ValidateSet(UpgradeType.Auto, UpgradeType.Manual, UpgradeType.Simultaneous, IgnoreCase = true)]
         public string Mode
         {
             get;
