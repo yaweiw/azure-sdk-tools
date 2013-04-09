@@ -171,6 +171,7 @@
     <Compile Include="HostedServices\SetAzureRole.cs" />
     <Compile Include="HostedServices\SetAzureService.cs" />
     <Compile Include="HostedServices\SetAzureWalkUpgradeDomain.cs" />
+    <Compile Include="IaaS\AvailabilitySets\SetAzureAvailabilitySet.cs" />
     <Compile Include="IaaS\CertProvisioning\NewAzureCertificateSetting.cs" />
     <Compile Include="IaaS\CertProvisioning\NewAzureSSHKey.cs" />
     <Compile Include="IaaS\DiskRepository\AddAzureDisk.cs" />
