@@ -496,7 +496,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public static string GetConfiguration(string configurationPath)
         {
             var configuration = string.Join(string.Empty, File.ReadAllLines(configurationPath));
-            return ServiceManagementHelper.EncodeToBase64String(configuration);
+            return configuration;
         }
 
         /// <summary>

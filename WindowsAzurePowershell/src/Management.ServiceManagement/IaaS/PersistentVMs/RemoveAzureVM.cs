@@ -55,11 +55,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
             if (roleCount > 1)
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteRole(s, ServiceName, CurrentDeployment.Name, Name));
             }
             else
             {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, "Production"), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.DeleteDeploymentBySlot(s, ServiceName, "Production"));
             }
         }
     }

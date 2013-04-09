@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 UpgradeDomain = this.DomainNumber
             };
 
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.WalkUpgradeDomainBySlot(s, this.ServiceName, this.Slot, walkUpgradeDomain), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.WalkUpgradeDomainBySlot(s, this.ServiceName, this.Slot, walkUpgradeDomain));
         }
 
         protected override void OnProcessRecord()

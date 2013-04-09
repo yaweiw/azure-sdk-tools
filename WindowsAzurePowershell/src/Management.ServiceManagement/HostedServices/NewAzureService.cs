@@ -81,13 +81,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             var createHostedServiceInput = new CreateHostedServiceInput
             {
                 ServiceName = this.ServiceName,
-                Label = ServiceManagementHelper.EncodeToBase64String(string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label),
+                Label = string.IsNullOrEmpty(this.Label) ? this.ServiceName : this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location
             };
 
-            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput), WaitForOperation);
+            ExecuteClientActionInOCS(createHostedServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateHostedService(s, createHostedServiceInput));
         }
 
         protected override void OnProcessRecord()

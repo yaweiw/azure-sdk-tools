@@ -134,7 +134,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 PackageUrl = packageUrl,
                 Configuration = General.GetConfiguration(this.Configuration),
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = this.Label,
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,
                 TreatWarningsAsError = this.TreatWarningsAsError.IsPresent
@@ -147,7 +147,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
                     WriteProgress(progress);
 
-                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput), WaitForOperation);
+                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput));
 
                     if (removePackage == true)
                     {

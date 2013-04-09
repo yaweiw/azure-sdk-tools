@@ -50,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 netConfigFS = new FileStream(this.ConfigurationPath, FileMode.Open);
 
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, netConfigFS), WaitForOperation);
+                ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, netConfigFS));
             }
             finally
             {

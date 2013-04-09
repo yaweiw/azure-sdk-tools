@@ -42,18 +42,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListOperatingSystems(s),
-                WaitForOperation,
                 (operation, operatingSystems) => operatingSystems.Select(os => new OSVersionsContext
                 {
                     OperationId = operation.OperationTrackingId,
                     OperationDescription = CommandRuntime.ToString(),
                     OperationStatus = operation.Status,
                     Family = os.Family,
-                    FamilyLabel = string.IsNullOrEmpty(os.FamilyLabel) ? null : ServiceManagementHelper.DecodeFromBase64String(os.FamilyLabel),
+                    FamilyLabel = string.IsNullOrEmpty(os.FamilyLabel) ? null : os.FamilyLabel,
                     IsActive = os.IsActive,
                     IsDefault = os.IsDefault,
                     Version = os.Version,
-                    Label = string.IsNullOrEmpty(os.Label) ? null : ServiceManagementHelper.DecodeFromBase64String(os.Label)
+                    Label = string.IsNullOrEmpty(os.Label) ? null : os.Label
                 })
                 );
         }
