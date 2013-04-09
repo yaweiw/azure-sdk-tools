@@ -189,6 +189,7 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />

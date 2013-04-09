@@ -48,6 +48,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Management.Storage.ScenarioTest", "Management.Storage.ScenarioTest\Management.Storage.ScenarioTest.csproj", "{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = WindowsAzurePowershell.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64

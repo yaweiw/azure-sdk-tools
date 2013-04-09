@@ -52,6 +52,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 try
                 {
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
+
                     var sites = this.RetryCall(s => this.Channel.ListVirtualNetworkSites(s)).ToList();
 
                     if (!string.IsNullOrEmpty(this.VNetName))
@@ -64,7 +66,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                         }
                     }
 
-                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                    Operation operation = GetOperation();
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
+
                     return sites.Select(s => new VirtualNetworkSiteContext
                     {
                         OperationId = operation.OperationTrackingId,

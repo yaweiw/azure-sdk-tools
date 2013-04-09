@@ -126,6 +126,7 @@
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
     <Compile Include="StoreTests\StoreTests.cs" />
+    <Compile Include="ServiceManagemenet\VMProvisionScenarioTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="ManagementTests\ManagementTests.cs" />
@@ -165,6 +166,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <Resource Include="Resources\ServiceManagemenet\VMProvisionTests.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ServiceManagemenet\Common.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Resources\Credentials.ps1" />
     <None Include="Resources\Credstests.ps1" />
     <None Include="Resources\CredUtils.ps1" />
@@ -203,6 +210,14 @@
     <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
       <Name>Management.Storage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceManagement.Test\Management.ServiceManagement.Test.csproj">
+      <Project>{58A78F29-8C0C-4A5E-893E-3953C0F29C8A}</Project>
+      <Name>Management.ServiceManagement.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.ServiceManagement\Management.ServiceManagement.csproj">
+      <Project>{E1CA72BA-8374-45F6-904D-FD34ECDF5B6F}</Project>
+      <Name>Management.ServiceManagement</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Test\Management.Test.csproj">
       <Project>{b7fd03f6-98bc-4f54-9a14-0455e579fcd4}</Project>
