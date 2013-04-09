@@ -18,5 +18,5 @@ Sets
 #>
 function Set-CurrentStorageAccount
 {
-	Get-AzureSubscription -Default | Set-AzureSubscription -CurrentStorageAccount "priimagestore"
+	Get-AzureSubscription -Default | Set-AzureSubscription -CurrentStorageAccount ""
 }
