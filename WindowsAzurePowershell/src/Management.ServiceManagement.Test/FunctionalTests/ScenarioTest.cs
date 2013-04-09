@@ -43,7 +43,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestInitialize]
         public void Initialize()
-        {           
+        {
+            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            {
+                Assert.Inconclusive("No Subscription is selected!");
+            }
             serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
             pass = false;
             testStartTime = DateTime.Now;
@@ -84,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             PersistentVMRoleContext vmRoleCtxt = vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, serviceName);
             Assert.AreEqual(newAzureQuickVMName, vmRoleCtxt.Name, true);
 
-            // Disabling Stop / start / restart tests for now due to timing isues
+            // TODO: Disabling Stop / start / restart tests for now due to timing isues
             /*
             // Stop & start the VM
             vmPowershellCmdlets.StopAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName);
@@ -443,7 +447,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         // Basic Provisioning a Virtual Machine
         [TestMethod(), TestCategory("Scenario"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
-        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", ".\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]        
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\packageScenario.csv", "packageScenario#csv", DataAccessMethod.Sequential)]        
         public void DeploymentUpgrade()        
         {
 
@@ -642,7 +646,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 }
 
-                Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "currently in use", 10, 30);
+                Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
 
                 pass = true;
 
@@ -657,7 +661,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         vmPowershellCmdlets.RemoveAzureVNetGateway(vnet1);
                     }
                     catch { }
-                    Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "currently in use", 10, 30);
+                    Utilities.RetryUntilSuccess<ManagementOperationContext>(vmPowershellCmdlets.RemoveAzureVNetConfig, "in use", 10, 30);
                 }
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }
@@ -665,7 +669,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 foreach (string aff in affinityGroups)
                 {
-                    vmPowershellCmdlets.RemoveAzureAffinityGroup(aff);
+                    try
+                    {
+                        vmPowershellCmdlets.RemoveAzureAffinityGroup(aff);
+                    }
+                    catch
+                    {
+                        // Some service uses the affinity group, so it cannot be deleted.  Just leave it.
+                    }
                 }
             }            
         }
