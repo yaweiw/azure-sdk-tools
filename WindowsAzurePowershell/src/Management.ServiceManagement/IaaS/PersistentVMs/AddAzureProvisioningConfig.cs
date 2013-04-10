@@ -175,8 +175,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
                     var winRmEndpoint = new InputEndpoint {LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs"};
                     netConfig.InputEndpoints.Add(winRmEndpoint);
+                    role.WinRMCertificate = WinRMCertificate;
                 }
-                role.WinRMCertificate = WinRMCertificate;
+
                 role.X509Certificates = new List<X509Certificate2>();
                 if (this.X509Certificates != null)
                 {
