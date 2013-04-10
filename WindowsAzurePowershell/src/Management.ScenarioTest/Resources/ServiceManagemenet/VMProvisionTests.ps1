@@ -25,7 +25,4 @@ function Test-CreateWindowsAzureQuickVM
 
 	# Test
 	New-AzureQuickVM -Windows -ImageName $imageName -Name $newAzureQuickVMName -ServiceName $newAzureQuickVMSvcName -Password "p@ssw0rd" -Location $location
-
-	# Assert
-	
 }

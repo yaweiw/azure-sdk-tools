@@ -17,6 +17,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.Common
 
         public const string Store = "Store";
 
-        public const string ServiceManagemenet = "ServiceManagemenet";
+        public const string ServiceManagement = "ServiceManagement";
     }
 }
