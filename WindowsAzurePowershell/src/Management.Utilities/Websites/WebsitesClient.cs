@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Newtonsoft.Json.Linq;
 
-    public class WebsitesClient
+    public class WebsitesClient : IWebsitesClient
     {
         public IWebsitesServiceManagement WebsiteChannel { get; internal set; }
 
@@ -122,12 +122,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             out Repository repository,
             out ICredentials credentials)
         {
-            name = string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
+            name = GetWebsiteName(name);
             repository = GetRepository(name);
             credentials = new NetworkCredential(
                 repository.PublishingUsername,
                 repository.PublishingPassword);
             return name;
+        }
+
+        private string GetWebsiteName(string name)
+        {
+            return string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
         }
 
         /// <summary>
@@ -137,14 +142,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="path">The log path, by default root</param>
         /// <param name="message">The substring message</param>
         /// <param name="endStreaming">Predicate to end streaming</param>
-        /// <param name="waitInternal">The fetch wait interval</param>
+        /// <param name="waitInterval">The fetch wait interval</param>
         /// <returns>The log line</returns>
-        public virtual IEnumerable<string> StartLogStreaming(
+        public IEnumerable<string> StartLogStreaming(
             string name,
             string path,
             string message,
-            Predicate<string> endStreaming = null,
-            int waitInternal = 10000)
+            Predicate<string> endStreaming,
+            int waitInterval)
         {
             Repository repository;
             ICredentials credentials;
@@ -165,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 
                 while (doStreaming)
                 {
-                    string line = logHandler.WaitNextLine(waitInternal);
+                    string line = logHandler.WaitNextLine(waitInterval);
 
                     if (line != null)
                     {
@@ -182,7 +187,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public virtual List<LogPath> ListLogPaths(string name)
+        public List<LogPath> ListLogPaths(string name)
         {
             List<LogPath> logPaths = new List<LogPath>();
             using (HttpClient client = CreateHttpClient(name))
@@ -193,7 +198,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return logPaths;
         }
 
-        public virtual void SetDiagnosticsSettings(
+        /// <summary>
+        /// Sets the settings for application diagnostics.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="drive">Drive logging enabled</param>
+        /// <param name="driveLevel">Drive logging level</param>
+        /// <param name="table">Table logging enabled</param>
+        /// <param name="tableLevel">Table logging level</param>
+        public void SetDiagnosticsSettings(
             string name,
             bool? drive,
             LogEntryType driveLevel,
@@ -239,7 +252,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             }
         }
 
-        public virtual DiagnosticsSettings GetDiagnosticsSettings(string name)
+        /// <summary>
+        /// Gets the application diagnostics settings
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The website application diagnostics settings</returns>
+        public DiagnosticsSettings GetDiagnosticsSettings(string name)
         {
             DiagnosticsSettings diagnosticsSettings = null;
 
@@ -249,6 +267,61 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             }
 
             return diagnosticsSettings;
+        }
+
+        /// <summary>
+        /// Restarts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        public void RestartAzureWebsite(string name)
+        {
+            StartAzureWebsite(name);
+
+            StopAzureWebsite(name);
+        }
+
+        /// <summary>
+        /// Starts a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        public void StartAzureWebsite(string name)
+        {
+            Site website = GetWebsite(name);
+            Site siteUpdate = new Site { Name = name };
+
+            siteUpdate.State = "Running";
+            WebsiteChannel.UpdateSite(SubscriptionId, website.WebSpace, name, siteUpdate);
+        }
+
+        /// <summary>
+        /// Stops a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        public void StopAzureWebsite(string name)
+        {
+            Site website = GetWebsite(name);
+            Site siteUpdate = new Site { Name = name };
+
+            siteUpdate.State = "Stopped";
+            WebsiteChannel.UpdateSite(SubscriptionId, website.WebSpace, name, siteUpdate);
+        }
+
+        /// <summary>
+        /// Gets a website instance.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The website instance</returns>
+        public Site GetWebsite(string name)
+        {
+            name = GetWebsiteName(name);
+            Site website = WebsiteChannel.GetSite(SubscriptionId, name, null);
+
+            if (website == null)
+            {
+                throw new Exception(string.Format(Resources.InvalidWebsite, name));
+            }
+
+            return website;
         }
     }
 }

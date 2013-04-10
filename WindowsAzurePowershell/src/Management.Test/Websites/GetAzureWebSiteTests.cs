@@ -109,7 +109,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
                 Name = "website1",
-                WebsitesClient = new Mock<WebsitesClient>().Object
+                WebsitesClient = new Mock<IWebsitesClient>().Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -129,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 CommandRuntime = new MockCommandRuntime(),
                 CurrentSubscription = new SubscriptionData { SubscriptionId = "GetAzureWebSiteTests_GetWebsiteProcessShowTest" },
                 Name = "WEBSiTe1",
-                WebsitesClient = new Mock<WebsitesClient>().Object
+                WebsitesClient = new Mock<IWebsitesClient>().Object
             };
 
             getAzureWebsiteCommand.ExecuteCmdlet();
@@ -222,7 +222,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
             };
 
-            Mock<WebsitesClient> websitesClientMock = new Mock<WebsitesClient>();
+            Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
             GetAzureWebsiteCommand getAzureWebsiteCommand = new GetAzureWebsiteCommand(channel)
             {
                 ShareChannel = true,
