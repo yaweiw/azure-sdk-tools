@@ -115,6 +115,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = true, ParameterSetName = "Windows", HelpMessage = "Specifies the Administrator to create.")]
+        [ValidateNotNullOrEmpty]
+        public string AdminUsername
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Set of certificates to install in the VM.")]
         [ValidateNotNullOrEmpty]
         public CertificateSettingList Certificates
@@ -219,7 +227,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 RoleName = String.IsNullOrEmpty(Name) ? ServiceName : Name, // default like the portal
                 RoleSize = String.IsNullOrEmpty(InstanceSize) ? null : InstanceSize,
                 RoleType = "PersistentVMRole",
-                Label = ServiceManagementHelper.EncodeToBase64String(ServiceName)
+                Label = ServiceName
             };
 
             vm.OSVirtualHardDisk = new OSVirtualHardDisk()
@@ -255,6 +263,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 WindowsProvisioningConfigurationSet windowsConfig = new WindowsProvisioningConfigurationSet
                 {
+                    AdminUsername = this.AdminUsername,
                     AdminPassword = Password,
                     ComputerName = string.IsNullOrEmpty(Name) ? ServiceName : Name,
                     EnableAutomaticUpdates = true,
@@ -316,10 +325,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             Location = this.Location,
                             ServiceName = this.ServiceName,
                             Description = String.Format("Implicitly created hosted service{0}", DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
-                            Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceName)
+                            Label = this.ServiceName
                         };
 
-                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
+                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi));
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -357,7 +366,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                                 deployment.Dns.DnsServers.Add(dns);
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
+                        ExecuteClientAction(deployment, CommandRuntime + " - Create Deployment with VM " + vm.RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
                     }
 
                     catch (ServiceManagementClientException ex)
@@ -395,7 +404,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     try
                     {
-                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm), WaitForOperation);
+                        ExecuteClientAction(vm, CommandRuntime + " - Create VM " + vm.RoleName, s => this.Channel.AddRole(s, this.ServiceName, this.ServiceName, vm));
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -427,8 +436,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 try
                 {
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
                     AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    WaitForOperation(CommandRuntime.ToString(), true);
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
                     IsPresent = !response.Result;
                 }
                 catch (ServiceManagementClientException ex)
