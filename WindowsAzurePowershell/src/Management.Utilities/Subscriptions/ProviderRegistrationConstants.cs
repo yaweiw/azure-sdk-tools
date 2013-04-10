@@ -13,9 +13,11 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
-    internal static class ProviderRegistrationConstants
+    public static class ProviderRegistrationConstants
     {
         public const string Register = "register";
         public const string Unregister = "unregister";
@@ -30,6 +32,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
         {
             return string.Format("/{0}/services?{1}&action={2}",
                 subscriptionId, resourceType, action);
+        }
+
+        public static IEnumerable<string> GetKnownResourceTypes()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => a.GetCustomAttributes(typeof (AzureResourceTypeNameAttribute), false))
+                .SelectMany(asmAttrs => asmAttrs.Select(a => ((AzureResourceTypeNameAttribute) a).ResourceTypeName));
         }
     }
 }

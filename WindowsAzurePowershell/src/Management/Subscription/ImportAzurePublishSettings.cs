@@ -15,12 +15,16 @@
 namespace Microsoft.WindowsAzure.Management.Subscription
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Permissions;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using System.Threading.Tasks;
+    using Utilities.Common;
+    using Utilities.Properties;
+    using Utilities.Subscriptions;
+    using Utilities.Subscriptions.Contract;
 
     /// <summary>
     /// Imports publish profiles.
@@ -34,6 +38,17 @@ namespace Microsoft.WindowsAzure.Management.Subscription
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Path to the subscription data output file.")]
         public string SubscriptionDataFile { get; set; }
+
+        public ISubscriptionClient SubscriptionClient { get; set; }
+
+        private ISubscriptionClient GetSubscriptionClient(SubscriptionData subscription)
+        {
+            if (SubscriptionClient == null)
+            {
+                SubscriptionClient = new SubscriptionClient(subscription);
+            }
+            return SubscriptionClient;
+        }
 
         [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
         internal SubscriptionData ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
@@ -101,6 +116,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
                     defaultSubscription.SubscriptionName));
+            //    RegisterResourceProviders(defaultSubscription);
             }
 
             if (multipleFilesFound)
@@ -112,6 +128,21 @@ namespace Microsoft.WindowsAzure.Management.Subscription
             {
                 WriteObject(publishSettingsFile);
             }
+        }
+
+        private void RegisterResourceProviders(SubscriptionData subscription)
+        {
+            ISubscriptionClient client = GetSubscriptionClient(subscription);
+            var knownProviders = new List<string>(ProviderRegistrationConstants.GetKnownResourceTypes());
+            var registeredProviders = new List<ProviderResource>(client.ListResources(knownProviders));
+            var providersToRegister = GetUnregisteredProviders(knownProviders, registeredProviders.Select(p => p.Type).ToList());
+
+            Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
+        }
+
+        private IEnumerable<string> GetUnregisteredProviders(IEnumerable<string> knownProviders, List<string> registeredProviders)
+        {
+            return knownProviders.Where(knownProvider => !registeredProviders.Contains(knownProvider));
         }
     }
 }
