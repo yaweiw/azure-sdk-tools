@@ -127,6 +127,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\HostCaching.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureOSDisk.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureRole.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureServiceCmdletInfo.cs" />
+    <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureServiceRemoteDesktopExtension.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureStorageAccountCmdletInfo.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureSubnet.cs" />
     <Compile Include="FunctionalTests\IaasCmdletInfo\SetAzureVNetConfig.cs" />
