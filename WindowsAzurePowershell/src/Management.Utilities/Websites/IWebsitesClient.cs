@@ -42,8 +42,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name"></param>
         /// <returns></returns>
         List<LogPath> ListLogPaths(string name);
+
         /// <summary>
-        
         /// Sets the settings for application diagnostics.
         /// </summary>
         /// <param name="name">The website name</param>
