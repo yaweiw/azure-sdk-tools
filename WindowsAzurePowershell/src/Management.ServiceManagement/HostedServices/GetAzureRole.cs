@@ -150,8 +150,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
+                WriteVerboseWithTimestamp("Begin Operation: Get Deployment");
+
                 var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = WaitForOperation("Get Deployment");
+                operation = GetOperation();
+
+                WriteVerboseWithTimestamp("Completed Operation: Get Deployment");
                 return currentDeployment;
             }
         }

@@ -244,14 +244,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                         if (this.ServiceLabel == null)
                         {
-                            chsi.Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceName);
+                            chsi.Label = this.ServiceName;
                         }
                         else
                         {
-                            chsi.Label = ServiceManagementHelper.EncodeToBase64String(this.ServiceLabel);
+                            chsi.Label = this.ServiceLabel;
                         }
 
-                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi), WaitForOperation);
+                        ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi));
                     }
                 }
                 catch (ServiceManagementClientException ex)
@@ -302,7 +302,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                             }
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment), WaitForOperation);
+                        ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -344,8 +344,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
                 ExecuteClientActionInOCS(persistentVMs[i],
                     CommandRuntime.ToString() + " - Create VM " + persistentVMs[i].RoleName,
-                    s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName, persistentVMs[i]),
-                    WaitForOperation);
+                    s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName, persistentVMs[i]));
             }
         }
 
@@ -416,8 +415,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             {
                 try
                 {
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
                     AvailabilityResponse response = this.RetryCall(s => this.Channel.IsDNSAvailable(s, serviceName));
-                    WaitForOperation(CommandRuntime.ToString(), true);
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
                     isPresent = !response.Result;
                 }
                 catch (ServiceManagementClientException ex)

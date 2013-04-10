@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 try
                 {
                     var subprops = RetryCall(s => Channel.GetSubscription(subscriptionData.SubscriptionId));
-                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                    Operation operation = GetOperation();
                     var subscriptionDataExtended = new SubscriptionDataExtended(subprops,
                                                                                 subscriptionData,
                                                                                 CommandRuntime.ToString(),

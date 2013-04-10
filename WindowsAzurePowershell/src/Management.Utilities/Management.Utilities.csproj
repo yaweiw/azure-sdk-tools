@@ -118,12 +118,14 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.2.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsAzure.ServiceManagement.Client">
       <HintPath>..\lib\Microsoft.WindowsAzure.ServiceManagement.Client.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WindowsAzure.Storage.2.0.4.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -189,6 +191,7 @@
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
+    <Compile Include="Common\ServiceManagementClientExtensions.cs" />
     <Compile Include="Common\XmlSchema\ServiceConfigurationSchema.cs" />
     <Compile Include="Common\XmlSchema\ServiceDefinitionSchema.cs" />
     <Compile Include="Common\CloudBaseCmdlet.cs" />
@@ -644,7 +647,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\MarketplaceServiceReference\service.edmx" />
   </ItemGroup>
   <ItemGroup>
