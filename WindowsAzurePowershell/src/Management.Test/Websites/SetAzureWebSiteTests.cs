@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     {
         private Mock<ICommandRuntime> commandRuntimeMock;
 
-        private Mock<WebsitesClient> websitesClientMock;
+        private Mock<IWebsitesClient> websitesClientMock;
 
         [TestMethod]
         public void SetAzureWebsiteProcess()
@@ -72,7 +72,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 site.HostNames = website.HostNames;
                 updatedSite = true;
             };
-            websitesClientMock = new Mock<WebsitesClient>();
+            websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.SetDiagnosticsSettings(
+                websiteName,
+                It.IsAny<bool?>(),
+                It.IsAny<LogEntryType>(),
+                It.IsAny<bool?>(),
+                It.IsAny<LogEntryType>()));
 
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
@@ -146,7 +152,14 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 updatedSite = true;
             };
 
-            websitesClientMock = new Mock<WebsitesClient>();
+            websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.SetDiagnosticsSettings(
+                websiteName,
+                It.IsAny<bool?>(),
+                It.IsAny<LogEntryType>(),
+                It.IsAny<bool?>(),
+                It.IsAny<LogEntryType>()));
+
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)
             {
@@ -224,7 +237,13 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 updatedSite = true;
             };
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            websitesClientMock = new Mock<WebsitesClient>();
+            websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.SetDiagnosticsSettings(
+                websiteName,
+                false,
+                default(LogEntryType),
+                null,
+                default(LogEntryType)));
 
             // Test
             SetAzureWebsiteCommand setAzureWebsiteCommand = new SetAzureWebsiteCommand(channel)

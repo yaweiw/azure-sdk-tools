@@ -14,13 +14,10 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites
 {
-    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     /// <summary>
     /// Stops an azure website.
@@ -28,6 +25,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
     [Cmdlet(VerbsLifecycle.Stop, "AzureWebsite"), OutputType(typeof(bool))]
     public class StopAzureWebsiteCommand : WebsiteContextBaseCmdlet
     {
+        public IWebsitesClient WebsitesClient { get; set; }
+
         [Parameter(Mandatory = false)]
         public SwitchParameter PassThru { get; set; }
 
@@ -52,29 +51,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
 
         public override void ExecuteCmdlet()
         {
-            Site website = null;
-
-            InvokeInOperationContext(() =>
-            {
-                website = RetryCall(s => Channel.GetSite(s, Name, null));
-            });
-
-            if (website == null)
-            {
-                throw new Exception(string.Format(Resources.InvalidWebsite, Name));
-            }
-
-            InvokeInOperationContext(() =>
-            {
-                Site websiteUpdate = new Site
-                                        {
-                                            Name = Name,
-                                            HostNames = new [] { Name + General.AzureWebsiteHostNameSuffix },
-                                            State = "Stopped"
-                                        };
-
-                RetryCall(s => Channel.UpdateSite(s, website.WebSpace, Name, websiteUpdate));
-            });
+            WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+            WebsitesClient.StopAzureWebsite(Name);
 
             if (PassThru.IsPresent)
             {
