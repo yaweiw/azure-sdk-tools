@@ -258,6 +258,7 @@
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
     <Compile Include="Store\WindowsAzureOffer.cs" />
+    <Compile Include="Subscriptions\AzureResourceTypeNameAttribute.cs" />
     <Compile Include="Subscriptions\Contract\ISubscriptionClient.cs" />
     <Compile Include="Subscriptions\Contract\ProviderResource.cs" />
     <Compile Include="Subscriptions\ProviderRegistrationConstants.cs" />
@@ -659,6 +660,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
