@@ -12,13 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
     using System;
     using System.Management.Automation;
-    using Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
 
     [Cmdlet(VerbsCommon.Add, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class AddAzureVMImage : ServiceManagementBaseCmdlet
