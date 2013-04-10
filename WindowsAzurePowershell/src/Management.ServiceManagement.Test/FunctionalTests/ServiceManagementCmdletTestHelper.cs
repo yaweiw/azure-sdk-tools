@@ -1022,40 +1022,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #endregion
 
-        #region AzureServiceRemoteDesktopExtension
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName));
-        }
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, string slot)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, slot));
-        }
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, string userName, string password)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, userName, password));
-        }
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, string userName, string password, DateTime expDate)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, userName, password, null, null, expDate));
-        }
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, string userName, string password, string slot)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, userName, password, slot));
-        }
-
-        public ManagementOperationContext SetAzureServiceRemoteDesktopExtension(string serviceName, string userName, string password, string slot, string extensionID)
-        {
-            return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureServiceRemoteDesktopExtensionCmdletInfo(serviceName, userName, password, slot, extensionID));
-        }
-
-        #endregion
-
         public ManagementOperationContext GetAzureRemoteDesktopFile(string vmName, string serviceName, string localPath, bool launch)
         {            
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new GetAzureRemoteDesktopFileCmdletInfo(vmName, serviceName, localPath, launch));            
