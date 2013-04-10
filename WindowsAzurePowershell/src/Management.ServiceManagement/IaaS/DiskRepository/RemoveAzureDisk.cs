@@ -57,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 // Remove the disk from the disk repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName));
                 }
 
                 if (this.DeleteVHD.IsPresent)
