@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
 
         [TestMethod]
         [TestCategory(Category.All)]
-        [TestCategory(Category.ServiceManagemenet)]
+        [TestCategory(Category.ServiceManagement)]
         [TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,Get-AzureVM,Get-AzureLocation,Import-AzurePublishSettingsFile,Get-AzureSubscription,Set-AzureSubscription)")]
         public void NewWindowsAzureQuickVM()
         {
@@ -62,20 +62,5 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
 
             Assert.AreEqual(null, vmPowershellCmdlets.GetAzureVM(newAzureQuickVMName, newAzureQuickVMSvcName));
         }
-
-        //[TestMethod]
-        //[TestCategory(Category.All)]
-        //[TestCategory(Category.ServiceManagemenet)]
-        //[TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,Get-AzureVM,Get-AzureLocation,Import-AzurePublishSettingsFile,Get-AzureSubscription,Set-AzureSubscription)")]
-        //public void TestCreateWindowsAzureQuickVM()
-        //{
-        //    // Setup
-        //    ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
-        //    powershell.SetVariable("imageName", vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false));
-        //    powershell.SetVariable("newAzureQuickVMName", Utilities.GetUniqueShortName("PSTestVM"));
-        //    powershell.SetVariable("newAzureQuickVMSvcName", Utilities.GetUniqueShortName("PSTestService"));
-            
-        //    RunPowerShellTest("Set-CurrentStorageAccount", "Test-CreateWindowsAzureQuickVM");
-        //}
     }
 }
