@@ -154,7 +154,6 @@
     <Compile Include="Certificates\GetAzureCertificate.cs" />
     <Compile Include="Certificates\RemoveAzureCertificate.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
-    <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
     <Compile Include="HostedServices\GetAzureDeployment.cs" />
