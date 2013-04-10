@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         private Uri GetUri(RoleInstance roleInstance)
         {
-            var winRmEndPoint = roleInstance.InstanceEndpoints.FirstOrDefault(i => i.LocalPort == 5986);
+            var winRmEndPoint = roleInstance.InstanceEndpoints.FirstOrDefault(i => i.LocalPort == WinRMConstants.HttpsListenerPort);
             if (winRmEndPoint == null)
             {
                 return null;

@@ -474,7 +474,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 netConfig.InputEndpoints.Add(new InputEndpoint {LocalPort = 3389, Protocol = "tcp", Name = "RemoteDesktop"});
                 if(!this.DisableWinRMHttps.IsPresent)
                 {
-                    netConfig.InputEndpoints.Add(new InputEndpoint { LocalPort = 5986, Protocol = "tcp", Name = "WinRmHTTPs" });
+                    netConfig.InputEndpoints.Add(new InputEndpoint { LocalPort = WinRMConstants.HttpsListenerPort, Protocol = "tcp", Name = WinRMConstants.EndpointName });
                 }
                 vm.ConfigurationSets.Add(windowsConfig);
                 vm.ConfigurationSets.Add(netConfig);
