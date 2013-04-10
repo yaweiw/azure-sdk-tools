@@ -198,7 +198,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private DateTime GetExpiration()
         {
-            return Expiration.Equals(DateTime.MinValue) ? DateTime.Now.AddMonths(12) : Expiration;
+            return Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(12) : Expiration;
         }
 
         private string GetPublicConfiguration()

@@ -161,6 +161,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #endregion
 
+        #region AzureAvailabilitySet
+
+        public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
+        {
+            if (!string.IsNullOrEmpty(availabilitySetName))
+            {
+                PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
+
+                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion AzureAvailabilitySet
 
         #region AzureCertificate
 
@@ -823,7 +840,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<PersistentVM>(new ImportAzureVMCmdletInfo(path));            
         }
 
-        private ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
+        public ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM));            
         }
