@@ -127,6 +127,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\HostCaching.cs" />
