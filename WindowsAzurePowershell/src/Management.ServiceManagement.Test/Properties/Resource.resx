@@ -121,11 +121,22 @@
     <value>West US</value>
   </data>
   <data name="PublishSettingsFile" xml:space="preserve">
-    <value>c:\pstest\test.publishsettings</value>
+    <value />
     <comment>Path to your publishsettings file</comment>
   </data>
   <data name="DefaultSubscriptionName" xml:space="preserve">
-    <value>Windows Azure Internal Consumption</value>
+    <value />
     <comment>Subscription name to use in testing</comment>
+  </data>
+  <data name="BlobKey" xml:space="preserve">
+    <value />
+    <comment>Key for the blob</comment>
+  </data>
+  <data name="BlobUrl" xml:space="preserve">
+    <value />
+    <comment>A blob Url for a publish settgins file and a local vhd</comment>
+  </data>
+  <data name="Vhd" xml:space="preserve">
+    <value />
   </data>
 </root>

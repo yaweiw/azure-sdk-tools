@@ -14,41 +14,140 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
 {
+    using System;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+
     public class AzureEndPointConfigInfo
     {
-        public readonly ProtocolInfo Protocol;
-        public readonly int ExternalPort;
-        public readonly int InternalPort;
-        public readonly string EndpointName;
-        public readonly string LBSetName;
-        public readonly int ProbePort;
-        public readonly ProtocolInfo ProbeProtocol;
-        public readonly string ProbePath;
+        public enum ParameterSet { NoLB, LoadBalanced, LoadBalancedProbe };
 
-        public AzureEndPointConfigInfo(ProtocolInfo protocol, int internalPort,
-            int externalPort, string endpointName)
+        public ProtocolInfo EndpointProtocol { get; set; }
+        public int EndpointLocalPort { get; set; }
+        public int? EndpointPublicPort { get; set; }
+        public string EndpointName { get; set; }
+        public string LBSetName { get; set; }
+        public int ProbePort { get; set; }
+        public ProtocolInfo ProbeProtocol { get; set; }
+        public string ProbePath { get; set; }
+        public int? ProbeInterval { get; set; }
+        public int? ProbeTimeout { get; set; }
+        public PersistentVM Vm { get; set; }
+        public ParameterSet ParamSet { get; set; }
+
+        public AzureEndPointConfigInfo(ProtocolInfo endpointProtocol, int endpointLocalPort,
+            int endpointPublicPort, string endpointName)
         {
-            this.InternalPort = internalPort;
-            this.Protocol = protocol;
-            this.ExternalPort = externalPort;
-            this.EndpointName = endpointName;
-            this.ProbeProtocol = protocol;
+            this.Initialize(
+                endpointProtocol, 
+                endpointLocalPort, 
+                endpointPublicPort, 
+                endpointName, 
+                string.Empty, 
+                0, 
+                ProtocolInfo.tcp, 
+                string.Empty, 
+                null, 
+                null,
+                ParameterSet.NoLB);
         }
 
-        public AzureEndPointConfigInfo(ProtocolInfo protocol, int internalPort, 
-            int externalPort, string endpointName, string lBSetName, int probePort,
-            ProtocolInfo probeProtocol, string probePath)
+        public AzureEndPointConfigInfo(ProtocolInfo endpointProtocol, int endpointLocalPort,
+            int endpointPublicPort, string endpointName, string lBSetName)
         {
-            this.InternalPort = internalPort;
-            this.Protocol = protocol;
-            this.ExternalPort = externalPort;
+            this.Initialize(
+                endpointProtocol,
+                endpointLocalPort,
+                endpointPublicPort,
+                endpointName,
+                lBSetName,
+                0,
+                ProtocolInfo.tcp,
+                string.Empty,
+                null,
+                null,
+                ParameterSet.LoadBalanced);
+        }
+
+        public AzureEndPointConfigInfo(ProtocolInfo endpointProtocol, int endpointLocalPort, 
+            int endpointPublicPort, string endpointName, string lBSetName, int probePort,
+            ProtocolInfo probeProtocol, string probePath, int? probeInterval, int? probeTimeout)
+        {
+            this.Initialize(
+                endpointProtocol,
+                endpointLocalPort,
+                endpointPublicPort,
+                endpointName,
+                lBSetName,
+                probePort,
+                probeProtocol,
+                probePath,
+                probeInterval,
+                probeTimeout,
+                ParameterSet.LoadBalancedProbe);
+        }
+
+        public AzureEndPointConfigInfo(AzureEndPointConfigInfo other)
+        {
+            this.Initialize(
+                other.EndpointProtocol,
+                other.EndpointLocalPort,
+                other.EndpointPublicPort,
+                other.EndpointName,
+                other.LBSetName,
+                other.ProbePort,
+                other.ProbeProtocol,
+                other.ProbePath,
+                other.ProbeInterval,
+                other.ProbeTimeout,
+                other.ParamSet);
+        }
+
+        private void Initialize(ProtocolInfo protocol, int internalPort,
+            int? externalPort, string endpointName, string lBSetName, int probePort,
+            ProtocolInfo probeProtocol, string probePath, 
+            int? probeInterval, int? probeTimeout, ParameterSet paramSet)
+        {
+            this.EndpointLocalPort = internalPort;
+            this.EndpointProtocol = protocol;
+            this.EndpointPublicPort = externalPort;
             this.EndpointName = endpointName;
             this.LBSetName = lBSetName;
             this.ProbePort = probePort;
             this.ProbeProtocol = probeProtocol;
-            this.ProbePath = probePath; 
+            this.ProbePath = probePath;
+            this.ProbeInterval = probeInterval;
+            this.ProbeTimeout = probeTimeout;
+            this.ParamSet = paramSet;
         }
 
-        public Model.PersistentVM Vm { get; set; }
+        public bool CheckInputEndpointContext(InputEndpointContext context)
+        {
+            bool ret = context.Protocol == this.EndpointProtocol.ToString()
+                && context.LocalPort == this.EndpointLocalPort
+                && context.Port == this.EndpointPublicPort
+                && context.Name == this.EndpointName;
+
+            if (ParamSet == ParameterSet.LoadBalanced)
+            {
+                ret = ret && context.LBSetName == this.LBSetName;
+            }
+
+            if (ParamSet == ParameterSet.LoadBalancedProbe)
+            {
+                ret = ret && context.LBSetName == this.LBSetName
+                    && context.ProbePort == this.ProbePort
+                    && context.ProbeProtocol == this.ProbeProtocol.ToString();
+
+                ret = ret && ( this.ProbeInterval.HasValue 
+                                ? context.ProbeIntervalInSeconds == this.ProbeInterval 
+                                : context.ProbeIntervalInSeconds == 15 );
+
+                ret = ret && ( this.ProbeTimeout.HasValue
+                                ? context.ProbeTimeoutInSeconds == this.ProbeTimeout
+                                : context.ProbeTimeoutInSeconds == 31 );
+            }
+
+            return ret;
+        }
     }
 }
