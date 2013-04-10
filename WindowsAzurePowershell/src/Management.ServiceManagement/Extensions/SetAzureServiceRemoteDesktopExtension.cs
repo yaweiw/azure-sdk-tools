@@ -70,9 +70,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Extension Id. Default to RDPExtDefault.")]
-        [ValidateNotNullOrEmpty]
-        public string ExtensionId
+        private string ExtensionId
         {
             get;
             set;
