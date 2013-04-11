@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
-    using Microsoft.WindowsAzure.Management.Utilities.Subscriptions.Contract;
+    using Microsoft.WindowsAzure.Management.Utilities.Subscription.Contract;
     using Moq;
     using VisualStudio.TestTools.UnitTesting;
 

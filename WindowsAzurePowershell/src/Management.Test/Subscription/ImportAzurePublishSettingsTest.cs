@@ -20,7 +20,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-    using Management.Utilities.Subscriptions.Contract;
+    using Management.Utilities.Subscription.Contract;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;

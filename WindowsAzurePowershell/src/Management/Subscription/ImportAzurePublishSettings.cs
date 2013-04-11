@@ -23,8 +23,8 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.Threading.Tasks;
     using Utilities.Common;
     using Utilities.Properties;
-    using Utilities.Subscriptions;
-    using Utilities.Subscriptions.Contract;
+    using Utilities.Subscription;
+    using Utilities.Subscription.Contract;
 
     /// <summary>
     /// Imports publish profiles.
