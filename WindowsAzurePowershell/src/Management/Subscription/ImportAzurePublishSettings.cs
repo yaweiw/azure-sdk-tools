@@ -19,11 +19,9 @@ namespace Microsoft.WindowsAzure.Management.Subscription
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
-    using System.Security.Cryptography.X509Certificates;
     using System.Security.Permissions;
     using System.Threading.Tasks;
     using Utilities.Common;
-    using Utilities.Common.XmlSchema;
     using Utilities.Properties;
     using Utilities.Subscriptions;
     using Utilities.Subscriptions.Contract;
@@ -47,46 +45,14 @@ namespace Microsoft.WindowsAzure.Management.Subscription
 
         private ISubscriptionClient GetSubscriptionClient(SubscriptionData subscription)
         {
-            if (SubscriptionClient == null)
-            {
-                SubscriptionClient = new SubscriptionClient(subscription);
-            }
-            return SubscriptionClient;
+            return SubscriptionClient ?? (SubscriptionClient = new SubscriptionClient(subscription));
         }
 
-        [PermissionSet(SecurityAction.LinkDemand, Name = "FullTrust")]
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         internal SubscriptionData ImportSubscriptionFile(string publishSettingsFile, string subscriptionsDataFile)
         {
-            GlobalComponents globalComponents = GlobalComponents.CreateFromPublishSettings(
-                GlobalPathInfo.GlobalSettingsDirectory,
-                subscriptionsDataFile,
-                publishSettingsFile);
-
-            // Set a current and default subscription if possible
-            if (globalComponents.Subscriptions != null && globalComponents.Subscriptions.Count > 0)
-            {
-                var currentDefaultSubscription = globalComponents.Subscriptions.Values.FirstOrDefault(subscription =>
-                    subscription.IsDefault);
-                if (currentDefaultSubscription == null)
-                {
-                    // Sets the a new default subscription from the imported ones
-                    currentDefaultSubscription = globalComponents.Subscriptions.Values.First();
-                    currentDefaultSubscription.IsDefault = true;
-                }
-
-                if (this.GetCurrentSubscription() == null)
-                {
-                    this.SetCurrentSubscription(currentDefaultSubscription);
-                }
-
-                // Save subscriptions file to make sure publish settings subscriptions get merged
-                // into the subscriptions data file and the default subscription is updated.
-                globalComponents.SaveSubscriptions(subscriptionsDataFile);
-
-                return currentDefaultSubscription;
-            }
-
-            return null;
+            GlobalComponents globalComponents = CreateGlobalComponents(subscriptionsDataFile, publishSettingsFile);
+            return SetCurrentAndDefaultSubscriptions(globalComponents, subscriptionsDataFile);
         }
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
@@ -123,28 +89,28 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         {
             if (string.IsNullOrEmpty(publishSettingsFile))
             {
-                return base.CurrentPath();
+                return CurrentPath();
             }
             return publishSettingsFile;
         }
 
-        private SubscriptionData ImportSingleFile(string subscriptionDataFile, string publishSettingsFile)
+        private void ImportSingleFile(string subscriptionDataFile, string publishSettingsFile)
         {
-            SubscriptionData defaultSubscription = ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+            var globalComponents = CreateGlobalComponents(subscriptionDataFile, publishSettingsFile);
+            string loadedSubscriptionName = globalComponents.ServiceConfiguration.subscriptionName;
+            SubscriptionData defaultSubscription = SetCurrentAndDefaultSubscriptions(globalComponents, subscriptionDataFile);
             if (defaultSubscription != null)
             {
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
                     defaultSubscription.SubscriptionName));
-                RegisterResourceProviders(defaultSubscription);
+                RegisterResourceProviders(globalComponents, loadedSubscriptionName);
             }
-
-            return defaultSubscription;
         }
 
-        private SubscriptionData ImportDirectory(string subscriptionDataFile, string searchDirectory)
+        private void ImportDirectory(string subscriptionDataFile, string searchDirectory)
         {
-            bool multipleFilesFound = false;
+            bool multipleFilesFound;
             string publishSettingsFile;
 
             string[] publishSettingsFiles = Directory.GetFiles(searchDirectory, "*.publishsettings");
@@ -159,14 +125,16 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 throw new Exception(string.Format(Resources.NoPublishSettingsFilesFoundMessage, searchDirectory));
             }
 
-            SubscriptionData defaultSubscription = ImportSubscriptionFile(publishSettingsFile, subscriptionDataFile);
+            var globalComponents = CreateGlobalComponents(subscriptionDataFile, publishSettingsFile);
+            string loadedSubscriptionName = globalComponents.ServiceConfiguration.subscriptionName;
+            SubscriptionData defaultSubscription = SetCurrentAndDefaultSubscriptions(globalComponents, subscriptionDataFile);
 
             if (defaultSubscription != null)
             {
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
                     defaultSubscription.SubscriptionName));
-                RegisterResourceProviders(defaultSubscription);
+                RegisterResourceProviders(globalComponents, loadedSubscriptionName);
             }
 
             if (multipleFilesFound)
@@ -175,7 +143,12 @@ namespace Microsoft.WindowsAzure.Management.Subscription
             }
 
             WriteObject(publishSettingsFile);
-            return defaultSubscription;
+        }
+
+        private void RegisterResourceProviders(GlobalComponents globalComponents, string subscriptionName)
+        {
+            SubscriptionData subscription = globalComponents.SubscriptionManager.Subscriptions[subscriptionName];
+            RegisterResourceProviders(subscription);
         }
 
         private void RegisterResourceProviders(SubscriptionData subscription)
@@ -190,17 +163,41 @@ namespace Microsoft.WindowsAzure.Management.Subscription
             Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
         }
 
-        private static SubscriptionData LoadSubscriptionFromPublishSettingsFile(string filename)
+        private GlobalComponents CreateGlobalComponents(string subscriptionsDataFile, string publishSettingsFile)
         {
-            PublishData publishData = General.DeserializeXmlFile<PublishData>(filename);
-            return new SubscriptionData
+            return GlobalComponents.CreateFromPublishSettings(
+                GlobalPathInfo.GlobalSettingsDirectory,
+                subscriptionsDataFile,
+                publishSettingsFile);
+        }
+
+        private SubscriptionData SetCurrentAndDefaultSubscriptions(GlobalComponents globalComponents, string subscriptionsDataFile)
+        {
+            // Set a current and default subscription if possible
+            if (globalComponents.Subscriptions != null && globalComponents.Subscriptions.Count > 0)
             {
-                SubscriptionId = publishData.Items[0].Subscription[0].Id,
-                ServiceEndpoint = publishData.Items[0].Url,
-                Certificate =
-                    new X509Certificate2(Convert.FromBase64String(publishData.Items[0].ManagementCertificate),
-                        string.Empty)
-            };
+                var currentDefaultSubscription = globalComponents.Subscriptions.Values.FirstOrDefault(subscription =>
+                    subscription.IsDefault);
+                if (currentDefaultSubscription == null)
+                {
+                    // Sets the a new default subscription from the imported ones
+                    currentDefaultSubscription = globalComponents.Subscriptions.Values.First();
+                    currentDefaultSubscription.IsDefault = true;
+                }
+
+                if (this.GetCurrentSubscription() == null)
+                {
+                    this.SetCurrentSubscription(currentDefaultSubscription);
+                }
+
+                // Save subscriptions file to make sure publish settings subscriptions get merged
+                // into the subscriptions data file and the default subscription is updated.
+                globalComponents.SaveSubscriptions(subscriptionsDataFile);
+
+                return currentDefaultSubscription;
+            }
+
+            return null;
         }
     }
 }
