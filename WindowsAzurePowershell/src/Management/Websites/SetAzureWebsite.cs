@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     [Cmdlet(VerbsCommon.Set, "AzureWebsite"), OutputType(typeof(bool))]
     public class SetAzureWebsiteCommand : WebsiteContextBaseCmdlet, ISiteConfig
     {
-        public WebsitesClient WebsitesClient { get; set; }
+        public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Number of workers.")]
         [ValidateNotNullOrEmpty]
