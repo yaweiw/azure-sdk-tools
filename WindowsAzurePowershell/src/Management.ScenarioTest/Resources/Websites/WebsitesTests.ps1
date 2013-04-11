@@ -283,3 +283,64 @@ function Test-SetAzureWebsiteWithInvalidValues
 	Assert-Throws { Set-AzureWebsite -AzureDriveTraceLevel MyLevel }
 	Assert-Throws { Set-AzureWebsite -AzureTableTraceLevel EdeloLevel }
 }
+
+########################################################################### Start-AzureWebsite Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Start-AzureWebsite happy path.
+#>
+function Test-StartAzureWebsite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Stop-AzureWebsite $name
+	Assert-Throws { Get-AzureWebsite $name }
+
+	# Test
+	Start-AzureWebsite $name
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual "Running" $website.State
+}
+
+########################################################################### Stop-AzureWebsite Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Stop-AzureWebsite happy path.
+#>
+function Test-StopAzureWebsite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+
+	# Test
+	Stop-AzureWebsite $name
+
+	# Assert
+	Assert-Throws { Get-AzureWebsite $name }
+}
+
+########################################################################### Restart-AzureWebsite Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Restart-AzureWebsite happy path.
+#>
+function Test-RestartAzureWebsite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+
+	# Test
+	Restart-AzureWebsite $name
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual "Running" $website.State
+}
