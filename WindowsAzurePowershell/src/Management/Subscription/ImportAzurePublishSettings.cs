@@ -116,7 +116,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 WriteVerbose(string.Format(
                     Resources.DefaultAndCurrentSubscription,
                     defaultSubscription.SubscriptionName));
-            //    RegisterResourceProviders(defaultSubscription);
+                RegisterResourceProviders(defaultSubscription);
             }
 
             if (multipleFilesFound)

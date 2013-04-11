@@ -15,12 +15,17 @@
 namespace Microsoft.WindowsAzure.Management.Test.Subscription
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Management.Utilities.Subscriptions.Contract;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -81,6 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings2.First(),
                 null);
@@ -100,6 +106,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             cmdlet.ImportSubscriptionFile(
                 Data.ValidPublishSettings.First(),
                 null);
@@ -129,6 +136,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir";
             string fileName = "myfile.publishsettings";
             string filePath = Path.Combine(directoryName, fileName);
@@ -152,6 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir";
             string fileName = "myfile.publishsettings";
             Directory.CreateDirectory(directoryName);
@@ -177,6 +186,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir3";
             string originalDirectory = Directory.GetCurrentDirectory();
             Directory.CreateDirectory(directoryName);
@@ -197,6 +207,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             mockCommandRuntime = new MockCommandRuntime();
             cmdlet = new ImportAzurePublishSettingsCommand();
             cmdlet.CommandRuntime = mockCommandRuntime;
+            cmdlet.SubscriptionClient = CreateMockSubscriptionClient();
             string directoryName = "testdir2";
             string fileName1 = "myfile1.publishsettings";
             string fileName2 = "myfile2.publishsettings";
@@ -214,6 +225,18 @@ namespace Microsoft.WindowsAzure.Management.Test.Subscription
             Assert.IsTrue(currentSubscription.IsDefault);
             Assert.AreEqual<string>(filePath1, mockCommandRuntime.OutputPipeline[0].ToString());
             Assert.AreEqual<string>(string.Format(Resources.MultiplePublishSettingsFilesFoundMessage, filePath1), mockCommandRuntime.WarningStream[0]);
+        }
+
+        private ISubscriptionClient CreateMockSubscriptionClient()
+        {
+            var mock = new Mock<ISubscriptionClient>();
+
+            mock.Setup(c => c.ListResourcesAsync(It.IsAny<IEnumerable<string>>()))
+                .Returns(() => Task.Factory.StartNew(() => new ProviderResource[0].AsEnumerable()));
+            mock.Setup(c => c.RegisterResourceTypeAsync(It.IsAny<string>()))
+                .Returns(() => Task.Factory.StartNew(() => true));
+
+            return mock.Object;
         }
     }
 }

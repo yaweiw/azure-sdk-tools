@@ -15,14 +15,18 @@
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Threading.Tasks;
     using Microsoft.WindowsAzure.Management.Subscription;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Management.Utilities.Subscriptions.Contract;
+    using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -61,6 +65,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             importCmdlet = new ImportAzurePublishSettingsCommand();
             importCmdlet.CommandRuntime = mockCommandRuntime;
             importCmdlet.ImportSubscriptionFile(Data.ValidPublishSettings.First(), null);
+            importCmdlet.SubscriptionClient = CreateMockSubscriptionClient();
         }
 
         [TestCleanup()]
@@ -267,5 +272,15 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
         }
 
         #endregion
+
+        private ISubscriptionClient CreateMockSubscriptionClient()
+        {
+            var mock = new Mock<ISubscriptionClient>();
+            mock.Setup(c => c.ListResourcesAsync(It.IsAny<IEnumerable<string>>()))
+                .Returns(() => Task.Factory.StartNew(() => (IEnumerable<ProviderResource>)new ProviderResource[0]));
+            mock.Setup(c => c.RegisterResourceTypeAsync(It.IsAny<string>()))
+                .Returns(() => Task.Factory.StartNew(() => true));
+            return mock.Object;
+        }
     }
 }
