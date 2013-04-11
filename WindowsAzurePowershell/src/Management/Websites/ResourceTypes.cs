@@ -11,6 +11,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Management.Utilities.Subscriptions;
+using Microsoft.WindowsAzure.Management.Utilities.Subscription;
 
 [assembly: AzureResourceTypeName("website")]
