@@ -137,34 +137,6 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
 
         #endregion
 
-        #region Set-AzureWebsite Scenario Tests
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteDiagnosticSettings()
-        {
-            RunPowerShellTest("Test-SetAzureWebsiteDiagnosticSettings");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteMultipleDiagnosticSettings()
-        {
-            RunPowerShellTest("Test-SetAzureWebsiteMultipleDiagnosticSettings");
-        }
-
-        [TestMethod]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Websites)]
-        public void TestSetAzureWebsiteWithInvalidValues()
-        {
-            RunPowerShellTest("Test-SetAzureWebsiteWithInvalidValues");
-        }
-
-        #endregion
-
         #region Start-AzureWebsite Scenario Tests
 
         [TestMethod]
