@@ -136,5 +136,41 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         }
 
         #endregion
+
+        #region Start-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStartAzureWebsite()
+        {
+            RunPowerShellTest("Test-StartAzureWebsite");
+        }
+
+        #endregion
+
+        #region Stop-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStopAzureWebsite()
+        {
+            RunPowerShellTest("Test-StopAzureWebsite");
+        }
+
+        #endregion
+
+        #region Restart-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestRestartAzureWebsite()
+        {
+            RunPowerShellTest("Test-RestartAzureWebsite");
+        }
+
+        #endregion
     }
 }
