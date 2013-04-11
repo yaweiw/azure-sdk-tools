@@ -265,7 +265,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 string rootPath = files.CreateNewService("NEW_SERVICE");
-                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = "WebRole", Instances = 1 };
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand()
+                {
+                    RootPath = rootPath,
+                    CommandRuntime = mockCommandRuntime,
+                    Name = "WebRole",
+                    Instances = 1
+                };
                 addNodeWebCmdlet.ExecuteCmdlet();
                 EnableRemoteDesktop("㯑䲘䄂㮉", "㯑䲘䄂㮉㮉㮉㮉L");
 
@@ -274,6 +280,28 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Development
                 AzureService service = new AzureService(rootPath, null);
                 VerifyWebRole(service.Components.Definition.WebRole[0], true);
                 VerifyRoleSettings(service);
+            }
+        }
+
+        /// <summary>
+        /// Enable remote desktop using short unicode password.
+        /// </summary>
+        [TestMethod]
+        public void EnableRemoteDesktopUnicodeAndShortPasswordFails()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
+                string rootPath = files.CreateNewService("NEW_SERVICE");
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand()
+                {
+                    RootPath = rootPath,
+                    CommandRuntime = mockCommandRuntime,
+                    Name = "WebRole",
+                    Instances = 1
+                };
+                addNodeWebCmdlet.ExecuteCmdlet();
+                Testing.AssertThrows<ArgumentException>(() => EnableRemoteDesktop("㯑䲘䄂㮉", "㯑䲘"));
             }
         }
     }
