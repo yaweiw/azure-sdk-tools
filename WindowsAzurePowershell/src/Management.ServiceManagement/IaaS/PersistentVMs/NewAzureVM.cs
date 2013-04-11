@@ -195,6 +195,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     if (vm.WinRMCertificate != null)
                     {
+                        if(!CertUtils.HasExportablePrivateKey(vm.WinRMCertificate))
+                        {
+                            throw new ArgumentException("WinRMCertificate needs to have an exportable private key.");
+                        }
                         var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
                         var certificateFile = CertUtils.Create(vm.WinRMCertificate);
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
