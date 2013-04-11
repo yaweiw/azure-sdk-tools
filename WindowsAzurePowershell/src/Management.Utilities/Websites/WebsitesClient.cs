@@ -135,6 +135,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             return string.IsNullOrEmpty(name) ? GetWebsiteFromCurrentDirectory() : name;
         }
 
+        private void ChangeWebsiteState(string name, string webspace, WebsiteState state)
+        {
+            Site siteUpdate = new Site { Name = name, State = state.ToString() };
+            WebsiteChannel.UpdateSite(SubscriptionId, webspace, name, siteUpdate);
+        }
+
         /// <summary>
         /// Starts log streaming for the given website.
         /// </summary>
@@ -275,9 +281,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         public void RestartAzureWebsite(string name)
         {
-            StartAzureWebsite(name);
-
-            StopAzureWebsite(name);
+            Site website = GetWebsite(name);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
         }
 
         /// <summary>
@@ -287,10 +293,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public void StartAzureWebsite(string name)
         {
             Site website = GetWebsite(name);
-            Site siteUpdate = new Site { Name = name };
-
-            siteUpdate.State = "Running";
-            WebsiteChannel.UpdateSite(SubscriptionId, website.WebSpace, name, siteUpdate);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Running);
         }
 
         /// <summary>
@@ -300,10 +303,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public void StopAzureWebsite(string name)
         {
             Site website = GetWebsite(name);
-            Site siteUpdate = new Site { Name = name };
-
-            siteUpdate.State = "Stopped";
-            WebsiteChannel.UpdateSite(SubscriptionId, website.WebSpace, name, siteUpdate);
+            ChangeWebsiteState(website.Name, website.WebSpace, WebsiteState.Stopped);
         }
 
         /// <summary>
@@ -322,6 +322,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             }
 
             return website;
+        }
+
+        public enum WebsiteState
+        {
+            Running,
+            Stopped
         }
     }
 }
