@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
     using System.Collections.ObjectModel;
     using System.Collections.Generic;
     using System.Security.Cryptography.X509Certificates;
+    using System.Xml.Serialization;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     public class PersistentVM : IPersistentVM
@@ -69,12 +70,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
             set;
         }
 
+        [XmlIgnore]
         public X509Certificate2 WinRMCertificate
         {
             get;
             set;
         }
 
+        [XmlIgnore]
         public List<X509Certificate2> X509Certificates
         {
             get;
