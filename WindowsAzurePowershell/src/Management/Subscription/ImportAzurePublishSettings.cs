@@ -134,8 +134,10 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         {
             ISubscriptionClient client = GetSubscriptionClient(subscription);
             var knownProviders = new List<string>(ProviderRegistrationConstants.GetKnownResourceTypes());
-            var registeredProviders = new List<ProviderResource>(client.ListResources(knownProviders));
-            var providersToRegister = GetUnregisteredProviders(knownProviders, registeredProviders.Select(p => p.Type).ToList());
+            var providers = new List<ProviderResource>(client.ListResources(knownProviders));
+            var providersToRegister = GetUnregisteredProviders(knownProviders, 
+                providers.Where(p => p.State == ProviderRegistrationConstants.Unregistered)
+                .Select(p => p.Type).ToList());
 
             Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
         }
