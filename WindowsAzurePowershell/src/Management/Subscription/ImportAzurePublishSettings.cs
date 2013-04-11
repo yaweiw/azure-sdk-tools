@@ -125,17 +125,7 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 throw new Exception(string.Format(Resources.NoPublishSettingsFilesFoundMessage, searchDirectory));
             }
 
-            var globalComponents = CreateGlobalComponents(subscriptionDataFile, publishSettingsFile);
-            string loadedSubscriptionName = globalComponents.ServiceConfiguration.subscriptionName;
-            SubscriptionData defaultSubscription = SetCurrentAndDefaultSubscriptions(globalComponents, subscriptionDataFile);
-
-            if (defaultSubscription != null)
-            {
-                WriteVerbose(string.Format(
-                    Resources.DefaultAndCurrentSubscription,
-                    defaultSubscription.SubscriptionName));
-                RegisterResourceProviders(globalComponents, loadedSubscriptionName);
-            }
+            ImportSingleFile(subscriptionDataFile, publishSettingsFile);
 
             if (multipleFilesFound)
             {
@@ -148,11 +138,6 @@ namespace Microsoft.WindowsAzure.Management.Subscription
         private void RegisterResourceProviders(GlobalComponents globalComponents, string subscriptionName)
         {
             SubscriptionData subscription = globalComponents.SubscriptionManager.Subscriptions[subscriptionName];
-            RegisterResourceProviders(subscription);
-        }
-
-        private void RegisterResourceProviders(SubscriptionData subscription)
-        {
             ISubscriptionClient client = GetSubscriptionClient(subscription);
             var knownProviders = new List<string>(ProviderRegistrationConstants.GetKnownResourceTypes());
             var providers = new List<ProviderResource>(client.ListResources(knownProviders));
