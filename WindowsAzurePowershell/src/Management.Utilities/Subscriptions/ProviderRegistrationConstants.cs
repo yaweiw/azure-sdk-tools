@@ -21,6 +21,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
     {
         public const string Register = "register";
         public const string Unregister = "unregister";
+        public const string Registered = "Registered";
+        public const string Unregistered = "Unregistered";
 
         internal static string ListResourcesPath(string subscriptionId, IEnumerable<string> knownResourceTypes)
         {
@@ -30,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions
 
         internal static string ActionPath(string subscriptionId, string resourceType, string action)
         {
-            return string.Format("/{0}/services?{1}&action={2}",
+            return string.Format("/{0}/services?service={1}&action={2}",
                 subscriptionId, resourceType, action);
         }
 
