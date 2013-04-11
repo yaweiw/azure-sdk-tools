@@ -86,12 +86,21 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             });
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
-            this.stream.Close();
-            this.readCompleted.WaitOne(WaitInterval);
-            this.readCompleted.Dispose();
-            this.sem.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.stream.Close();
+                this.readCompleted.WaitOne(WaitInterval);
+                this.readCompleted.Dispose();
+                this.sem.Dispose();
+            }
         }
 
         public virtual string WaitNextLine(int millisecs)

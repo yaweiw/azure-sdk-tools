@@ -38,7 +38,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                 }
                 else
                 {
-                    throw getWebspacesException;
+                    throw;
                 }
             }
         }
