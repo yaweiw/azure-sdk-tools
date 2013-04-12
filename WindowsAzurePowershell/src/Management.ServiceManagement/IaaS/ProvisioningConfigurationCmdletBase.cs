@@ -12,11 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using System.Security.Cryptography.X509Certificates;
     
     public class ProvisioningConfigurationCmdletBase : PSCmdlet
     {
@@ -181,6 +183,51 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             set;
         }
 
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Enables WinRM over http")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Enables WinRM over http")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter EnableWinRMHttp
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Disables WinRM on http/https")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Disables WinRM on http/https")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter DisableWinRMHttps
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Certificate that will be associated with WinRM endpoint.")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Certificate that will be associated with WinRM endpoint.")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2 WinRMCertificate
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "X509Certificates that will be deployed to hosted service.")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "X509Certificates that will be deployed to hosted service.")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2[] X509Certificates
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Mandatory = false, ParameterSetName = "Windows", HelpMessage = "Prevents the private key from being uploaded")]
+        [Parameter(Mandatory = false, ParameterSetName = "WindowsDomain", HelpMessage = "Prevents the private key from being uploaded")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter NoExportPrivateKey
+        {
+            get;
+            set;
+        }
+
         protected void SetProvisioningConfiguration(LinuxProvisioningConfigurationSet provisioningConfiguration)
         {
             provisioningConfiguration.UserName = LinuxUser;
@@ -206,7 +253,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             provisioningConfiguration.AdminUsername = AdminUsername;
             provisioningConfiguration.AdminPassword = Password;            
             provisioningConfiguration.ResetPasswordOnFirstLogon = ResetPasswordOnFirstLogon.IsPresent;
-            provisioningConfiguration.StoredCertificateSettings = Certificates;
+            provisioningConfiguration.StoredCertificateSettings = CertUtils.GetCertificateSettings(Certificates, X509Certificates);
             provisioningConfiguration.EnableAutomaticUpdates = !DisableAutomaticUpdates.IsPresent;
 
             if (!string.IsNullOrEmpty(TimeZone))
