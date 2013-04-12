@@ -20,13 +20,35 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Azure storage queue
+    /// </summary>
     public class AzureStorageQueue : AzureStorageBase
     {
+        /// <summary>
+        /// Cloud Queue object
+        /// </summary>
         public CloudQueue CloudQueue { get; private set; }
+
+        /// <summary>
+        /// Queue uri
+        /// </summary>
         public Uri Uri { get; private set; }
+
+        /// <summary>
+        /// Approximate message count
+        /// </summary>
         public int? ApproximateMessageCount { get; private set; }
+
+        /// <summary>
+        /// Whether applied base64 encoding
+        /// </summary>
         public bool EncodeMessage { get; private set; }
 
+        /// <summary>
+        /// Azure storage queue constructor.
+        /// </summary>
+        /// <param name="queue">Cloud queue object</param>
         public AzureStorageQueue(CloudQueue queue)
         {
             CloudQueue = queue;

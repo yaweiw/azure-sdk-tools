@@ -168,6 +168,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
             string blobEndPoint = string.Empty;
             string tableEndPoint = string.Empty;
             string queueEndPoint = string.Empty;
+            
             if (useHttps)
             {
                 blobEndPoint = String.Format(Resources.HttpsBlobEndPointFormat, storageAccountName);
@@ -180,7 +181,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Common.Cmdlet
                 tableEndPoint = String.Format(Resources.HttpTableEndPointFormat, storageAccountName);
                 queueEndPoint = String.Format(Resources.HttpQueueEndPointFormat, storageAccountName);
             }
-            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(tableEndPoint), new Uri(queueEndPoint));
+
+            return new CloudStorageAccount(credential, new Uri(blobEndPoint), new Uri(queueEndPoint), new Uri(tableEndPoint));
         }
 
         /// <summary>
