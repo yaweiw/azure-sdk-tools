@@ -12,9 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
-using System.Security.Cryptography.X509Certificates;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
