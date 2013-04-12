@@ -203,6 +203,7 @@
     <Compile Include="Subscription\SelectAzureSubscription.cs" />
     <Compile Include="Subscription\SetAzureSubscription.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Websites\EnableAzureWebsiteDiagnostic.cs" />
     <Compile Include="Websites\GetAzureWebSite.cs" />
     <Compile Include="Websites\GetAzureWebsiteDeployment.cs" />
     <Compile Include="Websites\GetAzureWebsiteLocation.cs" />
