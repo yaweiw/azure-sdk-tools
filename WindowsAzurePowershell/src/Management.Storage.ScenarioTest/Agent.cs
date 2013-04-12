@@ -100,7 +100,7 @@ namespace CLITest
         /// Remarks:
         ///     currently there is no Force param, may add it later on
         /// </summary>
-        public abstract bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false);
+        public abstract bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false, bool force = true);
       
         public abstract bool NewAzureStorageTable(string TableName);
         public abstract bool NewAzureStorageTable(string[] TableNames);

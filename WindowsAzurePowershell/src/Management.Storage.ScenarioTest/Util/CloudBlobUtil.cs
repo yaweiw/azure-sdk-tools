@@ -279,7 +279,7 @@ namespace CLITest.Util
         /// <returns>ICloudBlob object</returns>
         public ICloudBlob CreateBlob(CloudBlobContainer container, string blobName, Storage.BlobType type)
         {
-            if (type == Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob)
+            if (type == Storage.BlobType.BlockBlob)
             {
                 return CreateBlockBlob(container, blobName);
             }
@@ -413,6 +413,32 @@ namespace CLITest.Util
         public int GetExistingContainerCount()
         {
             return GetExistingContainers().Count;
+        }
+
+        /// <summary>
+        /// Create a snapshot for the specified ICloudBlob object
+        /// </summary>
+        /// <param name="blob">ICloudBlob object</param>
+        public ICloudBlob SnapShot(ICloudBlob blob)
+        {
+            ICloudBlob snapshot = default(ICloudBlob);
+
+            switch (blob.BlobType)
+            { 
+                case Storage.BlobType.BlockBlob:
+                    snapshot = ((CloudBlockBlob)blob).CreateSnapshot();
+                    break;
+                case Storage.BlobType.PageBlob:
+                    snapshot = ((CloudPageBlob)blob).CreateSnapshot();
+                    break;
+                default:
+                    throw new ArgumentException(string.Format("Unsupport blob type {0} when create snapshot", blob.BlobType));
+                    break;
+            }
+
+            Test.Info(string.Format("Create snapshot for '{0}' at {1}", blob.Name, snapshot.SnapshotTime));
+
+            return snapshot;
         }
 
         public static void PackContainerCompareData(CloudBlobContainer container, Dictionary<string, object> dic)
