@@ -14,42 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
 {
-    using System;
-    using System.Linq;
-    using System.ServiceModel.Security;
     using GeoEntities;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using System.Linq;
     using WebEntities;
 
     public static class WebsitesExtensionMethods
     {
         public static WebSpaces GetWebSpaces(this IWebsitesServiceManagement proxy, string subscriptionName)
         {
-            try
-            {
-                return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
-            }
-            catch (MessageSecurityException getWebspacesException)
-            {
-                // TODO, 1238: Remove when we have added RDFE resource registration logic
-                if (IsAccessDeniedException(getWebspacesException))
-                {
-                    throw new System.Management.Automation.CmdletInvocationException(Resources.ListLocationExceptionWorkaround, getWebspacesException);
-                }
-                else
-                {
-                    throw getWebspacesException;
-                }
-            }
-        }
-
-        // TODO, 1238: Remove when we have added RDFE resource registration logic
-        static bool IsAccessDeniedException(MessageSecurityException exceptionToCheck)
-        {
-            return (null != exceptionToCheck && null != exceptionToCheck.InnerException && 
-                !string.IsNullOrEmpty(exceptionToCheck.InnerException.Message) &&
-                string.Equals(exceptionToCheck.InnerException.Message, Resources.AccessDeniedExceptionMessage, 
-                StringComparison.OrdinalIgnoreCase));
+            return proxy.EndGetWebSpaces(proxy.BeginGetWebSpaces(subscriptionName, null, null));
         }
 
         public static WebSpaces GetWebSpacesWithCache(this IWebsitesServiceManagement proxy, string subscriptionName)
