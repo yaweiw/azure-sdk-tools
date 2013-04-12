@@ -281,7 +281,12 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContainer");
-            ps.AddParameter("Name", ContainerName);
+
+            if (!string.IsNullOrEmpty(ContainerName))
+            {
+                ps.AddParameter("Name", ContainerName);
+            }
+
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -368,8 +373,14 @@ namespace CLITest
         public override bool RemoveAzureStorageContainer(string ContainerName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageContainer");
-            ps.AddParameter("Name", ContainerName);
+
+            if (!string.IsNullOrEmpty(ContainerName))
+            {
+                ps.AddParameter("Name", ContainerName);
+            }
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -463,8 +474,14 @@ namespace CLITest
         public override bool RemoveAzureStorageQueue(string QueueName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageQueue");
-            ps.AddParameter("Name", QueueName);
+            
+            if (!string.IsNullOrEmpty(QueueName))
+            {
+                ps.AddParameter("Name", QueueName);
+            }
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -605,7 +622,7 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
-        public override bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false)
+        public override bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
@@ -626,7 +643,7 @@ namespace CLITest
                 ps.AddParameter("DeleteSnapshot", true);
             }
 
-            AddCommonParameters(ps, true);
+            AddCommonParameters(ps, force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
@@ -704,8 +721,14 @@ namespace CLITest
         public override bool RemoveAzureStorageTable(string TableName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageTable");
-            ps.AddParameter("Name", TableName);
+
+            if (!string.IsNullOrEmpty(TableName))
+            {
+                ps.AddParameter("Name", TableName);
+            }
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));

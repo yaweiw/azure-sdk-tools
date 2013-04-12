@@ -46,8 +46,13 @@ namespace CLITest.Util
         /// </summary>
         /// <param name="tableName">container name</param>
         /// <returns>the created container object with properties and metadata</returns>
-        public CloudTable CreateTable(string tableName)
+        public CloudTable CreateTable(string tableName = "")
         {
+            if (String.IsNullOrEmpty(tableName))
+            {
+                tableName = Utility.GenNameString("table");
+            }
+
             CloudTable table = client.GetTableReference(tableName);
             table.CreateIfNotExists();
 
@@ -76,20 +81,20 @@ namespace CLITest.Util
         /// <summary>
         /// remove specified container
         /// </summary>
-        /// <param name="queueName">container name</param>
-        public void RemoveTable(string queueName)
+        /// <param name="tableName">container name</param>
+        public void RemoveTable(string tableName)
         {
-            CloudTable table = client.GetTableReference(queueName);
+            CloudTable table = client.GetTableReference(tableName);
             table.DeleteIfExists();
         }
 
         /// <summary>
         /// remove a list containers
         /// </summary>
-        /// <param name="queueNames">container names</param>
-        public void RemoveTable(List<string> queueNames)
+        /// <param name="tableNames">container names</param>
+        public void RemoveTable(List<string> tableNames)
         {
-            foreach (string name in queueNames)
+            foreach (string name in tableNames)
             {
                 RemoveTable(name);
             }
