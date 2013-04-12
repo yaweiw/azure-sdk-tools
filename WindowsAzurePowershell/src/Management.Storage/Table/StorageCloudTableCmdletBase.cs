@@ -40,7 +40,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table
         /// <returns>IStorageTableManagement object</returns>
         protected override IStorageTableManagement CreateChannel()
         {
-            //init storage blob managment channel
+            //init storage table management channel
             if (Channel == null || !ShareChannel)
             {
                 Channel = new StorageTableManagement(GetCloudTableClient());

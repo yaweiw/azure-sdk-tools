@@ -53,14 +53,15 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Service
             else
             {
                 List<CloudTable> prefixTables = new List<CloudTable>();
+
                 foreach (CloudTable table in tableList)
                 {
-                    //FIXME make sure azure and startswith are the same case sensity
-                    if (table.Name.StartsWith(prefix))
+                    if (table.Name.ToLower().StartsWith(prefix.ToLower()))
                     {
                         prefixTables.Add(table);
                     }
                 }
+
                 return prefixTables;
             }
         }
