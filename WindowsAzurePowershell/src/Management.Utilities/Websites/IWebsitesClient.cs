@@ -89,5 +89,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The website instance</returns>
         Site GetWebsite(string name);
+
+
+        void EnableAzureWebsiteDiagnostic(string name);
     }
 }
