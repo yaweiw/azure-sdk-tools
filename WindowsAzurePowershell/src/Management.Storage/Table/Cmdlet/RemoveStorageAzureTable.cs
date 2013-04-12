@@ -34,7 +34,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             ValueFromPipelineByPropertyName = true)]
         public string Name { get; set; }
 
-        [Parameter(HelpMessage = "Force to remove the table without confirm")]
+        [Parameter(HelpMessage = "Force to remove the table without confirmation")]
         public SwitchParameter Force
         {
             get { return force; }
@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
             TableRequestOptions requestOptions = null;
             CloudTable table = Channel.GetTableReference(name);
 
-            if (!Channel.IsTableExists(table, requestOptions, OperationContext))
+            if (!Channel.DoesTableExist(table, requestOptions, OperationContext))
             {
                 throw new ResourceNotFoundException(String.Format(Resources.TableNotFound, name));
             }
@@ -109,9 +109,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         public override void ExecuteCmdlet()
         {
             string result = string.Empty;
-            bool removed = RemoveAzureTable(Name);
+            bool success = RemoveAzureTable(Name);
 
-            if (removed)
+            if (success)
             {
                 result = String.Format(Resources.RemoveTableSuccessfully, Name);
             }

@@ -21,38 +21,78 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Storage table management
+    /// </summary>
     public class StorageTableManagement : IStorageTableManagement
     {
+        /// <summary>
+        /// Cloud table client
+        /// </summary>
         private CloudTableClient tableClient;
 
+        /// <summary>
+        /// Storage table management constructor
+        /// </summary>
+        /// <param name="client">Cloud table client</param>
         public StorageTableManagement(CloudTableClient client)
         {
             tableClient = client;
         }
 
+        /// <summary>
+        /// List azure storage tables
+        /// </summary>
+        /// <param name="prefix">Table name prefix</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>An enumerable collection of tables that begin with the specified prefix</returns>
         public IEnumerable<CloudTable> ListTables(string prefix, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             return tableClient.ListTables(prefix, requestOptions, operationContext);
         }
 
+        /// <summary>
+        /// Get a table reference
+        /// </summary>
+        /// <param name="name">Table name</param>
+        /// <returns>Cloud table object</returns>
         public CloudTable GetTableReference(string name)
         {
             return tableClient.GetTableReference(name);
         }
 
+        /// <summary>
+        /// Cloud a azure storage table if not exists.
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if table was created; otherwise, false.</returns>
         public bool CreateTableIfNotExists(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             return table.CreateIfNotExists(requestOptions, operationContext);
         }
 
-
+        /// <summary>
+        /// Delete the specified azure storage table
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
         public void Delete(CloudTable table, TableRequestOptions requestOptions = null, OperationContext operationContext = null)
         {
             table.Delete(requestOptions, operationContext);
         }
 
-
-        public bool IsTableExists(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
+        /// <summary>
+        /// Checks whether the table exists.
+        /// </summary>
+        /// <param name="table">Cloud table object</param>
+        /// <param name="requestOptions">Table request options</param>
+        /// <param name="operationContext">Operation context</param>
+        /// <returns>True if table exists; otherwise, false.</returns>
+        public bool DoesTableExist(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             return table.Exists(requestOptions, operationContext);
         }
