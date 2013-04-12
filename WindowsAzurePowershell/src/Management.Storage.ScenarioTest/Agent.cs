@@ -89,7 +89,7 @@ namespace CLITest
         ///         -1 means use the default value
         /// </summary>
         public abstract bool SetAzureStorageBlobContent(string FileName, string ContainerName, BlobType Type, string BlobName = "",
-            bool Force = true, int ConcurrentCount = -1);
+            bool Force = true, int ConcurrentCount = -1, string properties = "", string metadata = "");
         public abstract bool GetAzureStorageBlobContent(string Blob, string FileName, string ContainerName,
             bool Force = true, int ConcurrentCount = -1);
         public abstract bool GetAzureStorageBlob(string BlobName, string ContainerName);

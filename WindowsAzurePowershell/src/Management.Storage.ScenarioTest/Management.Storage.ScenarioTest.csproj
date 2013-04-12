@@ -143,6 +143,7 @@
     <Compile Include="PowerShellAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsTag.cs" />
+    <Compile Include="Util\PowerShellExtension.cs" />
     <None Include="README" />
     <Compile Include="StorageObjectType.cs" />
     <Compile Include="Utility.cs" />
