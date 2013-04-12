@@ -14,12 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;    
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using System;
 
     public class AddAzureVMImageCmdletInfo : CmdletsInfo
     {
-        public AddAzureVMImageCmdletInfo(string imageName, string mediaLocation, OSType os, string label)
+        public AddAzureVMImageCmdletInfo(string imageName, string mediaLocation, OS os, string label)
         {
             cmdletName = Utilities.AddAzureVMImageCmdletName;
 
@@ -27,9 +28,53 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             cmdletParams.Add(new CmdletParam("MediaLocation", mediaLocation));
             cmdletParams.Add(new CmdletParam("OS", os.ToString()));
                 
-            if (System.String.IsNullOrWhiteSpace(label))
+            if (string.IsNullOrEmpty(label))
             {
                 cmdletParams.Add(new CmdletParam("Label", label));
+            }
+        }
+
+        public AddAzureVMImageCmdletInfo(string imageName, string mediaLocation, OS os, string label, InstanceSize? recommendedSize)
+            : this(imageName, mediaLocation, os, label)
+        {
+            if (recommendedSize.HasValue)
+            {
+                cmdletParams.Add(new CmdletParam("RecommendedVMSize", recommendedSize));
+            }
+        }
+
+        public AddAzureVMImageCmdletInfo(
+            string imageName,
+            string mediaLocation,
+            OS os,
+            string label,
+            InstanceSize? recommendedSize,
+            string description,
+            string eula,
+            string imageFamily,
+            Uri privacyUri,
+            DateTime publishedDate)
+            : this(imageName, mediaLocation, os, label, recommendedSize)
+        {
+            if(!string.IsNullOrEmpty(description))
+            {
+                cmdletParams.Add(new CmdletParam("Description", description));
+            }
+            if(!string.IsNullOrEmpty(eula))
+            {
+                cmdletParams.Add(new CmdletParam("Eula", eula));
+            }
+            if(!string.IsNullOrEmpty(imageFamily))
+            {
+                cmdletParams.Add(new CmdletParam("ImageFamily", imageFamily));
+            }
+            if(privacyUri != null)
+            {
+                cmdletParams.Add(new CmdletParam("PrivacyUri", privacyUri.ToString()));
+            }
+            if(publishedDate != null)
+            {
+                cmdletParams.Add(new CmdletParam("PublishedDate", publishedDate.ToString()));
             }
         }
     }

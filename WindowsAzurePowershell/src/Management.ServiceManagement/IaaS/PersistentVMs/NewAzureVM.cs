@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Net;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
+    using System.Net;
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using Model;
     using Storage;
+    using Helpers;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.New, "AzureVM", DefaultParameterSetName = "ExistingService"), OutputType(typeof(ManagementOperationContext))]
@@ -125,97 +125,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "Waits for VM to boot")]
+        [ValidateNotNullOrEmpty]
+        public SwitchParameter WaitForBoot
+        {
+            get;
+            set;
+        }
+
         public void NewAzureVMProcess()
         {
-            List<PersistentVMRole> persistentVMs = new List<PersistentVMRole>();
             SubscriptionData currentSubscription = this.GetCurrentSubscription();
 
-            foreach (PersistentVM pVM in this.VMs)
+            CloudStorageAccount currentStorage = null;
+            try
             {
-                if (pVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(pVM.OSVirtualHardDisk.DiskName))
-                {
-                    CloudStorageAccount currentStorage = null;
-                    try
-                    {
-                        currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
-                    }
-                    catch (ServiceManagementClientException) // couldn't access
-                    {
-                        throw new ArgumentException("CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.");
-                    }
-                    if (currentStorage == null) // not set
-                    {
-                        throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storage account to set it.");
-                    }
-
-                    DateTime dateTimeCreated = DateTime.Now;
-                    string diskPartName = pVM.RoleName;
-
-                    if (pVM.OSVirtualHardDisk.DiskLabel != null)
-                    {
-                        diskPartName += "-" + pVM.OSVirtualHardDisk.DiskLabel;
-                    }
-
-                    string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName, dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day, dateTimeCreated.Millisecond);
-                    string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-                    if (blobEndpoint.EndsWith("/") == false)
-                    {
-                        blobEndpoint += "/";
-                    }
-
-                    pVM.OSVirtualHardDisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
-                }
-
-                foreach (DataVirtualHardDisk datadisk in pVM.DataVirtualHardDisks)
-                {
-                    if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
-                    {
-                        CloudStorageAccount currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
-                        if (currentStorage == null)
-                        {
-                            throw new ArgumentException("CurrentStorageAccount is not set or not accessible. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
-                        }
-
-                        DateTime dateTimeCreated = DateTime.Now;
-                        string diskPartName = pVM.RoleName;
-
-                        if (datadisk.DiskLabel != null)
-                        {
-                            diskPartName += "-" + datadisk.DiskLabel;
-                        }
-
-                        string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName, dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day, dateTimeCreated.Millisecond);
-                        string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
-
-                        if (blobEndpoint.EndsWith("/") == false)
-                        {
-                            blobEndpoint += "/";
-                        }
-
-                        datadisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
-                    }
-
-                    if (pVM.DataVirtualHardDisks.Count() > 1)
-                    {
-                        // To avoid duplicate disk names
-                        System.Threading.Thread.Sleep(1);
-                    }
-                }
-
-                var vmRole = new PersistentVMRole
-                {
-                    AvailabilitySetName = pVM.AvailabilitySetName,
-                    ConfigurationSets = pVM.ConfigurationSets,
-                    DataVirtualHardDisks = pVM.DataVirtualHardDisks,
-                    OSVirtualHardDisk = pVM.OSVirtualHardDisk,
-                    RoleName = pVM.RoleName,
-                    RoleSize = pVM.RoleSize,
-                    RoleType = pVM.RoleType,
-                    Label = pVM.Label
-                };
-
-                persistentVMs.Add(vmRole);
+                currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
             }
+            catch (ServiceManagementClientException) // couldn't access
+            {
+                throw new ArgumentException("CurrentStorageAccount is not accessible. Ensure the current storage account is accessible and in the same location or affinity group as your cloud service.");
+            }
+            if (currentStorage == null) // not set
+            {
+                throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storage account to set it.");
+            }
+
 
             Operation lastOperation = null;
 
@@ -225,31 +160,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     if (this.ParameterSetName.Equals("CreateService", StringComparison.OrdinalIgnoreCase) == true)
                     {
-                        CreateHostedServiceInput chsi = new CreateHostedServiceInput();
-                        chsi.AffinityGroup = this.AffinityGroup;
-                        chsi.Location = this.Location;
-                        chsi.ServiceName = this.ServiceName;
-
-                        if (this.ServiceDescription == null)
+                        var chsi = new CreateHostedServiceInput
                         {
-                            DateTime dtUTC = DateTime.Now.ToUniversalTime();
-                            //Implicitly created hosted service2012-05-07 23:12 
-                            string serviceDesc = String.Format("Implicitly created hosted service{0}", dtUTC.ToString("yyyy-MM-dd HH:mm"));
-                            chsi.Description = serviceDesc;
-                        }
-                        else
-                        {
-                            chsi.Description = this.ServiceDescription;
-                        }
-
-                        if (this.ServiceLabel == null)
-                        {
-                            chsi.Label = this.ServiceName;
-                        }
-                        else
-                        {
-                            chsi.Label = this.ServiceLabel;
-                        }
+                            AffinityGroup = this.AffinityGroup,
+                            Location = this.Location,
+                            ServiceName = this.ServiceName,
+                            Description = this.ServiceDescription ??
+                                            String.Format("Implicitly created hosted service{0}",DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd HH:mm")),
+                            Label = this.ServiceLabel ?? this.ServiceName
+                        };
 
                         ExecuteClientAction(chsi, CommandRuntime + " - Create Cloud Service", s => this.Channel.CreateHostedService(s, chsi));
                     }
@@ -266,6 +185,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 return;
             }
 
+            foreach (var vm in VMs)
+            {
+                var configuration = vm.ConfigurationSets.OfType<WindowsProvisioningConfigurationSet>().FirstOrDefault();
+                if (configuration != null)
+                {
+                    if (vm.WinRMCertificate != null)
+                    {
+                        if(!CertUtils.HasExportablePrivateKey(vm.WinRMCertificate))
+                        {
+                            throw new ArgumentException("WinRMCertificate needs to have an exportable private key.");
+                        }
+                        var operationDescription = string.Format("{0} - Uploading WinRMCertificate: {1}", CommandRuntime, vm.WinRMCertificate.Thumbprint);
+                        var certificateFile = CertUtils.Create(vm.WinRMCertificate);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, certificateFile));
+                    }
+                    var certificateFilesWithThumbprint = from c in vm.X509Certificates
+                                                         select new
+                                                                {
+                                                                    c.Thumbprint,
+                                                                    CertificateFile = CertUtils.Create(c, vm.NoExportPrivateKey)
+                                                                };
+                    foreach (var current in certificateFilesWithThumbprint.ToList())
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, current.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, current.CertificateFile));
+                    }
+                }
+            }
+
+            var persistentVMs = this.VMs.Select(vm => CreatePersistenVMRole(vm, currentStorage)).ToList();
+
             // If the current deployment doesn't exist set it create it
             if (CurrentDeployment == null)
             {
@@ -273,36 +223,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                 {
                     try
                     {
-                        if (string.IsNullOrEmpty(this.DeploymentName))
-                        {
-                            this.DeploymentName = this.ServiceName;
-                        }
-
-                        if (string.IsNullOrEmpty(this.DeploymentLabel))
-                        {
-                            this.DeploymentLabel = this.ServiceName;
-                        }
-
                         var deployment = new Deployment
                         {
                             DeploymentSlot = "Production",
-                            Name = this.DeploymentName,
-                            Label = this.DeploymentLabel,
+                            Name = this.DeploymentName ?? this.ServiceName,
+                            Label = this.DeploymentLabel ?? this.ServiceName,
                             RoleList = new RoleList(new List<Role> { persistentVMs[0] }),
                             VirtualNetworkName = this.VNetName
                         };
 
                         if (this.DnsSettings != null)
                         {
-                            deployment.Dns = new DnsSettings();
-                            deployment.Dns.DnsServers = new DnsServerList();
-                            foreach (DnsServer dns in this.DnsSettings)
+                            deployment.Dns = new DnsSettings {DnsServers = new DnsServerList()};
+                            foreach (var dns in this.DnsSettings)
                             {
                                 deployment.Dns.DnsServers.Add(dns);
                             }
                         }
 
-                        ExecuteClientAction(deployment, CommandRuntime.ToString() + " - Create Deployment with VM " + persistentVMs[0].RoleName, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
+                        var operationDescription = string.Format("{0} - Create Deployment with VM {1}", CommandRuntime, persistentVMs[0].RoleName);
+                        ExecuteClientAction(deployment, operationDescription, s => this.Channel.CreateDeployment(s, this.ServiceName, deployment));
+
+                        if(this.WaitForBoot.IsPresent)
+                        {
+                            WaitForRoleToBoot(persistentVMs[0].RoleName);
+                        }
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -337,15 +282,92 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 
             for (int i = startingVM; i < persistentVMs.Count; i++)
             {
-                if (lastOperation != null && string.Compare(lastOperation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) == 0)
+                var operationDescription = string.Format("{0} - Create VM {1}", CommandRuntime, persistentVMs[i].RoleName);
+                ExecuteClientActionInOCS(persistentVMs[i],operationDescription, s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName ?? this.ServiceName, persistentVMs[i]));
+            }
+
+            if(this.WaitForBoot.IsPresent)
+            {
+                for (int i = startingVM; i < persistentVMs.Count; i++)
                 {
-                    return;
+                    WaitForRoleToBoot(persistentVMs[i].RoleName);
+                }
+            }
+        }
+
+        private PersistentVMRole CreatePersistenVMRole(PersistentVM persistentVM, CloudStorageAccount currentStorage)
+        {
+            if (persistentVM.OSVirtualHardDisk.MediaLink == null && string.IsNullOrEmpty(persistentVM.OSVirtualHardDisk.DiskName))
+            {
+                DateTime dateTimeCreated = DateTime.Now;
+                string diskPartName = persistentVM.RoleName;
+
+                if (persistentVM.OSVirtualHardDisk.DiskLabel != null)
+                {
+                    diskPartName += "-" + persistentVM.OSVirtualHardDisk.DiskLabel;
                 }
 
-                ExecuteClientActionInOCS(persistentVMs[i],
-                    CommandRuntime.ToString() + " - Create VM " + persistentVMs[i].RoleName,
-                    s => this.Channel.AddRole(s, this.ServiceName, this.DeploymentName, persistentVMs[i]));
+                string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName,
+                                               dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day,
+                                               dateTimeCreated.Millisecond);
+                string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
+                if (blobEndpoint.EndsWith("/") == false)
+                {
+                    blobEndpoint += "/";
+                }
+
+                persistentVM.OSVirtualHardDisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
             }
+
+            foreach (DataVirtualHardDisk datadisk in persistentVM.DataVirtualHardDisks)
+            {
+                if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
+                {
+                    if (currentStorage == null)
+                    {
+                        throw new ArgumentException(
+                            "CurrentStorageAccount is not set or not accessible. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
+                    }
+
+                    DateTime dateTimeCreated = DateTime.Now;
+                    string diskPartName = persistentVM.RoleName;
+
+                    if (datadisk.DiskLabel != null)
+                    {
+                        diskPartName += "-" + datadisk.DiskLabel;
+                    }
+
+                    string vhdname = string.Format("{0}-{1}-{2}-{3}-{4}-{5}.vhd", this.ServiceName, diskPartName,
+                                                   dateTimeCreated.Year, dateTimeCreated.Month, dateTimeCreated.Day,
+                                                   dateTimeCreated.Millisecond);
+                    string blobEndpoint = currentStorage.BlobEndpoint.AbsoluteUri;
+
+                    if (blobEndpoint.EndsWith("/") == false)
+                    {
+                        blobEndpoint += "/";
+                    }
+
+                    datadisk.MediaLink = new Uri(blobEndpoint + "vhds/" + vhdname);
+                }
+
+                if (persistentVM.DataVirtualHardDisks.Count() > 1)
+                {
+                    // To avoid duplicate disk names
+                    System.Threading.Thread.Sleep(1);
+                }
+            }
+
+            return new PersistentVMRole
+            {
+                AvailabilitySetName = persistentVM.AvailabilitySetName,
+                ConfigurationSets = persistentVM.ConfigurationSets,
+                DataVirtualHardDisks = persistentVM.DataVirtualHardDisks,
+                OSVirtualHardDisk = persistentVM.OSVirtualHardDisk,
+                RoleName = persistentVM.RoleName,
+                RoleSize = persistentVM.RoleSize,
+                RoleType = persistentVM.RoleType,
+                Label = persistentVM.Label
+            };
         }
 
         protected override void ProcessRecord()
