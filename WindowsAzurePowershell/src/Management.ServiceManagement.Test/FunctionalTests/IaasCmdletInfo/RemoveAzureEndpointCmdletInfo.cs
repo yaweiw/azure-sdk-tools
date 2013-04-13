@@ -1,4 +1,3 @@
-using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 // ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
@@ -13,6 +12,7 @@ using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
 
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo

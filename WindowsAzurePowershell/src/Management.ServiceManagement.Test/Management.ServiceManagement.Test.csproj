@@ -128,6 +128,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FunctionalTests\AddAzureVhdSASUriTest.cs" />
     <Compile Include="FunctionalTests\AddAzureVhdTest.cs" />
     <Compile Include="FunctionalTests\AzureVhdTest.cs" />
     <Compile Include="FunctionalTests\ConfigDataInfo\HostCaching.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="UnitTests\Cmdlets\Certificates\AddAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\RemoveAzureCertificateTests.cs" />
     <Compile Include="UnitTests\Cmdlets\Certificates\GetAzureCertificateTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\IaaS\PersistenVMs\GetAzureWinRMUriTests.cs" />
     <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
