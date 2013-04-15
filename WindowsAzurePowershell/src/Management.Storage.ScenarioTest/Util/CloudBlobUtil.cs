@@ -168,6 +168,15 @@ namespace CLITest.Util
         /// <summary>
         /// remove specified container
         /// </summary>
+        /// <param name="Container">Cloud blob container object</param>
+        public void RemoveContainer(CloudBlobContainer Container)
+        {
+            RemoveContainer(Container.Name);
+        }
+
+        /// <summary>
+        /// remove specified container
+        /// </summary>
         /// <param name="containerName">container name</param>
         public void RemoveContainer(string containerName)
         {
@@ -331,7 +340,7 @@ namespace CLITest.Util
         {
             int switchKey = 0;
 
-            switchKey = random.Next(2);
+            switchKey = random.Next(0, 2);
 
             if (switchKey == 0)
             {
@@ -433,7 +442,6 @@ namespace CLITest.Util
                     break;
                 default:
                     throw new ArgumentException(string.Format("Unsupport blob type {0} when create snapshot", blob.BlobType));
-                    break;
             }
 
             Test.Info(string.Format("Create snapshot for '{0}' at {1}", blob.Name, snapshot.SnapshotTime));

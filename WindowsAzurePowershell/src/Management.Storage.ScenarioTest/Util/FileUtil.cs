@@ -35,7 +35,7 @@ namespace CLITest.Util
             Random random = new Random();
             string[] specialNames = { "pageabc", "blockabc ", "pagea b", "block abc", "page中文", "block中 文", "page 中文", "block中文 ", "page.abc", "block.a bc", "page .abc", "block .abc ", string.Empty };
 
-            //TODO minEntityCount should be 0 after using parallel uploading and downloading. refer to bug#685185
+            //minEntityCount should not be 0 after using parallel uploading and downloading. refer to bug#685185
             int minEntityCount = 1;
             int maxEntityCount = 5;
 
@@ -108,6 +108,16 @@ namespace CLITest.Util
             }
 
             Test.Info("Clean directory {0}", directory);
+        }
+
+        /// <summary>
+        /// Remove the specified file
+        /// </summary>
+        /// <param name="filePath">File Path</param>
+        public static void RemoveFile(string filePath)
+        {
+            FileInfo file = new FileInfo(filePath);
+            file.Delete();
         }
     }
 }

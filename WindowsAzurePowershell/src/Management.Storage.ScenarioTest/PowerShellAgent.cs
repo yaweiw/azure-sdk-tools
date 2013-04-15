@@ -17,6 +17,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -486,7 +487,7 @@ namespace CLITest
         }
 
         public override bool SetAzureStorageBlobContent(string FileName, string ContainerName, BlobType Type, string BlobName = "",
-            bool Force = true, int ConcurrentCount = -1, string properties = "", string metadata = "")
+            bool Force = true, int ConcurrentCount = -1, Hashtable properties = null, Hashtable metadata = null)
         {
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
@@ -494,6 +495,8 @@ namespace CLITest
             ps.BindParameter("File", FileName);
             ps.BindParameter("Blob", BlobName);
             ps.BindParameter("Container", ContainerName);
+            ps.BindParameter("Properties", properties);
+            ps.BindParameter("Metadata", metadata);
 
             if (Type == BlobType.BlockBlob)
             {
@@ -690,15 +693,14 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
-        public override bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Start-CopyAzureStorageBlob");
             ps.BindParameter("SrcUri", sourceUri);
             ps.BindParameter("DestContainer", destContainerName);
             ps.BindParameter("DestBlob", destBlobName);
-            //The host program or the command type does not support user interaction.
-            ps.BindParameter("Force");
+            ps.BindParameter("Force", force);
             ps.BindParameter("DestContext", destContext);
 
             //Don't use context parameter for this cmdlet
@@ -709,29 +711,27 @@ namespace CLITest
             return executeState;
         }
 
-        public override bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Start-CopyAzureStorageBlob");
             ps.BindParameter("SrcContainer", srcContainerName);
             ps.BindParameter("SrcBlob", srcBlobName);
             ps.BindParameter("DestContainer", destContainerName);
-            //The host program or the command type does not support user interaction.
-            ps.BindParameter("Force");
+            ps.BindParameter("Force", force);
             ps.BindParameter("DestBlob", destBlobName);
             ps.BindParameter("DestContext", destContext);
 
             return InvokeStoragePowerShell(ps);
         }
 
-        public override bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Start-CopyAzureStorageBlob");
             ps.BindParameter("ICloudBlob", srcBlob);
             ps.BindParameter("DestContainer", destContainerName);
-            //The host program or the command type does not support user interaction.
-            ps.BindParameter("Force");
+            ps.BindParameter("Force", force);
             ps.BindParameter("DestBlob", destBlobName);
             ps.BindParameter("DestContext", destContext);
 

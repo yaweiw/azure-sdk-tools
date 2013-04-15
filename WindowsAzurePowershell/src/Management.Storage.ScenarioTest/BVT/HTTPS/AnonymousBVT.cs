@@ -74,7 +74,6 @@ namespace CLITest.BVT.HTTPS
         [TestCategory(Tag.BVT)]
         public void ListContainerWithContianerPermission()
         {
-            //TODO add "ft" or "bvt" to name as the prefix
             string containerName = Utility.GenNameString(ContainerPrefix);
             CloudBlobContainer container = blobUtil.CreateContainer(containerName, BlobContainerPublicAccessType.Container);
 

@@ -58,7 +58,7 @@ namespace CLITest.Functional.Queue
             List<CloudQueue> containers = queueUtil.CreateQueue(queueNames);
 
             ((PowerShellAgent)agent).AddPipelineScript(string.Format("Get-AzureStorageQueue {0}*", queuePrefix));
-            Test.Assert(agent.RemoveAzureStorageQueue(string.Empty), "Remove queue using wildcard and pipeline should be successed");
+            Test.Assert(agent.RemoveAzureStorageQueue(string.Empty), "Remove queue using wildcard and pipeline should succeed");
             containers.ForEach(queue => Test.Assert(!queue.Exists(), string.Format("the specified queue '{0}' should not exist", queue.Name)));
         }
     }

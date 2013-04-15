@@ -78,8 +78,8 @@ namespace CLITest.Functional.Table
 
             try
             {
-                Test.Assert(!agent.RemoveAzureStorageTable(table.Name, false), "remove an table without force should throw an confirmation exception");
-                ExpectedContainErrorMessage("The host was attempting to request confirmation");
+                Test.Assert(!agent.RemoveAzureStorageTable(table.Name, false), "remove an table without force should throw a confirmation exception");
+                ExpectedContainErrorMessage(ConfirmExceptionMessage);
                 Test.Assert(table.Exists(), "the table should exist");
             }
             finally
