@@ -123,31 +123,40 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         /// </summary>
         public void Dispose()
         {
-            if (RootPath != null)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                // Cleanup any certificates added during the test
-                if (!string.IsNullOrEmpty(AzureSdkPath))
+                if (RootPath != null)
                 {
-                    new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
-                    GlobalPathInfo.GlobalSettingsDirectory = null;
-                    AzureSdkPath = null;
+                    // Cleanup any certificates added during the test
+                    if (!string.IsNullOrEmpty(AzureSdkPath))
+                    {
+                        new RemoveAzurePublishSettingsCommand().RemovePublishSettingsProcess(AzureSdkPath);
+                        GlobalPathInfo.GlobalSettingsDirectory = null;
+                        AzureSdkPath = null;
+                    }
+
+                    // Restore the previous CurrentDirectory
+                    if (_previousDirectory != null)
+                    {
+                        Environment.CurrentDirectory = _previousDirectory;
+                    }
+
+                    Log("Deleting directory {0}", RootPath);
+                    Directory.Delete(RootPath, true);
+
+                    DisposeWatcher();
+
+                    // Note: We can't clear the RootPath until we've disposed the
+                    // watcher because its handlers will attempt to get relative
+                    // paths which will fail if there is no RootPath
+                    RootPath = null;
                 }
-
-                // Restore the previous CurrentDirectory
-                if (_previousDirectory != null)
-                {
-                    Environment.CurrentDirectory = _previousDirectory;
-                }
-
-                Log("Deleting directory {0}", RootPath);
-                Directory.Delete(RootPath, true);
-
-                DisposeWatcher();
-
-                // Note: We can't clear the RootPath until we've disposed the
-                // watcher because its handlers will attempt to get relative
-                // paths which will fail if there is no RootPath
-                RootPath = null;
             }
         }
 

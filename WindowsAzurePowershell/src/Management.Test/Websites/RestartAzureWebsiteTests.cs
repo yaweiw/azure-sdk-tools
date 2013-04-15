@@ -20,8 +20,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Websites;
+    using Moq;
 
     [TestClass]
     public class RestartAzureWebsiteTests : WebsitesTestBase
@@ -29,39 +31,24 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         [TestMethod]
         public void ProcessRestartWebsiteTest()
         {
-            const string websiteName = "website1";
-            const string webspaceName = "webspace";
-
             // Setup
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
-            channel.GetSitesThunk = ar => new Sites(new List<Site> { new Site { Name = websiteName, WebSpace = webspaceName } });
-            List<string> siteStates = new List<string>();
-
-            channel.UpdateSiteThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                Site website = ar.Values["site"] as Site;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + General.AzureWebsiteHostNameSuffix)));
-                siteStates.Add(website.State);
-            };
+            const string websiteName = "website1";
+            Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.RestartAzureWebsite(websiteName));
 
             // Test
-            RestartAzureWebsiteCommand restartAzureWebsiteCommand = new RestartAzureWebsiteCommand(channel)
+            RestartAzureWebsiteCommand restartAzureWebsiteCommand = new RestartAzureWebsiteCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                WebsitesClient = websitesClientMock.Object
             };
 
             restartAzureWebsiteCommand.ExecuteCmdlet();
 
-            Assert.AreEqual(2, siteStates.Count);
-            Assert.AreEqual("Stopped", siteStates[0]);
-            Assert.AreEqual("Running", siteStates[1]);
+            websitesClientMock.Verify(f => f.RestartAzureWebsite(websiteName), Times.Once());
         }
     }
 }

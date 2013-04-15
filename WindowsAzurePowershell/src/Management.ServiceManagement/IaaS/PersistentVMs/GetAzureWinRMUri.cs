@@ -41,19 +41,38 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
         internal override void ExecuteCommand()
         {
             base.ExecuteCommand();
+            ExecuteCommandBody();
+        }
+
+        public void ExecuteCommandBody()
+        {
             if (CurrentDeployment == null)
             {
                 return;
             }
 
-            if(String.IsNullOrEmpty(Name))
+            if(CurrentDeployment.Url == null)
+            {
+                throw new ArgumentOutOfRangeException("Current deployment doesn't have any Url");
+            }
+            if (CurrentDeployment.RoleInstanceList == null)
+            {
+                throw new ArgumentOutOfRangeException("Current deployment doesn't have any VMs");
+            }
+            if (String.IsNullOrEmpty(Name))
             {
                 var result = CurrentDeployment.RoleInstanceList.Select(GetUri).Where(uri => uri != null).ToList();
+                if(!result.Any())
+                {
+                    return;
+                }
                 WriteObject(result, true);
             }
             else
             {
-                var roleInstance = CurrentDeployment.RoleInstanceList.FirstOrDefault(r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
+                var roleInstance =
+                    CurrentDeployment.RoleInstanceList.Where(r => r.RoleName != null).FirstOrDefault(
+                        r => r.RoleName.Equals(Name, StringComparison.InvariantCultureIgnoreCase));
 
                 if (roleInstance == null)
                 {
@@ -67,6 +86,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 
         private Uri GetUri(RoleInstance roleInstance)
         {
+            if (roleInstance == null)
+            {
+                throw new ArgumentOutOfRangeException("Roleinstance cannot be found");
+            }
+            if (roleInstance.InstanceEndpoints == null)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("No endpoint found for the VM: {0}", roleInstance.RoleName));
+            }
             var winRmEndPoint = roleInstance.InstanceEndpoints.FirstOrDefault(i => i.LocalPort == WinRMConstants.HttpsListenerPort);
             if (winRmEndPoint == null)
             {
