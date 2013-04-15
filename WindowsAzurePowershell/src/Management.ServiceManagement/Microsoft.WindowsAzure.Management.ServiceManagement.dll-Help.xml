@@ -1355,6 +1355,12 @@
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>EnableWinRMHttp</maml:name>
+          <maml:description>
+            <maml:para>Enables WinRM over http.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>NoExportPrivateKey</maml:name>
           <maml:description>
             <maml:para>Prevents the private key from being uploaded</maml:para>
@@ -1468,6 +1474,12 @@
           <maml:name>DisableWinRMHttps</maml:name>
           <maml:description>
             <maml:para>Disables WinRM on http which is added by default.</maml:para>
+          </maml:description>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>EnableWinRMHttp</maml:name>
+          <maml:description>
+            <maml:para>Enables WinRM over http.</maml:para>
           </maml:description>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
@@ -1626,6 +1638,19 @@
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>EnableWinRMHttp</maml:name>
+        <maml:description>
+          <maml:para>Enables WinRM over http.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -2002,6 +2027,91 @@
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
           <maml:para>This example creates a new Windows standalone virtual machine and adds it to the specified service. WinRM Https listener is enabled by default on the VM. WaitForBoot option enables to wait for VM to boot. WinRMCertificate and X509Certificates are uploaded to hosted service by New-AzureVM.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 5 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName $img `
+          | Add-AzureProvisioningConfig -Windows -Password $Password -AdminUsername PsTestAdmin -EnableWinRMHttp `
+          | New-AzureVM -ServiceName $svcName -WaitForBoot
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Windows standalone virtual machine and adds it to the specified service. Both WinRM Https and Http listener is enabled on the VM. WaitForBoot option enables to wait for VM to boot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 6 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName $img `
+          | Add-AzureProvisioningConfig -Windows -Password $Password -AdminUsername PsTestAdmin -DisableWinRMHttps `
+          | New-AzureVM -ServiceName $svcName -WaitForBoot
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Windows standalone virtual machine and adds it to the specified service. WinRM Https listener is not enabled on the VM. WaitForBoot option enables to wait for VM to boot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 7 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          $certs = Get-ChildItem  Cert:\CurrentUser\My
+          New-AzureVMConfig -Name &quot;MyNonDomainVM&quot; -InstanceSize Small -ImageName $img `
+          | Add-AzureProvisioningConfig -Windows -Password $Password -AdminUsername PsTestAdmin -X509Certificates $certs[0], $certs[1] -NoExportPrivateKey `
+          | New-AzureVM -ServiceName $svcName -WaitForBoot
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example creates a new Windows standalone virtual machine and adds it to the specified service. WinRM Https listener is enabled by default on the VM. WaitForBoot option enables to wait for VM to boot. WinRMCertificate and X509Certificates are uploaded to hosted service by New-AzureVM. PrivateKeys are removed from X509Certificates before uploading them.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -8805,6 +8915,186 @@
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>Remove-AzureVM</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureQuickVM</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureWinRMUri
+      </command:name>
+      <maml:description>
+        <maml:para>Retrieves the uri to WinRM https listener to a VM or a list of VMs in a hosted service.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureWinRMUri</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Retrieves the uri to WinRM https listener to a VM or a list of VMs in a hosted service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureWinRMUri</maml:name>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure service that hosts the virtual machine.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the virtual machine to which the WinRM Uri is generated.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>Name</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the virtual machine to which the WinRM Uri is generated.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure service that hosts the virtual machine.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureWinRMUri -ServiceName MyService -Name MyVM
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Returns a URI to WinRM https listener to the specified VM in the specified service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureWinRMUri -ServiceName MyService
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Returns a list of URIs to WinRM https listeners to the VMs in the specified service.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureVM</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
       <maml:navigationLink>
@@ -15625,8 +15915,6 @@
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
-
-  <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>

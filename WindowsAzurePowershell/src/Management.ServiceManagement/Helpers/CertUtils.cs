@@ -25,17 +25,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
         private const string LocalMachine = "LocalMachine";
         private const string MyStoreName = "My";
 
+        public static bool HasExportablePrivateKey(X509Certificate2 cert)
+        {
+            if(!cert.HasPrivateKey)
+            {
+                return false;
+            }
+
+            try
+            {
+                cert.Export(X509ContentType.Pfx);
+            }
+            catch (CryptographicException)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public static CertificateFile Create(X509Certificate2 certificate)
         {
-            var certificateData = GetCertificateData(certificate);
-            var certificateFile = new CertificateFile
-            {
-                Data = Convert.ToBase64String(certificateData),
-                Password = CertUtils.RandomBase64PasswordString(),
-                CertificateFormat = "pfx"
-            };
-            return certificateFile;
+            return Create(certificate, false);
         }
 
         public static CertificateFile Create(X509Certificate2 certificate, bool dropPrivateKey)
@@ -44,11 +54,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             {
                 certificate = DropPrivateKey(certificate);
             }
-            var certificateData = GetCertificateData(certificate);
+            var password = CertUtils.RandomBase64PasswordString();
+            var certificateData = GetCertificateData(certificate, password);
             var certificateFile = new CertificateFile
             {
                 Data = Convert.ToBase64String(certificateData),
-                Password = CertUtils.RandomBase64PasswordString(),
+                Password = password,
                 CertificateFormat = "pfx"
             };
             return certificateFile;
@@ -63,6 +74,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Helpers
             catch (CryptographicException)
             {
                 return cert.HasPrivateKey ? cert.RawData : cert.Export(X509ContentType.Pkcs12);
+            }
+        }
+
+        public static byte[] GetCertificateData(X509Certificate2 cert, string password)
+        {
+            try
+            {
+                return cert.HasPrivateKey ? cert.Export(X509ContentType.Pfx, password) : cert.Export(X509ContentType.Pkcs12, password);
+            }
+            catch (CryptographicException)
+            {
+                return cert.HasPrivateKey ? cert.RawData : cert.Export(X509ContentType.Pkcs12, password);
             }
         }
 
