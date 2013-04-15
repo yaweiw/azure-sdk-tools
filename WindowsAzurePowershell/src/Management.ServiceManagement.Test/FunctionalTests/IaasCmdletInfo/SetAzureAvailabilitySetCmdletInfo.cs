@@ -1,4 +1,5 @@
 ﻿// ----------------------------------------------------------------------------------
+//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,11 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Subscriptions.Contract
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
-    public class ProviderResource
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+
+    public class SetAzureAvailabilitySetCmdletInfo : CmdletsInfo
     {
-        public string Type { get; set; }
-        public string State { get; set; }
+        public SetAzureAvailabilitySetCmdletInfo(string availabilitySetName, PersistentVM vm)
+        {
+            cmdletName = Utilities.SetAzureAvailabilitySetCmdletName;
+
+            cmdletParams.Add(new CmdletParam("AvailabilitySetName", availabilitySetName));
+            this.cmdletParams.Add(new CmdletParam("VM", vm));
+        }
     }
 }

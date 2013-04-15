@@ -331,7 +331,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 CertificateSettingList certList = new CertificateSettingList();
                 certList.Add(vmPowershellCmdlets.NewAzureCertificateSetting(certStoreName.ToString(), installedCert.Thumbprint));
 
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, VMSizeInfo.Small, imageName);
+                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, certList, username, password);
 
                 PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
@@ -534,17 +534,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string packageName = Convert.ToString(TestContext.DataRow["packageName"]);
             string configName = Convert.ToString(TestContext.DataRow["configName"]);
             string upgradePackageName = Convert.ToString(TestContext.DataRow["upgradePackage"]);
-            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);            
+            string upgradeConfigName = Convert.ToString(TestContext.DataRow["upgradeConfig"]);
+            string upgradeConfigName2 = Convert.ToString(TestContext.DataRow["upgradeConfig2"]);            
 
 
             var packagePath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + packageName);
             var configPath1 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + configName);
             var packagePath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradePackageName);
             var configPath2 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradeConfigName);
+            var configPath3 = new FileInfo(Directory.GetCurrentDirectory() + "\\" + upgradeConfigName2);
 
 
-            Assert.IsTrue(File.Exists(packagePath1.FullName), "VHD file not exist={0}", packagePath1);
-            Assert.IsTrue(File.Exists(configPath1.FullName), "VHD file not exist={0}", configPath1);
+            Assert.IsTrue(File.Exists(packagePath1.FullName), "file not exist={0}", packagePath1);
+            Assert.IsTrue(File.Exists(packagePath2.FullName), "file not exist={0}", packagePath2);
+            Assert.IsTrue(File.Exists(configPath1.FullName), "file not exist={0}", configPath1);
+            Assert.IsTrue(File.Exists(configPath2.FullName), "file not exist={0}", configPath2);
+            Assert.IsTrue(File.Exists(configPath3.FullName), "file not exist={0}", configPath3);
+            
             
 
             string deploymentName = "deployment1";
@@ -587,19 +593,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 // Upgrade the deployment
                 DateTime start = DateTime.Now;
-                vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Auto, packagePath2.FullName, configPath2.FullName);
+                vmPowershellCmdlets.SetAzureDeploymentUpgrade(serviceName, DeploymentSlotType.Production, UpgradeType.Simultaneous, packagePath2.FullName, configPath3.FullName);
                 TimeSpan duration = DateTime.Now - start;
                 Console.WriteLine("Auto upgrade took {0}.", duration);
 
                 result = vmPowershellCmdlets.GetAzureDeployment(serviceName, DeploymentSlotType.Production);
-                pass &= Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 2);
+                pass &= Utilities.PrintAndCompareDeployment(result, serviceName, deploymentName, serviceName, DeploymentSlotType.Production, null, 4);
                 Console.WriteLine("successfully updated the deployment");
                                
                 vmPowershellCmdlets.RemoveAzureDeployment(serviceName, DeploymentSlotType.Production, true);
 
-                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);
-                
-
+                pass &= Utilities.CheckRemove(vmPowershellCmdlets.GetAzureDeployment, serviceName, DeploymentSlotType.Production);                
             }
             catch (Exception e)
             {
@@ -632,7 +636,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 DnsServer dns = vmPowershellCmdlets.NewAzureDns(dnsName, ipAddress);
 
-                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, VMSizeInfo.ExtraSmall, imageName);
+                AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, InstanceSize.ExtraSmall, imageName);
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);     
            
                 PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);           
@@ -835,6 +839,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return true;
         }
 
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
+        public void AzureAvailabilitySetTest()
+        {
+            createOwnService = false;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            string testAVSetName = "testAVSet1";
+
+            try
+            {
+                var vm = vmPowershellCmdlets.SetAzureAvailabilitySet(defaultVm, defaultService, testAVSetName);
+                vmPowershellCmdlets.UpdateAzureVM(defaultVm, defaultService, vm);
+
+                CheckAvailabilitySet(defaultVm, defaultService, testAVSetName);
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        private void CheckAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
+        {
+            var vm = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+            Assert.IsTrue(vm.AvailabilitySetName.Equals(availabilitySetName, StringComparison.InvariantCultureIgnoreCase));
+        }
+
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
         public void AzureLocationTest()
         {
@@ -984,7 +1018,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
                 vmPowershellCmdlets.NewAzureService(serviceName, serviceName, locationName);
                 
-                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, VMSizeInfo.Small, imageName));
+                PersistentVM vm = vmPowershellCmdlets.NewAzureVMConfig(new AzureVMConfigInfo(vmName, InstanceSize.Small, imageName));
                 AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
                 azureProvisioningConfig.Vm = vm;
 
@@ -1100,7 +1134,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             try
             {                
-                OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OSType.Windows, oldLabel);
+                OSImageContext result = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, oldLabel);
                 
 
                 OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];                
@@ -1180,6 +1214,77 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }           
         }
 
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        public void VMSizeTest()
+        {
+
+            string newImageName = Utilities.GetUniqueShortName("vmimage");
+            string mediaLocation = string.Format("{0}vhdstore/{1}", blobUrlRoot, vhdName);
+
+            try
+            {
+                Array instanceSizes = Enum.GetValues(typeof(InstanceSize));
+                int arrayLength = instanceSizes.GetLength(0);
+
+                for (int i = 1; i < arrayLength; i++)
+                {
+                    // Add-AzureVMImage test for VM size                        
+                    OSImageContext result2 = vmPowershellCmdlets.AddAzureVMImage(newImageName, mediaLocation, OS.Windows, (InstanceSize) instanceSizes.GetValue(i));
+                    OSImageContext resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
+                    Assert.IsTrue(CompareContext<OSImageContext>(result2, resultReturned));
+                    Console.WriteLine(i);
+
+                    // Update-AzureVMImage test for VM size                                        
+                    result2 = vmPowershellCmdlets.UpdateAzureVMImage(newImageName, (InstanceSize) instanceSizes.GetValue(Math.Max((i + 1) % arrayLength, 1)));
+                    resultReturned = vmPowershellCmdlets.GetAzureVMImage(newImageName)[0];
+                    Assert.IsTrue(CompareContext<OSImageContext>(result2, resultReturned));
+
+                    vmPowershellCmdlets.RemoveAzureVMImage(newImageName);
+                }
+
+                foreach (InstanceSize size in instanceSizes)
+                {
+                    if (size.Equals(InstanceSize.A6) || size.Equals(InstanceSize.A7))
+                    { // We skip tests for regular VM sizes.  Also, a VM created with regular size cannot be updated to Hi-MEM.
+
+                        serviceName = Utilities.GetUniqueShortName(serviceNamePrefix);
+                        vmName = Utilities.GetUniqueShortName(vmNamePrefix);
+
+                        // New-AzureQuickVM test for VM size
+                        PersistentVMRoleContext result = vmPowershellCmdlets.NewAzureQuickVM(OS.Windows, vmName, serviceName, imageName, username, password, locationName, size);
+                        Assert.AreEqual(size.ToString(), result.InstanceSize);
+                        Console.WriteLine("VM size, {0}, is verified for New-AzureQuickVM", size.ToString());
+                        vmPowershellCmdlets.RemoveAzureVM(vmName, serviceName);                        
+
+                        // New-AzureVMConfig test for VM size
+                        AzureVMConfigInfo azureVMConfigInfo = new AzureVMConfigInfo(vmName, size, imageName);
+                        AzureProvisioningConfigInfo azureProvisioningConfig = new AzureProvisioningConfigInfo(OS.Windows, username, password);
+                        PersistentVMConfigInfo persistentVMConfigInfo = new PersistentVMConfigInfo(azureVMConfigInfo, azureProvisioningConfig, null, null);
+                        PersistentVM vm = vmPowershellCmdlets.GetPersistentVM(persistentVMConfigInfo);
+                        vmPowershellCmdlets.NewAzureVM(serviceName, new[] { vm });
+                        result = vmPowershellCmdlets.GetAzureVM(vmName, serviceName);
+                        Assert.AreEqual(size.ToString(), result.InstanceSize);
+                        Console.WriteLine("VM size, {0}, is verified for New-AzureVMConfig", size.ToString());
+
+                        vmPowershellCmdlets.RemoveAzureVM(vmName, serviceName);
+                        vmPowershellCmdlets.RemoveAzureService(serviceName);
+                        
+                        // Set-AzureVMSize test for VM size.
+                        SetAzureVMSizeConfig vmSizeConfig = new SetAzureVMSizeConfig(size);
+                        vmPowershellCmdlets.SetVMSize(defaultVm, defaultService, vmSizeConfig);
+                        result = vmPowershellCmdlets.GetAzureVM(defaultVm, defaultService);
+                        Assert.AreEqual(size.ToString(), result.InstanceSize);
+                        Console.WriteLine("VM size, {0}, is verified for Set-AzureVMSize", size.ToString());
+                    }
+                }                                
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
         private bool CompareContext<T>(T obj1, T obj2)
         {
             bool result = true;
@@ -1211,8 +1316,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             return result;
         }
- 
-       
+
         [TestCleanup]
         public virtual void CleanUp()
         {

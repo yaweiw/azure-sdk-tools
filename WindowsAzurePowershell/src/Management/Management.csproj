@@ -209,6 +209,7 @@
     <Compile Include="Websites\GetAzureWebsiteLog.cs" />
     <Compile Include="Websites\NewAzureWebSite.cs" />
     <Compile Include="Websites\RemoveAzureWebSite.cs" />
+    <Compile Include="Websites\ResourceTypes.cs" />
     <Compile Include="Websites\RestartAzureWebsite.cs" />
     <Compile Include="Websites\RestoreAzureWebsiteDeployment.cs" />
     <Compile Include="Websites\SaveAzureWebsiteLog.cs" />

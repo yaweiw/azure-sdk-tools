@@ -30,7 +30,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     [Cmdlet(VerbsCommon.Get, "AzureWebsite"), OutputType(typeof(SiteWithConfig), typeof(IEnumerable<Site>))]
     public class GetAzureWebsiteCommand : WebsitesBaseCmdlet
     {
-        public WebsitesClient WebsitesClient { get; set; }
+        public IWebsitesClient WebsitesClient { get; set; }
 
         [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "The web site name.")]
         [ValidateNotNullOrEmpty]
