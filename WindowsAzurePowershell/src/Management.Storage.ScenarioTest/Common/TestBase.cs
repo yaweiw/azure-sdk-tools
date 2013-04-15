@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
+using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,6 +41,8 @@ namespace CLITest.Common
         private static int ContainerInitCount = 0;
         private static int QueueInitCount = 0;
         private static int TableInitCount = 0;
+
+        public const string ConfirmExceptionMessage = "The host was attempting to request confirmation";
 
         protected Agent agent;
 
@@ -205,6 +208,50 @@ namespace CLITest.Common
             }
 
             Test.Assert(agent.ErrorMessages[0].IndexOf(errorMessage) != -1, String.Format("Expected error message should contain {0}, and actualy it's {1}", errorMessage, agent.ErrorMessages[0]));
+        }
+
+        public void ExpectEqual(string expect, string actually, string name)
+        {
+            Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        public void ExpectEqual(double expect, double actually, string name)
+        {
+            Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        public void ExpectNotEqual(string expect, string actually, string name)
+        {
+            Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        public void ExpectNotEqual(double expect, double actually, string name)
+        {
+            Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        public int GetRandomTestCount()
+        {
+            int minCount = 1;
+            int maxCount = 10;
+            return random.Next(minCount, maxCount);
+        }
+
+        public bool GetRandomBool()
+        {
+            int switchKey = 0;
+            switchKey = random.Next(0, 2);
+            return switchKey == 0;
+        }
+
+        public string GeneateOneTempTestFile()
+        {
+            string fileName = Utility.GenNameString("tempfile");
+            string uploadDirRoot = Test.Data.Get("UploadDir");
+            string filePath = Path.Combine(uploadDirRoot, fileName);
+            int fileSize = GetRandomTestCount();
+            Helper.GenerateRandomTestFile(filePath, fileSize);
+            return filePath;
         }
     }
 }

@@ -22,6 +22,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
+using System.Collections;
 
 namespace CLITest
 {
@@ -89,7 +90,7 @@ namespace CLITest
         ///         -1 means use the default value
         /// </summary>
         public abstract bool SetAzureStorageBlobContent(string FileName, string ContainerName, BlobType Type, string BlobName = "",
-            bool Force = true, int ConcurrentCount = -1, string properties = "", string metadata = "");
+            bool Force = true, int ConcurrentCount = -1, Hashtable properties = null, Hashtable metadata = null);
         public abstract bool GetAzureStorageBlobContent(string Blob, string FileName, string ContainerName,
             bool Force = true, int ConcurrentCount = -1);
         public abstract bool GetAzureStorageBlob(string BlobName, string ContainerName);
@@ -112,9 +113,9 @@ namespace CLITest
         public abstract bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey);
         public abstract bool NewAzureStorageContext(string ConnectionString);
 
-        public abstract bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext);
-        public abstract bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null);
-        public abstract bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null);
+        public abstract bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext, bool force = true);
+        public abstract bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null, bool force = true);
+        public abstract bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null, bool force = true);
 
         public abstract bool GetAzureStorageBlobCopyState(string containerName, string blobName, bool waitForComplete);
         public abstract bool GetAzureStorageBlobCopyState(ICloudBlob blob, object context, bool waitForComplete);

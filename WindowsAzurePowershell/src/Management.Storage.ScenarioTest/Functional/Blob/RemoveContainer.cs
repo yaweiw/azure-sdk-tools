@@ -58,7 +58,7 @@ namespace CLITest.Functional.Blob
             List<CloudBlobContainer> containers = blobUtil.CreateContainer(containerNames);
 
             ((PowerShellAgent)agent).AddPipelineScript(string.Format("Get-AzureStorageContainer {0}*", containerPrefix));
-            Test.Assert(agent.RemoveAzureStorageContainer(string.Empty), "Remove container using wildcard and pipeline should be successed");
+            Test.Assert(agent.RemoveAzureStorageContainer(string.Empty), "Remove container using wildcard and pipeline should succeed");
             containers.ForEach(container => Test.Assert(!container.Exists(), string.Format("the specified container '{0}' should not exist", container.Name)));
         }
     }

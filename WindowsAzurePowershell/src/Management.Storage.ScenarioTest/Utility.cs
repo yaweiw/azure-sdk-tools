@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace CLITest
 {
@@ -45,6 +46,21 @@ namespace CLITest
             }
 
             return names;
+        }
+
+        public static string GetAsciiRandomString(int size = 8)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            char ch;
+
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(random.Next(0, 26) + 65);
+                builder.Append(ch);
+            }
+
+            return builder.ToString();
         }
 
         public static string GenConnectionString(string StorageAccountName, string StorageAccountKey)
