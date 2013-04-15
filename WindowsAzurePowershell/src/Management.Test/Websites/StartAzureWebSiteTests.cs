@@ -14,13 +14,12 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.Websites
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Websites;
+    using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -30,36 +29,24 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         public void ProcessStartWebsiteTest()
         {
             const string websiteName = "website1";
-            const string webspaceName = "webspace";
 
             // Setup
-            bool updated = true;
-            SimpleWebsitesManagement channel = new SimpleWebsitesManagement();
-            channel.GetWebSpacesThunk = ar => new WebSpaces(new List<WebSpace> { new WebSpace { Name = webspaceName } });
-            channel.GetSitesThunk = ar => new Sites(new List<Site> { new Site { Name = websiteName, WebSpace = webspaceName } });
-
-            channel.UpdateSiteThunk = ar =>
-            {
-                Assert.AreEqual(webspaceName, ar.Values["webspaceName"]);
-                Site website = ar.Values["site"] as Site;
-                Assert.IsNotNull(website);
-                Assert.AreEqual(websiteName, website.Name);
-                Assert.IsNotNull(website.HostNames.FirstOrDefault(hostname => hostname.Equals(websiteName + General.AzureWebsiteHostNameSuffix)));
-                Assert.AreEqual(website.State, "Running");
-                updated = true;
-            };
+            Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
+            websitesClientMock.Setup(f => f.StartAzureWebsite(websiteName));
 
             // Test
-            StartAzureWebsiteCommand startAzureWebsiteCommand = new StartAzureWebsiteCommand(channel)
+            StartAzureWebsiteCommand startAzureWebsiteCommand = new StartAzureWebsiteCommand()
             {
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                WebsitesClient = websitesClientMock.Object
             };
 
             startAzureWebsiteCommand.ExecuteCmdlet();
-            Assert.IsTrue(updated);
+
+            websitesClientMock.Verify(f => f.StartAzureWebsite(websiteName), Times.Once());
         }
     }
 }

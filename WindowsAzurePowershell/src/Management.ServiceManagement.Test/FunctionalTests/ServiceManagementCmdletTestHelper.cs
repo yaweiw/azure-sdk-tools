@@ -161,6 +161,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #endregion
 
+        #region AzureAvailabilitySet
+
+        public PersistentVM SetAzureAvailabilitySet(string vmName, string serviceName, string availabilitySetName)
+        {
+            if (!string.IsNullOrEmpty(availabilitySetName))
+            {
+                PersistentVM vm = GetAzureVM(vmName, serviceName).VM;
+
+                return RunPSCmdletAndReturnFirst<PersistentVM>(new SetAzureAvailabilitySetCmdletInfo(availabilitySetName, vm));
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion AzureAvailabilitySet
 
         #region AzureCertificate
 
@@ -471,10 +488,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureQuickVM
 
-        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
+        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName, InstanceSize? instanceSize)
         {
-            NewAzureQuickVMCmdletInfo newAzureQuickVMCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName);
-            WindowsAzurePowershellCmdletSequence sequence = new WindowsAzurePowershellCmdletSequence();
+            NewAzureQuickVMCmdletInfo newAzureQuickVMCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName, instanceSize);            
+            WindowsAzurePowershellCmdlet azurePowershellCmdlet = new WindowsAzurePowershellCmdlet(newAzureQuickVMCmdlet);
 
             SubscriptionData currentSubscription;
             if ((currentSubscription = GetCurrentAzureSubscription()) == null)
@@ -492,41 +509,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
             }
             if (!string.IsNullOrEmpty(currentSubscription.CurrentStorageAccount))
-            {
-                sequence.Add(newAzureQuickVMCmdlet);
-                sequence.Run();
+            {                
+                azurePowershellCmdlet.Run();
                 return GetAzureVM(name, serviceName);
             }
             return null;
         }
 
+        public PersistentVMRoleContext NewAzureQuickVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
+        {
+            return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName, null);
+        }
+
         public PersistentVMRoleContext NewAzureQuickLinuxVM(OS os, string name, string serviceName, string imageName, string userName, string password, string locationName)
         {
-            NewAzureQuickVMCmdletInfo newAzureQuickVMLinuxCmdlet = new NewAzureQuickVMCmdletInfo(os, name, serviceName, imageName, userName, password, locationName);
-            WindowsAzurePowershellCmdletSequence sequence = new WindowsAzurePowershellCmdletSequence();
-
-            SubscriptionData currentSubscription;
-            if ((currentSubscription = GetCurrentAzureSubscription()) == null)
-            {
-                currentSubscription = GetCurrentAzureSubscription();
-            }
-            if (string.IsNullOrEmpty(currentSubscription.CurrentStorageAccount))
-            {
-                StorageServicePropertiesOperationContext storageAccount = NewAzureStorageAccount(Utilities.GetUniqueShortName("storage"), locationName);
-                if (storageAccount != null)
-                {
-                    SetAzureSubscription(currentSubscription.SubscriptionName, storageAccount.StorageAccountName);
-                    currentSubscription = GetCurrentAzureSubscription();
-                }
-            }
-
-            if (!string.IsNullOrEmpty(currentSubscription.CurrentStorageAccount))
-            {
-                sequence.Add(newAzureQuickVMLinuxCmdlet);
-                sequence.Run();
-                return GetAzureVM(name, serviceName);
-            }
-            return null;
+            return NewAzureQuickVM(os, name, serviceName, imageName, userName, password, locationName);
         }
 
 
@@ -843,7 +840,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<PersistentVM>(new ImportAzureVMCmdletInfo(path));            
         }
 
-        private ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
+        public ManagementOperationContext UpdateAzureVM(string vmName, string serviceName, PersistentVM persistentVM)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new UpdateAzureVMCmdletInfo(vmName, serviceName, persistentVM));            
         }
@@ -853,14 +850,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         #region AzureVMImage
 
-        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OSType os, string label = null)
+        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, string label = null)
         {
             return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, label));
+        }
+
+        public OSImageContext AddAzureVMImage(string imageName, string mediaLocation, OS os, InstanceSize recommendedSize)
+        {
+            return RunPSCmdletAndReturnFirst<OSImageContext>(new AddAzureVMImageCmdletInfo(imageName, mediaLocation, os, null, recommendedSize));
         }
 
         public OSImageContext UpdateAzureVMImage(string imageName, string label)
         {
             return RunPSCmdletAndReturnFirst<OSImageContext>(new UpdateAzureVMImageCmdletInfo(imageName, label));            
+        }
+
+        public OSImageContext UpdateAzureVMImage(string imageName, InstanceSize recommendedSize)
+        {
+            return RunPSCmdletAndReturnFirst<OSImageContext>(new UpdateAzureVMImageCmdletInfo(imageName, null, recommendedSize));
         }
 
         public ManagementOperationContext RemoveAzureVMImage(string imageName, bool deleteVhd = false)
@@ -1014,7 +1021,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         #endregion
-
 
         public ManagementOperationContext GetAzureRemoteDesktopFile(string vmName, string serviceName, string localPath, bool launch)
         {            
