@@ -102,12 +102,74 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.Websites)]
-        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1177
         public void TestGetAzureWebsiteLogTailPath()
         {
             RunPowerShellTest("Test-GetAzureWebsiteLogTailPath");
         }
-        
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogTailUriEncoding()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogTailUriEncoding");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteLogListPath()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteLogListPath");
+        }
+
+        #endregion
+
+        #region Get-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsite()
+        {
+            RunPowerShellTest("Test-GetAzureWebsite");
+        }
+
+        #endregion
+
+        #region Start-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStartAzureWebsite()
+        {
+            RunPowerShellTest("Test-StartAzureWebsite");
+        }
+
+        #endregion
+
+        #region Stop-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestStopAzureWebsite()
+        {
+            RunPowerShellTest("Test-StopAzureWebsite");
+        }
+
+        #endregion
+
+        #region Restart-AzureWebsite Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestRestartAzureWebsite()
+        {
+            RunPowerShellTest("Test-RestartAzureWebsite");
+        }
 
         #endregion
     }

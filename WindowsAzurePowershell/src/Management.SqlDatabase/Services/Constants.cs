@@ -24,6 +24,5 @@ namespace Microsoft.WindowsAzure.Management.SqlDatabase.Services
         public const string ClientSessionIdHeaderName = "x-ms-client-session-id";
         public const string ClientRequestIdHeaderName = "x-ms-client-request-id";
         public const string RequestIdHeaderName = "x-ms-request-id";
-        public const string WindowsAzurePowerShellUserAgent = "Windows Azure PowerShell/v0.6.5";
     }
 }

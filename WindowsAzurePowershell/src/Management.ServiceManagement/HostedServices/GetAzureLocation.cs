@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System.Linq;
     using System.Management.Automation;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -41,7 +41,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListLocations(CurrentSubscription.SubscriptionId),
-                WaitForOperation,
                 (op, locations) => locations.Select(location => new LocationsContext
                 {
                     OperationId = op.OperationTrackingId,

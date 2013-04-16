@@ -2,453 +2,416 @@
 <Include xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <DirectoryRef Id="PowerShellFolder">
-            <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="EC2BDE6E-8381-4FB2-B02C-7E9652571782">
+            <Component Id="cmpB02573B0FF3D017E0F119567539CCDDC" Guid="09392CE4-4C08-466C-8FE8-98BC0D546B7F">
                 <File Id="filF638140167895CBAE7E04BC99BF304B2" KeyPath="yes" Source="$(var.sourceDir)\Azure.psd1" />
             </Component>
-            <Component Id="cmpE5981618E8F1BF13CA1617D0D0134C2A" Guid="93BAA522-424D-4892-B2DA-F4CA717AE36D">
+            <Component Id="cmpE5981618E8F1BF13CA1617D0D0134C2A" Guid="F0567AC0-D0AF-4D74-9C53-4D59053E8CA5">
                 <File Id="filE8371E313C57BA346173D5906CE198BA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.Edm.dll" />
             </Component>
-            <Component Id="cmp90F4EDF8AF7351B5F3F1AB776FC42980" Guid="FD355019-2E77-4D47-A688-D0F81C2F84F1">
-                <File Id="filDC6036D09C5069D96A649497C8B7C5FC" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.Edm.xml" />
-            </Component>
-            <Component Id="cmpC91D6435A4B57F711CB200A805B26C2A" Guid="35394AE8-2DB4-44F5-A28D-3292F3B4D9F4">
+            <Component Id="cmpC91D6435A4B57F711CB200A805B26C2A" Guid="1DA6D103-5771-4D8A-8C7E-8621ADACD9C5">
                 <File Id="fil634C6967DCC55436CCEB1DCCE420956D" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.OData.dll" />
             </Component>
-            <Component Id="cmpF34FF06E34E3C8182BD95D2973CD0D15" Guid="15B3EF41-EA6E-4340-B579-04F4FC7CA89C">
-                <File Id="fil998403BA3C09E1F74721083C29B758B5" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.OData.xml" />
-            </Component>
-            <Component Id="cmp83B429F2920E81A475C67AE83CA2807C" Guid="495A48F6-821E-4E16-B38C-247A13BB4B5B">
+            <Component Id="cmp83B429F2920E81A475C67AE83CA2807C" Guid="4C9DD299-AA74-41C8-8C3D-4E98C303AF7C">
                 <File Id="fil7167ECA9C5119B0519E68452B5C1584D" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.Services.Client.dll" />
             </Component>
-            <Component Id="cmp7032C8BC5B1F80277ECFD689A76B1010" Guid="5DE0BB22-F461-400C-9DE4-3411759F5604">
-                <File Id="fil380D1829B46F20DA3B5FC378E34CE815" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.Data.Services.Client.xml" />
-            </Component>
-            <Component Id="cmp67D098005BB54E5C4E1B1ADAEFA21847" Guid="C34D2248-1274-4619-A346-2B713B4977CA">
+            <Component Id="cmp67D098005BB54E5C4E1B1ADAEFA21847" Guid="A3FC486F-3779-4102-A8F0-A8496B3EC077">
                 <File Id="fil1652957F2E78403B0C901299C8899FE7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Configuration.dll" />
             </Component>
-            <Component Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" Guid="9495C19C-1E4C-4A41-A727-581EEA6F9A20">
-                <File Id="fil80496A1F6A5C6F946FBD5A7D5D2E27E6" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.dll" />
-            </Component>
-            <Component Id="cmp21AD45C8184EE9697743031D64B90DBF" Guid="89C54A68-F644-4251-B616-626FA8EE8366">
-                <File Id="fil4BE90D0F9524C3DD7C64B3A16B097A97" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.dll-Help.xml" />
-            </Component>
-            <Component Id="cmp654CE4157D8A5752F4A778C754C5C986" Guid="D13A7672-4CEA-4166-9EDB-705C6DAF20C3">
+            <Component Id="cmp654CE4157D8A5752F4A778C754C5C986" Guid="EADF4724-DA99-44D0-BD2D-4AD5086296DC">
                 <File Id="fil5FDFC1E04BB1B136B136A93370462D77" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.format.ps1xml" />
             </Component>
-            <Component Id="cmpAB116347707E4A261FBF12AE730D30C5" Guid="831AE563-A2F9-4A58-ADFB-E82C7565FE94">
-                <File Id="fil5765F68BBE8414A48D917083295701FF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.CloudService.pdb" />
-            </Component>
-            <Component Id="cmp97AA1702C70A14CBABF182B5E37886A2" Guid="D3F7BCAD-4B73-43DB-B491-42CBDA283B9F">
+            <Component Id="cmp97AA1702C70A14CBABF182B5E37886A2" Guid="7771519F-1791-4674-B1FF-EAC7988DF826">
                 <File Id="fil67121715266D30332D8E3D638E088C90" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ConsoleAppUtils.dll" />
             </Component>
-            <Component Id="cmp3A743CAD988C832E9B7060C8330E32BC" Guid="04DE156E-60EB-45CF-B9EB-3A61147BC103">
+            <Component Id="cmp3A743CAD988C832E9B7060C8330E32BC" Guid="69336FE9-9584-4887-9C8F-F512044F78D5">
                 <File Id="fil01B4E75CD3291F99D0D1008BAF95B531" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ConsoleAppUtils.pdb" />
             </Component>
-            <Component Id="cmp082C06C47DE9A08EDDF28D7AE24FC342" Guid="BB367EA6-D6E0-4A97-817A-AA4E905B021C">
+            <Component Id="cmp082C06C47DE9A08EDDF28D7AE24FC342" Guid="4FA109DD-8B0B-4B92-8FCB-2CF9A754E1F8">
                 <File Id="filC20D9B69A74477863D2BFC943620B983" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.dll" />
             </Component>
-            <Component Id="cmp05E2B3FE92481D52F6A84BD7C1B6711C" Guid="2E0DA109-4169-4875-914B-904E0DCF89A9">
+            <Component Id="cmp05E2B3FE92481D52F6A84BD7C1B6711C" Guid="99A78FEB-4A73-4EE6-A96B-6A565162E569">
                 <File Id="filC76C641F413124FB4ECD5DF9E1AAE415" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.dll-Help.xml" />
             </Component>
-            <Component Id="cmpAB556F505B51DAB88F3F158B7FF50263" Guid="D7EEAB7C-E9C5-4B56-8E2D-852C359F1FC0">
+            <Component Id="cmpAB556F505B51DAB88F3F158B7FF50263" Guid="3F82509D-1A16-4518-81AA-29C1D14FCFFC">
                 <File Id="fil41AB56A0AA56DEC0BB1F1CDC8C66DCDA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.pdb" />
             </Component>
-            <Component Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" Guid="2E162783-4A6F-4D78-99D7-A19130A53A6D">
+            <Component Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" Guid="BF531E65-9F24-495D-ACD9-44D2D54A25B3">
                 <File Id="fil189E2221C0ABD364C5D1DD5874571B7A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Service.dll" />
             </Component>
-            <Component Id="cmp95B8FAADDC3DFE0D57DC200754A977BB" Guid="749ABC61-8AB7-49B6-8AF9-78E6F7A19150">
+            <Component Id="cmp95B8FAADDC3DFE0D57DC200754A977BB" Guid="7655626F-3B40-4144-8B30-EB2F2E95424C">
                 <File Id="filECD12D6B14FFAEAEB6F76309F61D8AE3" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Service.pdb" />
             </Component>
-            <Component Id="cmp7FA28C75494C02F7AC367CD540C819E7" Guid="C36F994C-0ACE-4B60-B518-89D3A2A4F05C">
-                <File Id="filD1402BB7CB79CD943C5933AD8964CF01" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceBus.dll" />
-            </Component>
-            <Component Id="cmp61CCE0724DCFF52C19C6187123BAD5BA" Guid="001B6992-A305-47C5-8945-3ECB6BDC3028">
-                <File Id="filD395107B9168D7D24B6B85B29226DE0E" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceBus.dll-Help.xml" />
-            </Component>
-            <Component Id="cmp3776D7B03C428BD4237DA86A2B9DE5BD" Guid="B70584DA-C936-4230-A26D-B1895682B1F3">
+            <Component Id="cmp3776D7B03C428BD4237DA86A2B9DE5BD" Guid="E637CB02-2386-40EF-BC83-E1517CA01B3B">
                 <File Id="fil7EC5B64EE8A5D162E229BFA83792FE87" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceBus.format.ps1xml" />
             </Component>
-            <Component Id="cmp6A4B7E4370694031C795909AAF2612B6" Guid="540206FB-97D9-42BD-8964-0CED1EB9BEBC">
-                <File Id="filDEA49C821D62F2532C607C1445730595" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceBus.pdb" />
-            </Component>
-            <Component Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" Guid="115CE5E8-E0D7-4E1B-AB96-D7A007FE65D5">
+            <Component Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" Guid="1367DC75-ACDA-49C6-9BEF-FBDD2017E58C">
                 <File Id="fil4BDA9049E3A822953A7FFED6A8D739F3" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll" />
             </Component>
-            <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="161C2E65-85D1-4718-8301-D07A021158C5">
+            <Component Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" Guid="C83CF497-5144-416F-AD9D-FB71000FB322">
                 <File Id="filE2144C8E5105E49D1525C9D7809B501B" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.dll-Help.xml" />
             </Component>
-            <Component Id="cmpA592AB16AC13CA99EEAF1A0B7173AE3C" Guid="980AD788-F30A-498D-B224-C7E9271E767F">
+            <Component Id="cmpA592AB16AC13CA99EEAF1A0B7173AE3C" Guid="48E71B56-0A55-4743-90E3-61BE06AA10E4">
                 <File Id="fil42F29092320BE1A6736518695A498A61" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.ServiceManagement.pdb" />
             </Component>
-            <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="AFAD25C8-C0A9-4B64-9BFF-C482A942358E">
+            <Component Id="cmpCB4D8B5E0CC9F12E7D57D6BD1A43DAAC" Guid="09887202-0EA1-437E-85FB-2F0DF21165FF">
                 <File Id="filE738A7F4F746B6E5AB058142D57D7CE4" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll" />
             </Component>
-            <Component Id="cmp3696789E7171F8B704380E6E1C7DA50A" Guid="C89F56D0-FFB6-4C47-8943-41FC538EA1DA">
+            <Component Id="cmp3696789E7171F8B704380E6E1C7DA50A" Guid="A8BC72CA-52E5-48E2-8E44-5BAB3F374792">
                 <File Id="fil61F4420EB48D4B42646487EEA06EF3C7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.dll-Help.xml" />
             </Component>
-            <Component Id="cmp082481E2AF0AB70140050A5AEAE69D8F" Guid="B5C7988B-1227-4F53-8441-227AAB5A8C7C">
+            <Component Id="cmp082481E2AF0AB70140050A5AEAE69D8F" Guid="9AFA0135-563B-4766-ABF5-211A9FE7DF37">
                 <File Id="filE91096563D86CCE16337E7B635C6FD64" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.pdb" />
             </Component>
-            <Component Id="cmpFD4153753AE97B3AE21830330751F9A9" Guid="AD94FA81-6F51-48EC-92FE-CB40C043184C">
+            <Component Id="cmpFD4153753AE97B3AE21830330751F9A9" Guid="868B12C2-FD68-462C-B985-43284F5B2138">
                 <File Id="filC0D79281164D0CB5EE2C2D8F1B1F9231" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.SqlDatabase.Types.ps1xml" />
             </Component>
-            <Component Id="cmpBD828A7EDF14948B9EB82B10B4266413" Guid="5A62D715-5F61-4D66-9A98-035220002AC5">
+            <Component Id="cmpBD828A7EDF14948B9EB82B10B4266413" Guid="F4468C1B-C656-43B3-AF50-72EE94474D61">
                 <File Id="filEF9AC06C3A15368FB8F83B3FE3F3B4BF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Storage.dll" />
             </Component>
-            <Component Id="cmpD6838C4F9CE8D07DE59AF2B1C0297441" Guid="E755EF8E-BA15-4038-A70B-0CE8D95333AC">
+            <Component Id="cmpD6838C4F9CE8D07DE59AF2B1C0297441" Guid="16C49C79-8DC2-4FA4-BFE2-68E4535339D4">
                 <File Id="fil6C90E465F1D42671ED1710B8E6CBE073" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Storage.dll-Help.xml" />
             </Component>
-            <Component Id="cmpB601FF32C4B9B71E612361F4E0247535" Guid="5869992D-E6EF-4A3C-853C-6E7DADAC3705">
+            <Component Id="cmpB601FF32C4B9B71E612361F4E0247535" Guid="CF07778F-6D50-4B95-8EC2-3521D5DFD3D0">
                 <File Id="fil52500597C1C065081EA348764BFB7D3A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Storage.format.ps1xml" />
             </Component>
-            <Component Id="cmp49A5B68EC48298032DAFC6C0ED0CF9F6" Guid="E34A59F6-57A4-49AB-B820-49441BA1DE18">
+            <Component Id="cmp49A5B68EC48298032DAFC6C0ED0CF9F6" Guid="0C5A7A4A-06BC-48D5-940E-AD5908204C60">
                 <File Id="fil27A89E152FBE127F544E30B2DB167AFB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Storage.pdb" />
             </Component>
-            <Component Id="cmp8E5F474C87AD6A506AD2E7C1DAE0D10C" Guid="41655F2C-A019-4837-A2BA-BF22586E058D">
-                <File Id="fil3AD675D509ED391CC897FB7A5A05642A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Store.dll" />
-            </Component>
-            <Component Id="cmp54705A2FF5E5D2AB01B8E0CCF8F55ADD" Guid="72EE2C41-0B9C-4DA8-AC41-9B380E2F6FF1">
-                <File Id="filC9ADE7CF12CEB3075C49AAC012D52C06" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Store.dll-Help.xml" />
-            </Component>
-            <Component Id="cmp1546FD26EBADBB037D75C5C93D6A5CC9" Guid="B4411CCB-BF89-400C-8228-81785D376744">
+            <Component Id="cmp1546FD26EBADBB037D75C5C93D6A5CC9" Guid="3D246902-3905-42F5-8DAA-5AA8FE4685FD">
                 <File Id="fil95B1A2B3E6DB5037447CED7CE8927688" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Store.format.ps1xml" />
             </Component>
-            <Component Id="cmp49370514FAD8DE6A0EE212D659EBA735" Guid="0A5C86E8-D254-408A-98B2-F1907266048D">
-                <File Id="fil90979E69F7C2556F29B561BFB8C4D01D" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Store.pdb" />
-            </Component>
-            <Component Id="cmp34E9F4D3741CD86AF486D59900386C4F" Guid="1D999F9D-0D50-4B21-9155-CC5AC1AD3547">
+            <Component Id="cmp34E9F4D3741CD86AF486D59900386C4F" Guid="FF66E09B-0AB4-4AEA-8977-581ACDB34DBC">
                 <File Id="fil65687101556F4A634173C69A0D191D38" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Sync.dll" />
             </Component>
-            <Component Id="cmpC043DD3D89E339C72B55337034F7A444" Guid="C9DA2FC1-B555-468B-AE6D-27B92CE131A0">
+            <Component Id="cmpC043DD3D89E339C72B55337034F7A444" Guid="22461FF6-E3C8-4372-8DF7-0F79E7810CF3">
                 <File Id="filAFE00557B3D75FE6F6317EA410587390" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Sync.pdb" />
             </Component>
-            <Component Id="cmpFBC8F9946FDE0009E5ECE4924E3D01C8" Guid="152B13D7-62CF-4C48-BD0D-28329B2CFE14">
+            <Component Id="cmp374C1FA2F48C1A944F19998FFBA57A2B" Guid="496FF1C1-301E-4659-93C0-4A066B2C460E">
+                <File Id="fil947F28485C71D2413A9655DF26D41BAA" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Test.Utilities.dll" />
+            </Component>
+            <Component Id="cmpF9F840244EA6D38DF6CCA64166AB7A67" Guid="6CAF1C8C-EEC4-4857-9965-9C58CEC29EF0">
+                <File Id="filD192EE54642332E448E8C62A3BE108ED" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Test.Utilities.pdb" />
+            </Component>
+            <Component Id="cmpFBC8F9946FDE0009E5ECE4924E3D01C8" Guid="348D9A0F-57DD-445D-9537-04346C55EE1E">
                 <File Id="fil45084658B6329220A930163566178BFE" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Tools.Vhd.dll" />
             </Component>
-            <Component Id="cmp0795394A9EDDEE84406E2C17ECB186BE" Guid="3DB8072B-DD6C-4DAE-AB3F-AEFC5340B5D2">
+            <Component Id="cmp0795394A9EDDEE84406E2C17ECB186BE" Guid="B3540A89-7561-40E8-B750-B0ADDD1F9D25">
                 <File Id="filC6B5891D2384D333EBD88617A929F57A" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Tools.Vhd.pdb" />
             </Component>
-            <Component Id="cmp34BDEE00E00AA1F769C3A6C84C90A7B9" Guid="4F71B8C2-C050-4321-B5EA-F5DD2589C3DC">
-                <File Id="fil38A5CA45A027F5E87AC2DDFF346328DB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.dll" />
+            <Component Id="cmpA1264D4BBAA064CCF4EB302012BEB3C0" Guid="E5992282-6DF9-401E-AAB3-929DE87F7478">
+                <File Id="fil4A7247C68134B000CC4397A10B1DACBF" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Utilities.dll" />
             </Component>
-            <Component Id="cmp48D4B34FCDE3547BE20A30015CFB1AC3" Guid="B3667DFE-FF5A-40E5-A63D-B0563F5DA4BA">
-                <File Id="fil69478395FEA74019D6C50993FEC9BFC7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.dll-Help.xml" />
+            <Component Id="cmpFEFBAB91356ACE84620FC89B84F65648" Guid="4A55D32B-7364-4648-9308-503583128C08">
+                <File Id="filC87116F554FAE26E206895100B4886B6" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Utilities.pdb" />
             </Component>
-            <Component Id="cmp67A94F9EC409E4B73DA4B46E2A7E1285" Guid="2F176D70-1FF3-4D87-9CC5-3D8726F27EBE">
-                <File Id="filEE9B44FAF50DD25717D374AD1F7E84D6" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.format.ps1xml" />
+            <Component Id="cmp12D1C8936F19E0CF3872684BAC451889" Guid="8ED1F34F-14AA-4DF9-9C62-7DBC99256CA7">
+                <File Id="fil33BB8135901A144C638E78B7BDCD4D61" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.WebSites.format.ps1xml" />
             </Component>
-            <Component Id="cmp1B6FF7421275B77BECFC4C6CB0785222" Guid="8C3F47B9-E9C0-4545-AACC-598365EF48FA">
-                <File Id="fil75AACEB1D4E4636C4F78A9A6C11C9A67" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.pdb" />
+            <Component Id="cmpC1BF8140C592C55F1DFDB2CD19E9CD04" Guid="E98C5290-FC29-4CC0-9B7D-5476A230E0AD">
+                <File Id="fil60BDBA1B627BDBB13E3B9103FB45C981" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.WebSites.Types.ps1xml" />
             </Component>
-            <Component Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" Guid="1FC279A6-1D11-4198-B7C0-F9878014CCB1">
-                <File Id="fil04D11E84A0426DE01A6043C925392346" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Management.Websites.Types.ps1xml" />
-            </Component>
-            <Component Id="cmp11DEB9FFA16B2C15BE8D73660BAF8BCB" Guid="B0BEDA97-BEF0-4B60-BEDF-18D54DBFB965">
+            <Component Id="cmp11DEB9FFA16B2C15BE8D73660BAF8BCB" Guid="601B84B3-F054-4A22-83EE-089BA78DC21E">
                 <File Id="filFFB272FCA0D1014232384F38E2DA3BA5" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.ServiceManagement.Client.dll" />
             </Component>
-            <Component Id="cmpDF679C8863637797C55A9475D329919F" Guid="2D79709C-8E04-4637-9C4B-12C3EB4D421A">
+            <Component Id="cmpDF679C8863637797C55A9475D329919F" Guid="7D32190E-3C16-4A1D-93D5-4C7965121FA5">
                 <File Id="fil574308A4514AA30DA5BD1DA257D5B0BB" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Storage.DataMovement.dll" />
             </Component>
-            <Component Id="cmp6C35C10C6CBDC9E7A7F6FC02E89CE61C" Guid="D0334A56-47C6-4BF9-9855-B033F3680E0C">
+            <Component Id="cmp6C35C10C6CBDC9E7A7F6FC02E89CE61C" Guid="FB047E41-E5C3-43A8-A63B-45FC7A933481">
                 <File Id="fil7EE6500E5E2CE6757DC9835EEE119BE7" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Storage.dll" />
             </Component>
-            <Component Id="cmp7A52B8E1679E29E1F07D2685843DD42C" Guid="67CD3B5B-92C5-4B7D-A64C-1C5889A8AFA8">
-                <File Id="filE3C4E45A791E81D0958C46CC1E9687A0" KeyPath="yes" Source="$(var.sourceDir)\Microsoft.WindowsAzure.Storage.xml" />
+            <Component Id="cmpFFCB495386F680DD8D850DFCEC63F235" Guid="49F6FCB0-3A80-41DD-AA16-74EE6F5BF2DA">
+                <File Id="filCB59DCACD1E71F212F67EAF229817832" KeyPath="yes" Source="$(var.sourceDir)\Newtonsoft.Json.dll" />
             </Component>
-            <Component Id="cmpE88343587726E9BC1726DFB5529EEA43" Guid="87E0DE8C-6C8D-406A-8B73-30B83158A868">
+            <Component Id="cmpE88343587726E9BC1726DFB5529EEA43" Guid="ACBAC471-1899-4962-A0B3-7FAFF5DAC57A">
                 <File Id="fil2347EFBB60F710AF5610BFB3F4AB87E5" KeyPath="yes" Source="$(var.sourceDir)\System.Net.Http.dll" />
             </Component>
-            <Component Id="cmp934B93721DE2642DEE52DAE9C11B58B9" Guid="20DC712D-5FB8-4EC9-AFE8-1592E1F364E3">
+            <Component Id="cmp934B93721DE2642DEE52DAE9C11B58B9" Guid="366BC4A7-569D-43FA-80D2-9321490A18E2">
                 <File Id="fil14367E5958F7FD2A30CFFE5C27F11EF0" KeyPath="yes" Source="$(var.sourceDir)\System.Net.Http.Formatting.dll" />
             </Component>
-            <Component Id="cmpBEBEB35170684747094CA3B6C822C445" Guid="D71E8B8E-E56E-49E2-AD59-F76F6E76005C">
-                <File Id="fil21BBE00866E539FED9223394DFA6C88A" KeyPath="yes" Source="$(var.sourceDir)\System.Net.Http.Formatting.xml" />
+            <Component Id="cmp49CE6274BE90997A0F5869E454756B6D" Guid="07872867-8832-4431-89C4-6A5DB7EC6D2A">
+                <File Id="fil67E72A48B3FA556E3C4E3AA9F5518548" KeyPath="yes" Source="$(var.sourceDir)\System.Net.Http.WebRequest.dll" />
             </Component>
-            <Component Id="cmp8F3F1821EB0AC8C5F747B0A221811F24" Guid="10FC199D-CB4B-4417-AD6D-1430E6AC0EB7">
-                <File Id="fil194D188CC8620B2186D9E41AF10E31CF" KeyPath="yes" Source="$(var.sourceDir)\System.Net.Http.xml" />
-            </Component>
-            <Component Id="cmp8DA6BA38A1C41A17880E8F7A86760A95" Guid="C877C5AF-7D4E-4D89-8D43-27A52AE1442E">
+            <Component Id="cmp8DA6BA38A1C41A17880E8F7A86760A95" Guid="F6D69FB7-F10C-47A8-9345-409744368D16">
                 <File Id="fil4356DB0440161FE7BA2D53A775D94995" KeyPath="yes" Source="$(var.sourceDir)\System.Spatial.dll" />
             </Component>
-            <Component Id="cmp158DE852858BE95ED52CE361E133CDC2" Guid="2484FE88-1594-4417-B18D-E7399568F807">
-                <File Id="fil5299D01EFA7D226C0B17BDA965D92E92" KeyPath="yes" Source="$(var.sourceDir)\System.Spatial.xml" />
-            </Component>
-            <Component Id="cmpD54AB4263CB85DFB6182A3085FA44811" Guid="912282E6-E17F-4068-B056-28BA24F5DC16">
+            <Component Id="cmpD54AB4263CB85DFB6182A3085FA44811" Guid="8B4E3423-7B52-48AA-B47C-4993C75708CD">
                 <File Id="fil2C2DDB9996282F5891CCCC1CCD7D2D8C" KeyPath="yes" Source="$(var.sourceDir)\WelcomeMessage.txt" />
             </Component>
             <Directory Id="dir73FAF5E42B856722148ED0B4A31EE073" Name="Scaffolding">
                 <Directory Id="dir2AEC1F37264509BFC6B46BD0D043D639" Name="Cache">
                     <Directory Id="dir314CDA84974892C96374C440B1F557F3" Name="WebRole">
-                        <Component Id="cmpDC72B41F5B487349A102F3EAF5ADA829" Guid="892D7F73-79EB-4502-B0E0-F1D2A5EF96F2">
+                        <Component Id="cmpDC72B41F5B487349A102F3EAF5ADA829" Guid="4ADBFC6E-06D6-48DB-AFC8-0BA6AC9A5567">
                             <File Id="filB75D299D06402D30B18F682DF2BC207B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WebRole\Scaffold.xml" />
                         </Component>
                         <Directory Id="dir3097B9947D3869B3EBB86B5E1A25905E" Name="bin">
-                            <Component Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" Guid="B8B5F78C-0007-4E61-AA8B-08923443D600">
+                            <Component Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" Guid="6D5D9DDB-933B-4A18-BE3C-40835D4E0228">
                                 <File Id="fil146728E35FAF42CAEDA732A092F25FE2" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WebRole\bin\setup_cache.cmd" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirC6F3027EF4BF5E9E74F1CC0071F2834E" Name="WorkerRole">
-                        <Component Id="cmpAC12A6E1DE0D0C895B4B279ED69531FC" Guid="D4779816-83B3-446B-A6AE-E6E16ECD9EFD">
+                        <Component Id="cmpAC12A6E1DE0D0C895B4B279ED69531FC" Guid="C94753DA-DAF9-4050-89DB-5E43FB7796FE">
                             <File Id="fil4F60EBEC3B98143AD198B7D9CAEA3506" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpB13A9AD834F5CF9D2A41762A4F7E5184" Guid="0A3FAFFC-8586-4C68-831C-66CC3BB8F1C5">
+                        <Component Id="cmpB13A9AD834F5CF9D2A41762A4F7E5184" Guid="2BE6D310-1527-4272-BE85-E1CD90ECE0E2">
                             <File Id="fil7F45C9F2111C257A51C41E02BCD4CC0B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WorkerRole\setup_cache.cmd" />
                         </Component>
-                        <Component Id="cmp6571C9768F4146C4A175D7FA2521E10D" Guid="2DC5F712-8DF7-4401-B6D9-8D17CB14C682">
+                        <Component Id="cmp6571C9768F4146C4A175D7FA2521E10D" Guid="12E5BE50-7960-45D3-830D-27ABE25FF46E">
                             <File Id="fil0D8A1ECB3739BA5064607685EF54DD10" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Cache\WorkerRole\web.config" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dirBC6943AE80F57E2744AD11C4E0953222" Name="General">
-                    <Component Id="cmpBB6322A06009BF5D4E29F9E158119827" Guid="E74325BC-919F-45B9-B752-EC6C835C28A4">
+                    <Component Id="cmpBB6322A06009BF5D4E29F9E158119827" Guid="8297C812-2281-4BE6-BCA7-735AD9812BA8">
                         <File Id="filBA8822D0EDE558D5A437D355E4A741D8" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\deploymentSettings.json" />
                     </Component>
-                    <Component Id="cmp35CF39A5B078B1B50ACD530DFB951C62" Guid="1E75D652-9BC1-42B4-9FE3-B28120860D09">
+                    <Component Id="cmp35CF39A5B078B1B50ACD530DFB951C62" Guid="75CC7793-9A1F-4D11-A796-678923114100">
                         <File Id="fil84A6A595CDA3967D2346B19C759E3281" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\Scaffold.xml" />
                     </Component>
-                    <Component Id="cmp99670C65F7B3B72CFED86C3E8383FBAF" Guid="F9890092-A3D9-4E74-A7B4-24FAD8A02BE0">
+                    <Component Id="cmp99670C65F7B3B72CFED86C3E8383FBAF" Guid="1D69FCDF-3FA3-4ECE-A1A2-EA1E905CC42C">
                         <File Id="fil70016C66A61227C1058BE7FBB2F0E746" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceConfiguration.Cloud.cscfg" />
                     </Component>
-                    <Component Id="cmpBA0EE6A653142E09B3B088209049A114" Guid="DC187676-60C6-4A28-B30D-5282A6AF3C35">
+                    <Component Id="cmpBA0EE6A653142E09B3B088209049A114" Guid="4784C92B-D326-4452-A892-E4DCA4D1CFC0">
                         <File Id="filE1D239AF10646B5870453B9D6C4C37EE" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceConfiguration.Local.cscfg" />
                     </Component>
-                    <Component Id="cmpEA2D5CF27BACE3DF258A78EBC0927EF0" Guid="1A7DE459-99C7-4C21-B036-D3A26F54B37C">
+                    <Component Id="cmpEA2D5CF27BACE3DF258A78EBC0927EF0" Guid="E55599D1-6ABE-4FBB-A17A-C958DD44BF6C">
                         <File Id="fil1AA7C4213AAACD893AEE1DE6B7B6671A" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\ServiceDefinition.csdef" />
                     </Component>
                     <Directory Id="dir1840F409D6AEAA7EC1AB3AEE27CF6F26" Name="WebRole">
-                        <Component Id="cmpE01A9F0B33ED7A5EFA866BC483F1A773" Guid="F70AEA08-E9A2-461F-9781-895B7905FF95">
+                        <Component Id="cmpE01A9F0B33ED7A5EFA866BC483F1A773" Guid="801DBE81-AE61-4230-8C28-36E7DD27A856">
                             <File Id="filB204267FDDD1D144996F967F6F2C876C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp6C87E6C3D2CDE391D44AD02003992B76" Guid="5DAC5A73-2E4A-4A0C-A1AC-064D1B5AC349">
+                        <Component Id="cmp6C87E6C3D2CDE391D44AD02003992B76" Guid="DC674591-8292-47ED-A1C8-3546DCF49D37">
                             <File Id="fil17D5D6333BAA6FA05A27FC04C01E8BED" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp24ABBD5B9B638AD38F8609D6BDC9992A" Guid="63898A42-85B1-400D-B6AA-8C5594D5F03B">
+                        <Component Id="cmp24ABBD5B9B638AD38F8609D6BDC9992A" Guid="DF15D069-73A9-4F59-936A-C009ADE45EFA">
                             <File Id="fil9D91F32D093595786C428FFE586A86CC" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\startup.cmd" />
                         </Component>
-                        <Component Id="cmp83C53906AB5FB2A5276D8E0AF8B4B13C" Guid="A070AFBA-D5C5-4480-9C52-3550B1913F51">
+                        <Component Id="cmp83C53906AB5FB2A5276D8E0AF8B4B13C" Guid="E7DB3D91-DF2F-4611-AE04-F9FF4912D1DF">
                             <File Id="fil14905DA445A3CB5214F29CDC9EE6D810" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\Web.cloud.config" />
                         </Component>
-                        <Component Id="cmp92EE3D8DDBA71BC97078ED385462BB97" Guid="CC7637A1-9E4C-4308-A2AF-6BB7866FC6EA">
+                        <Component Id="cmp92EE3D8DDBA71BC97078ED385462BB97" Guid="43B380D9-E4FD-471F-94E8-24C0F58C4975">
                             <File Id="filA2B2EA937ED7941B7057520021049741" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmpF95F12972B78318CBF8BB43822509A0B" Guid="EF041D5F-E5B0-4126-92CE-F1D72AA2CA4E">
+                        <Component Id="cmpF95F12972B78318CBF8BB43822509A0B" Guid="77E8810C-8043-4F7F-80D6-E242268489A6">
                             <File Id="filBA4A722E8A6777CBC32E3A0B5285E565" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dir21449A727CBA79A4F87B2D728F638310" Name="bin">
-                            <Component Id="cmpAC701213CAD63571F591D3D5AE9AC5E0" Guid="58195FD1-A4CE-48BF-BF85-126C52C4E79F">
+                            <Component Id="cmpAC701213CAD63571F591D3D5AE9AC5E0" Guid="A4E85731-5A25-40ED-A039-9D8FBC14EA07">
                                 <File Id="fil1A1244AB29C516EFF08F4EDB03377241" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\bin\download.ps1" />
                             </Component>
-                            <Component Id="cmpBB0F4CA3653C7EBC19E62128D7B18466" Guid="82424913-8D11-4E9E-9C75-4D07069406FE">
+                            <Component Id="cmpBB0F4CA3653C7EBC19E62128D7B18466" Guid="02EE8218-5AD1-41B5-A36F-C3E88E42035C">
                                 <File Id="filA74D4B1F2C9F63C66225B7DD9BF1C0E6" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WebRole\bin\setup_web.cmd" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dir86876AFD21BE6204C34E9727F605E9C8" Name="WorkerRole">
-                        <Component Id="cmp01C5AF68D3AA7D852DE6371F64FD0793" Guid="CA5148B1-0518-460D-81B5-32825449C570">
+                        <Component Id="cmp01C5AF68D3AA7D852DE6371F64FD0793" Guid="CBA0541E-5848-4451-B06B-E52DC5BDFD40">
                             <File Id="fil73EA24CF2057F2DE53C0C16851AC3C88" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\download.ps1" />
                         </Component>
-                        <Component Id="cmpF41A41747B253D5809CC11BEFEE74AD1" Guid="E96A43BE-357F-420C-A570-3502E9BEE0B4">
+                        <Component Id="cmpF41A41747B253D5809CC11BEFEE74AD1" Guid="9ECBFC43-9127-4C33-A360-73F9BE78F243">
                             <File Id="filAF7D0AE02E7F58BE35DCFF1725C79BED" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmpFB38B6D886C7AC1178B6C693FB15CD2A" Guid="636DAA95-1428-485E-993F-40CFCA047C73">
+                        <Component Id="cmpFB38B6D886C7AC1178B6C693FB15CD2A" Guid="E5357256-1F4E-4558-85BD-2CAF4B8DA456">
                             <File Id="fil5F633EF65BF6F095387596CF438C7459" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpFBC811D6F7875B760E22A07237B33A06" Guid="21F316BE-9F60-4575-9823-169DD62DACC8">
+                        <Component Id="cmpFBC811D6F7875B760E22A07237B33A06" Guid="AA692060-FE4D-4C86-A4DB-E5F654F00AE5">
                             <File Id="fil43A7910A4A28F0EACD1C2EB202301AAD" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\setup_worker.cmd" />
                         </Component>
-                        <Component Id="cmpF299D6B392881CB37F76988DE4F12F99" Guid="C67C8D81-58DC-454B-A452-62E3726C0C2C">
+                        <Component Id="cmpF299D6B392881CB37F76988DE4F12F99" Guid="95C1A69E-01D1-4935-95E9-9B6969B88686">
                             <File Id="fil7DDA7C7F7778057EED4E9E61FD3D133E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\startup.cmd" />
                         </Component>
-                        <Component Id="cmp0AC91D13B84FD1EAF061BACD6B845DD6" Guid="E37579FC-B3AE-4D4B-84D3-5E0503034DCF">
+                        <Component Id="cmp0AC91D13B84FD1EAF061BACD6B845DD6" Guid="63188301-396A-4D0B-A952-95AACC58B0A6">
                             <File Id="filE2F8280E6227BC5F6F6E3F71C147C827" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\worker.cmd" />
                         </Component>
-                        <Component Id="cmp7A616530613B0727476C996E081E4B0A" Guid="F18FF52A-CB69-4A40-8705-FC391DAA0C10">
+                        <Component Id="cmp7A616530613B0727476C996E081E4B0A" Guid="5A0D33D8-0627-4CE4-91D2-FA82D937447B">
                             <File Id="filB2560882D61214119026DB7EE3466311" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\General\WorkerRole\WorkerRole.xml" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dirB0CF252259251123DE2797F7AD742842" Name="Node">
-                    <Component Id="cmp5C1A912FC445CD55EBE798F16AD72378" Guid="08DFC723-BE28-4125-8DC5-77647E018E90">
-                        <File Id="fil98A4AA9CFA96A35B0CCBBEC032AC1521" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\.gitignore" />
-                    </Component>
-                    <Component Id="cmp064C23DFF14DE9DB25F5946AA24332EB" Guid="4B252E26-B73E-4A30-9545-A3DFA835AF03">
-                        <File Id="fil171D5B4B84EC2734B67E5809F8B0D8C1" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\iisnode.yml" />
-                    </Component>
                     <Directory Id="dir43095D156B5219A5C173FDA372B42BD5" Name="WebRole">
-                        <Component Id="cmpF01174F004BAF6D7890EFB8D4CF97AF7" Guid="D708C05F-91C5-4B70-93B1-A32DC3DC0858">
+                        <Component Id="cmpF01174F004BAF6D7890EFB8D4CF97AF7" Guid="98749126-5036-47A5-B1F6-2304DE68B728">
                             <File Id="fil27F9A17247E8716793C76E2C7805B15E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp16CDA7475F401638D0D9752CCCAD49EE" Guid="A1441948-A0D7-4018-A3AF-E458893E5955">
+                        <Component Id="cmp16CDA7475F401638D0D9752CCCAD49EE" Guid="86442017-928A-43A5-AFD5-F7EC493F0EFE">
                             <File Id="fil1FFBEA35FF6467400281078974ACC109" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpA12A72432917C4878A5CCBC3AD90DC8D" Guid="0668B90E-34A3-4904-8821-BC0B98D45456">
+                        <Component Id="cmpA12A72432917C4878A5CCBC3AD90DC8D" Guid="5324F7FC-3A71-49E2-B725-84BB91ED6155">
                             <File Id="filE9FC01257DA3FC50375B3A0F56F6A618" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\server.js" />
                         </Component>
-                        <Component Id="cmp8DE57424BA95870567E03E03F7DAFC82" Guid="89FCC1EB-5DE6-458F-B053-2E0834681209">
+                        <Component Id="cmp8DE57424BA95870567E03E03F7DAFC82" Guid="518F983F-E5C8-4D90-89AC-7636C145568F">
                             <File Id="fil0B41150EE006A3D4A6E53F2FB27BA4C9" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\startup.js" />
                         </Component>
-                        <Component Id="cmpC4026103FD2F9533196E1F7769150767" Guid="5CE1DC11-2BCC-4CA1-8259-487FCAB663E0">
-                            <File Id="fil41472ADD754118240A71B94FDB00C84C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Web.cloud.config" />
+                        <Component Id="cmpCFC2D13110F3002AD64F57441A45D46C" Guid="44F1EE6F-3D4A-43D3-A943-E281F3EAADA2">
+                            <File Id="fil6A2BE6BB68F66D54E437D3C826198A8F" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\web.cloud.config" />
                         </Component>
-                        <Component Id="cmpEEA756450285B97FF6B64E38861638D1" Guid="F9E55EC7-5BE6-40ED-93FC-0FAF548370BB">
+                        <Component Id="cmpEEA756450285B97FF6B64E38861638D1" Guid="EAC97EBA-156E-483A-90AE-D42B0807A3AD">
                             <File Id="fil46F027FDFDA8CB986EE146B4E384EBCE" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmp7476F311530EBA4C97AA57E5C1534D48" Guid="6DA02224-E89D-47B9-B898-3F025C77A40A">
+                        <Component Id="cmp7476F311530EBA4C97AA57E5C1534D48" Guid="F3E024F4-071E-408A-AB17-29B14C45C79C">
                             <File Id="filD34B8286D04C8745FE9931A026EEF205" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dir03414EA0481755308ED902FBD2E19AD8" Name="bin">
-                            <Component Id="cmpFC4E5E5BC00A6B00EFCE44355B7DB973" Guid="A995A4A4-5770-4970-B916-F5A359D8FF6D">
+                            <Component Id="cmpFC4E5E5BC00A6B00EFCE44355B7DB973" Guid="B2B6F195-A8BE-4D0A-A013-AEDB47886E26">
                                 <File Id="fil96208AED0FE9470167BCA8628999FDB8" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\ChangeConfig.ps1" />
                             </Component>
-                            <Component Id="cmp5796D408E2A2A9045A9CA57EC6C2187A" Guid="9BB61494-B273-4351-9BFD-BD7F9732E688">
+                            <Component Id="cmp5796D408E2A2A9045A9CA57EC6C2187A" Guid="A31768AC-1CD9-4CEE-9958-4CB4D7BA113F">
                                 <File Id="filC4AA572A830DC20C450408475FA76EB5" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\download.ps1" />
                             </Component>
-                            <Component Id="cmp42CB5F64EA2D11BC430BD7F26173E2A6" Guid="685BC750-D030-454A-95FA-F8A9B3CB3496">
+                            <Component Id="cmp42CB5F64EA2D11BC430BD7F26173E2A6" Guid="216EB8B4-05B2-46DC-958E-E88023C5A811">
                                 <File Id="filD63A635D64A3F80450B9C665B9B722BF" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\node.cmd" />
                             </Component>
-                            <Component Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" Guid="D8A17D06-5952-4294-AE70-5AA0B446A47A">
+                            <Component Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" Guid="B2F773CC-4A52-44AB-A7B8-EF8B5CFBF7AD">
                                 <File Id="fil27330BED0B156663E0E165164F5A32CD" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WebRole\bin\setup_web.cmd" />
                             </Component>
                         </Directory>
                     </Directory>
+                    <Directory Id="dir0BB966EB4115916669018B28B810C246" Name="Website">
+                        <Component Id="cmpB1CB47A075A20F3910040E267D6073BA" Guid="12E98050-9C8B-41D8-A058-B639F0F595D3">
+                            <File Id="fil8495196E40DDA37365E20223247B81DB" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\Website\.gitignore" />
+                        </Component>
+                        <Component Id="cmpD1DE317AED76F05EF6985957D8A55C1C" Guid="A4D88017-B52D-4408-AA34-EFD2700C27C2">
+                            <File Id="fil0CD49BECF686698AEC25A9EBE19DE07C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\Website\iisnode.yml" />
+                        </Component>
+                    </Directory>
                     <Directory Id="dirDE832161068F0182CB5E8A2889E3F7E4" Name="WorkerRole">
-                        <Component Id="cmp9E3F07A7A55B0BD225F48CBF7436F38E" Guid="ED6D69DA-6E6D-4F85-BBBF-C55BF04FBB25">
+                        <Component Id="cmp9E3F07A7A55B0BD225F48CBF7436F38E" Guid="9E6B7287-0C20-450D-BF98-60D9A2CBBF40">
                             <File Id="filAA4930E05D3CCA3D7376A91704AC372E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\download.ps1" />
                         </Component>
-                        <Component Id="cmpA9234898498FEF64CFA955AA20F320F6" Guid="81CCA20A-1126-488B-B3E9-8BA7325F90A7">
+                        <Component Id="cmpA9234898498FEF64CFA955AA20F320F6" Guid="E9677C8C-C1B6-4B2A-B9C4-BDE1585CC8E9">
                             <File Id="fil221466FED7D18AF30EE32998CB1534BC" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\node.cmd" />
                         </Component>
-                        <Component Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" Guid="4B110849-5B34-4838-8BA5-D56BE6D51848">
+                        <Component Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" Guid="845BD31B-1813-485F-8105-0BA75BA68DE6">
                             <File Id="fil01D0C0602FCE3E2AA724B3ABA873B96B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp2E2E443812AF8D09459725287BEC6C67" Guid="18BC8174-11FC-428A-B1B0-6BBCD8464E50">
+                        <Component Id="cmp2E2E443812AF8D09459725287BEC6C67" Guid="B5668BFE-8FC8-467E-A19F-F04DDFD32087">
                             <File Id="filF27DA55F26AC5C41143B946FEB924EA6" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp69636D04700ADD1568CE090EED6FFD49" Guid="F04E5816-3949-45BF-B99D-FB305FC51D2D">
+                        <Component Id="cmp69636D04700ADD1568CE090EED6FFD49" Guid="F6F986E0-BD0B-4A51-A254-629B3A0C37DA">
                             <File Id="filE3FA0AA84D7F64616E68E3B6CA120C25" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\server.js" />
                         </Component>
-                        <Component Id="cmp1542FD17AC76205D2AE6662327C44254" Guid="AE4EB097-5C66-4122-8C9C-D362002918FC">
+                        <Component Id="cmp1542FD17AC76205D2AE6662327C44254" Guid="BCD84C65-B133-4E37-AF77-88ECE8220AC4">
                             <File Id="fil5816E9D7A308F836E4889E9F33538C20" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\setup_worker.cmd" />
                         </Component>
-                        <Component Id="cmp48F6017C4C272C03E89494854BD36034" Guid="199300C5-E4A5-430A-922F-4DF8956DEAC3">
+                        <Component Id="cmp48F6017C4C272C03E89494854BD36034" Guid="9D9BB230-9A6A-4156-9B73-07043FC52827">
                             <File Id="fil8B717FCF2A9ED7DD2C38955F0208188B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\startup.js" />
                         </Component>
-                        <Component Id="cmpC7F63EEC2E9BC78B733E22B3C5CE9815" Guid="494937FA-5CC9-43D0-B776-8C2F06C79F66">
+                        <Component Id="cmpC7F63EEC2E9BC78B733E22B3C5CE9815" Guid="84B75801-0D51-493B-8366-95900F2F985F">
                             <File Id="fil6B64B669E8165049894479E08491D582" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Node\WorkerRole\WorkerRole.xml" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dir1E9554EBFFAE7E4912D94B79CF935209" Name="PHP">
                     <Directory Id="dir786EB1AF7BA6EC5A321FEE87F0E09AB6" Name="WebRole">
-                        <Component Id="cmp255086101A7D83443B01183D0784746F" Guid="7D1B933A-0466-4453-B912-A73BCD6A6065">
+                        <Component Id="cmp255086101A7D83443B01183D0784746F" Guid="CCCCEB8D-12ED-4018-8CF6-1CF042AD5EA4">
                             <File Id="fil40D95BC0120898BB1FDB87472B3C1D85" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\index.php" />
                         </Component>
-                        <Component Id="cmp15B5D03B1893B04979F28A7B4CBE78C2" Guid="55CD4A7A-F770-4620-ABA7-D6D91DE43B32">
+                        <Component Id="cmp15B5D03B1893B04979F28A7B4CBE78C2" Guid="F8098AF6-39F8-48F3-B07A-9ED9DC3CABF8">
                             <File Id="fil1B3AF4DD5DA456B3E1500DC1481A7E91" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp8D880DD7428432ADB632806B204E0388" Guid="B5E5F329-BDCC-43F7-BE67-F6695805125B">
+                        <Component Id="cmp8D880DD7428432ADB632806B204E0388" Guid="CCC69752-D1FA-41D8-A4B9-34DC961DFF2F">
                             <File Id="filA59DCB8C35F8242065275DFC2A33D4D3" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmp554AB78310EF2D643154E1DE1D777277" Guid="5C675C29-B4F9-4AA4-888C-E81AB39D9599">
+                        <Component Id="cmp554AB78310EF2D643154E1DE1D777277" Guid="FD1E9740-79FC-4231-BDE5-BC901F6480BB">
                             <File Id="filF1FA03C1F3DEA374EB67E9DFB0E99DDF" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\web.cloud.config" />
                         </Component>
-                        <Component Id="cmpD56C98E0CC07D35623BE50D99311EB38" Guid="4B89E6F1-968F-4897-84B0-4511792D3AD6">
+                        <Component Id="cmpD56C98E0CC07D35623BE50D99311EB38" Guid="2F98E548-132D-4972-A34C-D82940E25D08">
                             <File Id="fil754EAF5D3CBAFC939D03A0F2EEC94F61" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmpFF141E11B47A60B7007BAA08623DE1C9" Guid="E0353C28-D894-44F5-95A3-8112C70B36B1">
+                        <Component Id="cmpFF141E11B47A60B7007BAA08623DE1C9" Guid="E61ADB67-21CF-44B6-8609-6BEA38F9C73D">
                             <File Id="filDFB0886A09A2AB777AD967C1587ECDEF" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\WebRole.xml" />
                         </Component>
                         <Directory Id="dirCAAF9E899A31DB4281E5F433DB5BBFA8" Name="bin">
-                            <Component Id="cmp6007576E1D8F61048906A2D232D57E17" Guid="B726D069-80B8-411D-977B-8BF419387F3A">
+                            <Component Id="cmp6007576E1D8F61048906A2D232D57E17" Guid="CD75DFB5-C32B-4457-8061-B5C5AF663843">
                                 <File Id="filB89F5C54B78ED7265B8A5A61386B0008" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\download.ps1" />
                             </Component>
-                            <Component Id="cmp57B869240E8A4B6AA914DDB564423DA8" Guid="DC198072-AB78-4206-9ED0-7BEDFC0FE878">
+                            <Component Id="cmp57B869240E8A4B6AA914DDB564423DA8" Guid="39C9F5E2-CC1C-43BF-B339-99C71C75EE04">
                                 <File Id="fil97D61FB692A87D9D1440A10EBA2FBD8F" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\php_entry.cmd" />
                             </Component>
-                            <Component Id="cmp1E8B3802E587BB42B35F1BF3F7615192" Guid="D29CFC6B-328B-4742-879D-78861FBF26BC">
+                            <Component Id="cmp1E8B3802E587BB42B35F1BF3F7615192" Guid="1B01CAE4-8312-4E6E-834F-F1C92589E8F5">
                                 <File Id="fil5FFC74D6D8121E08470FB531B666F6BA" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup.cmd" />
                             </Component>
-                            <Component Id="cmpD1250ABB0264C2E5C7ADB8BD9EAA54EC" Guid="1FA6D148-43F2-4040-BD5C-C8241ED5C317">
+                            <Component Id="cmpD1250ABB0264C2E5C7ADB8BD9EAA54EC" Guid="6D07C57E-8833-4FF4-988C-47DFFEC937CB">
                                 <File Id="filA73DBF81D3F173889FE76DBDCED3F2D7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup.ps1" />
                             </Component>
-                            <Component Id="cmpF3057234429604F23CDA73369EC2A79D" Guid="9F798D8B-8ABD-4C7A-9939-DC492FF5E2CF">
+                            <Component Id="cmpF3057234429604F23CDA73369EC2A79D" Guid="49C03280-1438-47CE-AE2E-384637890234">
                                 <File Id="fil2103D11ED0F3CB456542181F9A1CED63" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WebRole\bin\setup_web.cmd" />
                             </Component>
                         </Directory>
                     </Directory>
                     <Directory Id="dirB6374108512F148FC22B53EABAF30AC0" Name="WorkerRole">
-                        <Component Id="cmpCBE2DAAABC191D4FD6DC63D77E28B74E" Guid="F9B92656-5294-4E51-81EC-EDE1FB2C2FFA">
+                        <Component Id="cmpCBE2DAAABC191D4FD6DC63D77E28B74E" Guid="6B932523-DD20-4A94-A9E8-5FC9A278AF14">
                             <File Id="fil153A25658FB147190F4564CDD6B04DE0" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\download.ps1" />
                         </Component>
-                        <Component Id="cmp2C3584E4367F5B84EDA5128AC9809709" Guid="BFBFD355-E39D-4ED3-9532-3F6A03B74841">
+                        <Component Id="cmp2C3584E4367F5B84EDA5128AC9809709" Guid="878A2576-D8B9-4EE6-9490-E1CE3FF5E889">
                             <File Id="fil6025500CCA8E6F686AFD157E5B1B3FD6" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\index.php" />
                         </Component>
-                        <Component Id="cmp52C9B42EEC9DDEED734ACEE505BBEB8C" Guid="BE42D541-E732-43D9-B53D-592B0C644355">
+                        <Component Id="cmp52C9B42EEC9DDEED734ACEE505BBEB8C" Guid="27BAB97F-63F6-4A92-B3BB-90CE50DFC946">
                             <File Id="filB7DECEC2E97857459EA37A5281E35D36" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\php_entry.cmd" />
                         </Component>
-                        <Component Id="cmp2701CAA573700B51D8A8B38CDA70A606" Guid="4FFAEBA0-915E-4889-B6F7-A605449F620B">
+                        <Component Id="cmp2701CAA573700B51D8A8B38CDA70A606" Guid="C1CBD209-3BAB-4E99-AEFF-19D5B0275D80">
                             <File Id="filA3A1F4034FB62055105C9E49B737CD66" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp7F95790A7A94029681C629E3384306F2" Guid="1AC52300-DB3A-4BD2-961C-AB3260177B30">
+                        <Component Id="cmp7F95790A7A94029681C629E3384306F2" Guid="F49349A6-5A9B-4E4D-9582-E050101633BA">
                             <File Id="fil9370A470E0CB2FD7C6B2A2E591D0E93C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpAC04106E4A3214F75B988609CF000B7E" Guid="F3080103-9D9C-4940-9972-4E3E0836FF53">
+                        <Component Id="cmpAC04106E4A3214F75B988609CF000B7E" Guid="4FA5F420-314D-4EF8-B52E-0EBE7F3C1250">
                             <File Id="filE1609EA6CA97FFB78BC08E4F1C644797" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup.cmd" />
                         </Component>
-                        <Component Id="cmp4CE1EEE77FBDED058A3CE9C2D0C9832F" Guid="16703F24-CA0B-43CD-8BF0-3415EA444473">
+                        <Component Id="cmp4CE1EEE77FBDED058A3CE9C2D0C9832F" Guid="464CAA17-98BD-44A1-9D3A-F5F43E4843E2">
                             <File Id="fil194E0233C7D3F696BC2337B8AF00365B" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup.ps1" />
                         </Component>
-                        <Component Id="cmp7B510F8B2CEFB2A4AE9BB2F86D6B18C3" Guid="ECE9CC71-D453-4606-8825-F7DEEBE4219D">
+                        <Component Id="cmp7B510F8B2CEFB2A4AE9BB2F86D6B18C3" Guid="57D24E0F-E3FD-4C22-9B2D-AC949CE38131">
                             <File Id="fil4EF4A78EE7F1DEFFCE5A212CF2AC9A04" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\setup_worker.cmd" />
                         </Component>
-                        <Component Id="cmp600270AE3BE73756A1B9F641BF167798" Guid="614A2F49-BB9D-40A3-AA66-3E022B94434A">
+                        <Component Id="cmp600270AE3BE73756A1B9F641BF167798" Guid="4F720F4E-1AAB-4708-8FA8-6E035F4806E0">
                             <File Id="filF694D644C509F680AC0B5851B152593C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\PHP\WorkerRole\WorkerRole.xml" />
                         </Component>
                     </Directory>
                 </Directory>
                 <Directory Id="dirD01AE45F605FE690038A015E8AC8A7AD" Name="Python">
                     <Directory Id="dir4BA12A75F8C2150C6C15AF2587A2990F" Name="WebRole">
-                        <Component Id="cmp3C06B5F86E305572D896E9C63AC5669C" Guid="CD60DDC2-44B8-4F1E-8612-57BA21286CAA">
+                        <Component Id="cmp3C06B5F86E305572D896E9C63AC5669C" Guid="5A11794D-7E94-4B41-91F4-A5864FD1FEC5">
                             <File Id="fil0EE1908EF44CA8530C44F64F872E5A88" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\AzureSetup.cfg" />
                         </Component>
-                        <Component Id="cmpDB353BABDC9F5CDF896B332CF99D15A7" Guid="EF4F942F-628A-41BA-89E4-AB5A6441F595">
+                        <Component Id="cmpDB353BABDC9F5CDF896B332CF99D15A7" Guid="532922FC-61F8-4712-8935-E5EFA48C4E01">
                             <File Id="fil27FC4CF38EEB67D2F154272E198E022C" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.config" />
                         </Component>
-                        <Component Id="cmp0A225B11FD92AEE1024918A862621935" Guid="02B36273-C0AA-4EA1-984A-87D8CCCE9CC9">
+                        <Component Id="cmp0A225B11FD92AEE1024918A862621935" Guid="D80627F5-1018-4CD8-8262-F5DC2F427259">
                             <File Id="fil5A6589E0837F0FCED3E6CA6539B39074" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.PythonTools.AzureSetup.exe.content" />
                         </Component>
-                        <Component Id="cmp526FC526E22A87D61F5D4B64C9C07E15" Guid="4DDD043D-E986-4DCB-AC67-C95CB4E0F08E">
+                        <Component Id="cmp526FC526E22A87D61F5D4B64C9C07E15" Guid="84431F73-9A4C-42AA-AC35-4062E29113FA">
                             <File Id="fil7B1DC594511E01B90B66656DFE144BC9" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.PythonTools.WebRole.dll.content" />
                         </Component>
-                        <Component Id="cmp6215A79CA3A498D2A9A6DCCEE34B1018" Guid="8A7ACFA6-B580-40ED-8F96-0F5F22E39717">
+                        <Component Id="cmp6215A79CA3A498D2A9A6DCCEE34B1018" Guid="44495C42-177F-4AFB-A6A5-AA902630EE8F">
                             <File Id="fil867EE6C6ADF634B5412C58F04584E273" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.Deployment.dll.content" />
                         </Component>
-                        <Component Id="cmpE8F0D64135FAF512A9B704A127A0F69B" Guid="930E59E7-EBE2-4414-8A75-2025F73F994C">
+                        <Component Id="cmpE8F0D64135FAF512A9B704A127A0F69B" Guid="41F52A70-CFA4-47F5-B8F6-FB028825F505">
                             <File Id="filDFCF4DE3E7B9B66086FD99963C41153E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.dll.content" />
                         </Component>
-                        <Component Id="cmpB172993D8670B4C6B32C923F1E78DABE" Guid="B121D003-B482-467A-B06E-D4926E705C32">
+                        <Component Id="cmpB172993D8670B4C6B32C923F1E78DABE" Guid="EA3AFA1E-711A-4C2B-8033-85FB1D5210B8">
                             <File Id="filA68DB4A8157D03F608D4C04E47B3AFCA" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Microsoft.Web.PlatformInstaller.UI.dll.content" />
                         </Component>
-                        <Component Id="cmp8D1140578A026B8FC64ECEEF549E38D8" Guid="96EBC9AE-F127-4EE5-A098-9E3BA4E7B878">
+                        <Component Id="cmp8D1140578A026B8FC64ECEEF549E38D8" Guid="CCC0ED75-825B-49F7-835A-5CB3057E1C67">
                             <File Id="fil3CC5217FEC7B1537C96C6C0F5B6A18F7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\RoleSettings.xml" />
                         </Component>
-                        <Component Id="cmp51C296D03B6BAA6CED41512BE5F52073" Guid="57ED8AD4-745E-4BC3-8C08-34BDF6E9FA51">
+                        <Component Id="cmp51C296D03B6BAA6CED41512BE5F52073" Guid="E1FE23FD-9D6A-40E9-89DB-A7435BF794D1">
                             <File Id="fil31F4D581FC2A9862B794B00323F44356" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Scaffold.xml" />
                         </Component>
-                        <Component Id="cmpD36FD0E6F87C17387851437A1D9CFBBD" Guid="4B4E66D2-F058-4C88-BF23-AE6DF884EC14">
+                        <Component Id="cmpD36FD0E6F87C17387851437A1D9CFBBD" Guid="58B37003-679E-4429-BAAB-6CF05FA14530">
                             <File Id="fil60EF8526AC26EFC7E43D4B3C3929034F" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\web.cloud.config" />
                         </Component>
-                        <Component Id="cmp0600DE07D95BEC04E43D93B9DFB56029" Guid="C850520D-BFE5-4C54-A1C3-FBE244DBA903">
+                        <Component Id="cmp0600DE07D95BEC04E43D93B9DFB56029" Guid="15655EA8-CC06-4933-96DE-58D601FACDBF">
                             <File Id="fil95DFDBD35BAE57B01DD80306642D8AF7" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\Web.config" />
                         </Component>
-                        <Component Id="cmp21B4D7613134B6E8FCAD158844C590B5" Guid="18747F31-5F22-4A74-995E-1D0FEDC43074">
+                        <Component Id="cmp21B4D7613134B6E8FCAD158844C590B5" Guid="3B298D12-0D15-4CED-8CAD-D49CB9AB2945">
                             <File Id="filE9B8C035753D4ADAA33A42EDFB09A985" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\WebPICmdLine.exe.content" />
                         </Component>
-                        <Component Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" Guid="1EAD08F5-FA94-4EF5-90F3-6B6DC3B0DA8E">
+                        <Component Id="cmp6C89C4C9EC2C2DD191D6810C15636D20" Guid="B849B010-4C5F-475E-AE77-234557CCF7C9">
                             <File Id="filC4C4FEC5CAADF19ABDDA63A3A3B1218E" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\WebRole.xml" />
                         </Component>
-                        <Component Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" Guid="2A8F1B88-D220-42A6-A6C9-B34B61FD1953">
+                        <Component Id="cmp0CD940BA8BF9E3298EFCC679E78CA283" Guid="92C201E3-3C21-48C1-A3B7-12F7301A6314">
                             <File Id="filFC67A2C42191EF90B307093051E7C32D" KeyPath="yes" Source="$(var.sourceDir)\Scaffolding\Python\WebRole\wfastcgi.py" />
                         </Component>
                     </Directory>
@@ -460,16 +423,10 @@
         <ComponentGroup Id="azurecmdfiles">
             <ComponentRef Id="cmpB02573B0FF3D017E0F119567539CCDDC" />
             <ComponentRef Id="cmpE5981618E8F1BF13CA1617D0D0134C2A" />
-            <ComponentRef Id="cmp90F4EDF8AF7351B5F3F1AB776FC42980" />
             <ComponentRef Id="cmpC91D6435A4B57F711CB200A805B26C2A" />
-            <ComponentRef Id="cmpF34FF06E34E3C8182BD95D2973CD0D15" />
             <ComponentRef Id="cmp83B429F2920E81A475C67AE83CA2807C" />
-            <ComponentRef Id="cmp7032C8BC5B1F80277ECFD689A76B1010" />
             <ComponentRef Id="cmp67D098005BB54E5C4E1B1ADAEFA21847" />
-            <ComponentRef Id="cmpDC8749A36A32AF0A3EE969A98AC676ED" />
-            <ComponentRef Id="cmp21AD45C8184EE9697743031D64B90DBF" />
             <ComponentRef Id="cmp654CE4157D8A5752F4A778C754C5C986" />
-            <ComponentRef Id="cmpAB116347707E4A261FBF12AE730D30C5" />
             <ComponentRef Id="cmp97AA1702C70A14CBABF182B5E37886A2" />
             <ComponentRef Id="cmp3A743CAD988C832E9B7060C8330E32BC" />
             <ComponentRef Id="cmp082C06C47DE9A08EDDF28D7AE24FC342" />
@@ -477,10 +434,7 @@
             <ComponentRef Id="cmpAB556F505B51DAB88F3F158B7FF50263" />
             <ComponentRef Id="cmpEBD4C1D2BFEBB8E60DC3C1B78FBFB037" />
             <ComponentRef Id="cmp95B8FAADDC3DFE0D57DC200754A977BB" />
-            <ComponentRef Id="cmp7FA28C75494C02F7AC367CD540C819E7" />
-            <ComponentRef Id="cmp61CCE0724DCFF52C19C6187123BAD5BA" />
             <ComponentRef Id="cmp3776D7B03C428BD4237DA86A2B9DE5BD" />
-            <ComponentRef Id="cmp6A4B7E4370694031C795909AAF2612B6" />
             <ComponentRef Id="cmp3BAD5D3FCF6EBAC9089FF4A6E7ACD458" />
             <ComponentRef Id="cmp706BA3F3235E5F5E958F20B9143F4DDB" />
             <ComponentRef Id="cmpA592AB16AC13CA99EEAF1A0B7173AE3C" />
@@ -492,29 +446,25 @@
             <ComponentRef Id="cmpD6838C4F9CE8D07DE59AF2B1C0297441" />
             <ComponentRef Id="cmpB601FF32C4B9B71E612361F4E0247535" />
             <ComponentRef Id="cmp49A5B68EC48298032DAFC6C0ED0CF9F6" />
-            <ComponentRef Id="cmp8E5F474C87AD6A506AD2E7C1DAE0D10C" />
-            <ComponentRef Id="cmp54705A2FF5E5D2AB01B8E0CCF8F55ADD" />
             <ComponentRef Id="cmp1546FD26EBADBB037D75C5C93D6A5CC9" />
-            <ComponentRef Id="cmp49370514FAD8DE6A0EE212D659EBA735" />
             <ComponentRef Id="cmp34E9F4D3741CD86AF486D59900386C4F" />
             <ComponentRef Id="cmpC043DD3D89E339C72B55337034F7A444" />
+            <ComponentRef Id="cmp374C1FA2F48C1A944F19998FFBA57A2B" />
+            <ComponentRef Id="cmpF9F840244EA6D38DF6CCA64166AB7A67" />
             <ComponentRef Id="cmpFBC8F9946FDE0009E5ECE4924E3D01C8" />
             <ComponentRef Id="cmp0795394A9EDDEE84406E2C17ECB186BE" />
-            <ComponentRef Id="cmp34BDEE00E00AA1F769C3A6C84C90A7B9" />
-            <ComponentRef Id="cmp48D4B34FCDE3547BE20A30015CFB1AC3" />
-            <ComponentRef Id="cmp67A94F9EC409E4B73DA4B46E2A7E1285" />
-            <ComponentRef Id="cmp1B6FF7421275B77BECFC4C6CB0785222" />
-            <ComponentRef Id="cmp27ECA4B800CE3FAEAD4AE1D3790126B9" />
+            <ComponentRef Id="cmpA1264D4BBAA064CCF4EB302012BEB3C0" />
+            <ComponentRef Id="cmpFEFBAB91356ACE84620FC89B84F65648" />
+            <ComponentRef Id="cmp12D1C8936F19E0CF3872684BAC451889" />
+            <ComponentRef Id="cmpC1BF8140C592C55F1DFDB2CD19E9CD04" />
             <ComponentRef Id="cmp11DEB9FFA16B2C15BE8D73660BAF8BCB" />
             <ComponentRef Id="cmpDF679C8863637797C55A9475D329919F" />
             <ComponentRef Id="cmp6C35C10C6CBDC9E7A7F6FC02E89CE61C" />
-            <ComponentRef Id="cmp7A52B8E1679E29E1F07D2685843DD42C" />
+            <ComponentRef Id="cmpFFCB495386F680DD8D850DFCEC63F235" />
             <ComponentRef Id="cmpE88343587726E9BC1726DFB5529EEA43" />
             <ComponentRef Id="cmp934B93721DE2642DEE52DAE9C11B58B9" />
-            <ComponentRef Id="cmpBEBEB35170684747094CA3B6C822C445" />
-            <ComponentRef Id="cmp8F3F1821EB0AC8C5F747B0A221811F24" />
+            <ComponentRef Id="cmp49CE6274BE90997A0F5869E454756B6D" />
             <ComponentRef Id="cmp8DA6BA38A1C41A17880E8F7A86760A95" />
-            <ComponentRef Id="cmp158DE852858BE95ED52CE361E133CDC2" />
             <ComponentRef Id="cmpD54AB4263CB85DFB6182A3085FA44811" />
             <ComponentRef Id="cmpDC72B41F5B487349A102F3EAF5ADA829" />
             <ComponentRef Id="cmpAC6FAD9B1F8F188789CB844156C7B0E0" />
@@ -541,19 +491,19 @@
             <ComponentRef Id="cmpF299D6B392881CB37F76988DE4F12F99" />
             <ComponentRef Id="cmp0AC91D13B84FD1EAF061BACD6B845DD6" />
             <ComponentRef Id="cmp7A616530613B0727476C996E081E4B0A" />
-            <ComponentRef Id="cmp5C1A912FC445CD55EBE798F16AD72378" />
-            <ComponentRef Id="cmp064C23DFF14DE9DB25F5946AA24332EB" />
             <ComponentRef Id="cmpF01174F004BAF6D7890EFB8D4CF97AF7" />
             <ComponentRef Id="cmp16CDA7475F401638D0D9752CCCAD49EE" />
             <ComponentRef Id="cmpA12A72432917C4878A5CCBC3AD90DC8D" />
             <ComponentRef Id="cmp8DE57424BA95870567E03E03F7DAFC82" />
-            <ComponentRef Id="cmpC4026103FD2F9533196E1F7769150767" />
+            <ComponentRef Id="cmpCFC2D13110F3002AD64F57441A45D46C" />
             <ComponentRef Id="cmpEEA756450285B97FF6B64E38861638D1" />
             <ComponentRef Id="cmp7476F311530EBA4C97AA57E5C1534D48" />
             <ComponentRef Id="cmpFC4E5E5BC00A6B00EFCE44355B7DB973" />
             <ComponentRef Id="cmp5796D408E2A2A9045A9CA57EC6C2187A" />
             <ComponentRef Id="cmp42CB5F64EA2D11BC430BD7F26173E2A6" />
             <ComponentRef Id="cmp32DD887A769C4F9CC8EB1D9DE27EB8C5" />
+            <ComponentRef Id="cmpB1CB47A075A20F3910040E267D6073BA" />
+            <ComponentRef Id="cmpD1DE317AED76F05EF6985957D8A55C1C" />
             <ComponentRef Id="cmp9E3F07A7A55B0BD225F48CBF7436F38E" />
             <ComponentRef Id="cmpA9234898498FEF64CFA955AA20F320F6" />
             <ComponentRef Id="cmpF4824BDA3492E2FB0BC2770A01159CC8" />

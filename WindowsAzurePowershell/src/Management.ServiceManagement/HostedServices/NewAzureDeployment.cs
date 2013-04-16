@@ -17,13 +17,10 @@ using System.Net;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.ServiceModel;
     using System.Management.Automation;
-    using Helpers;
-    using Cmdlets.Common;
-    using Management.Model;
+    using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-    using Utilities;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -137,7 +134,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 PackageUrl = packageUrl,
                 Configuration = General.GetConfiguration(this.Configuration),
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = this.Label,
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,
                 TreatWarningsAsError = this.TreatWarningsAsError.IsPresent
@@ -150,7 +147,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
                     WriteProgress(progress);
 
-                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput), WaitForOperation);
+                    ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput));
 
                     if (removePackage == true)
                     {

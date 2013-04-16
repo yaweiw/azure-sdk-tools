@@ -17,9 +17,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
-    using Model;
     using IaaS;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureEndpoint"), OutputType(typeof(InputEndpointContext), typeof(Collection<InputEndpointContext>))]
     public class GetAzureEndpoint : VirtualMachineConfigurationCmdletBase
@@ -86,11 +86,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
                     Vip = ep.Vip
                 };
 
+                
                 if (ep.LoadBalancerProbe != null && string.IsNullOrEmpty(endpointCtx.LBSetName) == false)
                 {
                     endpointCtx.ProbePath = ep.LoadBalancerProbe.Path;
                     endpointCtx.ProbePort = ep.LoadBalancerProbe.Port;
                     endpointCtx.ProbeProtocol = ep.LoadBalancerProbe.Protocol;
+                    endpointCtx.ProbeIntervalInSeconds = ep.LoadBalancerProbe.IntervalInSeconds;
+                    endpointCtx.ProbeTimeoutInSeconds = ep.LoadBalancerProbe.TimeoutInSeconds;
                 }
 
                 endpoints.Add(endpointCtx);

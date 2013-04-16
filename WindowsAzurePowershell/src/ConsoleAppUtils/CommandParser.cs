@@ -17,7 +17,6 @@ namespace Microsoft.WindowsAzure.Management.Internal.Common
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     public class CommandParser
     {

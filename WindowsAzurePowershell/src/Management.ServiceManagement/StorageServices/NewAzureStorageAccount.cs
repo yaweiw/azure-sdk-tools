@@ -15,9 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
-    using Cmdlets.Common;
-    using Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -87,13 +85,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             var createStorageServiceInput = new CreateStorageServiceInput()
             {
                 ServiceName = this.StorageAccountName,
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = this.Label,
                 Description = this.Description,
                 AffinityGroup = this.AffinityGroup,
                 Location = this.Location
             };
 
-            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput), WaitForOperation);
+            ExecuteClientActionInOCS(createStorageServiceInput, CommandRuntime.ToString(), s => this.Channel.CreateStorageService(s, createStorageServiceInput));
         }
 
         protected override void OnProcessRecord()

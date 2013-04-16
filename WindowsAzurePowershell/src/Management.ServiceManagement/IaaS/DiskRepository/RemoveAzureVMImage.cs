@@ -17,11 +17,10 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
     using System;
-    using System.ServiceModel;
     using System.Management.Automation;
-    using Management.Model;
+    using System.ServiceModel;
     using Helpers;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVMImage"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureVMImage : ServiceManagementBaseCmdlet
@@ -59,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 // Remove the image from the image repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteOSImage(s, this.ImageName));
                 }
 
                 if (this.DeleteVHD.IsPresent)

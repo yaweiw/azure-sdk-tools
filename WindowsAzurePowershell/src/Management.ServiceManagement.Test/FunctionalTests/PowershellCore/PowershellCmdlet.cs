@@ -14,6 +14,7 @@
 
 using System.Linq;
 using System.Threading;
+using System.Text;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore
 {
@@ -54,6 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public override Collection<PSObject> Run()
         {
+            
             Collection<PSObject> result;
             runspace.Open();
             using (var powershell = PowerShell.Create())
@@ -74,7 +76,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         }
                     }
                 }
-                
+
+                PrintPSCommand(powershell);
+
                 result = powershell.Invoke();
 
                 if (powershell.Streams.Error.Count > 0)
@@ -112,6 +116,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                         }
                     }
                 }
+
+                PrintPSCommand(powershell);
 
                 powershell.BeginInvoke();
                 Thread.Sleep(ms);

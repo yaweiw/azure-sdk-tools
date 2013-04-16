@@ -12,9 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using MS.Test.Common.MsTestLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,6 +20,9 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Text;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using MS.Test.Common.MsTestLib;
 
 namespace CLITest
 {
@@ -686,10 +686,10 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
-        public override bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(string sourceUri, string destContainerName, string destBlobName, object destContext = null)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.AddParameter("SrcUri", sourceUri);
             ps.AddParameter("DestContainer", destContainerName);
             ps.AddParameter("DestBlob", destBlobName);
@@ -709,10 +709,10 @@ namespace CLITest
             return executeState;
         }
 
-        public override bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.AddParameter("SrcContainer", srcContainerName);
             ps.AddParameter("SrcBlob", srcBlobName);
             ps.AddParameter("DestContainer", destContainerName);
@@ -732,10 +732,10 @@ namespace CLITest
             return InvokeStoragePowerShell(ps);
         }
 
-        public override bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.AddCommand("Start-AzureStorageBlobCopy");
             ps.AddParameter("ICloudBlob", srcBlob);
             ps.AddParameter("DestContainer", destContainerName);
             //The host program or the command type does not support user interaction.
@@ -793,12 +793,12 @@ namespace CLITest
             return InvokeStoragePowerShell(ps, context);
         }
 
-        public override bool StopCopyAzureStorageBlob(string containerName, string blobName, string copyId, bool force)
+        public override bool StopAzureStorageBlobCopy(string containerName, string blobName, string copyId, bool force)
         {
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
 
-            ps.AddCommand("Stop-CopyAzureStorageBlob");
+            ps.AddCommand("Stop-AzureStorageBlobCopy");
 
             if (!String.IsNullOrEmpty(containerName))
             {

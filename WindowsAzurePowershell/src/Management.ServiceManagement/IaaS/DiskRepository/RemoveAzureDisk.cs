@@ -17,10 +17,9 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
-    using System.ServiceModel;
     using System.Management.Automation;
-    using Management.Model;
-    using Cmdlets.Common;
+    using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Remove, "AzureDisk"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureDiskCommand : ServiceManagementBaseCmdlet
@@ -58,7 +57,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 // Remove the disk from the disk repository
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
-                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName), WaitForOperation);
+                    ExecuteClientAction(null, CommandRuntime.ToString(), s => this.Channel.DeleteDisk(s, this.DiskName));
                 }
 
                 if (this.DeleteVHD.IsPresent)

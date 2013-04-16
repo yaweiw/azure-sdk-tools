@@ -15,11 +15,12 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
 {
-    using System.Management.Automation;
-    using Model;
-    using Cmdlets.Common;
     using System;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using System.Management.Automation;
+    using WindowsAzure.ServiceManagement;
+    using Utilities.Common;
+    using Common;
+    using Model;
 
     [Cmdlet(VerbsData.Update, "AzureVMImage"), OutputType(typeof(OSImageContext))]
     public class UpdateAzureVMImage : ServiceManagementBaseCmdlet
@@ -80,8 +81,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
             set;
         }
         [Parameter(Position = 7, ValueFromPipelineByPropertyName = true, HelpMessage = " Specifies the size to use for the virtual machine that is created from the OS image.")]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(RecommendedVMSizeType.Small, RecommendedVMSizeType.Medium, RecommendedVMSizeType.Large, RecommendedVMSizeType.ExtraLarge)]
+        [ValidateSet("Small", "Medium", "Large", "ExtraLarge", "A6", "A7", IgnoreCase = true)]
         public string RecommendedVMSize
         {
             get;
@@ -106,7 +106,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepositor
                 image,
                 CommandRuntime.ToString(),
                 s => this.Channel.UpdateOSImage(s, this.ImageName, image),
-                WaitForOperation,
                 (op, responseImage) => new OSImageContext
                 {
                     AffinityGroup = responseImage.AffinityGroup,

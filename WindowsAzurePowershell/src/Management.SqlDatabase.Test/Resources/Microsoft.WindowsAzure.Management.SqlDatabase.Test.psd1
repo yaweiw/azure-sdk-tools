@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest
-ModuleToProcess = '.\Microsoft.WindowsAzure.Management.CloudService.dll'
+ModuleToProcess = '.\Microsoft.WindowsAzure.Management.dll'
 
 # Version number of this module.
 ModuleVersion = '1.0'
@@ -65,8 +65,7 @@ TypesToProcess = @(
 FormatsToProcess = @()
 
 # Modules to import as nested modules of the module specified in ModuleToProcess
-NestedModules =	'.\Microsoft.WindowsAzure.Management.dll',
-				'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll'
+NestedModules =	'.\Microsoft.WindowsAzure.Management.SqlDatabase.dll'
 
 # Functions to export from this module
 FunctionsToExport = '*'

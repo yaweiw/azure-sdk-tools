@@ -14,7 +14,6 @@
 
 namespace Microsoft.WindowsAzure.Management.Tools.Vhd.Model
 {
-    using System;
 
     public class VhdFileFormatVersion
     {

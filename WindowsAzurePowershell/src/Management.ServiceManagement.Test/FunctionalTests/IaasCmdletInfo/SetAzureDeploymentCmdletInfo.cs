@@ -15,7 +15,6 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.IaasCmdletInfo
 {
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.PowershellCore;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;    
 
     public class SetAzureDeploymentCmdletInfo : CmdletsInfo
     {
@@ -49,7 +48,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return result;
         }
 
-        public static SetAzureDeploymentCmdletInfo SetAzureDeploymentUpgradeCmdletInfo(string serviceName, string slot, string mode, string packagePath, string configPath)
+        public static SetAzureDeploymentCmdletInfo SetAzureDeploymentUpgradeCmdletInfo(
+            string serviceName, string slot, string mode, string packagePath, string configPath)
         {
             SetAzureDeploymentCmdletInfo result = new SetAzureDeploymentCmdletInfo(serviceName, slot);
 
@@ -62,11 +62,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return result;
         }
 
-
-
-
-
-        public SetAzureDeploymentCmdletInfo(string option, string serviceName, string packagePath, string configPath, string newStatus, string slot, string mode, string label, string roleName, bool force)
+        public SetAzureDeploymentCmdletInfo(
+            string option, 
+            string serviceName, 
+            string packagePath, 
+            string configPath, 
+            string newStatus, 
+            string slot, 
+            string mode, 
+            string label, 
+            string roleName, 
+            bool force)
         {
             cmdletName = Utilities.SetAzureDeploymentCmdletName;
 
@@ -85,35 +91,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             cmdletParams.Add(new CmdletParam("ServiceName", serviceName));
 
-
-            if (packagePath != null)
+            if (string.IsNullOrEmpty(packagePath))
             {
                 cmdletParams.Add(new CmdletParam("Package", packagePath));
             }
-            if (configPath != null)
+            if (string.IsNullOrEmpty(configPath))
             {
                 cmdletParams.Add(new CmdletParam("Configuration", configPath));
             }
-            if (mode != null)
+            if (string.IsNullOrEmpty(mode))
             {
                 cmdletParams.Add(new CmdletParam("Mode", mode));
             }
-
-            if (newStatus != null)
+            if (string.IsNullOrEmpty(newStatus))
             {
                 cmdletParams.Add(new CmdletParam("NewStatus", newStatus));
             }
-
-            if (slot != null)
+            if (string.IsNullOrEmpty(slot))
             {
                 cmdletParams.Add(new CmdletParam("Slot", slot));
             }
-
-            if (label != null)
+            if (string.IsNullOrEmpty(label))
             {
                 cmdletParams.Add(new CmdletParam("Label", label));
             }
-            if (roleName != null)
+            if (string.IsNullOrEmpty(roleName))
             {
                 cmdletParams.Add(new CmdletParam("RoleName", roleName));
             }

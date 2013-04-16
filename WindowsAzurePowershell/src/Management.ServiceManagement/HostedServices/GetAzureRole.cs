@@ -15,12 +15,12 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.ServiceModel;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Management.Automation;
+    using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Get, "AzureRole"), OutputType(typeof(RoleContext))]
@@ -150,8 +150,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
+                WriteVerboseWithTimestamp("Begin Operation: Get Deployment");
+
                 var currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot));
-                operation = WaitForOperation("Get Deployment");
+                operation = GetOperation();
+
+                WriteVerboseWithTimestamp("Completed Operation: Get Deployment");
                 return currentDeployment;
             }
         }

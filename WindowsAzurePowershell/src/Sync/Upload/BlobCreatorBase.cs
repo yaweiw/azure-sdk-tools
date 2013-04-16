@@ -23,15 +23,11 @@ namespace Microsoft.WindowsAzure.Management.Sync.Upload
     using System.ServiceModel.Channels;
     using System.Text;
     using System.Threading;
-    using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using Microsoft.WindowsAzure.Storage.RetryPolicies;
-    using Sync.Upload;
+    using Sync.Download;
     using Tools.Vhd;
     using Tools.Vhd.Model;
-    using Tools.Vhd.Model.Persistence;
-    using Sync.Download;
 
     public interface ICloudPageBlobObjectFactory
     {

@@ -20,6 +20,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         Small,
         Medium,
         Large,
-        ExtraLarge
+        ExtraLarge,
+        A6,
+        A7
     }
 }

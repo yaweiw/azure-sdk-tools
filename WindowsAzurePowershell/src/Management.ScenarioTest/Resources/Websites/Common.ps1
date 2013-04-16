@@ -13,6 +13,7 @@
 # ----------------------------------------------------------------------------------
 
 $createdWebsites = @()
+$currentWebsite = $null
 
 <#
 .SYNOPSIS
@@ -72,4 +73,44 @@ function Clone-GitRepo
 		}
 	}
 	while (!$cloned)
+}
+
+<#
+.SYNOPSIS
+Creates new website using the sample log app template.
+#>
+function New-BasicLogWebsite
+{
+	$name = Get-WebsiteName
+	Clone-GitRepo https://github.com/wapTestApps/basic-log-app.git $name
+	$password = ConvertTo-SecureString $githubPassword -AsPlainText -Force
+	$credentials = New-Object System.Management.Automation.PSCredential $githubUsername,$password 
+	cd $name
+	$global:currentWebsite = New-AzureWebsite -Name $name -Github -GithubCredentials $credentials -GithubRepository wapTestApps/basic-log-app
+}
+
+<#
+.SYNOPSIS
+Retries DownloadString
+#>
+function Retry-DownloadString
+{
+	param([object] $client, [string] $uri)
+
+	$retry = $false
+
+	do
+	{
+		try
+		{
+			$client.DownloadString($uri)
+			$retry = $false
+		}
+		catch
+		{
+			$retry = $true
+			Write-Warning "Retry calling $client.DownloadString"
+		}
+	}
+	while ($retry)
 }

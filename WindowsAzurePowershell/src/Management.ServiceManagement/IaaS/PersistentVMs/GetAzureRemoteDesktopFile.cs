@@ -18,13 +18,13 @@ using Microsoft.WindowsAzure.ServiceManagement;
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
 {
     using System;
-    using System.ServiceModel;
     using System.Diagnostics;
     using System.IO;
     using System.Management.Automation;
     using System.Security.Permissions;
+    using System.ServiceModel;
     using IaaS;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
 
     [Cmdlet(VerbsCommon.Get, "AzureRemoteDesktopFile", DefaultParameterSetName = "Download"), OutputType(typeof(ManagementOperationContext))]
     public class GetAzureRemoteDesktopFileCommand : IaaSDeploymentManagementCmdletBase
@@ -77,6 +77,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
             string rdpFilePath = LocalPath ?? Path.GetTempFileName();
             using (new OperationContextScope(Channel.ToContextChannel()))
             {
+                WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", CommandRuntime.ToString()));
+
                 using (var stream = RetryCall(s => Channel.DownloadRDPFile(s, ServiceName, CurrentDeployment.Name, Name + "_IN_0")))
                 {
                     using (var file = File.Create(rdpFilePath))
@@ -90,7 +92,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.PersistentVMs
                         }
                     }
 
-                    Operation operation = WaitForOperation(CommandRuntime.ToString());
+                    Operation operation = GetOperation();
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", CommandRuntime.ToString()));
 
                     context = new ManagementOperationContext
                                   {

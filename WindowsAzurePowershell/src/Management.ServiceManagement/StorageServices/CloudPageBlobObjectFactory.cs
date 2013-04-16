@@ -19,15 +19,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using Storage.Auth;
     using Storage.Blob;
     using Storage.RetryPolicies;
-    using WindowsAzure.ServiceManagement;
     using Sync.Download;
     using Sync.Upload;
+    using WindowsAzure.ServiceManagement;
 
     public class CloudPageBlobObjectFactory : ICloudPageBlobObjectFactory
     {
         private IServiceManagement channel;
         private readonly string subscriptionId;
         private readonly TimeSpan delayBetweenRetries = TimeSpan.FromSeconds(10);
+        private readonly StorageCredentialsFactory credentialsFactory;
         private TimeSpan operationTimeout;
 
         public CloudPageBlobObjectFactory(IServiceManagement channel, string subscriptionId, TimeSpan operationTimeout)
@@ -37,14 +38,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             this.subscriptionId = subscriptionId;
         }
 
+        public CloudPageBlobObjectFactory(StorageCredentialsFactory credentialsFactory, TimeSpan operationTimeout)
+        {
+            this.credentialsFactory = credentialsFactory;
+            this.operationTimeout = operationTimeout;
+        }
+
         public CloudPageBlob Create(BlobUri destination)
         {
-            if(String.IsNullOrEmpty(destination.QueryString))
-            {
-                StorageService sService = this.channel.GetStorageKeys(subscriptionId, destination.StorageAccountName);
-                return new CloudPageBlob(new Uri(destination.BlobPath), new StorageCredentials(destination.StorageAccountName, sService.StorageServiceKeys.Primary));
-            }
-            return new CloudPageBlob(new Uri(destination.BlobPath), new StorageCredentials(destination.Uri.Query));
+            return new CloudPageBlob(new Uri(destination.BlobPath), credentialsFactory.Create(destination));
         }
 
         public bool CreateContainer(BlobUri destination)

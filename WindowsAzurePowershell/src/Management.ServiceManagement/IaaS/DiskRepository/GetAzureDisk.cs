@@ -16,12 +16,12 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
-    using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureDisk"), OutputType(typeof(IEnumerable<DiskContext>))]
     public class GetAzureDiskCommand : ServiceManagementBaseCmdlet
@@ -58,7 +58,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetDisk(s, this.DiskName),
-                    WaitForOperation,
                     (operation, disk) => func(operation, new[] { disk }));
             }
             else
@@ -67,7 +66,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListDisks(s),
-                    WaitForOperation,
                     (operation, disks) => func(operation, disks));
 
             }

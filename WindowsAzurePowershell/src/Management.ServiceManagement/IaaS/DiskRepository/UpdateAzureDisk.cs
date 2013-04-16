@@ -16,9 +16,9 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System.Management.Automation;
-    using Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsData.Update, "AzureDisk"), OutputType(typeof(DiskContext))]
     public class UpdateAzureDiskCommand : ServiceManagementBaseCmdlet
@@ -51,7 +51,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 disk,
                 CommandRuntime.ToString(),
                 s => this.Channel.UpdateDisk(s, this.DiskName, disk),
-                WaitForOperation,
                 (op, responseDisk) => new DiskContext
                 {
                     DiskName = responseDisk.Name,

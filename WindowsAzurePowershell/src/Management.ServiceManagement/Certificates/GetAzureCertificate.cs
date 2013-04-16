@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
 
@@ -85,7 +85,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint),
-                    WaitForOperation,
                     (operation, certificate) => func(operation, new[] { certificate }));
             }
             else
@@ -94,7 +93,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
                      null,
                      CommandRuntime.ToString(),
                      s => this.Channel.ListCertificates(s, this.ServiceName),
-                     WaitForOperation,
                      (operation, certificates) => func(operation, certificates));
             }
         }

@@ -14,10 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
 {
-    using System.Management.Automation;
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
 
     [TestClass]
     public class PublishAzureServiceScenarioTests : WindowsAzurePowerShellTest

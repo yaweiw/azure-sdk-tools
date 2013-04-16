@@ -1,5 +1,4 @@
-﻿using System;
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public readonly string Password;
         public CertificateSettingList Certs =  new CertificateSettingList();
         public string LinuxUser = (string) null;
+        public string AdminUsername = (string)null;
         public string Option = (string) null;
         public string JoinDomain = (string)null;
         public string Domain = (string)null;
@@ -49,17 +49,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         {
             this.OS = os;
             this.Password = password;
-            this.LinuxUser = user;
+            if (os == OS.Windows)
+            {
+                this.AdminUsername = user;
+            }
+            else
+            {
+                this.LinuxUser = user;
+            }
         }
 
-
-        public AzureProvisioningConfigInfo(OS os, string password)
-        {
-            this.OS = os;
-            this.Password = password;
-        }
-
-        public AzureProvisioningConfigInfo(OS os, CertificateSettingList certs, string password)
+        public AzureProvisioningConfigInfo(OS os, CertificateSettingList certs, string user, string password)
         {
             this.OS = os;            
             this.Password = password;
@@ -67,6 +67,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 Certs.Add(cert);
             }
+            if (os == OS.Windows)
+            {
+                this.AdminUsername = user;
+            }
+            else
+            {
+                this.LinuxUser = user;
+            }
+
         }
 
 
