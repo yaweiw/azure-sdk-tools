@@ -12,13 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.DiskRepository
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
-    public static class RecommendedVMSizeType
+    public static class WinRMConstants
     {
-        public const string Small = "Small";
-        public const string Medium = "Medium";
-        public const string Large = "Large";
-        public const string ExtraLarge = "ExtraLarge";
+        public const int HttpsListenerPort = 5986;
+        public const string EndpointName = "WinRmHTTPs";
     }
 }
