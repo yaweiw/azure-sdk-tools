@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -69,7 +69,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, this.Slot),
-                WaitForOperation,
                 (operation, deployment) => new DeploymentInfoContext(UpdateDeploymentSlofIfEmpty(deployment))
                 {
                     ServiceName = this.ServiceName,

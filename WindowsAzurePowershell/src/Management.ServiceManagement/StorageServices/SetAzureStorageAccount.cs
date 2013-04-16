@@ -16,9 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
-    using Cmdlets.Common;
-    using Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -93,10 +91,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             {
                 GeoReplicationEnabled = this.GeoReplicationEnabled.HasValue,
                 Description = this.Description,
-                Label = this.Label != null ? ServiceManagementHelper.EncodeToBase64String(this.Label) : null
+                Label = this.Label != null ? this.Label : null
             };
 
-            ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput), WaitForOperation);
+            ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput));
         }
 
         protected override void OnProcessRecord()

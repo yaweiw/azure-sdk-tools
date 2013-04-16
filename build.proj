@@ -10,34 +10,22 @@
     <ManagementTestDirectory>.\WindowsAzurePowershell\src\Management.Test\bin</ManagementTestDirectory>
     <ManagementTestAssemblyName>Microsoft.WindowsAzure.Management.Test.dll</ManagementTestAssemblyName>
 
-    <CloudServiceCmdletBinDirectory>.\WindowsAzurePowershell\src\Management.CloudService\bin</CloudServiceCmdletBinDirectory>
-    <CloudServiceTestDirectory>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin</CloudServiceTestDirectory>
-    <CloudServiceTestAssemblyName>Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestAssemblyName>
-    
-    <ScaffoldingReleaseSourceDir>.\Package\Release\Resources</ScaffoldingReleaseSourceDir>
-    <ScaffoldingReleaseDestinationDir>.\Package\Release</ScaffoldingReleaseDestinationDir>
-    <ScaffoldingDebugSourceDir>.\Package\Debug\Resources</ScaffoldingDebugSourceDir>
-    <ScaffoldingDebugDestinationDir>.\Package\Debug</ScaffoldingDebugDestinationDir>
-    <ReleaseScaffoldingDir>.\Package\Release\Scaffolding</ReleaseScaffoldingDir>
-    <DebugScaffoldingDir>.\Package\Debug\Scaffolding</DebugScaffoldingDir>
-
     <TestSettings>.\WindowsAzurePowershell\src\Local.testsettings</TestSettings>
+    <ScenarioTestSettings>.\WindowsAzurePowershell\src\Scenario.testsettings</ScenarioTestSettings>
     <ScenarioTestDebug>.\WindowsAzurePowershell\src\Management.ScenarioTest\bin\Debug\Microsoft.WindowsAzure.Management.ScenarioTest.dll</ScenarioTestDebug>
+    <AzureRTTestContainer>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</AzureRTTestContainer>
     <StorageScenarioTestDebug>WindowsAzurePowershell\src\Management.Storage.ScenarioTest\bin\Debug\CLITest.dll</StorageScenarioTestDebug>
     <ManagementTestDebug>.\WindowsAzurePowershell\src\Management.Test\bin\Debug\Microsoft.WindowsAzure.Management.Test.dll</ManagementTestDebug>
-	<CloudServiceTestDebug>.\WindowsAzurePowershell\src\Management.CloudService.Test\bin\Debug\Microsoft.WindowsAzure.Management.CloudService.Test.dll</CloudServiceTestDebug>
-	<ServiceBusTestDebug>.\WindowsAzurePowershell\src\Management.ServiceBus.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceBus.Test.dll</ServiceBusTestDebug>
-	<ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
-	<SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
-	<StoreTestDebug>.\WindowsAzurePowershell\src\Management.Store.Test\bin\Debug\Microsoft.WindowsAzure.Management.Store.Test.dll</StoreTestDebug>
-	<WebsitesTestDebug>.\WindowsAzurePowershell\src\Management.Websites.Test\bin\Debug\Microsoft.WindowsAzure.Management.Websites.Test.dll</WebsitesTestDebug>
-	<StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
+    <ServiceManagementTestDebug>.\WindowsAzurePowershell\src\Management.ServiceManagement.Test\bin\Debug\Microsoft.WindowsAzure.Management.ServiceManagement.Test.dll</ServiceManagementTestDebug>
+    <SqlDatabaseTestDebug>.\WindowsAzurePowershell\src\Management.SqlDatabase.Test\bin\Debug\Microsoft.WindowsAzure.Management.SqlDatabase.Test.dll</SqlDatabaseTestDebug>
+    <StorageTestDebug>.\WindowsAzurePowershell\src\Management.Storage.Test\bin\Debug\Microsoft.WindowsAzure.Management.Storage.Test.dll</StorageTestDebug>
     <SetupDirectory>.\WindowsAzurePowershell\setup\build</SetupDirectory>
 
     <PublishDirectory>.\Publish</PublishDirectory>
+    <PackageDirectory>.\Package</PackageDirectory>
     <BuildOutputDirectory>$(PublishDirectory)\Build</BuildOutputDirectory>
     <SetupOutputDirectory>$(PublishDirectory)\Setup</SetupOutputDirectory>
-    <TestFilter>"!Functional&#x26;!Scenario"</TestFilter>
+    <TestFilter>"!Functional&#x26;!Scenario&#x26;!LongRunningTest"</TestFilter>
     <ScenarioTestFilter>All</ScenarioTestFilter>
     <TestOutputDirectory>$(PublishDirectory)\TestResults</TestOutputDirectory>
 	<DebugBuildConfig>Configuration=Debug;Platform=Any CPU</DebugBuildConfig>
@@ -61,11 +49,6 @@
     <MSBuild
       Projects="@(CmdletSln)"
       Targets="Clean"
-      Properties="$(ReleaseBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Clean"
       Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
@@ -78,22 +61,6 @@
       Targets="Clean"
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
-    
-    <!-- Delete scaffolding files-->
-    <Message Importance="high" Text="Cleaning scaffolding files..." ContinueOnError="false" />
-    <ItemGroup>
-      <DebugScaffoldingFiles Include="$(DebugScaffoldingDir)\**\*.*" />
-    </ItemGroup>
-    <Delete
-      Files="@(DebugScaffoldingFiles)"
-      ContinueOnError="false" />
-    <ItemGroup>
-      <ReleaseScaffoldingFiles Include="$(ReleaseScaffoldingDir)\**\*.*" />
-    </ItemGroup>
-    <Delete
-      Files="@(ReleaseScaffoldingFiles)"
-      ContinueOnError="false" />
-    <RemoveDir Directories="$(ReleaseScaffoldingDir);$(DebugScaffoldingDir)" ContinueOnError="false"/>
 
     <!-- Delete the publish files -->
     <Message Importance="high" Text="Cleaning publish files..." ContinueOnError="false" />
@@ -106,6 +73,18 @@
     <RemoveDir
       Directories="$(PublishDirectory)"
       ContinueOnError="false" />
+	  
+	<!-- Delete the package files -->
+    <Message Importance="high" Text="Cleaning package files..." ContinueOnError="false" />
+    <ItemGroup>
+      <PackageFiles Include="$(PackageDirectory)\**\*.*" />
+    </ItemGroup>
+    <Delete
+      Files="@(PackageFiles)"
+      ContinueOnError="false" />
+    <RemoveDir
+      Directories="$(PackageDirectory)"
+      ContinueOnError="false" />
   </Target>
   
   <!-- Build all flavors of the Cmdlets -->
@@ -115,11 +94,6 @@
       Projects="@(CmdletSln)"
       Targets="Build"
       Properties="$(DebugBuildConfig)"
-      ContinueOnError="false" />
-    <MSBuild
-      Projects="@(CmdletSln)"
-      Targets="Build"
-      Properties="$(ReleaseBuildConfig)"
       ContinueOnError="false" />
     <MSBuild
       Projects="@(CmdletSln)"
@@ -163,9 +137,7 @@
   </Target>
   
   <!-- Build the Cmdlets and Setup in all configurations -->
-  <Target
-    Name="Build"
-    DependsOnTargets="BuildCmdlets;BuildSetup" />
+  <Target Name="Build" DependsOnTargets="BuildCmdlets;BuildSetup" />
   
   <!-- Publish any build artificates to the Publish directory -->
   <Target Name="Publish" DependsOnTargets="Build">
@@ -175,8 +147,10 @@
     <ItemGroup>
       <DebugFiles Include="$(CloudServiceCmdletBinDirectory)\Debug\**\*.*" />
 	  <DebugFiles Include="$(ManagementCmdletBinDirectory)\Debug\**\*.*" />
+      <DebugFiles Include="$(ServiceManagementCmdletBinDirectory)\Debug\**\*.*" />
       <ReleaseFiles Include="$(CloudServiceCmdletBinDirectory)\Release\**\*.*" />
 	  <ReleaseFiles Include="$(ManagementCmdletBinDirectory)\Release\**\*.*" />
+      <ReleaseFiles Include="$(ServiceManagementCmdletBinDirectory)\Release\**\*.*" />
     </ItemGroup>
     <MakeDir
       Directories="$(BuildOutputDirectory)"
@@ -215,23 +189,11 @@
       Command="MSTest.exe /testcontainer:$(ManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ManagementDebug.trx"
       ContinueOnError="false" />
 	<Exec
-      Command="MSTest.exe /testcontainer:$(CloudServiceTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\CloudServiceDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(ServiceBusTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceBusDebug.trx"
-      ContinueOnError="false" />
-	<Exec
       Command="MSTest.exe /testcontainer:$(ServiceManagementTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\ServiceManagementDebug.trx"
       ContinueOnError="false" />
 	<Exec
       Command="MSTest.exe /testcontainer:$(SqlDatabaseTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\SqlDatabaseDebug.trx"
       ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(StoreTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StoreDebug.trx"
-      ContinueOnError="false" />
-	<Exec
-      Command="MSTest.exe /testcontainer:$(WebsitesTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\WebsitesDebug.trx"
-      ContinueOnError="false" />	
 	<Exec
       Command="MSTest.exe /testcontainer:$(StorageTestDebug) /testsettings:$(TestSettings) /category:$(TestFilter) /resultsfile:$(TestOutputDirectory)\StorageDebug.trx"
       ContinueOnError="false" />
@@ -252,10 +214,38 @@
       ContinueOnError="false" />
   </Target>
   
+  <!-- Run the scenario tests -->
+  <Target Name="AzureRTScenarioTest2" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+    
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:ServiceManagemenet /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      ContinueOnError="false" />
+  </Target>
+  
+  <Target Name="AzureRTScenarioTest1" DependsOnTargets="Clean;BuildDebug">
+    <Message Importance="high" Text="Running AzureRT scenario tests..." />
+    <Message Importance="high" Text="You are required to have installed a version of Visual Studio with support for MSTest (and MSTest on your path)." />
+    <MakeDir Directories="$(TestOutputDirectory)" ContinueOnError="false" />
+
+    <Message Importance="high" Text="Scenario tests:" />
+    <Exec
+	Command="MSTest.exe /testcontainer:$(AzureRTTestContainer) /testsettings:$(ScenarioTestSettings) /category:Scenario /resultsfile:$(TestOutputDirectory)\Debug.trx"
+   	ContinueOnError="false" />
+  </Target> 
+  
   <!-- Do everything possible -->
   <Target
     Name="Full"
     DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;BuildSetupDebug;BuildSetup" />
+  
+  <!-- Run Full switch with scenario tests -->
+  <Target
+    Name="FullWithScenarioTests"
+    DependsOnTargets="Clean;BuildDebug;BuildReleaseSigned;Test;ScenarioTest;BuildSetupDebug;BuildSetup" />
 
   <!-- Build the Cmdlets in ReleaseSigned configuration -->
   <Target Name="BuildReleaseSigned">
@@ -265,17 +255,6 @@
       Targets="Build"
       Properties="$(ReleaseSignedBuildConfig)"
       ContinueOnError="false" />
-      
-    <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>
-    <CreateItem Include="$(ScaffoldingReleaseSourceDir)\**\*.*">
-      <Output TaskParameter="Include" ItemName="ReleaseResources" />
-    </CreateItem>
-    <Copy SourceFiles="@(ReleaseResources)"
-    			DestinationFiles="@(ReleaseResources->'$(ScaffoldingReleaseDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    
-    <Message Importance="high" Text="Delete Release Resources folder..."/>
-    <Delete Files="@(ReleaseResources)" ContinueOnError="false" />
-    <RemoveDir Directories="$(ScaffoldingReleaseSourceDir)" ContinueOnError="false"/>
   </Target>
 
   <!-- Build the Cmdlets in Debug configuration -->
@@ -286,16 +265,5 @@
       Targets="Build"
       Properties="$(DebugBuildConfig)"
       ContinueOnError="false" />
-    
-    <Message Importance="high" Text="Extracting Scaffolding from Resources..."/>
-    <CreateItem Include="$(ScaffoldingDebugSourceDir)\**\*.*">
-      <Output TaskParameter="Include" ItemName="DebugResources" />
-    </CreateItem>
-    <Copy SourceFiles="@(DebugResources)"
-    			DestinationFiles="@(DebugResources->'$(ScaffoldingDebugDestinationDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    
-    <Message Importance="high" Text="Delete Debug Resources folder..."/>
-    <Delete Files="@(DebugResources)" ContinueOnError="false" />
-    <RemoveDir Directories="$(ScaffoldingDebugSourceDir)" ContinueOnError="false"/>
   </Target>
 </Project>

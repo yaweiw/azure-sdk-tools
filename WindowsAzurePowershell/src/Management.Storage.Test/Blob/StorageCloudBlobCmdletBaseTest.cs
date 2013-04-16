@@ -14,13 +14,13 @@
 
 namespace Microsoft.WindowsAzure.Management.Storage.Test.Blob
 {
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.Storage.Common;
     using Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel;
-    using Microsoft.WindowsAzure.Management.Test.Tests.Utilities;
+    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using System;
 
     [TestClass]
     public class StorageCloudBlobCmdletBaseTest : StorageBlobTestBase

@@ -16,8 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -112,13 +110,13 @@ namespace CLITest
         public abstract bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey);
         public abstract bool NewAzureStorageContext(string ConnectionString);
 
-        public abstract bool StartCopyAzureStorageBlob(string sourceUri, string destContainerName, string destBlobName, object destContext);
-        public abstract bool StartCopyAzureStorageBlob(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null);
-        public abstract bool StartCopyAzureStorageBlob(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null);
+        public abstract bool StartAzureStorageBlobCopy(string sourceUri, string destContainerName, string destBlobName, object destContext);
+        public abstract bool StartAzureStorageBlobCopy(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null);
+        public abstract bool StartAzureStorageBlobCopy(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null);
 
         public abstract bool GetAzureStorageBlobCopyState(string containerName, string blobName, bool waitForComplete);
         public abstract bool GetAzureStorageBlobCopyState(ICloudBlob blob, object context, bool waitForComplete);
-        public abstract bool StopCopyAzureStorageBlob(string containerName, string blobName, string copyId, bool force);
+        public abstract bool StopAzureStorageBlobCopy(string containerName, string blobName, string copyId, bool force);
 
         /// <summary>
         /// Compare the output collection data with comp

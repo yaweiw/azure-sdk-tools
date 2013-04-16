@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -56,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 OperationStatus = operation.Status,
                 AffinityGroup = service.StorageServiceProperties.AffinityGroup,
                 StorageAccountDescription = service.StorageServiceProperties.Description,
-                Label = String.IsNullOrEmpty(service.StorageServiceProperties.Label) ? string.Empty : ServiceManagementHelper.DecodeFromBase64String(service.StorageServiceProperties.Label),
+                Label = String.IsNullOrEmpty(service.StorageServiceProperties.Label) ? string.Empty : service.StorageServiceProperties.Label,
                 Location = service.StorageServiceProperties.Location,
                 Endpoints = service.StorageServiceProperties.Endpoints,
                 StorageAccountStatus = service.StorageServiceProperties.Status,
@@ -74,7 +73,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetStorageService(s, this.StorageAccountName),
-                    WaitForOperation,
                     (operation, storageService) => func(operation, new[] { storageService }));
             }
             else
@@ -83,7 +81,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListStorageServices(s),
-                    WaitForOperation,
                     (operation, storageServices) => func(operation, storageServices));
             }
         }

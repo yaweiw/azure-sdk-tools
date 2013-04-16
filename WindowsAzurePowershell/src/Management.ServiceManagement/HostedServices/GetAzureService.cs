@@ -18,8 +18,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Cmdlets.Common;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
 
@@ -54,7 +53,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Url = service.Url,
                 Label = string.IsNullOrEmpty(service.HostedServiceProperties.Label)
                             ? string.Empty
-                            : ServiceManagementHelper.DecodeFromBase64String(service.HostedServiceProperties.Label),
+                            : service.HostedServiceProperties.Label,
                 Description = service.HostedServiceProperties.Description,
                 AffinityGroup = service.HostedServiceProperties.AffinityGroup,
                 Location = service.HostedServiceProperties.Location,
@@ -71,7 +70,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.GetHostedService(s, this.ServiceName),
-                    WaitForOperation,
                     (operation, service) => func(operation, new[] { service }));
             }
             else
@@ -80,7 +78,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     null,
                     CommandRuntime.ToString(),
                     s => this.Channel.ListHostedServices(s),
-                    WaitForOperation,
                     (operation, service) => func(operation, service));
             }
         }

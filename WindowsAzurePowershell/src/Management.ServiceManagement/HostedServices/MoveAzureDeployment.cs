@@ -16,9 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
     using System.Management.Automation;
-    using System.ServiceModel;
-    using Cmdlets.Common;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -79,7 +77,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Production = prodDeployment == null ? null : prodDeployment.Name
             };
 
-            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput), WaitForOperation);
+            ExecuteClientActionInOCS(swapDeploymentInput, CommandRuntime.ToString(), s => this.Channel.SwapDeployment(s, this.ServiceName, swapDeploymentInput));
         }
 
         private Deployment GetDeploymentBySlot(string slot)

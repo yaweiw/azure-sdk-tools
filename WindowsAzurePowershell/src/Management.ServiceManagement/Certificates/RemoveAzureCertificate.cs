@@ -15,8 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
 {
     using System.Management.Automation;
-    using Management.Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -60,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Certificates
 
         internal void ExecuteCommand()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => ServiceManagementExtensionMethods.DeleteCertificate(this.Channel, s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteCertificate(s, this.ServiceName, this.ThumbprintAlgorithm, this.Thumbprint));
         }
 
         protected override void OnProcessRecord()

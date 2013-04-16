@@ -22,8 +22,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Model;
     using Microsoft.WindowsAzure.ServiceManagement;
+    using Model;
 
     [Cmdlet(VerbsCommon.Get, "AzureVM"), OutputType(typeof(List<PersistentVMRoleContext>), typeof(PersistentVMRoleListContext))]
     public class GetAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -85,41 +85,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 try
                 {
                     lastVM = role.RoleName;
-                    PersistentVMRole vm = (PersistentVMRole)role;
-                    PersistentVMRoleContext vmContext = new PersistentVMRoleContext();
+                    var vm = (PersistentVMRole)role;
+                    var roleInstance = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName);
+                    var vmContext = new PersistentVMRoleContext
+                    {
+                        ServiceName = ServiceName,
+                        Name = vm.RoleName,
+                        DeploymentName = CurrentDeployment.Name,
+                        AvailabilitySetName = vm.AvailabilitySetName,
+                        Label = vm.Label,
+                        InstanceSize = vm.RoleSize,
+                        InstanceStatus = roleInstance.InstanceStatus,
+                        IpAddress = roleInstance.IpAddress,
+                        InstanceStateDetails = roleInstance.InstanceStateDetails,
+                        PowerState = roleInstance.PowerState,
+                        InstanceErrorCode = roleInstance.InstanceErrorCode,
+                        InstanceName = roleInstance.InstanceName,
+                        InstanceFaultDomain = roleInstance.InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture),
+                        InstanceUpgradeDomain = roleInstance.InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture),
+                        OperationDescription = CommandRuntime.ToString(),
+                        OperationId = GetDeploymentOperation.OperationTrackingId,
+                        OperationStatus = GetDeploymentOperation.Status,
+                        VM = new PersistentVM
+                        {
+                            AvailabilitySetName = vm.AvailabilitySetName,
+                            ConfigurationSets = vm.ConfigurationSets,
+                            DataVirtualHardDisks = vm.DataVirtualHardDisks,
+                            Label = vm.Label,
+                            OSVirtualHardDisk = vm.OSVirtualHardDisk,
+                            RoleName = vm.RoleName,
+                            RoleSize = vm.RoleSize,
+                            RoleType = vm.RoleType,
+                            DefaultWinRmCertificateThumbprint = vm.DefaultWinRmCertificateThumbprint
+                        },
+                    };
 
                     if (CurrentDeployment != null)
                     {
                         vmContext.DNSName = CurrentDeployment.Url.AbsoluteUri;
                     }
 
-                    vmContext.ServiceName = ServiceName;
-                    vmContext.Name = vm.RoleName;
-                    vmContext.DeploymentName = CurrentDeployment.Name;
-                    vmContext.VM = new PersistentVM();
-                    vmContext.VM.AvailabilitySetName = vm.AvailabilitySetName;
-                    vmContext.AvailabilitySetName = vm.AvailabilitySetName;
-                    vmContext.Label = vm.Label;
-                    vmContext.VM.ConfigurationSets = vm.ConfigurationSets;
-                    vmContext.VM.DataVirtualHardDisks = vm.DataVirtualHardDisks;
-                    vmContext.VM.Label = vm.Label;
-                    vmContext.VM.OSVirtualHardDisk = vm.OSVirtualHardDisk;
-                    vmContext.VM.RoleName = vm.RoleName;
-                    vmContext.Name = vm.RoleName;
-                    vmContext.VM.RoleSize = vm.RoleSize;
-                    vmContext.InstanceSize = vm.RoleSize;
-                    vmContext.VM.RoleType = vm.RoleType;
-                    vmContext.InstanceStatus = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceStatus;
-                    vmContext.IpAddress = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).IpAddress;
-                    vmContext.InstanceStateDetails = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceStateDetails;
-                    vmContext.PowerState = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).PowerState;
-                    vmContext.InstanceErrorCode = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceErrorCode;
-                    vmContext.InstanceName = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceName;
-                    vmContext.InstanceFaultDomain = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceFaultDomain.Value.ToString(CultureInfo.InvariantCulture);
-                    vmContext.InstanceUpgradeDomain = CurrentDeployment.RoleInstanceList.First(r => r.RoleName == vm.RoleName).InstanceUpgradeDomain.Value.ToString(CultureInfo.InvariantCulture);
-                    vmContext.OperationDescription = CommandRuntime.ToString();
-                    vmContext.OperationId = GetDeploymentOperation.OperationTrackingId;
-                    vmContext.OperationStatus = GetDeploymentOperation.Status;
                     roles.Add(vmContext);
                 }
                 catch (Exception)

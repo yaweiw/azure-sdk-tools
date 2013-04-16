@@ -15,9 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Cmdlets.Common;
-    using Management.Model;
-    using Microsoft.WindowsAzure.Management.Utilities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -74,11 +72,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 
             var upaginput = new UpdateAffinityGroupInput
             {
-                Label = ServiceManagementHelper.EncodeToBase64String(this.Label),
+                Label = this.Label,
                 Description = this.Description ?? null
             };
 
-            ExecuteClientActionInOCS(upaginput, CommandRuntime.ToString(), s => this.Channel.UpdateAffinityGroup(s, this.Name, upaginput), WaitForOperation);
+            ExecuteClientActionInOCS(upaginput, CommandRuntime.ToString(), s => this.Channel.UpdateAffinityGroup(s, this.Name, upaginput));
         }
 
         protected override void OnProcessRecord()

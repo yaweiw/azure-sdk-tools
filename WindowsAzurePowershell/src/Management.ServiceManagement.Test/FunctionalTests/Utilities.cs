@@ -19,6 +19,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
+
+
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
+    using System.Threading;
+    using Sync.Download;
+
+    using Microsoft.WindowsAzure.Storage.Blob;
+
     internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
@@ -26,20 +35,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
-
-        public static string publishSettingsFile = Resource.PublishSettingsFile;
-
-        public enum OS
-        {
-            Windows,
-            Linux
-        };
-
+                
         // AzureAffinityGroup
         public const string NewAzureAffinityGroupCmdletName = "New-AzureAffinityGroup";
         public const string GetAzureAffinityGroupCmdletName = "Get-AzureAffinityGroup";
         public const string SetAzureAffinityGroupCmdletName = "Set-AzureAffinityGroup";
         public const string RemoveAzureAffinityGroupCmdletName = "Remove-AzureAffinityGroup";
+
+        // AzureAvailablitySet
+        public const string SetAzureAvailabilitySetCmdletName = "Set-AzureAvailabilitySet";
 
         // AzureCertificate & AzureCertificateSetting
         public const string AddAzureCertificateCmdletName = "Add-AzureCertificate";
@@ -116,6 +120,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureServiceCmdletName = "Get-AzureService";
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
+        // AzureServiceDesktopExtension
+        public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
         
         // AzureSSHKey
         public const string NewAzureSSHKeyCmdletName = "New-AzureSSHKey";
@@ -196,11 +202,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureVNetSiteCmdletName = "Get-AzureVNetSite";
 
         // AzureWalkUpgradeDomain
-        public const string SetAzureUpgradeDomainCmdletName = "Set-AzureUpgradeDomain";
+        public const string SetAzureWalkUpgradeDomainCmdletName = "Set-AzureWalkUpgradeDomain";
 
 
         public const string GetModuleCmdletName = "Get-Module";       
         public const string TestAzureNameCmdletName = "Test-AzureName";
+        
+        public const string CopyAzureStorageBlobCmdletName = "Copy-AzureStorageBlob";
+        
 
         public static string GetUniqueShortName(string prefix = "", int length = 6, string suffix = "")
         {
@@ -231,10 +240,184 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             else
             {
                 if (exactMatch)
+                {
                     return -1;
+                }
                 else
+                {
                     return result;
+                }
             }
+        }
+
+        public static Uri GetDeploymentAndWaitForReady(string serviceName, string slot, int waitTime, int maxWaitTime)
+        {
+
+            ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();            
+                       
+            DateTime startTime = DateTime.Now;
+            while (true)
+            {
+                bool allReady = true;
+                DeploymentInfoContext result = vmPowershellCmdlets.GetAzureDeployment(serviceName, slot);
+                int instanceNum = result.RoleInstanceList.Count;
+                bool[] isReady = new bool[instanceNum];
+
+                for (int j = 0; j < instanceNum; j++)
+                {
+                    var instance = result.RoleInstanceList[j];
+                    Console.WriteLine("Instance: {0}, Status: {1}", instance.InstanceName, instance.InstanceStatus);
+                    isReady[j] = (instance.InstanceStatus == "ReadyRole");
+                    allReady &= isReady[j];
+                }
+
+                if (!allReady && (DateTime.Now - startTime).TotalSeconds < maxWaitTime)
+                {
+                    Console.WriteLine("Some roles are not ready, waiting for {0} seconds.", waitTime);
+                    Thread.Sleep(waitTime*1000);
+                }
+                else if (!allReady) // some roles are not ready, and time-out.
+                {
+                    Assert.Fail("Deployment is not ready within {0} seconds!", maxWaitTime);
+                }
+                else // all roles are ready
+                {
+                    Console.WriteLine("Result of the deployment: {0}", result.Status);                    
+                    return result.Url;
+                }
+            }
+            
+        }
+        
+
+        public static bool PrintAndCompareDeployment
+            (DeploymentInfoContext deployment, string serviceName, string deploymentName, string deploymentLabel, string slot, string status, int instanceCount)
+        {
+            Console.WriteLine("ServiceName:{0}, DeploymentID: {1}, Uri: {2}", deployment.ServiceName, deployment.DeploymentId, deployment.Url.AbsoluteUri);
+            Console.WriteLine("Name - {0}, Label - {1}, Slot - {2}, Status - {3}",
+                deployment.DeploymentName, deployment.Label, deployment.Slot, deployment.Status);
+            Console.WriteLine("RoleInstance: {0}", deployment.RoleInstanceList.Count);
+            foreach (var instance in deployment.RoleInstanceList)
+            {
+                Console.WriteLine("InstanceName - {0}, InstanceStatus - {1}", instance.InstanceName, instance.InstanceStatus);
+            }
+
+
+            Assert.AreEqual(deployment.ServiceName, serviceName);
+            Assert.AreEqual(deployment.DeploymentName, deploymentName);
+            Assert.AreEqual(deployment.Label, deploymentLabel);
+            Assert.AreEqual(deployment.Slot, slot);
+            if (status != null)
+            {
+                Assert.AreEqual(deployment.Status, status);
+            }
+
+            Assert.AreEqual(deployment.RoleInstanceList.Count, instanceCount);
+
+            return true;
+        }
+
+        // CheckRemove checks if 'fn(name)' exists.    'fn(name)' is usually 'Get-AzureXXXXX name'
+        public static bool CheckRemove<Arg, Ret>(Func<Arg, Ret> fn, Arg name)
+        {
+            try
+            {
+                fn(name);
+                return false;
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("ResourceNotFound"))
+                {
+                    Console.WriteLine("{0} does not exist.", name);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Error: {0}", e.ToString());
+                    return false;
+                }
+            }
+        }
+
+        // CheckRemove checks if 'fn(name)' exists.    'fn(name)' is usually 'Get-AzureXXXXX name'
+        public static bool CheckRemove<Arg1, Arg2, Ret>(Func<Arg1, Arg2, Ret> fn, Arg1 name1, Arg2 name2)
+        {
+            try
+            {
+                fn(name1, name2);
+                return false;
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("ResourceNotFound"))
+                {
+                    Console.WriteLine("{0}, {1} is successfully removed", name1, name2);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Error: {0}", e.ToString());
+                    return false;
+                }
+            }
+        }
+
+        // CheckRemove checks if 'fn(name)' exists.    'fn(name)' is usually 'Get-AzureXXXXX name'
+        public static bool CheckRemove<Arg1, Arg2, Arg3, Ret>(Func<Arg1, Arg2, Arg3, Ret> fn, Arg1 name1, Arg2 name2, Arg3 name3)
+        {
+            try
+            {
+                fn(name1, name2, name3);
+                return false;
+            }
+            catch (Exception e)
+            {
+                if (e.ToString().Contains("ResourceNotFound"))
+                {
+                    Console.WriteLine("{0}, {1}, {2} is successfully removed", name1, name2, name3);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("Error: {0}", e.ToString());
+                    return false;
+                }
+            }
+        }
+
+        public static BlobHandle GetBlobHandle(string blob, string key)
+        {
+            BlobUri blobPath;
+            Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
+            return new BlobHandle(blobPath, key);
+        }
+        public static bool RetryUntilSuccess <T> (Func<T> fn, string errorMessage, int maxTry, int intervalSeconds)
+        {
+            int i = 0;
+            while (i < maxTry)
+            {
+                try
+                {
+
+                    fn();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    if (e.ToString().Contains(errorMessage))
+                    {
+                        Thread.Sleep(intervalSeconds * 1000);
+                        i++;
+                        continue;
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            return false;            
         }
     }
 }

@@ -19,8 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.Management.Automation;
     using System.Xml;
     using System.Xml.Linq;
-    using Cmdlets.Common;
-    using Management.Model;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     [Cmdlet(VerbsCommon.Remove, "AzureVNetConfig"), OutputType(typeof(ManagementOperationContext))]
@@ -52,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             writer1.Flush();
             stream.Seek(0L, SeekOrigin.Begin);
 
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream), this.WaitForOperation);
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.SetNetworkConfiguration(s, stream));
         }
     }
 }

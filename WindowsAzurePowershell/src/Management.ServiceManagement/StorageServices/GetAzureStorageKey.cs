@@ -16,8 +16,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System;
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -73,7 +73,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 null,
                 CommandRuntime.ToString(),
                 s => this.Channel.GetStorageKeys(s, this.StorageAccountName),
-                WaitForOperation,
                 func);
         }
     }

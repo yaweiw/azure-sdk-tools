@@ -15,8 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 {
     using System.Management.Automation;
-    using Management.Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -44,7 +43,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.AffinityGroups
 
         internal void ExecuteCommand()
         {
-            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.DeleteAffinityGroup(s, this.Name), this.WaitForOperation);
+            this.ExecuteClientActionInOCS(null, this.CommandRuntime.ToString(), s => this.Channel.DeleteAffinityGroup(s, this.Name));
         }
 
         protected override void OnProcessRecord()

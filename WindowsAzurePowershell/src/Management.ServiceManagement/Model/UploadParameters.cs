@@ -16,8 +16,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
 {
     using System.IO;
-    using Sync.Download;
     using Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices;
+    using Sync.Download;
 
     public class UploadParameters
     {

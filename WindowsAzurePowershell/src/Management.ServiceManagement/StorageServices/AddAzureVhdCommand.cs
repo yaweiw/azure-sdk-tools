@@ -17,7 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     using System;
     using System.IO;
     using System.Management.Automation;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using Sync.Download;
     using WindowsAzure.ServiceManagement;
@@ -88,7 +88,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             set;
         }
 
-
         public UploadParameters ValidateParameters()
         {
             BlobUri destinationUri;
@@ -112,13 +111,37 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
                 }
             }
 
+            var storageCredentialsFactory = CreateStorageCredentialsFactory();
+
             var parameters = new UploadParameters(destinationUri, baseImageUri, LocalFilePath, OverWrite.IsPresent, NumberOfUploaderThreads)
             {
                 Cmdlet = this,
-                BlobObjectFactory = new CloudPageBlobObjectFactory(this.Channel, this.CurrentSubscription.SubscriptionId, TimeSpan.FromMinutes(1))
+                BlobObjectFactory = new CloudPageBlobObjectFactory(storageCredentialsFactory, TimeSpan.FromMinutes(1))
             };
 
             return parameters;
+        }
+
+        private StorageCredentialsFactory CreateStorageCredentialsFactory()
+        {
+            StorageCredentialsFactory storageCredentialsFactory;
+            if (StorageCredentialsFactory.IsChannelRequired(Destination))
+            {
+                storageCredentialsFactory = new StorageCredentialsFactory(this.Channel, this.CurrentSubscription);
+            }
+            else
+            {
+                storageCredentialsFactory = new StorageCredentialsFactory();
+            }
+            return storageCredentialsFactory;
+        }
+
+        protected override void InitChannelCurrentSubscription(bool force)
+        {
+            if(StorageCredentialsFactory.IsChannelRequired(this.Destination))
+            {
+                Channel = CreateChannel();
+            }
         }
 
         protected override void OnProcessRecord()

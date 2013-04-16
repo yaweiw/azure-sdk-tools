@@ -15,8 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
     using System.Management.Automation;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
-    using Cmdlets.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -62,7 +62,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             ExecuteClientActionInOCS(
                 regenerateKeys, this.CommandRuntime.ToString(),
                 s => this.Channel.RegenerateStorageServiceKeys(s, this.StorageAccountName, regenerateKeys), 
-                this.WaitForOperation,
                 (operation, storageService) => new StorageServiceKeyOperationContext
                 {
                     StorageAccountName = this.StorageAccountName,

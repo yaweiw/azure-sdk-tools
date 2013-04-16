@@ -15,10 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System.Management.Automation;
-    using Management.Model;
-    using Cmdlets.Common;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-
 
     /// <summary>
     /// Deletes the specified deployment.
@@ -60,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         public void RemoveDeploymentProcess()
         {
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => ServiceManagementExtensionMethods.DeleteDeploymentBySlot(this.Channel, s, this.ServiceName, this.Slot), WaitForOperation);
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => this.Channel.DeleteDeploymentBySlot(s, this.ServiceName, this.Slot));
         }
 
         protected override void OnProcessRecord()
