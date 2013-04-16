@@ -103,5 +103,33 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("MD5 hash of the local file: {0}", md5hash);
             return String.Equals(blobHandle.Blob.Properties.ContentMD5, md5hash);
         }
+
+        protected void AssertUploadContextAndContentMD5UsingSaveVhd
+            (string destination, FileInfo localFile, VhdUploadContext vhdUploadContext, string md5hash, bool deleteBlob = true, bool deleteLocal = true)
+        {
+            AssertUploadContext(destination, localFile, vhdUploadContext);
+
+            FileInfo downloadFile = new FileInfo(localFile.FullName + "_download.vhd");
+
+            BlobHandle blobHandle = getBlobHandle(destination);
+
+            Assert.IsTrue(VerifyMD5hash(blobHandle, md5hash));
+            SaveVhdAndAssertContent(blobHandle, downloadFile, true, deleteBlob, deleteLocal);
+        }
+
+        protected BlobHandle getBlobHandle(string blob)
+        {
+            BlobUri blobPath;
+            Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
+            return new BlobHandle(blobPath, storageAccountKey.Primary);
+        }
+
+        protected void AssertUploadContext(string destination, FileInfo localFile, VhdUploadContext vhdUploadContext)
+        {
+            Assert.IsNotNull(vhdUploadContext);
+            Assert.AreEqual(new Uri(destination), vhdUploadContext.DestinationUri);
+            Assert.AreEqual(vhdUploadContext.LocalFilePath.FullName, localFile.FullName);
+        }
+
     }
 }

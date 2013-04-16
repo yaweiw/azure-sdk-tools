@@ -1,5 +1,4 @@
 ﻿// ----------------------------------------------------------------------------------
-//
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +11,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo
-{
-    public enum InstanceSize
-    {
-        ExtraSmall,
-        Small,
-        Medium,
-        Large,
-        ExtraLarge,
-        A6,
-        A7
-    }
-}
+using Microsoft.WindowsAzure.Management.Utilities.Subscription;
+
+[assembly: AzureResourceTypeName("website")]
