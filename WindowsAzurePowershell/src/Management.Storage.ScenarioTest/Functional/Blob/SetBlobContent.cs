@@ -301,7 +301,7 @@ namespace CLITest.Functional.Blob
         [TestCategory(PsTag.SetBlobContent)]
         public void SetBlobContentWithProperties()
         {
-            string filePath = GeneateOneTempTestFile();
+            string filePath = GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             Hashtable properties = new Hashtable();
             properties.Add("CacheControl", Utility.GenNameString(string.Empty));
@@ -349,14 +349,14 @@ namespace CLITest.Functional.Blob
         [TestCategory(PsTag.SetBlobContent)]
         public void SetBlobContentWithMetadata()
         {
-            string filePath = GeneateOneTempTestFile();
+            string filePath = GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             Hashtable metadata = new Hashtable();
             int metaCount = GetRandomTestCount();
 
             for (int i = 0; i < metaCount; i++)
             {
-                string key = Utility.GetAsciiRandomString();
+                string key = Utility.GenRandomAlphabetString();
                 string value = Utility.GenNameString(string.Empty);
 
                 if (!metadata.ContainsKey(key))
@@ -406,7 +406,7 @@ namespace CLITest.Functional.Blob
         [TestCategory(PsTag.SetBlobContent)]
         public void SetBlobContentForEixstsBlobWithoutForce()
         {
-            string filePath = GeneateOneTempTestFile();
+            string filePath = GenerateOneTempTestFile();
             CloudBlobContainer container = blobUtil.CreateContainer();
             string blobName = Utility.GenNameString("blob");
             ICloudBlob blob = blobUtil.CreateRandomBlob(container, blobName);

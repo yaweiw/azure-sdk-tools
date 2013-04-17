@@ -50,9 +50,7 @@ namespace CLITest.Functional.Queue
         [TestCategory(PsTag.RemoveQueue)]
         public void RemoveQueueByWildCardAndPipeline()
         {
-            int minQueueCount = 3;
-            int maxQueueCount = 5;
-            int queueCount = random.Next(minQueueCount, maxQueueCount);
+            int queueCount = GetRandomTestCount();
             string queuePrefix = "removequeue";
             List<string> queueNames = Utility.GenNameLists(queuePrefix, queueCount);
             List<CloudQueue> containers = queueUtil.CreateQueue(queueNames);

@@ -48,7 +48,12 @@ namespace CLITest
             return names;
         }
 
-        public static string GetAsciiRandomString(int size = 8)
+        /// <summary>
+        /// Generate random string with 26 alphabet in upper case.
+        /// </summary>
+        /// <param name="size">String length</param>
+        /// <returns>Random alphabet string</returns>
+        public static string GenRandomAlphabetString(int size = 8)
         {
             StringBuilder builder = new StringBuilder();
             Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
