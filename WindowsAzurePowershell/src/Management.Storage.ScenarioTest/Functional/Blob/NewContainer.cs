@@ -54,16 +54,8 @@ namespace CLITest.Functional.Blob
 
             blobUtil.RemoveContainer(container.Name);
 
-            bool success = agent.NewAzureStorageContainer(container.Name);
-
-            if (success)
-            {
-                Test.Warn("The specified container has been gced");
-            }
-            else
-            {
-                ExpectedContainErrorMessage("The specified container is being deleted. Try operation later.");
-            }
+            Test.Assert(!agent.NewAzureStorageContainer(container.Name), "Create a container which is being deleted should fail");
+            ExpectedContainErrorMessage("The specified container is being deleted. Try operation later.");
         }
     }
 }

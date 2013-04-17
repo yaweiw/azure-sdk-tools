@@ -337,7 +337,7 @@ namespace CLITest.Functional.Blob
             ICloudBlob srcBlob = blobUtil.CreateRandomBlob(container, srcBlobName);
             string destBlobName = Utility.GenNameString("dest");
             ICloudBlob destBlob = blobUtil.CreateRandomBlob(container, destBlobName);
-            string filePath = GeneateOneTempTestFile();
+            string filePath = GenerateOneTempTestFile();
 
             try
             {

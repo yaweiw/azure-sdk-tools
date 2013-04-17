@@ -50,9 +50,7 @@ namespace CLITest.Functional.Blob
         [TestCategory(PsTag.RemoveContainer)]
         public void RemoveContainerByWildCardAndPipeline()
         { 
-            int minContainerCount = 3;
-            int maxContainerCount = 5;
-            int containerCount = random.Next(minContainerCount, maxContainerCount);
+            int containerCount = GetRandomTestCount();
             string containerPrefix = "removecontainer";
             List<string> containerNames = Utility.GenNameLists(containerPrefix, containerCount);
             List<CloudBlobContainer> containers = blobUtil.CreateContainer(containerNames);

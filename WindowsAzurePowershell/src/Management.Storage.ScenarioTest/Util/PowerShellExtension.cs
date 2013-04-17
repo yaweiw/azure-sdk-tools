@@ -22,6 +22,12 @@ namespace CLITest.Util
 
     public static class PowerShellExtension
     {
+        /// <summary>
+        /// Add string parameter if the value is not null or empty
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
+        /// <param name="parameter">Parameter name</param>
+        /// <param name="value">Parameter value</param>
         public static void BindParameter(this PowerShell ps, string parameter, string value)
         {
             if (!string.IsNullOrEmpty(value))
@@ -30,6 +36,12 @@ namespace CLITest.Util
             }
         }
 
+        /// <summary>
+        /// Add bool parameter if the vlaue is true, since the default value for bool in powershell is false
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
+        /// <param name="parameter">Parameter name</param>
+        /// <param name="value">Parameter value</param>
         public static void BindParameter(this PowerShell ps, string parameter, bool value)
         {
             if (value)
@@ -38,6 +50,12 @@ namespace CLITest.Util
             }
         }
 
+        /// <summary>
+        /// Add object parameter if the vlaue is not null
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
+        /// <param name="parameter">Parameter name</param>
+        /// <param name="value">Parameter value</param>
         public static void BindParameter(this PowerShell ps, string parameter, object value)
         {
             if (value != null)
@@ -46,6 +64,11 @@ namespace CLITest.Util
             }
         }
 
+        /// <summary>
+        /// Add switch parameter
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
+        /// <param name="parameter">Parameter name</param>
         public static void BindParameter(this PowerShell ps, string parameter)
         {
             ps.AddParameter(parameter);

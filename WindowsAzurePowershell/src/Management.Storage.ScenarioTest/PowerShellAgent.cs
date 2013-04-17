@@ -1055,6 +1055,15 @@ namespace CLITest
             pipeLine.Clear();
         }
 
+        /// <summary>
+        /// Attach some script to the current PowerShell instance
+        ///     Attach Rule :
+        ///         1. If the script is start with "$", we directly add it to the pipeline
+        ///         2. If the current script is storage cmdlet, we need to add the current storage context to it.
+        ///         3. Otherwise, split the script into [CommandName] and many [-Parameter][Value] pairs, attach them using PowerShell command interface(AddParameter/AddCommand/etc)
+        ///         //TODO update the step 3
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
         private void AttachPipeline(PowerShell ps)
         {
             foreach (string cmd in pipeLine)
