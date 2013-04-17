@@ -1,3 +1,24 @@
+2013.04.16 Version 0.6.13
+* Completely fixed issues with first website creatio on a new account. Now you can use PowerShell with a new account directly without the need to go to the Azure portal.
+* BREAKING CHANGE: New-AzureVM and New-AzureQuickVM now require an –AdminUserName parameter when creating Windows based VMs.
+* Added support for virtual machine high memory SKUs (A6 and A7).
+* Remote PowerShell is now enabled by default on Windows based VMs using https. To disable: specify the –DisableWinRMHttps parameter on New-AzureQuickVM or Add-AzureProvisioningConfig. To enable using http: specify –EnableWinRMHttp parameter (Note: http is intended for VM to VM communication and a public endpoint is not created by default).
+* Added Get-AzureWinRMUri new cmdlet to get the connection string URI for Windows Remote Management.
+* Added Set-AzureAvailabilitySet new cmdlet to group similar virtual machines into an availability set after deployment.
+* New-AzureVM and New-AzureQuickVM now support a parameter named –X509Certificates. When a certificate is added to this array it is automatically uploaded and deployed to the virtual machine.
+* Improved *-AzureEndpoint cmdlets:
+  * Allows a simple endpoint to be created.
+  * Allows a load balanced endpoint to be created.
+  * Allows a load balanced endpoint to be created with a health probe and you can now specify the Probe Interval and Timeout periods.
+* Removed subscription check requirement when using Add-AzureVHD with a shared access signature.
+* Added Simultaneous Upgrade option to New-AzureDeployment for Cloud Services deployment. This option can save a significant amount of time during deployments to staging. This option can cause downtime and should only be used in non-production deployments.
+* Upgraded to the latest service management library.
+* Made New-AzureDeployment to use SSL duing the deployment.
+* Added Get-AzureWebsiteLog -ListPath to get all the available log paths of the website. 
+* Fixed the issue of removing custom DNS names in Start/Stop/Restart-AzureWebsite.
+* Fixed several GB18030 encoding issues.
+* Renamed Start/Stop-CopyAzureStorageBlob to Start/Stop-AzureStorageBlobCopy. Kept old names as aliases for backward compatibility.
+
 2013.03.26 Version 0.6.12.1
  * Hotfix to fix issues with first website creation on a new account.
  
