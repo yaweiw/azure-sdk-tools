@@ -53,9 +53,7 @@ namespace CLITest.Functional.Table
         [TestCategory(PsTag.RemoveTable)]
         public void RemoveTableByWildCardAndPipeline()
         {
-            int minTableCount = 3;
-            int maxTableCount = 5;
-            int tableCount = random.Next(minTableCount, maxTableCount);
+            int tableCount = GetRandomTestCount();
             string tablePrefix = "removetable";
             List<string> queueNames = Utility.GenNameLists(tablePrefix, tableCount);
             List<CloudTable> containers = tableUtil.CreateTable(queueNames);
