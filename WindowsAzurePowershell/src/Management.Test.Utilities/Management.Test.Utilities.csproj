@@ -153,6 +153,7 @@
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
     <None Include="Resources\Azure.publishsettings" />
+    <None Include="Resources\GB18030ServiceDefinition.csdef" />
     <None Include="Resources\InvalidProfile.PublishSettings" />
     <None Include="Resources\ValidProfile.PublishSettings" />
     <None Include="Resources\ValidProfile2.PublishSettings" />
