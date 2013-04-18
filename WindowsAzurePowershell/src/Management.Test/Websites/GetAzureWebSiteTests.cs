@@ -237,7 +237,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
 
             // Assert
             Assert.AreEqual(1, ((MockCommandRuntime)getAzureWebsiteCommand.CommandRuntime).OutputPipeline.Count);
-            websitesClientMock.Verify(f => f.GetDiagnosticsSettings("website1"), Times.Once());
+            websitesClientMock.Verify(f => f.GetApplicationDiagnosticsSettings("website1"), Times.Once());
         }
     }
 }
