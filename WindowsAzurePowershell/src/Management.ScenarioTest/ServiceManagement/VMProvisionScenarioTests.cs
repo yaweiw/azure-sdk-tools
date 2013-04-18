@@ -28,8 +28,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
     {
         public VMProvisionScenarioTests()
             : base("CloudService\\Common.ps1",
-                   "ServiceManagemenet\\Common.ps1",
-                   "ServiceManagemenet\\VMProvisionTests.ps1"
+                   "ServiceManagement\\Common.ps1",
+                   "ServiceManagement\\VMProvisionTests.ps1"
             )
         {
 
