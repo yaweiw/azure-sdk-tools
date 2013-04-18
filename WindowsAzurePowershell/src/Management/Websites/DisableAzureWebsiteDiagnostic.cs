@@ -20,8 +20,8 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
-    public class EnableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
+    [Cmdlet(VerbsLifecycle.Disable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
+    public class DisableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
     {
         private const string SiteParameterSetName = "SiteParameterSet";
 
@@ -47,21 +47,15 @@ namespace Microsoft.WindowsAzure.Management.Websites
         [Parameter(Mandatory = true, ParameterSetName = ApplicationParameterSetName)]
         public WebsiteDiagnosticOutput Output { get; set; }
 
-        [Parameter(Mandatory = true, ParameterSetName = ApplicationParameterSetName)]
-        public LogEntryType LogLevel { get; set; }
-
-        [Parameter(Mandatory = false, ParameterSetName = ApplicationParameterSetName)]
-        public string StorageAccountName { get; set; }
-
         /// <summary>
-        /// Initializes a new instance of the EnableAzureWebsiteDiagnosticCommand class.
+        /// Initializes a new instance of the DisableAzureWebsiteDiagnosticCommand class.
         /// </summary>
-        public EnableAzureWebsiteDiagnosticCommand()
+        public DisableAzureWebsiteDiagnosticCommand()
             : this(null)
         {
         }
 
-        public EnableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
+        public DisableAzureWebsiteDiagnosticCommand(IWebsitesServiceManagement channel)
         {
             Channel = channel;
         }
@@ -69,15 +63,13 @@ namespace Microsoft.WindowsAzure.Management.Websites
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WebsitesClient.EnableAzureWebsiteDiagnostic(
+            WebsitesClient.DisableAzureWebsiteDiagnostic(
                 Name,
                 Type,
                 WebServerLogging ? new bool?(true) : new bool?(),
                 DetailedErrorMessages ? new bool?(true) : new bool?(),
                 FailedRequestTracing ? new bool?(true) : new bool?(),
-                Output,
-                LogLevel,
-                string.IsNullOrEmpty(StorageAccountName) ? CurrentSubscription.CurrentStorageAccount : StorageAccountName);
+                Output);
 
             if (PassThru.IsPresent)
             {
