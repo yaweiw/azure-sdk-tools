@@ -129,16 +129,21 @@
     <Compile Include="Functional\Blob\GetBlobContent.cs" />
     <Compile Include="Functional\Blob\GetContainer.cs" />
     <Compile Include="Functional\Blob\GetCopyState.cs" />
+    <Compile Include="Functional\Blob\NewContainer.cs" />
     <Compile Include="Functional\Blob\RemoveBlob.cs" />
+    <Compile Include="Functional\Blob\RemoveContainer.cs" />
     <Compile Include="Functional\Blob\SetBlobContent.cs" />
     <Compile Include="Functional\Blob\SetContainerAcl.cs" />
     <Compile Include="Functional\Blob\StartCopy.cs" />
     <Compile Include="Functional\Blob\StopCopy.cs" />
     <Compile Include="Functional\Queue\GetQueue.cs" />
+    <Compile Include="Functional\Queue\RemoveQueue.cs" />
     <Compile Include="Functional\StorageContext.cs" />
+    <Compile Include="Functional\Table\RemoveTable.cs" />
     <Compile Include="PowerShellAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsTag.cs" />
+    <Compile Include="Util\PowerShellExtension.cs" />
     <None Include="README" />
     <Compile Include="StorageObjectType.cs" />
     <Compile Include="Utility.cs" />
@@ -176,7 +181,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="deploy.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

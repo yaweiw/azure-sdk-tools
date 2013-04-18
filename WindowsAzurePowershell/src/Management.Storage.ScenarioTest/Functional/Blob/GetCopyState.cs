@@ -250,7 +250,6 @@ namespace CLITest.Functional.Blob
         [TestCategory(Tag.Function)]
         [TestCategory(PsTag.Blob)]
         [TestCategory(PsTag.GetBlobCopyState)]
-        //TODO use safe way to do this test
         public void GetCopyStateWhenCopyingTest()
         {
             CloudBlobContainer Container = blobUtil.CreateContainer();

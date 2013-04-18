@@ -323,6 +323,37 @@ namespace CLITest.Functional.Blob
             }
         }
 
+        /// <summary>
+        /// Copy to an existing blob without force parameter
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.StartCopyBlob)]
+        public void StartCopyToExistsBlobWithoutForce()
+        {
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            string srcBlobName = Utility.GenNameString("src");
+            ICloudBlob srcBlob = blobUtil.CreateRandomBlob(container, srcBlobName);
+            string destBlobName = Utility.GenNameString("dest");
+            ICloudBlob destBlob = blobUtil.CreateRandomBlob(container, destBlobName);
+            string filePath = GenerateOneTempTestFile();
+
+            try
+            {
+                Test.Assert(!agent.StartAzureStorageBlobCopy(srcBlob, container.Name, destBlob.Name, null, false), "copy to existing blob without force parameter should fail");
+                ExpectedContainErrorMessage(ConfirmExceptionMessage);
+                srcBlob.FetchAttributes();
+                destBlob.FetchAttributes();
+                ExpectNotEqual(srcBlob.Properties.ContentMD5, destBlob.Properties.ContentMD5, "content md5");
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container);
+                FileUtil.RemoveFile(filePath);
+            }
+        }
+
         private ICloudBlob AssertCopyBlobCrossContainer(ICloudBlob srcBlob, CloudBlobContainer destContainer, string destBlobName, object destContext, Func<bool> StartFunc = null)
         {
             if (StartFunc == null)

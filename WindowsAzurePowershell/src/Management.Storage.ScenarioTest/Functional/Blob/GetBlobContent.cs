@@ -31,7 +31,6 @@ namespace CLITest.Functional.Blob
     class GetBlobContent: TestBase
     {
         //TODO add invalid md5sum for page blob
-        //TODO remove to TestData.xml
         private static string downloadDirRoot;
 
         private string ContainerName = string.Empty;
@@ -76,7 +75,6 @@ namespace CLITest.Functional.Blob
         /// </summary>
         private void SetupTestContainerAndBlob()
         {
-            //TODO use BlobUtil to create block blob
             string fileName = Utility.GenNameString("download");
             string filePath = Path.Combine(downloadDirRoot, fileName);
             int minFileSize = 1;

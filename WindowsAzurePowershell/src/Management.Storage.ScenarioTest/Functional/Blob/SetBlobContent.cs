@@ -22,6 +22,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using System.Collections;
 
 namespace CLITest.Functional.Blob
 {
@@ -95,7 +96,7 @@ namespace CLITest.Functional.Blob
 
                 ((PowerShellAgent)agent).AddPipelineScript(string.Format("ls -File -Path {0}", uploadDirRoot));
                 Test.Info("Upload files...");
-                Test.Assert(agent.SetAzureStorageBlobContent(string.Empty, containerName, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob), "upload multiple files should be successsed");
+                Test.Assert(agent.SetAzureStorageBlobContent(string.Empty, containerName, Storage.BlobType.BlockBlob), "upload multiple files should be successsed");
                 Test.Info("Upload finished...");
                 blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
                 Test.Assert(blobLists.Count == rootFiles.Count(), string.Format("set-azurestorageblobcontent should upload {0} files, and actually it's {1}", rootFiles.Count(), blobLists.Count));
@@ -209,7 +210,7 @@ namespace CLITest.Functional.Blob
                 List<IListBlobItem> blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
                 Test.Assert(blobLists.Count == 0, string.Format("container {0} should contain {1} blobs, and actually it contain {2} blobs", containerName, 0, blobLists.Count));
 
-                Test.Assert(!agent.SetAzureStorageBlobContent(Path.Combine(uploadDirRoot, files[0]), containerName, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob, blobName), "upload blob with invalid blob name should be failed");
+                Test.Assert(!agent.SetAzureStorageBlobContent(Path.Combine(uploadDirRoot, files[0]), containerName, Storage.BlobType.BlockBlob, blobName), "upload blob with invalid blob name should be failed");
                 string expectedErrorMessage = string.Format("Blob name '{0}' is invalid.", blobName);
                 Test.Assert(agent.ErrorMessages[0] == expectedErrorMessage, expectedErrorMessage);
             }
@@ -240,7 +241,7 @@ namespace CLITest.Functional.Blob
                 List<IListBlobItem> blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
                 Test.Assert(blobLists.Count == 0, string.Format("container {0} should contain {1} blobs, and actually it contain {2} blobs", containerName, 0, blobLists.Count));
 
-                Test.Assert(agent.SetAzureStorageBlobContent(Path.Combine(uploadDirRoot, files[0]), containerName, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob, blobName), "upload blob should be successful.");
+                Test.Assert(agent.SetAzureStorageBlobContent(Path.Combine(uploadDirRoot, files[0]), containerName, Storage.BlobType.BlockBlob, blobName), "upload blob should be successful.");
                 blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
                 Test.Assert(blobLists.Count == 1, string.Format("container {0} should contain {1} blobs, and actually it contain {2} blobs", containerName, 1, blobLists.Count));
                 string convertBlobName = blobUtil.ConvertFileNameToBlobName(blobName);
@@ -278,7 +279,7 @@ namespace CLITest.Functional.Blob
             {
                 List<IListBlobItem> blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
                 Test.Assert(blobLists.Count == 0, string.Format("container {0} should contain {1} blobs, and actually it contain {2} blobs", containerName, 0, blobLists.Count));
-                Test.Assert(!agent.SetAzureStorageBlobContent(filePath, containerName, Microsoft.WindowsAzure.Storage.Blob.BlobType.PageBlob), "upload page blob with invalid file size should be failed.");
+                Test.Assert(!agent.SetAzureStorageBlobContent(filePath, containerName, Storage.BlobType.PageBlob), "upload page blob with invalid file size should be failed.");
                 string expectedErrorMessage = "The page blob size must be a multiple of 512 bytes.";
                 Test.Assert(agent.ErrorMessages[0].StartsWith(expectedErrorMessage), expectedErrorMessage);
                 blobLists = container.ListBlobs(string.Empty, true, BlobListingDetails.All).ToList();
@@ -287,6 +288,129 @@ namespace CLITest.Functional.Blob
             finally
             {
                 blobUtil.RemoveContainer(containerName);
+                FileUtil.RemoveFile(filePath);
+            }
+        }
+
+        /// <summary>
+        /// Set blob content with blob properties
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.SetBlobContent)]
+        public void SetBlobContentWithProperties()
+        {
+            SetBlobContentWithProperties(Storage.BlobType.BlockBlob);
+            SetBlobContentWithProperties(Storage.BlobType.PageBlob);
+        }
+
+        /// <summary>
+        /// set blob content with blob meta data
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.SetBlobContent)]
+        public void SetBlobContentWithMetadata()
+        {
+            SetBlobContentWithMetadata(Storage.BlobType.BlockBlob);
+            SetBlobContentWithMetadata(Storage.BlobType.PageBlob);
+        }
+
+        /// <summary>
+        /// set blob content with blob meta data
+        /// </summary>
+        [TestMethod()]
+        [TestCategory(Tag.Function)]
+        [TestCategory(PsTag.Blob)]
+        [TestCategory(PsTag.SetBlobContent)]
+        public void SetBlobContentForEixstsBlobWithoutForce()
+        {
+            string filePath = GenerateOneTempTestFile();
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            string blobName = Utility.GenNameString("blob");
+            ICloudBlob blob = blobUtil.CreateRandomBlob(container, blobName);
+
+            try
+            {
+                string previousMd5 = blob.Properties.ContentMD5;
+                Test.Assert(!agent.SetAzureStorageBlobContent(filePath, container.Name, blob.BlobType, blob.Name, false), "set blob content without force parameter should fail");
+                ExpectedContainErrorMessage(ConfirmExceptionMessage);
+                blob.FetchAttributes();
+                ExpectEqual(previousMd5, blob.Properties.ContentMD5, "content md5");
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container.Name);
+                FileUtil.RemoveFile(filePath);
+            }
+        }
+
+        public void SetBlobContentWithProperties(Storage.BlobType blobType)
+        {
+            string filePath = GenerateOneTempTestFile();
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            Hashtable properties = new Hashtable();
+            properties.Add("CacheControl", Utility.GenNameString(string.Empty));
+            properties.Add("ContentEncoding", Utility.GenNameString(string.Empty));
+            properties.Add("ContentLanguage", Utility.GenNameString(string.Empty));
+            properties.Add("ContentMD5", Utility.GenNameString(string.Empty));
+            properties.Add("ContentType", Utility.GenNameString(string.Empty));
+
+            try
+            {
+                Test.Assert(agent.SetAzureStorageBlobContent(filePath, container.Name, blobType, string.Empty, true, -1, properties), "set blob content with property should succeed");
+                ICloudBlob blob = container.GetBlobReferenceFromServer(Path.GetFileName(filePath));
+                blob.FetchAttributes();
+                ExpectEqual(properties["CacheControl"].ToString(), blob.Properties.CacheControl, "Cache control");
+                ExpectEqual(properties["ContentEncoding"].ToString(), blob.Properties.ContentEncoding, "Content Encoding");
+                ExpectEqual(properties["ContentLanguage"].ToString(), blob.Properties.ContentLanguage, "Content Language");
+                ExpectEqual(properties["ContentMD5"].ToString(), blob.Properties.ContentMD5, "Content MD5");
+                ExpectEqual(properties["ContentType"].ToString(), blob.Properties.ContentType, "Content Type");
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container.Name);
+                FileUtil.RemoveFile(filePath);
+            }
+        }
+
+        public void SetBlobContentWithMetadata(Storage.BlobType blobType)
+        {
+            string filePath = GenerateOneTempTestFile();
+            CloudBlobContainer container = blobUtil.CreateContainer();
+            Hashtable metadata = new Hashtable();
+            int metaCount = GetRandomTestCount();
+
+            for (int i = 0; i < metaCount; i++)
+            {
+                string key = Utility.GenRandomAlphabetString();
+                string value = Utility.GenNameString(string.Empty);
+
+                if (!metadata.ContainsKey(key))
+                {
+                    Test.Info(string.Format("Add meta key: {0} value : {1}", key, value));
+                    metadata.Add(key, value);
+                }
+            }
+
+            try
+            {
+                Test.Assert(agent.SetAzureStorageBlobContent(filePath, container.Name, blobType, string.Empty, true, -1, null, metadata), "set blob content with meta should succeed");
+                ICloudBlob blob = container.GetBlobReferenceFromServer(Path.GetFileName(filePath));
+                blob.FetchAttributes();
+                ExpectEqual(metadata.Count, blob.Metadata.Count, "meta data count");
+
+                foreach (string key in metadata.Keys)
+                {
+                    ExpectEqual(metadata[key].ToString(), blob.Metadata[key], "Meta data key " + key);
+                }
+            }
+            finally
+            {
+                blobUtil.RemoveContainer(container.Name);
+                FileUtil.RemoveFile(filePath);
             }
         }
     }
