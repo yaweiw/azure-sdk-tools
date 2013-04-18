@@ -28,7 +28,6 @@ namespace CLITest.Functional.Queue
     [TestClass]
     public class GetQueue : TestBase
     {
-
         [ClassInitialize()]
         public static void ClassInit(TestContext testContext)
         {
@@ -36,7 +35,7 @@ namespace CLITest.Functional.Queue
         }
 
         [ClassCleanup()]
-        public static void SetBlobContentClassCleanup()
+        public static void ClassCleanup()
         {
             TestBase.TestClassCleanup();
         }

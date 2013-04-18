@@ -12,14 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 
 namespace CLITest
 {
@@ -45,6 +46,26 @@ namespace CLITest
             }
 
             return names;
+        }
+
+        /// <summary>
+        /// Generate random string with 26 alphabet in upper case.
+        /// </summary>
+        /// <param name="size">String length</param>
+        /// <returns>Random alphabet string</returns>
+        public static string GenRandomAlphabetString(int size = 8)
+        {
+            StringBuilder builder = new StringBuilder();
+            Random random = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+            char ch;
+
+            for (int i = 0; i < size; i++)
+            {
+                ch = Convert.ToChar(random.Next(0, 26) + 65);
+                builder.Append(ch);
+            }
+
+            return builder.ToString();
         }
 
         public static string GenConnectionString(string StorageAccountName, string StorageAccountKey)

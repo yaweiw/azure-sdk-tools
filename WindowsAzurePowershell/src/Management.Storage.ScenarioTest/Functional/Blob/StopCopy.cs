@@ -133,7 +133,7 @@ namespace CLITest.Functional.Blob
 
         /// <summary>
         /// Stop the copy task on a not existing container and blob
-        /// 8.20	Stop-AzureStorageBlobCopy Negative Functional Cases
+        /// 8.22	Stop-CopyAzureStorageBlob Negative Functional Cases
         ///    2. Stop the copy task on a not existing container and blob
         /// </summary>
         [TestMethod()]

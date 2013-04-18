@@ -17,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
+using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,6 +41,8 @@ namespace CLITest.Common
         private static int ContainerInitCount = 0;
         private static int QueueInitCount = 0;
         private static int TableInitCount = 0;
+
+        public const string ConfirmExceptionMessage = "The host was attempting to request confirmation";
 
         protected Agent agent;
 
@@ -171,7 +174,11 @@ namespace CLITest.Common
 
         #endregion
 
-        public void ExpectedEqualErrorMessage(string errorMessage)
+        /// <summary>
+        /// Expect returned error message is the specified error message
+        /// </summary>
+        /// <param name="expectErrorMessage">Expect error message</param>
+        public void ExpectedEqualErrorMessage(string expectErrorMessage)
         {
             Test.Assert(agent.ErrorMessages.Count > 0, "Should return error message");
             
@@ -180,9 +187,13 @@ namespace CLITest.Common
                 return;
             }
 
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            Test.Assert(expectErrorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", expectErrorMessage, agent.ErrorMessages[0]));
         }
 
+        /// <summary>
+        /// Expect returned error message starts with the specified error message
+        /// </summary>
+        /// <param name="expectErrorMessage">Expect error message</param>
         public void ExpectedStartsWithErrorMessage(string errorMessage)
         {
             Test.Assert(agent.ErrorMessages.Count > 0, "Should return error message");
@@ -195,6 +206,10 @@ namespace CLITest.Common
             Test.Assert(agent.ErrorMessages[0].StartsWith(errorMessage), String.Format("Expected error message should start with {0}, and actualy it's {1}", errorMessage, agent.ErrorMessages[0]));
         }
 
+        /// <summary>
+        /// Expect returned error message contain the specified error message
+        /// </summary>
+        /// <param name="expectErrorMessage">Expect error message</param>
         public void ExpectedContainErrorMessage(string errorMessage)
         {
             Test.Assert(agent.ErrorMessages.Count > 0, "Should return error message");
@@ -205,6 +220,86 @@ namespace CLITest.Common
             }
 
             Test.Assert(agent.ErrorMessages[0].IndexOf(errorMessage) != -1, String.Format("Expected error message should contain {0}, and actualy it's {1}", errorMessage, agent.ErrorMessages[0]));
+        }
+
+        /// <summary>
+        /// Expect two string are equal
+        /// </summary>
+        /// <param name="expect">expect string</param>
+        /// <param name="actually">returned string</param>
+        /// <param name="name">Compare name</param>
+        public void ExpectEqual(string expect, string actually, string name)
+        {
+            Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        /// <summary>
+        /// Expect two double are equal
+        /// </summary>
+        /// <param name="expect">expect double</param>
+        /// <param name="actually">returned double</param>
+        /// <param name="name">Compare name</param>
+        public void ExpectEqual(double expect, double actually, string name)
+        {
+            Test.Assert(expect == actually, string.Format("{0} should be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        /// <summary>
+        /// Expect two string are not equal
+        /// </summary>
+        /// <param name="expect">expect string</param>
+        /// <param name="actually">returned string</param>
+        /// <param name="name">Compare name</param>
+        public void ExpectNotEqual(string expect, string actually, string name)
+        {
+            Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        /// <summary>
+        /// Expect two double are not equal
+        /// </summary>
+        /// <param name="expect">expect double</param>
+        /// <param name="actually">returned double</param>
+        /// <param name="name">Compare name</param>
+        public void ExpectNotEqual(double expect, double actually, string name)
+        {
+            Test.Assert(expect != actually, string.Format("{0} should not be {1}, and actully it's {2}", name, expect, actually));
+        }
+
+        /// <summary>
+        /// Generate a random small int number for test
+        /// </summary>
+        /// <returns>Random int</returns>
+        public int GetRandomTestCount()
+        {
+            int minCount = 1;
+            int maxCount = 10;
+            return random.Next(minCount, maxCount);
+        }
+
+        /// <summary>
+        /// Generate a random bool
+        /// </summary>
+        /// <returns>Random bool</returns>
+        public bool GetRandomBool()
+        {
+            int switchKey = 0;
+            switchKey = random.Next(0, 2);
+            return switchKey == 0;
+        }
+
+        /// <summary>
+        /// Generate a temp local file for testing
+        /// </summary>
+        /// <returns>The temp local file path</returns>
+        public string GenerateOneTempTestFile()
+        {
+            string fileName = Utility.GenNameString("tempfile");
+            string uploadDirRoot = Test.Data.Get("UploadDir");
+            string filePath = Path.Combine(uploadDirRoot, fileName);
+            int fileSize = GetRandomTestCount();
+            Helper.GenerateRandomTestFile(filePath, fileSize);
+            return filePath;
         }
     }
 }
