@@ -105,9 +105,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             T item = default(T);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (Stream s = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            using (TextReader reader = new StreamReader(fileName, true))
             {
-                try { item = (T)xmlSerializer.Deserialize(s); }
+                try { item = (T)xmlSerializer.Deserialize(reader); }
                 catch
                 {
                     if (!string.IsNullOrEmpty(exceptionMessage))
@@ -130,9 +130,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             Validate.ValidateStringIsNullOrEmpty(fileName, string.Empty);
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            using (Stream stream = new FileStream(fileName, FileMode.Create))
+            Encoding encoding = GetFileEncoding(fileName);
+            using (TextWriter writer = new StreamWriter(new FileStream(fileName, FileMode.Create), encoding))
             {
-                xmlSerializer.Serialize(stream, obj);
+                xmlSerializer.Serialize(writer, obj);
             }
         }
 
@@ -895,6 +896,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 // can't parse JSON, return the original string
                 return str;
             }
+        }
+
+        public static Encoding GetFileEncoding(string path)
+        {
+            Encoding encoding;
+
+            using (StreamReader r = new StreamReader(path, true))
+            {
+                encoding = r.CurrentEncoding;
+            }
+
+            return encoding;
         }
     }
 }
