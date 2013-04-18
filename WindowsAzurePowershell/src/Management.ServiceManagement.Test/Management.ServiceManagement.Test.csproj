@@ -293,6 +293,7 @@
     <None Include="Resources\SampleAppV2.cscfg" />
     <None Include="Resources\SampleAppV2.cspkg" />
     <None Include="Resources\SampleAppV3.cscfg" />
+    <None Include="Resources\storageAccountTestData.csv" />
     <None Include="Resources\thread_VHD.csv" />
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />

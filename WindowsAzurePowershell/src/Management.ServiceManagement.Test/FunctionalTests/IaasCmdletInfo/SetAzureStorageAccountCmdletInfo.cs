@@ -25,7 +25,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             this.cmdletParams.Add(new CmdletParam("StorageAccountName", accountName));
             if (geoReplication)
             {
-                this.cmdletParams.Add(new CmdletParam("GeoReplicationEnabled"));
+                this.cmdletParams.Add(new CmdletParam("EnableGeoReplication"));
+            }
+            else
+            {
+                this.cmdletParams.Add(new CmdletParam("DisableGeoReplication"));
             }
             if (label != null)
             {
