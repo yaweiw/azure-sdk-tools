@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
+    using Resources;
     using VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
@@ -120,6 +121,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
         public static string GetTestResourcePath(string relativePath)
         {
             string path = Path.Combine(Environment.CurrentDirectory, relativePath);
+            EmbeddedFileWriter.WriteResourceToDisk<ResourceLocator>(relativePath, path);
             Assert.IsTrue(File.Exists(path));
             return path;
         }
