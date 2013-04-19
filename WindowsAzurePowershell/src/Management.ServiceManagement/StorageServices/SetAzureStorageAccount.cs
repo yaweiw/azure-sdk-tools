@@ -24,9 +24,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
     [Cmdlet(VerbsCommon.Set, "AzureStorageAccount"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureStorageAccountCommand : ServiceManagementBaseCmdlet
     {
-        private const string DisableGeoReplicationParameterSet = "DisableGeoReplication";
-        private const string EnableGeoReplicationParameterSet = "EnableGeoReplication";
-
         public SetAzureStorageAccountCommand()
         {
         }
@@ -70,15 +67,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
             set;
         }
 
-        [Parameter(Mandatory = true, ParameterSetName = EnableGeoReplicationParameterSet, HelpMessage = "Enable Geo Replication")]
-        public SwitchParameter EnableGeoReplication
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Mandatory = true, ParameterSetName = DisableGeoReplicationParameterSet, HelpMessage = "Disable Geo Replication")]
-        public SwitchParameter DisableGeoReplication
+        [Parameter(HelpMessage = "Enable or Disable Geo Replication")]
+        public bool? GeoReplicationEnabled        
         {
             get;
             set;
@@ -88,25 +78,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
         {
             var upstorageinput = new UpdateStorageServiceInput
             {
-                GeoReplicationEnabled = GeoReplicationEnabled(),
+                GeoReplicationEnabled = GeoReplicationEnabled,
                 Description = this.Description,
                 Label = this.Label
             };
 
             ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput));
-        }
-
-        private bool? GeoReplicationEnabled()
-        {
-            if (EnableGeoReplication.IsPresent)
-            {
-                return true;
-            }
-            if (DisableGeoReplication.IsPresent)
-            {
-                return false;
-            }
-            return null;
         }
 
         protected override void OnProcessRecord()
