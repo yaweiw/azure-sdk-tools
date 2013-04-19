@@ -227,59 +227,63 @@ function Test-GetAzureWebsite
 	Assert-AreEqual $true $config.AzureDriveTraceEnabled
 }
 
-########################################################################### Set-AzureWebsite Scenario Tests ###########################################################################
+########################################################################### Start-AzureWebsite Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests Set-AzureWebsite with diagnostic settings
+Tests Start-AzureWebsite happy path.
 #>
-function Test-SetAzureWebsiteDiagnosticSettings
+function Test-StartAzureWebsite
 {
 	# Setup
-	New-BasicLogWebsite
-	$website = $global:currentWebsite
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Stop-AzureWebsite $name
+	Assert-Throws { Get-AzureWebsite $name }
 
-	#Test
-	Set-AzureWebsite -AzureDriveTraceEnabled $false
+	# Test
+	Start-AzureWebsite $name
 
 	# Assert
-	$config = Get-AzureWebsite $website.Name
-	Assert-AreEqual $false $config.AzureDriveTraceEnabled
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual "Running" $website.State
 }
+
+########################################################################### Stop-AzureWebsite Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests Set-AzureWebsite with multiple diagnostic settings
+Tests Stop-AzureWebsite happy path.
 #>
-function Test-SetAzureWebsiteMultipleDiagnosticSettings
+function Test-StopAzureWebsite
 {
 	# Setup
-	New-BasicLogWebsite
-	$website = $global:currentWebsite
-	Set-AzureWebsite -AzureDriveTraceEnabled $false
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
 
-	#Test
-	Set-AzureWebsite -AzureDriveTraceEnabled $true -AzureDriveTraceLevel Error
+	# Test
+	Stop-AzureWebsite $name
 
 	# Assert
-	$config = Get-AzureWebsite $website.Name
-	Assert-AreEqual $true $config.AzureDriveTraceEnabled
-	Assert-AreEqual Error $config.AzureDriveTraceLevel
+	Assert-Throws { Get-AzureWebsite $name }
 }
+
+########################################################################### Restart-AzureWebsite Scenario Tests ###########################################################################
 
 <#
 .SYNOPSIS
-Tests Set-AzureWebsite with diagnostic settings
+Tests Restart-AzureWebsite happy path.
 #>
-function Test-SetAzureWebsiteWithInvalidValues
+function Test-RestartAzureWebsite
 {
 	# Setup
-	New-BasicLogWebsite
-	$website = $global:currentWebsite
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
 
-	#Test
-	Assert-Throws { Set-AzureWebsite -AzureDriveTraceEnabled yes }
-	Assert-Throws { Set-AzureWebsite -AzureTableTraceEnabled no }
-	Assert-Throws { Set-AzureWebsite -AzureDriveTraceLevel MyLevel }
-	Assert-Throws { Set-AzureWebsite -AzureTableTraceLevel EdeloLevel }
+	# Test
+	Restart-AzureWebsite $name
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-AreEqual "Running" $website.State
 }

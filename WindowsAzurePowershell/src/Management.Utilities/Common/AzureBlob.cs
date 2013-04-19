@@ -30,15 +30,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
         public static Uri UploadPackageToBlob(IServiceManagement channel, string storageName, string subscriptionId, string packagePath, BlobRequestOptions blobRequestOptions)
         {
-            string storageKey;
-            string blobEndpointUri;
-
             StorageService storageService = channel.GetStorageKeys(subscriptionId, storageName);
-            storageKey = storageService.StorageServiceKeys.Primary;
+            string storageKey = storageService.StorageServiceKeys.Primary;
             storageService = channel.GetStorageService(subscriptionId, storageName);
-            blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
+            string blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
 
-            return UploadFile(storageName, blobEndpointUri, storageKey, packagePath, blobRequestOptions);
+
+            return UploadFile(storageName, CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
+        }
+
+        private static Uri CreateHttpsEndpoint(string blobEndpointUri)
+        {
+            var builder = new UriBuilder(blobEndpointUri) { Scheme = "https" };
+            var endpoint =  builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
+            return new Uri(endpoint);
         }
 
         public static void DeletePackageFromBlob(IServiceManagement channel, string storageName, string subscriptionId, Uri packageUri)
@@ -46,17 +51,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             var storageService = channel.GetStorageKeys(subscriptionId, storageName);
             var storageKey = storageService.StorageServiceKeys.Primary;
             storageService = channel.GetStorageService(subscriptionId, storageName);
-            var blobStorageEndpoint = new Uri(storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
+            var blobStorageEndpoint = CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);
             ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
             blob.DeleteIfExists();
         }
 
-        public static Uri UploadFile(string storageName, string blobEndpointUri, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
+        public static Uri UploadFile(string storageName, Uri blobEndpointUri, string storageKey, string filePath, BlobRequestOptions blobRequestOptions)
         {
             StorageCredentials credentials = new StorageCredentials(storageName, storageKey);
-            CloudBlobClient client = new CloudBlobClient(new Uri(blobEndpointUri), credentials);
+            CloudBlobClient client = new CloudBlobClient(blobEndpointUri, credentials);
             string blobName = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}_{1}",
