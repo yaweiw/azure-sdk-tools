@@ -139,12 +139,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         private void SetApplicationDiagnosticsSettings(
-            Site website,
+            string name,
             WebsiteDiagnosticOutput output,
-            LogEntryType logLevel,
-            string storageAccountName,
-            bool setFlag)
+            bool setFlag,
+            DiagnosticProperties properties = null)
         {
+            Site website = GetWebsite(name);
+
             using (HttpClient client = CreateHttpClient(website.Name))
             {
                 DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
@@ -159,6 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         if (setFlag)
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
+                            string storageAccountName = (string)properties[DiagnosticSettings.StorageAccountName];
 
                             StorageService storageService = ServiceManagementChannel.GetStorageKeys(
                                 SubscriptionId,
@@ -168,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                                 storageService.StorageServiceKeys.Primary);
                             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
                             string connectionString = cloudStorageAccount.ToString(true);
-                            AddApplicationSetting(website.Name, storageTableName, connectionString);
+                            AddAppSetting(website.Name, storageTableName, connectionString);
                         }
                         break;
 
@@ -176,7 +178,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         throw new ArgumentException();
                 }
 
-                diagnosticsSettings.AzureDriveTraceLevel = setFlag ? logLevel : diagnosticsSettings.AzureDriveTraceLevel;
+                diagnosticsSettings.AzureDriveTraceLevel = setFlag ? 
+                    (LogEntryType)properties[DiagnosticSettings.LogLevel] : diagnosticsSettings.AzureDriveTraceLevel;
                 JObject json = new JObject();
                 json[UriElements.AzureDriveTraceEnabled] = diagnosticsSettings.AzureDriveTraceEnabled;
                 json[UriElements.AzureDriveTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureDriveTraceLevel);
@@ -187,53 +190,24 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         private void SetSiteDiagnosticsSettings(
-            Site website,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing)
+            string name,
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing,
+            bool setFlag)
         {
+            Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
                 SubscriptionId,
                 website.WebSpace,
                 website.Name);
 
-            configuration.HttpLoggingEnabled = webServerLogging.HasValue ? webServerLogging :
-                configuration.HttpLoggingEnabled;
-
-            configuration.DetailedErrorLoggingEnabled = detailedErrorMessages.HasValue ? detailedErrorMessages : 
+            configuration.HttpLoggingEnabled = webServerLogging ? setFlag : configuration.HttpLoggingEnabled;
+            configuration.DetailedErrorLoggingEnabled = detailedErrorMessages ? setFlag : 
                 configuration.DetailedErrorLoggingEnabled;
-
-            configuration.RequestTracingEnabled = failedRequestTracing.HasValue ? failedRequestTracing : 
-                configuration.RequestTracingEnabled;
+            configuration.RequestTracingEnabled = failedRequestTracing ? setFlag : configuration.RequestTracingEnabled;
             
             WebsiteChannel.UpdateSiteConfig(SubscriptionId, website.WebSpace, website.Name, configuration);
-        }
-
-        private void SetAzureWebsiteDiagnostic(
-            string name,
-            WebsiteDiagnosticType type,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing,
-            WebsiteDiagnosticOutput output,
-            LogEntryType logLevel,
-            string storageAccountName,
-            bool setFlag)
-        {
-            Site website = GetWebsite(name);
-
-            switch (type)
-            {
-                case WebsiteDiagnosticType.Site:
-                    SetSiteDiagnosticsSettings(website, webServerLogging, detailedErrorMessages, failedRequestTracing);
-                    break;
-                case WebsiteDiagnosticType.Application:
-                    DiagnosticsSettings diagnosticsSettings = GetApplicationDiagnosticsSettings(website.Name);
-                    SetApplicationDiagnosticsSettings(website, output, logLevel, storageAccountName, setFlag);
-                    break;
-                default:
-                    throw new ArgumentException();
-            }
         }
 
         /// <summary>
@@ -381,45 +355,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         /// <summary>
-        /// Enables website diagnostic settings.
-        /// </summary>
-        /// <param name="name">The website name</param>
-        /// <param name="type">diagnostic type, Site or Application</param>
-        /// <param name="webServerLogging">Flag for webServerLogging</param>
-        /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
-        /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
-        /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        /// <param name="logLevel">The log level</param>
-        /// <param name="storageAccountName">Storage account name used for the table logging</param>
-        public void EnableAzureWebsiteDiagnostic(
-            string name,
-            WebsiteDiagnosticType type,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing,
-            WebsiteDiagnosticOutput output,
-            LogEntryType logLevel,
-            string storageAccountName)
-        {
-            SetAzureWebsiteDiagnostic(
-                name,
-                type,
-                webServerLogging,
-                detailedErrorMessages,
-                failedRequestTracing,
-                output,
-                logLevel,
-                storageAccountName,
-                true);
-        }
-
-        /// <summary>
         /// Adds an AppSetting of a website.
         /// </summary>
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        public void AddApplicationSetting(string name, string key, string value)
+        public void AddAppSetting(string name, string key, string value)
         {
             Site website = GetWebsite(name);
             SiteConfig configuration = WebsiteChannel.GetSiteConfig(
@@ -431,32 +372,48 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         }
 
         /// <summary>
-        /// Disables website diagnostic settings.
+        /// Enables website diagnostic.
         /// </summary>
         /// <param name="name">The website name</param>
-        /// <param name="type">diagnostic type, Site or Application</param>
         /// <param name="webServerLogging">Flag for webServerLogging</param>
         /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
         /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
-        /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        public void DisableAzureWebsiteDiagnostic(
+        public void EnableSiteDiagnostic(
             string name,
-            WebsiteDiagnosticType type,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing,
-            WebsiteDiagnosticOutput output)
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing)
         {
-            SetAzureWebsiteDiagnostic(
-                name,
-                type,
-                webServerLogging,
-                detailedErrorMessages,
-                failedRequestTracing,
-                output,
-                default(LogEntryType),
-                null,
-                false);
+            SetSiteDiagnosticsSettings(name, webServerLogging, detailedErrorMessages, failedRequestTracing, true);
+        }
+
+        /// <summary>
+        /// Disables site diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="webServerLogging">Flag for webServerLogging</param>
+        /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
+        /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
+        public void DisableSiteDiagnostic(
+            string name,
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing)
+        {
+            SetSiteDiagnosticsSettings(name, webServerLogging, detailedErrorMessages, failedRequestTracing, false);
+        }
+
+        public void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            DiagnosticProperties properties)
+        {
+            SetApplicationDiagnosticsSettings(name, output, true, properties);
+        }
+
+        public void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output)
+        {
+            SetApplicationDiagnosticsSettings(name, output, false);
         }
     }
 }

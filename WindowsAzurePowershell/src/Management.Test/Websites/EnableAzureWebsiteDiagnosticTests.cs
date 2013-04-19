@@ -38,26 +38,26 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
+        private DiagnosticProperties properties;
+
         [TestInitialize]
         public override void SetupTest()
         {
             websitesClientMock = new Mock<IWebsitesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
+            properties = new DiagnosticProperties();
+            properties[DiagnosticSettings.LogLevel] = LogEntryType.Information;
         }
 
         [TestMethod]
         public void EnableAzureWebsiteDiagnosticSite()
         {
             // Setup
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
                 true,
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()));
+                true));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -76,15 +76,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
                 true,
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()), Times.Once());
+                true), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -93,15 +89,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         public void EnableAzureWebsiteDiagnosticPassThru()
         {
             // Setup
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
                 true,
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()));
+                true));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -121,15 +113,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
                 true,
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()), Times.Once());
+                true), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
@@ -138,15 +126,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         public void EnableAzureWebsiteDiagnosticSiteIgnoreSetting()
         {
             // Setup
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Setup(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
-                new bool?(),
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()));
+                false,
+                true));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -164,15 +148,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableSiteDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Site,
                 true,
-                new bool?(),
-                true,
-                It.IsAny<WebsiteDiagnosticOutput>(),
-                It.IsAny<LogEntryType>(),
-                It.IsAny<string>()), Times.Once());
+                false,
+                true), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -181,15 +161,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         public void EnableAzureWebsiteDiagnosticApplication()
         {
             // Setup
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.FileSystem,
-                LogEntryType.Information,
-                It.IsAny<string>()));
+                properties));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -207,15 +182,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.FileSystem,
-                LogEntryType.Information,
-                It.IsAny<string>()), Times.Once());
+                properties), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -225,15 +195,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             // Setup
             string storageName = "MyStorage";
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            properties[DiagnosticSettings.StorageAccountName] = storageName;
+            websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.StorageTable,
-                LogEntryType.Information,
-                storageName));
+                properties));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -252,15 +218,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.StorageTable,
-                LogEntryType.Information,
-                storageName), Times.Once());
+                properties), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
@@ -270,15 +231,11 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             // Setup
             string storageName = "MyStorage";
-            websitesClientMock.Setup(f => f.EnableAzureWebsiteDiagnostic(
+            properties[DiagnosticSettings.StorageAccountName] = storageName;
+            websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.StorageTable,
-                LogEntryType.Information,
-                storageName));
+                properties));
 
             enableAzureWebsiteDiagnosticCommand = new EnableAzureWebsiteDiagnosticCommand()
             {
@@ -300,15 +257,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             enableAzureWebsiteDiagnosticCommand.ExecuteCmdlet();
 
             // Assert
-            websitesClientMock.Verify(f => f.EnableAzureWebsiteDiagnostic(
+            websitesClientMock.Verify(f => f.EnableApplicationDiagnostic(
                 websiteName,
-                WebsiteDiagnosticType.Application,
-                new bool?(),
-                new bool?(),
-                new bool?(),
                 WebsiteDiagnosticOutput.StorageTable,
-                LogEntryType.Information,
-                storageName), Times.Once());
+                properties), Times.Once());
 
             commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }

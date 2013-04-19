@@ -83,42 +83,49 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         SiteWithConfig GetWebsiteConfiguration(string name);
 
         /// <summary>
-        /// Enables website diagnostic settings.
+        /// Enables site diagnostic.
         /// </summary>
         /// <param name="name">The website name</param>
-        /// <param name="type">diagnostic type, Site or Application</param>
         /// <param name="webServerLogging">Flag for webServerLogging</param>
         /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
         /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
-        /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        /// <param name="logLevel">The log level</param>
-        /// <param name="storageAccountName">Storage account name used for the table logging</param>
-        void EnableAzureWebsiteDiagnostic(
+        void EnableSiteDiagnostic(
             string name,
-            WebsiteDiagnosticType type,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing,
-            WebsiteDiagnosticOutput output,
-            LogEntryType logLevel,
-            string storageAccountName);
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing);
 
         /// <summary>
-        /// Disables website diagnostic settings.
+        /// Disables site diagnostic.
         /// </summary>
         /// <param name="name">The website name</param>
-        /// <param name="type">diagnostic type, Site or Application</param>
         /// <param name="webServerLogging">Flag for webServerLogging</param>
         /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
         /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
-        /// <param name="output">The application log output, FileSystem or StorageTable</param>
-        void DisableAzureWebsiteDiagnostic(
+        void DisableSiteDiagnostic(
             string name,
-            WebsiteDiagnosticType type,
-            bool? webServerLogging,
-            bool? detailedErrorMessages,
-            bool? failedRequestTracing,
-            WebsiteDiagnosticOutput output);
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing);
+
+        /// <summary>
+        /// Enables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="logLevel">The log level</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            DiagnosticProperties properties);
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output);
 
         /// <summary>
         /// Sets an AppSetting of a website.
@@ -126,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <param name="key">The app setting name</param>
         /// <param name="value">The app setting value</param>
-        void AddApplicationSetting(string name, string key, string value);
+        void AddAppSetting(string name, string key, string value);
     }
 
     public enum WebsiteState
@@ -145,5 +152,16 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
     {
         FileSystem,
         StorageTable
+    }
+
+    public enum DiagnosticSettings
+    {
+        StorageAccountName,
+        LogLevel
+    }
+
+    public class DiagnosticProperties : Dictionary<DiagnosticSettings, object>
+    {
+
     }
 }
