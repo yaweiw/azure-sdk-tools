@@ -36,6 +36,10 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             // Test
             File.Create(outputFileName).Close();
             General.SerializeXmlFile<ServiceDefinition>(serviceDefinition, outputFileName);
+
+            // Assert
+            // If reached this point means the test passed
+            Assert.IsTrue(true);
         }
     }
 }
