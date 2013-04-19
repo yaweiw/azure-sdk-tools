@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
     [TestClass]
     public class WebsitesTestBase : TestBase
     {
-        protected string subscriptionName = "foo";
+        protected string subscriptionId = "foo";
 
         [TestInitialize]
         public virtual void SetupTest()
@@ -38,10 +38,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Websites
             GlobalPathInfo.AzureAppDir = Path.Combine(Directory.GetCurrentDirectory(), "Windows Azure Powershell");
 
             string webSpacesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
-                                                          string.Format("spaces.{0}.json", subscriptionName));
+                                                          string.Format("spaces.{0}.json", subscriptionId));
 
             string sitesFile = Path.Combine(GlobalPathInfo.AzureAppDir,
-                                                          string.Format("sites.{0}.json", subscriptionName));
+                                                          string.Format("sites.{0}.json", subscriptionId));
 
             if (File.Exists(webSpacesFile))
             {
