@@ -39,7 +39,6 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
             // Assert
             // If reached this point means the test passed
-            Assert.IsTrue(true);
         }
     }
 }
