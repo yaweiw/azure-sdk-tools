@@ -222,7 +222,7 @@
     
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
-      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(ScenarioTestSettings) /category:ServiceManagement /resultsfile:$(TestOutputDirectory)\Debug.trx"
+      Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:ServiceManagement /resultsfile:$(TestOutputDirectory)\Debug.trx"
       ContinueOnError="false" />
   </Target>
   
