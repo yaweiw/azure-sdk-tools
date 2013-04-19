@@ -56,14 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.UnitTests.Cmd
                 StorageAccountName = expected.StorageServiceName,
                 Description = expected.UpdateStorageServiceInput.Description,
                 Label = expected.UpdateStorageServiceInput.Label,
-                EnableGeoReplication =
-                    expected.UpdateStorageServiceInput.GeoReplicationEnabled.Value
-                        ? new SwitchParameter(true)
-                        : new SwitchParameter(false),
-                DisableGeoReplication =
-                    expected.UpdateStorageServiceInput.GeoReplicationEnabled.Value
-                        ? new SwitchParameter(false)
-                        : new SwitchParameter(true)
+                GeoReplicationEnabled = expected.UpdateStorageServiceInput.GeoReplicationEnabled
             };
             command.SetStorageAccountProcess();
 

@@ -13329,12 +13329,6 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>DisableGeoReplication</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether geo-replication is disabled for the storage account.</maml:para>
-          </maml:description>
-        </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Description</maml:name>
           <maml:description>
@@ -13343,34 +13337,11 @@
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Label</maml:name>
+          <maml:name>GeoReplicationEnabled</maml:name>
           <maml:description>
-            <maml:para>Specifies a label for the storage account. The label may be up to 100 characters in length. You must specify either a label or a description, or both.</maml:para>
+            <maml:para>Specifies whether geo-replication is disabled or enabled for the storage account.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureStorageAccount</maml:name>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>StorageAccountName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the  name of the storage account to be updated.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>EnableGeoReplication</maml:name>
-          <maml:description>
-            <maml:para>Specifies whether geo-replication is enabled for the storage account.</maml:para>
-          </maml:description>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
-          <maml:name>Description</maml:name>
-          <maml:description>
-            <maml:para>Specifies a description for the storage account. The description may be up to 1024 characters in length. You must specify either a label or a description, or both.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
         </command:parameter>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
           <maml:name>Label</maml:name>
@@ -13396,28 +13367,15 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>DisableGeoReplication</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>GeoReplicationEnabled</maml:name>
         <maml:description>
-          <maml:para>Specifies whether geo-replication is disabled for the storage account.</maml:para>
+          <maml:para>Specifies whether geo-replication is disabled or enabled for the storage account.</maml:para>
 
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">Boolean</command:parameterValue>
         <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="named">
-        <maml:name>EnableGeoReplication</maml:name>
-        <maml:description>
-          <maml:para>Specifies whether geo-replication is enabled for the storage account.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
+          <maml:name>Boolean</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -13506,12 +13464,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureStorageAccount -StorageAccountName qatest1 -Label &quot;QATestAccnt&quot; -Description &quot;QA test storage account&quot; -EnableGeoReplication
+          Set-AzureStorageAccount -StorageAccountName qatest1 -Label &quot;QATestAccnt&quot; -Description &quot;QA test storage account&quot;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command updates the label and description of the 'qatest1' storage account in the specified subscription and enables geo-replication.</maml:para>
+          <maml:para>This command updates the label and description of the 'qatest1' storage account in the specified subscription.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -13532,7 +13490,7 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureStorageAccount -StorageAccountName qatest1 -DisableGeoReplication
+          Set-AzureStorageAccount -StorageAccountName qatest1 -GeoReplicationEnabled $false
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -13558,7 +13516,7 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureStorageAccount -StorageAccountName qatest1 -EnableGeoReplication
+          Set-AzureStorageAccount -StorageAccountName qatest1 -GeoReplicationEnabled $true
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
@@ -13579,7 +13537,11 @@
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText></maml:linkText>
+        <maml:linkText>Get-AzureStorageAccount</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureStorageAccount</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
