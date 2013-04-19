@@ -63,13 +63,22 @@ namespace Microsoft.WindowsAzure.Management.Websites
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WebsitesClient.DisableAzureWebsiteDiagnostic(
-                Name,
-                Type,
-                WebServerLogging ? new bool?(true) : new bool?(),
-                DetailedErrorMessages ? new bool?(true) : new bool?(),
-                FailedRequestTracing ? new bool?(true) : new bool?(),
-                Output);
+
+            switch (Type)
+            {
+                case WebsiteDiagnosticType.Site:
+                    WebsitesClient.DisableSiteDiagnostic(
+                        Name,
+                        WebServerLogging,
+                        DetailedErrorMessages,
+                        FailedRequestTracing);
+                    break;
+                case WebsiteDiagnosticType.Application:
+                    WebsitesClient.DisableApplicationDiagnostic(Name, Output);
+                    break;
+                default:
+                    throw new PSArgumentException();
+            }
 
             if (PassThru.IsPresent)
             {

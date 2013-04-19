@@ -69,15 +69,32 @@ namespace Microsoft.WindowsAzure.Management.Websites
         public override void ExecuteCmdlet()
         {
             WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-            WebsitesClient.EnableAzureWebsiteDiagnostic(
-                Name,
-                Type,
-                WebServerLogging ? new bool?(true) : new bool?(),
-                DetailedErrorMessages ? new bool?(true) : new bool?(),
-                FailedRequestTracing ? new bool?(true) : new bool?(),
-                Output,
-                LogLevel,
-                string.IsNullOrEmpty(StorageAccountName) ? CurrentSubscription.CurrentStorageAccount : StorageAccountName);
+
+            switch (Type)
+            {
+                case WebsiteDiagnosticType.Site:
+                    WebsitesClient.EnableSiteDiagnostic(
+                        Name,
+                        WebServerLogging,
+                        DetailedErrorMessages,
+                        FailedRequestTracing);
+                    break;
+                case WebsiteDiagnosticType.Application:
+                    DiagnosticProperties properties = new DiagnosticProperties();
+                    properties[DiagnosticSettings.LogLevel] = LogLevel;
+                    
+                    if (Output == WebsiteDiagnosticOutput.StorageTable)
+	                {
+                        string storageName = string.IsNullOrEmpty(StorageAccountName) ?
+                            CurrentSubscription.CurrentStorageAccount : StorageAccountName;
+		                properties[DiagnosticSettings.StorageAccountName] = storageName;
+	                }
+
+                    WebsitesClient.EnableApplicationDiagnostic(Name, Output, properties);
+                    break;
+                default:
+                    throw new PSArgumentException();
+            }
 
             if (PassThru.IsPresent)
             {
