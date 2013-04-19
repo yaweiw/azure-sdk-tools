@@ -31,7 +31,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
-        public const string windowsAzurePowershellModuleCloudService = "Microsoft.WindowsAzure.Management.CloudService.dll";
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
@@ -120,6 +119,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public const string GetAzureServiceCmdletName = "Get-AzureService";
         public const string SetAzureServiceCmdletName = "Set-AzureService";
         public const string RemoveAzureServiceCmdletName = "Remove-AzureService";
+        // AzureServiceDesktopExtension
+        public const string SetAzureServiceRemoteDesktopExtensionCmdletName = "Set-AzureServiceRemoteDesktopExtension";
         
         // AzureSSHKey
         public const string NewAzureSSHKeyCmdletName = "New-AzureSSHKey";
@@ -280,8 +281,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
                 else // all roles are ready
                 {
-                    Console.WriteLine("Result of the deployment: {0}", result.Status);
-                    Assert.IsTrue(result.Status.Equals("Running"));                                       
+                    Console.WriteLine("Result of the deployment: {0}", result.Status);                    
                     return result.Url;
                 }
             }

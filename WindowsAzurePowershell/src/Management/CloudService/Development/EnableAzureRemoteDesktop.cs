@@ -125,9 +125,12 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
 
         private static bool IsPasswordComplex(string password)
         {
+            const int ASCIIMax = 255;
+
             return (Convert.ToInt32(password.Any(char.IsUpper)) +
                     Convert.ToInt32(password.Any(char.IsLower)) +
                     Convert.ToInt32(password.Any(char.IsDigit)) +
+                    Convert.ToInt32(password.Any(c => ((int)c) > ASCIIMax)) +
                     Convert.ToInt32(password.Any(char.IsLetterOrDigit)) >= 3)
                    && password.Length >= 6;
         }
