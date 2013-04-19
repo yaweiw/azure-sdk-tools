@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = "website1", 
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
             
             getAzureWebsiteLogCommand.DefaultCurrentPath = "";
@@ -110,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = "website1",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 Output = "file_without_ext"
             };
 

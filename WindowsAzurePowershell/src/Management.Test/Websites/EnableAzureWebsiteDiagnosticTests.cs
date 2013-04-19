@@ -38,15 +38,15 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
-        private DiagnosticProperties properties;
+        private Dictionary<DiagnosticProperties, object> properties;
 
         [TestInitialize]
         public override void SetupTest()
         {
             websitesClientMock = new Mock<IWebsitesClient>();
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            properties = new DiagnosticProperties();
-            properties[DiagnosticSettings.LogLevel] = LogEntryType.Information;
+            properties = new Dictionary<DiagnosticProperties, object>();
+            properties[DiagnosticProperties.LogLevel] = LogEntryType.Information;
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
                 WebServerLogging = true,
                 DetailedErrorMessages = true,
@@ -100,7 +100,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
                 WebServerLogging = true,
                 DetailedErrorMessages = true,
@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
                 WebServerLogging = true,
                 FailedRequestTracing = true,
@@ -171,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
                 Type = WebsiteDiagnosticType.Application,
                 Output = WebsiteDiagnosticOutput.FileSystem,
@@ -195,7 +195,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             // Setup
             string storageName = "MyStorage";
-            properties[DiagnosticSettings.StorageAccountName] = storageName;
+            properties[DiagnosticProperties.StorageAccountName] = storageName;
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
@@ -206,7 +206,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = commandRuntimeMock.Object,
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object,
                 Type = WebsiteDiagnosticType.Application,
                 Output = WebsiteDiagnosticOutput.StorageTable,
@@ -231,7 +231,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
         {
             // Setup
             string storageName = "MyStorage";
-            properties[DiagnosticSettings.StorageAccountName] = storageName;
+            properties[DiagnosticProperties.StorageAccountName] = storageName;
             websitesClientMock.Setup(f => f.EnableApplicationDiagnostic(
                 websiteName,
                 WebsiteDiagnosticOutput.StorageTable,
@@ -244,7 +244,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = websiteName,
                 CurrentSubscription = new SubscriptionData
                 {
-                    SubscriptionId = base.subscriptionName,
+                    SubscriptionId = base.subscriptionId,
                     CurrentStorageAccount = storageName
                 },
                 WebsitesClient = websitesClientMock.Object,
