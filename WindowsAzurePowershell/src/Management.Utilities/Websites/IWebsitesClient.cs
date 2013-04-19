@@ -15,8 +15,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
+    using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.WebEntities;
 
     public interface IWebsitesClient
     {
@@ -44,26 +44,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         List<LogPath> ListLogPaths(string name);
 
         /// <summary>
-        /// Sets the settings for application diagnostics.
-        /// </summary>
-        /// <param name="name">The website name</param>
-        /// <param name="drive">Drive logging enabled</param>
-        /// <param name="driveLevel">Drive logging level</param>
-        /// <param name="table">Table logging enabled</param>
-        /// <param name="tableLevel">Table logging level</param>
-        void SetDiagnosticsSettings(
-            string name,
-            bool? drive,
-            LogEntryType driveLevel,
-            bool? table,
-            LogEntryType tableLevel);
-
-        /// <summary>
         /// Gets the application diagnostics settings
         /// </summary>
         /// <param name="name">The website name</param>
         /// <returns>The website application diagnostics settings</returns>
-        DiagnosticsSettings GetDiagnosticsSettings(string name);
+        DiagnosticsSettings GetApplicationDiagnosticsSettings(string name);
 
         /// <summary>
         /// Restarts a website.
@@ -89,5 +74,89 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         /// <param name="name">The website name</param>
         /// <returns>The website instance</returns>
         Site GetWebsite(string name);
+                
+        /// <summary>
+        /// Gets the website configuration.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <returns>The website configuration object</returns>
+        SiteWithConfig GetWebsiteConfiguration(string name);
+
+        /// <summary>
+        /// Enables site diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="webServerLogging">Flag for webServerLogging</param>
+        /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
+        /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
+        void EnableSiteDiagnostic(
+            string name,
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing);
+
+        /// <summary>
+        /// Disables site diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="webServerLogging">Flag for webServerLogging</param>
+        /// <param name="detailedErrorMessages">Flag for detailedErrorMessages</param>
+        /// <param name="failedRequestTracing">Flag for failedRequestTracing</param>
+        void DisableSiteDiagnostic(
+            string name,
+            bool webServerLogging,
+            bool detailedErrorMessages,
+            bool failedRequestTracing);
+
+        /// <summary>
+        /// Enables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        /// <param name="logLevel">The log level</param>
+        /// <param name="properties">The diagnostic setting properties</param>
+        void EnableApplicationDiagnostic(
+            string name,
+            WebsiteDiagnosticOutput output,
+            Dictionary<DiagnosticProperties, object> properties);
+
+        /// <summary>
+        /// Disables application diagnostic.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="output">The application log output, FileSystem or StorageTable</param>
+        void DisableApplicationDiagnostic(string name, WebsiteDiagnosticOutput output);
+
+        /// <summary>
+        /// Sets an AppSetting of a website.
+        /// </summary>
+        /// <param name="name">The website name</param>
+        /// <param name="key">The app setting name</param>
+        /// <param name="value">The app setting value</param>
+        void AddAppSetting(string name, string key, string value);
+    }
+
+    public enum WebsiteState
+    {
+        Running,
+        Stopped
+    }
+
+    public enum WebsiteDiagnosticType
+    {
+        Site,
+        Application
+    }
+
+    public enum WebsiteDiagnosticOutput
+    {
+        FileSystem,
+        StorageTable
+    }
+
+    public enum DiagnosticProperties
+    {
+        StorageAccountName,
+        LogLevel
     }
 }
