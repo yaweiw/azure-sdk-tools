@@ -902,9 +902,17 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         {
             Encoding encoding;
 
-            using (StreamReader r = new StreamReader(path, true))
+
+            if (File.Exists(path))
             {
-                encoding = r.CurrentEncoding;
+                using (StreamReader r = new StreamReader(path, true))
+                {
+                    encoding = r.CurrentEncoding;
+                }
+            }
+            else
+            {
+                encoding = Encoding.Default;
             }
 
             return encoding;
