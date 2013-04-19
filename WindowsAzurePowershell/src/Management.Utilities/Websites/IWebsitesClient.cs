@@ -118,7 +118,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         void EnableApplicationDiagnostic(
             string name,
             WebsiteDiagnosticOutput output,
-            DiagnosticProperties properties);
+            Dictionary<DiagnosticProperties, object> properties);
 
         /// <summary>
         /// Disables application diagnostic.
@@ -154,14 +154,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         StorageTable
     }
 
-    public enum DiagnosticSettings
+    public enum DiagnosticProperties
     {
         StorageAccountName,
         LogLevel
-    }
-
-    public class DiagnosticProperties : Dictionary<DiagnosticSettings, object>
-    {
-
     }
 }

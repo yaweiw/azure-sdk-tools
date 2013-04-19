@@ -142,7 +142,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
             string name,
             WebsiteDiagnosticOutput output,
             bool setFlag,
-            DiagnosticProperties properties = null)
+            Dictionary<DiagnosticProperties, object> properties = null)
         {
             Site website = GetWebsite(name);
 
@@ -160,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         if (setFlag)
                         {
                             const string storageTableName = "CLOUD_STORAGE_ACCOUNT";
-                            string storageAccountName = (string)properties[DiagnosticSettings.StorageAccountName];
+                            string storageAccountName = (string)properties[DiagnosticProperties.StorageAccountName];
 
                             StorageService storageService = ServiceManagementChannel.GetStorageKeys(
                                 SubscriptionId,
@@ -179,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 }
 
                 diagnosticsSettings.AzureDriveTraceLevel = setFlag ? 
-                    (LogEntryType)properties[DiagnosticSettings.LogLevel] : diagnosticsSettings.AzureDriveTraceLevel;
+                    (LogEntryType)properties[DiagnosticProperties.LogLevel] : diagnosticsSettings.AzureDriveTraceLevel;
                 JObject json = new JObject();
                 json[UriElements.AzureDriveTraceEnabled] = diagnosticsSettings.AzureDriveTraceEnabled;
                 json[UriElements.AzureDriveTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureDriveTraceLevel);
@@ -406,7 +406,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
         public void EnableApplicationDiagnostic(
             string name,
             WebsiteDiagnosticOutput output,
-            DiagnosticProperties properties)
+            Dictionary<DiagnosticProperties, object> properties)
         {
             SetApplicationDiagnosticsSettings(name, output, true, properties);
         }

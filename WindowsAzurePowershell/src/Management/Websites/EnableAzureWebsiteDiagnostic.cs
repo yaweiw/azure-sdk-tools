@@ -14,6 +14,7 @@
 
 namespace Microsoft.WindowsAzure.Management.Websites
 {
+    using System.Collections.Generic;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.Websites;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
@@ -80,14 +81,14 @@ namespace Microsoft.WindowsAzure.Management.Websites
                         FailedRequestTracing);
                     break;
                 case WebsiteDiagnosticType.Application:
-                    DiagnosticProperties properties = new DiagnosticProperties();
-                    properties[DiagnosticSettings.LogLevel] = LogLevel;
+                    Dictionary<DiagnosticProperties, object> properties = new Dictionary<DiagnosticProperties, object>();
+                    properties[DiagnosticProperties.LogLevel] = LogLevel;
                     
                     if (Output == WebsiteDiagnosticOutput.StorageTable)
 	                {
                         string storageName = string.IsNullOrEmpty(StorageAccountName) ?
                             CurrentSubscription.CurrentStorageAccount : StorageAccountName;
-		                properties[DiagnosticSettings.StorageAccountName] = storageName;
+		                properties[DiagnosticProperties.StorageAccountName] = storageName;
 	                }
 
                     WebsitesClient.EnableApplicationDiagnostic(Name, Output, properties);
