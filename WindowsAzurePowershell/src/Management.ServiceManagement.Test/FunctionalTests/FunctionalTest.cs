@@ -1082,11 +1082,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             string locationName1 = Convert.ToString(TestContext.DataRow["Location1"]);
             string locationName2 = Convert.ToString(TestContext.DataRow["Location2"]);
             string affinityGroupName = Convert.ToString(TestContext.DataRow["AffinityGroupName"]);
-            string label1 = Convert.ToString(TestContext.DataRow["Label1"]);
-            string label2 = Convert.ToString(TestContext.DataRow["Label2"]);
-            string description1 = Convert.ToString(TestContext.DataRow["Description1"]);
-            string description2 = Convert.ToString(TestContext.DataRow["Description2"]);
 
+            string[] label = new string[3] {
+                Convert.ToString(TestContext.DataRow["Label1"]),
+                Convert.ToString(TestContext.DataRow["Label2"]),
+                Convert.ToString(TestContext.DataRow["Label3"])};
+            string[] description = new string[3] {
+                Convert.ToString(TestContext.DataRow["Description1"]),
+                Convert.ToString(TestContext.DataRow["Description2"]),
+                Convert.ToString(TestContext.DataRow["Description3"])};
+            bool?[] geoReplicationSettings = new bool?[3] { true, false, null };
+
+            bool geoReplicationEnabled = true;
+           
             string[] storageName = new string[2] {
                 Utilities.GetUniqueShortName(storageAccountPrefix),
                 Utilities.GetUniqueShortName(storageAccountPrefix)};
@@ -1105,52 +1113,64 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
                 if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityGroupName))
                 {
-                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroupName, locationName2, label1, description1);
+                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroupName, locationName2, label[0], description[0]);
                 }
 
                 vmPowershellCmdlets.NewAzureStorageAccount(storageName[1], null, affinityGroupName, null, null);
                 Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[1])[0],
                     storageStaticProperties[1], storageName[1], null, true));
                 Console.WriteLine("{0} is created", storageName[1]);
-                
+
                 // Set-AzureStorageAccount & Remove-AzureStorageAccount test
-                for (int i = 0 ; i < 2 ; i++)
+                for (int i = 0; i < 2; i++)
                 {
 
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label1, null, true); // change label with EnableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label1, null, true));
+                    for (int j = 0; j < 3; j++)
+                    {
+                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label[j], null, geoReplicationSettings[j]);                        
+                        if (geoReplicationSettings[j] != null)
+                        {
+                            geoReplicationEnabled = geoReplicationSettings[j].Value;
+                        }                       
+                        Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                            storageStaticProperties[i], label[j], null, geoReplicationEnabled));
+                    }
 
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label2, null, false); // change label with DisableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, null, false));
+                    for (int j = 0; j < 3; j++)
+                    {
+                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, description[j], geoReplicationSettings[j]);
+                        if (geoReplicationSettings[j] != null)
+                        {
+                            geoReplicationEnabled = geoReplicationSettings[j].Value;
+                        }
+                        Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                            storageStaticProperties[i], label[2], description[j], geoReplicationEnabled));
+                    }
 
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, description1, true); // change description with EnableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, description1, true));
+                    for (int j = 0; j < 3; j++)
+                    {
+                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, null, geoReplicationSettings[j]);
+                        if (geoReplicationSettings[j] != null)
+                        {
+                            geoReplicationEnabled = geoReplicationSettings[j].Value;
+                        }
+                        Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                            storageStaticProperties[i], label[2], description[2], geoReplicationEnabled));
+                    }
 
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, description2, false); // change description with DisableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, description2, false));
-
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, null, true); // Enable GeoReplication only
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, description2, true));
-
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, null, false); // Disable GeoReplication only
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, description2, false));
-
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label1, description1, true); // Change both label and description with EnableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label1, description1, true));
-
-                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label2, description2, false); // Change both label and description with DisableGeoReplication
-                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
-                        storageStaticProperties[i], label2, description2, false));
+                    for (int j = 0; j < 3; j++)
+                    {
+                        vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label[j], description[j], geoReplicationSettings[j]);
+                        if (geoReplicationSettings[j] != null)
+                        {
+                            geoReplicationEnabled = geoReplicationSettings[j].Value;
+                        }
+                        Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                            storageStaticProperties[i], label[j], description[j], geoReplicationEnabled));
+                    }
 
                     vmPowershellCmdlets.RemoveAzureStorageAccount(storageName[i]);
-                    Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storageName[i]), "The storage account was not removed");                    
+                    Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storageName[i]), "The storage account was not removed");
                 }
 
                 vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
