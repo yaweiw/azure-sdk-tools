@@ -156,6 +156,18 @@
     <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Extensions\GetAzureServiceRemoteDesktop.cs" />
+    <Compile Include="Extensions\HostedServiceExtensionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\HostedServiceExtensionHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\HostedServiceExtensionImageContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RemoveAzureServiceRemoteDesktop.cs" />
+    <Compile Include="Extensions\SetAzureServiceRemoteDesktop.cs" />
     <Compile Include="Helpers\CertUtils.cs" />
     <Compile Include="Helpers\Disks.cs" />
     <Compile Include="Helpers\PersistentVMHelper.cs" />
