@@ -158,6 +158,7 @@
     <EmbeddedResource Include="Resources\InvalidProfile.PublishSettings" />
     <EmbeddedResource Include="Resources\ValidProfile.PublishSettings" />
     <EmbeddedResource Include="Resources\ValidProfile2.PublishSettings" />
+    <EmbeddedResource Include="Resources\GB18030ServiceDefinition.csdef" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.Utilities\Management.Utilities.csproj">
