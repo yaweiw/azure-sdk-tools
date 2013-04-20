@@ -18,41 +18,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.Xml;
+    using System.Security.Cryptography.X509Certificates;
 
+    using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.Management.Utilities.CloudService;
     using WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Set Windows Azure Remote Desktop Extensions.
+    /// Set Windows Azure Service Remote Desktop Extension.
     /// </summary>
     [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceRemoteDesktopExtensionCommand : ServiceManagementBaseCmdlet
+    public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
-        private const string ProductionSlotStr = "Production";
-        private const string StagingSlotStr = "Staging";
-
-        private const string NewExtParamSetStr = "NewExtension";
-        private const string RemoveExtParamSetStr = "RemoveExtension";
-
-        private const string RdpExtensionTypeStr = "RDP";
-        private const string RdpExtensionNameSpaceStr = "Microsoft.Windows.Azure.Extensions";
-        private const string RdpLegacySettingStr = "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled";
-
-        private const string PublicConfigurationTemplateStr = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                              "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                              "<PublicConfig>" +
-                                                              "<UserName>{0}</UserName>" +
-                                                              "<Expiration>{1}</Expiration>" +
-                                                              "</PublicConfig>";
-
-        private const string PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                              "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                              "<PrivateConfig>" +
-                                                              "<Password>{0}</Password>" +
-                                                              "</PrivateConfig>";
-
         public SetAzureServiceRemoteDesktopExtensionCommand()
         {
         }
@@ -62,28 +40,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Channel = channel;
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
+        [ValidateNotNullOrEmpty]
         public string ServiceName
         {
             get;
             set;
         }
 
-        private string ExtensionId
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Production (default) or Staging.")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Production (default) or Staging.")]
+        [ValidateSet("Production", "Staging", IgnoreCase = true)]
+        public string Slot
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = true, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Disable Remote Desktop Extensions")]
-        public SwitchParameter Remove
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [ValidateNotNullOrEmpty]
+        public string[] Roles
         {
             get;
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = NewExtParamSetStr, HelpMessage = "Remote Desktop User Name")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Name")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Name")]
         [ValidateNotNullOrEmpty]
         public string UserName
         {
@@ -91,7 +76,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = NewExtParamSetStr, HelpMessage = "Remote Desktop User Password")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Password")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Password")]
         [ValidateNotNullOrEmpty]
         public string Password
         {
@@ -99,7 +85,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
         [ValidateNotNullOrEmpty]
         public DateTime Expiration
         {
@@ -107,126 +94,121 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = NewExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = RemoveExtParamSetStr, HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
-        [ValidateSet(ProductionSlotStr, StagingSlotStr, IgnoreCase = true)]
-        public string Slot
+
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [ValidateNotNullOrEmpty]
+        public X509Certificate2 X509Certificate
         {
             get;
             set;
         }
 
-        private string GetServiceName(string rootPath, string inServiceName, string subscriptionId)
+        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [ValidateNotNullOrEmpty]
+        public string Thumbprint
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [ValidateNotNullOrEmpty]
+        public string ThumbprintAlgorithm
+        {
+            get;
+            set;
+        }
+
+        private string ExpirationStr
+        {
+            get
+            {
+                return Expiration.ToString("yyyy-MM-dd");
+            }
+        }
+
+        private Deployment Deployment
+        {
+            get;
+            set;
+        }
+
+        protected override bool CheckExtensionType(string extensionId)
+        {
+            if (!string.IsNullOrEmpty(extensionId))
+            {
+                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
+                return CheckExtensionType(ext);
+            }
+            return false;
+        }
+
+        private bool ValidateParameters()
         {
             string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(
-                rootPath,
-                inServiceName,
-                null,
-                null,
-                null,
-                null,
-                subscriptionId,
-                out serviceName);
-            return serviceName;
-        }
+            ServiceSettings settings = General.GetDefaultSettings(General.TryGetServiceRootPath(CurrentPath()), ServiceName, null, null, null, null, CurrentSubscription.SubscriptionId, out serviceName);
 
-        private bool IsServiceAvailable(string serviceName)
-        {
-            // Check that cloud service exists
-            bool found = false;
-            InvokeInOperationContext(() =>
+            if (string.IsNullOrEmpty(serviceName))
             {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
-            });
-            return found;
-        }
+                WriteExceptionError(new Exception("Invalid service name"));
+                return false;
+            }
+            else
+            {
+                ServiceName = serviceName;
+            }
 
-        private bool IsLegacyRemoteDesktopEnabled(Deployment deployment)
-        {
-            bool enabled = false;
-            if (deployment != null && deployment.Configuration != null)
+            if (!IsServiceAvailable(ServiceName))
             {
-                try
+                WriteExceptionError(new Exception("Service not found: " + ServiceName));
+                return false;
+            }
+
+            Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
+
+            Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
+            if (Deployment == null)
+            {
+                WriteExceptionError(new Exception(string.Format("Deployment not found in service: {0} and slot: {1}", ServiceName, Slot)));
+                return false;
+            }
+
+            if (Deployment.ExtensionConfiguration == null)
+            {
+                Deployment.ExtensionConfiguration = new ExtensionConfiguration
                 {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(deployment.Configuration);
-                    XmlNodeList xmlNodeList = xmlDoc.GetElementsByTagName("ConfigurationSettings");
-                    if (xmlNodeList.Count > 0)
+                    AllRoles = new AllRoles(),
+                    NamedRoles = new NamedRoles()
+                };
+            }
+
+            if (Roles != null)
+            {
+                foreach (string roleName in Roles)
+                {
+                    if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
                     {
-                        XmlNode parentNode = xmlNodeList.Item(0);
-                        foreach (XmlNode childNode in parentNode)
-                        {
-                            if (childNode.Attributes["name"] != null && childNode.Attributes["value"] != null)
-                            {
-                                string nameStr = childNode.Attributes["name"].Value;
-                                string valueStr = childNode.Attributes["value"].Value;
-                                if (nameStr.Equals(RdpLegacySettingStr))
-                                {
-                                    enabled = 0 == String.Compare(childNode.Attributes["value"].Value, "true", StringComparison.OrdinalIgnoreCase);
-                                }
-                            }
-                        }
+                        WriteExceptionError(new Exception(string.Format("Role: {0} not found in deployment {1} of service {2}.", roleName, Slot, ServiceName)));
+                        return false;
                     }
                 }
-                catch (Exception ex)
-                {
-                    // Error - Cannot parse the Xml of Configuration
-                    WriteExceptionError(new Exception("Deployment configuration parsing error: " + ex.Message
-                        + ". Cannot determine the legacy RDP settings."));
-                }
             }
-            return enabled;
-        }
 
-        private Deployment GetDeployment()
-        {
-            return Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, string.IsNullOrEmpty(Slot) ? ProductionSlotStr : Slot);
-        }
+            Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(6) : Expiration;
 
-        private string GetExtensionType()
-        {
-            return RdpExtensionTypeStr;
-        }
+            if (X509Certificate != null)
+            {
+                var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, X509Certificate.Thumbprint);
+                ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
+                Thumbprint = X509Certificate.Thumbprint;
+                ThumbprintAlgorithm = X509Certificate.SignatureAlgorithm.FriendlyName;
+            }
+            else if (Thumbprint != null)
+            {
+                ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
+            }
 
-        private string GetNameSpace()
-        {
-            return RdpExtensionNameSpaceStr;
-        }
-
-        private DateTime GetExpiration()
-        {
-            return Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(12) : Expiration;
-        }
-
-        private string GetPublicConfiguration()
-        {
-            return string.Format(PublicConfigurationTemplateStr, UserName, GetExpiration().ToString("yyyy-MM-dd"));
-        }
-
-        private string GetPrivateConfiguration()
-        {
-            return string.Format(PrivateConfigurationTemplate, Password);
-        }
-
-        private string GetThumbprint()
-        {
-            return "";
-        }
-
-        private string GetThumbprintAlgorithm()
-        {
-            return "";
-        }
-
-        private string GetSlot()
-        {
-            return string.IsNullOrEmpty(Slot) ? ProductionSlotStr : Slot;
-        }
-
-        private HostedServiceExtension GetHostedServiceExtension(string extensionId)
-        {
-            return Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName).Find(ext => ext.Id == extensionId);
+            return true;
         }
 
         private void DeleteHostedServieExtension(string extensionId)
@@ -234,236 +216,128 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Channel.DeleteHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
         }
 
-        private HostedServiceExtensionInput CreateHostedServiceExtensionInput(string extensionId)
-        {
-            return new HostedServiceExtensionInput
-            {
-                ProviderNameSpace = GetNameSpace(),
-                Type = GetExtensionType(),
-                Id = extensionId,
-                Thumbprint = GetThumbprint(),
-                ThumbprintAlgorithm = GetThumbprintAlgorithm(),
-                PublicConfiguration = GetPublicConfiguration(),
-                PrivateConfiguration = GetPrivateConfiguration()
-            };
-        }
-
         private void AddHostedServiceExtension(string extensionId)
         {
-            HostedServiceExtensionInput hostedSvcExtInput = CreateHostedServiceExtensionInput(extensionId);
+            HostedServiceExtensionInput hostedSvcExtInput = new HostedServiceExtensionInput
+            {
+                Id = extensionId,
+                Thumbprint = Thumbprint,
+                ThumbprintAlgorithm = ThumbprintAlgorithm,
+                ProviderNameSpace = ExtensionNameSpace,
+                Type = ExtensionType,
+                PublicConfiguration = string.Format(PublicConfigurationTemplate, UserName, ExpirationStr),
+                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, Password)
+            };
             Channel.AddHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, hostedSvcExtInput);
-        }
-
-        private ExtensionConfiguration CreateExtensionConfiguration(Deployment deployment, string extensionId)
-        {
-            if (deployment == null)
-            {
-                return null;
-            }
-
-            ExtensionConfiguration newExtConfig = new ExtensionConfiguration();
-            newExtConfig.AllRoles = new AllRoles();
-            newExtConfig.NamedRoles = new NamedRoles();
-
-            if (deployment.ExtensionConfiguration != null)
-            {
-                List<Extension> allNonRdpRoles = new List<Extension>();
-                if (deployment.ExtensionConfiguration.AllRoles != null)
-                {
-                    deployment.ExtensionConfiguration.AllRoles.FindAll(
-                        ext =>
-                        {
-                            var hostedSvcExt = GetHostedServiceExtension(ext.Id);
-                            return hostedSvcExt != null && hostedSvcExt.Type != GetExtensionType();
-                        });
-                }
-                // Copy all non-RDP extensions
-                newExtConfig.AllRoles.AddRange(allNonRdpRoles);
-
-                if (deployment.ExtensionConfiguration.NamedRoles != null)
-                {
-                    // Copy original NamedRoles settings
-                    newExtConfig.NamedRoles.AddRange(deployment.ExtensionConfiguration.NamedRoles);
-                }
-            }
-
-            if (extensionId != null)
-            {
-                // To enable RDP extension, add it to AllRoles
-                newExtConfig.AllRoles.Add(new Extension(extensionId));
-            }
-
-            return newExtConfig;
-        }
-
-        private ChangeConfigurationInput CreateChangeDeploymentInput(Deployment deployment)
-        {
-            if (deployment == null)
-            {
-                return null;
-            }
-            ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput();
-            // Copy Original Settings
-            changeConfigInput.Configuration = deployment.Configuration;
-            changeConfigInput.TreatWarningsAsError = false;
-            changeConfigInput.Mode = "Auto";
-            // Copy Extended Properties
-            ExtendedPropertiesList extendedProperties = new ExtendedPropertiesList();
-            if (deployment.ExtendedProperties != null)
-            {
-                extendedProperties.AddRange(deployment.ExtendedProperties);
-            }
-            changeConfigInput.ExtendedProperties = extendedProperties;
-            // Update Extension Configuration
-            changeConfigInput.ExtensionConfiguration = deployment.ExtensionConfiguration;
-            return changeConfigInput;
-        }
-
-        private string GetNewExtensionMessage()
-        {
-            return "Setting default remote desktop configuration for all roles using ExtensionId " + ExtensionId;
-        }
-
-        private string GetOverwriteExtensionMessage()
-        {
-            return "Overwriting default remote desktop settings for all roles using ExtensionId " + ExtensionId;
-        }
-
-        private string GetRemoveExtensionMessage()
-        {
-            return "Removing default remote desktop configuration for all roles from Cloud Service " + ServiceName;
         }
 
         private bool InstallExtension(Deployment deployment, string extensionId)
         {
-            // Check whether there is an existing one
-            HostedServiceExtension extension = GetHostedServiceExtension(extensionId);
-            if (extension == null)
+            HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(Channel, CurrentSubscription.SubscriptionId, ServiceName, extensionId);
+            if (extension != null)
             {
-                WriteObject(GetNewExtensionMessage());
-                AddHostedServiceExtension(extensionId);
-            }
-            else
-            {
-                if (extension.Type == GetExtensionType())
+                if (CheckExtensionType(extension))
                 {
-                    WriteObject(GetOverwriteExtensionMessage());
-                    DisableExtension(deployment, false);
-                    Channel.ChangeConfigurationBySlot(CurrentSubscription.SubscriptionId, ServiceName, GetSlot(), CreateChangeDeploymentInput(deployment));
                     DeleteHostedServieExtension(extensionId);
-                    AddHostedServiceExtension(extensionId);
                 }
                 else
                 {
-                    // Error - An existing extension found with a non-RDP type, so we cannot overwrite it.
-                    WriteExceptionError(new Exception("A non-RDP configuration already exists with ID " + extensionId
-                        + " and Type " + extension.Type + ". It cannot be overwritten using this command."));
+                    WriteExceptionError(new Exception("An extension with ID: " + extensionId
+                        + " and Type: " + extension.Type + " already exists. It cannot be overwritten using this command."));
                     return false;
                 }
             }
+            AddHostedServiceExtension(extensionId);
             return true;
         }
 
-        private bool EnableExtension(Deployment deployment, string extensionId)
+        private void ChangeDeployment(ExtensionConfiguration extConfig)
         {
-            HostedServiceExtension existingExt = GetHostedServiceExtension(extensionId);
-            if (existingExt != null)
+            ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
             {
-                if (existingExt.Type == GetExtensionType())
+                Configuration = Deployment.Configuration,
+                ExtendedProperties = Deployment.ExtendedProperties,
+                ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
+                Mode = "Auto",
+                TreatWarningsAsError = false
+            };
+            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
+        }
+
+        private void DisableExtension()
+        {
+            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.GetExtensionConfig(Deployment);
+            extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType);
+            ChangeDeployment(extConfig);
+        }
+
+        private void EnableExtension()
+        {
+            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.GetExtensionConfig(Deployment);
+            if (Roles != null && Roles.Length > 0)
+            {
+                foreach (string roleName in Roles)
                 {
-                    deployment.ExtensionConfiguration = CreateExtensionConfiguration(deployment, extensionId);
-                }
-                else
-                {
-                    // Error - An existing extension found with a non-RDP type, so we cannot overwrite it.
-                    WriteExceptionError(new Exception("Error: An existing extension with ID: \'" + extensionId
-                        + "\' and Type: \'" + existingExt.Type + "\' is found. "
-                        + "Extensions with non-RDP types cannot be overwritten by this command."));
-                    return false;
+                    bool installed = false;
+                    string extensionId = roleName + "-RDP-Ext-";
+                    int totalSwitchNum = 2;
+                    for (int i = 0; i < totalSwitchNum && !installed; i++)
+                    {
+                        string checkExtensionId = extensionId + i;
+                        if (!HostedServiceExtensionHelper.ExistExtension(extConfig, checkExtensionId))
+                        {
+                            WriteObject("Setting remote desktop configuration for " + roleName + ".");
+                            installed = InstallExtension(Deployment, checkExtensionId);
+                            extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, roleName, checkExtensionId);
+                        }
+                    }
+
+                    if (!installed)
+                    {
+                        WriteExceptionError(new Exception("Failed to set remote desktop for Role: " + roleName));
+                        return;
+                    }
                 }
             }
             else
             {
-                // Error - No existing extension
-                WriteExceptionError(new Exception("Error: No existing service extension with ID \'"
-                    + extensionId + "\' found."));
-                return false;
+                string extensionId = "Default-RDP-Ext-";
+                int totalSwitchNum = 2;
+                bool installed = false;
+                for (int i = 0; i < totalSwitchNum && !installed; i++)
+                {
+                    string checkExtensionId = extensionId + i;
+                    if (!HostedServiceExtensionHelper.ExistExtension(extConfig, checkExtensionId))
+                    {
+                        WriteObject("Setting default remote desktop configuration for all roles.");
+                        InstallExtension(Deployment, checkExtensionId);
+                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, checkExtensionId);
+                    }
+                }
             }
-            return true;
-        }
-
-        private bool NewExtension(Deployment deployment)
-        {
-            if (!InstallExtension(deployment, ExtensionId))
-            {
-                return false;
-            }
-            return EnableExtension(deployment, ExtensionId);
-        }
-
-        private bool DisableExtension(Deployment deployment, bool verbose)
-        {
-            if (verbose)
-            {
-                WriteObject(GetRemoveExtensionMessage());
-            }
-            deployment.ExtensionConfiguration = CreateExtensionConfiguration(deployment, null);
-            return true;
+            ChangeDeployment(extConfig);
         }
 
         private void ExecuteCommand()
         {
-            ServiceName = GetServiceName(General.TryGetServiceRootPath(CurrentPath()), ServiceName, CurrentSubscription.SubscriptionId);
-
-            if (!IsServiceAvailable(ServiceName))
+            if (HostedServiceExtensionHelper.ExistLegacySetting(Deployment, LegacySettingStr))
             {
-                WriteExceptionError(new Exception("Service not found: " + ServiceName));
+                WriteExceptionError(new Exception("Legacy remote desktop already enabled. This cmdlet will abort."));
                 return;
             }
-
-            Deployment deployment = GetDeployment();
-            if (deployment == null)
-            {
-                // Exception
-                WriteExceptionError(new Exception("Deployment not found: " + deployment.ToString()));
-                return;
-            }
-
-            if (IsLegacyRemoteDesktopEnabled(deployment))
-            {
-                // Exception
-                WriteExceptionError(new Exception("Legacy remote desktop already enabled. This command will abort."));
-                return;
-            }
-
-            bool updated = false;
-
-            if (string.Compare(ParameterSetName, NewExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                ExtensionId = string.IsNullOrEmpty(ExtensionId) ? "RDPExtDefault" : ExtensionId;
-                updated = NewExtension(deployment);
-            }
-            else if (string.Compare(ParameterSetName, RemoveExtParamSetStr, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                ExtensionId = null;
-                updated = DisableExtension(deployment, true);
-            }
-
-            if (updated)
-            {
-                ExecuteClientActionInOCS(null, CommandRuntime.ToString(),
-                s => this.Channel.ChangeConfigurationBySlot(s, ServiceName, GetSlot(), CreateChangeDeploymentInput(deployment)));
-            }
-            else
-            {
-                // Exception
-                WriteExceptionError(new Exception("Cannot set RDP extension."));
-            }
+            EnableExtension();
         }
 
         protected override void OnProcessRecord()
         {
-            ExecuteCommand();
+            if (ValidateParameters())
+            {
+                ExecuteCommand();
+            }
+            else
+            {
+                WriteExceptionError(new ArgumentException("Invalid Cmdlet parameters."));
+            }
         }
     }
 }
