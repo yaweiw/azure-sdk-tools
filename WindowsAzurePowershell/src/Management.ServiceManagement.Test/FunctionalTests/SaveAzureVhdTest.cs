@@ -34,7 +34,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [ClassInitialize]        
         public static void ClassInit(TestContext context)
         {
-            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            SetTestSettings();
+
+            if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
