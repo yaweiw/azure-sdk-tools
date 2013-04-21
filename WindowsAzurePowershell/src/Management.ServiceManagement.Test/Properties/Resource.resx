@@ -140,7 +140,7 @@
     <value />
   </data>
   <data name="TestSettings" xml:space="preserve">
-    <value>UseCustom</value>
+    <value>UseDefaults</value>
     <comment>Use UseDefaultsAndOverride for overriding few variables and UseCustom for your own personal test settings</comment>
   </data>
 </root>

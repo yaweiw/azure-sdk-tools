@@ -106,7 +106,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UseCustom.
+        ///   Looks up a localized string similar to UseDefaults.
         /// </summary>
         internal static string TestSettings {
             get {
