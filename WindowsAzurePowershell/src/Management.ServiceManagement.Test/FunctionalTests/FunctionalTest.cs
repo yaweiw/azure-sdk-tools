@@ -13,11 +13,6 @@
 // ----------------------------------------------------------------------------------
 
 
-
-
-
-
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests
 {
     using System;
@@ -38,9 +33,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     public class FunctionalTest : ServiceManagementTest
     {
         bool createOwnService = false;
-        
-        
-
         private static string defaultService;
         private static string defaultVm;
         private const string vhdBlob = "vhdstore/os.vhd";
@@ -48,13 +40,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private string serviceName;
         private string vmName;
         protected static string vhdBlobLocation;
-        
-        
-
+                
         [ClassInitialize]
         public static void ClassInit(TestContext context)
         {
-            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            SetTestSettings();
+
+            if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
@@ -466,6 +458,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
+        [Ignore]
         public void AzureDiskTest()
         {
             createOwnService = false;
@@ -1120,6 +1113,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
+        [Ignore]
         public void AzureVMImageTest()
         {
 
@@ -1215,6 +1209,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        [Ignore]
         public void VMSizeTest()
         {
 
