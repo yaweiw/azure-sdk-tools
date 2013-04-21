@@ -208,10 +208,10 @@
     <Message Importance="high" Text="Scenario tests:" />
     <Exec
       Command="MSTest.exe /testcontainer:$(ScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\Debug.trx"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
     <Exec
       Command="MSTest.exe /testcontainer:$(StorageScenarioTestDebug) /testsettings:$(TestSettings) /category:$(ScenarioTestFilter) /resultsfile:$(TestOutputDirectory)\StorageScenarioDebug.trx"
-      ContinueOnError="true" />
+      ContinueOnError="false" />
   </Target>
   
   <!-- Run the scenario tests -->
