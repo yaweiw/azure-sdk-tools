@@ -14,9 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 {
-    using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -69,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
         }
 
         [Parameter(HelpMessage = "Enable or Disable Geo Replication")]
-        public bool? GeoReplicationEnabled
+        public bool? GeoReplicationEnabled        
         {
             get;
             set;
@@ -77,21 +76,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.StorageServices
 
         public void SetStorageAccountProcess()
         {
-            if (this.Label == null && this.Description == null)
-            {
-                ThrowTerminatingError(new ErrorRecord(
-                                               new Exception(
-                                               "You must specify a value for either Label or Description."),
-                                               string.Empty,
-                                               ErrorCategory.InvalidData,
-                                               null));
-            }
-
             var upstorageinput = new UpdateStorageServiceInput
             {
-                GeoReplicationEnabled = this.GeoReplicationEnabled.HasValue,
+                GeoReplicationEnabled = GeoReplicationEnabled,
                 Description = this.Description,
-                Label = this.Label != null ? this.Label : null
+                Label = this.Label
             };
 
             ExecuteClientActionInOCS(upstorageinput, CommandRuntime.ToString(), s => this.Channel.UpdateStorageService(s, this.StorageAccountName, upstorageinput));
