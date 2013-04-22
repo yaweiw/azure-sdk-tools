@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob
         }
         private bool force = false;
 
-        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified blob is successfully removed")]
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>
