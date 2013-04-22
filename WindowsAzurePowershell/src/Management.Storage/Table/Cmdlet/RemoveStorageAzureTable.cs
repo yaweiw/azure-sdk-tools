@@ -42,6 +42,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
         }
         private bool force;
 
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified table is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageTableCommand class.
         /// </summary>
@@ -120,7 +123,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
                 result = String.Format(Resources.RemoveTableCancelled, Name);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(success);
+            }
         }
     }
 }
