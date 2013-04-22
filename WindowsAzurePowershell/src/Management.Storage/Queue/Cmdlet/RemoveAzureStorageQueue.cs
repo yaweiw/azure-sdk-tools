@@ -39,6 +39,9 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
         }
         private bool force;
 
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified queue is successfully removed")]
+        public SwitchParameter PassThru { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the RemoveAzureStorageQueueCommand class.
         /// </summary>
@@ -119,7 +122,12 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
                 result = String.Format(Resources.RemoveQueueCancelled, Name);
             }
 
-            WriteObject(result);
+            WriteVerbose(result);
+
+            if (PassThru)
+            {
+                WriteObject(success);
+            }
         }
     }
 }
