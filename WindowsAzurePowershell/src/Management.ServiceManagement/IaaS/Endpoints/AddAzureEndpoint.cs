@@ -81,6 +81,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS.Endpoints
             set;
         }
 
+        [Parameter(Mandatory = true, ParameterSetName = LoadBalancedParameterSet, HelpMessage = "Specifies that no load balancer probe is to be used.")]
+        public SwitchParameter NoProbe
+        {
+            get;
+            set;
+        }
+
         [Parameter(Mandatory = true, ParameterSetName = LoadBalancedProbeParameterSet, HelpMessage = "Probe Port")]
         public int ProbePort
         {
