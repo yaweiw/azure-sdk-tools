@@ -35,7 +35,8 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         /// <param name="options">Queue request options</param>
         /// <param name="operationContext">Operation context</param>
         /// <returns>An enumerable collection of the queues in the storage account.</returns>
-        IEnumerable<CloudQueue>  ListQueues(string prefix, QueueListingDetails queueListingDetails, QueueRequestOptions options, OperationContext operationContext);
+        IEnumerable<CloudQueue>  ListQueues(string prefix, QueueListingDetails queueListingDetails,
+            QueueRequestOptions options, OperationContext operationContext);
 
         /// <summary>
         /// Fetch queue attributes

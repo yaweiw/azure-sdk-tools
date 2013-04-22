@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool force;
 
-        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified container is successfully removed")]
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>
