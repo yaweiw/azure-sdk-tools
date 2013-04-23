@@ -145,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void DisableExtension()
         {
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.GetExtensionConfig(Deployment);
+            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig(Deployment);
             if (HostedServiceExtensionHelper.ExistExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType))
             {
                 extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType);

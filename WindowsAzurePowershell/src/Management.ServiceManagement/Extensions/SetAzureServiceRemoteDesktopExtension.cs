@@ -264,16 +264,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
         }
 
-        private void DisableExtension()
-        {
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.GetExtensionConfig(Deployment);
-            extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType);
-            ChangeDeployment(extConfig);
-        }
-
         private void EnableExtension()
         {
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.GetExtensionConfig(Deployment);
+            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig(Deployment);
             if (Roles != null && Roles.Length > 0)
             {
                 foreach (string roleName in Roles)
@@ -284,11 +277,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     for (int i = 0; i < totalSwitchNum && !installed; i++)
                     {
                         string checkExtensionId = extensionId + i;
-                        if (!HostedServiceExtensionHelper.ExistExtension(extConfig, checkExtensionId))
+                        if (!HostedServiceExtensionHelper.ExistExtension(extConfig, roleName, checkExtensionId))
                         {
-                            WriteObject("Setting remote desktop configuration for " + roleName + ".");
                             installed = InstallExtension(Deployment, checkExtensionId);
-                            extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, roleName, checkExtensionId);
+                            if (installed)
+                            {
+                                WriteObject("Setting remote desktop configuration for " + roleName + ".");
+                                extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig,
+                                                                                         roleName,
+                                                                                         Channel,
+                                                                                         CurrentSubscription.SubscriptionId,
+                                                                                         ServiceName,
+                                                                                         ExtensionNameSpace,
+                                                                                         ExtensionType);
+                                extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, roleName, checkExtensionId);
+                            }
                         }
                     }
 
@@ -307,12 +310,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 for (int i = 0; i < totalSwitchNum && !installed; i++)
                 {
                     string checkExtensionId = extensionId + i;
-                    if (!HostedServiceExtensionHelper.ExistExtension(extConfig, checkExtensionId))
+                    if (!HostedServiceExtensionHelper.ExistDefaultExtension(extConfig, checkExtensionId))
                     {
-                        WriteObject("Setting default remote desktop configuration for all roles.");
-                        InstallExtension(Deployment, checkExtensionId);
-                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, checkExtensionId);
+                        installed = InstallExtension(Deployment, checkExtensionId);
+                        if (installed)
+                        {
+                            WriteObject("Setting default remote desktop configuration for all roles.");
+                            extConfig = HostedServiceExtensionHelper.RemoveDefaultExtension(extConfig,
+                                                                                     Channel,
+                                                                                     CurrentSubscription.SubscriptionId,
+                                                                                     ServiceName,
+                                                                                     ExtensionNameSpace,
+                                                                                     ExtensionType);
+                            extConfig = HostedServiceExtensionHelper.AddDefaultExtension(extConfig, checkExtensionId);
+                        }
                     }
+                }
+
+                if (!installed)
+                {
+                    WriteExceptionError(new Exception("Failed to set remote desktop for all roles."));
+                    return;
                 }
             }
             ChangeDeployment(extConfig);

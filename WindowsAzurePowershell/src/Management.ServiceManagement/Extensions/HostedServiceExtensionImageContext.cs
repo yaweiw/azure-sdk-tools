@@ -13,28 +13,20 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
 
     public class HostedServiceExtensionImageContext : ManagementOperationContext
     {
         public string ProviderNameSpace { get; set; }
-
         public string Type { get; set; }
-
         public string Version { get; set; }
-
         public string Label { get; set; }
-
         public string Description { get; set; }
-
         public string HostingResources { get; set; }
-
         public string ThumbprintAlgorithm { get; set; }
-
         public string PublicConfigurationSchema { get; set; }
-
         public string PrivateConfigurationSchema { get; set; }
     }
 }
