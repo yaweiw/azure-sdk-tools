@@ -16,6 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     public class ExtensionConfigurationContext
     {
+        public string Id { get; set; }
         public string Thumbprint { get; set; }
         public string ThumbprintAlgorithm { get; set; }
         public string ProviderNameSpace { get; set; }

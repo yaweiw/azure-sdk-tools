@@ -169,6 +169,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             WriteObject(new ExtensionConfigurationContext
             {
+                Id = "",
                 Thumbprint = Thumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
