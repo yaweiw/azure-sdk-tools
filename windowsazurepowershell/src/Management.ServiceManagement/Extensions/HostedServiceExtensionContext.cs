@@ -13,9 +13,9 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace Microsoft.WindowsAzure.Management.ServiceManagement.Model
+namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
 
     public class HostedServiceExtensionContext : ManagementOperationContext
     {

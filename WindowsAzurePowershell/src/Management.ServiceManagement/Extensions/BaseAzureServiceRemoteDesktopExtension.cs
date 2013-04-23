@@ -11,12 +11,6 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    
-    using Model;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
@@ -28,17 +22,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string ExtensionType = "RDP";
 
         protected const string PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                           "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                           "<PublicConfig>" +
-                                                           "<UserName>{0}</UserName>" +
-                                                           "<Expiration>{1}</Expiration>" +
-                                                           "</PublicConfig>";
+                                                             "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
+                                                             "<PublicConfig>" +
+                                                             "<UserName>{0}</UserName>" +
+                                                             "<Expiration>{1}</Expiration>" +
+                                                             "</PublicConfig>";
 
         protected const string PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                            "<PrivateConfig>" +
-                                                            "<Password>{0}</Password>" +
-                                                            "</PrivateConfig>";
+                                                              "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
+                                                              "<PrivateConfig>" +
+                                                              "<Password>{0}</Password>" +
+                                                              "</PrivateConfig>";
+
+        protected const string PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
 
         protected bool CheckExtensionType(HostedServiceExtensionContext extensionContext)
         {

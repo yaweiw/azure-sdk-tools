@@ -89,8 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private string ParseAllRolesConfig()
         {
-            string extensionConfigurationOutput = "All Roles:\n    ";
-            string extensionFormatString = "RDP Enabled User: {0}, Expires: {1}";
+            string outputStr = "All Roles:\n    ";
             if (Deployment.ExtensionConfiguration != null)
             {
                 foreach (Extension extension in Deployment.ExtensionConfiguration.AllRoles)
@@ -98,18 +97,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     HostedServiceExtension ext1 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
                     if (CheckExtensionType(ext1))
                     {
-                        extensionConfigurationOutput += string.Format(extensionFormatString,
+                        outputStr += "<" + ext1.Id + "> ";
+                        outputStr += string.Format(PublicConfigurationDescriptionTemplate,
                             ParseUserName(ext1.PublicConfiguration), ParseExpiration(ext1.PublicConfiguration)) + "\n";
                     }
                 }
             }
-            return extensionConfigurationOutput;
+            return outputStr;
         }
 
         private string ParseNamedRolesConfig()
         {
-            string extensionConfigurationOutput = "";
-            string extensionFormatString = "RDP Enabled User: {0}, Expires: {1}";
+            string outputStr = "";
             if (Deployment.ExtensionConfiguration != null)
             {
                 foreach (RoleExtensions roleExts in Deployment.ExtensionConfiguration.NamedRoles)
@@ -119,14 +118,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         HostedServiceExtension ext2 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
                         if (CheckExtensionType(ext2))
                         {
-                            extensionConfigurationOutput += roleExts.RoleName + ":\n    ";
-                            extensionConfigurationOutput += string.Format(extensionFormatString,
+                            outputStr += roleExts.RoleName + ":\n    ";
+                            outputStr += "<" + ext2.Id + "> ";
+                            outputStr += string.Format(PublicConfigurationDescriptionTemplate,
                                 ParseUserName(ext2.PublicConfiguration), ParseExpiration(ext2.PublicConfiguration)) + "\n";
                         }
                     }
                 }
             }
-            return extensionConfigurationOutput;
+            return outputStr;
         }
 
         protected override bool CheckExtensionType(string extensionId)

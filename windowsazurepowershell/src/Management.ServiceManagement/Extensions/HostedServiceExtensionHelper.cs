@@ -53,7 +53,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
                 catch (Exception ex)
                 {
-                    // Error - Cannot parse the Xml of Configuration
                     throw new Exception("Cannot determine deployment legacy setting - configuration parsing error: " + ex.Message);
                 }
             }
@@ -67,6 +66,20 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 return null;
             }
             return channel.ListHostedServiceExtensions(subscriptionId, serviceName).Find(e => e.Id == extensionId);
+        }
+
+        static internal bool ExistDefaultExtension(ExtensionConfiguration inConfig, IServiceManagement channel, string subscriptionId, string serviceName, string extensionNameSpace, string extensionType)
+        {
+            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
+            foreach (Extension ext in extConfig.AllRoles)
+            {
+                HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(channel, subscriptionId, serviceName, ext.Id);
+                if (extension != null && extension.Type == extensionType)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         static internal bool ExistExtension(ExtensionConfiguration inConfig, string[] roles, IServiceManagement channel, string subscriptionId, string serviceName, string extensionNameSpace, string extensionType)
@@ -92,34 +105,63 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                foreach (Extension ext in extConfig.AllRoles)
-                {
-                    HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(channel, subscriptionId, serviceName, ext.Id);
-                    if (extension != null && extension.Type == extensionType)
-                    {
-                        return true;
-                    }
-                }
+                return ExistDefaultExtension(inConfig, channel, subscriptionId, serviceName, extensionNameSpace, extensionType);
             }
             return false;
         }
 
-        static internal ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string[] roles, IServiceManagement channel, string subscriptionId, string serviceName, string extensionNameSpace, string extensionType)
+        static internal ExtensionConfiguration RemoveDefaultExtension(ExtensionConfiguration inConfig,
+                                                               IServiceManagement channel,
+                                                               string subscriptionId,
+                                                               string serviceName,
+                                                               string extensionNameSpace,
+                                                               string extensionType)
         {
             ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            if (roles != null && roles.Length > 0)
+            foreach (Extension ext in extConfig.AllRoles)
+            {
+                HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(channel, subscriptionId, serviceName, ext.Id);
+                if (extension != null && extension.Type == extensionType)
+                {
+                    extConfig = HostedServiceExtensionHelper.RemoveDefaultExtension(extConfig, extension.Id);
+                }
+            }
+            return extConfig;
+        }
+
+        static internal ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig,
+                                                               string roleName,
+                                                               IServiceManagement channel,
+                                                               string subscriptionId,
+                                                               string serviceName,
+                                                               string extensionNameSpace,
+                                                               string extensionType)
+        {
+            return RemoveExtension(inConfig, new string[1] { roleName }, channel, subscriptionId, serviceName, extensionNameSpace, extensionType);
+        }
+
+        static internal ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig,
+                                                               string[] roles,
+                                                               IServiceManagement channel,
+                                                               string subscriptionId,
+                                                               string serviceName,
+                                                               string extensionNameSpace,
+                                                               string extensionType)
+        {
+            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
+            if (roles != null && roles.Length > 0 && inConfig != null && inConfig.NamedRoles != null)
             {
                 foreach (string roleName in roles)
                 {
-                    RoleExtensions roleExtensions = extConfig.NamedRoles.Find(r => r.RoleName == roleName);
-                    if (roleExtensions != null)
+                    RoleExtensions inRoleExtensions = inConfig.NamedRoles.Find(r => r.RoleName == roleName);
+                    if (inRoleExtensions != null)
                     {
-                        foreach (Extension ext in roleExtensions.Extensions)
+                        foreach (Extension inExt in inRoleExtensions.Extensions)
                         {
-                            HostedServiceExtension extension = GetExtension(channel, subscriptionId, serviceName, ext.Id);
-                            if (extension != null && extension.ProviderNameSpace == extensionNameSpace && extension.Type == extensionType)
+                            HostedServiceExtension inExtension = GetExtension(channel, subscriptionId, serviceName, inExt.Id);
+                            if (inExtension != null && inExtension.ProviderNameSpace == extensionNameSpace && inExtension.Type == extensionType)
                             {
-                                extConfig = RemoveExtension(extConfig, roleName, extension.Id);
+                                extConfig = RemoveExtension(extConfig, roleName, inExtension.Id);
                             }
                         }
                     }
@@ -127,74 +169,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                foreach (Extension ext in extConfig.AllRoles)
-                {
-                    HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(channel, subscriptionId, serviceName, ext.Id);
-                    if (extension != null && extension.Type == extensionType)
-                    {
-                        extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig, extension.Id);
-                    }
-                }
+                return RemoveDefaultExtension(inConfig, channel, subscriptionId, serviceName, extensionNameSpace, extensionType);
             }
             return extConfig;
         }
 
-        static internal ExtensionConfiguration NewExtensionConfig()
-        {
-            return NewExtensionConfig(null);
-        }
-
-        static internal ExtensionConfiguration NewExtensionConfig(ExtensionConfiguration inConfig)
-        {
-            ExtensionConfiguration outConfig = new ExtensionConfiguration
-            {
-                AllRoles = new AllRoles(),
-                NamedRoles = new NamedRoles()
-            };
-            if (inConfig != null)
-            {
-                if (inConfig.AllRoles != null)
-                {
-                    outConfig.AllRoles.AddRange(inConfig.AllRoles);
-                }
-                if (inConfig.NamedRoles != null)
-                {
-                    outConfig.NamedRoles.AddRange(inConfig.NamedRoles);
-                }
-            }
-            return outConfig;
-        }
-
-        static internal ExtensionConfiguration GetExtensionConfig(Deployment deployment)
-        {
-            if (deployment != null && deployment.ExtensionConfiguration != null)
-            {
-                return NewExtensionConfig(deployment.ExtensionConfiguration);
-            }
-            else
-            {
-                return new ExtensionConfiguration
-                {
-                    AllRoles = new AllRoles(),
-                    NamedRoles = new NamedRoles()
-                };
-            }
-        }
-
-        static internal bool ExistExtension(ExtensionConfiguration inConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            return outConfig.AllRoles.Any(ext => ext.Id == extensionId);
-        }
-
-        static internal bool ExistsExtension(ExtensionConfiguration inConfig, string roleName, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            RoleExtensions roleExtensions = outConfig.NamedRoles.Find(r => r.RoleName == roleName);
-            return roleExtensions != null ? roleExtensions.Extensions.Any(ext => ext.Id == extensionId) : false;
-        }
-
-        static internal ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string extensionId)
+        static internal ExtensionConfiguration RemoveDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
         {
             ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
             outConfig.AllRoles.RemoveAll(ext => ext.Id == extensionId);
@@ -220,10 +200,70 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     }
                 }
             }
+            else
+            {
+                RemoveDefaultExtension(inConfig, extensionId);
+            }
             return outConfig;
         }
 
-        static internal ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, string extensionId)
+        static internal ExtensionConfiguration NewExtensionConfig()
+        {
+            return new ExtensionConfiguration
+            {
+                AllRoles = new AllRoles(),
+                NamedRoles = new NamedRoles()
+            };
+        }
+
+        static internal ExtensionConfiguration NewExtensionConfig(ExtensionConfiguration inConfig)
+        {
+            ExtensionConfiguration outConfig = NewExtensionConfig();
+            if (inConfig != null)
+            {
+                if (inConfig.AllRoles != null)
+                {
+                    outConfig.AllRoles.AddRange(inConfig.AllRoles.Select(e => new Extension(e.Id)));
+                }
+                if (inConfig.NamedRoles != null)
+                {
+                    outConfig.NamedRoles.AddRange(inConfig.NamedRoles.Select(
+                    r => new RoleExtensions
+                    {
+                        RoleName = r.RoleName,
+                        Extensions = new ExtensionList(r.Extensions.Select(e => new Extension(e.Id)))
+                    }));
+                }
+            }
+            return outConfig;
+        }
+
+        static internal ExtensionConfiguration NewExtensionConfig(Deployment deployment)
+        {
+            if (deployment != null && deployment.ExtensionConfiguration != null)
+            {
+                return NewExtensionConfig(deployment.ExtensionConfiguration);
+            }
+            else
+            {
+                return NewExtensionConfig();
+            }
+        }
+
+        static internal bool ExistDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
+        {
+            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
+            return outConfig.AllRoles.Any(ext => ext.Id == extensionId);
+        }
+
+        static internal bool ExistExtension(ExtensionConfiguration inConfig, string roleName, string extensionId)
+        {
+            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
+            RoleExtensions roleExtensions = outConfig.NamedRoles.Find(r => r.RoleName == roleName);
+            return roleExtensions != null ? roleExtensions.Extensions.Any(ext => ext.Id == extensionId) : false;
+        }
+
+        static internal ExtensionConfiguration AddDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
         {
             ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
             outConfig.AllRoles.Add(new Extension(extensionId));
@@ -252,10 +292,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         outConfig.NamedRoles.Add(new RoleExtensions
                         {
                             RoleName = roleName,
-                            Extensions = new ExtensionList(new Extension[1] { new Extension(extensionId) } )
+                            Extensions = new ExtensionList(new Extension[1] { new Extension(extensionId) })
                         });
                     }
                 }
+            }
+            else
+            {
+                outConfig = AddDefaultExtension(inConfig, extensionId);
             }
             return outConfig;
         }
