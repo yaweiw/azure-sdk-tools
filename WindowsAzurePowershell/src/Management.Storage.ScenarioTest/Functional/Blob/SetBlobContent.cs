@@ -212,7 +212,7 @@ namespace CLITest.Functional.Blob
 
                 Test.Assert(!agent.SetAzureStorageBlobContent(Path.Combine(uploadDirRoot, files[0]), containerName, Storage.BlobType.BlockBlob, blobName), "upload blob with invalid blob name should be failed");
                 string expectedErrorMessage = string.Format("Blob name '{0}' is invalid.", blobName);
-                Test.Assert(agent.ErrorMessages[0] == expectedErrorMessage, expectedErrorMessage);
+                ExpectedStartsWithErrorMessage(expectedErrorMessage);
             }
             finally
             {

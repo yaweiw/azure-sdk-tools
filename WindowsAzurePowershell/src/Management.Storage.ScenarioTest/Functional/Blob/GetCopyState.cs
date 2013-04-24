@@ -101,12 +101,10 @@ namespace CLITest.Functional.Blob
             string invalidBlobName = new string('a', maxBlobNameLength + 1);
             string invalidContainerErrorMessage = String.Format("Container name '{0}' is invalid.", invalidContainerName);
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
-            string errorMessage = invalidContainerErrorMessage;
             Test.Assert(!agent.GetAzureStorageBlobCopyState(invalidContainerName, Utility.GenNameString("blob"), false), "get copy state should failed with invalid container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            errorMessage = invalidBlobErrorMessage;
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.GetAzureStorageBlobCopyState(Utility.GenNameString("container"), invalidBlobName, false), "get copy state should failed with invalid blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
         }
 
         /// <summary>

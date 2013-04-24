@@ -42,8 +42,7 @@ namespace CLITest.Functional.Blob
 
             Test.Assert(!agent.SetAzureStorageContainerACL(containerName, BlobContainerPublicAccessType.Blob), "SetAzureStorageContainerACL with invalid operation should be failed");
             Test.Assert(agent.ErrorMessages.Count == 1, "set container acl with invalid name should only throw one exception");
-
-            Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Container name '{0}' is invalid.", containerName)), agent.ErrorMessages[0]);
+            ExpectedStartsWithErrorMessage(String.Format("Container name '{0}' is invalid.", containerName));
         }
     }
 }

@@ -248,16 +248,14 @@ namespace CLITest.Functional.Blob
             string invalidBlobName = new string('a', maxBlobNameLength + 1);
             string invalidContainerErrorMessage = String.Format("Container name '{0}' is invalid.", invalidContainerName);
             string invalidBlobErrorMessage = String.Format("Blob name '{0}' is invalid.", invalidBlobName);
-            string errorMessage = invalidContainerErrorMessage;
             Test.Assert(!agent.StartAzureStorageBlobCopy(invalidContainerName, Utility.GenNameString("blob"), Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), invalidContainerName, Utility.GenNameString("blob")), "Start copy should failed with invalid dest container name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
-            errorMessage = invalidBlobErrorMessage;
+            ExpectedStartsWithErrorMessage(invalidContainerErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), invalidBlobName, Utility.GenNameString("container"), Utility.GenNameString("blob")), "Start copy should failed with invalid src blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
             Test.Assert(!agent.StartAzureStorageBlobCopy(Utility.GenNameString("container"), Utility.GenNameString("blob"), Utility.GenNameString("container"), invalidBlobName), "Start copy should failed with invalid dest blob name");
-            Test.Assert(errorMessage == agent.ErrorMessages[0], String.Format("Expected error message: {0}, and actually it's {1}", errorMessage, agent.ErrorMessages[0]));
+            ExpectedStartsWithErrorMessage(invalidBlobErrorMessage);
         }
 
         /// <summary>

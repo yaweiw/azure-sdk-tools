@@ -291,13 +291,13 @@ namespace CLITest
         /// </summary>
         internal void CreateInvalidQueue(Agent agent)
         {
-            string QUEUE_NAME = Utility.GenNameString("abc_");
+            string queueName = Utility.GenNameString("abc_");
 
             //--------------New operation--------------
-            Test.Assert(!agent.NewAzureStorageQueue(QUEUE_NAME), Utility.GenComparisonData("NewAzureStorageQueue", false));
+            Test.Assert(!agent.NewAzureStorageQueue(queueName), Utility.GenComparisonData("NewAzureStorageQueue", false));
             // Verification for returned values
             Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Queue name '{0}' is invalid.", QUEUE_NAME)), agent.ErrorMessages[0]);
+            Test.Assert(agent.ErrorMessages[0].StartsWith(String.Format("Queue name '{0}' is invalid.", queueName)), agent.ErrorMessages[0]);
         }
 
 
