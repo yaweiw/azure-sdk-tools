@@ -246,6 +246,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         + " and Type: " + extension.Type + " already exists. It cannot be overwritten using this command."));
                     return false;
                 }
+
+                // Reusing Thumbprints
+                if (Thumbprint == null)
+                {
+                    Thumbprint = extension.Thumbprint;
+                    ThumbprintAlgorithm = extension.ThumbprintAlgorithm;
+                }
             }
             AddHostedServiceExtension(extensionId);
             return true;
