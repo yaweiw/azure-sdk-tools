@@ -398,13 +398,13 @@ namespace CLITest
         /// </summary>
         internal void CreateInvalidContainer(Agent agent)
         {
-            string CONTAINER_NAME = Utility.GenNameString("abc_");
+            string containerName = Utility.GenNameString("abc_");
 
             //--------------New operation--------------
-            Test.Assert(!agent.NewAzureStorageContainer(CONTAINER_NAME), Utility.GenComparisonData("NewAzureStorageContainer", false));
+            Test.Assert(!agent.NewAzureStorageContainer(containerName), Utility.GenComparisonData("NewAzureStorageContainer", false));
             // Verification for returned values
             Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Container name '{0}' is invalid.", CONTAINER_NAME)), agent.ErrorMessages[0]);
+            Test.Assert(agent.ErrorMessages[0].StartsWith(String.Format("Container name '{0}' is invalid.", containerName)), agent.ErrorMessages[0]);
         }
 
 

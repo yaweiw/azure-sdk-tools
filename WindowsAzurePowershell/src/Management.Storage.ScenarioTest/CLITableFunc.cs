@@ -284,13 +284,13 @@ namespace CLITest
         /// </summary>
         internal void CreateInvalidTable(Agent agent)
         {
-            string TABLE_NAME = Utility.GenNameString("abc_");
+            string tableName = Utility.GenNameString("abc_");
 
             //--------------New operation--------------
-            Test.Assert(!agent.NewAzureStorageTable(TABLE_NAME), Utility.GenComparisonData("NewAzureStorageTable", false));
+            Test.Assert(!agent.NewAzureStorageTable(tableName), Utility.GenComparisonData("NewAzureStorageTable", false));
             // Verification for returned values
             Test.Assert(agent.Output.Count == 0, "Only 0 row returned : {0}", agent.Output.Count);
-            Test.Assert(agent.ErrorMessages[0].Equals(String.Format("Table name '{0}' is invalid.", TABLE_NAME)), agent.ErrorMessages[0]);
+            Test.Assert(agent.ErrorMessages[0].StartsWith(String.Format("Table name '{0}' is invalid.", tableName)), agent.ErrorMessages[0]);
         }
 
 
