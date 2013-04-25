@@ -658,7 +658,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<StorageServicePropertiesOperationContext>(new GetAzureStorageAccountCmdletInfo(accountName));            
         }
 
-        public ManagementOperationContext SetAzureStorageAccount(string accountName, string label, string description, bool geoReplication)
+        public ManagementOperationContext SetAzureStorageAccount(string accountName, string label, string description, bool? geoReplication)
         {
             return RunPSCmdletAndReturnFirst<ManagementOperationContext>(new SetAzureStorageAccountCmdletInfo(accountName, label, description, geoReplication));            
         }

@@ -158,10 +158,10 @@
     <value>Percent : {0}%. Average Speed : {1}/Second.</value>
   </data>
   <data name="InvalidBlobName" xml:space="preserve">
-    <value>Blob name '{0}' is invalid.</value>
+    <value>Blob name '{0}' is invalid. Valid names should be 1 through 1024 characters long and should not end with a . or /.</value>
   </data>
   <data name="InvalidContainerName" xml:space="preserve">
-    <value>Container name '{0}' is invalid.</value>
+    <value>Container name '{0}' is invalid. Valid names start and end with a lower case letter or a number and has in between a lower case letter, number or dash with no consecutive dashes and is 3 through 63 characters long.</value>
   </data>
   <data name="InvalidExpiryTime" xml:space="preserve">
     <value>Invalid expiry time '{0}'.</value>
@@ -240,10 +240,10 @@
     <value>Download blob '{0}' into '{1}'.</value>
   </data>
   <data name="InvalidQueueName" xml:space="preserve">
-    <value>Queue name '{0}' is invalid.</value>
+    <value>Queue name '{0}' is invalid. Valid names start and end with a lower case letter or a number and has in between a lower case letter, number or dash with no consecutive dashes and is 3 through 63 characters long.</value>
   </data>
   <data name="InvalidTableName" xml:space="preserve">
-    <value>Table name '{0}' is invalid.</value>
+    <value>Table name '{0}' is invalid. Valid names are case insensitive, start with a letter and is followed by letters or numbers and is 3 through 63 characters long.</value>
   </data>
   <data name="RemoveQueueCancelled" xml:space="preserve">
     <value>The remove operation of queue '{0}' has been cancelled.</value>
