@@ -93,6 +93,7 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceBusTests
         [TestMethod]
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceBus)]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1399
         public void TestGetAzureSBNamespaceWithValidNonExisitingNamespace()
         {
             RunPowerShellTest("Test-GetAzureSBNamespaceWithValidNonExisitingNamespace");
