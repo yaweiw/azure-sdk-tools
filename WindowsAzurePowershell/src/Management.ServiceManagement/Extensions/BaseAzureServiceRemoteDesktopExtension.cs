@@ -36,6 +36,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected const string PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
 
+        protected const string ExtensionIdTemplate = "{0}-RDP-Ext-{1}";
+
+        protected const int ExtensionIdLiveCycleCount = 2;
+
         protected bool CheckExtensionType(HostedServiceExtensionContext extensionContext)
         {
             return extensionContext != null && extensionContext.ProviderNameSpace == ExtensionNameSpace && extensionContext.Type == ExtensionType;
