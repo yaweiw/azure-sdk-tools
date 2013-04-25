@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Xml;
-
     using WindowsAzure.Management.Utilities.CloudService;
     using WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
@@ -31,16 +30,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     public class RemoveAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public RemoveAzureServiceRemoteDesktopExtensionCommand()
+            : base()
         {
         }
 
         public RemoveAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
+            : base(channel)
         {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveExtension", HelpMessage = "Cloud Service Name")]
-        public string ServiceName
+        public override string ServiceName
         {
             get;
             set;
@@ -65,16 +65,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             get;
             set;
-        }
-
-        protected override bool CheckExtensionType(string extensionId)
-        {
-            if (!string.IsNullOrEmpty(extensionId))
-            {
-                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-                return CheckExtensionType(ext);
-            }
-            return false;
         }
 
         private bool ValidateParameters()
@@ -127,6 +117,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     }
                 }
             }
+
+            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+
             return true;
         }
 
@@ -145,10 +138,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void DisableExtension()
         {
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig(Deployment);
-            if (HostedServiceExtensionHelper.ExistExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType))
+            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment);
+            if (ExtensionManager.ExistExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType))
             {
-                extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig, Roles, Channel, CurrentSubscription.SubscriptionId, ServiceName, ExtensionNameSpace, ExtensionType);
+                extConfig = ExtensionManager.RemoveExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType);
                 ChangeDeployment(extConfig);
             }
             else
@@ -159,7 +152,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void ExecuteCommand()
         {
-            if (HostedServiceExtensionHelper.ExistLegacySetting(Deployment, LegacySettingStr))
+            if (IsLegacySettingEnabled(Deployment))
             {
                 WriteExceptionError(new Exception("Legacy remote desktop already enabled. This cmdlet will abort."));
                 return;

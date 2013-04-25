@@ -15,9 +15,9 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
     using WindowsAzure.ServiceManagement;
@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Extension Image.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceExtensionImage"), OutputType(typeof(HostedServiceExtensionImageContext))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceExtensionImage"), OutputType(typeof(IEnumerable<HostedServiceExtensionImageContext>))]
     public class GetAzureServiceExtensionImageCommand : ServiceManagementBaseCmdlet
     {
         public GetAzureServiceExtensionImageCommand()

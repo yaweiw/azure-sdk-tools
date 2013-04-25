@@ -11,69 +11,43 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
-    public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : ServiceManagementBaseCmdlet
+    public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : HostedServiceExtensionBaseCmdlet
     {
-        protected const string LegacySettingStr = "Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString";
-
-        protected const string ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
-        protected const string ExtensionType = "Diagnostics";
-
-        protected const string PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                             "<PublicConfig xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\">" +
-                                                             "<StorageAccount>" +
-                                                             "<ConnectionQualifiers>" + "{0}" + "</ConnectionQualifiers>" +
-                                                             "<DefaultEndpointsProtocol>" + "{1}" + "</DefaultEndpointsProtocol>" +
-                                                             "<Name>" + "{2}" + "</Name>" +
-                                                             "</StorageAccount>" +
-                                                             "<WadCfg />" +
-                                                             "</PublicConfig>";
-
-        protected const string PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                              "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                              "<PrivateConfig>" +
-                                                              "<StorageKey>" + "{0}" + "</StorageKey>" +
-                                                              "</PrivateConfig>";
-
-        protected const string PublicConfigurationDescriptionTemplate = "Diagnostics Enabled ConnectionQualifiers: {0}, DefaultEndpointsProtocol: {1}, Name: {2}";
-
-        protected const string ExtensionIdTemplate = "{0}-Diagnostics-Ext-{1}";
-
-        protected const int ExtensionIdLiveCycleCount = 2;
-
-        protected bool CheckExtensionType(HostedServiceExtensionContext extensionContext)
+        public BaseAzureServiceDiagnosticsExtensionCmdlet()
+            : base()
         {
-            return extensionContext != null && extensionContext.ProviderNameSpace == ExtensionNameSpace && extensionContext.Type == ExtensionType;
+            Initialize();
         }
 
-        protected bool CheckExtensionType(HostedServiceExtension extension)
+        public BaseAzureServiceDiagnosticsExtensionCmdlet(IServiceManagement channel)
+            : base(channel)
         {
-            return extension != null && extension.ProviderNameSpace == ExtensionNameSpace && extension.Type == ExtensionType;
+            Initialize();
         }
 
-        protected bool CheckExtensionType(ExtensionImage extensionImage)
+        protected void Initialize()
         {
-            return extensionImage != null && extensionImage.ProviderNameSpace == ExtensionNameSpace && extensionImage.Type == ExtensionType;
-        }
-
-        protected bool CheckExtensionType(Extension extension)
-        {
-            return extension == null ? false : CheckExtensionType(extension.Id);
-        }
-
-        protected abstract bool CheckExtensionType(string extensionId);
-
-        protected bool IsServiceAvailable(string serviceName)
-        {
-            // Check that cloud service exists
-            bool found = false;
-            InvokeInOperationContext(() =>
-            {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
-            });
-            return found;
+            LegacySettingStr = "Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString";
+            ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
+            ExtensionType = "Diagnostics";
+            PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                                            "<PublicConfig xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\">" +
+                                            "<StorageAccount>" +
+                                            "<ConnectionQualifiers>" + "{0}" + "</ConnectionQualifiers>" +
+                                            "<DefaultEndpointsProtocol>" + "{1}" + "</DefaultEndpointsProtocol>" +
+                                            "<Name>" + "{2}" + "</Name>" +
+                                            "</StorageAccount>" +
+                                            "<WadCfg />" +
+                                            "</PublicConfig>";
+            PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
+                                            "<PrivateConfig>" +
+                                            "<StorageKey>" + "{0}" + "</StorageKey>" +
+                                            "</PrivateConfig>";
+            PublicConfigurationDescriptionTemplate = "Diagnostics Enabled ConnectionQualifiers: {0}, DefaultEndpointsProtocol: {1}, Name: {2}";
+            ExtensionIdTemplate = "{0}-Diagnostics-Ext-{1}";
         }
     }
 }

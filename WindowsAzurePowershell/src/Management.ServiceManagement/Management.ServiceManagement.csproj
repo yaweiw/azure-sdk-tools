@@ -158,23 +158,22 @@
     <Compile Include="Common\ValidationHelpers.cs" />
     <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs" />
-    <Compile Include="Extensions\ExtensionConfigurationContext.cs" />
     <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\GetAzureServiceExtensionImage.cs" />
     <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\HostedServiceExtensionBaseCmdlet.cs" />
     <Compile Include="Extensions\HostedServiceExtensionContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Extensions\HostedServiceExtensionHelper.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\HostedServiceExtensionImageContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\HostedServiceExtensionManager.cs" />
     <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs" />
     <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs" />
+    <Compile Include="Extensions\PSExtensionConfiguration.cs" />
     <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
