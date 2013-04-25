@@ -56,18 +56,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     public class NewAzureServiceRemoteDesktopExtensionConfigCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public NewAzureServiceRemoteDesktopExtensionConfigCommand()
+            : base()
         {
         }
 
         public NewAzureServiceRemoteDesktopExtensionConfigCommand(IServiceManagement channel)
+            : base(channel)
         {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
+        public override string ServiceName
         {
             get;
             set;
@@ -131,16 +132,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
         }
 
-        protected override bool CheckExtensionType(string extensionId)
-        {
-            if (!string.IsNullOrEmpty(extensionId))
-            {
-                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-                return CheckExtensionType(ext);
-            }
-            return false;
-        }
-
         private bool ValidateParameters()
         {
             string serviceName;
@@ -175,6 +166,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
             }
+
+            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
 
             return true;
         }

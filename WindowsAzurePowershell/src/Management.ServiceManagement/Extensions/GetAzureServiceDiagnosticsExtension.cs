@@ -18,12 +18,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Collections.Generic;
-
+    using Management.Utilities.CloudService;
     using Management.Utilities.Common;
+    using Management.Utilities.Properties;
     using Model;
     using WindowsAzure.ServiceManagement;
-    using Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
     /// <summary>
     /// Get Windows Azure Service Diagnostics Extension.
@@ -32,17 +31,18 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         public GetAzureServiceDiagnosticsExtensionCommand()
+            : base()
         {
         }
 
         public GetAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
+            : base(channel)
         {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "GetAzureServiceRemoteDesktopExtension", HelpMessage = "Service Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
+        public override string ServiceName
         {
             get;
             set;
@@ -113,7 +113,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private string ParseNamedRolesConfig()
         {
-            string outputStr = "";
+            string outputStr = "Named Roles:\n    ";
             if (Deployment.ExtensionConfiguration != null)
             {
                 foreach (RoleExtensions roleExts in Deployment.ExtensionConfiguration.NamedRoles)
@@ -132,16 +132,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
             }
             return outputStr;
-        }
-
-        protected override bool CheckExtensionType(string extensionId)
-        {
-            if (!string.IsNullOrEmpty(extensionId))
-            {
-                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-                return CheckExtensionType(ext);
-            }
-            return false;
         }
 
         private bool ValidateParameters()
@@ -167,6 +157,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
 
             Deployment = this.Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
+
+            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
 
             return true;
         }
@@ -194,14 +186,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void OnProcessRecord()
         {
-            if (ValidateParameters())
-            {
-                ExecuteCommand();
-            }
-            else
-            {
-                WriteExceptionError(new ArgumentException("Invalid Cmdlet parameters."));
-            }
+            ValidateParameters();
+            ExecuteCommand();
         }
     }
 }

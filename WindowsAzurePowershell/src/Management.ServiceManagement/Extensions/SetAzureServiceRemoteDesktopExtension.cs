@@ -19,7 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
-
     using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.Management.Utilities.CloudService;
     using WindowsAzure.Management.Utilities.Common;
@@ -32,18 +31,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public SetAzureServiceRemoteDesktopExtensionCommand()
+            : base()
         {
         }
 
         public SetAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
+            : base(channel)
         {
-            Channel = channel;
         }
 
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
         [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]
-        public string ServiceName
+        public override string ServiceName
         {
             get;
             set;
@@ -132,41 +132,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        protected override bool CheckExtensionType(string extensionId)
-        {
-            if (!string.IsNullOrEmpty(extensionId))
-            {
-                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-                return CheckExtensionType(ext);
-            }
-            return false;
-        }
-
-        private void DeleteHostedServieExtension(string extensionId)
-        {
-            Channel.DeleteHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-        }
-
-        private void AddHostedServiceExtension(string extensionId)
-        {
-            AddHostedServiceExtension(extensionId, Thumbprint, ThumbprintAlgorithm);
-        }
-
-        private void AddHostedServiceExtension(string extensionId, string thumbprint, string thumbprintAlgorithm)
-        {
-            HostedServiceExtensionInput hostedSvcExtInput = new HostedServiceExtensionInput
-            {
-                Id = extensionId,
-                Thumbprint = thumbprint,
-                ThumbprintAlgorithm = thumbprintAlgorithm,
-                ProviderNameSpace = ExtensionNameSpace,
-                Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationTemplate, UserName, ExpirationStr),
-                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, Password)
-            };
-            Channel.AddHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, hostedSvcExtInput);
-        }
-
         private bool InstallExtension(string extensionId)
         {
             return InstallExtension(extensionId, Thumbprint, ThumbprintAlgorithm);
@@ -174,12 +139,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private bool InstallExtension(string extensionId, string thumbprint, string thumbprintAlgorithm)
         {
-            HostedServiceExtension extension = HostedServiceExtensionHelper.GetExtension(Channel, CurrentSubscription.SubscriptionId, ServiceName, extensionId);
+            HostedServiceExtension extension = ExtensionManager.GetExtension(extensionId);
             if (extension != null)
             {
                 if (CheckExtensionType(extension))
                 {
-                    DeleteHostedServieExtension(extensionId);
+                    ExtensionManager.DeleteHostedServieExtension(extensionId);
                 }
                 else
                 {
@@ -188,13 +153,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     return false;
                 }
             }
-            AddHostedServiceExtension(extensionId, thumbprint, thumbprintAlgorithm);
+
+            ExtensionManager.AddHostedServiceExtension(new HostedServiceExtensionInput
+            {
+                Id = extensionId,
+                Thumbprint = thumbprint,
+                ThumbprintAlgorithm = thumbprintAlgorithm,
+                ProviderNameSpace = ExtensionNameSpace,
+                Type = ExtensionType,
+                PublicConfiguration = string.Format(PublicConfigurationTemplate, UserName, ExpirationStr),
+                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, Password)
+            });
             return true;
         }
 
         private bool InstallExtension(out ExtensionConfiguration extConfig)
         {
-            extConfig = HostedServiceExtensionHelper.NewExtensionConfig(Deployment);
+            extConfig = ExtensionManager.NewExtensionConfig(Deployment);
 
             bool installed = false;
             if (Roles != null && Roles.Any())
@@ -204,7 +179,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     for (int i = 0; i < ExtensionIdLiveCycleCount && !installed; i++)
                     {
                         string roleExtensionId = string.Format(ExtensionIdTemplate, roleName, i);
-                        if (!HostedServiceExtensionHelper.ExistExtension(extConfig, roleName, roleExtensionId))
+                        if (!ExtensionManager.ExistExtension(extConfig, roleName, roleExtensionId))
                         {
                             if (!string.IsNullOrEmpty(Thumbprint))
                             {
@@ -212,8 +187,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                             }
                             else
                             {
-                                HostedServiceExtension existingRoleExtension = HostedServiceExtensionHelper.GetExtension(Channel,
-                                    CurrentSubscription.SubscriptionId, ServiceName, roleExtensionId);
+                                HostedServiceExtension existingRoleExtension = ExtensionManager.GetExtension(roleExtensionId);
                                 if (existingRoleExtension == null)
                                 {
                                     for (int j = 0; j < ExtensionIdLiveCycleCount && existingRoleExtension == null; j++)
@@ -221,8 +195,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                         if (j != i)
                                         {
                                             string otherRoleExtensionId = string.Format(ExtensionIdTemplate, "Default", j);
-                                            existingRoleExtension = HostedServiceExtensionHelper.GetExtension(Channel,
-                                                CurrentSubscription.SubscriptionId, ServiceName, otherRoleExtensionId);
+                                            existingRoleExtension = ExtensionManager.GetExtension(otherRoleExtensionId);
                                         }
                                     }
                                 }
@@ -239,14 +212,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
                             if (installed)
                             {
-                                extConfig = HostedServiceExtensionHelper.RemoveExtension(extConfig,
-                                                                                         roleName,
-                                                                                         Channel,
-                                                                                         CurrentSubscription.SubscriptionId,
-                                                                                         ServiceName,
-                                                                                         ExtensionNameSpace,
-                                                                                         ExtensionType);
-                                extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, roleName, roleExtensionId);
+                                extConfig = ExtensionManager.RemoveExtension(extConfig, roleName, ExtensionNameSpace, ExtensionType);
+                                extConfig = ExtensionManager.AddExtension(extConfig, roleName, roleExtensionId);
                                 WriteObject("Setting remote desktop configuration for " + roleName + ".");
                             }
                         }
@@ -263,7 +230,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 for (int i = 0; i < ExtensionIdLiveCycleCount && !installed; i++)
                 {
                     string defaultExtensionId = string.Format(ExtensionIdTemplate, "Default", i);
-                    if (!HostedServiceExtensionHelper.ExistDefaultExtension(extConfig, defaultExtensionId))
+                    if (!ExtensionManager.ExistDefaultExtension(extConfig, defaultExtensionId))
                     {
                         if (!string.IsNullOrEmpty(Thumbprint))
                         {
@@ -271,8 +238,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         }
                         else
                         {
-                            HostedServiceExtension existingDefaultExtension = HostedServiceExtensionHelper.GetExtension(Channel,
-                                CurrentSubscription.SubscriptionId, ServiceName, defaultExtensionId);
+                            HostedServiceExtension existingDefaultExtension = ExtensionManager.GetExtension(defaultExtensionId);
                             if (existingDefaultExtension == null)
                             {
                                 for (int j = 0; j < ExtensionIdLiveCycleCount && existingDefaultExtension == null; j++)
@@ -280,8 +246,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                     if (j != i)
                                     {
                                         string otherDefaultExtensionId = string.Format(ExtensionIdTemplate, "Default", j);
-                                        existingDefaultExtension = HostedServiceExtensionHelper.GetExtension(Channel,
-                                            CurrentSubscription.SubscriptionId, ServiceName, otherDefaultExtensionId);
+                                        existingDefaultExtension = ExtensionManager.GetExtension(otherDefaultExtensionId);
                                     }
                                 }
                             }
@@ -298,13 +263,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
                         if (installed)
                         {
-                            extConfig = HostedServiceExtensionHelper.RemoveDefaultExtension(extConfig,
-                                                                                     Channel,
-                                                                                     CurrentSubscription.SubscriptionId,
-                                                                                     ServiceName,
-                                                                                     ExtensionNameSpace,
-                                                                                     ExtensionType);
-                            extConfig = HostedServiceExtensionHelper.AddDefaultExtension(extConfig, defaultExtensionId);
+                            extConfig = ExtensionManager.RemoveDefaultExtension(extConfig, ExtensionNameSpace, ExtensionType);
+                            extConfig = ExtensionManager.AddDefaultExtension(extConfig, defaultExtensionId);
                             WriteObject("Setting default remote desktop configuration for all roles.");
                         }
                     }
@@ -378,6 +338,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
             }
 
+            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+
             return true;
         }
 
@@ -396,7 +358,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void SetExtension()
         {
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig();
             if (InstallExtension(out extConfig))
             {
                 ChangeDeployment(extConfig);
@@ -409,7 +371,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void ExecuteCommand()
         {
-            if (HostedServiceExtensionHelper.ExistLegacySetting(Deployment, LegacySettingStr))
+            if (IsLegacySettingEnabled(Deployment))
             {
                 WriteExceptionError(new Exception("Legacy remote desktop already enabled. This cmdlet will abort."));
             }

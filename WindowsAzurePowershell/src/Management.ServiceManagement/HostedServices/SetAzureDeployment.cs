@@ -150,6 +150,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             }
 
             ExtensionConfiguration extConfig = null;
+            HostedServiceExtensionManager HostedServiceExtensionHelper = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
             if (PSExtensionConfiguration != null)
             {
                 extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
@@ -162,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
 
                     ExtensionConfiguration outConfig = HostedServiceExtensionHelper.NewExtensionConfig();
-                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, Channel, CurrentSubscription.SubscriptionId, ServiceName, out outConfig);
+                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, out outConfig);
                     if (installed)
                     {
                         extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, outConfig);

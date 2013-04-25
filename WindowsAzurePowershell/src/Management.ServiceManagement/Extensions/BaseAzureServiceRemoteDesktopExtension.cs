@@ -11,66 +11,40 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
-    public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : ServiceManagementBaseCmdlet
+    public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : HostedServiceExtensionBaseCmdlet
     {
-        protected const string LegacySettingStr = "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled";
-
-        protected const string ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
-        protected const string ExtensionType = "RDP";
-
-        protected const string PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                             "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                             "<PublicConfig>" +
-                                                             "<UserName>{0}</UserName>" +
-                                                             "<Expiration>{1}</Expiration>" +
-                                                             "</PublicConfig>";
-
-        protected const string PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                                              "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                                              "<PrivateConfig>" +
-                                                              "<Password>{0}</Password>" +
-                                                              "</PrivateConfig>";
-
-        protected const string PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
-
-        protected const string ExtensionIdTemplate = "{0}-RDP-Ext-{1}";
-
-        protected const int ExtensionIdLiveCycleCount = 2;
-
-        protected bool CheckExtensionType(HostedServiceExtensionContext extensionContext)
+        public BaseAzureServiceRemoteDesktopExtensionCmdlet()
+            : base()
         {
-            return extensionContext != null && extensionContext.ProviderNameSpace == ExtensionNameSpace && extensionContext.Type == ExtensionType;
+            Initialize();
         }
 
-        protected bool CheckExtensionType(HostedServiceExtension extension)
+        public BaseAzureServiceRemoteDesktopExtensionCmdlet(IServiceManagement channel)
+            : base(channel)
         {
-            return extension != null && extension.ProviderNameSpace == ExtensionNameSpace && extension.Type == ExtensionType;
+            Initialize();
         }
 
-        protected bool CheckExtensionType(ExtensionImage extensionImage)
+        protected void Initialize()
         {
-            return extensionImage != null && extensionImage.ProviderNameSpace == ExtensionNameSpace && extensionImage.Type == ExtensionType;
-        }
-
-        protected bool CheckExtensionType(Extension extension)
-        {
-            return extension == null ? false : CheckExtensionType(extension.Id);
-        }
-
-        protected abstract bool CheckExtensionType(string extensionId);
-
-        protected bool IsServiceAvailable(string serviceName)
-        {
-            // Check that cloud service exists
-            bool found = false;
-            InvokeInOperationContext(() =>
-            {
-                this.RetryCall(s => found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result);
-            });
-            return found;
+            LegacySettingStr = "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled";
+            ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
+            ExtensionType = "RDP";
+            PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
+                                            "<PublicConfig>" +
+                                            "<UserName>{0}</UserName>" +
+                                            "<Expiration>{1}</Expiration>" +
+                                            "</PublicConfig>";
+            PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
+                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
+                                            "<PrivateConfig>" +
+                                            "<Password>{0}</Password>" +
+                                            "</PrivateConfig>";
+            PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
+            ExtensionIdTemplate = "{0}-RDP-Ext-{1}";
         }
     }
 }
