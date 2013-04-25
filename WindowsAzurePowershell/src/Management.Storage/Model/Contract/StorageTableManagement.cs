@@ -80,7 +80,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.Contract
         /// <param name="table">Cloud table object</param>
         /// <param name="requestOptions">Table request options</param>
         /// <param name="operationContext">Operation context</param>
-        public void Delete(CloudTable table, TableRequestOptions requestOptions = null, OperationContext operationContext = null)
+        public void Delete(CloudTable table, TableRequestOptions requestOptions, OperationContext operationContext)
         {
             table.Delete(requestOptions, operationContext);
         }
