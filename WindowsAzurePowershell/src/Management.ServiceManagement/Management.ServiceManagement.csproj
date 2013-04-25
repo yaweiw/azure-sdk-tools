@@ -156,8 +156,10 @@
     <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
+    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs" />
     <Compile Include="Extensions\ExtensionConfigurationContext.cs" />
+    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\GetAzureServiceExtensionImage.cs" />
     <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
@@ -171,10 +173,13 @@
     <Compile Include="Extensions\HostedServiceExtensionImageContext.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs" />
     <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs" />
+    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs" />
     <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>

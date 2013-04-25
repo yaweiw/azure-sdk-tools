@@ -17,6 +17,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
+    using WindowsAzure.Management.ServiceManagement.Extensions;
+    using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
     using Utilities.Common;
 
@@ -130,7 +132,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             get;
             set;
         }
-        
+
+        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
+        public PSExtensionConfiguration[] PSExtensionConfiguration
+        {
+            get;
+            set;
+        }
+
         public void ExecuteCommand()
         {
             string configString = string.Empty;
@@ -138,7 +148,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 configString = General.GetConfiguration(Configuration);
             }
-  
+
+            ExtensionConfiguration extConfig = null;
+            if (PSExtensionConfiguration != null)
+            {
+                extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+                foreach (PSExtensionConfiguration psConfig in PSExtensionConfiguration)
+                {
+                    if (psConfig.X509Certificate != null)
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, psConfig.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
+                    }
+
+                    ExtensionConfiguration outConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, Channel, CurrentSubscription.SubscriptionId, ServiceName, out outConfig);
+                    if (installed)
+                    {
+                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, outConfig);
+                    }
+                    else
+                    {
+                        WriteExceptionError(new Exception("Failed to install extensions."));
+                    }
+                }
+            }
+
             // Upgrade Parameter Set
             if (string.Compare(ParameterSetName, "Upgrade", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -169,6 +204,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 {
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
+                    ExtensionConfiguration = extConfig,
                     PackageUrl = packageUrl,
                     Label = Label != null ? Label : ServiceName,
                     Force = Force.IsPresent
@@ -205,12 +241,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 // Config parameter set 
                 var changeConfiguration = new ChangeConfigurationInput
                 {
-                    Configuration = configString
+                    Configuration = configString,
+                    ExtensionConfiguration = extConfig,
                 };
 
                 ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, changeConfiguration));
             }
-
             else
             {
                 // Status parameter set

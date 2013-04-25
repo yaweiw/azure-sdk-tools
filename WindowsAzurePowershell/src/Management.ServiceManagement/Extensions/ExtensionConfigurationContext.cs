@@ -16,7 +16,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System.Security.Cryptography.X509Certificates;
 
-    public class ExtensionConfigurationContext
+    public class PSExtensionConfiguration
     {
         public string Thumbprint { get; set; }
         public string ThumbprintAlgorithm { get; set; }

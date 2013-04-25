@@ -26,22 +26,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
-    /// Set Windows Azure Service Remote Desktop Extension.
+    /// Set Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(ManagementOperationContext))]
-    public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
+    [Cmdlet(VerbsCommon.Set, "AzureServiceDiagnosticsExtension"), OutputType(typeof(ManagementOperationContext))]
+    public class SetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public SetAzureServiceRemoteDesktopExtensionCommand()
+        public SetAzureServiceDiagnosticsExtensionCommand()
         {
         }
 
-        public SetAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
+        public SetAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
         {
             Channel = channel;
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
         [ValidateNotNullOrEmpty]
         public string ServiceName
         {
@@ -58,8 +58,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
         public string[] Roles
         {
@@ -67,34 +67,42 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Name")]
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Name")]
-        [ValidateNotNullOrEmpty]
-        public string UserName
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics ConnectionQualifiers")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics ConnectionQualifiers")]
+        public string ConnectionQualifiers
         {
             get;
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Password")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Password")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
         [ValidateNotNullOrEmpty]
-        public string Password
+        public string DefaultEndpointsProtocol
         {
             get;
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Storage Name")]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
         [ValidateNotNullOrEmpty]
-        public DateTime Expiration
+        public string Name
         {
             get;
             set;
         }
 
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics StorageKey")]
+        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
+        [ValidateNotNullOrEmpty]
+        public string StorageKey
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
         [ValidateNotNullOrEmpty]
         public X509Certificate2 X509Certificate
         {
@@ -102,7 +110,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
         [ValidateNotNullOrEmpty]
         public string Thumbprint
         {
@@ -110,20 +118,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [Parameter(Position = 8, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public string ThumbprintAlgorithm
         {
             get;
             set;
-        }
-
-        private string ExpirationStr
-        {
-            get
-            {
-                return Expiration.ToString("yyyy-MM-dd");
-            }
         }
 
         private Deployment Deployment
@@ -161,8 +161,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 ThumbprintAlgorithm = thumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationTemplate, UserName, ExpirationStr),
-                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, Password)
+                PublicConfiguration = string.Format(PublicConfigurationTemplate, ConnectionQualifiers, DefaultEndpointsProtocol, Name),
+                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, StorageKey)
             };
             Channel.AddHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, hostedSvcExtInput);
         }
@@ -247,7 +247,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                                                                          ExtensionNameSpace,
                                                                                          ExtensionType);
                                 extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, roleName, roleExtensionId);
-                                WriteObject("Setting remote desktop configuration for " + roleName + ".");
+                                WriteObject("Setting diagnotics configuration for " + roleName + ".");
                             }
                         }
                     }
@@ -305,7 +305,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                                                                      ExtensionNameSpace,
                                                                                      ExtensionType);
                             extConfig = HostedServiceExtensionHelper.AddDefaultExtension(extConfig, defaultExtensionId);
-                            WriteObject("Setting default remote desktop configuration for all roles.");
+                            WriteObject("Setting default diagnostics configuration for all roles.");
                         }
                     }
                 }
@@ -364,8 +364,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
             }
 
-            Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(6) : Expiration;
-
             if (X509Certificate != null)
             {
                 var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, X509Certificate.Thumbprint);
@@ -403,7 +401,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                WriteExceptionError(new Exception("Failed to set remote desktop extension(s)."));
+                WriteExceptionError(new Exception("Failed to set diagnostics extension(s)."));
             }
         }
 
@@ -411,7 +409,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (HostedServiceExtensionHelper.ExistLegacySetting(Deployment, LegacySettingStr))
             {
-                WriteExceptionError(new Exception("Legacy remote desktop already enabled. This cmdlet will abort."));
+                WriteExceptionError(new Exception("Legacy diagnostics already enabled. This cmdlet will abort."));
             }
             else
             {

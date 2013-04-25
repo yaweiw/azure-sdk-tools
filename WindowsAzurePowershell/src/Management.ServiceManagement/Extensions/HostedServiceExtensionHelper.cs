@@ -23,6 +23,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
     internal class HostedServiceExtensionHelper
     {
+        static internal int ExtensionIdLiveCycleCount = 2;
+
+        protected const string ExtensionIdTemplate = "{0}-{1}-Ext-{2}";
+
         static internal bool ExistLegacySetting(Deployment deployment, string settingAttributeName)
         {
             bool enabled = false;
@@ -44,7 +48,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                 string valueStr = childNode.Attributes["value"].Value;
                                 if (nameStr.Equals(settingAttributeName))
                                 {
-                                    enabled = String.Equals(childNode.Attributes["value"].Value, "true", StringComparison.OrdinalIgnoreCase);
+                                    //enabled = String.Equals(childNode.Attributes["value"].Value, "true", StringComparison.OrdinalIgnoreCase);
+                                    enabled = true;
                                     break;
                                 }
                             }
@@ -302,6 +307,174 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 outConfig = AddDefaultExtension(inConfig, extensionId);
             }
             return outConfig;
+        }
+
+        static internal ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, PSExtensionConfiguration psConfig, string extensionId)
+        {
+            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
+            if (psConfig != null)
+            {
+                string[] roleNames = psConfig.NamedRoles;
+                if (psConfig.AllRoles || roleNames == null || !roleNames.Any())
+                {
+                    outConfig.AllRoles.Add(new Extension(extensionId));
+                }
+                else
+                {
+                    foreach (string roleName in roleNames)
+                    {
+                        outConfig.NamedRoles.Add(new RoleExtensions
+                        {
+                            RoleName = roleName,
+                            Extensions = new ExtensionList(new Extension[1] { new Extension(extensionId) })
+                        });
+                    }
+                }
+            }
+            return outConfig;
+        }
+
+        static internal ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, ExtensionConfiguration addConfig)
+        {
+            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
+            if (addConfig != null)
+            {
+                if (addConfig.AllRoles != null)
+                {
+                    foreach (Extension extension in addConfig.AllRoles)
+                    {
+                        outConfig.AllRoles.Add(new Extension(extension.Id));
+                    }
+                }
+
+                if (addConfig.NamedRoles != null)
+                {
+                    foreach (RoleExtensions roleExtensions in addConfig.NamedRoles)
+                    {
+                        outConfig.NamedRoles.Add(new RoleExtensions
+                        {
+                            RoleName = roleExtensions.RoleName,
+                            Extensions = new ExtensionList(roleExtensions.Extensions.Select(e => new Extension(e.Id)))
+                        });
+                    }
+                }
+            }
+            return outConfig;
+        }
+
+        static internal bool InstallExtension(PSExtensionConfiguration psConfig, IServiceManagement channel, string subscriptionId, string serviceName, out ExtensionConfiguration outConfig)
+        {
+            outConfig = NewExtensionConfig();
+            bool installed = false;
+            string[] roleNames = psConfig.NamedRoles;
+            if (psConfig.AllRoles || roleNames == null || !roleNames.Any())
+            {
+                string defaultExtensionId = "";
+                string thumbprint = "";
+                string thumbprintAlgorithm = "";
+                bool foundThumbprint = false;
+                for (int i = 0; i < ExtensionIdLiveCycleCount && !foundThumbprint; i++)
+                {
+                    string otherExtensionId = string.Format(ExtensionIdTemplate, "Default", psConfig.Type, i);
+                    HostedServiceExtension extension = GetExtension(channel, subscriptionId, serviceName, otherExtensionId);
+                    if (extension != null)
+                    {
+                        defaultExtensionId = otherExtensionId;
+                        thumbprint = extension.Thumbprint;
+                        thumbprintAlgorithm = extension.ThumbprintAlgorithm;
+                        foundThumbprint = true;
+                    }
+                }
+
+                HostedServiceExtensionInput hostedSvcExtInput1 = new HostedServiceExtensionInput
+                {
+                    Id = defaultExtensionId,
+                    Thumbprint = thumbprint,
+                    ThumbprintAlgorithm = thumbprintAlgorithm,
+                    ProviderNameSpace = psConfig.ProviderNameSpace,
+                    Type = psConfig.Type,
+                    PublicConfiguration = psConfig.PublicConfiguration,
+                    PrivateConfiguration = psConfig.PrivateConfiguration
+                };
+                AddHostedServiceExtension(channel, subscriptionId, serviceName, hostedSvcExtInput1);
+
+                outConfig = AddDefaultExtension(outConfig, defaultExtensionId);
+
+                installed = true;
+            }
+            else
+            {
+                foreach (string roleName in roleNames)
+                {
+                    string roleExtensionId = "";
+                    string thumbprint2 = "";
+                    string thumbprintAlgorithm2 = "";
+                    bool foundThumbprint2 = false;
+                    for (int i = 0; i < ExtensionIdLiveCycleCount && !foundThumbprint2; i++)
+                    {
+                        string otherExtensionId = string.Format(ExtensionIdTemplate, roleName, psConfig.Type, i);
+                        HostedServiceExtension extension = GetExtension(channel, subscriptionId, serviceName, otherExtensionId);
+                        if (extension != null)
+                        {
+                            roleExtensionId = otherExtensionId;
+                            thumbprint2 = extension.Thumbprint;
+                            thumbprintAlgorithm2 = extension.ThumbprintAlgorithm;
+                            foundThumbprint2 = true;
+                        }
+                    }
+
+                    HostedServiceExtensionInput hostedSvcExtInput2 = new HostedServiceExtensionInput
+                    {
+                        Id = roleExtensionId,
+                        Thumbprint = thumbprint2,
+                        ThumbprintAlgorithm = thumbprintAlgorithm2,
+                        ProviderNameSpace = psConfig.ProviderNameSpace,
+                        Type = psConfig.Type,
+                        PublicConfiguration = psConfig.PublicConfiguration,
+                        PrivateConfiguration = psConfig.PrivateConfiguration
+                    };
+                    AddHostedServiceExtension(channel, subscriptionId, serviceName, hostedSvcExtInput2);
+
+                    outConfig = AddExtension(outConfig, roleName, roleExtensionId);
+                }
+                installed = true;
+            }
+
+            return installed;
+        }
+
+        static internal void DeleteHostedServieExtension(IServiceManagement channel, string subscriptionId, string serviceName, string extensionId)
+        {
+            channel.DeleteHostedServiceExtension(subscriptionId, serviceName, extensionId);
+        }
+
+        static internal void AddHostedServiceExtension(IServiceManagement channel, string subscriptionId, string serviceName, HostedServiceExtensionInput hostedSvcExtInput)
+        {
+            channel.AddHostedServiceExtension(subscriptionId, serviceName, hostedSvcExtInput);
+        }
+
+        static internal void AddHostedServiceExtension(IServiceManagement channel,
+                                                       string subscriptionId,
+                                                       string serviceName,
+                                                       string extensionId,
+                                                       string thumbprint,
+                                                       string thumbprintAlgorithm,
+                                                       string extensionNameSpace,
+                                                       string extensionType,
+                                                       string publicConfig,
+                                                       string privateConfig)
+        {
+            HostedServiceExtensionInput hostedSvcExtInput = new HostedServiceExtensionInput
+            {
+                Id = extensionId,
+                Thumbprint = thumbprint,
+                ThumbprintAlgorithm = thumbprintAlgorithm,
+                ProviderNameSpace = extensionNameSpace,
+                Type = extensionType,
+                PublicConfiguration = publicConfig,
+                PrivateConfiguration = privateConfig
+            };
+            AddHostedServiceExtension(channel, subscriptionId, serviceName, hostedSvcExtInput);
         }
     }
 }
