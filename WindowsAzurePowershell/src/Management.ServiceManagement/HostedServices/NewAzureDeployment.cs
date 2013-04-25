@@ -19,6 +19,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System;
     using System.Management.Automation;
     using System.ServiceModel;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
@@ -101,6 +103,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "Extension configurations.")]
+        public PSExtensionConfiguration[] PSExtensionConfiguration
+        {
+            get;
+            set;
+        }
+
         public void NewPaaSDeploymentProcess()
         {
             bool removePackage = false;
@@ -129,11 +138,36 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     this.Package,
                     null));
             }
+
+            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+            if (PSExtensionConfiguration != null)
+            {
+                foreach (PSExtensionConfiguration psConfig in PSExtensionConfiguration)
+                {
+                    if (psConfig.X509Certificate != null)
+                    {
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, psConfig.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
+                    }
+
+                    ExtensionConfiguration outConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, Channel, CurrentSubscription.SubscriptionId, ServiceName, out outConfig);
+                    if (installed)
+                    {
+                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, outConfig);
+                    }
+                    else
+                    {
+                        WriteExceptionError(new Exception("Failed to install extensions."));
+                    }
+                }
+            }
             
             var deploymentInput = new CreateDeploymentInput
             {
                 PackageUrl = packageUrl,
                 Configuration = General.GetConfiguration(this.Configuration),
+                ExtensionConfiguration = extConfig,
                 Label = this.Label,
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,

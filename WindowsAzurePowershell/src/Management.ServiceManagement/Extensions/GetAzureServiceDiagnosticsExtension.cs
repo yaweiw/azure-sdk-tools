@@ -1,7 +1,4 @@
-﻿
-
-
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,14 +28,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(string))]
-    public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
+    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(string))]
+    public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
-        public GetAzureServiceRemoteDesktopExtensionCommand()
+        public GetAzureServiceDiagnosticsExtensionCommand()
         {
         }
 
-        public GetAzureServiceRemoteDesktopExtensionCommand(IServiceManagement channel)
+        public GetAzureServiceDiagnosticsExtensionCommand(IServiceManagement channel)
         {
             Channel = channel;
         }
@@ -80,14 +77,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return value;
         }
 
-        private string ParseUserName(string config)
+        private string ParseConnectionQualifiers(string config)
         {
-            return ParseConfig(config, "<UserName>", "</UserName>");
+            return ParseConfig(config, "<ConnectionQualifiers>", "</ConnectionQualifiers>");
         }
 
-        private string ParseExpiration(string config)
+        private string ParseDefaultEndpointsProtocol(string config)
         {
-            return ParseConfig(config, "<Expiration>", "</Expiration>");
+            return ParseConfig(config, "<DefaultEndpointsProtocol>", "</DefaultEndpointsProtocol>");
+        }
+
+        private string ParseName(string config)
+        {
+            return ParseConfig(config, "<Name>", "</Name>");
         }
 
         private string ParseAllRolesConfig()
@@ -102,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     {
                         outputStr += "<" + ext1.Id + "> ";
                         outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                            ParseUserName(ext1.PublicConfiguration), ParseExpiration(ext1.PublicConfiguration)) + "\n";
+                            ParseName(ext1.PublicConfiguration), ParseDefaultEndpointsProtocol(ext1.PublicConfiguration), ParseName(ext1.PublicConfiguration)) + "\n";
                     }
                 }
             }
@@ -124,7 +126,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                             outputStr += roleExts.RoleName + ":\n    ";
                             outputStr += "<" + ext2.Id + "> ";
                             outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                                ParseUserName(ext2.PublicConfiguration), ParseExpiration(ext2.PublicConfiguration)) + "\n";
+                                ParseName(ext2.PublicConfiguration), ParseDefaultEndpointsProtocol(ext2.PublicConfiguration), ParseName(ext2.PublicConfiguration)) + "\n";
                         }
                     }
                 }
