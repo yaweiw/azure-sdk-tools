@@ -22,7 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Queue
     using System.Security.Permissions;
 
     [Cmdlet(VerbsCommon.Remove, "AzureStorageQueue", SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
-        OutputType(typeof(String))]
+        OutputType(typeof(Boolean))]
     public class RemoveAzureStorageQueueCommand : StorageQueueBaseCmdlet
     {
         [Alias("N", "Queue")]
