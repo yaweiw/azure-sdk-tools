@@ -216,12 +216,12 @@ Tests Get-AzureWebsite
 function Test-GetAzureWebsite
 {
 	# Setup
-	New-BasicLogWebsite
-	$website = $global:currentWebsite
-	Set-AzureWebsite $website.Name -AzureDriveTraceEnabled $true
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Error
 
 	#Test
-	$config = Get-AzureWebsite -Name $website.Name
+	$config = Get-AzureWebsite -Name $name
 
 	# Assert
 	Assert-AreEqual $true $config.AzureDriveTraceEnabled
