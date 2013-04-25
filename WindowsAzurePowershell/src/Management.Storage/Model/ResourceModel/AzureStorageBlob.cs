@@ -17,15 +17,45 @@ namespace Microsoft.WindowsAzure.Management.Storage.Model.ResourceModel
     using System;
     using Microsoft.WindowsAzure.Storage.Blob;
 
+    /// <summary>
+    /// Azure storage blob object
+    /// </summary>
     public class AzureStorageBlob : AzureStorageBase
     {
+        /// <summary>
+        /// ICloudBlob object
+        /// </summary>
         public ICloudBlob ICloudBlob { get; private set; }
+
+        /// <summary>
+        /// Azure storage blob type
+        /// </summary>
         public BlobType BlobType { get; private set; }
+
+        /// <summary>
+        /// Blob length
+        /// </summary>
         public long Length { get; private set; }
+
+        /// <summary>
+        /// Blob content type
+        /// </summary>
         public string ContentType { get; private set; }
+
+        /// <summary>
+        /// Blob last modified time
+        /// </summary>
         public DateTimeOffset? LastModified { get; private set; }
+
+        /// <summary>
+        /// Blob snapshot time
+        /// </summary>
         public DateTimeOffset? SnapshotTime  { get; private set; }
 
+        /// <summary>
+        /// Azure storage blob constructor
+        /// </summary>
+        /// <param name="blob">ICloud blob object</param>
         public AzureStorageBlob(ICloudBlob blob)
         {
             Name = blob.Name;
