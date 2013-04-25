@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Table.Cmdlet
     /// remove an azure table
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Table, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
-        OutputType(typeof(string))]
+        OutputType(typeof(Boolean))]
     public class RemoveAzureStorageTableCommand : StorageCloudTableCmdletBase
     {
         [Alias("N", "Table")]

@@ -1308,7 +1308,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>Get-AzureStorageTable</command:name>
 		<maml:description>
-			<maml:para></maml:para>
+			<maml:para>List azure storage tables</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -1321,7 +1321,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para></maml:para>
+		<maml:para>List azure storage tables</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>Get-AzureStorageTable</maml:name>
@@ -3049,7 +3049,7 @@ C:\PS&gt;			</maml:introduction>
 	<command:details>
 		<command:name>Remove-AzureStorageTable</command:name>
 		<maml:description>
-			<maml:para></maml:para>
+			<maml:para>Remove azure storage table</maml:para>
 		</maml:description>
 		<maml:copyright>
            <maml:para />
@@ -3062,7 +3062,7 @@ C:\PS&gt;			</maml:introduction>
 	</command:details>
 	<maml:description>
 	<!--This is the Description section-->
-		<maml:para></maml:para>
+		<maml:para>Remove azure storage table</maml:para>
 	</maml:description>
 	<command:syntax>		<command:syntaxItem>
 			<maml:name>Remove-AzureStorageTable</maml:name>
