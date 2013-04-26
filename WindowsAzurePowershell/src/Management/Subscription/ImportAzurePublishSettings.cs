@@ -145,7 +145,14 @@ namespace Microsoft.WindowsAzure.Management.Subscription
                 .Where(p => p.State == ProviderRegistrationConstants.Unregistered)
                 .Select(p => p.Type).ToList();
 
-            Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
+            try
+            {
+                Task.WaitAll(providersToRegister.Select(client.RegisterResourceTypeAsync).Cast<Task>().ToArray());
+            }
+            catch (AggregateException)
+            {
+                // It's ok for registration to fail.
+            }
         }
 
         private GlobalComponents CreateGlobalComponents(string subscriptionsDataFile, string publishSettingsFile)
