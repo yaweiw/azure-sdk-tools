@@ -150,10 +150,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             }
 
             ExtensionConfiguration extConfig = null;
-            HostedServiceExtensionManager HostedServiceExtensionHelper = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+            HostedServiceExtensionManager extensionMgr = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
             if (PSExtensionConfiguration != null)
             {
-                extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+                extConfig = extensionMgr.NewExtensionConfig();
                 foreach (PSExtensionConfiguration psConfig in PSExtensionConfiguration)
                 {
                     if (psConfig.X509Certificate != null)
@@ -162,15 +162,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = HostedServiceExtensionHelper.NewExtensionConfig();
-                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, out outConfig);
+                    ExtensionConfiguration outConfig = extensionMgr.NewExtensionConfig();
+                    bool installed = extensionMgr.InstallExtension(psConfig, Slot, out outConfig);
                     if (installed)
                     {
-                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, outConfig);
+                        extConfig = extensionMgr.AddExtension(extConfig, outConfig);
                     }
                     else
                     {
-                        WriteExceptionError(new Exception("Failed to install extensions."));
+                        throw new Exception("Failed to install extensions.");
                     }
                 }
             }

@@ -11,10 +11,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
+    using System.Xml.Linq;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : HostedServiceExtensionBaseCmdlet
     {
+        protected string UserNameElemStr = "UserName";
+        protected string ExpirationElemStr = "Expiration";
+        protected string PasswordElemStr = "Password";
+
         public BaseAzureServiceRemoteDesktopExtensionCmdlet()
             : base()
         {
@@ -29,22 +34,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            LegacySettingStr = "Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled";
             ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
             ExtensionType = "RDP";
-            PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                            "<PublicConfig>" +
-                                            "<UserName>{0}</UserName>" +
-                                            "<Expiration>{1}</Expiration>" +
-                                            "</PublicConfig>";
-            PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                            "<PrivateConfig>" +
-                                            "<Password>{0}</Password>" +
-                                            "</PrivateConfig>";
+            ExtensionIdTemplate = "{0}-RDP-Ext-{1}-{2}";
+
             PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
-            ExtensionIdTemplate = "{0}-RDP-Ext-{1}";
+
+            PublicConfigurationXmlTemplate = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
+                new XElement(PublicConfigStr,
+                    new XElement(UserNameElemStr, "{0}"),
+                    new XElement(ExpirationElemStr, "{1}")
+                )
+            );
+
+            PrivateConfigurationXmlTemplate = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
+                new XElement(PrivateConfigStr,
+                    new XElement(PasswordElemStr, "{0}")
+                )
+            );
         }
     }
 }

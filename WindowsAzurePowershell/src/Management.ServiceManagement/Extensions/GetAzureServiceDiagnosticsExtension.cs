@@ -15,9 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.Collections.Generic;
+    using System.Xml.Linq;
     using Management.Utilities.CloudService;
     using Management.Utilities.Common;
     using Management.Utilities.Properties;
@@ -49,7 +50,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "GetAzureServiceRemoteDesktopExtension", HelpMessage = "Slot")]
-        [ValidateSet("Production", "Staging", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -62,36 +63,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        private string ParseConfig(string config, string prefix, string postfix)
-        {
-            string value = "";
-            if (!string.IsNullOrEmpty(config) && !string.IsNullOrEmpty(prefix) && !string.IsNullOrEmpty(postfix))
-            {
-                int startIndex = config.IndexOf(prefix, StringComparison.OrdinalIgnoreCase);
-                int endIndex = config.IndexOf(postfix, StringComparison.OrdinalIgnoreCase);
-                if (startIndex + prefix.Length <= endIndex)
-                {
-                    value = config.Substring(startIndex + prefix.Length, endIndex - (startIndex + prefix.Length));
-                }
-            }
-            return value;
-        }
-
-        private string ParseConnectionQualifiers(string config)
-        {
-            return ParseConfig(config, "<ConnectionQualifiers>", "</ConnectionQualifiers>");
-        }
-
-        private string ParseDefaultEndpointsProtocol(string config)
-        {
-            return ParseConfig(config, "<DefaultEndpointsProtocol>", "</DefaultEndpointsProtocol>");
-        }
-
-        private string ParseName(string config)
-        {
-            return ParseConfig(config, "<Name>", "</Name>");
-        }
-
         private string ParseAllRolesConfig()
         {
             string outputStr = "All Roles:\n    ";
@@ -99,12 +70,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 foreach (Extension extension in Deployment.ExtensionConfiguration.AllRoles)
                 {
-                    HostedServiceExtension ext1 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
-                    if (CheckExtensionType(ext1))
+                    HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
+                    if (CheckExtensionType(ext))
                     {
-                        outputStr += "<" + ext1.Id + "> ";
+                        outputStr += "<" + ext.Id + "> ";
                         outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                            ParseName(ext1.PublicConfiguration), ParseDefaultEndpointsProtocol(ext1.PublicConfiguration), ParseName(ext1.PublicConfiguration)) + "\n";
+                            GetValue(ext.PublicConfiguration, ConnectionQualifiersElemStr),
+                            GetValue(ext.PublicConfiguration, DefaultEndpointsProtocolElemStr),
+                            GetValue(ext.PublicConfiguration, StorageNameElemStr)) + "\n";
                     }
                 }
             }
@@ -120,13 +93,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     foreach (Extension extension in roleExts.Extensions)
                     {
-                        HostedServiceExtension ext2 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
-                        if (CheckExtensionType(ext2))
+                        HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
+                        if (CheckExtensionType(ext))
                         {
                             outputStr += roleExts.RoleName + ":\n    ";
-                            outputStr += "<" + ext2.Id + "> ";
+                            outputStr += "<" + ext.Id + "> ";
                             outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                                ParseName(ext2.PublicConfiguration), ParseDefaultEndpointsProtocol(ext2.PublicConfiguration), ParseName(ext2.PublicConfiguration)) + "\n";
+                                GetValue(ext.PublicConfiguration, ConnectionQualifiersElemStr),
+                                GetValue(ext.PublicConfiguration, DefaultEndpointsProtocolElemStr),
+                                GetValue(ext.PublicConfiguration, StorageNameElemStr)) + "\n";
                         }
                     }
                 }
@@ -154,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
             }
 
-            Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
+            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
 
             Deployment = this.Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
 
@@ -162,31 +137,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
             return true;
         }
+
         public void ExecuteCommand()
         {
-            ExecuteClientActionInOCS(null,
-            CommandRuntime.ToString(),
-            s => this.Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName),
-            (op, extensions) => extensions.Select(extension => new HostedServiceExtensionContext
-            {
-                OperationId = op.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = op.Status,
-                ProviderNameSpace = extension.ProviderNameSpace,
-                Type = extension.Type,
-                Id = extension.Id,
-                Version = extension.Version,
-                Thumbprint = extension.Thumbprint,
-                ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                PublicConfiguration = extension.PublicConfiguration
-            }));
-
+            ValidateParameters();
             WriteObject(ParseAllRolesConfig() + "\n" + ParseNamedRolesConfig());
         }
 
         protected override void OnProcessRecord()
         {
-            ValidateParameters();
             ExecuteCommand();
         }
     }

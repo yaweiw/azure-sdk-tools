@@ -12,23 +12,28 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System;
+    using System.Linq;
     using System.Xml;
+    using System.Xml.Linq;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     public abstract class HostedServiceExtensionBaseCmdlet : ServiceManagementBaseCmdlet
     {
-        protected const int ExtensionIdLiveCycleCount = 2;
+        protected const int ExtensionIdLiveCycleCount = HostedServiceExtensionManager.ExtensionIdLiveCycleCount;
+        protected const string PublicConfigStr = "PublicConfig";
+        protected const string PrivateConfigStr = "PrivateConfig";
 
         protected HostedServiceExtensionManager ExtensionManager;
 
-        protected string LegacySettingStr;
         protected string ExtensionNameSpace;
         protected string ExtensionType;
-        protected string PublicConfigurationTemplate;
-        protected string PrivateConfigurationTemplate;
+
         protected string PublicConfigurationDescriptionTemplate;
         protected string ExtensionIdTemplate;
+
+        protected XDocument PublicConfigurationXmlTemplate;
+        protected XDocument PrivateConfigurationXmlTemplate;
 
         public HostedServiceExtensionBaseCmdlet()
             : base()
@@ -88,40 +93,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return found;
         }
 
-        protected virtual bool IsLegacySettingEnabled(Deployment deployment)
+        protected string GetValue(string configStr, string settingElemStr)
         {
-            bool enabled = false;
-            if (deployment != null && deployment.Configuration != null)
-            {
-                try
-                {
-                    XmlDocument xmlDoc = new XmlDocument();
-                    xmlDoc.LoadXml(deployment.Configuration);
-                    XmlNodeList xmlNodeList = xmlDoc.GetElementsByTagName("ConfigurationSettings");
-                    if (xmlNodeList.Count > 0)
-                    {
-                        XmlNode parentNode = xmlNodeList.Item(0);
-                        foreach (XmlNode childNode in parentNode)
-                        {
-                            if (childNode.Attributes["name"] != null && childNode.Attributes["value"] != null)
-                            {
-                                string nameStr = childNode.Attributes["name"].Value;
-                                string valueStr = childNode.Attributes["value"].Value;
-                                if (nameStr.Equals(LegacySettingStr))
-                                {
-                                    enabled = true;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Cannot determine deployment legacy setting - configuration parsing error: " + ex.Message);
-                }
-            }
-            return enabled;
+            XDocument config = XDocument.Parse(configStr);
+            var result = from configElem in config.Descendants(PublicConfigStr)
+                         from settingElem in configElem.Descendants(settingElemStr)
+                         where settingElem.Name == settingElemStr
+                         select settingElem.Value;
+            return result.FirstOrDefault();
         }
     }
 }

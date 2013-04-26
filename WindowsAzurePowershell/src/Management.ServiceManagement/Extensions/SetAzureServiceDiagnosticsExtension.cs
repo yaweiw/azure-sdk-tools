@@ -51,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Production (default) or Staging.")]
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Production (default) or Staging.")]
-        [ValidateSet("Production", "Staging", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -160,8 +160,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 ThumbprintAlgorithm = thumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationTemplate, ConnectionQualifiers, DefaultEndpointsProtocol, Name),
-                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, StorageKey)
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name),
+                PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey)
             });
             return true;
         }
@@ -177,7 +177,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     for (int i = 0; i < ExtensionIdLiveCycleCount && !installed; i++)
                     {
-                        string roleExtensionId = string.Format(ExtensionIdTemplate, roleName, i);
+                        string roleExtensionId = string.Format(ExtensionIdTemplate, roleName, Slot, i);
                         if (!ExtensionManager.ExistExtension(extConfig, roleName, roleExtensionId))
                         {
                             if (!string.IsNullOrEmpty(Thumbprint))
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                     {
                                         if (j != i)
                                         {
-                                            string otherRoleExtensionId = string.Format(ExtensionIdTemplate, "Default", j);
+                                            string otherRoleExtensionId = string.Format(ExtensionIdTemplate, "Default", Slot, j);
                                             existingRoleExtension = ExtensionManager.GetExtension(otherRoleExtensionId);
                                         }
                                     }
@@ -228,7 +228,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 for (int i = 0; i < ExtensionIdLiveCycleCount && !installed; i++)
                 {
-                    string defaultExtensionId = string.Format(ExtensionIdTemplate, "Default", i);
+                    string defaultExtensionId = string.Format(ExtensionIdTemplate, "Default", Slot, i);
                     if (!ExtensionManager.ExistDefaultExtension(extConfig, defaultExtensionId))
                     {
                         if (!string.IsNullOrEmpty(Thumbprint))
@@ -244,7 +244,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                 {
                                     if (j != i)
                                     {
-                                        string otherDefaultExtensionId = string.Format(ExtensionIdTemplate, "Default", j);
+                                        string otherDefaultExtensionId = string.Format(ExtensionIdTemplate, "Default", Slot, j);
                                         existingDefaultExtension = ExtensionManager.GetExtension(otherDefaultExtensionId);
                                     }
                                 }
@@ -293,7 +293,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 return false;
             }
 
-            Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
+            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
 
             Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
             if (Deployment == null)
@@ -334,6 +334,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
             }
+            else
+            {
+                Thumbprint = "";
+                ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "" : ThumbprintAlgorithm;
+            }
 
             ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
 
@@ -353,41 +358,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
         }
 
-        private void SetExtension()
-        {
-            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig();
-            if (InstallExtension(out extConfig))
-            {
-                ChangeDeployment(extConfig);
-            }
-            else
-            {
-                WriteExceptionError(new Exception("Failed to set diagnostics extension(s)."));
-            }
-        }
-
         private void ExecuteCommand()
         {
-            if (IsLegacySettingEnabled(Deployment))
-            {
-                WriteExceptionError(new Exception("Legacy diagnostics already enabled. This cmdlet will abort."));
-            }
-            else
-            {
-                SetExtension();
-            }
+            ValidateParameters();
+            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig();
+            InstallExtension(out extConfig);
+            ChangeDeployment(extConfig);
         }
 
         protected override void OnProcessRecord()
         {
-            if (ValidateParameters())
-            {
-                ExecuteCommand();
-            }
-            else
-            {
-                WriteExceptionError(new ArgumentException("Invalid Cmdlet parameters."));
-            }
+            ExecuteCommand();
         }
     }
 }
