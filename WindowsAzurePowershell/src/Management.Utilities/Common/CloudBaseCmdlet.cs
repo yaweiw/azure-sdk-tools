@@ -369,8 +369,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             ErrorRecord errorRecord = null;
 
             string operationId;
-            bool extracted = ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
-            if (extracted)
+            if (ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId))
             {
                 string errorDetails = string.Format(
                     CultureInfo.InvariantCulture,
