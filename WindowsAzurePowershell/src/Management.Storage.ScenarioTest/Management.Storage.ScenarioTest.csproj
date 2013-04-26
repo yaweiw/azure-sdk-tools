@@ -108,9 +108,23 @@
     <Compile Include="Agent.cs" />
     <Compile Include="AssemblyInitCleanup.cs" />
     <Compile Include="BVT\CLICommonBVT.cs" />
+    <Compile Include="BVT\HTTPS\AnonymousBVT.cs" />
+    <Compile Include="BVT\HTTPS\ConnectionStringBVT.cs" />
+    <Compile Include="BVT\HTTPS\EnvConnectionStringBVT.cs" />
+    <Compile Include="BVT\HTTPS\NameKeyContextBVT.cs" />
+    <Compile Include="BVT\HTTPS\SubScriptionBVT.cs" />
+    <Compile Include="BVT\HTTP\AnonymousBVT.cs" />
+    <Compile Include="BVT\HTTP\AzureEmulatorBVT.cs" />
+    <Compile Include="BVT\HTTP\ConnectionStringBVT.cs" />
+    <Compile Include="BVT\HTTP\EnvConnectionStringBVT.cs" />
+    <Compile Include="BVT\HTTP\NameKeyContextBVT.cs" />
+    <Compile Include="BVT\StorageBVT.cs" />
+    <Compile Include="Common\TestBase.cs" />
     <Compile Include="PowerShellAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PsTag.cs" />
+    <Compile Include="Util\PowerShellExtension.cs" />
+    <None Include="README" />
     <Compile Include="StorageObjectType.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Util\CloudBlobUtil.cs" />
@@ -128,6 +142,10 @@
     <ProjectReference Include="..\Management.ScenarioTest\Management.ScenarioTest.csproj">
       <Project>{a3965b66-5a3e-4b8c-9574-28e5958d4828}</Project>
       <Name>Management.ScenarioTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Management.Storage.MsTest2\Management.Storage.MsTest2.csproj">
+      <Project>{9d5a40ca-5594-4f5c-8230-7adf7cc0558e}</Project>
+      <Name>Management.Storage.MsTest2</Name>
     </ProjectReference>
     <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
       <Project>{08cf7da7-0392-4a19-b79b-e1ff67cdb81a}</Project>
@@ -147,7 +165,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="MSSharedLibKey.snk" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="storagetest.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

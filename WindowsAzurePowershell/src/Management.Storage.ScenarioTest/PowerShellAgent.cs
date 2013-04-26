@@ -1,4 +1,4 @@
-// ----------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------
 //
 // Copyright Microsoft Corporation
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,7 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using CLITest.Util;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using MS.Test.Common.MsTestLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -20,9 +25,6 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Text;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using MS.Test.Common.MsTestLib;
 
 namespace CLITest
 {
@@ -48,11 +50,18 @@ namespace CLITest
 
         private PowerShell GetPowerShellInstance()
         {
-            PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
-            PowerShellAgent.PowerShellInstance.Streams.Error.Clear();
-            PowerShellAgent.PowerShellInstance.AddScript("$ErrorActionPreference='Continue'");
-            PowerShellAgent.PowerShellInstance.AddStatement();
-            return PowerShellAgent.PowerShellInstance;
+            if (PowerShellInstance != null)
+            {
+                PowerShellAgent.PowerShellInstance.Commands = PowerShellAgent.InitCommand;
+                PowerShellAgent.PowerShellInstance.Streams.Error.Clear();
+                PowerShellAgent.PowerShellInstance.AddScript("$ErrorActionPreference='Continue'");
+                PowerShellAgent.PowerShellInstance.AddStatement();
+                return PowerShellAgent.PowerShellInstance;
+            }
+            else
+            {
+                return PowerShell.Create(_InitState);
+            }
         }
 
         public static void SetPowerShellInstance(PowerShell instance)
@@ -87,11 +96,11 @@ namespace CLITest
             PowerShell ps = PowerShell.Create(_InitState);
             //TODO add tests for positional parameter
             ps.AddCommand("Import-AzurePublishSettingsFile");
-            ps.AddParameter("PublishSettingsFile", filePath);
+            ps.BindParameter("PublishSettingsFile", filePath);
             ps.AddStatement();
             ps.AddCommand("Set-AzureSubscription");
-            ps.AddParameter("SubscriptionName", subscriptionName);
-            ps.AddParameter("CurrentStorageAccount", storageAccountName);
+            ps.BindParameter("SubscriptionName", subscriptionName);
+            ps.BindParameter("CurrentStorageAccount", storageAccountName);
             Test.Info("set current storage account in subscription, Cmdline: {0}", GetCommandLine(ps));
             ps.Invoke();
 
@@ -107,7 +116,7 @@ namespace CLITest
         public static void RemoveAzureSubscriptionIfExists()
         {
             PowerShell ps = PowerShell.Create(_InitState);
-            ps.AddScript("Get-AzureSubscription | Remove-AzureSubscription");
+            ps.AddScript("Get-AzureSubscription | Remove-AzureSubscription -Force");
             ps.Invoke();
         }
 
@@ -115,17 +124,17 @@ namespace CLITest
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("StorageAccountName", StorageAccountName);
-            ps.AddParameter("StorageAccountKey", StorageAccountKey);
+            ps.BindParameter("StorageAccountName", StorageAccountName);
+            ps.BindParameter("StorageAccountKey", StorageAccountKey);
             
             if (useHttps)
             {
                 //TODO need tests to check whether it's ignore cases.
-                ps.AddParameter("Protocol", "https");
+                ps.BindParameter("Protocol", "https");
             }
             else
             {
-                ps.AddParameter("Protocol", "http");
+                ps.BindParameter("Protocol", "http");
             }
 
             Test.Info("Set PowerShell Storage Context using name and key, Cmdline: {0}", GetCommandLine(ps));
@@ -136,7 +145,7 @@ namespace CLITest
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("ConnectionString", ConnectionString);
+            ps.BindParameter("ConnectionString", ConnectionString);
 
             Test.Info("Set PowerShell Storage Context using connection string, Cmdline: {0}", GetCommandLine(ps));
             SetStorageContext(ps);
@@ -146,7 +155,7 @@ namespace CLITest
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("Local");
+            ps.BindParameter("Local");
 
             Test.Info("Set PowerShell Storage Context using local development storage account, Cmdline: {0}", GetCommandLine(ps));
             SetStorageContext(ps);
@@ -156,17 +165,17 @@ namespace CLITest
         {
             PowerShell ps = PowerShell.Create(_InitState);
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("StorageAccountName", StorageAccountName);
-            ps.AddParameter("Anonymous");
+            ps.BindParameter("StorageAccountName", StorageAccountName);
+            ps.BindParameter("Anonymous");
 
             if (useHttps)
             {
                 //TODO need tests to check whether it's ignore cases.
-                ps.AddParameter("Protocol", "https");
+                ps.BindParameter("Protocol", "https");
             }
             else
             {
-                ps.AddParameter("Protocol", "http");
+                ps.BindParameter("Protocol", "http");
             }
 
             Test.Info("Set PowerShell Storage Context using Anonymous storage account, Cmdline: {0}", GetCommandLine(ps));
@@ -200,12 +209,50 @@ namespace CLITest
             AgentContext = null;
         }
 
+        internal static object GetStorageContext(Collection<PSObject> objects)
+        {
+            foreach (PSObject result in objects)
+            {
+                foreach (PSMemberInfo member in result.Members)
+                {
+                    if (member.Name.Equals("Context"))
+                    {
+                        return member.Value;
+                    }
+                }
+            }
+            return null;
+        }
+
+        internal static object GetStorageContext(string ConnectionString)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("New-AzureStorageContext");
+            ps.BindParameter("ConnectionString", ConnectionString);
+
+            Test.Info("{0} Test...\n{1}", MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
+
+            return GetStorageContext(ps.Invoke());
+        }
+
+        internal static object GetStorageContext(string StorageAccountName, string StorageAccountKey)
+        {
+            PowerShell ps = PowerShell.Create(_InitState);
+            ps.AddCommand("New-AzureStorageContext");
+            ps.BindParameter("StorageAccountName", StorageAccountName);
+            ps.BindParameter("StorageAccountKey", StorageAccountKey);
+
+            Test.Info("{0} Test...\n{1}", MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
+
+            return GetStorageContext(ps.Invoke());
+        }
+
         public override bool NewAzureStorageContext(string StorageAccountName, string StorageAccountKey)
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("StorageAccountName", StorageAccountName);
-            ps.AddParameter("StorageAccountKey", StorageAccountKey);
+            ps.BindParameter("StorageAccountName", StorageAccountName);
+            ps.BindParameter("StorageAccountKey", StorageAccountKey);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
@@ -216,7 +263,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContext");
-            ps.AddParameter("ConnectionString", ConnectionString);
+            ps.BindParameter("ConnectionString", ConnectionString);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
@@ -236,7 +283,9 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageContainer");
-            ps.AddParameter("Name", ContainerName);
+
+            ps.BindParameter("Name", ContainerName);
+
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -267,11 +316,7 @@ namespace CLITest
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageContainer");
-            
-            if (ContainerName.Length > 0)
-            {
-                ps.AddParameter("Name", ContainerName);
-            }
+            ps.BindParameter("Name", ContainerName);
 
             AddCommonParameters(ps);
 
@@ -287,7 +332,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageContainer");
-            ps.AddParameter("Prefix", Prefix);
+            ps.BindParameter("Prefix", Prefix);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -302,13 +347,9 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Set-AzureStorageContainerACL");
-            ps.AddParameter("Name", ContainerName);
-            ps.AddParameter("PublicAccess", PublicAccess);
-
-            if (PassThru)
-            {
-                ps.AddParameter("PassThru");
-            }
+            ps.BindParameter("Name", ContainerName);
+            ps.BindParameter("PublicAccess", PublicAccess);
+            ps.BindParameter("PassThru", PassThru);
 
             AddCommonParameters(ps);
 
@@ -323,8 +364,10 @@ namespace CLITest
         public override bool RemoveAzureStorageContainer(string ContainerName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageContainer");
-            ps.AddParameter("Name", ContainerName);
+            ps.BindParameter("Name", ContainerName);
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -354,7 +397,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageQueue");
-            ps.AddParameter("Name", QueueName);
+            ps.BindParameter("Name", QueueName);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -384,11 +427,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageQueue");
-            
-            if (QueueName.Length > 0)
-            {
-                ps.AddParameter("Name", QueueName);
-            }
+            ps.BindParameter("Name", QueueName);
 
             AddCommonParameters(ps);
 
@@ -404,7 +443,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageQueue");
-            ps.AddParameter("Prefix", Prefix);
+            ps.BindParameter("Prefix", Prefix);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -418,8 +457,10 @@ namespace CLITest
         public override bool RemoveAzureStorageQueue(string QueueName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageQueue");
-            ps.AddParameter("Name", QueueName);
+            ps.BindParameter("Name", QueueName);
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -446,32 +487,29 @@ namespace CLITest
         }
 
         public override bool SetAzureStorageBlobContent(string FileName, string ContainerName, BlobType Type, string BlobName = "",
-            bool Force = true, int ConcurrentCount = -1)
+            bool Force = true, int ConcurrentCount = -1, Hashtable properties = null, Hashtable metadata = null)
         {
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Set-AzureStorageBlobContent");
-            
-            if (!string.IsNullOrEmpty(FileName))
-            {
-                ps.AddParameter("File", FileName);
-            }
+            ps.BindParameter("File", FileName);
+            ps.BindParameter("Blob", BlobName);
+            ps.BindParameter("Container", ContainerName);
+            ps.BindParameter("Properties", properties);
+            ps.BindParameter("Metadata", metadata);
 
-            if (!string.IsNullOrEmpty(BlobName))
-            {
-                ps.AddParameter("Blob", BlobName);
-            }
-
-            ps.AddParameter("Container", ContainerName);
-            
             if (Type == BlobType.BlockBlob)
-                ps.AddParameter("BlobType", "Block");
+            {
+                ps.BindParameter("BlobType", "Block");
+            }
             else if (Type == BlobType.PageBlob)
-                ps.AddParameter("BlobType", "Page");
+            {
+                ps.BindParameter("BlobType", "Page");
+            }
 
             if (ConcurrentCount != -1)
             {
-                ps.AddParameter("ConcurrentCount", ConcurrentCount);
+                ps.BindParameter("ConcurrentCount", ConcurrentCount);
             }
 
             AddCommonParameters(ps, Force);
@@ -488,24 +526,15 @@ namespace CLITest
             bool Force = true, int ConcurrentCount = -1)
         {
             PowerShell ps = GetPowerShellInstance();
-            //AttachPipeline(ps);
+            AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlobContent");
-
-            if (!string.IsNullOrEmpty(Blob))
-            {
-                ps.AddParameter("Blob", Blob);
-            }
-
-            ps.AddParameter("Destination", FileName);
-
-            if (!string.IsNullOrEmpty(ContainerName))
-            {
-                ps.AddParameter("Container", ContainerName);
-            }
+            ps.BindParameter("Blob", Blob);
+            ps.BindParameter("Destination", FileName);
+            ps.BindParameter("Container", ContainerName);
 
             if (ConcurrentCount != -1)
             {
-                ps.AddParameter("ConcurrentCount", ConcurrentCount);
+                ps.BindParameter("ConcurrentCount", ConcurrentCount);
             }
 
             AddCommonParameters(ps, Force);
@@ -523,16 +552,8 @@ namespace CLITest
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Get-AzureStorageBlob");
-            
-            if (!string.IsNullOrEmpty(BlobName))
-            {
-                ps.AddParameter("Blob", BlobName);
-            }
-
-            if (!string.IsNullOrEmpty(ContainerName))
-            {
-                ps.AddParameter("Container", ContainerName);
-            }
+            ps.BindParameter("Blob", BlobName);
+            ps.BindParameter("Container", ContainerName);
 
             AddCommonParameters(ps);
 
@@ -548,8 +569,8 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageBlob");
-            ps.AddParameter("Prefix", Prefix);
-            ps.AddParameter("Container", ContainerName);
+            ps.BindParameter("Prefix", Prefix);
+            ps.BindParameter("Container", ContainerName);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -560,28 +581,16 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
-        public override bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false)
+        public override bool RemoveAzureStorageBlob(string BlobName, string ContainerName, bool onlySnapshot = false, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageBlob");
-            
-            if (!string.IsNullOrEmpty(BlobName))
-            {
-                ps.AddParameter("Blob", BlobName);
-            }
+            ps.BindParameter("Blob", BlobName);
+            ps.BindParameter("Container", ContainerName);
+            ps.BindParameter("DeleteSnapshot", onlySnapshot);
 
-            if (!string.IsNullOrEmpty(ContainerName))
-            {
-                ps.AddParameter("Container", ContainerName);
-            }
-
-            if (onlySnapshot)
-            {
-                ps.AddParameter("DeleteSnapshot", true);
-            }
-
-            AddCommonParameters(ps, true);
+            AddCommonParameters(ps, force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
 
@@ -595,11 +604,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("New-AzureStorageTable");
-            
-            if (TableName.Length > 0)
-            {
-                ps.AddParameter("Name", TableName);
-            }
+            ps.BindParameter("Name", TableName);
 
             AddCommonParameters(ps);
 
@@ -630,7 +635,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageTable");
-            ps.AddParameter("Name", TableName);
+            ps.BindParameter("Name", TableName);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -645,7 +650,7 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageTable");
-            ps.AddParameter("Prefix", Prefix);
+            ps.BindParameter("Prefix", Prefix);
             AddCommonParameters(ps);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -659,8 +664,10 @@ namespace CLITest
         public override bool RemoveAzureStorageTable(string TableName, bool Force = true)
         {
             PowerShell ps = GetPowerShellInstance();
+            AttachPipeline(ps);
             ps.AddCommand("Remove-AzureStorageTable");
-            ps.AddParameter("Name", TableName);
+            ps.BindParameter("Name", TableName);
+
             AddCommonParameters(ps, Force);
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -686,20 +693,15 @@ namespace CLITest
             return !ps.HadErrors;
         }
 
-        public override bool StartAzureStorageBlobCopy(string sourceUri, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(string sourceUri, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-AzureStorageBlobCopy");
-            ps.AddParameter("SrcUri", sourceUri);
-            ps.AddParameter("DestContainer", destContainerName);
-            ps.AddParameter("DestBlob", destBlobName);
-            //The host program or the command type does not support user interaction.
-            ps.AddParameter("Force");
-
-            if (destContext != null)
-            {
-                ps.AddParameter("DestContext", destContext);
-            }
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.BindParameter("SrcUri", sourceUri);
+            ps.BindParameter("DestContainer", destContainerName);
+            ps.BindParameter("DestBlob", destBlobName);
+            ps.BindParameter("Force", force);
+            ps.BindParameter("DestContext", destContext);
 
             //Don't use context parameter for this cmdlet
             bool savedParameter = UseContextParam;
@@ -709,47 +711,29 @@ namespace CLITest
             return executeState;
         }
 
-        public override bool StartAzureStorageBlobCopy(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(string srcContainerName, string srcBlobName, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-AzureStorageBlobCopy");
-            ps.AddParameter("SrcContainer", srcContainerName);
-            ps.AddParameter("SrcBlob", srcBlobName);
-            ps.AddParameter("DestContainer", destContainerName);
-            //The host program or the command type does not support user interaction.
-            ps.AddParameter("Force");
-
-            if (!string.IsNullOrEmpty(destBlobName))
-            {
-                ps.AddParameter("DestBlob", destBlobName);
-            }
-
-            if (destContext != null)
-            {
-                ps.AddParameter("DestContext", destContext);
-            }
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.BindParameter("SrcContainer", srcContainerName);
+            ps.BindParameter("SrcBlob", srcBlobName);
+            ps.BindParameter("DestContainer", destContainerName);
+            ps.BindParameter("Force", force);
+            ps.BindParameter("DestBlob", destBlobName);
+            ps.BindParameter("DestContext", destContext);
 
             return InvokeStoragePowerShell(ps);
         }
 
-        public override bool StartAzureStorageBlobCopy(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null)
+        public override bool StartAzureStorageBlobCopy(ICloudBlob srcBlob, string destContainerName, string destBlobName, object destContext = null, bool force = true)
         {
             PowerShell ps = GetPowerShellInstance();
-            ps.AddCommand("Start-AzureStorageBlobCopy");
-            ps.AddParameter("ICloudBlob", srcBlob);
-            ps.AddParameter("DestContainer", destContainerName);
-            //The host program or the command type does not support user interaction.
-            ps.AddParameter("Force");
-
-            if (!string.IsNullOrEmpty(destBlobName))
-            {
-                ps.AddParameter("DestBlob", destBlobName);
-            }
-
-            if (destContext != null)
-            {
-                ps.AddParameter("DestContext", destContext);
-            }
+            ps.AddCommand("Start-CopyAzureStorageBlob");
+            ps.BindParameter("ICloudBlob", srcBlob);
+            ps.BindParameter("DestContainer", destContainerName);
+            ps.BindParameter("Force", force);
+            ps.BindParameter("DestBlob", destBlobName);
+            ps.BindParameter("DestContext", destContext);
 
             return InvokeStoragePowerShell(ps);
         }
@@ -761,20 +745,9 @@ namespace CLITest
 
             ps.AddCommand("Get-AzureStorageBlobCopyState");
 
-            if (!String.IsNullOrEmpty(containerName))
-            {
-                ps.AddParameter("Container", containerName);
-            }
-
-            if (!String.IsNullOrEmpty(blobName))
-            {
-                ps.AddParameter("Blob", blobName);
-            }
-
-            if (waitForComplete)
-            {
-                ps.AddParameter("WaitForComplete");
-            }
+            ps.BindParameter("Container", containerName);
+            ps.BindParameter("Blob", blobName);
+            ps.BindParameter("WaitForComplete", waitForComplete);
 
             return InvokeStoragePowerShell(ps);
         }
@@ -783,12 +756,8 @@ namespace CLITest
         {
             PowerShell ps = GetPowerShellInstance();
             ps.AddCommand("Get-AzureStorageBlobCopyState");
-            ps.AddParameter("ICloudBlob", blob);
-
-            if (waitForComplete)
-            {
-                ps.AddParameter("WaitForComplete");
-            }
+            ps.BindParameter("ICloudBlob", blob);
+            ps.BindParameter("WaitForComplete", waitForComplete);
 
             return InvokeStoragePowerShell(ps, context);
         }
@@ -798,24 +767,11 @@ namespace CLITest
             PowerShell ps = GetPowerShellInstance();
             AttachPipeline(ps);
 
-            ps.AddCommand("Stop-AzureStorageBlobCopy");
-
-            if (!String.IsNullOrEmpty(containerName))
-            {
-                ps.AddParameter("Container", containerName);
-            }
-
-            if (!String.IsNullOrEmpty(blobName))
-            {
-                ps.AddParameter("Blob", blobName);
-            }
-
-            ps.AddParameter("CopyId", copyId);
-
-            if (force)
-            {
-                ps.AddParameter("Force");
-            }
+            ps.AddCommand("Stop-CopyAzureStorageBlob");
+            ps.BindParameter("Container", containerName);
+            ps.BindParameter("Blob", blobName);
+            ps.BindParameter("CopyId", copyId);
+            ps.BindParameter("Force", force);
 
             return InvokeStoragePowerShell(ps);
         }
@@ -828,7 +784,7 @@ namespace CLITest
             }
             else
             {
-                ps.AddParameter(ContextParameterName, context);
+                ps.BindParameter(ContextParameterName, context);
             }
 
             Test.Info(CmdletLogFormat, MethodBase.GetCurrentMethod().Name, GetCommandLine(ps));
@@ -859,7 +815,7 @@ namespace CLITest
             
             if (Force)
             {
-                ps.AddParameter("Force");
+                ps.BindParameter("Force");
             }
         }
 
@@ -871,7 +827,7 @@ namespace CLITest
         {
             if (UseContextParam && AgentContext != null)
             {
-                ps.AddParameter(ContextParameterName, AgentContext);
+                ps.BindParameter(ContextParameterName, AgentContext);
             }
         }
 
@@ -1099,6 +1055,15 @@ namespace CLITest
             pipeLine.Clear();
         }
 
+        /// <summary>
+        /// Attach some script to the current PowerShell instance
+        ///     Attach Rule :
+        ///         1. If the script is start with "$", we directly add it to the pipeline
+        ///         2. If the current script is storage cmdlet, we need to add the current storage context to it.
+        ///         3. Otherwise, split the script into [CommandName] and many [-Parameter][Value] pairs, attach them using PowerShell command interface(AddParameter/AddCommand/etc)
+        ///         //TODO update the step 3
+        /// </summary>
+        /// <param name="ps">PowerShell instance</param>
         private void AttachPipeline(PowerShell ps)
         {
             foreach (string cmd in pipeLine)
@@ -1131,12 +1096,12 @@ namespace CLITest
                         {
                             if (i + 1 < cmdOpts.Length && cmdOpts[i + 1].IndexOf("-") != 0)
                             {
-                                ps.AddParameter(cmdOpts[i].Substring(1), cmdOpts[i + 1]);
+                                ps.BindParameter(cmdOpts[i].Substring(1), cmdOpts[i + 1]);
                                 skip = true;
                             }
                             else
                             {
-                                ps.AddParameter(cmdOpts[i].Substring(1));
+                                ps.BindParameter(cmdOpts[i].Substring(1));
                                 skip = false;
                             }
                         }

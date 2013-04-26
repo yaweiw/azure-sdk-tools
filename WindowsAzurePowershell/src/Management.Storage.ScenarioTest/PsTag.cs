@@ -29,8 +29,13 @@ namespace CLITest
         public const string Blob = "blob";
         public const string GetBlob = "getblob";
         public const string RemoveBlob = "removeblob";
+
         public const string GetBlobContent = "getblobcontent";
         public const string SetBlobContent = "setblobcontent";
+        
+        public const string StartCopyBlob = "startcopyblob";
+        public const string GetBlobCopyState = "getblobcopystate";
+        public const string StopCopyBlob = "stopcopyblob";
 
         public const string Queue = "queue";
         public const string GetQueue = "getqueue";
