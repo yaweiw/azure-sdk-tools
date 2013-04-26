@@ -15,11 +15,10 @@
 namespace Microsoft.WindowsAzure.Management.Test.CloudService
 {
     using Microsoft.WindowsAzure.Management.CloudService;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using ServiceManagement;
+    using Moq;
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
@@ -31,9 +30,9 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
 
         private MockCommandRuntime mockCommandRuntime;
 
-        private SimpleServiceManagement channel;
+        private StartAzureServiceCommand stopServiceCmdlet;
 
-        private StartAzureServiceCommand startServiceCmdlet;
+        private Mock<ICloudServiceClient> cloudServiceClientMock;
 
         [TestInitialize]
         public void SetupTest()
@@ -41,57 +40,30 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
             GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
             CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
             mockCommandRuntime = new MockCommandRuntime();
-            channel = new SimpleServiceManagement();
+            cloudServiceClientMock = new Mock<ICloudServiceClient>();
 
-            startServiceCmdlet = new StartAzureServiceCommand(channel) { ShareChannel = true };
-            startServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            stopServiceCmdlet = new StartAzureServiceCommand()
+            {
+                CloudServiceClient = cloudServiceClientMock.Object,
+                CommandRuntime = mockCommandRuntime
+            };
         }
 
         [TestMethod]
-        public void SetDeploymentStatusProcessTest()
+        public void TestStartAzureService()
         {
-            string newStatus = DeploymentStatus.Running;
-            string currentStatus = DeploymentStatus.Suspended;
-            bool statusUpdated = false;
-            channel.UpdateDeploymentStatusBySlotThunk = ar =>
-            {
-                statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status =newStatus};
-            };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
-            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
+            stopServiceCmdlet.ServiceName = serviceName;
+            stopServiceCmdlet.Slot = slot;
+            cloudServiceClientMock.Setup(f => f.StartCloudService(serviceName, slot));
 
             using (FileSystemHelper files = new FileSystemHelper(this))
             {
                 files.CreateAzureSdkDirectoryAndImportPublishSettings();
                 AzureService service = new AzureService(files.RootPath, serviceName, null);
-                startServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
+                stopServiceCmdlet.ExecuteCmdlet();
 
-                Assert.IsTrue(statusUpdated);
-            }
-        }
-
-        [TestMethod]
-        public void SetDeploymentStatusProcessWithNotExistingServiceFail()
-        {
-            string newStatus = DeploymentStatus.Running;
-            string currentStatus = DeploymentStatus.Suspended;
-            bool statusUpdated = false;
-            channel.UpdateDeploymentStatusBySlotThunk = ar =>
-            {
-                statusUpdated = true;
-                channel.GetDeploymentBySlotThunk = ar2 => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = newStatus};
-            };
-            channel.GetDeploymentBySlotThunk = ar => new Deployment{Name = serviceName, DeploymentSlot = slot, Status = currentStatus};
-            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
-
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
-                startServiceCmdlet.SetDeploymentStatusProcess(service.Paths.RootPath, newStatus, slot, Data.ValidSubscriptionName[0], serviceName);
-
-                Assert.IsFalse(statusUpdated);
+                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
+                cloudServiceClientMock.Verify(f => f.StartCloudService(serviceName, slot), Times.Once());
             }
         }
     }
