@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 
 set outdir=%1
 set source=%outdir%Resources\Scaffolding

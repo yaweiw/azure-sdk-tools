@@ -18,15 +18,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     public class SetAzureStorageAccountCmdletInfo : CmdletsInfo
     {
-        public SetAzureStorageAccountCmdletInfo(string accountName, string label, string description, bool geoReplication)
+        public SetAzureStorageAccountCmdletInfo(string accountName, string label, string description, bool? geoReplication)
         {
             cmdletName = Utilities.SetAzureStorageAccountCmdletName;
 
             this.cmdletParams.Add(new CmdletParam("StorageAccountName", accountName));
-            if (geoReplication)
-            {
-                this.cmdletParams.Add(new CmdletParam("GeoReplicationEnabled"));
-            }
             if (label != null)
             {
                 this.cmdletParams.Add(new CmdletParam("Label", label));
@@ -34,6 +30,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (description != null)
             {
                 this.cmdletParams.Add(new CmdletParam("Description", description));
+            }
+            if (geoReplication != null)
+            {
+                this.cmdletParams.Add(new CmdletParam("GeoReplicationEnabled", geoReplication.Value));
             }
         }        
     }
