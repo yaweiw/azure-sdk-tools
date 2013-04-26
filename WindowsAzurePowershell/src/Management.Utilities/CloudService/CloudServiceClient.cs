@@ -84,6 +84,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
+        /// <summary>
+        /// Creates new instance from CloudServiceClient.
+        /// </summary>
+        /// <param name="subscription">The subscription data</param>
+        /// <param name="logger">Action used to log http requests/responses</param>
         public CloudServiceClient(SubscriptionData subscription, Action<string> logger)
         {
             Subscription = subscription;
