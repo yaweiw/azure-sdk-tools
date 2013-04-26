@@ -135,7 +135,12 @@
     <Compile Include="Queue\StorageQueueTestBase.cs" />
     <Compile Include="Service\MockStorageBlobManagement.cs" />
     <Compile Include="Service\MockStorageQueueManagement.cs" />
+    <Compile Include="Service\MockStorageTableManagement.cs" />
     <Compile Include="StorageTestBase.cs" />
+    <Compile Include="Table\GetAzureStorageTableTest.cs" />
+    <Compile Include="Table\NewAzureStorageTableTest.cs" />
+    <Compile Include="Table\RemoveAzureStorageTableTest.cs" />
+    <Compile Include="Table\StorageTableStorageTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Management.Storage\Management.Storage.csproj">
