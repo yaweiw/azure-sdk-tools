@@ -92,13 +92,14 @@ function Test-GetAzureWebsiteLogTail
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	$count = 0
+	cd ..
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Message "㯑䲘䄂㮉" | % {
-		if ($_ -like "*㯑䲘䄂㮉*") { cd ..; exit; }
+	Get-AzureWebsiteLog -Name $website.Name -Tail -Message "㯑䲘䄂㮉" | % {
+		if ($_ -like "*㯑䲘䄂㮉*") { exit; }
 		Retry-DownloadString $client $uri
 		$count++
-		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
+		if ($count -gt 50) { throw "Logs were not found"; }
 	}
 }
 
@@ -115,13 +116,14 @@ function Test-GetAzureWebsiteLogTailUriEncoding
 	$uri = "http://" + $website.HostNames[0]
 	$client.BaseAddress = $uri
 	$count = 0
+	cd ..
 
 	#Test
-	Get-AzureWebsiteLog -Tail -Message "mes/a:q;" | % {
-		if ($_ -like "*mes/a:q;*") { cd ..; exit; }
+	Get-AzureWebsiteLog -Name $website.Name -Tail -Message "mes/a:q;" | % {
+		if ($_ -like "*mes/a:q;*") { exit; }
 		Retry-DownloadString $client $uri
 		$count++
-		if ($count -gt 50) { cd ..; throw "Logs were not found"; }
+		if ($count -gt 50) { throw "Logs were not found"; }
 	}
 }
 
@@ -140,6 +142,7 @@ function Test-GetAzureWebsiteLogTailPath
 	Set-AzureWebsite -RequestTracingEnabled $true -HttpLoggingEnabled $true -DetailedErrorLoggingEnabled $true
 	1..10 | % { Retry-DownloadString $client $uri }
 	Start-Sleep -Seconds 30
+	cd ..
 
 	#Test
 	$retry = $false
@@ -147,10 +150,9 @@ function Test-GetAzureWebsiteLogTailPath
 	{
 		try
 		{
-			Get-AzureWebsiteLog -Tail -Path http | % {
+			Get-AzureWebsiteLog -Name $website.Name -Tail -Path http | % {
 				if ($_ -like "*")
 				{
-					cd ..
 					exit
 				}
 				throw "HTTP path is not reached"

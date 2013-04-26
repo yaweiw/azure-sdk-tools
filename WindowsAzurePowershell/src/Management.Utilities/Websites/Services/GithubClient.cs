@@ -27,6 +27,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
     using System.ServiceModel.Web;
     using Github;
     using Github.Entities;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Common;
     using Properties;
     using WebEntities;
@@ -62,7 +63,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
         protected string RepositoryFullName;
         protected IGithubCmdlet Pscmdlet;
 
-        public GithubClient(IGithubCmdlet pscmdlet, PSCredential credentials, string githubRepository)
+        public GithubClient(
+            IGithubCmdlet pscmdlet,
+            PSCredential credentials,
+            string githubRepository)
         {
             _factories = new Dictionary<string, WebChannelFactory<IGithubServiceManagement>>();
             Pscmdlet = pscmdlet;
@@ -245,10 +249,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
                 return Pscmdlet.GithubChannel;
             }
 
-            return CreateServiceManagementChannel(new Uri("https://api.github.com"), Credentials.UserName, Credentials.Password.ConvertToUnsecureString());
+            return CreateServiceManagementChannel(
+                new Uri("https://api.github.com"),
+                Credentials.UserName,
+                Credentials.Password.ConvertToUnsecureString(),
+                Pscmdlet.GetLogger());
         }
 
-        public static IGithubServiceManagement CreateServiceManagementChannel(Uri remoteUri, string username, string password)
+        public static IGithubServiceManagement CreateServiceManagementChannel(
+            Uri remoteUri,
+            string username,
+            string password,
+            Action<string> logger)
         {
             WebChannelFactory<IGithubServiceManagement> factory;
             if (_factories.ContainsKey(remoteUri.ToString()))
@@ -259,6 +271,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services
             {
                 factory = new WebChannelFactory<IGithubServiceManagement>(remoteUri);
                 factory.Endpoint.Behaviors.Add(new GithubAutHeaderInserter {Username = username, Password = password});
+                factory.Endpoint.Behaviors.Add(new ServiceManagementClientOutputMessageInspector());
+                factory.Endpoint.Behaviors.Add(new HttpRestMessageInspector(logger));
 
                 WebHttpBinding wb = factory.Endpoint.Binding as WebHttpBinding;
                 wb.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
