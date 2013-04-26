@@ -139,9 +139,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     null));
             }
 
-            HostedServiceExtensionManager HostedServiceExtensionHelper = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+            HostedServiceExtensionManager extensionMgr = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
 
-            ExtensionConfiguration extConfig = HostedServiceExtensionHelper.NewExtensionConfig();
+            ExtensionConfiguration extConfig = extensionMgr.NewExtensionConfig();
             if (PSExtensionConfiguration != null)
             {
                 foreach (PSExtensionConfiguration psConfig in PSExtensionConfiguration)
@@ -152,15 +152,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = HostedServiceExtensionHelper.NewExtensionConfig();
-                    bool installed = HostedServiceExtensionHelper.InstallExtension(psConfig, out outConfig);
+                    ExtensionConfiguration outConfig = extensionMgr.NewExtensionConfig();
+                    bool installed = extensionMgr.InstallExtension(psConfig, Slot, out outConfig);
                     if (installed)
                     {
-                        extConfig = HostedServiceExtensionHelper.AddExtension(extConfig, outConfig);
+                        extConfig = extensionMgr.AddExtension(extConfig, outConfig);
                     }
                     else
                     {
-                        WriteExceptionError(new Exception("Failed to install extensions."));
+                        throw new Exception("Failed to install extensions.");
                     }
                 }
             }

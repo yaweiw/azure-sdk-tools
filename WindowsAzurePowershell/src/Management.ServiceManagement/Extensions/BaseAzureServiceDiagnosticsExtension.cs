@@ -11,10 +11,18 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
+    using System.Xml.Linq;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : HostedServiceExtensionBaseCmdlet
     {
+        protected string ConnectionQualifiersElemStr = "ConnectionQualifiers";
+        protected string DefaultEndpointsProtocolElemStr = "DefaultEndpointsProtocol";
+        protected string StorageAccountElemStr = "StorageAccount";
+        protected string StorageNameElemStr = "Name";
+        protected string StorageKeyElemStr = "StorageKey";
+        protected string WadCfgElemStr = "WadCfg";
+
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
         {
@@ -29,25 +37,33 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            LegacySettingStr = "Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString";
             ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
             ExtensionType = "Diagnostics";
-            PublicConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                            "<PublicConfig xmlns=\"http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration\">" +
-                                            "<StorageAccount>" +
-                                            "<ConnectionQualifiers>" + "{0}" + "</ConnectionQualifiers>" +
-                                            "<DefaultEndpointsProtocol>" + "{1}" + "</DefaultEndpointsProtocol>" +
-                                            "<Name>" + "{2}" + "</Name>" +
-                                            "</StorageAccount>" +
-                                            "<WadCfg />" +
-                                            "</PublicConfig>";
-            PrivateConfigurationTemplate = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" +
-                                            "<?xml-stylesheet type=\"text/xsl\" href=\"style.xsl\"?>" +
-                                            "<PrivateConfig>" +
-                                            "<StorageKey>" + "{0}" + "</StorageKey>" +
-                                            "</PrivateConfig>";
+            ExtensionIdTemplate = "{0}-Diagnostics-Ext-{1}-{2}";
+
             PublicConfigurationDescriptionTemplate = "Diagnostics Enabled ConnectionQualifiers: {0}, DefaultEndpointsProtocol: {1}, Name: {2}";
-            ExtensionIdTemplate = "{0}-Diagnostics-Ext-{1}";
+
+            XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
+
+            PublicConfigurationXmlTemplate = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XElement(configNameSpace + PublicConfigStr,
+                    new XElement(configNameSpace + StorageAccountElemStr,
+                        new XElement(configNameSpace + ConnectionQualifiersElemStr, "{0}"),
+                        new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, "{1}"),
+                        new XElement(configNameSpace + StorageNameElemStr, "{2}")
+                    ),
+                    new XElement(configNameSpace + WadCfgElemStr)
+                )
+            );
+
+            PrivateConfigurationXmlTemplate = new XDocument(
+                new XDeclaration("1.0", "utf-8", null),
+                new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
+                new XElement(PrivateConfigStr,
+                    new XElement(StorageKeyElemStr, "{0}")
+                )
+            );
         }
     }
 }

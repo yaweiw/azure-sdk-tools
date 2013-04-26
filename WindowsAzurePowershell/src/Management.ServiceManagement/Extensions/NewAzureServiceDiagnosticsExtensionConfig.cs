@@ -160,14 +160,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         private void ExecuteCommand()
         {
+            ValidateParameters();
             WriteObject(new PSExtensionConfiguration
             {
                 Thumbprint = Thumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationTemplate, ConnectionQualifiers, DefaultEndpointsProtocol, Name),
-                PrivateConfiguration = string.Format(PrivateConfigurationTemplate, StorageKey),
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name),
+                PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
                 AllRoles = Roles == null || !Roles.Any(),
                 NamedRoles = Roles,
                 X509Certificate = X509Certificate
@@ -176,14 +177,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void OnProcessRecord()
         {
-            if (ValidateParameters())
-            {
-                ExecuteCommand();
-            }
-            else
-            {
-                WriteExceptionError(new ArgumentException("Invalid Cmdlet parameters."));
-            }
+            ExecuteCommand();
         }
     }
 }

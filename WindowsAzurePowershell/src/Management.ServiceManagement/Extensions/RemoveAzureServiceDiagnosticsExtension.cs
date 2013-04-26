@@ -47,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveExtension", HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
-        [ValidateSet("Production", "Staging", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -88,7 +88,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 return false;
             }
 
-            Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
+            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
 
             Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
             if (Deployment == null)
@@ -136,8 +136,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
         }
 
-        private void DisableExtension()
+        private void ExecuteCommand()
         {
+            ValidateParameters();
             ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment);
             if (ExtensionManager.ExistExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType))
             {
@@ -150,26 +151,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
         }
 
-        private void ExecuteCommand()
-        {
-            if (IsLegacySettingEnabled(Deployment))
-            {
-                WriteExceptionError(new Exception("Legacy remote desktop already enabled. This cmdlet will abort."));
-                return;
-            }
-            DisableExtension();
-        }
-
         protected override void OnProcessRecord()
         {
-            if (ValidateParameters())
-            {
-                ExecuteCommand();
-            }
-            else
-            {
-                WriteExceptionError(new ArgumentException("Invalid Cmdlet parameters."));
-            }
+            ExecuteCommand();
         }
     }
 }

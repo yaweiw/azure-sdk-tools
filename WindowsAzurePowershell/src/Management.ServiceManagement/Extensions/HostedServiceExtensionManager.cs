@@ -21,8 +21,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
     public class HostedServiceExtensionManager
     {
-        private const int ExtensionIdLiveCycleCount = 2;
-        private const string ExtensionIdTemplate = "{0}-{1}-Ext-{2}";
+        public const int ExtensionIdLiveCycleCount = 2;
+        private const string ExtensionIdTemplate = "{0}-{1}-Ext-{2}-{3}";
 
         public IServiceManagement Channel
         {
@@ -50,13 +50,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             Channel = channel;
 
-            if (string.IsNullOrWhiteSpace(subscriptionId))
+            if (string.IsNullOrEmpty(subscriptionId))
             {
                 throw new ArgumentNullException("Subscription Id cannot be empty or null");
             }
             SubscriptionId = subscriptionId;
 
-            if (string.IsNullOrWhiteSpace(serviceName))
+            if (string.IsNullOrEmpty(serviceName))
             {
                 throw new ArgumentNullException("Service name cannot be empty or null");
             }
@@ -120,7 +120,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Channel.AddHostedServiceExtension(SubscriptionId, ServiceName, hostedSvcExtInput);
         }
 
-        public bool InstallExtension(PSExtensionConfiguration psConfig, out ExtensionConfiguration outConfig)
+        public bool InstallExtension(PSExtensionConfiguration psConfig, string slot, out ExtensionConfiguration outConfig)
         {
             outConfig = NewExtensionConfig();
             bool installed = false;
@@ -133,7 +133,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 bool foundThumbprint = false;
                 for (int i = 0; i < ExtensionIdLiveCycleCount && !foundThumbprint; i++)
                 {
-                    string otherExtensionId = string.Format(ExtensionIdTemplate, "Default", psConfig.Type, i);
+                    string otherExtensionId = string.Format(ExtensionIdTemplate, "Default", psConfig.Type, slot, i);
                     HostedServiceExtension extension = GetExtension(otherExtensionId);
                     if (extension != null)
                     {
@@ -170,7 +170,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     bool foundThumbprint2 = false;
                     for (int i = 0; i < ExtensionIdLiveCycleCount && !foundThumbprint2; i++)
                     {
-                        string otherExtensionId = string.Format(ExtensionIdTemplate, roleName, psConfig.Type, i);
+                        string otherExtensionId = string.Format(ExtensionIdTemplate, roleName, psConfig.Type, slot, i);
                         HostedServiceExtension extension = GetExtension(otherExtensionId);
                         if (extension != null)
                         {

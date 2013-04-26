@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "GetAzureServiceRemoteDesktopExtension", HelpMessage = "Slot")]
-        [ValidateSet("Production", "Staging", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -65,31 +65,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        private string ParseConfig(string config, string prefix, string postfix)
-        {
-            string value = "";
-            if (!string.IsNullOrEmpty(config) && !string.IsNullOrEmpty(prefix) && !string.IsNullOrEmpty(postfix))
-            {
-                int startIndex = config.IndexOf(prefix, StringComparison.OrdinalIgnoreCase);
-                int endIndex = config.IndexOf(postfix, StringComparison.OrdinalIgnoreCase);
-                if (startIndex + prefix.Length <= endIndex)
-                {
-                    value = config.Substring(startIndex + prefix.Length, endIndex - (startIndex + prefix.Length));
-                }
-            }
-            return value;
-        }
-
-        private string ParseUserName(string config)
-        {
-            return ParseConfig(config, "<UserName>", "</UserName>");
-        }
-
-        private string ParseExpiration(string config)
-        {
-            return ParseConfig(config, "<Expiration>", "</Expiration>");
-        }
-
         private string ParseAllRolesConfig()
         {
             string outputStr = "All Roles:\n    ";
@@ -97,12 +72,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 foreach (Extension extension in Deployment.ExtensionConfiguration.AllRoles)
                 {
-                    HostedServiceExtension ext1 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
-                    if (CheckExtensionType(ext1))
+                    HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
+                    if (CheckExtensionType(ext))
                     {
-                        outputStr += "<" + ext1.Id + "> ";
+                        outputStr += "<" + ext.Id + "> ";
                         outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                            ParseUserName(ext1.PublicConfiguration), ParseExpiration(ext1.PublicConfiguration)) + "\n";
+                            GetValue(ext.PublicConfiguration, UserNameElemStr),
+                            GetValue(ext.PublicConfiguration, ExpirationElemStr)) + "\n";
                     }
                 }
             }
@@ -118,13 +94,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     foreach (Extension extension in roleExts.Extensions)
                     {
-                        HostedServiceExtension ext2 = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
-                        if (CheckExtensionType(ext2))
+                        HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extension.Id);
+                        if (CheckExtensionType(ext))
                         {
                             outputStr += roleExts.RoleName + ":\n    ";
-                            outputStr += "<" + ext2.Id + "> ";
+                            outputStr += "<" + ext.Id + "> ";
                             outputStr += string.Format(PublicConfigurationDescriptionTemplate,
-                                ParseUserName(ext2.PublicConfiguration), ParseExpiration(ext2.PublicConfiguration)) + "\n";
+                                GetValue(ext.PublicConfiguration, UserNameElemStr),
+                                GetValue(ext.PublicConfiguration, ExpirationElemStr)) + "\n";
                         }
                     }
                 }
@@ -152,7 +129,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
             }
 
-            Slot = string.IsNullOrEmpty(Slot) ? "Production" : Slot;
+            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
 
             Deployment = this.Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
 
@@ -160,14 +137,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
             return true;
         }
+
         public void ExecuteCommand()
         {
+            ValidateParameters();
             WriteObject(ParseAllRolesConfig() + "\n" + ParseNamedRolesConfig());
         }
 
         protected override void OnProcessRecord()
         {
-            ValidateParameters();
             ExecuteCommand();
         }
     }
