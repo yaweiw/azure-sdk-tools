@@ -184,30 +184,31 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (contextChannel != null)
             {
-                using (new OperationContextScope(contextChannel))
+                OperationContextScope scope = new OperationContextScope(contextChannel);
+
+                TResult result = null;
+                Operation operation = null;
+
+                WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+
+                try
                 {
-                    TResult result = null;
-                    Operation operation = null;
+                    result = RetryCall(action);
+                    operation = GetOperation();
+                }
+                catch (ServiceManagementClientException ex)
+                {
+                    WriteErrorDetails(ex);
+                }
 
-                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+                scope.Dispose();
 
-                    try
-                    {
-                        result = RetryCall(action);
-                        operation = GetOperation();
-                    }
-                    catch (ServiceManagementClientException ex)
-                    {
-                        WriteErrorDetails(ex);
-                    }
+                WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
 
-                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
-
-                    if (result != null && operation != null)
-                    {
-                        object context = contextFactory(operation, result);
-                        WriteObject(context, true);
-                    }
+                if (result != null && operation != null)
+                {
+                    object context = contextFactory(operation, result);
+                    WriteObject(context, true);
                 }
             }
             else

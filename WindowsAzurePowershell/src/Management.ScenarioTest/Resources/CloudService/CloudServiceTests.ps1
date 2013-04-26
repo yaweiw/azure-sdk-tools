@@ -37,7 +37,7 @@ Tests Publishing a Cache Service.
 #>
 function Test-PublishCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
 }
 
 <#
@@ -46,7 +46,7 @@ Tests Publishing and updating a Cache Service.
 #>
 function Test-UpdateCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
 }
 
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
@@ -368,13 +368,11 @@ function Test-StopAzureServiceWithEmptyDeployment
 {
 	# Setup
 	$name = Get-CloudServiceName
+	$msg = [string]::Format("Deployment for service {0} with Staging slot doesn't exist", $name)
 	New-AzureService $name -Location $(Get-DefaultLocation)
 
 	# Test
-	$Stopped = Stop-AzureService $name -Slot Staging -PassThru
-
-	# Assert
-	Assert-False { $Stopped }
+	Assert-Throws { Stop-AzureService $name -Slot Staging } $msg
 }
 
 <#
