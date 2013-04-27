@@ -124,6 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (contextChannel != null)
             {
+                object context = null;
+
                 using (new OperationContextScope(contextChannel))
                 {
                     Operation operation = null;
@@ -144,15 +146,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
                     if (operation != null)
                     {
-                        var context = new ManagementOperationContext
+                        context = new ManagementOperationContext
                         {
                             OperationDescription = operationDescription,
                             OperationId = operation.OperationTrackingId,
                             OperationStatus = operation.Status
                         };
-
-                        WriteObject(context, true);
                     }
+                }
+
+                if (context != null)
+                {
+                    WriteObject(context, true);
                 }
             }
             else
@@ -184,30 +189,35 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (contextChannel != null)
             {
-                OperationContextScope scope = new OperationContextScope(contextChannel);
+                object context = null;
 
-                TResult result = null;
-                Operation operation = null;
-
-                WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
-
-                try
+                using (new OperationContextScope(contextChannel))
                 {
-                    result = RetryCall(action);
-                    operation = GetOperation();
+                    TResult result = null;
+                    Operation operation = null;
+
+                    WriteVerboseWithTimestamp(string.Format("Begin Operation: {0}", operationDescription));
+
+                    try
+                    {
+                        result = RetryCall(action);
+                        operation = GetOperation();
+                    }
+                    catch (ServiceManagementClientException ex)
+                    {
+                        WriteErrorDetails(ex);
+                    }
+
+                    WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
+
+                    if (result != null && operation != null)
+                    {
+                        context = contextFactory(operation, result);
+                    }
                 }
-                catch (ServiceManagementClientException ex)
+
+                if (context != null)
                 {
-                    WriteErrorDetails(ex);
-                }
-
-                scope.Dispose();
-
-                WriteVerboseWithTimestamp(string.Format("Completed Operation: {0}", operationDescription));
-
-                if (result != null && operation != null)
-                {
-                    object context = contextFactory(operation, result);
                     WriteObject(context, true);
                 }
             }
