@@ -66,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 if (datadisk.MediaLink == null && string.IsNullOrEmpty(datadisk.DiskName))
                 {
-                    CloudStorageAccount currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
+                    CloudStorageAccount currentStorage = currentSubscription.GetCurrentStorageAccount(Channel);
                     if (currentStorage == null)
                     {
                         throw new ArgumentException("CurrentStorageAccount is not set or not accessible. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
