@@ -14,13 +14,8 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Management.Automation;
-    using System.Xml;
-    using WindowsAzure.Management.Utilities.CloudService;
-    using WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -39,115 +34,69 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveExtension", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Cloud Service Name")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Cloud Service Name")]
         public override string ServiceName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveExtension", HelpMessage = "Deployment Slot: Production | Staging. Default Production.")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "RemoveAll", HelpMessage = "Deployment Slot: Production (default) or Staging.")]
         [ValidateSet(DeploymentSlotType.Production, DeploymentSlotType.Staging, IgnoreCase = true)]
-        public string Slot
+        public override string Slot
         {
             get;
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "RemoveExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        public string[] Roles
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        public override string[] Roles
         {
             get;
             set;
         }
 
-        private Deployment Deployment
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "RemoveAll", HelpMessage = "If specified uninstall all Diagnostics configurations from the cloud service.")]
+        public SwitchParameter UninstallConfiguration
         {
             get;
             set;
         }
 
-        private bool ValidateParameters()
+        protected override void ValidateParameters()
         {
-            string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(General.TryGetServiceRootPath(CurrentPath()), ServiceName, null, null, null, null, CurrentSubscription.SubscriptionId, out serviceName);
-
-            if (string.IsNullOrEmpty(serviceName))
-            {
-                WriteExceptionError(new Exception("Invalid service name"));
-                return false;
-            }
-            else
-            {
-                ServiceName = serviceName;
-            }
-
-            if (!IsServiceAvailable(ServiceName))
-            {
-                WriteExceptionError(new Exception("Service not found: " + ServiceName));
-                return false;
-            }
-
-            Slot = string.IsNullOrEmpty(Slot) ? DeploymentSlotType.Production : Slot;
-
-            Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-            if (Deployment == null)
-            {
-                WriteExceptionError(new Exception(string.Format("Deployment not found in service: {0} and slot: {1}", ServiceName, Slot)));
-                return false;
-            }
-
-            if (Deployment.ExtensionConfiguration == null)
-            {
-                Deployment.ExtensionConfiguration = new ExtensionConfiguration
-                {
-                    AllRoles = new AllRoles(),
-                    NamedRoles = new NamedRoles()
-                };
-            }
-
-            if (Roles != null)
-            {
-                foreach (string roleName in Roles)
-                {
-                    if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
-                    {
-                        WriteExceptionError(new Exception(string.Format("Role{0} not found in deployment {1} of service {2}.", roleName, Slot, ServiceName)));
-                        return false;
-                    }
-                }
-            }
-
-            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
-
-            return true;
+            base.ValidateParameters();
+            ValidateDeployment();
+            ValidateRoles();
         }
 
-        private void ChangeDeployment(ExtensionConfiguration extConfig)
-        {
-            ChangeConfigurationInput changeConfigInput = new ChangeConfigurationInput
-            {
-                Configuration = Deployment.Configuration,
-                ExtendedProperties = Deployment.ExtendedProperties,
-                ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
-                Mode = "Auto",
-                TreatWarningsAsError = false
-            };
-            ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));
-        }
-
-        private void ExecuteCommand()
+        public void ExecuteCommand()
         {
             ValidateParameters();
+
             ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment);
-            if (ExtensionManager.ExistExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType))
+
+            bool removed = false;
+            if (UninstallConfiguration && ExtensionManager.ExistAnyExtension(extConfig, ExtensionNameSpace, ExtensionType))
+            {
+                extConfig = ExtensionManager.RemoveAllExtension(extConfig, ExtensionNameSpace, ExtensionType);
+                removed = true;
+            }
+            else if (ExtensionManager.ExistExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType))
             {
                 extConfig = ExtensionManager.RemoveExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType);
+                removed = true;
+            }
+
+            if (removed)
+            {
                 ChangeDeployment(extConfig);
             }
             else
             {
-                WriteWarning("No existing extensions enabled on role(s). This cmdlet will end.");
+                WriteWarning(string.Format("No existing {0}.{1} extensions enabled on given roles.", ExtensionNameSpace, ExtensionType));
             }
         }
 

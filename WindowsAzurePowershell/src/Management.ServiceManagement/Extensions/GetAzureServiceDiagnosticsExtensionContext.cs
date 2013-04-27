@@ -12,19 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Utilities.Common;
-
-    public class HostedServiceExtensionContext : ManagementOperationContext
+    public class GetAzureServiceDiagnosticsExtensionContext : ExtensionRoleContext
     {
-        public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
-        public string Id { get; set; }
-        public string Version { get; set; }
-        public string Thumbprint { get; set; }
-        public string ThumbprintAlgorithm { get; set; }
-        public string PublicConfiguration { get; set; }
+        public string ConnectionQualifiers { get; set; }
+        public string DefaultEndpointsProtocol { get; set; }
+        public string StorageName { get; set; }
+        public string WadCfg { get; set; }
     }
 }

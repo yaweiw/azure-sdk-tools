@@ -18,8 +18,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Model;
+    using WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -40,23 +40,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ExecuteClientActionInOCS(null,
-            CommandRuntime.ToString(),
-            s => this.Channel.ListLatestExtensions(CurrentSubscription.SubscriptionId),
-            (op, extensions) => extensions.Select(extension => new HostedServiceExtensionImageContext
-            {
-                OperationId = op.OperationTrackingId,
-                OperationDescription = CommandRuntime.ToString(),
-                OperationStatus = op.Status,
-                ProviderNameSpace = extension.ProviderNameSpace,
-                Type = extension.Type,
-                Version = extension.Version,
-                Label = extension.Label,
-                Description = extension.Description,
-                HostingResources = extension.HostingResources,
-                ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                PublicConfigurationSchema = extension.PublicConfigurationSchema,
-                PrivateConfigurationSchema = extension.PrivateConfigurationSchema
-            }));
+                CommandRuntime.ToString(),
+                s => this.Channel.ListLatestExtensions(CurrentSubscription.SubscriptionId),
+                (op, extensions) => extensions.Select(extension => new HostedServiceExtensionImageContext
+                {
+                    OperationId = op.OperationTrackingId,
+                    OperationDescription = CommandRuntime.ToString(),
+                    OperationStatus = op.Status,
+                    ProviderNameSpace = extension.ProviderNameSpace,
+                    Type = extension.Type,
+                    Version = extension.Version,
+                    Label = extension.Label,
+                    Description = extension.Description,
+                    HostingResources = extension.HostingResources,
+                    ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
+                    PublicConfigurationSchema = extension.PublicConfigurationSchema,
+                    PrivateConfigurationSchema = extension.PrivateConfigurationSchema
+                }));
         }
 
         protected override void OnProcessRecord()

@@ -14,14 +14,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Xml.Linq;
     using WindowsAzure.ServiceManagement;
 
-    public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : HostedServiceExtensionBaseCmdlet
+    public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
-        protected string ConnectionQualifiersElemStr = "ConnectionQualifiers";
-        protected string DefaultEndpointsProtocolElemStr = "DefaultEndpointsProtocol";
-        protected string StorageAccountElemStr = "StorageAccount";
-        protected string StorageNameElemStr = "Name";
-        protected string StorageKeyElemStr = "StorageKey";
-        protected string WadCfgElemStr = "WadCfg";
+        protected const string ConnectionQualifiersElemStr = "ConnectionQualifiers";
+        protected const string DefaultEndpointsProtocolElemStr = "DefaultEndpointsProtocol";
+        protected const string StorageAccountElemStr = "StorageAccount";
+        protected const string StorageNameElemStr = "Name";
+        protected const string StorageKeyElemStr = "StorageKey";
+        protected const string WadCfgElemStr = "WadCfg";
 
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
@@ -39,8 +39,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
             ExtensionType = "Diagnostics";
-            ExtensionIdTemplate = "{0}-Diagnostics-Ext-{1}-{2}";
-
             PublicConfigurationDescriptionTemplate = "Diagnostics Enabled ConnectionQualifiers: {0}, DefaultEndpointsProtocol: {1}, Name: {2}";
 
             XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
@@ -53,7 +51,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         new XElement(configNameSpace + DefaultEndpointsProtocolElemStr, "{1}"),
                         new XElement(configNameSpace + StorageNameElemStr, "{2}")
                     ),
-                    new XElement(configNameSpace + WadCfgElemStr)
+                    new XElement(configNameSpace + WadCfgElemStr, "{3}")
                 )
             );
 

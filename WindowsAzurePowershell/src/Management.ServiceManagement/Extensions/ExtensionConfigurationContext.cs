@@ -12,19 +12,20 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using Utilities.Common;
+    using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
 
-    public class HostedServiceExtensionContext : ManagementOperationContext
+    public class ExtensionConfigurationContext
     {
         public string ProviderNameSpace { get; set; }
         public string Type { get; set; }
-        public string Id { get; set; }
-        public string Version { get; set; }
         public string Thumbprint { get; set; }
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfiguration { get; set; }
+        public string PrivateConfiguration { get; set; }
+        public List<ExtensionRole> Roles { get; set; }
+        public X509Certificate2 X509Certificate { get; set; }
     }
 }
