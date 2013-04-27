@@ -26,7 +26,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         public SubscriptionData Subscription { get; set; }
 
-        public Action<string> Logger { get; set; }
+        public Action<string> DebugStream { get; set; }
+
+        public Action<string> VerboseStream { get; set; }
 
         private string subscriptionId;
 
@@ -88,17 +90,23 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// Creates new instance from CloudServiceClient.
         /// </summary>
         /// <param name="subscription">The subscription data</param>
-        /// <param name="logger">Action used to log http requests/responses</param>
-        public CloudServiceClient(SubscriptionData subscription, Action<string> logger)
+        /// <param name="debugStream">Action used to log http requests/responses</param>
+        /// <param name="verboseStream">Action used to log detailed client progress</param>
+        public CloudServiceClient(
+            SubscriptionData subscription,
+            Action<string> debugStream,
+            Action<string> verboseStream)
         {
             Subscription = subscription;
             subscriptionId = subscription.SubscriptionId;
+            DebugStream = debugStream;
+            VerboseStream = verboseStream;
 
             ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),
                 new Uri(subscription.ServiceEndpoint),
                 subscription.Certificate,
-                new HttpRestMessageInspector(logger));
+                new HttpRestMessageInspector(DebugStream));
         }
 
         /// <summary>

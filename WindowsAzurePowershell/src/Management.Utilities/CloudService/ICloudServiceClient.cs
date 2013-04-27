@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 {
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public interface ICloudServiceClient
     {
