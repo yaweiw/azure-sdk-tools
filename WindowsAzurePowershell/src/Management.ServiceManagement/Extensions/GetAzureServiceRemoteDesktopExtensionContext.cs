@@ -14,18 +14,9 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System.Security.Cryptography.X509Certificates;
-
-    public class PSExtensionConfiguration
+    public class GetAzureServiceRemoteDesktopExtensionContext : ExtensionRoleContext
     {
-        public string Thumbprint { get; set; }
-        public string ThumbprintAlgorithm { get; set; }
-        public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
-        public string PublicConfiguration { get; set; }
-        public string PrivateConfiguration { get; set; }
-        public bool AllRoles { get; set; }
-        public string[] NamedRoles { get; set; }
-        public X509Certificate2 X509Certificate { get; set; }
+        public string UserName { get; set; }
+        public string Expiration { get; set; }
     }
 }

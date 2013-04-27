@@ -156,29 +156,60 @@
     <Compile Include="Common\ValidateDeploymentUpgradeTypeAttribute.cs" />
     <Compile Include="Common\ValidateVMSizeAttribute.cs" />
     <Compile Include="Common\ValidationHelpers.cs" />
-    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs" />
-    <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs" />
-    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs" />
-    <Compile Include="Extensions\GetAzureServiceExtensionImage.cs" />
+    <Compile Include="Extensions\BaseAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\BaseAzureServiceExtensionCmdlet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionConfigurationContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionImageContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\ExtensionRoleContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtensionContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\GetAzureServiceExtensionImage.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\HostedServiceExtensionBaseCmdlet.cs" />
-    <Compile Include="Extensions\HostedServiceExtensionContext.cs">
+    <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\HostedServiceExtensionImageContext.cs">
+    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\HostedServiceExtensionManager.cs" />
-    <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs" />
-    <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs" />
-    <Compile Include="Extensions\PSExtensionConfiguration.cs" />
-    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs" />
+    <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\RemoveAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs" />
+    <Compile Include="Extensions\SetAzureServiceDiagnosticsExtension.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Extensions\SetAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -18,41 +18,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Management.Automation;
-    using System.Runtime.InteropServices;
-    using System.Security;
     using System.Security.Cryptography.X509Certificates;
-    using System.Security.Permissions;
-    using WindowsAzure.Management.ServiceManagement.Helpers;
-    using WindowsAzure.Management.Utilities.CloudService;
-    using WindowsAzure.Management.Utilities.Common;
     using WindowsAzure.ServiceManagement;
-
-    // From GithubClient.cs
-    public static class SecureStringExtensionMethods
-    {
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        public static string ConvertToUnsecureString(this SecureString securePassword)
-        {
-            if (securePassword == null)
-                throw new ArgumentNullException("securePassword");
-
-            IntPtr unmanagedString = IntPtr.Zero;
-            try
-            {
-                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
-                return Marshal.PtrToStringUni(unmanagedString);
-            }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
-            }
-        }
-    }
 
     /// <summary>
     /// New Windows Azure Service Remote Desktop Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceRemoteDesktopExtensionConfig"), OutputType(typeof(PSExtensionConfiguration))]
+    [Cmdlet(VerbsCommon.New, "AzureServiceRemoteDesktopExtensionConfig"), OutputType(typeof(ExtensionConfigurationContext))]
     public class NewAzureServiceRemoteDesktopExtensionConfigCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public NewAzureServiceRemoteDesktopExtensionConfigCommand()
@@ -77,22 +49,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
-        public string[] Roles
+        public override string[] Roles
         {
             get;
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop Credential")]
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [ValidateNotNullOrEmpty]
+        public override X509Certificate2 X509Certificate
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [ValidateNotNullOrEmpty]
+        public override string Thumbprint
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [ValidateNotNullOrEmpty]
+        public override string ThumbprintAlgorithm
+        {
+            get;
+            set;
+        }
+
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop Credential")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential")]
         public PSCredential Credential
         {
             get;
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
         [ValidateNotNullOrEmpty]
         public DateTime Expiration
         {
@@ -100,91 +96,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
-        [ValidateNotNullOrEmpty]
-        public X509Certificate2 X509Certificate
+        protected override void ValidateParameters()
         {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
-        [ValidateNotNullOrEmpty]
-        public string Thumbprint
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
-        [ValidateNotNullOrEmpty]
-        public string ThumbprintAlgorithm
-        {
-            get;
-            set;
-        }
-
-        private string ExpirationStr
-        {
-            get
-            {
-                return Expiration.ToString("yyyy-MM-dd");
-            }
-        }
-
-        private bool ValidateParameters()
-        {
-            string serviceName;
-            ServiceSettings settings = General.GetDefaultSettings(General.TryGetServiceRootPath(CurrentPath()), ServiceName, null, null, null, null, CurrentSubscription.SubscriptionId, out serviceName);
-
-            if (string.IsNullOrEmpty(serviceName))
-            {
-                WriteExceptionError(new Exception("Invalid service name"));
-                return false;
-            }
-            else
-            {
-                ServiceName = serviceName;
-            }
-
-            if (!IsServiceAvailable(ServiceName))
-            {
-                WriteExceptionError(new Exception("Service not found: " + ServiceName));
-                return false;
-            }
-
+            base.ValidateParameters();
+            ValidateThumbprint();
             Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(6) : Expiration;
-
-            if (X509Certificate != null)
-            {
-                var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, X509Certificate.Thumbprint);
-                ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
-                Thumbprint = X509Certificate.Thumbprint;
-                ThumbprintAlgorithm = X509Certificate.SignatureAlgorithm.FriendlyName;
-            }
-            else if (Thumbprint != null)
-            {
-                ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
-            }
-
-            ExtensionManager = new HostedServiceExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
-
-            return true;
         }
 
-        private void ExecuteCommand()
+        public void ExecuteCommand()
         {
             ValidateParameters();
-            WriteObject(new PSExtensionConfiguration
+            WriteObject(new ExtensionConfigurationContext
             {
                 Thumbprint = Thumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), Credential.UserName, ExpirationStr),
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), Credential.UserName, Expiration.ToString("yyyy-MM-dd")),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), Credential.Password.ConvertToUnsecureString()),
-                AllRoles = Roles == null || !Roles.Any(),
-                NamedRoles = Roles,
+                Roles = Roles != null ? Roles.Select(r => new ExtensionRole(r)).ToList() : new List<ExtensionRole>(new ExtensionRole[] { new ExtensionRole() }),
                 X509Certificate = X509Certificate
             });
         }
