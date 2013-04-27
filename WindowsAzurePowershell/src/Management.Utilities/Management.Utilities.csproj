@@ -171,7 +171,6 @@
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
     <Compile Include="CloudService\DeploymentSettings.cs" />
-    <Compile Include="CloudService\DeploymentStatusManager.cs" />
     <Compile Include="CloudService\GetDeploymentStatus.cs" />
     <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\IPublishListener.cs" />
