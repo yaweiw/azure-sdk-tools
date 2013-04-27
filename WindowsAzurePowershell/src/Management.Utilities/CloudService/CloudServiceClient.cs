@@ -32,6 +32,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         public Action<string> WarningeStream { get; set; }
 
+        public string CurrentDirectory { get; set; }
+
         private string subscriptionId;
 
         enum CloudServiceState
@@ -55,15 +57,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
-        private string GetSlot(string slot)
-        {
-            return string.IsNullOrEmpty(slot) ? DeploymentSlotType.Production : slot;
-        }
-
         private void SetCloudServiceState(string name, string slot, CloudServiceState state)
         {
-            slot = GetSlot(slot);
             HostedService cloudService = GetCloudService(name);
+            slot = GetSlot(slot);
             VerifyDeploymentExists(cloudService, slot);
             ServiceManagementChannel.UpdateDeploymentStatusBySlot(
                 subscriptionId,
@@ -74,18 +71,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     Status = state == CloudServiceState.Start ? DeploymentStatus.Running : DeploymentStatus.Suspended
                 }
             );
-        }
-
-        private HostedService GetCloudService(string name)
-        {
-            try
-            {
-                return ServiceManagementChannel.GetHostedServiceWithDetails(subscriptionId, name, true);
-            }
-            catch (Exception)
-            {
-                throw new Exception(string.Format(Resources.ServiceDoesNotExist, name));
-            }
         }
 
         private void WriteToStream(Action<string> stream, string format, params object[] args)
@@ -106,6 +91,45 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             WriteToStream(VerboseStream, format, args);
         }
 
+        private string GetSlot(string slot)
+        {
+            return string.IsNullOrEmpty(slot) ? DeploymentSlotType.Production : slot;
+        }
+
+        private string GetCloudServiceName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                name = GetCurrentServiceProject().ServiceName;
+            }
+
+            return name;
+        }
+
+        private string GetCurrentDirectory()
+        {
+            return CurrentDirectory != null ? CurrentDirectory : Environment.CurrentDirectory;
+        }
+
+        private HostedService GetCloudService(string name)
+        {
+            name = GetCloudServiceName(name);
+
+            try
+            {
+                return ServiceManagementChannel.GetHostedServiceWithDetails(subscriptionId, name, true);
+            }
+            catch
+            {
+                throw new Exception(string.Format(Resources.ServiceDoesNotExist, name));
+            }
+        }
+
+        private AzureService GetCurrentServiceProject()
+        {
+            return new AzureService(General.GetServiceRootPath(GetCurrentDirectory()), null);
+        }
+
         /// <summary>
         /// Creates new instance from CloudServiceClient.
         /// </summary>
@@ -115,12 +139,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// <param name="warningStream">Action used to log warning messages</param>
         public CloudServiceClient(
             SubscriptionData subscription,
+            string currentLocation= null,
             Action<string> debugStream = null,
             Action<string> verboseStream = null,
             Action<string> warningStream = null)
         {
             Subscription = subscription;
             subscriptionId = subscription.SubscriptionId;
+            CurrentDirectory = currentLocation;
             DebugStream = debugStream;
             VerboseStream = verboseStream;
             WarningeStream = warningStream;
@@ -137,7 +163,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot</param>
-        public void StartCloudService(string name, string slot)
+        public void StartCloudService(string name = null, string slot = null)
         {
             SetCloudServiceState(name, slot, CloudServiceState.Start);
         }
@@ -147,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot</param>
-        public void StopCloudService(string name, string slot)
+        public void StopCloudService(string name = null, string slot = null)
         {
             SetCloudServiceState(name, slot, CloudServiceState.Stop);
         }
@@ -158,7 +184,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot name</param>
         /// <returns>Flag indicating the deployment exists or not</returns>
-        public bool DeploymentExists(string name, string slot)
+        public bool DeploymentExists(string name = null, string slot = null)
         {
             HostedService cloudService = GetCloudService(name);
             try
