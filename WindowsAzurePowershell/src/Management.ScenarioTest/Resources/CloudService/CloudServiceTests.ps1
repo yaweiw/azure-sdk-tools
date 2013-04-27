@@ -206,7 +206,7 @@ Tests Start-AzureService with an existing service that has staging deployment on
 function Test-StartAzureServiceWithStagingDeployment
 {
 	# Setup
-	New-CloudService 1
+	New-CloudService 1 $null Staging
 	$name = $global:createdCloudServices[0]
 	Stop-AzureService $name -Slot Staging
 	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
