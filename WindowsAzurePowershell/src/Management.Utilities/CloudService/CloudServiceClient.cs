@@ -30,6 +30,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
         public Action<string> VerboseStream { get; set; }
 
+        public Action<string> WarningeStream { get; set; }
+
         private string subscriptionId;
 
         enum CloudServiceState
@@ -86,21 +88,42 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             }
         }
 
+        private void WriteToStream(Action<string> stream, string format, params object[] args)
+        {
+            if (stream != null)
+            {
+                stream(string.Format(format, args));
+            }
+        }
+
+        private void WriteWarning(string format, params object[] args)
+        {
+            WriteToStream(WarningeStream, format, args);
+        }
+
+        private void WriteVerbose(string format, params object[] args)
+        {
+            WriteToStream(VerboseStream, format, args);
+        }
+
         /// <summary>
         /// Creates new instance from CloudServiceClient.
         /// </summary>
         /// <param name="subscription">The subscription data</param>
         /// <param name="debugStream">Action used to log http requests/responses</param>
         /// <param name="verboseStream">Action used to log detailed client progress</param>
+        /// <param name="warningStream">Action used to log warning messages</param>
         public CloudServiceClient(
             SubscriptionData subscription,
-            Action<string> debugStream,
-            Action<string> verboseStream)
+            Action<string> debugStream = null,
+            Action<string> verboseStream = null,
+            Action<string> warningStream = null)
         {
             Subscription = subscription;
             subscriptionId = subscription.SubscriptionId;
             DebugStream = debugStream;
             VerboseStream = verboseStream;
+            WarningeStream = warningStream;
 
             ServiceManagementChannel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
                 ConfigurationConstants.WebHttpBinding(),

@@ -44,7 +44,9 @@ namespace Microsoft.WindowsAzure.Management.CloudService
             CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
                 CurrentSubscription,
                 WriteDebug,
-                WriteVerbose);
+                WriteVerbose,
+                WriteWarning);
+
             CloudServiceClient.StopCloudService(ServiceName, Slot);
 
             if (PassThru)
