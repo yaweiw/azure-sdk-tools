@@ -41,7 +41,10 @@ namespace Microsoft.WindowsAzure.Management.CloudService
 
         public override void ExecuteCmdlet()
         {
-            CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(CurrentSubscription, WriteDebug);
+            CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
+                CurrentSubscription,
+                WriteDebug,
+                WriteVerbose);
             CloudServiceClient.StartCloudService(ServiceName, Slot);
 
             if (PassThru)
