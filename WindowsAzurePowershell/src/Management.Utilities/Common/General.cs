@@ -33,6 +33,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.Storage;
+    using Microsoft.WindowsAzure.Storage.Auth;
     using Newtonsoft.Json;
     using JsonFormatting = Newtonsoft.Json.Formatting;
 
@@ -258,41 +260,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             store.Open(OpenFlags.ReadWrite);
             store.Remove(certificate);
             store.Close();
-        }
-
-        public static string BuildConnectionString(
-            string defaultEndpointsProtocol,
-            string accountName,
-            string accountKey,
-            string blobEndpoint,
-            string tableEndpoint,
-            string queueEndpoint)
-        {
-            var connectionString = new StringBuilder();
-
-            connectionString.AppendFormat(
-                CultureInfo.InvariantCulture,
-                "DefaultEndpointsProtocol={0};AccountName={1};AccountKey={2}",
-                defaultEndpointsProtocol ?? "http",
-                accountName,
-                accountKey);
-
-            if (!string.IsNullOrEmpty(blobEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";BlobEndpoint={0}", blobEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(tableEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";TableEndpoint={0}", tableEndpoint);
-            }
-
-            if (!string.IsNullOrEmpty(queueEndpoint))
-            {
-                connectionString.AppendFormat(CultureInfo.InvariantCulture, ";QueueEndpoint={0}", queueEndpoint);
-            }
-
-            return connectionString.ToString();
         }
 
         /// <summary>
