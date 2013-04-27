@@ -43,6 +43,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService
         {
             CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
                 CurrentSubscription,
+                SessionState.Path.CurrentLocation.Path,
                 WriteDebug,
                 WriteVerbose,
                 WriteWarning);

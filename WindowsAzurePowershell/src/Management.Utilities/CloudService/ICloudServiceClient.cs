@@ -24,14 +24,14 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot</param>
-        void StartCloudService(string name, string slot);
+        void StartCloudService(string name = null, string slot = null);
 
         /// <summary>
         /// Stops a cloud service.
         /// </summary>
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot</param>
-        void StopCloudService(string name, string slot);
+        void StopCloudService(string name = null, string slot = null);
 
         /// <summary>
         /// Check if the deployment exists for given cloud service.
@@ -39,6 +39,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// <param name="name">The cloud service name</param>
         /// <param name="slot">The deployment slot name</param>
         /// <returns>Flag indicating the deployment exists or not</returns>
-        bool DeploymentExists(string name, string slot);
+        bool DeploymentExists(string name = null, string slot = null);
     }
 }
