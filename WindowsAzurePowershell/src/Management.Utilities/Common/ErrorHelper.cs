@@ -16,7 +16,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System.IO;
     using System.Net;
-    using System.Runtime.Serialization;
     using System.ServiceModel;
     using System.Xml;
     using ServiceManagement;
@@ -112,9 +111,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                         }
                     }
                 }
-                catch (SerializationException)
-
+                catch
                 {
+                    errorDetails = null;
                     return false;
                 }
             }
