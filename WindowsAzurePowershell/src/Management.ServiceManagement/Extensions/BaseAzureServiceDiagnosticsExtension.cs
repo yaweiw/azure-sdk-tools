@@ -39,7 +39,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
             ExtensionType = "Diagnostics";
-            PublicConfigurationDescriptionTemplate = "Diagnostics Enabled ConnectionQualifiers: {0}, DefaultEndpointsProtocol: {1}, Name: {2}";
 
             XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
 

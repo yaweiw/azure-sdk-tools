@@ -30,7 +30,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected ExtensionManager ExtensionManager;
         protected string ExtensionNameSpace;
         protected string ExtensionType;
-        protected string PublicConfigurationDescriptionTemplate;
         protected XDocument PublicConfigurationXmlTemplate;
         protected XDocument PrivateConfigurationXmlTemplate;
 
@@ -57,7 +56,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        public virtual string[] Roles
+        public virtual string[] Role
         {
             get;
             set;
@@ -136,13 +135,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected void ValidateRoles()
         {
-            if (Roles != null)
+            if (Role != null)
             {
-                foreach (string roleName in Roles)
+                Role.ForEach(r => r = r == null ? r : r.Trim());
+                Role = Role.Distinct().ToArray();
+
+                foreach (string roleName in Role)
                 {
                     if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
                     {
                         throw new Exception(string.Format("Role: {0} not found in deployment {1} of service {2}.", roleName, Slot, ServiceName));
+                    }
+
+                    if (string.IsNullOrWhiteSpace(roleName))
+                    {
+                        throw new Exception("Specified role name cannot be empty or null.");
                     }
                 }
             }

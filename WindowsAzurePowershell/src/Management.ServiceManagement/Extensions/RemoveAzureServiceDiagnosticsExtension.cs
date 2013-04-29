@@ -52,7 +52,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         }
 
         [Parameter(Position = 2, Mandatory = false, ParameterSetName = "RemoveByRoles", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        public override string[] Roles
+        public override string[] Role
         {
             get;
             set;
@@ -76,23 +76,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             ValidateParameters();
 
-            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment);
+            ExtensionConfigurationBuilder configBuilder = ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration);
 
             bool removed = false;
-            if (UninstallConfiguration && ExtensionManager.ExistAnyExtension(extConfig, ExtensionNameSpace, ExtensionType))
+            if (UninstallConfiguration && configBuilder.ExistAny(ExtensionNameSpace, ExtensionType))
             {
-                extConfig = ExtensionManager.RemoveAllExtension(extConfig, ExtensionNameSpace, ExtensionType);
+                configBuilder.RemoveAny(ExtensionNameSpace, ExtensionType);
                 removed = true;
             }
-            else if (ExtensionManager.ExistExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType))
+            else if (configBuilder.Exist(Role, ExtensionNameSpace, ExtensionType))
             {
-                extConfig = ExtensionManager.RemoveExtension(extConfig, Roles, ExtensionNameSpace, ExtensionType);
+                configBuilder.Remove(Role, ExtensionNameSpace, ExtensionType);
                 removed = true;
             }
 
             if (removed)
             {
-                ChangeDeployment(extConfig);
+                ChangeDeployment(configBuilder.ToConfiguration());
             }
             else
             {

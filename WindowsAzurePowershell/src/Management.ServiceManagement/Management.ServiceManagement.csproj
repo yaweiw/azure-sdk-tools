@@ -165,6 +165,7 @@
     <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\ExtensionConfigurationBuilder.cs" />
     <Compile Include="Extensions\ExtensionConfigurationContext.cs">
       <SubType>Code</SubType>
     </Compile>

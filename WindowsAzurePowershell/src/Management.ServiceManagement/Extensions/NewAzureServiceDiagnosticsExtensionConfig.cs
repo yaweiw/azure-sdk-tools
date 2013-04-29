@@ -49,7 +49,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
-        public override string[] Roles
+        public override string[] Role
         {
             get;
             set;
@@ -140,8 +140,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 Type = ExtensionType,
                 PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, WadCfg),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
-                Roles = Roles != null ? Roles.Select(r => new ExtensionRole(r)).ToList() : new List<ExtensionRole>(new ExtensionRole[] { new ExtensionRole() }),
-                X509Certificate = X509Certificate
+                X509Certificate = X509Certificate,
+                Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()
             });
         }
 
