@@ -275,5 +275,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites.Services
         {
             get { throw new NotImplementedException(); }
         }
+
+        public Action<string> GetLogger()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

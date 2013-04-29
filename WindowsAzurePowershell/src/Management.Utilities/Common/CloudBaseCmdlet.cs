@@ -369,12 +369,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             ErrorRecord errorRecord = null;
 
             string operationId;
-            ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId);
-            if (error == null)
-            {
-                errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);
-            }
-            else
+            if (ErrorHelper.TryGetExceptionDetails(exception, out error, out operationId))
             {
                 string errorDetails = string.Format(
                     CultureInfo.InvariantCulture,
@@ -383,7 +378,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     error.Message,
                     operationId);
 
-                errorRecord = new ErrorRecord(new CommunicationException(errorDetails), string.Empty, ErrorCategory.CloseError, null);
+                errorRecord = new ErrorRecord(
+                    new CommunicationException(errorDetails),
+                    string.Empty,
+                    ErrorCategory.CloseError,
+                    null);
+            }
+            else
+            {
+                errorRecord = new ErrorRecord(exception, string.Empty, ErrorCategory.CloseError, null);
             }
 
             if (CommandRuntime != null)
