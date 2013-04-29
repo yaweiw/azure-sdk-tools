@@ -37,7 +37,7 @@ Tests Publishing a Cache Service.
 #>
 function Test-PublishCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
 }
 
 <#
@@ -46,7 +46,7 @@ Tests Publishing and updating a Cache Service.
 #>
 function Test-UpdateCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
 }
 
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
@@ -323,7 +323,7 @@ function Test-AzureNameWithNotExistingServiceBusNamespace
 
 <#
 .SYNOPSIS
-Tests Test-AzureName with existing service bus namespace and expects $false.
+Tests Test-AzureName with existing service bus namespace and expects $true.
 #>
 function Test-AzureNameWithExistingServiceBusNamespace
 {
@@ -335,7 +335,7 @@ function Test-AzureNameWithExistingServiceBusNamespace
 	$actual = Test-AzureName -ServiceBusNamespace $name
 
 	# Assert
-	Assert-False { $actual }
+	Assert-True { $actual }
 }
 
 <#
