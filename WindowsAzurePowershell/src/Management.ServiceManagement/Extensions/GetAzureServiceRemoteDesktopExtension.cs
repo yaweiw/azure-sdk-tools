@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 (op, extensions) => (from role in ((from r in Deployment.RoleList
                                                     select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[1] { new ExtensionRole() }))
                                      from extension in extensions
-                                     where CheckExtensionType(extension.Id) && ExtensionManager.ExistExtension(Deployment.ExtensionConfiguration, role, extension.Id)
+                                     where CheckExtensionType(extension.Id) && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
                                      select new GetAzureServiceRemoteDesktopExtensionContext
                                      {
                                          OperationId = op.OperationTrackingId,

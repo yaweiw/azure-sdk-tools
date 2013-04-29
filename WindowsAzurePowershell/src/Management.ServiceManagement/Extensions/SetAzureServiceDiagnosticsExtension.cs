@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
-        public override string[] Roles
+        public override string[] Role
         {
             get;
             set;
@@ -145,8 +145,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ValidateParameters();
-            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment.ExtensionConfiguration);
-            ExtensionConfigurationContext configContext = new ExtensionConfigurationContext
+            ExtensionConfigurationContext context = new ExtensionConfigurationContext
             {
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
@@ -155,10 +154,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 X509Certificate = X509Certificate,
                 PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, WadCfg),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
-                Roles = Roles != null ? Roles.Select(r => new ExtensionRole(r)).ToList() : new List<ExtensionRole>(new ExtensionRole[] { new ExtensionRole() }),
+                Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()
             };
-            ExtensionManager.InstallExtension(configContext, Slot, ref extConfig);
-            ChangeDeployment(extConfig);
+            var extConfig = Deployment.ExtensionConfiguration;
+            ExtensionManager.InstallExtension(context, Slot, ref extConfig);
+            ChangeDeployment(ExtensionManager.GetBuilder().Add(extConfig).ToConfiguration());
         }
 
         protected override void OnProcessRecord()

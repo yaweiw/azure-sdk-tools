@@ -63,413 +63,99 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ServiceName = serviceName;
         }
 
-        public List<ExtensionRole> GetExtensionRoleList(Deployment deployment, string extensionId)
-        {
-            if (deployment == null)
-            {
-                throw new ArgumentNullException("deployment");
-            }
-
-            ExtensionConfiguration extConfig = NewExtensionConfig(deployment.ExtensionConfiguration);
-
-            return ((from e in extConfig.AllRoles
-                     where e.Id == extensionId
-                     select new ExtensionRole(e.Id)).Concat(from r in extConfig.NamedRoles
-                                                            where r.Extensions.Exists(e => e.Id == extensionId)
-                                                            select new ExtensionRole(r.RoleName))).ToList();
-        }
-
         public HostedServiceExtension GetExtension(string extensionId)
         {
             return Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName).Find(e => e.Id == extensionId);
         }
 
-        public bool ExistAnyExtension(ExtensionConfiguration inConfig, string extensionNameSpace, string extensionType)
-        {
-            if (ExistDefaultExtension(inConfig, extensionNameSpace, extensionType))
-            {
-                return true;
-            }
-
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            foreach (var r in extConfig.NamedRoles)
-            {
-                if (ExistExtension(extConfig, new string[] { r.RoleName }, extensionNameSpace, extensionType))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool ExistDefaultExtension(ExtensionConfiguration inConfig, string extensionNameSpace, string extensionType)
-        {
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            foreach (Extension ext in extConfig.AllRoles)
-            {
-                HostedServiceExtension extension = GetExtension(ext.Id);
-                if (extension != null && extension.Type == extensionType)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool ExistExtension(ExtensionConfiguration inConfig, string[] roles, string extensionNameSpace, string extensionType)
-        {
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            if (roles != null && roles.Length > 0)
-            {
-                foreach (string roleName in roles)
-                {
-                    RoleExtensions roleExtensions = extConfig.NamedRoles.Find(r => r.RoleName == roleName);
-                    if (roleExtensions != null)
-                    {
-                        foreach (Extension ext in roleExtensions.Extensions)
-                        {
-                            HostedServiceExtension extension = GetExtension(ext.Id);
-                            if (extension != null && extension.ProviderNameSpace == extensionNameSpace && extension.Type == extensionType)
-                            {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return ExistDefaultExtension(inConfig, extensionNameSpace, extensionType);
-            }
-            return false;
-        }
-
-        public void DeleteHostedServieExtension(string extensionId)
+        public void DeleteExtension(string extensionId)
         {
             Channel.DeleteHostedServiceExtension(SubscriptionId, ServiceName, extensionId);
         }
 
-        public void AddHostedServiceExtension(HostedServiceExtensionInput hostedSvcExtInput)
+        public void AddExtension(HostedServiceExtensionInput extension)
         {
-            Channel.AddHostedServiceExtension(SubscriptionId, ServiceName, hostedSvcExtInput);
+            Channel.AddHostedServiceExtension(SubscriptionId, ServiceName, extension);
         }
 
-        public bool InstallExtension(ExtensionConfigurationContext psConfig, string slot, ref ExtensionConfiguration extConfig)
+        public ExtensionConfigurationBuilder GetBuilder()
         {
-            extConfig = NewExtensionConfig(extConfig);
+            return new ExtensionConfigurationBuilder(this);
+        }
+
+        public ExtensionConfigurationBuilder GetBuilder(ExtensionConfiguration config)
+        {
+            return GetBuilder().Add(config);
+        }
+
+        public bool InstallExtension(ExtensionConfigurationContext context, string slot, ref ExtensionConfiguration extConfig)
+        {
+            ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             bool installed = false;
-            foreach (ExtensionRole r in psConfig.Roles)
+            foreach (ExtensionRole r in context.Roles)
             {
                 string roleName = r.RoleType == ExtensionRoleType.AllRoles ? "Default" : r.RoleName;
-                string availableExtensionId = "";
+
+                var extensionIds = from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
+                                   select string.Format(ExtensionIdTemplate, roleName, context.Type, slot, index);
+
+                string availableId = (from extensionId in extensionIds
+                                      where !builder.ExistAny(extensionId)
+                                      select extensionId).FirstOrDefault();
+
+                var extensionList = (from id in extensionIds
+                                     let e = GetExtension(id)
+                                     where e != null
+                                     select e).ToList();
+
                 string thumbprint = "";
                 string thumbprintAlgorithm = "";
-                bool foundThumbprint = false;
-                bool foundAvailableId = false;
-                for (int i = 0; i < ExtensionIdLiveCycleCount && !foundThumbprint; i++)
-                {
-                    string otherExtensionId = string.Format(ExtensionIdTemplate, roleName, psConfig.Type, slot, i);
-                    HostedServiceExtension extension = GetExtension(otherExtensionId);
-                    if (!foundThumbprint && extension != null)
-                    {
-                        thumbprint = extension.Thumbprint;
-                        thumbprintAlgorithm = extension.ThumbprintAlgorithm;
-                        foundThumbprint = true;
-                    }
 
-                    if (!foundAvailableId && !ExistAnyExtension(extConfig, otherExtensionId))
-                    {
-                        availableExtensionId = otherExtensionId;
-                        foundAvailableId = true;
-                    }
+                var existingExtension = extensionList.Find(e => e.Id == availableId);
+                if (existingExtension != null)
+                {
+                    thumbprint = existingExtension.Thumbprint;
+                    thumbprintAlgorithm = existingExtension.ThumbprintAlgorithm;
+                    DeleteExtension(availableId);
+                }
+                else if (extensionList.Any())
+                {
+                    thumbprint = extensionList.First().Thumbprint;
+                    thumbprintAlgorithm = extensionList.First().ThumbprintAlgorithm;
                 }
 
-                if (GetExtension(availableExtensionId) != null)
+                if (!string.IsNullOrWhiteSpace(context.Thumbprint))
                 {
-                    DeleteHostedServieExtension(availableExtensionId);
+                    thumbprint = context.Thumbprint;
+                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
                 }
 
-                AddHostedServiceExtension(new HostedServiceExtensionInput
+                AddExtension(new HostedServiceExtensionInput
                 {
-                    Id = availableExtensionId,
+                    Id = availableId,
                     Thumbprint = thumbprint,
                     ThumbprintAlgorithm = thumbprintAlgorithm,
-                    ProviderNameSpace = psConfig.ProviderNameSpace,
-                    Type = psConfig.Type,
-                    PublicConfiguration = psConfig.PublicConfiguration,
-                    PrivateConfiguration = psConfig.PrivateConfiguration
+                    ProviderNameSpace = context.ProviderNameSpace,
+                    Type = context.Type,
+                    PublicConfiguration = context.PublicConfiguration,
+                    PrivateConfiguration = context.PrivateConfiguration
                 });
 
-                extConfig = r.RoleType == ExtensionRoleType.AllRoles ? AddDefaultExtension(extConfig, availableExtensionId) : AddExtension(extConfig, roleName, availableExtensionId);
+                if (r.RoleType == ExtensionRoleType.NamedRoles)
+                {
+                    builder.Remove(roleName, context.ProviderNameSpace, context.Type);
+                    builder.Add(roleName, availableId);
+                }
+                else
+                {
+                    builder.RemoveDefault(context.ProviderNameSpace, context.Type);
+                    builder.AddDefault(availableId);
+                }
             }
+
+            extConfig = builder.ToConfiguration();
 
             return installed;
-        }
-
-        public ExtensionConfiguration RemoveDefaultExtension(ExtensionConfiguration inConfig, string extensionNameSpace, string extensionType)
-        {
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            foreach (Extension ext in extConfig.AllRoles)
-            {
-                HostedServiceExtension extension = GetExtension(ext.Id);
-                if (extension != null && extension.Type == extensionType)
-                {
-                    extConfig = RemoveDefaultExtension(extConfig, extension.Id);
-                }
-            }
-            return extConfig;
-        }
-
-        public ExtensionConfiguration RemoveAllExtension(ExtensionConfiguration inConfig, string extensionNameSpace, string extensionType)
-        {
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            extConfig.AllRoles.RemoveAll(e => ExistDefaultExtension(inConfig, e.Id));
-            foreach (RoleExtensions r in extConfig.NamedRoles)
-            {
-                r.Extensions.RemoveAll(e => ExistExtension(inConfig, r.RoleName, e.Id));
-            }
-            extConfig.NamedRoles.RemoveAll(r => !r.Extensions.Any());
-            return extConfig;
-        }
-
-        public ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string roleName, string extensionNameSpace, string extensionType)
-        {
-            return RemoveExtension(inConfig, new string[] { roleName }, extensionNameSpace, extensionType);
-        }
-
-        public ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string[] roles, string extensionNameSpace, string extensionType)
-        {
-            ExtensionConfiguration extConfig = NewExtensionConfig(inConfig);
-            if (roles != null && roles.Length > 0 && inConfig != null && inConfig.NamedRoles != null)
-            {
-                foreach (string roleName in roles)
-                {
-                    RoleExtensions inRoleExtensions = inConfig.NamedRoles.Find(r => r.RoleName == roleName);
-                    if (inRoleExtensions != null)
-                    {
-                        foreach (Extension inExt in inRoleExtensions.Extensions)
-                        {
-                            HostedServiceExtension inExtension = GetExtension(inExt.Id);
-                            if (inExtension != null && inExtension.ProviderNameSpace == extensionNameSpace && inExtension.Type == extensionType)
-                            {
-                                extConfig = RemoveExtension(extConfig, roleName, inExtension.Id);
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                return RemoveDefaultExtension(inConfig, extensionNameSpace, extensionType);
-            }
-            return extConfig;
-        }
-
-        public ExtensionConfiguration RemoveDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            outConfig.AllRoles.RemoveAll(ext => ext.Id == extensionId);
-            return outConfig;
-        }
-
-        public ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string roleName, string extensionId)
-        {
-            return RemoveExtension(inConfig, new string[1] { roleName }, extensionId);
-        }
-
-        public ExtensionConfiguration RemoveExtension(ExtensionConfiguration inConfig, string[] roleNames, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            if (roleNames != null && roleNames.Length > 0)
-            {
-                foreach (string roleName in roleNames)
-                {
-                    RoleExtensions roleExtensions = outConfig.NamedRoles.Find(r => r.RoleName == roleName);
-                    if (roleExtensions != null)
-                    {
-                        roleExtensions.Extensions.RemoveAll(ext => ext.Id == extensionId);
-                    }
-                }
-            }
-            else
-            {
-                RemoveDefaultExtension(inConfig, extensionId);
-            }
-            return outConfig;
-        }
-
-        public ExtensionConfiguration NewExtensionConfig()
-        {
-            return new ExtensionConfiguration
-            {
-                AllRoles = new AllRoles(),
-                NamedRoles = new NamedRoles()
-            };
-        }
-
-        public ExtensionConfiguration NewExtensionConfig(ExtensionConfiguration inConfig)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig();
-            if (inConfig != null)
-            {
-                if (inConfig.AllRoles != null)
-                {
-                    outConfig.AllRoles.AddRange(inConfig.AllRoles.Select(e => new Extension(e.Id)));
-                }
-                if (inConfig.NamedRoles != null)
-                {
-                    outConfig.NamedRoles.AddRange(inConfig.NamedRoles.Select(
-                    r => new RoleExtensions
-                    {
-                        RoleName = r.RoleName,
-                        Extensions = new ExtensionList(r.Extensions.Select(e => new Extension(e.Id)))
-                    }));
-                }
-            }
-            return outConfig;
-        }
-
-        public ExtensionConfiguration NewExtensionConfig(Deployment deployment)
-        {
-            if (deployment != null && deployment.ExtensionConfiguration != null)
-            {
-                return NewExtensionConfig(deployment.ExtensionConfiguration);
-            }
-            else
-            {
-                return NewExtensionConfig();
-            }
-        }
-
-        public bool ExistAnyExtension(ExtensionConfiguration inConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            if (outConfig.AllRoles.Any(ext => ext.Id == extensionId))
-            {
-                return true;
-            }
-
-            foreach (var r in outConfig.NamedRoles)
-            {
-                if (ExistExtension(inConfig, r.RoleName, extensionId))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool ExistDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            return outConfig.AllRoles.Any(ext => ext.Id == extensionId);
-        }
-
-        public bool ExistExtension(ExtensionConfiguration inConfig, ExtensionRole role, string extensionId)
-        {
-            return role.RoleType == ExtensionRoleType.AllRoles ? ExistDefaultExtension(inConfig, extensionId)
-                                                               : ExistExtension(inConfig, role.RoleName, extensionId);
-        }
-
-        public bool ExistExtension(ExtensionConfiguration inConfig, string roleName, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            RoleExtensions roleExtensions = outConfig.NamedRoles.Find(r => r.RoleName == roleName);
-            return roleExtensions != null ? roleExtensions.Extensions.Any(ext => ext.Id == extensionId) : false;
-        }
-
-        public ExtensionConfiguration AddDefaultExtension(ExtensionConfiguration inConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            outConfig.AllRoles.Add(new Extension(extensionId));
-            return outConfig;
-        }
-
-        public ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, string roleName, string extensionId)
-        {
-            return AddExtension(inConfig, new string[1] { roleName }, extensionId);
-        }
-
-        public ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, string[] roleNames, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            if (roleNames != null && roleNames.Length > 0)
-            {
-                foreach (string roleName in roleNames)
-                {
-                    RoleExtensions roleExtensions = outConfig.NamedRoles.Find(r => r.RoleName == roleName);
-                    if (roleExtensions != null)
-                    {
-                        roleExtensions.Extensions.Add(new Extension(extensionId));
-                    }
-                    else
-                    {
-                        outConfig.NamedRoles.Add(new RoleExtensions
-                        {
-                            RoleName = roleName,
-                            Extensions = new ExtensionList(new Extension[1] { new Extension(extensionId) })
-                        });
-                    }
-                }
-            }
-            else
-            {
-                outConfig = AddDefaultExtension(inConfig, extensionId);
-            }
-            return outConfig;
-        }
-
-        public ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, ExtensionConfigurationContext psConfig, string extensionId)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            if (psConfig != null)
-            {
-                foreach (ExtensionRole r in psConfig.Roles)
-                {
-                    if (r.RoleType == ExtensionRoleType.AllRoles)
-                    {
-                        outConfig.AllRoles.Add(new Extension(extensionId));
-                    }
-                    else
-                    {
-                        outConfig.NamedRoles.Add(new RoleExtensions
-                        {
-                            RoleName = r.RoleName,
-                            Extensions = new ExtensionList(new Extension[1] { new Extension(extensionId) })
-                        });
-                    }
-                }
-            }
-            return outConfig;
-        }
-
-        public ExtensionConfiguration AddExtension(ExtensionConfiguration inConfig, ExtensionConfiguration addConfig)
-        {
-            ExtensionConfiguration outConfig = NewExtensionConfig(inConfig);
-            if (addConfig != null)
-            {
-                if (addConfig.AllRoles != null)
-                {
-                    foreach (Extension extension in addConfig.AllRoles)
-                    {
-                        outConfig.AllRoles.Add(new Extension(extension.Id));
-                    }
-                }
-
-                if (addConfig.NamedRoles != null)
-                {
-                    foreach (RoleExtensions roleExtensions in addConfig.NamedRoles)
-                    {
-                        outConfig.NamedRoles.Add(new RoleExtensions
-                        {
-                            RoleName = roleExtensions.RoleName,
-                            Extensions = new ExtensionList(roleExtensions.Extensions.Select(e => new Extension(e.Id)))
-                        });
-                    }
-                }
-            }
-            return outConfig;
         }
     }
 }

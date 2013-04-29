@@ -154,8 +154,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
 
-                extConfig = extensionMgr.NewExtensionConfig();
-
                 foreach (ExtensionConfigurationContext psConfig in PSExtensionConfiguration)
                 {
                     if (psConfig.X509Certificate != null)
@@ -164,11 +162,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = extensionMgr.NewExtensionConfig();
+                    ExtensionConfiguration outConfig = null;
                     bool installed = extensionMgr.InstallExtension(psConfig, Slot, ref outConfig);
                     if (installed)
                     {
-                        extConfig = extensionMgr.AddExtension(extConfig, outConfig);
+                        extConfig = extensionMgr.GetBuilder().Add(outConfig).ToConfiguration();
                     }
                     else
                     {

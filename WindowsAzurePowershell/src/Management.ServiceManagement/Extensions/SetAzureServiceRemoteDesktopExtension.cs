@@ -59,7 +59,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [Parameter(Position = 2, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
-        public override string[] Roles
+        public override string[] Role
         {
             get;
             set;
@@ -89,8 +89,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop Credential")]
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential ")]
+        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop Credential")]
+        [Parameter(Position = 8, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential ")]
         [ValidateNotNullOrEmpty]
         public PSCredential Credential
         {
@@ -98,8 +98,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 8, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
         [ValidateNotNullOrEmpty]
         public DateTime Expiration
         {
@@ -119,8 +119,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ValidateParameters();
-            ExtensionConfiguration extConfig = ExtensionManager.NewExtensionConfig(Deployment.ExtensionConfiguration);
-            ExtensionConfigurationContext configContext = new ExtensionConfigurationContext
+            ExtensionConfigurationContext context = new ExtensionConfigurationContext
             {
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
@@ -129,10 +128,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 X509Certificate = X509Certificate,
                 PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), Credential.UserName, Expiration.ToString("yyyy-MM-dd")),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), Credential.Password.ConvertToUnsecureString()),
-                Roles = Roles != null ? Roles.Select(r => new ExtensionRole(r)).ToList() : new List<ExtensionRole>(new ExtensionRole[] { new ExtensionRole() }),
+                Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()
             };
-            ExtensionManager.InstallExtension(configContext, Slot, ref extConfig);
-            ChangeDeployment(extConfig);
+            var extConfig = Deployment.ExtensionConfiguration;
+            ExtensionManager.InstallExtension(context, Slot, ref extConfig);
+            ChangeDeployment(ExtensionManager.GetBuilder().Add(extConfig).ToConfiguration());
         }
 
         protected override void OnProcessRecord()

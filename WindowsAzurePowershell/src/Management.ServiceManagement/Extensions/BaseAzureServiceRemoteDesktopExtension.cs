@@ -63,8 +63,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
             ExtensionType = "RDP";
 
-            PublicConfigurationDescriptionTemplate = "RDP Enabled User: {0}, Expires: {1}";
-
             PublicConfigurationXmlTemplate = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
                 new XProcessingInstruction("xml-stylesheet", @"type=""text/xsl"" href=""style.xsl"""),
