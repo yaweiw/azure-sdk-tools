@@ -78,6 +78,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Channel.AddHostedServiceExtension(SubscriptionId, ServiceName, extension);
         }
 
+        public bool CheckExtensionType(string extensionId, string nameSpace, string type)
+        {
+            if (!string.IsNullOrEmpty(extensionId))
+            {
+                HostedServiceExtension extension = GetExtension(extensionId);
+                return extension != null && extension.ProviderNameSpace == nameSpace && extension.Type == type;
+            }
+            return false;
+        }
+
         public ExtensionConfigurationBuilder GetBuilder()
         {
             return new ExtensionConfigurationBuilder(this);
@@ -124,9 +134,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     thumbprintAlgorithm = extensionList.First().ThumbprintAlgorithm;
                 }
 
-                if (!string.IsNullOrWhiteSpace(context.Thumbprint))
+                if (!string.IsNullOrWhiteSpace(context.CertificateThumbprint))
                 {
-                    thumbprint = context.Thumbprint;
+                    thumbprint = context.CertificateThumbprint;
                     thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
                 }
 

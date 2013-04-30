@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     {
         public string ProviderNameSpace { get; set; }
         public string Type { get; set; }
-        public string Thumbprint { get; set; }
+        public string CertificateThumbprint { get; set; }
         public string ThumbprintAlgorithm { get; set; }
         public string PublicConfiguration { get; set; }
         public string PrivateConfiguration { get; set; }

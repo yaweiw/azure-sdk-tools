@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public ExtensionRole()
         {
             RoleName = "";
-            RoleType = string.IsNullOrEmpty(RoleName) ? ExtensionRoleType.AllRoles : ExtensionRoleType.NamedRoles;
+            RoleType = ExtensionRoleType.AllRoles;
         }
 
         public ExtensionRole(string roleName)

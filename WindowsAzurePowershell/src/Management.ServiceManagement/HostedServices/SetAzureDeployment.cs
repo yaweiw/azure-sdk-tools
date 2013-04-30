@@ -153,7 +153,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             if (PSExtensionConfiguration != null)
             {
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
-
+                ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext psConfig in PSExtensionConfiguration)
                 {
                     if (psConfig.X509Certificate != null)
@@ -166,13 +166,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     bool installed = extensionMgr.InstallExtension(psConfig, Slot, ref outConfig);
                     if (installed)
                     {
-                        extConfig = extensionMgr.GetBuilder().Add(outConfig).ToConfiguration();
+                        configBuilder.Add(outConfig);
                     }
                     else
                     {
                         throw new Exception("Failed to install extensions.");
                     }
                 }
+                extConfig = configBuilder.ToConfiguration();
             }
 
             // Upgrade Parameter Set
