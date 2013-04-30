@@ -68,7 +68,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        public virtual string Thumbprint
+        public virtual string CertificateThumbprint
         {
             get;
             set;
@@ -88,7 +88,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected virtual void ValidateParameters()
         {
-            ValidateService();
         }
 
         protected void ValidateService()
@@ -155,54 +154,27 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
         }
 
-        protected void ValidateThumbprint()
+        protected void ValidateThumbprint(bool uploadCert)
         {
             if (X509Certificate != null)
             {
                 var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, X509Certificate.Thumbprint);
-                ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
-                Thumbprint = X509Certificate.Thumbprint;
+                if (uploadCert)
+                {
+                    ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
+                }
+                CertificateThumbprint = X509Certificate.Thumbprint;
                 ThumbprintAlgorithm = X509Certificate.SignatureAlgorithm.FriendlyName;
             }
-            else if (!string.IsNullOrEmpty(Thumbprint))
+            else if (!string.IsNullOrEmpty(CertificateThumbprint))
             {
                 ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
             }
             else
             {
-                Thumbprint = "";
+                CertificateThumbprint = "";
                 ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "" : ThumbprintAlgorithm;
             }
-        }
-
-        protected virtual bool CheckExtensionType(ExtensionRoleContext extensionContext)
-        {
-            return extensionContext != null && extensionContext.ProviderNameSpace == ExtensionNameSpace && extensionContext.Type == ExtensionType;
-        }
-
-        protected virtual bool CheckExtensionType(HostedServiceExtension extension)
-        {
-            return extension != null && extension.ProviderNameSpace == ExtensionNameSpace && extension.Type == ExtensionType;
-        }
-
-        protected virtual bool CheckExtensionType(ExtensionImage extensionImage)
-        {
-            return extensionImage != null && extensionImage.ProviderNameSpace == ExtensionNameSpace && extensionImage.Type == ExtensionType;
-        }
-
-        protected virtual bool CheckExtensionType(Extension extension)
-        {
-            return extension == null ? false : CheckExtensionType(extension.Id);
-        }
-
-        protected virtual bool CheckExtensionType(string extensionId)
-        {
-            if (!string.IsNullOrEmpty(extensionId))
-            {
-                HostedServiceExtension ext = Channel.GetHostedServiceExtension(CurrentSubscription.SubscriptionId, ServiceName, extensionId);
-                return CheckExtensionType(ext);
-            }
-            return false;
         }
 
         protected virtual bool IsServiceAvailable(string serviceName)

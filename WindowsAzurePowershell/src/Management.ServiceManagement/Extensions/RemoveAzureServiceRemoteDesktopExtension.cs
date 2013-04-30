@@ -67,7 +67,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
+            ValidateService();
             ValidateDeployment();
             ValidateRoles();
         }

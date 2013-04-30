@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
+            ValidateService();
             ValidateDeployment();
         }
 
@@ -64,28 +64,33 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName),
-                (op, extensions) => (from role in ((from r in Deployment.RoleList
-                                                    select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[1] { new ExtensionRole() }))
-                                     from extension in extensions
-                                     where CheckExtensionType(extension.Id) && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                                     select new GetAzureServiceDiagnosticsExtensionContext
-                                     {
-                                         OperationId = op.OperationTrackingId,
-                                         OperationDescription = CommandRuntime.ToString(),
-                                         OperationStatus = op.Status,
-                                         ProviderNameSpace = extension.ProviderNameSpace,
-                                         Type = extension.Type,
-                                         Id = extension.Id,
-                                         Version = extension.Version,
-                                         Thumbprint = extension.Thumbprint,
-                                         ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                                         PublicConfiguration = extension.PublicConfiguration,
-                                         Role = role,
-                                         ConnectionQualifiers = GetPublicConfigValue(extension, ConnectionQualifiersElemStr),
-                                         DefaultEndpointsProtocol = GetPublicConfigValue(extension, DefaultEndpointsProtocolElemStr),
-                                         StorageName = GetPublicConfigValue(extension, StorageNameElemStr),
-                                         WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
-                                     }));
+                (op, extensions) =>
+                {
+                    var extensionRoleList = (from r in Deployment.RoleList
+                                             select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
+                    return from role in extensionRoleList
+                           from extension in extensions
+                           where ExtensionManager.CheckExtensionType(extension.Id, ExtensionNameSpace, ExtensionType)
+                              && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
+                           select new GetAzureServiceDiagnosticsExtensionContext
+                           {
+                               OperationId = op.OperationTrackingId,
+                               OperationDescription = CommandRuntime.ToString(),
+                               OperationStatus = op.Status,
+                               ProviderNameSpace = extension.ProviderNameSpace,
+                               Type = extension.Type,
+                               Id = extension.Id,
+                               Version = extension.Version,
+                               Thumbprint = extension.Thumbprint,
+                               ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
+                               PublicConfiguration = extension.PublicConfiguration,
+                               Role = role,
+                               ConnectionQualifiers = GetPublicConfigValue(extension, ConnectionQualifiersElemStr),
+                               DefaultEndpointsProtocol = GetPublicConfigValue(extension, DefaultEndpointsProtocolElemStr),
+                               StorageName = GetPublicConfigValue(extension, StorageNameElemStr),
+                               WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
+                           };
+                });
         }
 
         protected override void OnProcessRecord()

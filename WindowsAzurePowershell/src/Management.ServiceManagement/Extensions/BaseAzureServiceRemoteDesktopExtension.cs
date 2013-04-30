@@ -17,29 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Security;
     using System.Security.Permissions;
     using System.Runtime.InteropServices;
-
-    // From GithubClient.cs
-    public static class SecureStringExtensionMethods
-    {
-        [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-        public static string ConvertToUnsecureString(this SecureString securePassword)
-        {
-            if (securePassword == null)
-                throw new ArgumentNullException("securePassword");
-
-            IntPtr unmanagedString = IntPtr.Zero;
-            try
-            {
-                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
-                return Marshal.PtrToStringUni(unmanagedString);
-            }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
-            }
-        }
-    }
-
+    
     public abstract class BaseAzureServiceRemoteDesktopExtensionCmdlet : BaseAzureServiceExtensionCmdlet
     {
         protected const string UserNameElemStr = "UserName";

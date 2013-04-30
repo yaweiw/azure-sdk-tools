@@ -20,6 +20,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
     using WindowsAzure.ServiceManagement;
+    using WindowsAzure.Management.Utilities.Websites.Services;
 
     /// <summary>
     /// New Windows Azure Service Remote Desktop Extension.
@@ -37,17 +38,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
-        [ValidateNotNullOrEmpty]
-        public override string ServiceName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -55,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -63,15 +55,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
         [ValidateNotNullOrEmpty]
-        public override string Thumbprint
+        public override string CertificateThumbprint
         {
             get;
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -79,16 +71,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop Credential")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential")]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop Credential")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop Credential")]
         public PSCredential Credential
         {
             get;
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop User Expiration Date")]
-        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Remote Desktop User Expiration Date")]
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Remote Desktop User Expiration Date")]
         [ValidateNotNullOrEmpty]
         public DateTime Expiration
         {
@@ -98,8 +90,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
-            ValidateThumbprint();
+            ValidateThumbprint(false);
             Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(6) : Expiration;
         }
 
@@ -108,7 +99,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ValidateParameters();
             WriteObject(new ExtensionConfigurationContext
             {
-                Thumbprint = Thumbprint,
+                CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,

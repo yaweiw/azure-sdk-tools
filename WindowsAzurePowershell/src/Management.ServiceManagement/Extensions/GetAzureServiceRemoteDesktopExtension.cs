@@ -54,7 +54,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
+            ValidateService();
             ValidateDeployment();
         }
 
@@ -64,26 +64,31 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExecuteClientActionInOCS(null,
                 CommandRuntime.ToString(),
                 s => this.Channel.ListHostedServiceExtensions(CurrentSubscription.SubscriptionId, ServiceName),
-                (op, extensions) => (from role in ((from r in Deployment.RoleList
-                                                    select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[1] { new ExtensionRole() }))
-                                     from extension in extensions
-                                     where CheckExtensionType(extension.Id) && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                                     select new GetAzureServiceRemoteDesktopExtensionContext
-                                     {
-                                         OperationId = op.OperationTrackingId,
-                                         OperationDescription = CommandRuntime.ToString(),
-                                         OperationStatus = op.Status,
-                                         ProviderNameSpace = extension.ProviderNameSpace,
-                                         Type = extension.Type,
-                                         Id = extension.Id,
-                                         Version = extension.Version,
-                                         Thumbprint = extension.Thumbprint,
-                                         ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                                         PublicConfiguration = extension.PublicConfiguration,
-                                         Role = role,
-                                         UserName = GetPublicConfigValue(extension, UserNameElemStr),
-                                         Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
-                                     }));
+                (op, extensions) =>
+                {
+                    var extensionRoleList = (from r in Deployment.RoleList
+                                             select new ExtensionRole(r.RoleName)).ToList().Union(new ExtensionRole[] { new ExtensionRole() });
+                    return from role in extensionRoleList
+                           from extension in extensions
+                           where ExtensionManager.CheckExtensionType(extension.Id, ExtensionNameSpace, ExtensionType)
+                              && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
+                           select new GetAzureServiceRemoteDesktopExtensionContext
+                           {
+                               OperationId = op.OperationTrackingId,
+                               OperationDescription = CommandRuntime.ToString(),
+                               OperationStatus = op.Status,
+                               ProviderNameSpace = extension.ProviderNameSpace,
+                               Type = extension.Type,
+                               Id = extension.Id,
+                               Version = extension.Version,
+                               Thumbprint = extension.Thumbprint,
+                               ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
+                               PublicConfiguration = extension.PublicConfiguration,
+                               Role = role,
+                               UserName = GetPublicConfigValue(extension, UserNameElemStr),
+                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
+                           };
+                });
         }
 
         protected override void OnProcessRecord()

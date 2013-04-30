@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Linq;
     using System.Management.Automation;
     using System.Security.Cryptography.X509Certificates;
+    using System.Xml;
     using WindowsAzure.ServiceManagement;
 
     /// <summary>
@@ -37,17 +38,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
         }
 
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Cloud Service Name")]
-        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Cloud Service Name")]
-        [ValidateNotNullOrEmpty]
-        public override string ServiceName
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
-        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
+        [Parameter(Position = 0, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Default All Roles, or specify ones for Named Roles.")]
         [ValidateNotNullOrEmpty]
         public override string[] Role
         {
@@ -55,7 +47,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
+        [Parameter(Position = 1, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "X509Certificate used to encrypt password.")]
         [ValidateNotNullOrEmpty]
         public override X509Certificate2 X509Certificate
         {
@@ -63,15 +55,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
+        [Parameter(Position = 1, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
         [ValidateNotNullOrEmpty]
-        public override string Thumbprint
+        public override string CertificateThumbprint
         {
             get;
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [Parameter(Position = 2, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -79,16 +71,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics ConnectionQualifiers")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics ConnectionQualifiers")]
+        [Parameter(Position = 2, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics ConnectionQualifiers")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics ConnectionQualifiers")]
         public string ConnectionQualifiers
         {
             get;
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
+        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
         [ValidateNotNullOrEmpty]
         public string DefaultEndpointsProtocol
         {
@@ -96,8 +88,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Storage Name")]
-        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Storage Name")]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
         [ValidateNotNullOrEmpty]
         public string Name
         {
@@ -105,17 +97,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics WadCfg")]
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics WadCfg")]
+        [Parameter(Position = 5, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
         [ValidateNotNullOrEmpty]
-        public string WadCfg
+        public XmlDocument DiagnosticsConfiguration
         {
             get;
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics StorageKey")]
-        [Parameter(Position = 8, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics StorageKey")]
+        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
         [ValidateNotNullOrEmpty]
         public string StorageKey
         {
@@ -125,8 +117,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
-            ValidateThumbprint();
+            ValidateThumbprint(false);
         }
 
         public void ExecuteCommand()
@@ -134,11 +125,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ValidateParameters();
             WriteObject(new ExtensionConfigurationContext
             {
-                Thumbprint = Thumbprint,
+                CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, WadCfg),
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, DiagnosticsConfiguration != null ? DiagnosticsConfiguration.InnerXml : ""),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
                 X509Certificate = X509Certificate,
                 Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()

@@ -21,6 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using WindowsAzure.Management.Utilities.Websites.Services;
 
     /// <summary>
     /// Set Windows Azure Service Remote Desktop Extension.
@@ -75,13 +76,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         [Parameter(Position = 6, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Thumbprint of a certificate used for encryption.")]
         [ValidateNotNullOrEmpty]
-        public override string Thumbprint
+        public override string CertificateThumbprint
         {
             get;
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "ThumbprintAlgorithm associated with the Thumbprint.")]
+        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
@@ -109,10 +110,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected override void ValidateParameters()
         {
-            base.ValidateParameters();
+            ValidateService();
             ValidateDeployment();
             ValidateRoles();
-            ValidateThumbprint();
+            ValidateThumbprint(true);
             Expiration = Expiration.Equals(default(DateTime)) ? DateTime.Now.AddMonths(6) : Expiration;
         }
 
@@ -123,7 +124,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                Thumbprint = Thumbprint,
+                CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 X509Certificate = X509Certificate,
                 PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), Credential.UserName, Expiration.ToString("yyyy-MM-dd")),
