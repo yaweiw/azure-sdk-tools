@@ -82,8 +82,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Algorithm associated with the Thumbprint.")]
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Algorithm associated with the Thumbprint.")]
         [ValidateNotNullOrEmpty]
         public override string ThumbprintAlgorithm
         {
