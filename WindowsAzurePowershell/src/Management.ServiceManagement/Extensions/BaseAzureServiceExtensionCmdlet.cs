@@ -164,16 +164,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
                 }
                 CertificateThumbprint = X509Certificate.Thumbprint;
-                ThumbprintAlgorithm = X509Certificate.SignatureAlgorithm.FriendlyName;
-            }
-            else if (!string.IsNullOrEmpty(CertificateThumbprint))
-            {
-                ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "sha1" : ThumbprintAlgorithm;
-            }
-            else
-            {
-                CertificateThumbprint = "";
-                ThumbprintAlgorithm = string.IsNullOrEmpty(ThumbprintAlgorithm) ? "" : ThumbprintAlgorithm;
             }
         }
 
