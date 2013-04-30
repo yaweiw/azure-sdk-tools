@@ -12,15 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Net;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
+    using System.Net;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Properties;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -63,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot [Staging | Production].")]
-        [ValidateSet("Staging", "Production", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -118,7 +119,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             }
             else
             {
-                var progress = new ProgressRecord(0, "Please wait...", "Uploading package to blob storage");
+                var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.UploadingPackage);
                 WriteProgress(progress);
                 removePackage = true;
                 packageUrl = this.RetryCall(s =>
@@ -144,7 +145,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 try
                 {
-                    var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
+                    var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.CreatingNewDeployment);
                     WriteProgress(progress);
 
                     ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput));
@@ -177,7 +178,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         if (string.Compare(currentDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
                         {
-                            throw new ArgumentException(String.Format("Cannot Create New Deployment with Virtual Machines Present in {0} Slot", slot));
+                            throw new ArgumentException(String.Format(Resources.CanNotCreateNewDeploymentWhileVMsArePresent, slot));
                         }
                     }
                 }
@@ -201,7 +202,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             if (string.IsNullOrEmpty(this.Slot))
             {
-                this.Slot = "Production";
+                this.Slot = DeploymentSlotType.Production;
             }
 
             if (string.IsNullOrEmpty(this.Name))
@@ -216,7 +217,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             if (string.IsNullOrEmpty(this.CurrentSubscription.CurrentStorageAccount))
             {
-                throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");                
+                throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);                
             }
         }
     }
