@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
     using System.ServiceModel;
     using WindowsAzure.ServiceManagement;
     using Utilities.Common;
+    using Properties;
 
     /// <summary>
     /// Update deployment configuration, upgrade or status
@@ -156,10 +157,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 {
                     if (string.IsNullOrEmpty(storageName))
                     {
-                        throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
+                        throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);
                     }
 
-                    var progress = new ProgressRecord(0, "Please wait...", "Uploading package to blob storage");
+                    var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.UploadingPackage);
                     WriteProgress(progress);
                     removePackage = true;
                     InvokeInOperationContext(() => packageUrl = RetryCall(s => AzureBlob.UploadPackageToBlob(this.Channel, storageName, s, Package, null)));
@@ -170,7 +171,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
                     PackageUrl = packageUrl,
-                    Label = Label != null ? Label : ServiceName,
+                    Label = Label ?? ServiceName,
                     Force = Force.IsPresent
                 };
 
@@ -214,7 +215,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             else
             {
                 // Status parameter set
-                var updateDeploymentStatus = new UpdateDeploymentStatusInput()
+                var updateDeploymentStatus = new UpdateDeploymentStatusInput
                 {
                     Status = this.NewStatus
                 };

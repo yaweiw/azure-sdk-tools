@@ -1296,4 +1296,16 @@ Please follow these steps in the portal:
   <data name="AccessDeniedExceptionMessage" xml:space="preserve">
     <value>The remote server returned an error: (401) Unauthorized.</value>
   </data>
+  <data name="ServiceManagementExecuteClientActionBeginOperation">
+    <value xml:space="preserve">Begin Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionCompletedOperation">
+    <value xml:space="preserve">Completed Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionInOCSBeginOperation">
+    <value xml:space="preserve">Begin Operation: {0}</value>
+  </data>
+  <data name="ServiceManagementExecuteClientActionInOCSCompletedOperation">
+    <value xml:space="preserve">Completed Operation: {0}</value>
+  </data>
 </root>
