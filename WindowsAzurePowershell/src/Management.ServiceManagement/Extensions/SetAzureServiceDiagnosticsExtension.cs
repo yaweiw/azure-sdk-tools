@@ -127,8 +127,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 10, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics StorageKey")]
-        [Parameter(Position = 10, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
+        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics StorageKey")]
+        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
         [ValidateNotNullOrEmpty]
         public string StorageKey
         {
