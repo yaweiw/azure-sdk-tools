@@ -1072,50 +1072,148 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
+        [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\storageAccountTestData.csv", "storageAccountTestData#csv", DataAccessMethod.Sequential)]
         public void AzureStorageAccountTest()
         {
             createOwnService = false;
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
 
-            string storageAccountPrefix = "psteststorage";
+            string storageAccountPrefix = Convert.ToString(TestContext.DataRow["NamePrefix"]);
+            string locationName1 = Convert.ToString(TestContext.DataRow["Location1"]);
+            string locationName2 = Convert.ToString(TestContext.DataRow["Location2"]);
+            string affinityGroupName = Convert.ToString(TestContext.DataRow["AffinityGroupName"]);
+            string label1 = Convert.ToString(TestContext.DataRow["Label1"]);
+            string label2 = Convert.ToString(TestContext.DataRow["Label2"]);
+            string description1 = Convert.ToString(TestContext.DataRow["Description1"]);
+            string description2 = Convert.ToString(TestContext.DataRow["Description2"]);
 
+            string[] storageName = new string[2] {
+                Utilities.GetUniqueShortName(storageAccountPrefix),
+                Utilities.GetUniqueShortName(storageAccountPrefix)};
 
-            string storageName1 = Utilities.GetUniqueShortName(storageAccountPrefix);
-            string locationName1 = "West US";
-            string storageName2 = Utilities.GetUniqueShortName(storageAccountPrefix);
-            string locationName2 = "West US";
+            string[][] storageStaticProperties =  new string[2][] {
+                new string[3] {storageName[0], locationName1, null},
+                new string [3] {storageName[1], null, affinityGroupName}};
 
             try
             {
-                vmPowershellCmdlets.NewAzureStorageAccount(storageName1, locationName1, null, null, null);
-                vmPowershellCmdlets.NewAzureStorageAccount(storageName2, locationName2, null, null, null);
+                // New-AzureStorageAccount test
+                vmPowershellCmdlets.NewAzureStorageAccount(storageName[0], locationName1, null, null, null);
+                Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[0])[0],
+                    storageStaticProperties[0], storageName[0], null, true));
+                Console.WriteLine("{0} is created", storageName[0]);
 
-                Assert.IsNotNull(vmPowershellCmdlets.GetAzureStorageAccount(storageName1));
-                Console.WriteLine("{0} is created", storageName1);
-                Assert.IsNotNull(vmPowershellCmdlets.GetAzureStorageAccount(storageName2));                
-                Console.WriteLine("{0} is created", storageName2);
+                if (Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityGroupName))
+                {
+                    vmPowershellCmdlets.NewAzureAffinityGroup(affinityGroupName, locationName2, label1, description1);
+                }
 
-                vmPowershellCmdlets.SetAzureStorageAccount(storageName1, "newLabel", "newDescription", false);
-
-                StorageServicePropertiesOperationContext storage = vmPowershellCmdlets.GetAzureStorageAccount(storageName1)[0];
-                Console.WriteLine("Name: {0}, Label: {1}, Description: {2}, GeoReplication: {3}", storage.StorageAccountName, storage.Label, storage.StorageAccountDescription, storage.GeoReplicationEnabled.ToString());
-                Assert.IsTrue((storage.Label == "newLabel" && storage.StorageAccountDescription == "newDescription" && storage.GeoReplicationEnabled == false), "storage account is not changed correctly");
+                vmPowershellCmdlets.NewAzureStorageAccount(storageName[1], null, affinityGroupName, null, null);
+                Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[1])[0],
+                    storageStaticProperties[1], storageName[1], null, true));
+                Console.WriteLine("{0} is created", storageName[1]);
                 
+                // Set-AzureStorageAccount & Remove-AzureStorageAccount test
+                for (int i = 0 ; i < 2 ; i++)
+                {
 
-                vmPowershellCmdlets.RemoveAzureStorageAccount(storageName1);
-                vmPowershellCmdlets.RemoveAzureStorageAccount(storageName2);
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label1, null, true); // change label with EnableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label1, null, true));
 
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label2, null, false); // change label with DisableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, null, false));
 
-                Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storageName1), "The storage account was not removed");
-                Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storageName2), "The storage account was not removed");
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, description1, true); // change description with EnableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, description1, true));
+
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, description2, false); // change description with DisableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, description2, false));
+
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, null, true); // Enable GeoReplication only
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, description2, true));
+
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], null, null, false); // Disable GeoReplication only
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, description2, false));
+
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label1, description1, true); // Change both label and description with EnableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label1, description1, true));
+
+                    vmPowershellCmdlets.SetAzureStorageAccount(storageName[i], label2, description2, false); // Change both label and description with DisableGeoReplication
+                    Assert.IsTrue(StorageAccountVerify(vmPowershellCmdlets.GetAzureStorageAccount(storageName[i])[0],
+                        storageStaticProperties[i], label2, description2, false));
+
+                    vmPowershellCmdlets.RemoveAzureStorageAccount(storageName[i]);
+                    Assert.IsTrue(Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storageName[i]), "The storage account was not removed");                    
+                }
+
+                vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
+
                 pass = true;
 
             }
             catch (Exception e)
             {
                 pass = false;
+
+                // Clean-up storage if it is not removed.
+                foreach (string storage in storageName)
+                {
+
+                    if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureStorageAccount, storage))
+                    {
+                        vmPowershellCmdlets.RemoveAzureStorageAccount(storage);
+                    }
+                }
+
+                // Clean-up affinity group created.
+                if (!Utilities.CheckRemove(vmPowershellCmdlets.GetAzureAffinityGroup, affinityGroupName))
+                {
+                    vmPowershellCmdlets.RemoveAzureAffinityGroup(affinityGroupName);
+                }
+
                 Assert.Fail("Exception occurred: {0}", e.ToString());
             }            
+        }
+
+
+        private bool StorageAccountVerify(StorageServicePropertiesOperationContext storageContext,
+            string [] staticParameters, string label, string description, bool geo)
+        {
+            string name = staticParameters[0];
+            string location = staticParameters[1];
+            string affinity = staticParameters[2];
+
+            Console.WriteLine("Name: {0}, Label: {1}, Description: {2}, AffinityGroup: {3}, Location: {4}, GeoReplicationEnabled: {5}",
+                storageContext.StorageAccountName,
+                storageContext.Label,
+                storageContext.StorageAccountDescription,
+                storageContext.AffinityGroup,
+                storageContext.Location,
+                storageContext.GeoReplicationEnabled);
+
+            try
+            {
+                Assert.AreEqual(storageContext.StorageAccountName, name, "Error: Storage Account Name is not equal!");
+                Assert.AreEqual(storageContext.Label, label, "Error: Storage Account Label is not equal!");
+                Assert.AreEqual(storageContext.StorageAccountDescription, description, "Error: Storage Account Description is not equal!");
+                Assert.AreEqual(storageContext.AffinityGroup, affinity, "Error: Affinity Group is not equal!");
+                Assert.AreEqual(storageContext.Location, location, "Error: Location is not equal!");
+                Assert.AreEqual(storageContext.GeoReplicationEnabled, geo, "Error: GeoReplicationEnabled is not equal!");
+                Console.WriteLine("All contexts are matched!!\n");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
+            return true;
         }
 
 
