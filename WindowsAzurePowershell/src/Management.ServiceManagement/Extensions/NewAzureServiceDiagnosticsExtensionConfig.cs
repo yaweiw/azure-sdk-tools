@@ -25,7 +25,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// New Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig"), OutputType(typeof(ExtensionConfigurationContext))]
+    [Cmdlet(VerbsCommon.New, "AzureServiceDiagnosticsExtensionConfig", DefaultParameterSetName = "NewExtension"), OutputType(typeof(ExtensionConfigurationContext))]
     public class NewAzureServiceDiagnosticsExtensionConfigCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         public NewAzureServiceDiagnosticsExtensionConfigCommand()
@@ -72,27 +72,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics ConnectionQualifiers")]
-        [Parameter(Position = 3, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics ConnectionQualifiers")]
-        public string ConnectionQualifiers
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
-        [ValidateNotNullOrEmpty]
-        public string DefaultEndpointsProtocol
-        {
-            get;
-            set;
-        }
-
         [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics Storage Name")]
         [Parameter(Position = 5, Mandatory = true, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
         [ValidateNotNullOrEmpty]
-        public string Name
+        public override string StorageAccountName
         {
             get;
             set;
@@ -107,18 +90,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "NewExtension", HelpMessage = "Diagnostics StorageKey")]
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "NewExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
-        [ValidateNotNullOrEmpty]
-        public string StorageKey
-        {
-            get;
-            set;
-        }
-
         protected override void ValidateParameters()
         {
             ValidateThumbprint(false);
+            ValidateStorageAccount();
         }
 
         public void ExecuteCommand()
@@ -130,7 +105,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
-                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, DiagnosticsConfiguration != null ? DiagnosticsConfiguration.InnerXml : ""),
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, StorageAccountName, DiagnosticsConfiguration != null ? DiagnosticsConfiguration.InnerXml : ""),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
                 X509Certificate = X509Certificate,
                 Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()

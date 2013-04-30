@@ -11,7 +11,12 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using System.Xml.Linq;
+    using WindowsAzure.Management.ServiceManagement.Model;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
@@ -22,6 +27,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string StorageNameElemStr = "Name";
         protected const string StorageKeyElemStr = "StorageKey";
         protected const string WadCfgElemStr = "WadCfg";
+        protected const string DefaultEndpointsProtocol = "";
+
+        protected string StorageKey;
+        protected string ConnectionQualifiers;
+
+        public virtual string StorageAccountName
+        {
+            get;
+            set;
+        }
 
         public BaseAzureServiceDiagnosticsExtensionCmdlet()
             : base()
@@ -33,6 +48,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             : base(channel)
         {
             Initialize();
+        }
+
+        protected void ValidateStorageAccount()
+        {
+            var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
+            if (storageService == null)
+            {
+                throw new Exception("Cannot find storage service for the account name: " + StorageAccountName);
+            }
+
+            StringBuilder endpointStr = new StringBuilder();
+            endpointStr.AppendFormat("BlobEndpoint={0}", storageService.StorageServiceProperties.Endpoints[0]);
+            endpointStr.AppendFormat(";QueueEndpoint={0}", storageService.StorageServiceProperties.Endpoints[1]);
+            endpointStr.AppendFormat(";TableEndpoint={0}", storageService.StorageServiceProperties.Endpoints[2]);
+            endpointStr.Replace("http://", "https://");
+            
+            ConnectionQualifiers = endpointStr.ToString();
+
+            var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
+            if (storageKeys == null)
+            {
+                throw new Exception("Cannot find storage keys for the account name: " + StorageAccountName);
+            }
+            StorageKey = storageKeys.StorageServiceKeys.Primary;
         }
 
         protected void Initialize()
