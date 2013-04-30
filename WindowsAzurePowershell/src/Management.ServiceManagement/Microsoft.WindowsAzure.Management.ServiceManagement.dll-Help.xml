@@ -16066,5 +16066,690 @@
     </maml:relatedLinks>
   </command:command>
 
+  <!-- RDP Extension Cmdlets - Start -->
+  <!-- Get RDP Cmdlet - Start-->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureServiceRemoteDesktopExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Get Azure Service Remote Desktop Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-AzureServiceRemoteDesktopExtension cmdlet gets the remote desktop extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
 
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceRemoteDesktopExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Gets the remote desktop extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceRemoteDesktopExtension -ServiceName $svc -Slot $slot
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Gets the remote desktop extensions enabled on all roles of $svc at $slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Get RDP Cmdlet - End -->
+  <!-- Remove RDP Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Remove-AzureServiceRemoteDesktopExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Remove Azure Service Remote Desktop Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-AzureServiceRemoteDesktopExtension cmdlet removes the remote desktop extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+          <maml:name>UninstallConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>UninstallConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false"></command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ManagementOperationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceRemoteDesktopExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the remote desktop extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceRemoteDesktopExtension -ServiceName $svc -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the remote desktop extensions enabled on named roles ($role1 and $role2) of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceRemoteDesktopExtension -ServiceName $svc -UninstallConfiguration
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the remote desktop extensions enabled on all roles and named roles of $svc at production slot, and uninstalls them.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Remove RDP Cmdlet - End -->
+  
+  <!-- Set RDP Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Set-AzureServiceRemoteDesktopExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Set Azure Service Remote Desktop Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-AzureServiceRemoteDesktopExtension cmdlet sets the remote desktop extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>X509Certificate used to encrypt password</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ManagementOperationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Sets the remote desktop extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Sets the remote desktop extensions enabled on named roles ($role1 and $role2) of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Set RDP Cmdlet - End -->
+  
+  <!-- RDP Extension Cmdlets - End -->
+  
 </helpItems>

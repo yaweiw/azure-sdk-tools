@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Set Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceDiagnosticsExtension"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         public SetAzureServiceDiagnosticsExtensionCommand()
@@ -91,46 +91,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics ConnectionQualifiers")]
-        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics ConnectionQualifiers")]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Storage Account Name")]
+        [Parameter(Position = 5, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Account Name")]
         [ValidateNotNullOrEmpty]
-        public string ConnectionQualifiers
+        public override string StorageAccountName
         {
             get;
             set;
         }
 
-        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
-        [Parameter(Position = 6, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics DefaultEndpointsProtocol")]
-        [ValidateNotNullOrEmpty]
-        public string DefaultEndpointsProtocol
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Storage Name")]
-        [Parameter(Position = 7, Mandatory = true, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Storage Name")]
-        [ValidateNotNullOrEmpty]
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 8, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Configuration")]
-        [Parameter(Position = 8, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
         [ValidateNotNullOrEmpty]
         public XmlDocument DiagnosticsConfiguration
-        {
-            get;
-            set;
-        }
-
-        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics StorageKey")]
-        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics StorageKey")]
-        [ValidateNotNullOrEmpty]
-        public string StorageKey
         {
             get;
             set;
@@ -142,6 +115,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ValidateDeployment();
             ValidateRoles();
             ValidateThumbprint(true);
+            ValidateStorageAccount();
         }
 
         public void ExecuteCommand()
@@ -154,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 CertificateThumbprint = CertificateThumbprint,
                 ThumbprintAlgorithm = ThumbprintAlgorithm,
                 X509Certificate = X509Certificate,
-                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, Name, DiagnosticsConfiguration != null ? DiagnosticsConfiguration.InnerXml : ""),
+                PublicConfiguration = string.Format(PublicConfigurationXmlTemplate.ToString(), ConnectionQualifiers, DefaultEndpointsProtocol, StorageAccountName, DiagnosticsConfiguration != null ? DiagnosticsConfiguration.InnerXml : ""),
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
                 Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()
             };

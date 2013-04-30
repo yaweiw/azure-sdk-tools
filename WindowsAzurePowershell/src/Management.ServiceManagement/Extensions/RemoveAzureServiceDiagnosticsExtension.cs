@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Remove Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureServiceDiagnosticsExtension"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Remove, "AzureServiceDiagnosticsExtension", DefaultParameterSetName = "RemoveByRoles"), OutputType(typeof(ManagementOperationContext))]
     public class RemoveAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         public RemoveAzureServiceDiagnosticsExtensionCommand()

@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Set Windows Azure Service Remote Desktop Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(ManagementOperationContext))]
+    [Cmdlet(VerbsCommon.Set, "AzureServiceRemoteDesktopExtension", DefaultParameterSetName = "SetExtension"), OutputType(typeof(ManagementOperationContext))]
     public class SetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public SetAzureServiceRemoteDesktopExtensionCommand()
