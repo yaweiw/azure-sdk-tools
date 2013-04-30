@@ -98,6 +98,10 @@
     <Reference Include="Microsoft.WindowsAzure.Storage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAzure.Storage.2.0.5.1\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -267,6 +271,7 @@
     <Compile Include="UnitTests\Cmdlets\HostedServices\MoveAzureDeploymentCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\AddAzureVhdCommandTests.cs" />
     <Compile Include="UnitTests\Cmdlets\StorageServices\GetAzureStorageAccountTests.cs" />
+    <Compile Include="UnitTests\Cmdlets\StorageServices\SetAzureStorageAccountTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MSSharedLibKey.snk" />
@@ -288,6 +293,7 @@
     <None Include="Resources\SampleAppV2.cscfg" />
     <None Include="Resources\SampleAppV2.cspkg" />
     <None Include="Resources\SampleAppV3.cscfg" />
+    <None Include="Resources\storageAccountTestData.csv" />
     <None Include="Resources\thread_VHD.csv" />
     <None Include="Resources\upload_VHD.csv" />
     <None Include="Resources\vnetconfig.netcfg" />
