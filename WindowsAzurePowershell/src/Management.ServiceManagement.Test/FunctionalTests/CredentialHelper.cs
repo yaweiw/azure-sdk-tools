@@ -45,10 +45,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         private static Dictionary<string, string> environment = new Dictionary<string, string>();
         public static Dictionary<string, string> PowerShellVariables { get; private set; }
 
-        public static void GetCredentialInfo(string downloadPath)
+        public static void GetCredentialInfo(string downloadDirectoryPath)
         {
-            PowerShellVariables = new Dictionary<string, string>();
-            downloadDirectoryPath = downloadPath;
             Process currentProcess = Process.GetCurrentProcess();
             StringDictionary environment = currentProcess.StartInfo.EnvironmentVariables;
             Assert.IsTrue(environment.ContainsKey(TestEnvironmentVariable),
@@ -60,9 +58,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Assert.IsTrue(environment.ContainsKey(StorageAccountKeyVariable),
                 string.Format("You must define a storage account key for credential download using environment variable {0}", StorageAccountKeyVariable));
             string storageAccountKey = environment[StorageAccountKeyVariable];
-            DownloadTestCredentials(environment[TestEnvironmentVariable],
-                downloadPath, string.Format(CredentialBlobUriFormat, storageAccount),
-                storageAccount, environment[StorageAccountKeyVariable]);
+            DownloadTestCredentials(testEnvironment, downloadDirectoryPath, 
+                string.Format(CredentialBlobUriFormat, storageAccount),
+                storageAccount, storageAccountKey);
 
             publishSettingsFile = Path.Combine(downloadDirectoryPath, defaultCredentialFile);
             Assert.IsTrue(File.Exists(publishSettingsFile), string.Format("Did not download file {0}", publishSettingsFile));
