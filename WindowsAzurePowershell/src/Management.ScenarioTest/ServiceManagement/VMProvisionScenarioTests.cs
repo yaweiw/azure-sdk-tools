@@ -28,8 +28,8 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
     {
         public VMProvisionScenarioTests()
             : base("CloudService\\Common.ps1",
-                   "ServiceManagemenet\\Common.ps1",
-                   "ServiceManagemenet\\VMProvisionTests.ps1"
+                   "ServiceManagement\\Common.ps1",
+                   "ServiceManagement\\VMProvisionTests.ps1"
             )
         {
 
@@ -39,13 +39,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.ServiceManagemenet
         [TestCategory(Category.All)]
         [TestCategory(Category.ServiceManagement)]
         [TestProperty("Feature", "IaaS"), Priority(1), Owner("priya"), Description("Test the cmdlets (New-AzureQuickVM,Get-AzureVMImage,Get-AzureVM,Get-AzureLocation,Import-AzurePublishSettingsFile,Get-AzureSubscription,Set-AzureSubscription)")]
+        [Ignore] // https://github.com/WindowsAzure/azure-sdk-tools/issues/1402
         public void NewWindowsAzureQuickVM()
         {
             powershell.Invoke();
 
             ServiceManagementCmdletTestHelper vmPowershellCmdlets = new ServiceManagementCmdletTestHelper();
             
-            string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "MSFT", "testvmimage" }, false);
+            string imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false);
             string locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { Resource.Location }, false);
 
             string newAzureQuickVMName = Utilities.GetUniqueShortName("PSTestVM");

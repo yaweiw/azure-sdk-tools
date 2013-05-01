@@ -26,7 +26,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
     /// remove specified azure container
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, StorageNouns.Container, SupportsShouldProcess = true, ConfirmImpact = ConfirmImpact.High),
-        OutputType(typeof(String))]
+        OutputType(typeof(Boolean))]
     public class RemoveAzureStorageContainerCommand : StorageCloudBlobCmdletBase
     {
         [Alias("N", "Container")]
@@ -45,7 +45,7 @@ namespace Microsoft.WindowsAzure.Management.Storage.Blob.Cmdlet
         }
         private bool force;
 
-        [Parameter(Mandatory = false, HelpMessage = "Return whether the specifed blob is successfully removed")]
+        [Parameter(Mandatory = false, HelpMessage = "Return whether the specified container is successfully removed")]
         public SwitchParameter PassThru { get; set; }
 
         /// <summary>

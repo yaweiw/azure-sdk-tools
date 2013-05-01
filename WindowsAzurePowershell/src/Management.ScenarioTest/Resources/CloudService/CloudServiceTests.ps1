@@ -37,7 +37,7 @@ Tests Publishing a Cache Service.
 #>
 function Test-PublishCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()}
 }
 
 <#
@@ -46,7 +46,7 @@ Tests Publishing and updating a Cache Service.
 #>
 function Test-UpdateCacheService
 {
-    PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
+	PublishAndUpdate-CloudService 1 {New-CacheCloudServiceProject $args[0]} {Verify-CacheApp $args[0].Url.ToString()} {Test-RemoteDesktop}
 }
 
 ########################################################################### Remove-AzureService Scenario Tests ###########################################################################
@@ -254,7 +254,7 @@ function Test-AzureNameWithExistingHostedService
 
 <#
 .SYNOPSIS
-Tests Test-AzureName with invalid hosted service name and expects $false
+Tests Test-AzureName with invalid hosted service name and expects $true
 #>
 function Test-AzureNameWithInvalidHostedService
 {
@@ -262,7 +262,7 @@ function Test-AzureNameWithInvalidHostedService
 	$actual = Test-AzureName -Service "Invalid Name"
 
 	# Assert
-	Assert-False { $actual }
+	Assert-True { $actual }
 }
 
 <#

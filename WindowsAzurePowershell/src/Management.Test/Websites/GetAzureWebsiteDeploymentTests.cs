@@ -62,7 +62,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 Name = "website1",
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             getAzureWebsiteDeploymentCommand.ExecuteCmdlet();
@@ -117,7 +117,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 Details = true,
                 CommandRuntime = new MockCommandRuntime(),
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName }
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId }
             };
 
             getAzureWebsiteDeploymentCommand.ExecuteCmdlet();
