@@ -75,7 +75,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 NumberOfWorkers = 3,
             };
 
@@ -91,7 +91,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 HostNames = new [] { "stuff.com" },
             };
 

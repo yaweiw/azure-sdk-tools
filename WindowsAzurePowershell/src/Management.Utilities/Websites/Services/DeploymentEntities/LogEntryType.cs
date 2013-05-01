@@ -16,8 +16,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites.Services.Deployme
 {
     public enum LogEntryType
     {
-        Message,
+        Error,
         Warning,
-        Error
+        Information,
+        Verbose
     }
 }

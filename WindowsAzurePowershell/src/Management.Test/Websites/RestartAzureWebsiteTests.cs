@@ -42,7 +42,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
                 ShareChannel = true,
                 CommandRuntime = new MockCommandRuntime(),
                 Name = websiteName,
-                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionName },
+                CurrentSubscription = new SubscriptionData { SubscriptionId = base.subscriptionId },
                 WebsitesClient = websitesClientMock.Object
             };
 

@@ -19,41 +19,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
     public class ArgumentConstants
     {
-        public static Dictionary<LocationName, string> Locations { get; private set; }
-        public static Dictionary<string, LocationName> ReverseLocations { get; private set; }
         public static Dictionary<SlotType, string> Slots { get; private set; }
 
         static ArgumentConstants()
         {
-            Locations = new Dictionary<LocationName, string>()
-            {
-                { LocationName.AnywhereAsia, "anywhere asia" },
-                { LocationName.AnywhereEurope, "anywhere europe" },
-                { LocationName.AnywhereUS, "anywhere us" },
-                { LocationName.EastAsia, "east asia" },
-                { LocationName.NorthCentralUS, "north central us" },
-                { LocationName.NorthEurope, "north europe" },
-                { LocationName.SouthCentralUS, "south central us" },
-                { LocationName.SouthEastAsia, "southeast asia" },
-                { LocationName.WestEurope, "west europe" },
-                { LocationName.EastUS, "east us" },
-                { LocationName.WestUS, "west us" }
-            };
-
-            ReverseLocations = new Dictionary<string, LocationName>()
-            {
-                { "anywhere asia", LocationName.EastAsia },
-                { "anywhere europe", LocationName.NorthEurope },
-                { "anywhere us", LocationName.SouthCentralUS },
-                { "east asia", LocationName.EastAsia },
-                { "north central us", LocationName.NorthCentralUS },
-                { "north europe", LocationName.NorthEurope },
-                { "south central us", LocationName.SouthCentralUS },
-                { "southeast asia", LocationName.SouthEastAsia },
-                { "west europe", LocationName.WestEurope },
-                { "west us", LocationName.WestUS },
-                { "east us", LocationName.EastUS },
-            };
             Slots = new Dictionary<SlotType, string>()
             {
                 { SlotType.Production, "production" },
@@ -65,21 +34,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     public class SDKVersion
     {
         public const string Version180 = "1.8.0";
-    }
-
-    public enum LocationName
-    {
-        NorthCentralUS,
-        AnywhereUS,
-        AnywhereEurope,
-        WestEurope,
-        SouthCentralUS,
-        NorthEurope,
-        AnywhereAsia,
-        SouthEastAsia,
-        EastAsia,
-        EastUS,
-        WestUS
     }
 
     public enum SlotType
@@ -145,10 +99,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         public const string CustomDomainsEnabledSettingsName = "CustomDomainsEnabled";
         public const string SslSupportSettingsName = "SslSupport";
 
-        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.13";
+        public const string UserAgentHeaderValue = "WindowsAzurePowershell/v0.6.13.1";
         public static ProductInfoHeaderValue UserAgentValue = new ProductInfoHeaderValue(
             "WindowsAzurePowershell",
-            "v0.6.13");
+            "v0.6.13.1");
     }
 
     public static class HttpConstants
