@@ -104,7 +104,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Mandatory = false, HelpMessage = "Extension configurations.")]
-        public ExtensionConfigurationContext[] PSExtensionConfiguration
+        public ExtensionConfigurationContext[] ExtensionConfiguration
         {
             get;
             set;
@@ -140,11 +140,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             }
 
             ExtensionConfiguration extConfig = null;
-            if (PSExtensionConfiguration != null)
+            if (ExtensionConfiguration != null)
             {
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
-                foreach (ExtensionConfigurationContext psConfig in PSExtensionConfiguration)
+                foreach (ExtensionConfigurationContext psConfig in ExtensionConfiguration)
                 {
                     if (psConfig.X509Certificate != null)
                     {

@@ -169,9 +169,6 @@
     <Compile Include="Extensions\ExtensionConfigurationContext.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionImageContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Extensions\ExtensionManager.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -185,9 +182,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\GetAzureServiceDiagnosticsExtensionContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Extensions\GetAzureServiceExtensionImage.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
