@@ -16235,7 +16235,15 @@
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText></maml:linkText>
+        <maml:linkText>New-AzureServiceRemoteDesktopExtensionConfig</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceRemoteDesktopExtension</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -16302,14 +16310,7 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Role</maml:name>
-          <maml:description>
-            <maml:para>Specifies the roles. Default for all roles.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3" aliases="">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
           <maml:name>UninstallConfiguration</maml:name>
           <maml:description>
             <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
@@ -16350,12 +16351,12 @@
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
         <dev:type>
-          <maml:name>string</maml:name>
+          <maml:name>string[]</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
         <maml:name>UninstallConfiguration</maml:name>
         <maml:description>
           <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
@@ -16496,7 +16497,15 @@
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText></maml:linkText>
+        <maml:linkText>Set-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureServiceRemoteDesktopExtensionConfig</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
@@ -16547,33 +16556,33 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
           <maml:name>X509Certificate</maml:name>
           <maml:description>
             <maml:para>X509Certificate used to encrypt password</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
           <maml:name>ThumbprintAlgorithm</maml:name>
           <maml:description>
             <maml:para>Algorithm associated with the Thumbprint.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+            <maml:para>Remote Desktop Credential</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
           <maml:name>Expiration</maml:name>
           <maml:description>
-            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+            <maml:para>Remote Desktop User Expiration Date</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -16598,6 +16607,34 @@
             <maml:para>Specifies the roles. Default for all roles.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop Credential</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop User Expiration Date</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -16634,7 +16671,67 @@
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
         <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>X509Certificate used to encrypt password</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
           <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>Credential</maml:name>
+        <maml:description>
+          <maml:para>Remote Desktop Credential</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        <dev:type>
+          <maml:name>PSCredential</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>Expiration</maml:name>
+        <maml:description>
+          <maml:para>Remote Desktop User Expiration Date</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        <dev:type>
+          <maml:name>DateTime</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -16743,13 +16840,1450 @@
     <!-- Link section  -->
     <maml:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText></maml:linkText>
+        <maml:linkText>New-AzureServiceRemoteDesktopExtensionConfig</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceRemoteDesktopExtension</maml:linkText>
         <maml:uri/>
       </maml:navigationLink>
     </maml:relatedLinks>
   </command:command>
   <!-- Set RDP Cmdlet - End -->
   
+  
+  <!-- New RDP Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        New-AzureServiceRemoteDesktopExtensionConfig
+      </command:name>
+      <maml:description>
+        <maml:para>New Azure Service Remote Desktop Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtensionConfig</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The New-AzureServiceRemoteDesktopExtensionConfig cmdlet generates the configuration of the remote desktop extension for a deployment</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>X509Certificate used to encrypt password</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop Credential</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop User Expiration Date</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop Credential</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>Remote Desktop User Expiration Date</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>X509Certificate used to encrypt password</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Credential</maml:name>
+        <maml:description>
+          <maml:para>Remote Desktop Credential</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        <dev:type>
+          <maml:name>PSCredential</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>Expiration</maml:name>
+        <maml:description>
+          <maml:para>Remote Desktop User Expiration Date</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        <dev:type>
+          <maml:name>DateTime</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ExtensionConfigurationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureServiceRemoteDesktopExtensionConfig -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Generates the configuration of remote desktop extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureServiceRemoteDesktopExtensionConfig -ServiceName $svc -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Generates the configuration of remote desktop extensions enabled on named roles ($role1 and $role2) of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceRemoteDesktopExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- New RDP Cmdlet - End -->
+  
   <!-- RDP Extension Cmdlets - End -->
+  
+  <!-- DA Extension Cmdlets - Start -->
+  
+  <!-- Get DA Cmdlet - Start-->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Get-AzureServiceDiagnosticsExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Get Azure Service Remote Desktop Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-AzureServiceDiagnosticsExtension cmdlet gets the remote desktop extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceDiagnosticsExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Gets the diagnostics extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Get-AzureServiceDiagnosticsExtension -ServiceName $svc -Slot $slot
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Gets the diagnostics desktop extensions enabled on all roles of $svc at $slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureServiceDiagnosticsExtensionConfig</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Get DA Cmdlet - End -->
+  <!-- Remove DA Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Remove-AzureServiceDiagnosticsExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Remove Azure Service Diagnostics Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Remove</command:verb>
+      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-AzureServiceDiagnosticsExtension cmdlet removes the diagnostics extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Remove-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2" aliases="">
+          <maml:name>UninstallConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
+          </maml:description>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>UninstallConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Specifies this option for uninstalling all extensions.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false"></command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ManagementOperationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceDiagnosticsExtension -ServiceName $svc
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the diagnostics extensions enabled on all roles of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceDiagnosticsExtension -ServiceName $svc -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the diagnostics extensions enabled on named roles ($role1 and $role2) of $svc at production slot.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Remove-AzureServiceDiagnosticsExtension -ServiceName $svc -UninstallConfiguration
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Removes the diagnostics extensions enabled on all roles and named roles of $svc at production slot, and uninstalls them.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureServiceDiagnosticsExtensionConfig</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Remove DA Cmdlet - End -->
+  
+  <!-- Set RDP Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Set-AzureServiceDiagnosticsExtension
+      </command:name>
+      <maml:description>
+        <maml:para>Set Azure Service Diagnostics Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-AzureServiceDiagnosticsExtension cmdlet sets the remote desktop extension from a cloud service.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>X509Certificate used to encrypt password</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>Storage Account Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Diagnostics Configuration</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>Storage Account Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Diagnostics Configuration</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the name of the Windows Azure cloud service.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment for the deployment. Choices are Staging or Production. If not specified, Production is assumed.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>X509Certificate used to encrypt password</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>Storage Account Name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>DiagnosticsConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Diagnostics Configuration</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <dev:type>
+          <maml:name>XmlDocument</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ManagementOperationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceDiagnosticsExtension -ServiceName $svc -StorageAccountName $name
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Sets the diagnostics extensions enabled on all roles of $svc at production slot using storage account $name.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceDiagnosticsExtension -ServiceName $svc -StorageAccountName $name -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Sets the diagnostics extensions enabled on named roles ($role1 and $role2) of $svc at production slot using storage account $name.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceDiagnosticsExtension -ServiceName $svc -StorageAccountName $name -DiagnosticsExtension $wadcfg
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Sets the diagnostics extensions enabled on all roles of $svc at production slot using storage account $name with the diagnostics extension configuration $wadcfg.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-AzureServiceDiagnosticsExtensionConfig</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- Set DA Cmdlet - End -->
+
+
+  <!-- New RDP Cmdlet - Start -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        New-AzureServiceDiagnosticsExtensionConfig
+      </command:name>
+      <maml:description>
+        <maml:para>New Azure Service Diagnostics Extension</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtensionConfig</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>The New-AzureServiceDiagnosticsExtensionConfig cmdlet generates the configuration of the diagnostics extension for a deployment</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>X509Certificate used to encrypt password</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>Storage Account Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Diagnostics Configuration</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>Specifies the roles. Default for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>Storage Account Name</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+		<command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Diagnostics Configuration</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="0">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>Specifies the roles. Default for all roles.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>X509Certificate used to encrypt password</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint of a certificate used for encryption.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Algorithm associated with the Thumbprint.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>Storage Account Name</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+	  <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>DiagnosticsConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Diagnostics Configuration</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <dev:type>
+          <maml:name>XmlDocument</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>ExtensionConfigurationContext</maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureServiceDiagnosticsExtensionConfig -ServiceName $svc -StorageAccountName $name
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Generates the configuration of diagnostics extensions enabled on all roles of $svc at production slot using storage account $name.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureServiceDiagnosticsExtensionConfig -ServiceName $svc -StorageAccountName $name -Role $role1, $role2
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Generates the configuration of diagnostics extensions enabled on named roles ($role1 and $role2) of $svc at production slot using storage account $name.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 3 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          New-AzureServiceDiagnosticsExtensionConfig -ServiceName $svc -StorageAccountName $name -DiagnosticsExtension $wadcfg
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Generates the configuration of diagnostics extensions enabled on all roles of $svc at production slot using storage account $name with the diagnostics extension configuration $wadcfg.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Get-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>Remove-AzureServiceDiagnosticsExtension</maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+  <!-- New DA Cmdlet - End -->
+  
+  <!-- DA Extension Cmdlets - End -->
+  
   
 </helpItems>
