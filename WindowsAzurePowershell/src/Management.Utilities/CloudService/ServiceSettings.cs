@@ -52,8 +52,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                 if (_shouldValidate)
                 {
                     Validate.ValidateStringIsNullOrEmpty(value, "Slot");
-                    if (DeploymentSlotType.Production.Equals(value, StringComparison.OrdinalIgnoreCase) ||
-                        DeploymentSlotType.Staging.Equals(value, StringComparison.OrdinalIgnoreCase))
+                    if (!DeploymentSlotType.Production.Equals(value, StringComparison.OrdinalIgnoreCase) &&
+                        !DeploymentSlotType.Staging.Equals(value, StringComparison.OrdinalIgnoreCase))
                     {
                         throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Slot"));
                     }
