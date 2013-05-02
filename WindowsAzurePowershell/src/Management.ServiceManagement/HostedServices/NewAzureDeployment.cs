@@ -163,8 +163,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
 
-                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-                ExtensionConfiguration currentConfig = deployment == null ? null : deployment.ExtensionConfiguration;
+                ExtensionConfiguration currentConfig = null;
+                using (new OperationContextScope(Channel.ToContextChannel()))
+                {
+                    try
+                    {
+                        Deployment currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, Slot));
+                        currentConfig = currentDeployment == null ? null : currentDeployment.ExtensionConfiguration;
+                    }
+                    catch (ServiceManagementClientException ex)
+                    {
+                        if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
+                        {
+                            this.WriteErrorDetails(ex);
+                        }
+                    }
+                }
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
