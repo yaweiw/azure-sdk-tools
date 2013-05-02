@@ -16,8 +16,10 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Net;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.ServiceModel;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
@@ -143,6 +145,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             ExtensionConfiguration extConfig = null;
             if (ExtensionConfiguration != null)
             {
+                var roleList = (from c in ExtensionConfiguration
+                                from r in c.Roles
+                                select r).GroupBy(r => r.ToString()).Select(g => g.First());
+
+                foreach (var role in roleList)
+                {
+                    var result = from c in ExtensionConfiguration
+                                 where c.Roles.Any(r => r.ToString() == role.ToString())
+                                 select string.Format("{0}.{1}", c.ProviderNameSpace, c.Type);
+                    foreach (var s in result)
+                    {
+                        if (result.Count(t => t == s) > 1)
+                        {
+                            throw new Exception("Cannot apply more than one extension in the same namespace and type: " + s);
+                        }
+                    }
+                }
+
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext context in ExtensionConfiguration)

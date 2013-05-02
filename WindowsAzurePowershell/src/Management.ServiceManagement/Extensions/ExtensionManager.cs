@@ -17,6 +17,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using WindowsAzure.ServiceManagement;
@@ -124,6 +125,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             });
         }
 
+        public string GetExtensionId(string roleName, string type, string slot, int index)
+        {
+            return string.Format(ExtensionIdTemplate, roleName, type, slot, index);
+        }
+
         public bool InstallExtension(ExtensionConfigurationContext context, string slot, ref ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
@@ -132,7 +138,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 string roleName = r.RoleType == ExtensionRoleType.AllRoles ? "Default" : r.RoleName;
 
                 var extensionIds = from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
-                                   select string.Format(ExtensionIdTemplate, roleName, context.Type, slot, index);
+                                   select GetExtensionId(roleName, context.Type, slot, index);
 
                 string availableId = (from extensionId in extensionIds
                                       where !builder.ExistAny(extensionId)
@@ -149,29 +155,26 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 var existingExtension = extensionList.Find(e => e.Id == availableId);
                 if (existingExtension != null)
                 {
-                    thumbprint = existingExtension.Thumbprint;
-                    thumbprintAlgorithm = existingExtension.ThumbprintAlgorithm;
+                    thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? existingExtension.Thumbprint : context.CertificateThumbprint;
+                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? existingExtension.ThumbprintAlgorithm : context.ThumbprintAlgorithm;
                     DeleteExtension(availableId);
                 }
                 else if (extensionList.Any())
                 {
-                    thumbprint = extensionList.First().Thumbprint;
-                    thumbprintAlgorithm = extensionList.First().ThumbprintAlgorithm;
+                    thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? extensionList.First().Thumbprint : context.CertificateThumbprint;
+                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? extensionList.First().ThumbprintAlgorithm : context.ThumbprintAlgorithm;
                 }
 
-                if (!string.IsNullOrWhiteSpace(context.CertificateThumbprint))
-                {
-                    thumbprint = context.CertificateThumbprint;
-                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
-                }
+                thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? "" : context.CertificateThumbprint;
+                thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
 
                 var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
-                if (!string.IsNullOrEmpty(thumbprint))
+                if (!string.IsNullOrWhiteSpace(thumbprint))
                 {
                     var existingCert = certList.Find(c => c.Thumbprint == thumbprint);
                     if (existingCert != null)
                     {
-                        thumbprintAlgorithm = string.IsNullOrEmpty(thumbprintAlgorithm) ? existingCert.ThumbprintAlgorithm : thumbprintAlgorithm;
+                        thumbprintAlgorithm = string.IsNullOrWhiteSpace(thumbprintAlgorithm) ? existingCert.ThumbprintAlgorithm : thumbprintAlgorithm;
                     }
                 }
                 else
@@ -179,13 +182,21 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     var availableCert = certList.Find(c =>
                     {
                         byte[] bytes = Encoding.ASCII.GetBytes(c.Data);
-                        var x509cert = new X509Certificate2(bytes);
-                        return !string.IsNullOrEmpty(x509cert.Subject) && x509cert.Subject.Equals(ExtensionCertificateSubject);
+                        X509Certificate2 x509cert = null;
+                        try
+                        {
+                            x509cert = new X509Certificate2(bytes);
+                        }
+                        catch (CryptographicException)
+                        {
+                            // Do nothing
+                        }
+                        return x509cert != null && ExtensionCertificateSubject.Equals(x509cert.Subject);
                     });
                     if (availableCert != null)
                     {
                         thumbprint = availableCert.Thumbprint;
-                        thumbprintAlgorithm = availableCert.ThumbprintAlgorithm;
+                        thumbprintAlgorithm = string.IsNullOrWhiteSpace(thumbprintAlgorithm) ? availableCert.ThumbprintAlgorithm : thumbprintAlgorithm;
                     }
                 }
 
