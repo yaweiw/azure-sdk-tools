@@ -149,6 +149,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 		public void TestStartCloudService()
 		{
 			// Setup
+            cloudService.Deployments.Add(deployment);
 			UpdateDeploymentStatusInput actual = null;
 			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
 				subscription.SubscriptionId,
@@ -179,6 +180,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 		public void TestStopCloudService()
 		{
 			// Setup
+            cloudService.Deployments.Add(deployment);
 			UpdateDeploymentStatusInput actual = null;
 			serviceManagementChannelMock.Setup(f => f.BeginUpdateDeploymentStatusBySlot(
 				subscription.SubscriptionId,
@@ -209,19 +211,7 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 		public void TestRemoveCloudService()
 		{
 			// Setup
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteDeploymentBySlot(It.IsAny<IAsyncResult>()));
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteHostedService(It.IsAny<IAsyncResult>()));
+			cloudService.Deployments.Add(deployment);
 
 			// Test
 			client.RemoveCloudService(serviceName);
@@ -245,38 +235,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 		public void TestRemoveCloudServiceWithStaging()
 		{
 			// Setup
-			cloudService.Deployments.Add(new Deployment() { DeploymentSlot = DeploymentSlotType.Staging });
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Staging,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteDeploymentBySlot(It.IsAny<IAsyncResult>()));
-			serviceManagementChannelMock.Setup(f => f.BeginDeleteHostedService(
-				subscription.SubscriptionId,
-				serviceName,
-				null,
-				null));
-			serviceManagementChannelMock.Setup(f => f.EndDeleteHostedService(It.IsAny<IAsyncResult>()));
+			deployment.DeploymentSlot = DeploymentSlotType.Staging;
+			cloudService.Deployments.Add(deployment);
 
 			// Test
 			client.RemoveCloudService(serviceName);
 
 			// Assert
-			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
-				subscription.SubscriptionId,
-				serviceName,
-				DeploymentSlotType.Production,
-				null,
-				null), Times.Once());
-
 			serviceManagementChannelMock.Verify(f => f.BeginDeleteDeploymentBySlot(
 				subscription.SubscriptionId,
 				serviceName,

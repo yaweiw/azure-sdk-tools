@@ -56,9 +56,11 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 {
                     throw new ArgumentException(string.Format(Resources.InvalidOrEmptyArgumentMessage, messageData));
                 }
-
-                // Use the message provided by the user
-                throw new ArgumentException(messageData);
+                else
+                {
+                    // Use the message provided by the user
+                    throw new ArgumentException(messageData);
+                }
             }
         }
 

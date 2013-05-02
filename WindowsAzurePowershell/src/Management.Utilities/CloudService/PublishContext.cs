@@ -43,9 +43,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             string rootPath)
         {
             Validate.ValidateNullArgument(settings, Resources.InvalidServiceSettingMessage);
+            Validate.ValidateStringIsNullOrEmpty(packagePath, "packagePath");
             Validate.ValidateFileFull(configPath, Resources.ServiceConfiguration);
             Validate.ValidateStringIsNullOrEmpty(serviceName, "serviceName");
-
+            
             this.ServiceSettings = settings;
             this.PackagePath = packagePath;
             this.ConfigPath = configPath;
