@@ -14,18 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    using System.Collections.Generic;
     using Utilities.Common;
 
-    public class ExtensionRoleContext : ManagementOperationContext
+    public class DiagnosticExtensionContext : ManagementOperationContext
     {
-        public string ProviderNameSpace { get; set; }
-        public string Type { get; set; }
-        public string Id { get; set; }
-        public string Version { get; set; }
-        public string Thumbprint { get; set; }
-        public string ThumbprintAlgorithm { get; set; }
-        public string PublicConfiguration { get; set; }
         public ExtensionRole Role { get; set; }
+        public string Extension { get; set; }
+        public string ProviderNameSpace { get; set; }
+        public string Id { get; set; }
+        public string StorageAccountName { get; set; }
+        public string WadCfg { get; set; }
     }
 }

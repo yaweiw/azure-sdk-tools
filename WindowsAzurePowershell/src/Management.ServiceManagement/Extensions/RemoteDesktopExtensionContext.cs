@@ -14,11 +14,15 @@
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
-    public class GetAzureServiceDiagnosticsExtensionContext : ExtensionRoleContext
+    using Utilities.Common;
+
+    public class RemoteDesktopExtensionContext : ManagementOperationContext
     {
-        public string ConnectionQualifiers { get; set; }
-        public string DefaultEndpointsProtocol { get; set; }
-        public string StorageName { get; set; }
-        public string WadCfg { get; set; }
+        public ExtensionRole Role { get; set; }
+        public string Extension { get; set; }
+        public string ProviderNameSpace { get; set; }
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Expiration { get; set; }
     }
 }

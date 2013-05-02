@@ -181,16 +181,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         private static string GetPublicConfigValue(string text, string descendant, string elem)
         {
             XDocument config = XDocument.Parse(text);
-            var result = from configElem in config.Descendants(descendant)
-                         from settingElem in configElem.Descendants(elem)
-                         where settingElem.Name == elem
-                         select settingElem.Value;
+            var result = from d in config.Descendants()
+                         where d.Name.LocalName == elem
+                         select d.ToString();
             return result.FirstOrDefault();
         }
 
-        protected string GetPublicConfigValue(HostedServiceExtension ext, string elem)
+        protected string GetPublicConfigValue(HostedServiceExtension ext, string descendant, string elem)
         {
-            return ext == null ? "" : GetPublicConfigValue(ext.PublicConfiguration, PublicConfigStr, elem);
+            return ext == null ? "" : GetPublicConfigValue(ext.PublicConfiguration, descendant, elem);
         }
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)
