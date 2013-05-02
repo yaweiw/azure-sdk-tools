@@ -12,17 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Net;
 
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
+    using System.Net;
     using System.Management.Automation;
     using System.ServiceModel;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
-    using Microsoft.WindowsAzure.Management.ServiceManagement.Helpers;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Extensions;
+    using Helpers;
+    using Properties;
 
     /// <summary>
     /// Create a new deployment. Note that there shouldn't be a deployment 
@@ -65,7 +66,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 3, Mandatory = true, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot [Staging | Production].")]
-        [ValidateSet("Staging", "Production", IgnoreCase = true)]
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot
         {
             get;
@@ -127,7 +128,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             }
             else
             {
-                var progress = new ProgressRecord(0, "Please wait...", "Uploading package to blob storage");
+                var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.UploadingPackage);
                 WriteProgress(progress);
                 removePackage = true;
                 packageUrl = this.RetryCall(s =>
@@ -144,24 +145,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
-                foreach (ExtensionConfigurationContext psConfig in ExtensionConfiguration)
+                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
                 {
-                    if (psConfig.X509Certificate != null)
+                    if (context.X509Certificate != null)
                     {
-                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, psConfig.X509Certificate.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, context.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
                     ExtensionConfiguration outConfig = null;
-                    bool installed = extensionMgr.InstallExtension(psConfig, Slot, ref outConfig);
-                    if (installed)
-                    {
-                        configBuilder.Add(outConfig);
-                    }
-                    else
-                    {
-                        throw new Exception("Failed to install extensions.");
-                    }
+                    extensionMgr.InstallExtension(context, Slot, ref outConfig);
+                    configBuilder.Add(outConfig);
                 }
                 extConfig = configBuilder.ToConfiguration();
             }
@@ -181,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 try
                 {
-                    var progress = new ProgressRecord(0, "Please wait...", "Creating the new deployment");
+                    var progress = new ProgressRecord(0, Resources.WaitForUploadingPackage, Resources.CreatingNewDeployment);
                     WriteProgress(progress);
 
                     ExecuteClientAction(deploymentInput, CommandRuntime.ToString(), s => this.Channel.CreateOrUpdateDeployment(s, this.ServiceName, this.Slot, deploymentInput));
@@ -214,7 +208,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         if (string.Compare(currentDeployment.RoleList[0].RoleType, "PersistentVMRole", StringComparison.OrdinalIgnoreCase) == 0)
                         {
-                            throw new ArgumentException(String.Format("Cannot Create New Deployment with Virtual Machines Present in {0} Slot", slot));
+                            throw new ArgumentException(String.Format(Resources.CanNotCreateNewDeploymentWhileVMsArePresent, slot));
                         }
                     }
                 }
@@ -238,7 +232,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         {
             if (string.IsNullOrEmpty(this.Slot))
             {
-                this.Slot = "Production";
+                this.Slot = DeploymentSlotType.Production;
             }
 
             if (string.IsNullOrEmpty(this.Name))
@@ -253,7 +247,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
             if (string.IsNullOrEmpty(this.CurrentSubscription.CurrentStorageAccount))
             {
-                throw new ArgumentException("CurrentStorageAccount is not set. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");                
+                throw new ArgumentException(Resources.CurrentStorageAccountIsNotSet);                
             }
         }
     }

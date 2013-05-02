@@ -17,12 +17,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
     using WindowsAzure.ServiceManagement;
 
     public class ExtensionManager
     {
         public const int ExtensionIdLiveCycleCount = 2;
         private const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
+        private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
 
         public IServiceManagement Channel
         {
@@ -98,10 +101,32 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return GetBuilder().Add(config);
         }
 
+        public void Uninstall(string nameSpace, string type, string deploymentSlot)
+        {
+            var deploymentList = from s in new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging }
+                              select Channel.GetDeploymentBySlot(SubscriptionId, ServiceName, s);
+            var roleList = deploymentList.First(d => d.DeploymentSlot == deploymentSlot);
+            Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName).ForEach(e =>
+            {
+                if (e.ProviderNameSpace == nameSpace && e.Type == type)
+                {
+                    bool found = deploymentList.Any(d =>
+                    {
+                        ExtensionConfigurationBuilder builder = GetBuilder(d.ExtensionConfiguration);
+                        return builder.ExistAny(e.Id);
+                    });
+
+                    if (!found)
+                    {
+                        Channel.DeleteHostedServiceExtension(SubscriptionId, ServiceName, e.Id);
+                    }
+                }
+            });
+        }
+
         public bool InstallExtension(ExtensionConfigurationContext context, string slot, ref ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
-            bool installed = false;
             foreach (ExtensionRole r in context.Roles)
             {
                 string roleName = r.RoleType == ExtensionRoleType.AllRoles ? "Default" : r.RoleName;
@@ -140,6 +165,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
                 }
 
+                var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
+                if (!string.IsNullOrEmpty(thumbprint))
+                {
+                    var existingCert = certList.Find(c => c.Thumbprint == thumbprint);
+                    if (existingCert != null)
+                    {
+                        thumbprintAlgorithm = string.IsNullOrEmpty(thumbprintAlgorithm) ? existingCert.ThumbprintAlgorithm : thumbprintAlgorithm;
+                    }
+                }
+                else
+                {
+                    var availableCert = certList.Find(c =>
+                    {
+                        byte[] bytes = Encoding.ASCII.GetBytes(c.Data);
+                        var x509cert = new X509Certificate2(bytes);
+                        return !string.IsNullOrEmpty(x509cert.Subject) && x509cert.Subject.Equals(ExtensionCertificateSubject);
+                    });
+                    if (availableCert != null)
+                    {
+                        thumbprint = availableCert.Thumbprint;
+                        thumbprintAlgorithm = availableCert.ThumbprintAlgorithm;
+                    }
+                }
+
                 AddExtension(new HostedServiceExtensionInput
                 {
                     Id = availableId,
@@ -165,7 +214,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
             extConfig = builder.ToConfiguration();
 
-            return installed;
+            return true;
         }
     }
 }
