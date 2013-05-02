@@ -100,9 +100,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                     currentStorage = new CloudStorageAccount(new StorageCredentials(
                         storageService.ServiceName,
                         storageServiceKeys.StorageServiceKeys.Primary),
-                        new Uri(storageService.StorageServiceProperties.Endpoints[0]),
-                        new Uri(storageService.StorageServiceProperties.Endpoints[1]),
-                        new Uri(storageService.StorageServiceProperties.Endpoints[2]));
+                        General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]),
+                        General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]),
+                        General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2]));
                 }
             }
 
