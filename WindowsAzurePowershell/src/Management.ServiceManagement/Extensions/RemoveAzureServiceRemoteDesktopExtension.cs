@@ -15,6 +15,7 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 {
     using System.Management.Automation;
+    using Properties;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
 
@@ -96,7 +97,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
             else
             {
-                WriteWarning(string.Format("No existing {0}.{1} extensions enabled on given roles.", ExtensionNameSpace, ExtensionType));
+                WriteWarning(string.Format(Resources.ServiceExtensionNoExistingExtensionsEnabledOnRoles, ExtensionNameSpace, ExtensionType));
             }
 
             if (UninstallConfiguration)

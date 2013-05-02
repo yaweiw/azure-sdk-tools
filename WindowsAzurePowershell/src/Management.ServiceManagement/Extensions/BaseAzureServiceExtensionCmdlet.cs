@@ -19,6 +19,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Security.Cryptography.X509Certificates;
     using System.Xml;
     using System.Xml.Linq;
+    using Properties;
     using Utilities.Common;
     using WindowsAzure.Management.Utilities.CloudService;
     using WindowsAzure.ServiceManagement;
@@ -27,6 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     {
         protected const string PublicConfigStr = "PublicConfig";
         protected const string PrivateConfigStr = "PrivateConfig";
+        protected const string ChangeConfigurationModeStr = "Auto";
         protected ExtensionManager ExtensionManager;
         protected string ExtensionNameSpace;
         protected string ExtensionType;
@@ -98,14 +100,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
             if (string.IsNullOrEmpty(serviceName))
             {
-                throw new Exception("Invalid service name");
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
             }
             else
             {
                 ServiceName = serviceName;
                 if (!IsServiceAvailable(ServiceName))
                 {
-                    throw new Exception("Service not found: " + ServiceName);
+                    throw new Exception(string.Format(Resources.ServiceExtensionCannotFindServiceName, ServiceName));
                 }
             }
 
@@ -119,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             Deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
             if (Deployment == null)
             {
-                throw new Exception(string.Format("Deployment not found in service: {0} and slot: {1}", ServiceName, Slot));
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindDeployment, ServiceName, Slot));
             }
 
             if (Deployment.ExtensionConfiguration == null)
@@ -143,12 +145,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 {
                     if (Deployment.RoleList == null || !Deployment.RoleList.Any(r => r.RoleName == roleName))
                     {
-                        throw new Exception(string.Format("Role: {0} not found in deployment {1} of service {2}.", roleName, Slot, ServiceName));
+                        throw new Exception(string.Format(Resources.ServiceExtensionCannotFindRole, roleName, Slot, ServiceName));
                     }
 
                     if (string.IsNullOrWhiteSpace(roleName))
                     {
-                        throw new Exception("Specified role name cannot be empty or null.");
+                        throw new Exception(Resources.ServiceExtensionCannotFindRoleName);
                     }
                 }
             }
@@ -158,7 +160,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (X509Certificate != null)
             {
-                var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, X509Certificate.Thumbprint);
+                var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, X509Certificate.Thumbprint);
                 if (uploadCert)
                 {
                     ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(X509Certificate)));
@@ -178,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return found;
         }
 
-        private static string GetPublicConfigValue(string text, string descendant, string elem)
+        private static string GetPublicConfigValue(string text, string elem)
         {
             XDocument config = XDocument.Parse(text);
             var result = from d in config.Descendants()
@@ -187,9 +189,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return result.FirstOrDefault();
         }
 
-        protected string GetPublicConfigValue(HostedServiceExtension ext, string descendant, string elem)
+        protected string GetPublicConfigValue(HostedServiceExtension ext, string elem)
         {
-            return ext == null ? "" : GetPublicConfigValue(ext.PublicConfiguration, descendant, elem);
+            return ext == null ? "" : GetPublicConfigValue(ext.PublicConfiguration, elem);
         }
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)
@@ -199,7 +201,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 Configuration = Deployment.Configuration,
                 ExtendedProperties = Deployment.ExtendedProperties,
                 ExtensionConfiguration = Deployment.ExtensionConfiguration = extConfig,
-                Mode = "Auto",
+                Mode = ChangeConfigurationModeStr,
                 TreatWarningsAsError = false
             };
             ExecuteClientActionInOCS(null, CommandRuntime.ToString(), s => Channel.ChangeConfigurationBySlot(s, ServiceName, Slot, changeConfigInput));

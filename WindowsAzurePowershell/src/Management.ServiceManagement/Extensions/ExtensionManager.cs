@@ -26,6 +26,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     {
         public const int ExtensionIdLiveCycleCount = 2;
         private const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
+        private const string DefaultAllRolesNameStr = "Default";
         private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
 
         public IServiceManagement Channel
@@ -177,10 +178,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             foreach (ExtensionRole r in context.Roles)
             {
-                string roleName = r.RoleType == ExtensionRoleType.AllRoles ? "Default" : r.RoleName;
+                string roleName = r.RoleType == ExtensionRoleType.AllRoles ? DefaultAllRolesNameStr : r.RoleName;
 
-                var extensionIds = from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
-                                   select GetExtensionId(roleName, context.Type, slot, index);
+                var extensionIds = (from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
+                                    select GetExtensionId(roleName, context.Type, slot, index)).ToList();
 
                 string availableId = (from extensionId in extensionIds
                                       where !builder.ExistAny(extensionId)

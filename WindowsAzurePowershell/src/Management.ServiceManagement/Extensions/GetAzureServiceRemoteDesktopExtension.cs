@@ -81,8 +81,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                ProviderNameSpace = extension.ProviderNameSpace,
                                Id = extension.Id,
                                Role = role,
-                               UserName = GetPublicConfigValue(extension, PublicConfigStr, UserNameElemStr),
-                               Expiration = GetPublicConfigValue(extension, PublicConfigStr, ExpirationElemStr)
+                               UserName = GetPublicConfigValue(extension, UserNameElemStr),
+                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
                            };
                 });
         }

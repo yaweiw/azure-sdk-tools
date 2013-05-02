@@ -21,9 +21,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
     public class ExtensionConfigurationBuilder
     {
-        private ExtensionManager ExtensionManager;
-        private HashSet<string> AllRoles;
-        private Dictionary<string, HashSet<string>> NamedRoles;
+        private ExtensionManager extensionManager;
+        private HashSet<string> allRoles;
+        private Dictionary<string, HashSet<string>> namedRoles;
 
         public ExtensionConfigurationBuilder(ExtensionManager extensionManager)
         {
@@ -31,16 +31,16 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 throw new ArgumentNullException("extensionManager");
             }
-            ExtensionManager = extensionManager;
-            AllRoles = new HashSet<string>();
-            NamedRoles = new Dictionary<string, HashSet<string>>();
+            this.extensionManager = extensionManager;
+            allRoles = new HashSet<string>();
+            namedRoles = new Dictionary<string, HashSet<string>>();
         }
 
         public bool ExistDefault(string nameSpace, string type)
         {
-            return AllRoles.Any(id =>
+            return allRoles.Any(id =>
             {
-                HostedServiceExtension e = ExtensionManager.GetExtension(id);
+                HostedServiceExtension e = extensionManager.GetExtension(id);
                 return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
             });
         }
@@ -48,17 +48,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public bool ExistAny(string nameSpace, string type)
         {
             return ExistDefault(nameSpace, type)
-                || NamedRoles.Any(r => Exist(new string[] { r.Key }, nameSpace, type));
+                || namedRoles.Any(r => Exist(new string[] { r.Key }, nameSpace, type));
         }
 
         public bool Exist(string[] roles, string nameSpace, string type)
         {
             if (roles != null && roles.Any())
             {
-                return (from r in NamedRoles
+                return (from r in namedRoles
                         where roles.Contains(r.Key)
                         from id in r.Value
-                        select ExtensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNameSpace == nameSpace && e.Type == type);
+                        select extensionManager.GetExtension(id)).Any(e => e != null && e.ProviderNameSpace == nameSpace && e.Type == type);
             }
             else
             {
@@ -68,19 +68,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public bool ExistDefault(string extensionId)
         {
-            return AllRoles.Any(id => id == extensionId);
+            return allRoles.Any(id => id == extensionId);
         }
 
         public bool ExistAny(string extensionId)
         {
-            return AllRoles.Any(id => id == extensionId)
-                || NamedRoles.Any(r => Exist(r.Key, extensionId));
+            return allRoles.Any(id => id == extensionId)
+                || namedRoles.Any(r => Exist(r.Key, extensionId));
         }
 
         public bool Exist(string roleName, string extensionId)
         {
             return string.IsNullOrWhiteSpace(roleName) ? ExistDefault(extensionId)
-                                                       : NamedRoles.Any(r => r.Key == roleName
+                                                       : namedRoles.Any(r => r.Key == roleName
                                                                           && r.Value.Any(id => id == extensionId));
         }
 
@@ -92,7 +92,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public ExtensionConfigurationBuilder RemoveDefault(string extensionId)
         {
-            AllRoles.Remove(extensionId);
+            allRoles.Remove(extensionId);
             return this;
         }
 
@@ -105,9 +105,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (roleNames != null && roleNames.Any())
             {
-                foreach (var r in roleNames.Intersect(NamedRoles.Keys))
+                foreach (var r in roleNames.Intersect(namedRoles.Keys))
                 {
-                    NamedRoles[r].Remove(extensionId);
+                    namedRoles[r].Remove(extensionId);
                 }
                 return this;
             }
@@ -119,14 +119,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public ExtensionConfigurationBuilder RemoveDefault(string nameSpace, string type)
         {
-            AllRoles.RemoveWhere(e => ExistDefault(nameSpace, type));
+            allRoles.RemoveWhere(e => ExistDefault(nameSpace, type));
             return this;
         }
 
         public ExtensionConfigurationBuilder RemoveAny(string nameSpace, string type)
         {
             RemoveDefault(nameSpace, type);
-            foreach (var r in NamedRoles)
+            foreach (var r in namedRoles)
             {
                 r.Value.RemoveWhere(id => Exist(r.Key, id));
             }
@@ -142,11 +142,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (roles != null && roles.Any())
             {
-                foreach (var r in roles.Intersect(NamedRoles.Keys))
+                foreach (var r in roles.Intersect(namedRoles.Keys))
                 {
-                    NamedRoles[r].RemoveWhere(id =>
+                    namedRoles[r].RemoveWhere(id =>
                     {
-                        var e = ExtensionManager.GetExtension(id);
+                        var e = extensionManager.GetExtension(id);
                         return e != null && e.ProviderNameSpace == nameSpace && e.Type == type;
                     });
                 }
@@ -162,7 +162,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         {
             if (!ExistDefault(extensionId))
             {
-                AllRoles.Add(extensionId);
+                allRoles.Add(extensionId);
             }
             return this;
         }
@@ -178,13 +178,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 foreach (var r in roleNames)
                 {
-                    if (NamedRoles.ContainsKey(r))
+                    if (namedRoles.ContainsKey(r))
                     {
-                        NamedRoles[r].Add(extensionId);
+                        namedRoles[r].Add(extensionId);
                     }
                     else
                     {
-                        NamedRoles.Add(r, new HashSet<string>(new string[] { extensionId }));
+                        namedRoles.Add(r, new HashSet<string>(new string[] { extensionId }));
                     }
                 }
                 return this;
@@ -235,13 +235,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                     {
                         r.Extensions.ForEach(e =>
                         {
-                            if (NamedRoles.ContainsKey(r.RoleName))
+                            if (namedRoles.ContainsKey(r.RoleName))
                             {
-                                NamedRoles[r.RoleName].Add(e.Id);
+                                namedRoles[r.RoleName].Add(e.Id);
                             }
                             else
                             {
-                                NamedRoles.Add(r.RoleName, new HashSet<string>(new string[] { e.Id }));
+                                namedRoles.Add(r.RoleName, new HashSet<string>(new string[] { e.Id }));
                             }
                         });
                     }
@@ -257,8 +257,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 AllRoles = new AllRoles(),
                 NamedRoles = new NamedRoles()
             };
-            config.AllRoles.AddRange(from id in AllRoles select new Extension(id));
-            config.NamedRoles.AddRange(from r in NamedRoles
+            config.AllRoles.AddRange(from id in allRoles select new Extension(id));
+            config.NamedRoles.AddRange(from r in namedRoles
                                        where r.Value.Any()
                                        select new RoleExtensions
                                        {

@@ -1033,6 +1033,78 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deployment not found in service: {0} and slot: {1}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindDeployment {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindDeployment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role: {0} not found in deployment {1} of service {2}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindRole {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specified role name cannot be empty or null..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindRoleName {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindRoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find cloud servcie: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindServiceName {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindServiceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage keys for the account name: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindStorageAccountKey {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindStorageAccountKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot find storage service for the account name: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotFindStorageAccountName {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotFindStorageAccountName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No existing {0}.{1} extensions enabled on given roles..
+        /// </summary>
+        internal static string ServiceExtensionNoExistingExtensionsEnabledOnRoles {
+            get {
+                return ResourceManager.GetString("ServiceExtensionNoExistingExtensionsEnabledOnRoles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} - Uploading Certificate: {1}.
+        /// </summary>
+        internal static string ServiceExtensionUploadingCertificate {
+            get {
+                return ResourceManager.GetString("ServiceExtensionUploadingCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Specify -LinuxUser when creating Linux Virtual Machines.
         /// </summary>
         internal static string SpecifyLinuxUserWhenCreatingLinuxVMs {
