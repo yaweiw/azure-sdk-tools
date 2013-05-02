@@ -33,7 +33,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService
         public string ServiceName { get; set; }
 
         [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         public string Slot { get; set; }
 
         [Parameter(Position = 2, Mandatory = false)]
@@ -41,7 +40,13 @@ namespace Microsoft.WindowsAzure.Management.CloudService
 
         public override void ExecuteCmdlet()
         {
-            CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(CurrentSubscription, WriteDebug);
+            CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
+                CurrentSubscription,
+                SessionState.Path.CurrentLocation.Path,
+                WriteDebug,
+                WriteVerbose,
+                WriteWarning);
+
             CloudServiceClient.StartCloudService(ServiceName, Slot);
 
             if (PassThru)

@@ -164,16 +164,13 @@
     <Compile Include="CloudService\AzureTools\CsRun.cs" />
     <Compile Include="CloudService\AddRole.cs" />
     <Compile Include="CloudService\AzureService.cs" />
-    <Compile Include="CloudService\CachingStorageConnectionStringUpdater.cs" />
     <Compile Include="CloudService\CloudRuntime.cs" />
     <Compile Include="CloudService\CloudRuntimeApplicator.cs" />
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
     <Compile Include="CloudService\CloudServiceClient.cs" />
-    <Compile Include="CloudService\DeploymentSettings.cs" />
-    <Compile Include="CloudService\GetDeploymentStatus.cs" />
+    <Compile Include="CloudService\PublishContext.cs" />
     <Compile Include="CloudService\ICloudServiceClient.cs" />
-    <Compile Include="CloudService\IPublishListener.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
     <Compile Include="CloudService\Parameters.cs" />
     <Compile Include="CloudService\RemoveAzureDeployment.cs" />
@@ -190,6 +187,7 @@
     <Compile Include="CloudService\Scaffolding\Scaffold.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldFile.cs" />
     <Compile Include="CloudService\Scaffolding\ScaffoldParams.cs" />
+    <Compile Include="Common\CloudBlobUtility.cs" />
     <Compile Include="Common\HttpClientExtensions.cs" />
     <Compile Include="Common\HttpClientHelper.cs" />
     <Compile Include="Common\ServiceManagementClientExtensions.cs" />
@@ -256,7 +254,7 @@
     <Compile Include="Store\ResourceModel\ResourceList.cs" />
     <Compile Include="Store\ResourceModel\UsageMeter.cs" />
     <Compile Include="Store\ResourceModel\UsageMeterList.cs" />
-    <Compile Include="Store\SetHeaderInspector.cs" />
+    <Compile Include="Common\SetHeaderInspector.cs" />
     <Compile Include="Store\StoreClient.cs" />
     <Compile Include="Store\ValidateCountryLengthAttribute.cs" />
     <Compile Include="Store\WindowsAzureAddOn.cs" />
