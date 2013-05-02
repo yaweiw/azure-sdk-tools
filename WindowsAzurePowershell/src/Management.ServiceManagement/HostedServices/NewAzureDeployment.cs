@@ -16,11 +16,15 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
-    using System.Net;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Management.Automation;
+    using System.Net;
     using System.ServiceModel;
     using Utilities.Common;
     using WindowsAzure.ServiceManagement;
+    using Extensions;
+    using Helpers;
     using Properties;
 
     /// <summary>
@@ -102,6 +106,13 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             set;
         }
 
+        [Parameter(Mandatory = false, HelpMessage = "Extension configurations.")]
+        public ExtensionConfigurationContext[] ExtensionConfiguration
+        {
+            get;
+            set;
+        }
+
         public void NewPaaSDeploymentProcess()
         {
             bool removePackage = false;
@@ -130,11 +141,65 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     this.Package,
                     null));
             }
+
+            ExtensionConfiguration extConfig = null;
+            if (ExtensionConfiguration != null)
+            {
+                var roleList = (from c in ExtensionConfiguration
+                                from r in c.Roles
+                                select r).GroupBy(r => r.ToString()).Select(g => g.First());
+
+                foreach (var role in roleList)
+                {
+                    var result = from c in ExtensionConfiguration
+                                 where c.Roles.Any(r => r.ToString() == role.ToString())
+                                 select string.Format("{0}.{1}", c.ProviderNameSpace, c.Type);
+                    foreach (var s in result)
+                    {
+                        if (result.Count(t => t == s) > 1)
+                        {
+                            throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, s));
+                        }
+                    }
+                }
+
+                ExtensionConfiguration currentConfig = null;
+                using (new OperationContextScope(Channel.ToContextChannel()))
+                {
+                    try
+                    {
+                        Deployment currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, Slot));
+                        currentConfig = currentDeployment == null ? null : currentDeployment.ExtensionConfiguration;
+                    }
+                    catch (ServiceManagementClientException ex)
+                    {
+                        if (ex.HttpStatus != HttpStatusCode.NotFound && IsVerbose() == false)
+                        {
+                            this.WriteErrorDetails(ex);
+                        }
+                    }
+                }
+                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+                ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
+                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
+                {
+                    if (context.X509Certificate != null)
+                    {
+                        var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
+                    }
+
+                    currentConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
+                    configBuilder.Add(currentConfig);
+                }
+                extConfig = configBuilder.ToConfiguration();
+            }
             
             var deploymentInput = new CreateDeploymentInput
             {
                 PackageUrl = packageUrl,
                 Configuration = General.GetConfiguration(this.Configuration),
+                ExtensionConfiguration = extConfig,
                 Label = this.Label,
                 Name = this.Name,
                 StartDeployment = !this.DoNotStart.IsPresent,

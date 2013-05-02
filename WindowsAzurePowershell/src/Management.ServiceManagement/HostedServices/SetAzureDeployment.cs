@@ -15,8 +15,11 @@
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 {
     using System;
+    using System.Linq;
     using System.Management.Automation;
     using System.ServiceModel;
+    using WindowsAzure.Management.ServiceManagement.Extensions;
+    using WindowsAzure.Management.ServiceManagement.Helpers;
     using WindowsAzure.ServiceManagement;
     using Utilities.Common;
     using Properties;
@@ -131,7 +134,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             get;
             set;
         }
-        
+
+        [Parameter(Position = 9, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
+        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
+        public ExtensionConfigurationContext[] ExtensionConfiguration
+        {
+            get;
+            set;
+        }
+
         public void ExecuteCommand()
         {
             string configString = string.Empty;
@@ -139,7 +150,46 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             {
                 configString = General.GetConfiguration(Configuration);
             }
-  
+
+            ExtensionConfiguration extConfig = null;
+            if (ExtensionConfiguration != null)
+            {
+                var roleList = (from c in ExtensionConfiguration
+                                from r in c.Roles
+                                select r).GroupBy(r => r.ToString()).Select(g => g.First());
+
+                foreach (var role in roleList)
+                {
+                    var result = from c in ExtensionConfiguration
+                                 where c.Roles.Any(r => r.ToString() == role.ToString())
+                                 select string.Format("{0}.{1}", c.ProviderNameSpace, c.Type);
+                    foreach (var s in result)
+                    {
+                        if (result.Count(t => t == s) > 1)
+                        {
+                            throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, s));
+                        }
+                    }
+                }
+
+                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
+                ExtensionConfiguration currentConfig = deployment == null ? null : deployment.ExtensionConfiguration;
+                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+                ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
+                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
+                {
+                    if (context.X509Certificate != null)
+                    {
+                        var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
+                    }
+
+                    currentConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
+                    configBuilder.Add(currentConfig);
+                }
+                extConfig = configBuilder.ToConfiguration();
+            }
+
             // Upgrade Parameter Set
             if (string.Compare(ParameterSetName, "Upgrade", StringComparison.OrdinalIgnoreCase) == 0)
             {
@@ -170,6 +220,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 {
                     Mode = Mode ?? UpgradeType.Auto,
                     Configuration = configString,
+                    ExtensionConfiguration = extConfig,
                     PackageUrl = packageUrl,
                     Label = Label ?? ServiceName,
                     Force = Force.IsPresent
@@ -206,12 +257,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 // Config parameter set 
                 var changeConfiguration = new ChangeConfigurationInput
                 {
-                    Configuration = configString
+                    Configuration = configString,
+                    ExtensionConfiguration = extConfig,
                 };
 
                 ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, changeConfiguration));
             }
-
             else
             {
                 // Status parameter set
