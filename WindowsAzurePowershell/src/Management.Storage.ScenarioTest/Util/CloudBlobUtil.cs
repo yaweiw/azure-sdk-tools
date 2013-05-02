@@ -487,5 +487,19 @@ namespace CLITest.Util
             Test.Info(String.Format("Final Copy status is {0}", destBlob.CopyState.Status));
             return destBlob.CopyState.Status != CopyStatus.Pending;
         }
+
+        public static ICloudBlob GetBlob(CloudBlobContainer container, string blobName, Storage.BlobType blobType)
+        {
+            ICloudBlob blob = null;
+            if (blobType == Storage.BlobType.BlockBlob)
+            {
+                blob = container.GetBlockBlobReference(blobName);
+            }
+            else
+            {
+                blob = container.GetPageBlobReference(blobName);
+            }
+            return blob;
+        }
     }
 }
