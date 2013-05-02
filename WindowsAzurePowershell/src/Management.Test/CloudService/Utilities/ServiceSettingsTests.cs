@@ -77,10 +77,10 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 
                 string serviceName = null;
                 ServiceSettings settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "My-Custom-Service!", null, out serviceName);
-                Assert.AreEqual("myx2dcustomx2dservicex21", settings.StorageAccountName);
+                Assert.AreEqual("myx2dcustomx2dservicex21", settings.StorageServiceName);
 
                 settings = ServiceSettings.LoadDefault(null, null, null, null, null, null, "MyCustomServiceIsWayTooooooooooooooooooooooooLong", null, out serviceName);
-                Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageAccountName);
+                Assert.AreEqual("mycustomserviceiswaytooo", settings.StorageServiceName);
             }
         }
 
