@@ -23,6 +23,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string UserNameElemStr = "UserName";
         protected const string ExpirationElemStr = "Expiration";
         protected const string PasswordElemStr = "Password";
+        protected const string RDPExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
+        protected const string RDPExtensionType = "RDP";
 
         public BaseAzureServiceRemoteDesktopExtensionCmdlet()
             : base()
@@ -38,8 +40,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected void Initialize()
         {
-            ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
-            ExtensionType = "RDP";
+            ExtensionNameSpace = RDPExtensionNamespace;
+            ExtensionType = RDPExtensionType;
 
             PublicConfigurationXmlTemplate = new XDocument(
                 new XDeclaration("1.0", "utf-8", null),
