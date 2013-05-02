@@ -15,122 +15,74 @@
 
 namespace Microsoft.WindowsAzure.Management.Test.CloudService
 {
-    using System.Net;
-    using Microsoft.WindowsAzure.Management.CloudService;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using ServiceManagement;
-    using VisualStudio.TestTools.UnitTesting;
+    using System.Management.Automation;
+using System.Net;
+using Microsoft.WindowsAzure.Management.CloudService;
+using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
+using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
+using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+using Microsoft.WindowsAzure.Management.Utilities.Common;
+using Moq;
+using ServiceManagement;
+using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class RemoveAzureServiceTests : TestBase
     {
-        private const string serviceName = "AzureService";
+        private Mock<ICloudServiceClient> clientMock;
 
-        private MockCommandRuntime mockCommandRuntime;
+        private Mock<ICommandRuntime> commandRuntimeMock;
 
-        private SimpleServiceManagement channel;
+        private RemoveAzureServiceCommand removeAzureServiceCmdlet;
 
-        private RemoveAzureServiceCommand removeServiceCmdlet;
+        private string serviceName = "cloudService";
 
         [TestInitialize]
         public void SetupTest()
         {
-            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
-            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
-            mockCommandRuntime = new MockCommandRuntime();
-            channel = new SimpleServiceManagement();
+            clientMock = new Mock<ICloudServiceClient>();
+            clientMock.Setup(f => f.RemoveCloudService(serviceName));
 
-            removeServiceCmdlet = new RemoveAzureServiceCommand(channel) { ShareChannel = true };
-            removeServiceCmdlet.CommandRuntime = mockCommandRuntime;
+            commandRuntimeMock = new Mock<ICommandRuntime>();
+            commandRuntimeMock.Setup(f => f.WriteObject(true));
+            commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            removeAzureServiceCmdlet = new RemoveAzureServiceCommand()
+            {
+                CloudServiceClient = clientMock.Object,
+                CommandRuntime = commandRuntimeMock.Object
+            };
         }
 
         [TestMethod]
-        public void RemoveAzureServiceProcessTest()
+        public void TestRemoveAzureService()
         {
-            bool serviceDeleted = false;
-            bool deploymentDeleted = false;
-            channel.GetDeploymentBySlotThunk = ar =>
-            {
-                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
-                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[SlotType.Production], Status = DeploymentStatus.Suspended};
-            };
-            channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
-            channel.DeleteDeploymentBySlotThunk = ar =>
-            {
-                deploymentDeleted = true;
-            };
-            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
+            // Setup
+            removeAzureServiceCmdlet.PassThru = true;
+            removeAzureServiceCmdlet.Force = true;
+            removeAzureServiceCmdlet.ServiceName = serviceName;
 
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
-                removeServiceCmdlet.PassThru = true;
-                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
-                Assert.IsTrue(deploymentDeleted);
-                Assert.IsTrue(serviceDeleted);
-                Assert.IsTrue((bool)mockCommandRuntime.OutputPipeline[0]);
-            }
+            // Test
+            removeAzureServiceCmdlet.ExecuteCmdlet();
+
+            // Assert
+            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
         }
 
         [TestMethod]
-        public void RemoveAzureServiceProcessWithoutPassThruTest()
+        public void TestRemoveAzureServiceNoForce()
         {
-            bool serviceDeleted = false;
-            bool deploymentDeleted = false;
-            channel.GetDeploymentBySlotThunk = ar =>
-            {
-                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
-                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[SlotType.Production], Status = DeploymentStatus.Suspended};
-            };
-            channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
-            channel.DeleteDeploymentBySlotThunk = ar =>
-            {
-                deploymentDeleted = true;
-            };
-            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = false };
+            // Setup
+            removeAzureServiceCmdlet.PassThru = true;
+            removeAzureServiceCmdlet.ServiceName = serviceName;
 
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
-                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
-                Assert.IsTrue(deploymentDeleted);
-                Assert.IsTrue(serviceDeleted);
-                Assert.AreEqual<int>(0, mockCommandRuntime.OutputPipeline.Count);
-            }
-        }
+            // Test
+            removeAzureServiceCmdlet.ExecuteCmdlet();
 
-        [TestMethod]
-        public void RemoveAzureServiceProcessWithNotExistingServiceFail()
-        {
-            bool serviceDeleted = false;
-            bool deploymentDeleted = false;
-            channel.GetDeploymentBySlotThunk = ar =>
-            {
-                if (deploymentDeleted) throw new ServiceManagementClientException(HttpStatusCode.NotFound, new ServiceManagementError(), string.Empty);
-                return new Deployment{Name = serviceName, DeploymentSlot = ArgumentConstants.Slots[SlotType.Production], Status = DeploymentStatus.Suspended};
-            };
-            channel.DeleteHostedServiceThunk = ar => serviceDeleted = true;
-            channel.DeleteDeploymentBySlotThunk = ar =>
-            {
-                deploymentDeleted = true;
-            };
-            channel.IsDNSAvailableThunk = ida => new AvailabilityResponse { Result = true };
-
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                files.CreateAzureSdkDirectoryAndImportPublishSettings();
-                AzureService service = new AzureService(files.RootPath, serviceName, null);
-                removeServiceCmdlet.PassThru = true;
-                removeServiceCmdlet.RemoveAzureServiceProcess(service.Paths.RootPath, string.Empty, serviceName);
-                Assert.IsFalse(deploymentDeleted);
-                Assert.IsFalse(serviceDeleted);
-                Assert.IsTrue(mockCommandRuntime.OutputPipeline.Count.Equals(0));
-            }
+            // Assert
+            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Never());
+            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
         }
     }
 }
