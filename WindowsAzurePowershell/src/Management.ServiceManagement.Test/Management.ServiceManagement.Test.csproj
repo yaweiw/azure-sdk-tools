@@ -102,6 +102,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Security.Cryptography, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Security.Cryptography.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -286,8 +290,6 @@
     <None Include="Resources\package.csv" />
     <None Include="Resources\packageScenario.csv" />
     <None Include="Resources\patch_VHD.csv" />
-    <None Include="Resources\pstestcert.cer" />
-    <None Include="Resources\pstestcert.pfx" />
     <None Include="Resources\resume_VHD.csv" />
     <None Include="Resources\SampleAppV1.cscfg" />
     <None Include="Resources\SampleAppV1.cspkg" />
@@ -320,6 +322,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\Readme.txt" />
+    <Content Include="lib\Security.Cryptography.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TestScripts\" />

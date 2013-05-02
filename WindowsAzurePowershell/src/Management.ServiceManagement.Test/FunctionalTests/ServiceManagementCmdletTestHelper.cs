@@ -28,6 +28,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Sync.Download;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     
 
     public class ServiceManagementCmdletTestHelper 
@@ -1071,13 +1072,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         public void RemoveAzureSubscriptions()
         {
-            System.Collections.ObjectModel.Collection<SubscriptionData> azureSubscriptions;
-
-            azureSubscriptions = GetAzureSubscription();
-            foreach (SubscriptionData sub in azureSubscriptions)
+            // Remove all subscriptions.  SAS Uri should work without a subscription.
+            try
             {
-                RemoveAzureSubscription(sub.SubscriptionName, true);
+                RunPSScript("Get-AzureSubscription | Remove-AzureSubscription -Force");
+            }
+            catch
+            {
+                Console.WriteLine("Subscriptions cannot be removed");
+            }
 
+            // Check if all subscriptions are removed.
+            try
+            {
+                GetAzureSubscription();
+                Assert.Fail("Subscription was not removed!");
+            }
+            catch (Exception e)
+            {
+                if (e is AssertFailedException)
+                {
+                    throw;
+                }
             }
         }
 
@@ -1088,7 +1104,5 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
             var result = removeAzureSubscriptionCmdlet.Run();
         }
-
     }
-
 }

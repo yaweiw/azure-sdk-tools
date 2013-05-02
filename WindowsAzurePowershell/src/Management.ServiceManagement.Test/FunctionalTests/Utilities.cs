@@ -19,8 +19,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using System.Text.RegularExpressions;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
 
-
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Model;
     using System.Threading;
@@ -28,9 +26,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
     using Microsoft.WindowsAzure.Storage.Blob;
 
+    using System.Security.Cryptography;
+    using System.Security.Cryptography.X509Certificates;
+    using Security.Cryptography;
+    using Security.Cryptography.X509Certificates;
+
     internal class Utilities 
     {
         public static string windowsAzurePowershellPath = Path.Combine(Environment.CurrentDirectory);
+        public const string windowsAzurePowershellModuleStorage = "Microsoft.WindowsAzure.Management.Storage.dll";
         public const string windowsAzurePowershellModuleManagement = "Microsoft.WindowsAzure.Management.dll";
         public const string windowsAzurePowershellModuleService = "Microsoft.WindowsAzure.Management.Service.dll";
         public const string windowsAzurePowershellModuleServiceManagement = "Microsoft.WindowsAzure.Management.ServiceManagement.dll";
@@ -418,5 +422,35 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
             return false;            
         }
+
+        public static X509Certificate2 CreateCertificate(string issuer, string friendlyName, string password)
+        {
+
+            var keyCreationParameters = new CngKeyCreationParameters
+            {
+                ExportPolicy = CngExportPolicies.AllowExport,
+                KeyCreationOptions = CngKeyCreationOptions.None,
+                KeyUsage = CngKeyUsages.AllUsages,
+                Provider = CngProvider.MicrosoftSoftwareKeyStorageProvider
+            };
+
+            keyCreationParameters.Parameters.Add(new CngProperty("Length", BitConverter.GetBytes(2048), CngPropertyOptions.None));
+
+            CngKey key = CngKey.Create(CngAlgorithm2.Rsa, null, keyCreationParameters);
+
+            var creationParams = new X509CertificateCreationParameters(new X500DistinguishedName(issuer))
+            {
+                TakeOwnershipOfKey = true
+            };
+
+            X509Certificate2 cert = key.CreateSelfSignedCertificate(creationParams);
+            key = null;
+            cert.FriendlyName = friendlyName;
+
+            byte[] bytes = cert.Export(X509ContentType.Pfx, password);
+            X509Certificate2 returnCert = new X509Certificate2();
+            returnCert.Import(bytes, password, X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
+            return returnCert;
+        }        
     }
 }
