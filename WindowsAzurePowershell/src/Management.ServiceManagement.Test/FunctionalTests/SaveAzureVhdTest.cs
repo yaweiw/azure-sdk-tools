@@ -40,6 +40,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
+            ReImportSubscription();
 
             vhdBlobLocation = blobUrlRoot + vhdBlob;
             try
@@ -77,7 +78,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\download_VHD.csv", "download_VHD#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void SaveAzureVhdThreadNumberTest()
         {
             testName = MethodBase.GetCurrentMethod().Name;
@@ -113,7 +113,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\download_VHD.csv", "download_VHD#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void SaveAzureVhdStorageKeyTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -134,7 +133,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\download_VHD.csv", "download_VHD#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void SaveAzureVhdOverwriteTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -171,7 +169,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\download_VHD.csv", "download_VHD#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void SaveAzureVhdAllTest()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);       
@@ -234,7 +231,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Save-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\wrongPara_VHD.csv", "wrongPara_VHD#csv", DataAccessMethod.Sequential)]
-        [Ignore]
         public void SaveAzureVhdWrongParameterTest()
         {
 
