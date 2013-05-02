@@ -882,5 +882,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             return encoding;
         }
+
+        /// <summary>
+        /// Creates https endpoint from the given endpoint.
+        /// </summary>
+        /// <param name="endpointUri">The endpoint uri.</param>
+        /// <returns>The https endpoint uri.</returns>
+        public static Uri CreateHttpsEndpoint(string endpointUri)
+        {
+            UriBuilder builder = new UriBuilder(endpointUri) { Scheme = "https" };
+            string endpoint = builder.Uri.GetComponents(
+                UriComponents.AbsoluteUri & ~UriComponents.Port,
+                UriFormat.UriEscaped);
+            
+            return new Uri(endpoint);
+        }
     }
 }
