@@ -6499,6 +6499,13 @@
           </maml:description>
           <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+          <maml:name>ExtensionConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Optional array of extension configuration objects.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
     </command:syntax>
     <command:parameters>
@@ -6610,6 +6617,18 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named" aliases="">
+        <maml:name>ExtensionConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Optional array of extension configuration objects.</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        <dev:type>
+          <maml:name>ExtensionConfigurationContext[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <command:inputTypes>
       <command:inputType>
@@ -6652,6 +6671,31 @@
         <dev:remarks>
           <maml:para>
             This example creates a new deployment based on a package location and a configuration path.
+          </maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText />
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+	  
+      <command:example>
+        <maml:title>
+          --------------  Example 2 --------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para></maml:para>
+        </maml:introduction>
+        <dev:code>
+          PS C:\&gt; New-AzureDeployment -ServiceName $svc -Package $pkg -Configuration $cnfg -Slot Production -ExtensionConfiguration $rdpConfig
+
+        </dev:code>
+        <dev:remarks>
+		  <maml:para>
+		  </maml:para>
+          <maml:para>
+            This example installs the extension configuration in the specified Cloud Service and applies them on roles.
           </maml:para>
         </dev:remarks>
         <command:commandLines>
@@ -12068,6 +12112,13 @@
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExtensionConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Optional array of extension configuration objects.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Set-AzureDeployment</maml:name>
@@ -12097,6 +12148,13 @@
             <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExtensionConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Optional array of extension configuration objects.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -12161,6 +12219,13 @@
             <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+          <maml:name>ExtensionConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Optional array of extension configuration objects.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -12322,6 +12387,19 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="named">
+        <maml:name>ExtensionConfiguration</maml:name>
+        <maml:description>
+          <maml:para>When specified, requests an upgrade to the Windows Azure deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        <dev:type>
+          <maml:name>ExtensionConfigurationContext[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
     </command:parameters>
     <!-- Input - Output section-->
     <command:inputTypes>
@@ -12438,6 +12516,31 @@
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
           <maml:para>This command sets the upgrade mode to Auto and specifies an upgrade package and a new configuration file.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 4 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureDeployment –ServiceName –Mode Automatic $svc -Package $pkg -Configuration $cnfg -Slot Production -ExtensionConfiguration $wadConfig
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>This example installs the extension configuration in the specified Cloud Service and applies them on roles.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
