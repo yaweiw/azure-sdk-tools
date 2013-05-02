@@ -661,42 +661,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             System.IO.File.AppendAllLines(perfFile, new string[] { String.Format("{0},{1}", testName, (testEndTime - testStartTime).TotalSeconds) });
         }
 
-        //private void AssertUploadContextAndContentMD5UsingSaveVhd(string destination, FileInfo localFile, VhdUploadContext vhdUploadContext, string md5hash, bool deleteBlob = true, bool deleteLocal = true)
-        //{
-        //    AssertUploadContext(destination, localFile, vhdUploadContext);
-
-        //    FileInfo downloadFile = new FileInfo(localFile.FullName + "_download.vhd");            
-           
-        //    BlobHandle blobHandle = getBlobHandle(destination);
-
-        //    Assert.IsTrue(VerifyMD5hash(blobHandle, md5hash));
-        //    SaveVhdAndAssertContent(blobHandle, downloadFile, true, deleteBlob, deleteLocal);            
-        //}
-
-        //private BlobHandle getBlobHandle(string blob)
-        //{
-        //    BlobUri blobPath;
-        //    Assert.IsTrue(BlobUri.TryParseUri(new Uri(blob), out blobPath));
-        //    return new BlobHandle(blobPath, storageAccountKey.Primary);
-        //}
-
-
-        //private void AssertUploadContext(string destination, FileInfo localFile, VhdUploadContext vhdUploadContext)
-        //{
-        //    Assert.IsNotNull(vhdUploadContext);
-        //    Assert.AreEqual(new Uri(destination), vhdUploadContext.DestinationUri);
-        //    Assert.AreEqual(vhdUploadContext.LocalFilePath.FullName, localFile.FullName);            
-        //}
-
         [TestCleanup]
         public virtual void CleanUp()
         {
             Console.WriteLine("Test {0}", pass ? "passed" : "failed");
             ReImportSubscription();
-            // Re-import the subscription.
-            vmPowershellCmdlets.ImportAzurePublishSettingsFile();
-            vmPowershellCmdlets.SetDefaultAzureSubscription(Resource.DefaultSubscriptionName);
-            vmPowershellCmdlets.SetAzureSubscription(defaultAzureSubscription.SubscriptionName, defaultAzureSubscription.CurrentStorageAccount);                                            
         }
     }
 }

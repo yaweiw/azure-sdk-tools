@@ -37,7 +37,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         public static string CredentialImportFormat = "Import-AzurePublishSettingsFile '{0}'";
         
         private static string publishSettingsFile = null;
-        private static string defaultSubscriptionName = null;
+        private static string defaultSubscriptionName = Resource.DefaultSubscriptionName;
         private static string location = "West US";
         private static CloudBlobContainer blobContainer;
 

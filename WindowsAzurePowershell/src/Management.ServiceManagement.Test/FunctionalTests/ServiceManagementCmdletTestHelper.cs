@@ -90,14 +90,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return RunPSCmdletAndReturnAll<LocationsContext>(new GetAzureLocationCmdletInfo());            
         }
 
-        public string GetAzureLocationName(string[] keywords, bool exactMatch = true)
+        public string GetAzureLocationName(string[] keywords)
         {
             Collection<LocationsContext> locations = GetAzureLocation();
             if (keywords != null)
             {
                 foreach (LocationsContext location in locations)
                 {
-                    if (Utilities.MatchKeywords(location.Name, keywords, exactMatch) >= 0)
+                    if (MatchExactWords(location.Name, keywords) >= 0)
                     {
                         return location.Name;
                     }
@@ -111,6 +111,33 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 }
             }
             return null;
+        }
+
+        private static int MatchExactWords(string input, string[] keywords)
+        { //returns -1 for no match, 0 for exact match, and a positive number for how many keywords are matched.
+            int result = 0;
+            if (string.IsNullOrEmpty(input) || keywords.Length == 0)
+                return -1;
+            foreach (string keyword in keywords)
+            {
+                //For whole word match, modify pattern to be "\b{0}\b"
+                if (!string.IsNullOrEmpty(keyword) && keyword.ToLowerInvariant().Equals(input.ToLowerInvariant()))
+                {
+                    result++;
+                }
+            }
+            if (result == keywords.Length)
+            {
+                return 0;
+            }
+            else if (result == 0)
+            {
+                return -1;
+            }
+            else
+            {
+                return result;
+            }
         }
 
         public Collection<OSVersionsContext> GetAzureOSVersion()

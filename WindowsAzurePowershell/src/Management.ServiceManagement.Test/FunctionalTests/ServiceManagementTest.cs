@@ -123,13 +123,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             if (string.IsNullOrEmpty(CredentialHelper.DefaultSubscriptionName))
             {                                
                 defaultAzureSubscription = vmPowershellCmdlets.GetCurrentAzureSubscription();
+                if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+                {
+                    CredentialHelper.DefaultSubscriptionName = defaultAzureSubscription.SubscriptionName;
+                }
             }
             else
             {
                 defaultAzureSubscription = vmPowershellCmdlets.SetDefaultAzureSubscription(CredentialHelper.DefaultSubscriptionName);
             }                         
 
-            locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }, false); // Get-AzureLocation
+            locationName = vmPowershellCmdlets.GetAzureLocationName(new[] { CredentialHelper.Location }); // Get-AzureLocation
             if (String.IsNullOrEmpty(locationName))
             {
                 Console.WriteLine("No location is selected!");
@@ -137,7 +141,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             Console.WriteLine("Location Name: {0}", locationName);
 
             if (defaultAzureSubscription.CurrentStorageAccount == null)
+            {
                 SetDefaultStorage();
+            }
 
             imageName = vmPowershellCmdlets.GetAzureVMImageName(new[] { "Windows", "testvmimage" }, false); // Get-AzureVMImage
             if (String.IsNullOrEmpty(imageName))
