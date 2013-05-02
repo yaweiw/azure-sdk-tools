@@ -25,9 +25,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
     using System.ServiceModel.Web;
     using System.Threading;
     using System.Xml;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.ServiceManagement;
+    using Utilities.Common;
+    using WindowsAzure.ServiceManagement;
     using Service.Gateway;
+    using Properties;
 
     public class GatewayCmdletBase : CloudBaseCmdlet<IGatewayServiceManagement>
     {
@@ -63,7 +64,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
             {
                 string errorDetails = string.Format(
                     CultureInfo.InvariantCulture,
-                    "HTTP Status Code: {0} - HTTP Error Message: {1}",
+                    Resources.HttpStatusCodeAndErrorMessage,
                     error.Code,
                     error.Message);
 
@@ -146,7 +147,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                 operation = RetryCall(s => channel.GetGatewayOperation(currentSubscription.SubscriptionId, operationId));
 
                 var activityId = new Random().Next(1, 999999);
-                var progress = new ProgressRecord(activityId, opdesc, "Operation Status: " + operation.Status);
+                var progress = new ProgressRecord(activityId, opdesc, Resources.GatewayOperationStatus + operation.Status);
                 while (string.Compare(operation.Status, OperationState.Succeeded, StringComparison.OrdinalIgnoreCase) != 0 &&
                         string.Compare(operation.Status, OperationState.Failed, StringComparison.OrdinalIgnoreCase) != 0)
                 {
