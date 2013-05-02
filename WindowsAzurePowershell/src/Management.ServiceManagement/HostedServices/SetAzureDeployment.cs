@@ -172,18 +172,19 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
 
+                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
+                ExtensionConfiguration currentConfig = deployment == null ? null : deployment.ExtensionConfiguration;
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
-                foreach (ExtensionConfigurationContext psConfig in ExtensionConfiguration)
+                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
                 {
-                    if (psConfig.X509Certificate != null)
+                    if (context.X509Certificate != null)
                     {
-                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, psConfig.X509Certificate.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(psConfig.X509Certificate)));
+                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, context.X509Certificate.Thumbprint);
+                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = null;
-                    extensionMgr.InstallExtension(psConfig, Slot, ref outConfig);
+                    ExtensionConfiguration outConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
                     configBuilder.Add(outConfig);
                 }
                 extConfig = configBuilder.ToConfiguration();

@@ -132,9 +132,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 PrivateConfiguration = string.Format(PrivateConfigurationXmlTemplate.ToString(), StorageKey),
                 Roles = Role != null && Role.Any() ? Role.Select(r => new ExtensionRole(r)).ToList() : new ExtensionRole[] { new ExtensionRole() }.ToList()
             };
-            var extConfig = Deployment.ExtensionConfiguration;
-            ExtensionManager.InstallExtension(context, Slot, ref extConfig);
-            ChangeDeployment(ExtensionManager.GetBuilder().Add(extConfig).ToConfiguration());
+            var extConfig = ExtensionManager.InstallExtension(context, Slot, Deployment.ExtensionConfiguration);
+            ChangeDeployment(extConfig);
         }
 
         protected override void OnProcessRecord()
