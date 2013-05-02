@@ -125,7 +125,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Set the destination
             string vhdBlobName = string.Format("vhdstore/{0}.vhd", Utilities.GetUniqueShortName(Path.GetFileNameWithoutExtension(vhdName)));
             string httpsBlobUrlRoot = string.Format("https:{0}", blobUrlRoot.Substring(blobUrlRoot.IndexOf('/')));
-            string vhdDestUri = blobUrlRoot + vhdBlobName;
+            string vhdDestUri = httpsBlobUrlRoot + vhdBlobName;
 
             var destinationBlob2 = new CloudPageBlob(new Uri(vhdDestUri), new StorageCredentials(storageAccountKey.StorageAccountName, storageAccountKey.Primary));
             var policy2 = new SharedAccessBlobPolicy()
