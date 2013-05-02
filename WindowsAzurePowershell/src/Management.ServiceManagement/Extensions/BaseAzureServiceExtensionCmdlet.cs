@@ -183,7 +183,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             XDocument config = XDocument.Parse(text);
             var result = from d in config.Descendants()
                          where d.Name.LocalName == elem
-                         select d.ToString();
+                         select d.Descendants().Any() ? d.ToString() : d.Value;
             return result.FirstOrDefault();
         }
 
