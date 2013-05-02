@@ -27,7 +27,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService
     [Cmdlet(VerbsData.Publish, "AzureServiceProject"), OutputType(typeof(Deployment))]
     public class PublishAzureServiceProjectCommand : ServiceManagementBaseCmdlet
     {
-        ICloudServiceClient CloudServiceClient { get; set; }
+        public ICloudServiceClient CloudServiceClient { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
         [Alias("sv")]
