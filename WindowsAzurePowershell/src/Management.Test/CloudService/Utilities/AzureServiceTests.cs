@@ -17,10 +17,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
     using System;
     using System.IO;
     using System.Linq;
+    using Microsoft.WindowsAzure.Management.CloudService.Development;
     using Microsoft.WindowsAzure.Management.CloudService.Development.Scaffolding;
     using Microsoft.WindowsAzure.Management.Test.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using VisualStudio.TestTools.UnitTesting;
 
@@ -28,6 +30,176 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
     public class AzureServiceTests: TestBase
     {
         private const string serviceName = "AzureService";
+
+        private MockCommandRuntime mockCommandRuntime;
+
+        private AddAzureNodeWebRoleCommand addNodeWebCmdlet;
+
+        private AddAzureNodeWorkerRoleCommand addNodeWorkerCmdlet;
+
+        private AddAzureCacheWorkerRoleCommand addCacheRoleCmdlet;
+
+        private EnableAzureMemcacheRoleCommand enableCacheCmdlet;
+
+        /// <summary>
+        /// This method handles most possible cases that user can do to create role
+        /// </summary>
+        /// <param name="webRole">Count of web roles to add</param>
+        /// <param name="workerRole">Count of worker role to add</param>
+        /// <param name="addWebBeforeWorker">Decides in what order to add roles. There are three options, note that value between brackets is the value to pass:
+        /// 1. Web then, interleaving (0): interleave adding and start by adding web role first.
+        /// 2. Worker then, interleaving (1): interleave adding and start by adding worker role first.
+        /// 3. Web then worker (2): add all web roles then worker roles.
+        /// 4. Worker then web (3): add all worker roles then web roles.
+        /// By default this parameter is set to 0
+        /// </param>
+        private void AddNodeRoleTest(int webRole, int workerRole, int order = 0)
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
+                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+
+                WebRoleInfo[] webRoles = null;
+                if (webRole > 0)
+                {
+                    webRoles = new WebRoleInfo[webRole];
+                    for (int i = 0; i < webRoles.Length; i++)
+                    {
+                        webRoles[i] = new WebRoleInfo(string.Format("{0}{1}", Resources.WebRole, i + 1), 1);
+                    }
+                }
+
+
+                WorkerRoleInfo[] workerRoles = null;
+                if (workerRole > 0)
+                {
+                    workerRoles = new WorkerRoleInfo[workerRole];
+                    for (int i = 0; i < workerRoles.Length; i++)
+                    {
+                        workerRoles[i] = new WorkerRoleInfo(string.Format("{0}{1}", Resources.WorkerRole, i + 1), 1);
+                    }
+                }
+
+                RoleInfo[] roles = (webRole + workerRole > 0) ? new RoleInfo[webRole + workerRole] : null;
+                if (order == 0)
+                {
+                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
+                    {
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                    }
+                }
+                else if (order == 1)
+                {
+                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
+                    {
+                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                    }
+                }
+                else if (order == 2)
+                {
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, workerRole);
+                    webRoles.CopyTo(roles, 0);
+                    Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
+                }
+                else if (order == 3)
+                {
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, 0, workerRole);
+                    workerRoles.CopyTo(roles, 0);
+                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, 0);
+                    Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
+                }
+                else
+                {
+                    throw new ArgumentException("value for order parameter is unknown");
+                }
+
+                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.NodeWebRoleScaffoldingPath, workerScaff: Data.NodeWorkerRoleScaffoldingPath, roles: roles);
+            }
+        }
+
+        private void AddPHPRoleTest(int webRole, int workerRole, int order = 0)
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
+                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+
+                WebRoleInfo[] webRoles = null;
+                if (webRole > 0)
+                {
+                    webRoles = new WebRoleInfo[webRole];
+                    for (int i = 0; i < webRoles.Length; i++)
+                    {
+                        webRoles[i] = new WebRoleInfo(string.Format("{0}{1}", Resources.WebRole, i + 1), 1);
+                    }
+                }
+
+
+                WorkerRoleInfo[] workerRoles = null;
+                if (workerRole > 0)
+                {
+                    workerRoles = new WorkerRoleInfo[workerRole];
+                    for (int i = 0; i < workerRoles.Length; i++)
+                    {
+                        workerRoles[i] = new WorkerRoleInfo(string.Format("{0}{1}", Resources.WorkerRole, i + 1), 1);
+                    }
+                }
+
+                RoleInfo[] roles = (webRole + workerRole > 0) ? new RoleInfo[webRole + workerRole] : null;
+                if (order == 0)
+                {
+                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
+                    {
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.PHPWebRoleScaffoldingPath);
+                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
+                    }
+                }
+                else if (order == 1)
+                {
+                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
+                    {
+                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
+                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.PHPWebRoleScaffoldingPath);
+                    }
+                }
+                else if (order == 2)
+                {
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, workerRole);
+                    webRoles.CopyTo(roles, 0);
+                    Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
+                }
+                else if (order == 3)
+                {
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, 0, workerRole);
+                    workerRoles.CopyTo(roles, 0);
+                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, 0);
+                    Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
+                }
+                else
+                {
+                    throw new ArgumentException("value for order parameter is unknown");
+                }
+
+                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.PHPWebRoleScaffoldingPath, workerScaff: Data.PHPWorkerRoleScaffoldingPath, roles: roles);
+            }
+        }
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            GlobalPathInfo.GlobalSettingsDirectory = Data.AzureSdkAppDir;
+            CmdletSubscriptionExtensions.SessionManager = new InMemorySessionManager();
+            mockCommandRuntime = new MockCommandRuntime();
+
+            enableCacheCmdlet = new EnableAzureMemcacheRoleCommand();
+            addCacheRoleCmdlet = new AddAzureCacheWorkerRoleCommand();
+
+            addCacheRoleCmdlet.CommandRuntime = mockCommandRuntime;
+            enableCacheCmdlet.CommandRuntime = mockCommandRuntime;
+        }
 
         [TestMethod]
         public void AzureServiceCreateNew()
@@ -202,7 +374,6 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             AddPHPRoleTest(4, 2, order++);
             AddPHPRoleTest(3, 5, order++);
         }
-
         
         [TestMethod]
         public void AzureServiceAddNewNodeWebRoleTest()
@@ -349,149 +520,74 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
             }
         }
 
-        /// <summary>
-        /// This method handles most possible cases that user can do to create role
-        /// </summary>
-        /// <param name="webRole">Count of web roles to add</param>
-        /// <param name="workerRole">Count of worker role to add</param>
-        /// <param name="addWebBeforeWorker">Decides in what order to add roles. There are three options, note that value between brackets is the value to pass:
-        /// 1. Web then, interleaving (0): interleave adding and start by adding web role first.
-        /// 2. Worker then, interleaving (1): interleave adding and start by adding worker role first.
-        /// 3. Web then worker (2): add all web roles then worker roles.
-        /// 4. Worker then web (3): add all worker roles then web roles.
-        /// By default this parameter is set to 0
-        /// </param>
-        private void AddNodeRoleTest(int webRole, int workerRole, int order = 0)
+        [TestMethod]
+        public void TestResolveRuntimePackageUrls()
         {
-            using (FileSystemHelper files = new FileSystemHelper(this))
+            // Create a temp directory that we'll use to "publish" our service
+            using (FileSystemHelper files = new FileSystemHelper(this) { EnableMonitoring = true })
             {
-                AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
-                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
-                
-                WebRoleInfo[] webRoles = null;
-                if (webRole > 0)
-                {
-                     webRoles = new WebRoleInfo[webRole];
-                     for (int i = 0; i < webRoles.Length; i++)
-                     {
-                         webRoles[i] = new WebRoleInfo(string.Format("{0}{1}", Resources.WebRole, i + 1), 1);
-                     }
-                }
+                // Import our default publish settings
+                files.CreateAzureSdkDirectoryAndImportPublishSettings();
 
+                // Create a new service that we're going to publish
+                string serviceName = "TEST_SERVICE_NAME";
 
-                WorkerRoleInfo[] workerRoles = null;
-                if (workerRole > 0)
-                {
-                    workerRoles = new WorkerRoleInfo[workerRole];
-                    for (int i = 0; i < workerRoles.Length; i++)
-                    {
-                        workerRoles[i] = new WorkerRoleInfo(string.Format("{0}{1}", Resources.WorkerRole, i + 1), 1);
-                    }
-                }
+                string rootPath = files.CreateNewService(serviceName);
 
-                RoleInfo[] roles = (webRole + workerRole > 0) ? new RoleInfo[webRole + workerRole] : null;
-                if (order == 0)
-                {
-                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole;)
-                    {
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
-                    }
-                }
-                else if (order == 1)
-                {
-                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole;)
-                    {
-                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.NodeWebRoleScaffoldingPath);
-                    }
-                }
-                else if (order == 2)
-                {
-                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, workerRole);
-                    webRoles.CopyTo(roles, 0);
-                    Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
-                }
-                else if (order == 3)
-                {
-                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, 0, workerRole);
-                    workerRoles.CopyTo(roles, 0);
-                    wrappedService.AddRole(Data.NodeWebRoleScaffoldingPath, Data.NodeWorkerRoleScaffoldingPath, webRole, 0);
-                    Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
-                }
-                else
-                {
-                    throw new ArgumentException("value for order parameter is unknown");
-                }
+                // Add web and worker roles
+                string defaultWebRoleName = "WebRoleDefault";
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = defaultWebRoleName, Instances = 2 };
+                addNodeWebCmdlet.ExecuteCmdlet();
 
-                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.NodeWebRoleScaffoldingPath, workerScaff: Data.NodeWorkerRoleScaffoldingPath, roles: roles);
-            }
-        }
+                string defaultWorkerRoleName = "WorkerRoleDefault";
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = defaultWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
 
-        private void AddPHPRoleTest(int webRole, int workerRole, int order = 0)
-        {
-            using (FileSystemHelper files = new FileSystemHelper(this))
-            {
-                AzureServiceWrapper wrappedService = new AzureServiceWrapper(files.RootPath, serviceName, null);
-                AzureService service = new AzureService(Path.Combine(files.RootPath, serviceName), null);
+                AddAzureNodeWebRoleCommand matchWebRole = addNodeWebCmdlet;
+                string matchWebRoleName = "WebRoleExactMatch";
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = matchWebRoleName, Instances = 2 };
+                addNodeWebCmdlet.ExecuteCmdlet();
 
-                WebRoleInfo[] webRoles = null;
-                if (webRole > 0)
-                {
-                    webRoles = new WebRoleInfo[webRole];
-                    for (int i = 0; i < webRoles.Length; i++)
-                    {
-                        webRoles[i] = new WebRoleInfo(string.Format("{0}{1}", Resources.WebRole, i + 1), 1);
-                    }
-                }
+                AddAzureNodeWorkerRoleCommand matchWorkerRole = addNodeWorkerCmdlet;
+                string matchWorkerRoleName = "WorkerRoleExactMatch";
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = matchWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
 
+                AddAzureNodeWebRoleCommand overrideWebRole = addNodeWebCmdlet;
+                string overrideWebRoleName = "WebRoleOverride";
+                addNodeWebCmdlet = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = overrideWebRoleName, Instances = 2 };
+                addNodeWebCmdlet.ExecuteCmdlet();
 
-                WorkerRoleInfo[] workerRoles = null;
-                if (workerRole > 0)
-                {
-                    workerRoles = new WorkerRoleInfo[workerRole];
-                    for (int i = 0; i < workerRoles.Length; i++)
-                    {
-                        workerRoles[i] = new WorkerRoleInfo(string.Format("{0}{1}", Resources.WorkerRole, i + 1), 1);
-                    }
-                }
+                AddAzureNodeWorkerRoleCommand overrideWorkerRole = addNodeWorkerCmdlet;
+                string overrideWorkerRoleName = "WorkerRoleOverride";
+                addNodeWorkerCmdlet = new AddAzureNodeWorkerRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = overrideWorkerRoleName, Instances = 2 };
+                addNodeWorkerCmdlet.ExecuteCmdlet();
 
-                RoleInfo[] roles = (webRole + workerRole > 0) ? new RoleInfo[webRole + workerRole] : null;
-                if (order == 0)
-                {
-                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
-                    {
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
-                    }
-                }
-                else if (order == 1)
-                {
-                    for (int i = 0, w = 0, wo = 0; i < webRole + workerRole; )
-                    {
-                        if (wo++ < workerRole) roles[i++] = wrappedService.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
-                        if (w++ < webRole) roles[i++] = wrappedService.AddWebRole(Data.PHPWebRoleScaffoldingPath);
-                    }
-                }
-                else if (order == 2)
-                {
-                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, workerRole);
-                    webRoles.CopyTo(roles, 0);
-                    Array.Copy(workerRoles, 0, roles, webRole, workerRoles.Length);
-                }
-                else if (order == 3)
-                {
-                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, 0, workerRole);
-                    workerRoles.CopyTo(roles, 0);
-                    wrappedService.AddRole(Data.PHPWebRoleScaffoldingPath, Data.PHPWorkerRoleScaffoldingPath, webRole, 0);
-                    Array.Copy(webRoles, 0, roles, workerRole, webRoles.Length);
-                }
-                else
-                {
-                    throw new ArgumentException("value for order parameter is unknown");
-                }
+                string cacheWebRoleName = "cacheWebRole";
+                string cacheRuntimeVersion = "1.7.0";
+                AddAzureNodeWebRoleCommand addAzureWebRole = new AddAzureNodeWebRoleCommand() { RootPath = rootPath, CommandRuntime = mockCommandRuntime, Name = cacheWebRoleName };
+                addAzureWebRole.ExecuteCmdlet();
 
-                AzureAssert.AzureServiceExists(Path.Combine(files.RootPath, serviceName), Resources.GeneralScaffolding, serviceName, webRoles: webRoles, workerRoles: workerRoles, webScaff: Data.PHPWebRoleScaffoldingPath, workerScaff: Data.PHPWorkerRoleScaffoldingPath, roles: roles);
+                AzureService testService = new AzureService(rootPath, null);
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWebRoleName, testService.Paths, version: "0.8.2");
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, matchWorkerRoleName, testService.Paths, version: "0.8.2");
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWebRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
+                RuntimePackageHelper.SetRoleRuntime(testService.Components.Definition, overrideWorkerRoleName, testService.Paths, overrideUrl: "http://OVERRIDE");
+                testService.AddRoleRuntime(testService.Paths, cacheWebRoleName, Resources.CacheRuntimeValue, cacheRuntimeVersion, RuntimePackageHelper.GetTestManifest(files));
+                testService.Components.Save(testService.Paths);
+
+                // Get the publishing process started by creating the package
+                testService.ResolveRuntimePackageUrls(RuntimePackageHelper.GetTestManifest(files));
+
+                AzureService updatedService = new AzureService(testService.Paths.RootPath, null);
+
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWebRoleName, "http://cdn/node/default.exe;http://cdn/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, defaultWorkerRoleName, "http://cdn/node/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWorkerRoleName, "http://cdn/node/foo.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, matchWebRoleName, "http://cdn/node/foo.exe;http://cdn/iisnode/default.exe", null);
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWebRoleName, null, "http://OVERRIDE");
+                RuntimePackageHelper.ValidateRoleRuntime(updatedService.Components.Definition, overrideWorkerRoleName, null, "http://OVERRIDE");
+                RuntimePackageHelper.ValidateRoleRuntimeVariable(updatedService.Components.GetRoleStartup(cacheWebRoleName), Resources.CacheRuntimeVersionKey, cacheRuntimeVersion);
             }
         }
     }

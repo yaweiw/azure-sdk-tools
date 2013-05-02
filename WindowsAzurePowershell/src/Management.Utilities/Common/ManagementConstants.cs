@@ -17,29 +17,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Collections.Generic;
     using System.Net.Http.Headers;
 
-    public class ArgumentConstants
-    {
-        public static Dictionary<SlotType, string> Slots { get; private set; }
-
-        static ArgumentConstants()
-        {
-            Slots = new Dictionary<SlotType, string>()
-            {
-                { SlotType.Production, "production" },
-                { SlotType.Staging, "staging" }
-            };
-        }
-    }
-
     public class SDKVersion
     {
         public const string Version180 = "1.8.0";
-    }
-
-    public enum SlotType
-    {
-        Production,
-        Staging
     }
 
     public enum DevEnv
