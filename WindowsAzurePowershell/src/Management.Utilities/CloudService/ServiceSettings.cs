@@ -23,6 +23,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Web.Script.Serialization;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
+    using Microsoft.WindowsAzure.ServiceManagement;
 
     public class ServiceSettings
     {
@@ -51,7 +52,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                 if (_shouldValidate)
                 {
                     Validate.ValidateStringIsNullOrEmpty(value, "Slot");
-                    if (!ArgumentConstants.Slots.ContainsValue(value.ToLower()))
+                    if (!DeploymentSlotType.Production.Equals(value, StringComparison.OrdinalIgnoreCase) &&
+                        !DeploymentSlotType.Staging.Equals(value, StringComparison.OrdinalIgnoreCase))
                     {
                         throw new ArgumentException(string.Format(Resources.InvalidServiceSettingElement, "Slot"));
                     }
@@ -91,7 +93,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         }
         private string _subscription = null;
 
-        public string StorageAccountName
+        public string StorageServiceName
         {
             get { return _storageAccountName; }
             set
@@ -170,7 +172,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             defaultServiceSettings._location = GetDefaultLocation(local.Location, location);
             defaultServiceSettings._subscription = GetDefaultSubscription(local.Subscription, subscription);
             serviceName = GetServiceName(suppliedServiceName, serviceDefinitionName);
-            defaultServiceSettings._storageAccountName = GetDefaultStorageName(local.StorageAccountName, null, storageAccountName, serviceName).ToLower();
+            defaultServiceSettings._storageAccountName = GetDefaultStorageName(local.StorageServiceName, null, storageAccountName, serviceName).ToLower();
             defaultServiceSettings._affinityGroup = affinityGroup;
 
             return defaultServiceSettings;
@@ -324,7 +326,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             //
             if (!string.IsNullOrEmpty(slot))
             {
-                if (ArgumentConstants.Slots.ContainsValue(slot.ToLower()))
+                if (DeploymentSlotType.Production.Equals(slot, StringComparison.OrdinalIgnoreCase) ||
+                   DeploymentSlotType.Staging.Equals(slot, StringComparison.OrdinalIgnoreCase))
                 {
                     return slot.ToLower();
                 }
@@ -348,7 +351,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
             // If none of previous succeed, use Production as default slot
             //
-            return ArgumentConstants.Slots[SlotType.Production];
+            return DeploymentSlotType.Production;
         }
         
         public void Save(string path)
@@ -366,7 +369,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             return
                 Location.Equals(other.Location) &&
                 Slot.Equals(other.Slot) &&
-                StorageAccountName.Equals(other.StorageAccountName) &&
+                StorageServiceName.Equals(other.StorageServiceName) &&
                 Subscription.Equals(other.Subscription);
         }
         
@@ -375,7 +378,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
             return
                 Location.GetHashCode() ^
                 Slot.GetHashCode() ^
-                StorageAccountName.GetHashCode() ^
+                StorageServiceName.GetHashCode() ^
                 Subscription.GetHashCode();
         }
     }
