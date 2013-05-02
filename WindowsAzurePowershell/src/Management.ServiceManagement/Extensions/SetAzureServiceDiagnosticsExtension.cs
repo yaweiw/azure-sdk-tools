@@ -100,8 +100,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             set;
         }
 
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Configuration")]
-        [Parameter(Position = 7, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "SetExtension", HelpMessage = "Diagnostics Configuration")]
+        [Parameter(Position = 6, Mandatory = false, ParameterSetName = "SetExtensionUsingThumbprint", HelpMessage = "Diagnostics Configuration")]
         [ValidateNotNullOrEmpty]
         public XmlDocument DiagnosticsConfiguration
         {

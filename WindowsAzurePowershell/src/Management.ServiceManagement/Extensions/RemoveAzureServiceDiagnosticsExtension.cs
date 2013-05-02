@@ -98,6 +98,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             {
                 WriteWarning(string.Format("No existing {0}.{1} extensions enabled on given roles.", ExtensionNameSpace, ExtensionType));
             }
+
+            if (UninstallConfiguration)
+            {
+                ExtensionManager.Uninstall(ExtensionNameSpace, ExtensionType, Slot);
+            }
         }
 
         protected override void OnProcessRecord()

@@ -12,15 +12,15 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.WindowsAzure.ServiceManagement;
-
 namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
 {
     using System;
     using System.Management.Automation;
-    using Microsoft.WindowsAzure.Management.Utilities.Common;
-    using Microsoft.WindowsAzure.Storage;
+    using Utilities.Common;
+    using Storage;
     using Model;
+    using WindowsAzure.ServiceManagement;
+    using Properties;
 
     [Cmdlet(VerbsData.Update, "AzureVM"), OutputType(typeof(ManagementOperationContext))]
     public class UpdateAzureVMCommand : IaaSDeploymentManagementCmdletBase
@@ -69,7 +69,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.IaaS
                     CloudStorageAccount currentStorage = CloudStorageAccountFactory.GetCurrentCloudStorageAccount(Channel, currentSubscription);
                     if (currentStorage == null)
                     {
-                        throw new ArgumentException("CurrentStorageAccount is not set or not accessible. Use Set-AzureSubscription subname -CurrentStorageAccount storageaccount to set it.");
+                        throw new ArgumentException(Resources.CurrentStorageAccountIsNotAccessible);
                     }
 
                     DateTime dateTimeCreated = DateTime.Now;

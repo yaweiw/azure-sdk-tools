@@ -89,7 +89,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 configBuilder.Remove(Role, ExtensionNameSpace, ExtensionType);
                 removed = true;
             }
-            
+
             if (removed)
             {
                 ChangeDeployment(configBuilder.ToConfiguration());
@@ -97,6 +97,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             else
             {
                 WriteWarning(string.Format("No existing {0}.{1} extensions enabled on given roles.", ExtensionNameSpace, ExtensionType));
+            }
+
+            if (UninstallConfiguration)
+            {
+                ExtensionManager.Uninstall(ExtensionNameSpace, ExtensionType, Slot);
             }
         }
 
