@@ -137,6 +137,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CloudService\PublishAzureServiceProjectTests.cs" />
     <Compile Include="CloudService\Development\DisableAzureRemoteDesktopCommandTest.cs" />
     <Compile Include="CloudService\Development\EnableAzureMemcacheRoleTests.cs" />
     <Compile Include="CloudService\Development\EnableAzureRemoteDesktopCommandTest.cs" />
