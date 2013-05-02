@@ -173,14 +173,11 @@ function Test-StartAzureServiceWithEmptyDeployment
 {
 	# Setup
 	$name = Get-CloudServiceName
+	$msg = [string]::Format("Deployment for service {0} with Staging slot doesn't exist", $name)
 	New-AzureService $name -Location $(Get-DefaultLocation)
-	Stop-AzureService $name -Slot Staging
 
 	# Test
-	$started = Start-AzureService $name -Slot Staging -PassThru
-
-	# Assert
-	Assert-False { $started }
+	Assert-Throws { Start-AzureService $name -Slot Staging } $msg
 }
 
 <#
@@ -196,7 +193,7 @@ function Test-StartAzureServiceWithProductionDeployment
 	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
 
 	# Test
-	$started = Start-AzureService $name -PassThru
+	$started = Get-AzureService $name | Start-AzureService -PassThru
 
 	# Assert
 	Assert-True { $started }
@@ -209,12 +206,31 @@ Tests Start-AzureService with an existing service that has staging deployment on
 function Test-StartAzureServiceWithStagingDeployment
 {
 	# Setup
-	New-CloudService 1 $null "Staging"
+	New-CloudService 1 $null Staging
 	$name = $global:createdCloudServices[0]
-	Stop-AzureService $name -Slot "Staging"
+	Stop-AzureService $name -Slot Staging
+	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
 
 	# Test
-	$started = Start-AzureService $name -PassThru -Slot "Staging"
+	$started = Start-AzureService $name -Slot Staging -PassThru
+
+	# Assert
+	Assert-True { $started }
+}
+
+<#
+.SYNOPSIS
+Tests Start-AzureService works without passing name in cloud service project.
+#>
+function Test-StartAzureServiceWithoutName
+{
+	# Setup
+	New-CloudService 1
+	Stop-AzureService
+	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
+
+	# Test
+	$started = Start-AzureService -PassThru
 
 	# Assert
 	Assert-True { $started }
@@ -368,13 +384,11 @@ function Test-StopAzureServiceWithEmptyDeployment
 {
 	# Setup
 	$name = Get-CloudServiceName
+	$msg = [string]::Format("Deployment for service {0} with Staging slot doesn't exist", $name)
 	New-AzureService $name -Location $(Get-DefaultLocation)
 
 	# Test
-	$Stopped = Stop-AzureService $name -Slot Staging -PassThru
-
-	# Assert
-	Assert-False { $Stopped }
+	Assert-Throws { Stop-AzureService $name -Slot Staging } $msg
 }
 
 <#
@@ -386,10 +400,9 @@ function Test-StopAzureServiceWithProductionDeployment
 	# Setup
 	New-CloudService 1
 	$name = $global:createdCloudServices[0]
-	Start-AzureService $name
 
 	# Test
-	$Stopped = Stop-AzureService $name -PassThru
+	$Stopped = Get-AzureService $name | Stop-AzureService -PassThru
 
 	# Assert
 	Assert-True { $Stopped }
@@ -404,13 +417,28 @@ function Test-StopAzureServiceWithStagingDeployment
 	# Setup
 	New-CloudService 1 $null "Staging"
 	$name = $global:createdCloudServices[0]
-	Start-AzureService $name -Slot "Staging"
 
 	# Test
 	$Stopped = Stop-AzureService $name -PassThru -Slot "Staging"
 
 	# Assert
 	Assert-True { $Stopped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService works without passing name in cloud service project.
+#>
+function Test-StopAzureServiceWithoutName
+{
+	# Setup
+	New-CloudService 1
+
+	# Test
+	$stopped = Stop-AzureService -PassThru
+
+	# Assert
+	Assert-True { $stopped }
 }
 
 ########################################################################### Start-AzureEmulator Scenario Tests ###################################################################

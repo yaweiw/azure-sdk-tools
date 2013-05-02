@@ -148,7 +148,6 @@
     <Compile Include="CloudService\Utilities\CsPackTests.cs" />
     <Compile Include="CloudService\Utilities\CsRunTests.cs" />
     <Compile Include="CloudService\Utilities\DeploymentSettingsTests.cs" />
-    <Compile Include="CloudService\Utilities\DeploymentStatusManagerTests.cs" />
     <Compile Include="CloudService\Utilities\ScaffoldTests.cs" />
     <Compile Include="CloudService\Utilities\ServiceComponentsTests.cs" />
     <Compile Include="CloudService\Utilities\ServicePathInfoTests.cs" />
