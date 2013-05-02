@@ -16220,25 +16220,25 @@
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
-        Get-AzureServiceRemoteDesktopExtension
+        Get-AzureServiceDiagnosticsExtension
       </command:name>
       <maml:description>
-        <maml:para>This cmdlet gets the cloud service remote desktop extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+        <maml:para>This cmdlet gets the cloud service diagnostics extension applied on all roles or named roles at a certain deployment slot.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
       </maml:copyright>
       <command:verb>Get</command:verb>
-      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>This cmdlet gets the cloud service remote desktop extension applied on all roles or named roles at a certain deployment slot.</maml:para>
+      <maml:para>This cmdlet gets the cloud service diagnostics extension applied on all roles or named roles at a certain deployment slot.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-AzureServiceRemoteDesktopExtension</maml:name>
+        <maml:name>Get-AzureServiceDiagnosticsExtension</maml:name>
         <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
           <maml:name>ServiceName</maml:name>
           <maml:description>
@@ -16346,7 +16346,7 @@
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>This command returns the information of the cloud service remote desktop extensions enabled on the roles of a certain deployment.</maml:para>
+          <maml:para>This command returns the information of the cloud service diagnostics extensions enabled on the roles of a certain deployment.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -16368,128 +16368,99 @@
     </maml:relatedLinks>
   </command:command>
 
-
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
-        Set-AzureServiceRemoteDesktopExtension
+        New-AzureServiceRemoteDesktopExtensionConfig
       </command:name>
       <maml:description>
-        <maml:para>This cmdlet enables remote desktop extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
+        <maml:para>This cmdlets generates configuration of remote desktop extension for any deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
       </maml:copyright>
-      <command:verb>Set</command:verb>
-      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
+      <command:verb>New</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtensionConfig</command:noun>
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>This cmdlet enables remote desktop extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
+      <maml:para>This cmdlets generates configuration of remote desktop extension for any deployment.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Slot</maml:name>
-          <maml:description>
-            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Role</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>The user name/password to enable for RDP.</maml:para>
+            <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
           <maml:name>Expiration</maml:name>
           <maml:description>
             <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
           <maml:name>X509Certificate</maml:name>
           <maml:description>
             <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
           <maml:name>ThumbprintAlgorithm</maml:name>
           <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Slot</maml:name>
-          <maml:description>
-            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
           <maml:name>Role</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
           <maml:name>Credential</maml:name>
           <maml:description>
-            <maml:para>The user name/password to enable for RDP.</maml:para>
+            <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
           <maml:name>Expiration</maml:name>
           <maml:description>
             <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
         </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
           <maml:name>CertificateThumbprint</maml:name>
           <maml:description>
             <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
           <maml:name>ThumbprintAlgorithm</maml:name>
           <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -16497,7 +16468,7 @@
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
         <maml:name>CertificateThumbprint</maml:name>
         <maml:description>
           <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
@@ -16510,10 +16481,10 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
         <maml:name>Credential</maml:name>
         <maml:description>
-          <maml:para>The user name/password to enable for RDP.</maml:para>
+          <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
@@ -16523,7 +16494,7 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
         <maml:name>Expiration</maml:name>
         <maml:description>
           <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
@@ -16536,10 +16507,10 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
         <maml:name>Role</maml:name>
         <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
@@ -16549,36 +16520,10 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-        <maml:name>ServiceName</maml:name>
-        <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>Slot</maml:name>
-        <maml:description>
-          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
         <maml:name>ThumbprintAlgorithm</maml:name>
         <maml:description>
-          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -16588,7 +16533,7 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
         <maml:name>X509Certificate</maml:name>
         <maml:description>
           <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
@@ -16659,12 +16604,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc -Credentials $creds
+          $rdpConfig = New-AzureServiceRemoteDesktopExtensionConfig -Credential $cred
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Setting default remote desktop configuration for all roles.</maml:para>
+          <maml:para>Creates an object that has the service extension object default for all roles that will be installed with the deployment and the role configuration.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -16685,12 +16630,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc -Credentials $creds -Role &quot;WebRole1&quot;
+          $rdpConfig = New-AzureServiceRemoteDesktopExtensionConfig -Credential $cred -Role &quot;WebRole1&quot;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Setting remote desktop configuration for WebRole1.</maml:para>
+          <maml:para>Creates an object that has the service extension object for a specific role that will be installed with the deployment and the role configuration.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -16712,6 +16657,294 @@
     </maml:relatedLinks>
   </command:command>
 
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        New-AzureServiceDiagnosticsExtensionConfig
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet generates configuration of diagnostics extension for specified role(s) or all roles.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>New</command:verb>
+      <command:noun>AzureServiceDiagnosticsExtensionConfig</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet generates configuration of diagnostics extension for specified role(s) or all roles.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
+        <maml:name>DiagnosticsConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <dev:type>
+          <maml:name>XmlDocument</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          $wadConfig = New-AzureServiceDiagnosticExtensionConfig -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Creates an object that has the service extension object default for all roles that will be installed with the deployment and the role configuration.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          $wadConfig = New-AzureServiceDiagnosticExtensionConfig -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML -Role &quot;WebRole1&quot;
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Creates an object that has the service extension object for a specific role that will be installed with the deployment and the role configuration.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
 
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
@@ -16776,7 +17009,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
           <maml:name>Role</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
@@ -16787,7 +17020,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
         <maml:name>Role</maml:name>
         <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
@@ -16947,795 +17180,6 @@
     </maml:relatedLinks>
   </command:command>
 
-
-  <!-- v 1.3.0.36 -->
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
-    <command:details>
-      <command:name>
-        New-AzureServiceRemoteDesktopExtensionConfig
-      </command:name>
-      <maml:description>
-        <maml:para>This cmdlets generates configuration of remote desktop extension for any deployment.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para></maml:para>
-      </maml:copyright>
-      <command:verb>New</command:verb>
-      <command:noun>AzureServiceRemoteDesktopExtensionConfig</command:noun>
-      <dev:version></dev:version>
-    </command:details>
-    <maml:description>
-      <maml:para>This cmdlets generates configuration of remote desktop extension for any deployment.</maml:para>
-    </maml:description>
-    <!-- Cmdlet syntax section-->
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Role</maml:name>
-          <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Credential</maml:name>
-          <maml:description>
-            <maml:para>The user name/password to enable for RDP.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-          <maml:name>Expiration</maml:name>
-          <maml:description>
-            <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
-          <maml:name>X509Certificate</maml:name>
-          <maml:description>
-            <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-          <maml:name>ThumbprintAlgorithm</maml:name>
-          <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>New-AzureServiceRemoteDesktopExtensionConfig</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Role</maml:name>
-          <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Credential</maml:name>
-          <maml:description>
-            <maml:para>The user name/password to enable for RDP.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-          <maml:name>Expiration</maml:name>
-          <maml:description>
-            <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
-          <maml:name>CertificateThumbprint</maml:name>
-          <maml:description>
-            <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-          <maml:name>ThumbprintAlgorithm</maml:name>
-          <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <!-- Cmdlet parameter section  -->
-    <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
-        <maml:name>CertificateThumbprint</maml:name>
-        <maml:description>
-          <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>Credential</maml:name>
-        <maml:description>
-          <maml:para>The user name/password to enable for RDP.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
-        <dev:type>
-          <maml:name>PSCredential</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-        <maml:name>Expiration</maml:name>
-        <maml:description>
-          <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
-        <dev:type>
-          <maml:name>DateTime</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-        <maml:name>Role</maml:name>
-        <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        <dev:type>
-          <maml:name>string[]</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-        <maml:name>ThumbprintAlgorithm</maml:name>
-        <maml:description>
-          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
-        <maml:name>X509Certificate</maml:name>
-        <maml:description>
-          <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
-        <dev:type>
-          <maml:name>X509Certificate2</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <!-- Input - Output section-->
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri/>
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <!-- Error section-->
-    <command:terminatingErrors />
-    <command:nonTerminatingErrors />
-    <!-- Notes section  -->
-    <maml:alertSet>
-      <maml:title></maml:title>
-      <maml:alert>
-        <maml:para>
-
-        </maml:para>
-      </maml:alert>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <!-- Example section  -->
-    <command:examples>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 1 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          $rdpConfig = New-AzureServiceRemoteDesktopExtensionConfig -Credential $cred
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>Creates an object that has the service extension object default for all roles that will be installed with the deployment and the role configuration.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 2 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          $rdpConfig = New-AzureServiceRemoteDesktopExtensionConfig -Credential $cred -Role &quot;WebRole1&quot;
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>Creates an object that has the service extension object for a specific role that will be installed with the deployment and the role configuration.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-    </command:examples>
-    <!-- Link section  -->
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText></maml:linkText>
-        <maml:uri/>
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
-
-
-  <!-- v 1.3.0.36 -->
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
-    <command:details>
-      <command:name>
-        Get-AzureServiceDiagnosticsExtension
-      </command:name>
-      <maml:description>
-        <maml:para>This cmdlet gets the cloud service diagnostics extension applied on all roles or named roles at a certain deployment slot.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para></maml:para>
-      </maml:copyright>
-      <command:verb>Get</command:verb>
-      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
-      <dev:version></dev:version>
-    </command:details>
-    <maml:description>
-      <maml:para>This cmdlet gets the cloud service diagnostics extension applied on all roles or named roles at a certain deployment slot.</maml:para>
-    </maml:description>
-    <!-- Cmdlet syntax section-->
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Get-AzureServiceDiagnosticsExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Slot</maml:name>
-          <maml:description>
-            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <!-- Cmdlet parameter section  -->
-    <command:parameters>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-        <maml:name>ServiceName</maml:name>
-        <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>Slot</maml:name>
-        <maml:description>
-          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <!-- Input - Output section-->
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri/>
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <!-- Error section-->
-    <command:terminatingErrors />
-    <command:nonTerminatingErrors />
-    <!-- Notes section  -->
-    <maml:alertSet>
-      <maml:title></maml:title>
-      <maml:alert>
-        <maml:para>
-
-        </maml:para>
-      </maml:alert>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <!-- Example section  -->
-    <command:examples>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 1 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          Get-AzureServiceRemoteDesktopExtension -ServiceName $svc
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>This command returns the information of the cloud service diagnostics extensions enabled on the roles of a certain deployment.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-    </command:examples>
-    <!-- Link section  -->
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText></maml:linkText>
-        <maml:uri/>
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
-
-
-
-  <!-- v 1.3.0.36 -->
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
-    <command:details>
-      <command:name>
-        Set-AzureServiceDiagnosticsExtension
-      </command:name>
-      <maml:description>
-        <maml:para>This cmdlet enables diagnostics extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
-      </maml:description>
-      <maml:copyright>
-        <maml:para></maml:para>
-      </maml:copyright>
-      <command:verb>Set</command:verb>
-      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
-      <dev:version></dev:version>
-    </command:details>
-    <maml:description>
-      <maml:para>This cmdlet enables diagnostics extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
-    </maml:description>
-    <!-- Cmdlet syntax section-->
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Slot</maml:name>
-          <maml:description>
-            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
-          <maml:name>Role</maml:name>
-          <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
-          <maml:name>StorageAccountName</maml:name>
-          <maml:description>
-            <maml:para>The name of the storage account.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-          <maml:name>DiagnosticsConfiguration</maml:name>
-          <maml:description>
-            <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
-          <maml:name>X509Certificate</maml:name>
-          <maml:description>
-            <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
-          <maml:name>ThumbprintAlgorithm</maml:name>
-          <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-          <maml:name>ServiceName</maml:name>
-          <maml:description>
-            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>Slot</maml:name>
-          <maml:description>
-            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
-          <maml:name>Role</maml:name>
-          <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
-          <maml:name>StorageAccountName</maml:name>
-          <maml:description>
-            <maml:para>The name of the storage account.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-          <maml:name>DiagnosticsConfiguration</maml:name>
-          <maml:description>
-            <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
-          <maml:name>CertificateThumbprint</maml:name>
-          <maml:description>
-            <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
-          <maml:name>ThumbprintAlgorithm</maml:name>
-          <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <!-- Cmdlet parameter section  -->
-    <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
-        <maml:name>CertificateThumbprint</maml:name>
-        <maml:description>
-          <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
-        <maml:name>DiagnosticsConfiguration</maml:name>
-        <maml:description>
-          <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
-        <dev:type>
-          <maml:name>XmlDocument</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
-        <maml:name>Role</maml:name>
-        <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        <dev:type>
-          <maml:name>string[]</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
-        <maml:name>ServiceName</maml:name>
-        <maml:description>
-          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>Slot</maml:name>
-        <maml:description>
-          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
-        <maml:name>StorageAccountName</maml:name>
-        <maml:description>
-          <maml:para>The name of the storage account.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
-        <maml:name>ThumbprintAlgorithm</maml:name>
-        <maml:description>
-          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
-        <dev:type>
-          <maml:name>string</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
-        <maml:name>X509Certificate</maml:name>
-        <maml:description>
-          <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
-
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
-        <dev:type>
-          <maml:name>X509Certificate2</maml:name>
-          <maml:uri/>
-        </dev:type>
-        <dev:defaultValue></dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <!-- Input - Output section-->
-    <command:inputTypes>
-      <command:inputType>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri/>
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:inputType>
-    </command:inputTypes>
-    <command:returnValues>
-      <command:returnValue>
-        <dev:type>
-          <maml:name></maml:name>
-          <maml:uri />
-          <maml:description />
-        </dev:type>
-        <maml:description>
-          <maml:para>
-            <!-- description  -->
-
-          </maml:para>
-        </maml:description>
-      </command:returnValue>
-    </command:returnValues>
-    <!-- Error section-->
-    <command:terminatingErrors />
-    <command:nonTerminatingErrors />
-    <!-- Notes section  -->
-    <maml:alertSet>
-      <maml:title></maml:title>
-      <maml:alert>
-        <maml:para>
-
-        </maml:para>
-      </maml:alert>
-      <maml:alert>
-        <maml:para></maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <!-- Example section  -->
-    <command:examples>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 1 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          Set-AzureServiceDiagnosticExtension -ServiceName $svc -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>Setting default diagnostic configuration for all roles.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-
-      <command:example>
-        <maml:title>
-          -------------------------- EXAMPLE 2 --------------------------
-        </maml:title>
-        <maml:introduction>
-          <maml:para>C:\PS&gt;</maml:para>
-        </maml:introduction>
-        <dev:code>
-          Set-AzureServiceDiagnosticExtension -ServiceName $svc -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML -Role &quot;WebRole1&quot;
-        </dev:code>
-        <dev:remarks>
-          <maml:para>Description</maml:para>
-          <maml:para>-----------</maml:para>
-          <maml:para>Setting diagnostic configuration for WebRole1.</maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-          <maml:para></maml:para>
-        </dev:remarks>
-        <command:commandLines>
-          <command:commandLine>
-            <command:commandText></command:commandText>
-          </command:commandLine>
-        </command:commandLines>
-      </command:example>
-    </command:examples>
-    <!-- Link section  -->
-    <maml:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText></maml:linkText>
-        <maml:uri/>
-      </maml:navigationLink>
-    </maml:relatedLinks>
-  </command:command>
-
-
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
@@ -17799,7 +17243,7 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
           <maml:name>Role</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
@@ -17810,7 +17254,7 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
         <maml:name>Role</maml:name>
         <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
@@ -17970,100 +17414,127 @@
     </maml:relatedLinks>
   </command:command>
 
-
   <!-- v 1.3.0.36 -->
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
       <command:name>
-        New-AzureServiceDiagnosticsExtensionConfig
+        Set-AzureServiceRemoteDesktopExtension
       </command:name>
       <maml:description>
-        <maml:para>This cmdlet generates configuration of diagnostics extension for specified role(s) or all roles.</maml:para>
+        <maml:para>This cmdlet enables remote desktop extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
       </maml:description>
       <maml:copyright>
         <maml:para></maml:para>
       </maml:copyright>
-      <command:verb>New</command:verb>
-      <command:noun>AzureServiceDiagnosticsExtensionConfig</command:noun>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureServiceRemoteDesktopExtension</command:noun>
       <dev:version></dev:version>
     </command:details>
     <maml:description>
-      <maml:para>This cmdlet generates configuration of diagnostics extension for specified role(s) or all roles.</maml:para>
+      <maml:para>This cmdlet enables remote desktop extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
     </maml:description>
     <!-- Cmdlet syntax section-->
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Role</maml:name>
+        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>StorageAccountName</maml:name>
-          <maml:description>
-            <maml:para>The name of the storage account.</maml:para>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-          <maml:name>DiagnosticsConfiguration</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
           <maml:description>
-            <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
           <maml:name>X509Certificate</maml:name>
           <maml:description>
             <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
           <maml:name>ThumbprintAlgorithm</maml:name>
           <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
-        <maml:name>New-AzureServiceDiagnosticsExtensionConfig</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
-          <maml:name>Role</maml:name>
+        <maml:name>Set-AzureServiceRemoteDesktopExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
           <maml:description>
-            <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-          <maml:name>StorageAccountName</maml:name>
-          <maml:description>
-            <maml:para>The name of the storage account.</maml:para>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-          <maml:name>DiagnosticsConfiguration</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
           <maml:description>
-            <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
         </command:parameter>
         <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>Credential</maml:name>
+          <maml:description>
+            <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>Expiration</maml:name>
+          <maml:description>
+            <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
           <maml:name>CertificateThumbprint</maml:name>
           <maml:description>
             <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
-        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
           <maml:name>ThumbprintAlgorithm</maml:name>
           <maml:description>
-            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
           </maml:description>
           <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
         </command:parameter>
@@ -18071,7 +17542,7 @@
     </command:syntax>
     <!-- Cmdlet parameter section  -->
     <command:parameters>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
         <maml:name>CertificateThumbprint</maml:name>
         <maml:description>
           <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
@@ -18084,23 +17555,36 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="3">
-        <maml:name>DiagnosticsConfiguration</maml:name>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>Credential</maml:name>
         <maml:description>
-          <maml:para>XML blob (wadcfg) for Windows Azure Diagnostics</maml:para>
+          <maml:para>The credentials (user name/password) to enable for remote desktop.</maml:para>
 
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">PSCredential</command:parameterValue>
         <dev:type>
-          <maml:name>XmlDocument</maml:name>
+          <maml:name>PSCredential</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="1">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>Expiration</maml:name>
+        <maml:description>
+          <maml:para>A date time object that allows the user to specify when the user account will expire. </maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">DateTime</command:parameterValue>
+        <dev:type>
+          <maml:name>DateTime</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
         <maml:name>Role</maml:name>
         <maml:description>
-          <maml:para>An array of roles to remove the extension configuration from. If not specified, remove from AllRoles which means default for all roles and does not mean each role.</maml:para>
+          <maml:para>An optional array of roles to specify the remote desktop configuration for. If not specified the remote desktop configuration is applied as the default configuration for all roles.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
@@ -18110,10 +17594,10 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="2">
-        <maml:name>StorageAccountName</maml:name>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
         <maml:description>
-          <maml:para>The name of the storage account.</maml:para>
+          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -18123,10 +17607,23 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
         <maml:name>ThumbprintAlgorithm</maml:name>
         <maml:description>
-          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate.</maml:para>
+          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
 
         </maml:description>
         <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
@@ -18136,7 +17633,7 @@
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
       </command:parameter>
-      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="4">
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
         <maml:name>X509Certificate</maml:name>
         <maml:description>
           <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
@@ -18207,12 +17704,12 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          $wadConfig = New-AzureServiceDiagnosticExtensionConfig -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML
+          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc -Credentials $creds
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Creates an object that has the service extension object default for all roles that will be installed with the deployment and the role configuration.</maml:para>
+          <maml:para>Setting default remote desktop configuration for all roles.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
@@ -18233,12 +17730,355 @@
           <maml:para>C:\PS&gt;</maml:para>
         </maml:introduction>
         <dev:code>
-          $wadConfig = New-AzureServiceDiagnosticExtensionConfig -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML -Role &quot;WebRole1&quot;
+          Set-AzureServiceRemoteDesktopExtension -ServiceName $svc -Credentials $creds -Role &quot;WebRole1&quot;
         </dev:code>
         <dev:remarks>
           <maml:para>Description</maml:para>
           <maml:para>-----------</maml:para>
-          <maml:para>Creates an object that has the service extension object for a specific role that will be installed with the deployment and the role configuration.</maml:para>
+          <maml:para>Setting remote desktop configuration for WebRole1.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+    </command:examples>
+    <!-- Link section  -->
+    <maml:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText></maml:linkText>
+        <maml:uri/>
+      </maml:navigationLink>
+    </maml:relatedLinks>
+  </command:command>
+
+  <!-- v 1.3.0.36 -->
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>
+        Set-AzureServiceDiagnosticsExtension
+      </command:name>
+      <maml:description>
+        <maml:para>This cmdlet enables diagnostics extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>AzureServiceDiagnosticsExtension</command:noun>
+      <dev:version></dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>This cmdlet enables diagnostics extension on specified role(s) or all roles on a deployed service or at deployment.</maml:para>
+    </maml:description>
+    <!-- Cmdlet syntax section-->
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>X509Certificate</maml:name>
+          <maml:description>
+            <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-AzureServiceDiagnosticsExtension</maml:name>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+          <maml:name>ServiceName</maml:name>
+          <maml:description>
+            <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+          <maml:name>Slot</maml:name>
+          <maml:description>
+            <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+          <maml:name>Role</maml:name>
+          <maml:description>
+            <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+          <maml:name>StorageAccountName</maml:name>
+          <maml:description>
+            <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+          <maml:name>DiagnosticsConfiguration</maml:name>
+          <maml:description>
+            <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+          <maml:name>CertificateThumbprint</maml:name>
+          <maml:description>
+            <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+          <maml:name>ThumbprintAlgorithm</maml:name>
+          <maml:description>
+            <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <!-- Cmdlet parameter section  -->
+    <command:parameters>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>CertificateThumbprint</maml:name>
+        <maml:description>
+          <maml:para>A certificate thumbprint to use for encrypting the private configuration. If not specified a certificate will be created for you. This certificate has to already exist in the certificate store.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="5">
+        <maml:name>DiagnosticsConfiguration</maml:name>
+        <maml:description>
+          <maml:para>Xml configuration for Windows Azure diagnostics. For more information on authoring and configuring Windows Azure Diagnostics refer to the following page: http://go.microsoft.com/fwlink/?LinkId=293393.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">XmlDocument</command:parameterValue>
+        <dev:type>
+          <maml:name>XmlDocument</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="false" position="3">
+        <maml:name>Role</maml:name>
+        <maml:description>
+          <maml:para>An optional array of roles to specify the diagnostics configuration for. If not specified the diagnostics configuration is applied as the default configuration for all roles.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="true">string[]</command:parameterValue>
+        <dev:type>
+          <maml:name>string[]</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="1">
+        <maml:name>ServiceName</maml:name>
+        <maml:description>
+          <maml:para>Specifies the Windows Azure service name of the deployment.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="2">
+        <maml:name>Slot</maml:name>
+        <maml:description>
+          <maml:para>Specifies the environment of the deployment to modify. Supported values are &quot;Production&quot; or &quot;Staging&quot;.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="false" globbing="false" pipelineInput="false" position="4">
+        <maml:name>StorageAccountName</maml:name>
+        <maml:description>
+          <maml:para>The name of the storage account diagnostics will use to store diagnostics data such as performance counter data and file logs.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="7">
+        <maml:name>ThumbprintAlgorithm</maml:name>
+        <maml:description>
+          <maml:para>Thumbprint hashing algorithm which is used with the thumbprint to identify the certificate. This parameter is optional and the default is sha1.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">string</command:parameterValue>
+        <dev:type>
+          <maml:name>string</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="false" globbing="false" pipelineInput="false" position="6">
+        <maml:name>X509Certificate</maml:name>
+        <maml:description>
+          <maml:para>An x509 certificate that when specified will be automatically uploaded to the cloud service and used for encrypting the extension private configuration.</maml:para>
+
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">X509Certificate2</command:parameterValue>
+        <dev:type>
+          <maml:name>X509Certificate2</maml:name>
+          <maml:uri/>
+        </dev:type>
+        <dev:defaultValue></dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <!-- Input - Output section-->
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri/>
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name></maml:name>
+          <maml:uri />
+          <maml:description />
+        </dev:type>
+        <maml:description>
+          <maml:para>
+            <!-- description  -->
+
+          </maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <!-- Error section-->
+    <command:terminatingErrors />
+    <command:nonTerminatingErrors />
+    <!-- Notes section  -->
+    <maml:alertSet>
+      <maml:title></maml:title>
+      <maml:alert>
+        <maml:para>
+
+        </maml:para>
+      </maml:alert>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <!-- Example section  -->
+    <command:examples>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 1 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceDiagnosticExtension -ServiceName $svc -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Setting default diagnostic configuration for all roles.</maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+          <maml:para></maml:para>
+        </dev:remarks>
+        <command:commandLines>
+          <command:commandLine>
+            <command:commandText></command:commandText>
+          </command:commandLine>
+        </command:commandLines>
+      </command:example>
+
+      <command:example>
+        <maml:title>
+          -------------------------- EXAMPLE 2 --------------------------
+        </maml:title>
+        <maml:introduction>
+          <maml:para>C:\PS&gt;</maml:para>
+        </maml:introduction>
+        <dev:code>
+          Set-AzureServiceDiagnosticExtension -ServiceName $svc -StorageAccountName $name -DiagnosticConfiguration $wadConfigXML -Role &quot;WebRole1&quot;
+        </dev:code>
+        <dev:remarks>
+          <maml:para>Description</maml:para>
+          <maml:para>-----------</maml:para>
+          <maml:para>Setting diagnostic configuration for WebRole1.</maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
           <maml:para></maml:para>
