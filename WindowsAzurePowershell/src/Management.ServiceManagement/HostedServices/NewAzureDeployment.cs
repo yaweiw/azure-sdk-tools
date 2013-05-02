@@ -163,6 +163,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
 
+                Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
+                ExtensionConfiguration currentConfig = deployment == null ? null : deployment.ExtensionConfiguration;
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
@@ -173,8 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = null;
-                    extensionMgr.InstallExtension(context, Slot, ref outConfig);
+                    ExtensionConfiguration outConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
                     configBuilder.Add(outConfig);
                 }
                 extConfig = configBuilder.ToConfiguration();

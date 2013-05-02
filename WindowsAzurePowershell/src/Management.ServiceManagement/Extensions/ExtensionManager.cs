@@ -130,7 +130,49 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return string.Format(ExtensionIdTemplate, roleName, type, slot, index);
         }
 
-        public bool InstallExtension(ExtensionConfigurationContext context, string slot, ref ExtensionConfiguration extConfig)
+        private void GetExtensionThumbprintAndAlgorithm(List<HostedServiceExtension> extensionList, string extensionId, ref string thumbprint, ref string thumbprintAlgorithm)
+        {
+            var existingExtension = extensionList.Find(e => e.Id == extensionId);
+            if (existingExtension != null)
+            {
+                thumbprint = existingExtension.Thumbprint;
+                thumbprintAlgorithm = existingExtension.ThumbprintAlgorithm;
+            }
+            else if (extensionList.Any())
+            {
+                thumbprint = extensionList.First().Thumbprint;
+                thumbprintAlgorithm = extensionList.First().ThumbprintAlgorithm;
+            }
+
+            string extThumbprint = thumbprint;
+            var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
+            var cert = certList.Find(c =>
+            {
+                if (string.IsNullOrWhiteSpace(extThumbprint))
+                {
+                    return true;
+                }
+                byte[] bytes = Encoding.ASCII.GetBytes(c.Data);
+                X509Certificate2 x509cert = null;
+                try
+                {
+                    x509cert = new X509Certificate2(bytes);
+                }
+                catch (CryptographicException)
+                {
+                    // Do nothing
+                }
+                return x509cert != null && ExtensionCertificateSubject.Equals(x509cert.Subject);
+            });
+
+            if (cert != null)
+            {
+                thumbprint = cert.Thumbprint;
+                thumbprintAlgorithm = cert.ThumbprintAlgorithm;
+            }
+        }
+
+        public ExtensionConfiguration InstallExtension(ExtensionConfigurationContext context, string slot, ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             foreach (ExtensionRole r in context.Roles)
@@ -149,62 +191,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                      where e != null
                                      select e).ToList();
 
-                string thumbprint = "";
-                string thumbprintAlgorithm = "";
+                string thumbprint = context.CertificateThumbprint;
+                string thumbprintAlgorithm = context.ThumbprintAlgorithm;
+                GetExtensionThumbprintAndAlgorithm(extensionList, availableId, ref thumbprint, ref thumbprintAlgorithm);
+
+                context.CertificateThumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? thumbprint : context.CertificateThumbprint;
+                context.ThumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? thumbprintAlgorithm : context.ThumbprintAlgorithm;
 
                 var existingExtension = extensionList.Find(e => e.Id == availableId);
                 if (existingExtension != null)
                 {
-                    thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? existingExtension.Thumbprint : context.CertificateThumbprint;
-                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? existingExtension.ThumbprintAlgorithm : context.ThumbprintAlgorithm;
                     DeleteExtension(availableId);
-                }
-                else if (extensionList.Any())
-                {
-                    thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? extensionList.First().Thumbprint : context.CertificateThumbprint;
-                    thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? extensionList.First().ThumbprintAlgorithm : context.ThumbprintAlgorithm;
-                }
-
-                thumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? "" : context.CertificateThumbprint;
-                thumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? "" : context.ThumbprintAlgorithm;
-
-                var certList = Channel.ListCertificates(SubscriptionId, ServiceName);
-                if (!string.IsNullOrWhiteSpace(thumbprint))
-                {
-                    var existingCert = certList.Find(c => c.Thumbprint == thumbprint);
-                    if (existingCert != null)
-                    {
-                        thumbprintAlgorithm = string.IsNullOrWhiteSpace(thumbprintAlgorithm) ? existingCert.ThumbprintAlgorithm : thumbprintAlgorithm;
-                    }
-                }
-                else
-                {
-                    var availableCert = certList.Find(c =>
-                    {
-                        byte[] bytes = Encoding.ASCII.GetBytes(c.Data);
-                        X509Certificate2 x509cert = null;
-                        try
-                        {
-                            x509cert = new X509Certificate2(bytes);
-                        }
-                        catch (CryptographicException)
-                        {
-                            // Do nothing
-                        }
-                        return x509cert != null && ExtensionCertificateSubject.Equals(x509cert.Subject);
-                    });
-                    if (availableCert != null)
-                    {
-                        thumbprint = availableCert.Thumbprint;
-                        thumbprintAlgorithm = string.IsNullOrWhiteSpace(thumbprintAlgorithm) ? availableCert.ThumbprintAlgorithm : thumbprintAlgorithm;
-                    }
                 }
 
                 AddExtension(new HostedServiceExtensionInput
                 {
                     Id = availableId,
-                    Thumbprint = thumbprint,
-                    ThumbprintAlgorithm = thumbprintAlgorithm,
+                    Thumbprint = context.CertificateThumbprint,
+                    ThumbprintAlgorithm = context.ThumbprintAlgorithm,
                     ProviderNameSpace = context.ProviderNameSpace,
                     Type = context.Type,
                     PublicConfiguration = context.PublicConfiguration,
@@ -223,9 +227,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
             }
 
-            extConfig = builder.ToConfiguration();
-
-            return true;
+            return builder.ToConfiguration();
         }
     }
 }
