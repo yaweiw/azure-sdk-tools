@@ -169,9 +169,10 @@
     <Compile Include="CloudService\CloudRuntimeApplicator.cs" />
     <Compile Include="CloudService\CloudRuntimeCollection.cs" />
     <Compile Include="CloudService\CloudRuntimePackage.cs" />
+    <Compile Include="CloudService\CloudServiceClient.cs" />
     <Compile Include="CloudService\DeploymentSettings.cs" />
-    <Compile Include="CloudService\DeploymentStatusManager.cs" />
     <Compile Include="CloudService\GetDeploymentStatus.cs" />
+    <Compile Include="CloudService\ICloudServiceClient.cs" />
     <Compile Include="CloudService\IPublishListener.cs" />
     <Compile Include="CloudService\JavaScriptPackageHelpers.cs" />
     <Compile Include="CloudService\Parameters.cs" />

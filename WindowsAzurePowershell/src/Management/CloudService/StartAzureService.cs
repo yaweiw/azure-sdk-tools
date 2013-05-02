@@ -17,41 +17,42 @@ namespace Microsoft.WindowsAzure.Management.CloudService
     using System;
     using System.Management.Automation;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
+    using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using ServiceManagement;
 
     /// <summary>
     /// Starts the deployment of specified slot in the azure service
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureService"), OutputType(typeof(Deployment))]
-    public class StartAzureServiceCommand : DeploymentStatusManager
+    [Cmdlet(VerbsLifecycle.Start, "AzureService"), OutputType(typeof(bool))]
+    public class StartAzureServiceCommand : CloudBaseCmdlet<IServiceManagement>
     {
-        /// <summary>
-        /// SetDeploymentStatus will handle the execution of this cmdlet
-        /// </summary>
-        public StartAzureServiceCommand()
-        {
-            Status = DeploymentStatus.Running;
-        }
+        public ICloudServiceClient CloudServiceClient { get; set; }
 
-        public StartAzureServiceCommand(IServiceManagement channel): base(channel)
-        {
-            Status = DeploymentStatus.Running;
-        }
+        [Parameter(Position = 0, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Service name.")]
+        public string ServiceName { get; set; }
 
-        public override void SetDeploymentStatusProcess(string rootPath, string newStatus, string slot, string subscription, string serviceName)
-        {
-            // Check that cloud service exists
-            WriteVerboseWithTimestamp(Resources.LookingForServiceMessage, serviceName);
-            bool found = !Channel.IsDNSAvailable(CurrentSubscription.SubscriptionId, serviceName).Result;
+        [Parameter(Position = 1, Mandatory = false, ValueFromPipelineByPropertyName = true, HelpMessage = "Deployment slot. Staging | Production")]
+        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
+        public string Slot { get; set; }
 
-            if (found)
+        [Parameter(Position = 2, Mandatory = false)]
+        public SwitchParameter PassThru { get; set; }
+
+        public override void ExecuteCmdlet()
+        {
+            CloudServiceClient = CloudServiceClient ?? new CloudServiceClient(
+                CurrentSubscription,
+                SessionState.Path.CurrentLocation.Path,
+                WriteDebug,
+                WriteVerbose,
+                WriteWarning);
+
+            CloudServiceClient.StartCloudService(ServiceName, Slot);
+
+            if (PassThru)
             {
-                base.SetDeploymentStatusProcess(rootPath, newStatus, slot, subscription, serviceName);
-            }
-            else
-            {
-                WriteExceptionError(new Exception(string.Format(Resources.ServiceDoesNotExist, serviceName)));
+                WriteObject(true);
             }
         }
     }
