@@ -165,6 +165,7 @@
     <Compile Include="Extensions\BaseAzureServiceRemoteDesktopExtension.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\DiagnosticsExtensionContext.cs" />
     <Compile Include="Extensions\ExtensionConfigurationBuilder.cs" />
     <Compile Include="Extensions\ExtensionConfigurationContext.cs">
       <SubType>Code</SubType>
@@ -175,19 +176,10 @@
     <Compile Include="Extensions\ExtensionRole.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\ExtensionRoleContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Extensions\GetAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Extensions\GetAzureServiceDiagnosticsExtensionContext.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtension.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Extensions\GetAzureServiceRemoteDesktopExtensionContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\NewAzureServiceDiagnosticsExtensionConfig.cs">
@@ -196,6 +188,7 @@
     <Compile Include="Extensions\NewAzureServiceRemoteDesktopExtensionConfig.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Extensions\RemoteDesktopExtensionContext.cs" />
     <Compile Include="Extensions\RemoveAzureServiceDiagnosticsExtension.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Remote Desktop Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(IEnumerable<ExtensionRoleContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceRemoteDesktopExtension"), OutputType(typeof(IEnumerable<RemoteDesktopExtensionContext>))]
     public class GetAzureServiceRemoteDesktopExtensionCommand : BaseAzureServiceRemoteDesktopExtensionCmdlet
     {
         public GetAzureServiceRemoteDesktopExtensionCommand()
@@ -72,21 +72,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                            from extension in extensions
                            where ExtensionManager.CheckExtensionType(extension.Id, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                           select new GetAzureServiceRemoteDesktopExtensionContext
+                           select new RemoteDesktopExtensionContext
                            {
                                OperationId = op.OperationTrackingId,
                                OperationDescription = CommandRuntime.ToString(),
                                OperationStatus = op.Status,
+                               Extension = extension.Type,
                                ProviderNameSpace = extension.ProviderNameSpace,
-                               Type = extension.Type,
                                Id = extension.Id,
-                               Version = extension.Version,
-                               Thumbprint = extension.Thumbprint,
-                               ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                               PublicConfiguration = extension.PublicConfiguration,
                                Role = role,
-                               UserName = GetPublicConfigValue(extension, UserNameElemStr),
-                               Expiration = GetPublicConfigValue(extension, ExpirationElemStr)
+                               UserName = GetPublicConfigValue(extension, PublicConfigStr, UserNameElemStr),
+                               Expiration = GetPublicConfigValue(extension, PublicConfigStr, ExpirationElemStr)
                            };
                 });
         }

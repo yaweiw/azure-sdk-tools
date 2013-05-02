@@ -23,7 +23,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     /// <summary>
     /// Get Windows Azure Service Diagnostics Extension.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(IEnumerable<ExtensionRoleContext>))]
+    [Cmdlet(VerbsCommon.Get, "AzureServiceDiagnosticsExtension"), OutputType(typeof(IEnumerable<DiagnosticExtensionContext>))]
     public class GetAzureServiceDiagnosticsExtensionCommand : BaseAzureServiceDiagnosticsExtensionCmdlet
     {
         public GetAzureServiceDiagnosticsExtensionCommand()
@@ -72,23 +72,17 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                            from extension in extensions
                            where ExtensionManager.CheckExtensionType(extension.Id, ExtensionNameSpace, ExtensionType)
                               && ExtensionManager.GetBuilder(Deployment.ExtensionConfiguration).Exist(role, extension.Id)
-                           select new GetAzureServiceDiagnosticsExtensionContext
+                           select new DiagnosticExtensionContext
                            {
                                OperationId = op.OperationTrackingId,
                                OperationDescription = CommandRuntime.ToString(),
                                OperationStatus = op.Status,
+                               Extension = extension.Type,
                                ProviderNameSpace = extension.ProviderNameSpace,
-                               Type = extension.Type,
                                Id = extension.Id,
-                               Version = extension.Version,
-                               Thumbprint = extension.Thumbprint,
-                               ThumbprintAlgorithm = extension.ThumbprintAlgorithm,
-                               PublicConfiguration = extension.PublicConfiguration,
                                Role = role,
-                               ConnectionQualifiers = GetPublicConfigValue(extension, ConnectionQualifiersElemStr),
-                               DefaultEndpointsProtocol = GetPublicConfigValue(extension, DefaultEndpointsProtocolElemStr),
-                               StorageName = GetPublicConfigValue(extension, StorageNameElemStr),
-                               WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
+                               StorageAccountName = GetPublicConfigValue(extension, StorageAccountElemStr, StorageNameElemStr),
+                               WadCfg = GetPublicConfigValue(extension, PublicConfigStr, WadCfgElemStr)
                            };
                 });
         }
