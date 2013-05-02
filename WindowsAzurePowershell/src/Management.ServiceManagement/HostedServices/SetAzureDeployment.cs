@@ -184,8 +184,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
-                    ExtensionConfiguration outConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
-                    configBuilder.Add(outConfig);
+                    currentConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
+                    configBuilder.Add(currentConfig);
                 }
                 extConfig = configBuilder.ToConfiguration();
             }
