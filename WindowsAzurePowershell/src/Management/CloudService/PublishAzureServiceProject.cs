@@ -42,7 +42,6 @@ namespace Microsoft.WindowsAzure.Management.CloudService
         public string Location { get; set; }
 
         [Parameter(Mandatory = false, ValueFromPipelineByPropertyName = true)]
-        [ValidateSet(DeploymentSlotType.Staging, DeploymentSlotType.Production, IgnoreCase = true)]
         [Alias("sl")]
         public string Slot { get; set; }
 
