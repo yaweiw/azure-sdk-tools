@@ -167,7 +167,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         if (result.Count(t => t == s) > 1)
                         {
-                            throw new Exception("Cannot apply more than one extension in the same namespace and type: " + s);
+                            throw new Exception(string.Format(Resources.ServiceExtensionCannotApplyExtensionsInSameType, s));
                         }
                     }
                 }
@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 {
                     if (context.X509Certificate != null)
                     {
-                        var operationDescription = string.Format("{0} - Uploading Certificate: {1}", CommandRuntime, context.X509Certificate.Thumbprint);
+                        var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 

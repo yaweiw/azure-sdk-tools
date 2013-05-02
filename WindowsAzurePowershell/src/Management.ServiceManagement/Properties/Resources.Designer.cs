@@ -1033,6 +1033,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot apply more than one extension in the same namespace and type: {0}..
+        /// </summary>
+        internal static string ServiceExtensionCannotApplyExtensionsInSameType {
+            get {
+                return ResourceManager.GetString("ServiceExtensionCannotApplyExtensionsInSameType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deployment not found in service: {0} and slot: {1}..
         /// </summary>
         internal static string ServiceExtensionCannotFindDeployment {
