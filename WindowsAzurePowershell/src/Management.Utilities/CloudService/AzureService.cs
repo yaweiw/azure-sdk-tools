@@ -22,6 +22,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Security.AccessControl;
     using System.Security.Permissions;
     using System.Security.Principal;
+    using System.Text;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService.Scaffolding;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -318,7 +319,12 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
         /// <param name="runtimeType">The runtime identifier</param>
         /// <param name="runtimeVersion">The runtime version</param>
         /// <param name="manifest">Location fo the manifest file, default is the cloud manifest</param>
-        public void AddRoleRuntime(ServicePathInfo paths, string roleName, string runtimeType, string runtimeVersion, string manifest = null)
+        public void AddRoleRuntime(
+            ServicePathInfo paths,
+            string roleName,
+            string runtimeType,
+            string runtimeVersion,
+            string manifest = null)
         {
             if (this.Components.RoleExists(roleName))
             {
@@ -346,6 +352,86 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
                     this.Components.Save(this.Paths);
                 }
             }
+        }
+
+        /// <summary>
+        /// Resolves the service runtimes into downloadable URLs.
+        /// </summary>
+        /// <param name="manifest">The custom manifest file</param>
+        /// <returns>Warning text if any</returns>
+        public string ResolveRuntimePackageUrls(string manifest = null)
+        {
+            ServiceSettings settings = ServiceSettings.Load(Paths.Settings);
+
+            CloudRuntimeCollection availableRuntimePackages;
+
+            if (!CloudRuntimeCollection.CreateCloudRuntimeCollection(out availableRuntimePackages, manifest))
+            {
+                throw new ArgumentException(
+                    string.Format(Resources.ErrorRetrievingRuntimesForLocation,
+                    settings.Location));
+            }
+
+            ServiceDefinition definition = this.Components.Definition;
+            StringBuilder warningText = new StringBuilder();
+            List<CloudRuntimeApplicator> applicators = new List<CloudRuntimeApplicator>();
+            if (definition.WebRole != null)
+            {
+                foreach (WebRole role in
+                    definition.WebRole.Where(role => role.Startup != null &&
+                    CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
+                {
+                    CloudRuntime.ClearRuntime(role);
+                    string rolePath = Path.Combine(this.Paths.RootPath, role.name);
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
+                    {
+                        CloudRuntimePackage package;
+                        if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                        {
+                            string warning;
+                            if (!runtime.ValidateMatch(package, out warning))
+                            {
+                                warningText.AppendFormat("{0}\r\n", warning);
+                            }
+                        }
+
+                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(
+                            runtime,
+                            package,
+                            role));
+                    }
+                }
+            }
+
+            if (definition.WorkerRole != null)
+            {
+                foreach (WorkerRole role in
+                    definition.WorkerRole.Where(role => role.Startup != null &&
+                    CloudRuntime.GetRuntimeStartupTask(role.Startup) != null))
+                {
+                    string rolePath = Path.Combine(this.Paths.RootPath, role.name);
+                    CloudRuntime.ClearRuntime(role);
+                    foreach (CloudRuntime runtime in CloudRuntime.CreateRuntime(role, rolePath))
+                    {
+                        CloudRuntimePackage package;
+                        if (!availableRuntimePackages.TryFindMatch(runtime, out package))
+                        {
+                            string warning;
+                            if (!runtime.ValidateMatch(package, out warning))
+                            {
+                                warningText.AppendFormat(warning + Environment.NewLine);
+                            }
+                        }
+                        applicators.Add(CloudRuntimeApplicator.CreateCloudRuntimeApplicator(runtime,
+                            package, role));
+                    }
+                }
+            }
+
+            applicators.ForEach<CloudRuntimeApplicator>(a => a.Apply());
+            this.Components.Save(this.Paths);
+
+            return warningText.ToString();
         }
     }
 }

@@ -52,28 +52,28 @@ namespace Microsoft.WindowsAzure.Management.Test.Utilities.Common
 
         public static void AreEqualServiceSettings(ServiceSettings expected, ServiceSettings actual)
         {
-            AreEqualServiceSettings(expected.Location, expected.Slot, expected.StorageAccountName, expected.Subscription, actual);
+            AreEqualServiceSettings(expected.Location, expected.Slot, expected.StorageServiceName, expected.Subscription, actual);
         }
 
         public static void AreEqualServiceSettings(string location, string slot, string storageAccountName, string subscriptionName, ServiceSettings actual)
         {
             Assert.AreEqual<string>(location, actual.Location);
             Assert.AreEqual<string>(slot, actual.Slot);
-            Assert.AreEqual<string>(storageAccountName, actual.StorageAccountName);
+            Assert.AreEqual<string>(storageAccountName, actual.StorageServiceName);
             Assert.AreEqual<string>(subscriptionName, actual.Subscription);
         }
 
-        public static void AreEqualDeploymentSettings(DeploymentSettings expected, DeploymentSettings actual)
+        public static void AreEqualDeploymentSettings(PublishContext expected, PublishContext actual)
         {
-            AreEqualDeploymentSettings(expected.ServiceSettings, expected.ConfigPath, expected.DeploymentName, expected.Label, expected.PackagePath, expected.SubscriptionId, actual);
+            AreEqualPublishContext(expected.ServiceSettings, expected.ConfigPath, expected.DeploymentName, expected.ServiceName, expected.PackagePath, expected.SubscriptionId, actual);
         }
 
-        public static void AreEqualDeploymentSettings(ServiceSettings settings, string configPath, string deploymentName, string label, string packagePath, string subscriptionId, DeploymentSettings actual)
+        public static void AreEqualPublishContext(ServiceSettings settings, string configPath, string deploymentName, string label, string packagePath, string subscriptionId, PublishContext actual)
         {
             AreEqualServiceSettings(settings, actual.ServiceSettings);
             Assert.AreEqual<string>(configPath, actual.ConfigPath);
             Assert.AreEqual<string>(deploymentName, actual.DeploymentName);
-            Assert.AreEqual<string>(label, actual.Label);
+            Assert.AreEqual<string>(label, actual.ServiceName);
             Assert.AreEqual<string>(packagePath, actual.PackagePath);
             Assert.AreEqual<string>(subscriptionId, actual.SubscriptionId);
 

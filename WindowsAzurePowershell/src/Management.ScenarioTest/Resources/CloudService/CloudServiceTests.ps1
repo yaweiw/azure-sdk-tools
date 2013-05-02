@@ -206,13 +206,31 @@ Tests Start-AzureService with an existing service that has staging deployment on
 function Test-StartAzureServiceWithStagingDeployment
 {
 	# Setup
-	New-CloudService 1
+	New-CloudService 1 $null Staging
 	$name = $global:createdCloudServices[0]
 	Stop-AzureService $name -Slot Staging
 	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
 
 	# Test
 	$started = Start-AzureService $name -Slot Staging -PassThru
+
+	# Assert
+	Assert-True { $started }
+}
+
+<#
+.SYNOPSIS
+Tests Start-AzureService works without passing name in cloud service project.
+#>
+function Test-StartAzureServiceWithoutName
+{
+	# Setup
+	New-CloudService 1
+	Stop-AzureService
+	Start-Sleep -Second 30 # Wait for a bit, sometimes the deployment status is stopped but still stopping
+
+	# Test
+	$started = Start-AzureService -PassThru
 
 	# Assert
 	Assert-True { $started }
@@ -405,6 +423,22 @@ function Test-StopAzureServiceWithStagingDeployment
 
 	# Assert
 	Assert-True { $Stopped }
+}
+
+<#
+.SYNOPSIS
+Tests Stop-AzureService works without passing name in cloud service project.
+#>
+function Test-StopAzureServiceWithoutName
+{
+	# Setup
+	New-CloudService 1
+
+	# Test
+	$stopped = Stop-AzureService -PassThru
+
+	# Assert
+	Assert-True { $stopped }
 }
 
 ########################################################################### Start-AzureEmulator Scenario Tests ###################################################################
