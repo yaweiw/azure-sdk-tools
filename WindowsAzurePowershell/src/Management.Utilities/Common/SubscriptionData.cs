@@ -18,6 +18,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
     using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using ServiceManagement;
@@ -50,7 +51,10 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             string serviceEndpoint = string.IsNullOrEmpty(ServiceEndpoint) ?
                 Microsoft.WindowsAzure.Management.Utilities.Common.ConfigurationConstants.ServiceManagementEndpoint :
                 ServiceEndpoint;
-            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(serviceBinding, new Uri(ServiceEndpoint), Certificate);
+            IServiceManagement channel = ServiceManagementHelper.CreateServiceManagementChannel<IServiceManagement>(
+                serviceBinding,
+                new Uri(ServiceEndpoint),
+                Certificate);
 
             return GetCurrentStorageAccount(channel);
         }
@@ -90,12 +94,15 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
                 var storageServiceKeys = channel.GetStorageKeys(
                     subscriptionData.SubscriptionId,
                     subscriptionData.CurrentStorageAccount);
-
+                
                 if (storageService != null && storageServiceKeys != null)
                 {
                     currentStorage = new CloudStorageAccount(new StorageCredentials(
                         storageService.ServiceName,
-                        storageServiceKeys.StorageServiceKeys.Primary), true);
+                        storageServiceKeys.StorageServiceKeys.Primary),
+                        new Uri(storageService.StorageServiceProperties.Endpoints[0]),
+                        new Uri(storageService.StorageServiceProperties.Endpoints[1]),
+                        new Uri(storageService.StorageServiceProperties.Endpoints[2]));
                 }
             }
 
