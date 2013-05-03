@@ -107,7 +107,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Mandatory = false, HelpMessage = "Extension configurations.")]
-        public ExtensionConfigurationContext[] ExtensionConfiguration
+        public ExtensionConfigurationInput[] ExtensionConfiguration
         {
             get;
             set;
@@ -182,7 +182,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
-                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
+                foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
                 {
                     if (context.X509Certificate != null)
                     {
@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deploymentExtensionConfig);
                     foreach (var r in currentConfig.AllRoles)
                     {
-                        if (currentDeployment != null && !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
+                        if (currentDeployment == null || !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
                         {
                             configBuilder.AddDefault(r.Id);
                         }
@@ -202,7 +202,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         foreach (var e in r.Extensions)
                         {
-                            if (currentDeployment != null && !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(e.Id))
+                            if (currentDeployment == null || !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(e.Id))
                             {
                                 configBuilder.Add(r.RoleName, e.Id);
                             }
