@@ -24,7 +24,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTPS
+namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
     /// <summary>
     /// bvt test using name and key context in https mode

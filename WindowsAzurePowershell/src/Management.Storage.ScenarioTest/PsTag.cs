@@ -13,7 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     /// <summary>
     /// powershell test tags

@@ -12,18 +12,18 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
+using MS.Test.Common.MsTestLib;
+using StorageTestLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using MS.Test.Common.MsTestLib;
-using StorageTestLib;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.Util
+namespace Management.Storage.ScenarioTest.Util
 {
     public class CloudBlobUtil
     {
@@ -286,9 +286,9 @@ namespace CLITest.Util
         /// <param name="blobName">Blob name</param>
         /// <param name="type">Blob type</param>
         /// <returns>ICloudBlob object</returns>
-        public ICloudBlob CreateBlob(CloudBlobContainer container, string blobName, Storage.BlobType type)
+        public ICloudBlob CreateBlob(CloudBlobContainer container, string blobName, StorageBlob.BlobType type)
         {
-            if (type == Storage.BlobType.BlockBlob)
+            if (type == StorageBlob.BlobType.BlockBlob)
             {
                 return CreateBlockBlob(container, blobName);
             }
@@ -433,11 +433,11 @@ namespace CLITest.Util
             ICloudBlob snapshot = default(ICloudBlob);
 
             switch (blob.BlobType)
-            { 
-                case Storage.BlobType.BlockBlob:
+            {
+                case StorageBlob.BlobType.BlockBlob:
                     snapshot = ((CloudBlockBlob)blob).CreateSnapshot();
                     break;
-                case Storage.BlobType.PageBlob:
+                case StorageBlob.BlobType.PageBlob:
                     snapshot = ((CloudPageBlob)blob).CreateSnapshot();
                     break;
                 default:
