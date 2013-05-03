@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace CLITest.Functional.Table
+namespace Management.Storage.ScenarioTest.Functional.Table
 {
-    using CLITest.Common;
+    using Management.Storage.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Table;
     using MS.Test.Common.MsTestLib;

@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
-    using CLITest.Common;
+    using Management.Storage.ScenarioTest.Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Microsoft.WindowsAzure.Storage.Blob;
     using MS.Test.Common.MsTestLib;

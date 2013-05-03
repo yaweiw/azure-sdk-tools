@@ -15,14 +15,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CLITest.Common;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Common;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest.Functional.Blob
+namespace Management.Storage.ScenarioTest.Functional.Blob
 {
     /// <summary>
     /// functional tests for Set-ContainerAcl

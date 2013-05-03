@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -25,7 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.Common
+namespace Management.Storage.ScenarioTest.Common
 {
     /// <summary>
     /// general settings for container related tests
