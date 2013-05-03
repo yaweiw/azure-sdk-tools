@@ -155,13 +155,14 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
             if (ExtensionConfiguration != null)
             {
                 var roleList = (from c in ExtensionConfiguration
+                                where c != null
                                 from r in c.Roles
                                 select r).GroupBy(r => r.ToString()).Select(g => g.First());
 
                 foreach (var role in roleList)
                 {
                     var result = from c in ExtensionConfiguration
-                                 where c.Roles.Any(r => r.ToString() == role.ToString())
+                                 where c != null && c.Roles.Any(r => r.ToString() == role.ToString())
                                  select string.Format("{0}.{1}", c.ProviderNameSpace, c.Type);
                     foreach (var s in result)
                     {
@@ -177,27 +178,30 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
                 {
-                    if (context.X509Certificate != null)
+                    if (context != null)
                     {
-                        var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
-                        ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
-                    }
-
-                    ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
-                    foreach (var r in currentConfig.AllRoles)
-                    {
-                        if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(r.Id))
+                        if (context.X509Certificate != null)
                         {
-                            configBuilder.AddDefault(r.Id);
+                            var operationDescription = string.Format(Resources.ServiceExtensionUploadingCertificate, CommandRuntime, context.X509Certificate.Thumbprint);
+                            ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                         }
-                    }
-                    foreach (var r in currentConfig.NamedRoles)
-                    {
-                        foreach (var e in r.Extensions)
+
+                        ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
+                        foreach (var r in currentConfig.AllRoles)
                         {
-                            if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(e.Id))
+                            if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(r.Id))
                             {
-                                configBuilder.Add(r.RoleName, e.Id);
+                                configBuilder.AddDefault(r.Id);
+                            }
+                        }
+                        foreach (var r in currentConfig.NamedRoles)
+                        {
+                            foreach (var e in r.Extensions)
+                            {
+                                if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(e.Id))
+                                {
+                                    configBuilder.Add(r.RoleName, e.Id);
+                                }
                             }
                         }
                     }

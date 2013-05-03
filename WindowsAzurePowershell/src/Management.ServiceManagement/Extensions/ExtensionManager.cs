@@ -30,6 +30,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         private const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
         private const string DefaultAllRolesNameStr = "Default";
         private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
+        private const string ThumbprintAlgorithmStr = "sha1";
 
         public IServiceManagement Channel
         {
@@ -216,10 +217,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
                 string thumbprint = context.CertificateThumbprint;
                 string thumbprintAlgorithm = context.ThumbprintAlgorithm;
-                GetExtensionThumbprintAndAlgorithm(extensionList, availableId, ref thumbprint, ref thumbprintAlgorithm);
+
+                if (context.X509Certificate != null)
+                {
+                    thumbprint = context.X509Certificate.Thumbprint;
+                }
+                else
+                {
+                    GetExtensionThumbprintAndAlgorithm(extensionList, availableId, ref thumbprint, ref thumbprintAlgorithm);
+                }
 
                 context.CertificateThumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? thumbprint : context.CertificateThumbprint;
                 context.ThumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? thumbprintAlgorithm : context.ThumbprintAlgorithm;
+
+                if (!string.IsNullOrWhiteSpace(context.CertificateThumbprint) && string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm))
+                {
+                    context.ThumbprintAlgorithm = ThumbprintAlgorithmStr;
+                }
 
                 var existingExtension = extensionList.Find(e => e.Id == availableId);
                 if (existingExtension != null)
