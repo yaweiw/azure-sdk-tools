@@ -180,7 +180,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return found;
         }
 
-        private static string GetPublicConfigValue(string text, string elem)
+        private static string GetConfigValue(string text, string elem)
         {
             XDocument config = XDocument.Parse(text);
             var result = from d in config.Descendants()
@@ -191,7 +191,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         protected string GetPublicConfigValue(HostedServiceExtension ext, string elem)
         {
-            return ext == null ? "" : GetPublicConfigValue(ext.PublicConfiguration, elem);
+            return ext == null ? "" : GetConfigValue(ext.PublicConfiguration, elem);
         }
 
         protected void ChangeDeployment(ExtensionConfiguration extConfig)

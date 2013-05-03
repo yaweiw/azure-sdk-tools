@@ -173,7 +173,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
         }
 
-        public ExtensionConfiguration InstallExtension(ExtensionConfigurationContext context, string slot, ExtensionConfiguration extConfig)
+        public ExtensionConfiguration InstallExtension(ExtensionConfigurationInput context, string slot, ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             foreach (ExtensionRole r in context.Roles)

@@ -211,7 +211,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             return this;
         }
 
-        public ExtensionConfigurationBuilder Add(ExtensionConfigurationContext context, string extensionId)
+        public ExtensionConfigurationBuilder Add(ExtensionConfigurationInput context, string extensionId)
         {
             if (context != null && context.Roles != null)
             {

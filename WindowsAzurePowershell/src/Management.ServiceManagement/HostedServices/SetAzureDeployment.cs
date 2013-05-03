@@ -137,7 +137,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
 
         [Parameter(Position = 9, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
         [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
-        public ExtensionConfigurationContext[] ExtensionConfiguration
+        public ExtensionConfigurationInput[] ExtensionConfiguration
         {
             get;
             set;
@@ -175,7 +175,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
-                foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
+                foreach (ExtensionConfigurationInput context in ExtensionConfiguration)
                 {
                     if (context.X509Certificate != null)
                     {
