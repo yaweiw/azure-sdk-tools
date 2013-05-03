@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTPS
+namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
     /// <summary>
     /// bvt tests using  environment variable "AZURE_STORAGE_CONNECTION_STRING"

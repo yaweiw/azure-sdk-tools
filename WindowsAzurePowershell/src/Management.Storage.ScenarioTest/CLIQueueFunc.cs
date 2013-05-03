@@ -24,7 +24,7 @@ using Microsoft.WindowsAzure.Storage.Queue.Protocol;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     /// <summary>
     /// this class contains all the functional test cases for PowerShell Queue cmdlets

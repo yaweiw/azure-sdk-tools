@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace CLITest.Util
+namespace Management.Storage.ScenarioTest.Util
 {
     using System;
     using System.Collections.Generic;
