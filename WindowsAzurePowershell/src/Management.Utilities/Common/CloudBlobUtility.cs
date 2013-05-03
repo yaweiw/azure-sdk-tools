@@ -27,13 +27,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         private const string BlobEndpointIdentifier = ".blob.";
         private const string ContainerName = "mydeployments";
 
-        private Uri CreateHttpsEndpoint(string blobEndpointUri)
-        {
-            var builder = new UriBuilder(blobEndpointUri) { Scheme = "https" };
-            var endpoint =  builder.Uri.GetComponents(UriComponents.AbsoluteUri & ~UriComponents.Port, UriFormat.UriEscaped);
-            return new Uri(endpoint);
-        }
-
         public virtual void DeletePackageFromBlob(
             IServiceManagement channel,
             string storageName,
@@ -43,7 +36,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             var storageService = channel.GetStorageKeys(subscriptionId, storageName);
             var storageKey = storageService.StorageServiceKeys.Primary;
             storageService = channel.GetStorageService(subscriptionId, storageName);
-            var blobStorageEndpoint = CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
+            var blobStorageEndpoint = General.CreateHttpsEndpoint(
+                storageService.StorageServiceProperties.Endpoints.Find(p => p.Contains(BlobEndpointIdentifier)));
             var credentials = new StorageCredentials(storageName, storageKey);
             var client = new CloudBlobClient(blobStorageEndpoint, credentials);
             ICloudBlob blob = client.GetBlobReferenceFromServer(packageUri);
@@ -89,7 +83,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
             storageService = channel.GetStorageService(subscriptionId, storageName);
             string blobEndpointUri = storageService.StorageServiceProperties.Endpoints[0];
 
-            return UploadFile(storageName, CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
+            return UploadFile(
+                storageName,
+                General.CreateHttpsEndpoint(blobEndpointUri), storageKey, packagePath, blobRequestOptions);
         }
     }
 }
