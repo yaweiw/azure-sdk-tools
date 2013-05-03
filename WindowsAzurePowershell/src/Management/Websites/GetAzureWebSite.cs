@@ -90,8 +90,12 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 // Add to cache
                 Cache.AddSite(CurrentSubscription.SubscriptionId, websiteObject);
 
-                WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
-                DiagnosticsSettings diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                DiagnosticsSettings diagnosticsSettings = null;
+                if (websiteObject.State == "Running")
+                {
+                    WebsitesClient = WebsitesClient ?? new WebsitesClient(CurrentSubscription, WriteDebug);
+                    diagnosticsSettings = WebsitesClient.GetApplicationDiagnosticsSettings(Name);
+                }
 
                 // Output results
                 WriteObject(new SiteWithConfig(websiteObject, websiteConfiguration, diagnosticsSettings), false);
