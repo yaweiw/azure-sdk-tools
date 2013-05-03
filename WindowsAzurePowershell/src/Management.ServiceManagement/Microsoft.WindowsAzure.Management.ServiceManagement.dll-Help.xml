@@ -6504,7 +6504,7 @@
           <maml:description>
             <maml:para>Optional array of extension configuration objects.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -6622,9 +6622,9 @@
         <maml:description>
           <maml:para>Optional array of extension configuration objects.</maml:para>
         </maml:description>
-        <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        <command:parameterValue required="true" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         <dev:type>
-          <maml:name>ExtensionConfigurationContext[]</maml:name>
+          <maml:name>ExtensionConfigurationInput[]</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
@@ -12117,7 +12117,7 @@
           <maml:description>
             <maml:para>Optional array of extension configuration objects.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -12154,7 +12154,7 @@
           <maml:description>
             <maml:para>Optional array of extension configuration objects.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
       <command:syntaxItem>
@@ -12225,7 +12225,7 @@
           <maml:description>
             <maml:para>Optional array of extension configuration objects.</maml:para>
           </maml:description>
-          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+          <command:parameterValue required="true" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -12393,9 +12393,9 @@
           <maml:para>When specified, requests an upgrade to the Windows Azure deployment.</maml:para>
 
         </maml:description>
-        <command:parameterValue required="false" variableLength="false">ExtensionConfigurationContext[]</command:parameterValue>
+        <command:parameterValue required="false" variableLength="false">ExtensionConfigurationInput[]</command:parameterValue>
         <dev:type>
-          <maml:name>ExtensionConfigurationContext[]</maml:name>
+          <maml:name>ExtensionConfigurationInput[]</maml:name>
           <maml:uri/>
         </dev:type>
         <dev:defaultValue></dev:defaultValue>
