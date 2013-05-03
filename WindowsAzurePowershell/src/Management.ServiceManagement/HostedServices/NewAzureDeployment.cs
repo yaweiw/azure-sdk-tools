@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deploymentExtensionConfig);
                     foreach (var r in currentConfig.AllRoles)
                     {
-                        if (!extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
+                        if (currentDeployment != null && !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
                         {
                             configBuilder.AddDefault(r.Id);
                         }
@@ -202,7 +202,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     {
                         foreach (var e in r.Extensions)
                         {
-                            if (!extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(e.Id))
+                            if (currentDeployment != null && !extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(e.Id))
                             {
                                 configBuilder.Add(r.RoleName, e.Id);
                             }
