@@ -167,6 +167,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                 }
                 CertificateThumbprint = X509Certificate.Thumbprint;
             }
+            ThumbprintAlgorithm = ThumbprintAlgorithm == null ? "" : ThumbprintAlgorithm;
+            CertificateThumbprint = CertificateThumbprint == null ? "" : CertificateThumbprint;
         }
 
         protected virtual bool IsServiceAvailable(string serviceName)
