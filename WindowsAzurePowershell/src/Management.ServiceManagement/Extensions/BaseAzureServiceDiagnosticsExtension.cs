@@ -16,7 +16,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System.Linq;
     using System.Text;
     using System.Xml.Linq;
-    using WindowsAzure.Management.ServiceManagement.Model;
+    using Model;
+    using Properties;
     using WindowsAzure.ServiceManagement;
 
     public abstract class BaseAzureServiceDiagnosticsExtensionCmdlet : BaseAzureServiceExtensionCmdlet
@@ -27,10 +28,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         protected const string StorageNameElemStr = "Name";
         protected const string StorageKeyElemStr = "StorageKey";
         protected const string WadCfgElemStr = "WadCfg";
-        protected const string DefaultEndpointsProtocol = "";
+        protected const string DiagnosticsExtensionNamespace = "Microsoft.Windows.Azure.Extensions";
+        protected const string DiagnosticsExtensionType = "Diagnostics";
 
         protected string StorageKey;
         protected string ConnectionQualifiers;
+        protected string DefaultEndpointsProtocol;
 
         public virtual string StorageAccountName
         {
@@ -55,7 +58,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             var storageService = Channel.GetStorageService(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageService == null)
             {
-                throw new Exception("Cannot find storage service for the account name: " + StorageAccountName);
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountName, StorageAccountName));
             }
 
             StringBuilder endpointStr = new StringBuilder();
@@ -63,21 +66,22 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             endpointStr.AppendFormat(";QueueEndpoint={0}", storageService.StorageServiceProperties.Endpoints[1]);
             endpointStr.AppendFormat(";TableEndpoint={0}", storageService.StorageServiceProperties.Endpoints[2]);
             endpointStr.Replace("http://", "https://");
-            
+
+            DefaultEndpointsProtocol = "https";
             ConnectionQualifiers = endpointStr.ToString();
 
             var storageKeys = Channel.GetStorageKeys(CurrentSubscription.SubscriptionId, StorageAccountName);
             if (storageKeys == null)
             {
-                throw new Exception("Cannot find storage keys for the account name: " + StorageAccountName);
+                throw new Exception(string.Format(Resources.ServiceExtensionCannotFindStorageAccountKey, StorageAccountName));
             }
             StorageKey = storageKeys.StorageServiceKeys.Primary;
         }
 
         protected void Initialize()
         {
-            ExtensionNameSpace = "Microsoft.Windows.Azure.Extensions";
-            ExtensionType = "Diagnostics";
+            ExtensionNameSpace = DiagnosticsExtensionNamespace;
+            ExtensionType = DiagnosticsExtensionType;
 
             XNamespace configNameSpace = "http://schemas.microsoft.com/ServiceHosting/2010/10/DiagnosticsConfiguration";
 

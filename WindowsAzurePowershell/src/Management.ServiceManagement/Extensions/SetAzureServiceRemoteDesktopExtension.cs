@@ -121,7 +121,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
         public void ExecuteCommand()
         {
             ValidateParameters();
-            ExtensionConfigurationContext context = new ExtensionConfigurationContext
+            ExtensionConfigurationInput context = new ExtensionConfigurationInput
             {
                 ProviderNameSpace = ExtensionNameSpace,
                 Type = ExtensionType,
