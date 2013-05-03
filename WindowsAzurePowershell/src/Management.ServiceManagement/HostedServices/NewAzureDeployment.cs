@@ -163,13 +163,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                     }
                 }
 
-                ExtensionConfiguration currentConfig = null;
+                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
+                Deployment currentDeployment = null;
+                ExtensionConfiguration deploymentExtensionConfig = null;
                 using (new OperationContextScope(Channel.ToContextChannel()))
                 {
                     try
                     {
-                        Deployment currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, Slot));
-                        currentConfig = currentDeployment == null ? null : currentDeployment.ExtensionConfiguration;
+                        currentDeployment = this.RetryCall(s => this.Channel.GetDeploymentBySlot(s, this.ServiceName, Slot));
+                        deploymentExtensionConfig = currentDeployment == null ? null : extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ToConfiguration();
                     }
                     catch (ServiceManagementClientException ex)
                     {
@@ -179,7 +181,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         }
                     }
                 }
-                ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
                 {
@@ -189,8 +190,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
-                    currentConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
-                    configBuilder.Add(currentConfig);
+                    ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deploymentExtensionConfig);
+                    foreach (var r in currentConfig.AllRoles)
+                    {
+                        if (!extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(r.Id))
+                        {
+                            configBuilder.AddDefault(r.Id);
+                        }
+                    }
+                    foreach (var r in currentConfig.NamedRoles)
+                    {
+                        foreach (var e in r.Extensions)
+                        {
+                            if (!extensionMgr.GetBuilder(currentDeployment.ExtensionConfiguration).ExistAny(e.Id))
+                            {
+                                configBuilder.Add(r.RoleName, e.Id);
+                            }
+                        }
+                    }
                 }
                 extConfig = configBuilder.ToConfiguration();
             }
