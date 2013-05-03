@@ -27,6 +27,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTests.ConfigDataInfo;
     using Microsoft.WindowsAzure.Management.ServiceManagement.Test.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
+
+    using Microsoft.WindowsAzure.Management.ServiceManagement.Extensions;
+    using System.Collections.Generic;
+    using System.Xml;
+    using System.Text;
     
 
     [TestClass]
@@ -51,7 +56,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 Assert.Inconclusive("No Subscription is selected!");
             }
 
-            ReImportSubscription();
             do
             {
                 defaultService = Utilities.GetUniqueShortName(serviceNamePrefix);
@@ -66,20 +70,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
             vhdBlobLocation = blobUrlRoot + vhdBlob;
-            try
+            if (!string.IsNullOrEmpty(localFile))
             {
-                vmPowershellCmdlets.AddAzureVhd(new FileInfo(localFile), vhdBlobLocation);
-            }
-            catch (Exception e)
-            {
-                if (e.ToString().Contains("already exists"))
+                try
                 {
-                    // Use the already uploaded vhd.
-                    Console.WriteLine("Using already uploaded blob..");
+                    vmPowershellCmdlets.AddAzureVhd(new FileInfo(localFile), vhdBlobLocation);
                 }
-                else
+                catch (Exception e)
                 {
-                    throw;
+                    if (e.ToString().Contains("already exists"))
+                    {
+                        // Use the already uploaded vhd.
+                        Console.WriteLine("Using already uploaded blob..");
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }            
         }
@@ -107,6 +114,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureAffinityGroup)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\affinityGroupData.csv", "affinityGroupData#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureAffinityGroupTest()
         {
             createOwnService = false;
@@ -191,6 +199,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Remove)-AzureCertificate)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureCertificateTest()
         {
             createOwnService = false;
@@ -309,6 +318,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureCertificateSetting)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\certificateData.csv", "certificateData#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureCertificateSettingTest()
         {
             createOwnService = true;
@@ -370,6 +380,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }    
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureDataDisk)")]
+        [Ignore]
         public void AzureDataDiskTest()
         {
             createOwnService = false;
@@ -474,6 +485,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Update,Remove)-AzureDisk)")]
+        [Ignore]
         public void AzureDiskTest()
         {
             createOwnService = false;
@@ -531,6 +543,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
     
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove,Move)-AzureDeployment)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureDeploymentTest()
         {
             createOwnService = true;
@@ -628,6 +641,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// 
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureDns)")]
+        [Ignore]
         public void AzureDnsTest()
         {
             createOwnService = true;
@@ -675,6 +689,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        [Ignore]
         public void AzureEndpointTest()
         {
             createOwnService = false;
@@ -848,6 +863,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet Set-AzureAvailabilitySet)")]
+        [Ignore]
         public void AzureAvailabilitySetTest()
         {
             createOwnService = false;
@@ -878,6 +894,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureLocation)")]
+        [Ignore]
         public void AzureLocationTest()
         {
             createOwnService = false;
@@ -901,6 +918,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureOSDisk)")]
+        [Ignore]
         public void AzureOSDiskTest()
         {
             createOwnService = false;
@@ -929,6 +947,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Get-AzureOSVersion)")]
+        [Ignore]
         public void AzureOSVersionTest()
         {
             createOwnService = false;
@@ -953,6 +972,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureRole)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\package.csv", "package#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureRoleTest()
         {
             createOwnService = true;
@@ -1015,7 +1035,299 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [Ignore]
+        public void AzureServiceDiagnosticsExtensionConfigTest()
+        {
+            createOwnService = true;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            List<string> defaultRoles = new List<string>(new string[] { "AllRoles" });
+            string[] roles = new string[] { "WebRole1", "WorkerRole2" };
+            string thumb = "abc";
+            string alg = "sha1";
+
+            // Create a certificate
+            const string DefaultCertificateIssuer = "CN=Windows Azure Powershell Test";
+            const string DefaultFriendlyName = "PSTest";
+            X509Certificate2 cert = Utilities.CreateCertificate(DefaultCertificateIssuer, DefaultFriendlyName, password);
+
+            string storage = defaultAzureSubscription.CurrentStorageAccount;
+            XmlDocument daConfig = new XmlDocument();
+            daConfig.Load(@".\da.xml");
+
+            try
+            {
+                //// Case 1: No thumbprint, no Certificate
+                ExtensionConfigurationInput resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, daConfig);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, daConfig));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles)));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, daConfig, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), daConfig));
+
+                // Case 2: Thumbprint, no algorithm
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, null);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, null, thumb));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, null, daConfig);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, daConfig, thumb));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, null, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), null, thumb));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, null, daConfig, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), daConfig, thumb));
+
+                // Case 3: Thumbprint and algorithm
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, alg);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, null, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, alg, daConfig);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, daConfig, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, alg, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), null, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, thumb, alg, daConfig, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), daConfig, thumb, alg));
+
+                // Case 4: Certificate
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, cert);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, null, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, cert, daConfig);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, defaultRoles, daConfig, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, cert, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), null, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceDiagnosticsExtensionConfig(storage, cert, daConfig, roles);
+                Assert.IsTrue(VerifyExtensionConfigDiag(resultConfig, storage, new List<string>(roles), daConfig, cert.Thumbprint, null, cert));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        private bool VerifyExtensionConfigDiag(ExtensionConfigurationInput resultConfig, string storage, List<string> roles, XmlDocument wadconfig = null, string thumbprint = null, string algorithm = null, X509Certificate2 cert = null)
+        {
+            try
+            {
+                string resultStorageAccount = GetInnerText(resultConfig.PublicConfiguration, "Name");
+                string resultWadCfg = Utilities.GetInnerXml(resultConfig.PublicConfiguration, "WadCfg");
+                if (string.IsNullOrWhiteSpace(resultWadCfg))
+                {
+                    resultWadCfg = null;
+                }
+                string resultStorageKey = GetInnerText(resultConfig.PrivateConfiguration, "StorageKey");
+
+                Console.WriteLine("Type: {0}, StorageAccountName:{1}, StorageKey: {2}, WadCfg: {3}, CertificateThumbprint: {4}, ThumbprintAlgorithm: {5}, X509Certificate: {6}",
+                    resultConfig.Type, resultStorageAccount, resultStorageKey, resultWadCfg, resultConfig.CertificateThumbprint, resultConfig.ThumbprintAlgorithm, resultConfig.X509Certificate);
+
+                Assert.AreEqual(resultConfig.Type, "Diagnostics", "Type is not equal!");
+                Assert.AreEqual(resultStorageAccount, storage);
+                Assert.IsTrue(Utilities.CompareWadCfg(resultWadCfg, wadconfig));
+
+                if (string.IsNullOrWhiteSpace(thumbprint))
+                {
+                    Assert.IsTrue(string.IsNullOrWhiteSpace(resultConfig.CertificateThumbprint));
+                }
+                else
+                {
+                    Assert.AreEqual(resultConfig.CertificateThumbprint, thumbprint, "Certificate thumbprint is not equal!");
+                }
+                if (string.IsNullOrWhiteSpace(algorithm))
+                {
+                    Assert.IsTrue(string.IsNullOrWhiteSpace(resultConfig.ThumbprintAlgorithm));
+                }
+                else
+                {
+                    Assert.AreEqual(resultConfig.ThumbprintAlgorithm, algorithm, "Thumbprint algorithm is not equal!");
+                }
+                Assert.AreEqual(resultConfig.X509Certificate, cert, "X509Certificate is not equal!");
+                if (resultConfig.Roles.Count == 1 && string.IsNullOrEmpty(resultConfig.Roles[0].RoleName))
+                {
+                    Assert.IsTrue(roles.Contains(resultConfig.Roles[0].RoleType.ToString()));
+                }
+                else
+                {
+                    foreach (ExtensionRole role in resultConfig.Roles)
+                    {
+                        Assert.IsTrue(roles.Contains(role.RoleName));
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "PAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (New-AzureServiceRemoteDesktopConfig)")]
+        [Ignore]
+        public void AzureServiceRemoteDesktopExtensionConfigTest()
+        {
+            createOwnService = true;
+            StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
+
+            PSCredential cred = new PSCredential(username, Utilities.convertToSecureString(password));
+            DateTime exp = DateTime.Now.AddYears(1);
+            DateTime defaultExp = DateTime.Now.AddMonths(6);
+            List<string> defaultRoles = new List<string>(new string[] { "AllRoles" });
+            string[] roles = new string[]{"WebRole1", "WorkerRole2"};
+            string thumb = "abc";
+            string alg = "sha1";
+
+            // Create a certificate
+            const string DefaultCertificateIssuer = "CN=Windows Azure Powershell Test";
+            const string DefaultFriendlyName = "PSTest";
+            X509Certificate2 cert = Utilities.CreateCertificate(DefaultCertificateIssuer, DefaultFriendlyName, password);
+
+            try
+            {
+                // Case 1: No thumbprint, no Certificate
+                ExtensionConfigurationInput resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, defaultExp));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, exp);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, exp));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, exp, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), exp));
+
+                // Case 2: Thumbprint, no algorithm
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, defaultExp, thumb));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null, exp);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, exp, thumb));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp, thumb));                
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, null, exp, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), exp, thumb));
+
+                // Case 3: Thumbprint and algorithm
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, alg);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, defaultExp, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, alg, exp);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, exp, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, alg, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp, thumb, alg));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, thumb, alg, exp, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), exp, thumb, alg));
+
+                // Case 4: Certificate
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, cert);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, defaultExp, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, cert, null, exp);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, defaultRoles, exp, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, cert, null, null, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), defaultExp, cert.Thumbprint, null, cert));
+
+                resultConfig = vmPowershellCmdlets.NewAzureServiceRemoteDesktopExtensionConfig(cred, cert, null, exp, roles);
+                Assert.IsTrue(VerifyExtensionConfigRDP(resultConfig, username, password, new List<string>(roles), exp, cert.Thumbprint, null, cert));
+
+                pass = true;
+            }
+            catch (Exception e)
+            {
+                pass = false;
+                Assert.Fail("Exception occurred: {0}", e.ToString());
+            }
+        }
+
+        private bool VerifyExtensionConfigRDP(ExtensionConfigurationInput resultConfig, string user, string pass, List<string> roles, DateTime exp, string thumbprint = null, string algorithm = null, X509Certificate2 cert = null)
+        {
+            try
+            {
+                string resultUserName = GetInnerText(resultConfig.PublicConfiguration, "UserName");
+                string resultPassword = GetInnerText(resultConfig.PrivateConfiguration, "Password");
+                string resultExpDate = GetInnerText(resultConfig.PublicConfiguration, "Expiration");
+
+                Console.WriteLine("Type: {0}, UserName:{1}, Password: {2}, ExpirationDate: {3}, CertificateThumbprint: {4}, ThumbprintAlgorithm: {5}, X509Certificate: {6}",
+                    resultConfig.Type, resultUserName, resultPassword, resultExpDate, resultConfig.CertificateThumbprint, resultConfig.ThumbprintAlgorithm, resultConfig.X509Certificate);
+
+                Assert.AreEqual(resultConfig.Type, "RDP", "Type is not equal!");
+                Assert.AreEqual(resultUserName, user);
+                Assert.AreEqual(resultPassword, pass);
+                Assert.IsTrue(Utilities.CompareDateTime(exp, resultExpDate));
+
+                if (string.IsNullOrWhiteSpace(thumbprint))
+                {
+                    Assert.IsTrue(string.IsNullOrWhiteSpace(resultConfig.CertificateThumbprint));
+                }
+                else
+                {
+                    Assert.AreEqual(resultConfig.CertificateThumbprint, thumbprint, "Certificate thumbprint is not equal!");
+                }
+
+                if (string.IsNullOrWhiteSpace(algorithm))
+                {
+                    Assert.IsTrue(string.IsNullOrWhiteSpace(resultConfig.ThumbprintAlgorithm));
+                }
+                else
+                {
+                    Assert.AreEqual(resultConfig.ThumbprintAlgorithm, algorithm, "Thumbprint algorithm is not equal!");
+                }
+                Assert.AreEqual(resultConfig.X509Certificate, cert, "X509Certificate is not equal!");
+                if (resultConfig.Roles.Count == 1 && string.IsNullOrEmpty(resultConfig.Roles[0].RoleName))
+                {
+                    Assert.IsTrue(roles.Contains(resultConfig.Roles[0].RoleType.ToString()));
+                }
+                else
+                {
+                    foreach (ExtensionRole role in resultConfig.Roles)
+                    {
+                        Assert.IsTrue(roles.Contains(role.RoleName));
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private string GetInnerText(string xmlString, string tag)
+        {
+            string removedHeader = xmlString.Substring(xmlString.IndexOf('<', 2));
+
+            byte[] encodedString = Encoding.UTF8.GetBytes(xmlString);
+            MemoryStream stream = new MemoryStream(encodedString);
+            stream.Flush();
+            stream.Position = 0;
+
+            XmlDocument xml = new XmlDocument();
+            xml.Load(stream);
+            return xml.GetElementsByTagName(tag)[0].InnerText;
+        }
+
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set)-AzureSubnet)")]
+        [Ignore]
         public void AzureSubnetTest()
         {
             createOwnService = true;
@@ -1049,8 +1361,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }
         }
 
-
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get)-AzureStorageKey)")]
+        [Ignore]
         public void AzureStorageKeyTest()
         {
             createOwnService = false;
@@ -1078,9 +1390,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
-
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((New,Get,Set,Remove)-AzureStorageAccount)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\storageAccountTestData.csv", "storageAccountTestData#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void AzureStorageAccountTest()
         {
             createOwnService = false;
@@ -1210,7 +1522,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             }            
         }
 
-
         private bool StorageAccountVerify(StorageServicePropertiesOperationContext storageContext,
             string [] staticParameters, string label, string description, bool geo)
         {
@@ -1244,8 +1555,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             return true;
         }
 
-
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Save,Update,Remove)-AzureVMImage)")]
+        [Ignore]
         public void AzureVMImageTest()
         {
 
@@ -1286,6 +1597,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Get,Set,Remove)-AzureVNetConfig)")]
+        [Ignore]
         public void AzureVNetConfigTest()
         {
             createOwnService = false;
@@ -1341,6 +1653,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         }
 
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet ((Add,Get,Set,Remove)-AzureEndpoint)")]
+        [Ignore]
         public void VMSizeTest()
         {
 
