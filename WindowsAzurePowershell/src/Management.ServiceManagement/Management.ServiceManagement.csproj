@@ -167,7 +167,7 @@
     </Compile>
     <Compile Include="Extensions\DiagnosticsExtensionContext.cs" />
     <Compile Include="Extensions\ExtensionConfigurationBuilder.cs" />
-    <Compile Include="Extensions\ExtensionConfigurationContext.cs">
+    <Compile Include="Extensions\ExtensionConfigurationInput.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\ExtensionManager.cs">
