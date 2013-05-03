@@ -18,7 +18,7 @@ using System.Linq;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 
-namespace CLITest.Util
+namespace Management.Storage.ScenarioTest.Util
 {
     public class CloudTableUtil
     {

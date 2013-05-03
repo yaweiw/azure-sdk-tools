@@ -6,7 +6,7 @@
     <ProjectGuid>{4BC0E3D3-6EDD-43AA-8F15-DCFED8ACC93D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CLITest</RootNamespace>
+    <RootNamespace>Management.Storage.ScenarioTest</RootNamespace>
     <AssemblyName>CLITest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

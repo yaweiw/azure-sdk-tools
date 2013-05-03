@@ -22,7 +22,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     class Utility
     {

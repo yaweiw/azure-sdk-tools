@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTP
+namespace Management.Storage.ScenarioTest.BVT.HTTP
 {
     /// <summary>
     /// bvt tests using  environment variable "AZURE_STORAGE_CONNECTION_STRING"
     /// </summary>
     [TestClass]
-    class EnvConnectionStringBVT : CLITest.BVT.HTTPS.EnvConnectionStringBVT
+    class EnvConnectionStringBVT : Management.Storage.ScenarioTest.BVT.HTTPS.EnvConnectionStringBVT
     {
         [ClassInitialize()]
         public static void EnvConnectionStringHTTPBVTClassInitialize(TestContext testContext)

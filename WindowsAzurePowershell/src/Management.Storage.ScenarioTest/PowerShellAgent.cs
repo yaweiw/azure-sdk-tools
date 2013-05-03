@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using MS.Test.Common.MsTestLib;
@@ -26,7 +26,7 @@ using System.Management.Automation.Runspaces;
 using System.Reflection;
 using System.Text;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     class PowerShellAgent: Agent
     {
