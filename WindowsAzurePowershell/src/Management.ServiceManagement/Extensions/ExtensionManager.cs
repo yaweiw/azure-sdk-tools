@@ -123,7 +123,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                         // Do nothing
                     }
                 }
-                deploymentList.Add(currentDeployment);
+                if (currentDeployment != null)
+                {
+                    deploymentList.Add(currentDeployment);
+                }
             }
 
             var roleList = deploymentList.First(d => d.DeploymentSlot == deploymentSlot);
