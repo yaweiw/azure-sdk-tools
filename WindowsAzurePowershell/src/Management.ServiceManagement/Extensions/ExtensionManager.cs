@@ -17,8 +17,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
     using System.Text;
     using WindowsAzure.ServiceManagement;
 
@@ -105,8 +107,25 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public void Uninstall(string nameSpace, string type, string deploymentSlot)
         {
-            var deploymentList = from s in new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging }
-                              select Channel.GetDeploymentBySlot(SubscriptionId, ServiceName, s);
+            var slotList = new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging };
+            List<Deployment> deploymentList = new List<Deployment>();
+            foreach (var slot in slotList)
+            {
+                Deployment currentDeployment = null;
+                using (new OperationContextScope(Channel.ToContextChannel()))
+                {
+                    try
+                    {
+                        currentDeployment = Channel.GetDeploymentBySlot(SubscriptionId, ServiceName, slot);
+                    }
+                    catch (Exception)
+                    {
+                        // Do nothing
+                    }
+                }
+                deploymentList.Add(currentDeployment);
+            }
+
             var roleList = deploymentList.First(d => d.DeploymentSlot == deploymentSlot);
             Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName).ForEach(e =>
             {
