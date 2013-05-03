@@ -1316,7 +1316,6 @@ namespace StorageTestLib
             {
                 CloudBlobContainer container = BlobClient.GetContainerReference(containerName);
                 ICloudBlob blob = container.GetBlobReferenceFromServer(blobName);
-                //content = blob.DownloadText();
                 string tempfile = "temp.txt";
                 using (FileStream fileStream = new FileStream(tempfile, FileMode.Create))
                 {
