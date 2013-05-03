@@ -135,6 +135,14 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
             RunPowerShellTest("Test-GetAzureWebsite");
         }
 
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestGetAzureWebsiteWithStoppedSite()
+        {
+            RunPowerShellTest("Test-GetAzureWebsiteWithStoppedSite");
+        }
+
         #endregion
 
         #region Start-AzureWebsite Scenario Tests

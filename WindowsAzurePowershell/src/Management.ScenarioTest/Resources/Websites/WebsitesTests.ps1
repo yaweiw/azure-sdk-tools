@@ -229,6 +229,24 @@ function Test-GetAzureWebsite
 	Assert-AreEqual $true $config.AzureDriveTraceEnabled
 }
 
+<#
+.SYNOPSIS
+Tests GetAzureWebsite with a stopped site and expects to proceed.
+#>
+function Test-GetAzureWebsiteWithStoppedSite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Stop-AzureWebsite $name
+
+	#Test
+	$website = Get-AzureWebsite $name
+
+	# Assert
+	Assert-NotNull { $website }
+}
+
 ########################################################################### Start-AzureWebsite Scenario Tests ###########################################################################
 
 <#
