@@ -22,7 +22,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using System.Collections;
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     public abstract class Agent
     {

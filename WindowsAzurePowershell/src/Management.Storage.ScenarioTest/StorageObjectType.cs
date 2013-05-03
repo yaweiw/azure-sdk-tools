@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace CLITest
+namespace Management.Storage.ScenarioTest
 {
     public enum StorageObjectType
     {

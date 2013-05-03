@@ -23,7 +23,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTPS
+namespace Management.Storage.ScenarioTest.BVT.HTTPS
 {
     /// <summary>
     /// bvt tests using connection string
