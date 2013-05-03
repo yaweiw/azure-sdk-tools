@@ -172,5 +172,25 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.WebsitesTests
         }
 
         #endregion
+
+        #region Enable-AzureWebsiteDiagnostic Scenario Tests
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestEnableApplicationDiagnosticOnTableStorage()
+        {
+            RunPowerShellTest("Test-EnableApplicationDiagnosticOnTableStorage");
+        }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.Websites)]
+        public void TestEnableApplicationDiagnosticOnFileSystem()
+        {
+            RunPowerShellTest("Test-EnableApplicationDiagnosticOnFileSystem");
+        }
+
+        #endregion
     }
 }
