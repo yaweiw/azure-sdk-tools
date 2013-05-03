@@ -17,8 +17,10 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
     using System.Text;
     using WindowsAzure.ServiceManagement;
 
@@ -26,7 +28,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
     {
         public const int ExtensionIdLiveCycleCount = 2;
         private const string ExtensionIdTemplate = "{0}-{1}-{2}-Ext-{3}";
+        private const string DefaultAllRolesNameStr = "Default";
         private const string ExtensionCertificateSubject = "DC=Windows Azure Service Management for Extensions";
+        private const string ThumbprintAlgorithmStr = "sha1";
 
         public IServiceManagement Channel
         {
@@ -104,8 +108,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
         public void Uninstall(string nameSpace, string type, string deploymentSlot)
         {
-            var deploymentList = from s in new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging }
-                              select Channel.GetDeploymentBySlot(SubscriptionId, ServiceName, s);
+            var slotList = new string[] { DeploymentSlotType.Production, DeploymentSlotType.Staging };
+            List<Deployment> deploymentList = new List<Deployment>();
+            foreach (var slot in slotList)
+            {
+                Deployment currentDeployment = null;
+                using (new OperationContextScope(Channel.ToContextChannel()))
+                {
+                    try
+                    {
+                        currentDeployment = Channel.GetDeploymentBySlot(SubscriptionId, ServiceName, slot);
+                    }
+                    catch (Exception)
+                    {
+                        // Do nothing
+                    }
+                }
+                if (currentDeployment != null)
+                {
+                    deploymentList.Add(currentDeployment);
+                }
+            }
+
             var roleList = deploymentList.First(d => d.DeploymentSlot == deploymentSlot);
             Channel.ListHostedServiceExtensions(SubscriptionId, ServiceName).ForEach(e =>
             {
@@ -172,15 +196,15 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
             }
         }
 
-        public ExtensionConfiguration InstallExtension(ExtensionConfigurationContext context, string slot, ExtensionConfiguration extConfig)
+        public ExtensionConfiguration InstallExtension(ExtensionConfigurationInput context, string slot, ExtensionConfiguration extConfig)
         {
             ExtensionConfigurationBuilder builder = GetBuilder(extConfig);
             foreach (ExtensionRole r in context.Roles)
             {
-                string roleName = r.RoleType == ExtensionRoleType.AllRoles ? "Default" : r.RoleName;
+                string roleName = r.RoleType == ExtensionRoleType.AllRoles ? DefaultAllRolesNameStr : r.RoleName;
 
-                var extensionIds = from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
-                                   select GetExtensionId(roleName, context.Type, slot, index);
+                var extensionIds = (from index in Enumerable.Range(0, ExtensionIdLiveCycleCount)
+                                    select GetExtensionId(roleName, context.Type, slot, index)).ToList();
 
                 string availableId = (from extensionId in extensionIds
                                       where !builder.ExistAny(extensionId)
@@ -193,10 +217,23 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
 
                 string thumbprint = context.CertificateThumbprint;
                 string thumbprintAlgorithm = context.ThumbprintAlgorithm;
-                GetExtensionThumbprintAndAlgorithm(extensionList, availableId, ref thumbprint, ref thumbprintAlgorithm);
+
+                if (context.X509Certificate != null)
+                {
+                    thumbprint = context.X509Certificate.Thumbprint;
+                }
+                else
+                {
+                    GetExtensionThumbprintAndAlgorithm(extensionList, availableId, ref thumbprint, ref thumbprintAlgorithm);
+                }
 
                 context.CertificateThumbprint = string.IsNullOrWhiteSpace(context.CertificateThumbprint) ? thumbprint : context.CertificateThumbprint;
                 context.ThumbprintAlgorithm = string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm) ? thumbprintAlgorithm : context.ThumbprintAlgorithm;
+
+                if (!string.IsNullOrWhiteSpace(context.CertificateThumbprint) && string.IsNullOrWhiteSpace(context.ThumbprintAlgorithm))
+                {
+                    context.ThumbprintAlgorithm = ThumbprintAlgorithmStr;
+                }
 
                 var existingExtension = extensionList.Find(e => e.Id == availableId);
                 if (existingExtension != null)

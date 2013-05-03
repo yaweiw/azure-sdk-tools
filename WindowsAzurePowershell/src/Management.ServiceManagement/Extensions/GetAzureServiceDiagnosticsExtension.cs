@@ -81,8 +81,8 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Extensions
                                ProviderNameSpace = extension.ProviderNameSpace,
                                Id = extension.Id,
                                Role = role,
-                               StorageAccountName = GetPublicConfigValue(extension, StorageAccountElemStr, StorageNameElemStr),
-                               WadCfg = GetPublicConfigValue(extension, PublicConfigStr, WadCfgElemStr)
+                               StorageAccountName = GetPublicConfigValue(extension, StorageNameElemStr),
+                               WadCfg = GetPublicConfigValue(extension, WadCfgElemStr)
                            };
                 });
         }
