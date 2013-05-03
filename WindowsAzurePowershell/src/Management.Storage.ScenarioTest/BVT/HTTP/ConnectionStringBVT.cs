@@ -22,13 +22,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace CLITest.BVT.HTTP
+namespace Management.Storage.ScenarioTest.BVT.HTTP
 {
     /// <summary>
     /// bvt tests using connection string
     /// </summary>
     [TestClass]
-    class ConnectionStringBVT : CLITest.BVT.HTTPS.ConnectionStringBVT
+    class ConnectionStringBVT : Management.Storage.ScenarioTest.BVT.HTTPS.ConnectionStringBVT
     {
         [ClassInitialize()]
         public static void ConnectionStringHTTPBVTClassInitialize(TestContext testContext)
