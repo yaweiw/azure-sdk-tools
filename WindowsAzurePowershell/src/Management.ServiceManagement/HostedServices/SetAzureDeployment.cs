@@ -173,7 +173,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 }
 
                 Deployment deployment = Channel.GetDeploymentBySlot(CurrentSubscription.SubscriptionId, ServiceName, Slot);
-                ExtensionConfiguration currentConfig = deployment == null ? null : deployment.ExtensionConfiguration;
                 ExtensionManager extensionMgr = new ExtensionManager(Channel, CurrentSubscription.SubscriptionId, ServiceName);
                 ExtensionConfigurationBuilder configBuilder = extensionMgr.GetBuilder();
                 foreach (ExtensionConfigurationContext context in ExtensionConfiguration)
@@ -184,8 +183,24 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                         ExecuteClientActionInOCS(null, operationDescription, s => this.Channel.AddCertificates(s, this.ServiceName, CertUtils.Create(context.X509Certificate)));
                     }
 
-                    currentConfig = extensionMgr.InstallExtension(context, Slot, currentConfig);
-                    configBuilder.Add(currentConfig);
+                    ExtensionConfiguration currentConfig = extensionMgr.InstallExtension(context, Slot, deployment.ExtensionConfiguration);
+                    foreach (var r in currentConfig.AllRoles)
+                    {
+                        if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(r.Id))
+                        {
+                            configBuilder.AddDefault(r.Id);
+                        }
+                    }
+                    foreach (var r in currentConfig.NamedRoles)
+                    {
+                        foreach (var e in r.Extensions)
+                        {
+                            if (!extensionMgr.GetBuilder(deployment.ExtensionConfiguration).ExistAny(e.Id))
+                            {
+                                configBuilder.Add(r.RoleName, e.Id);
+                            }
+                        }
+                    }
                 }
                 extConfig = configBuilder.ToConfiguration();
             }
@@ -258,7 +273,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
                 var changeConfiguration = new ChangeConfigurationInput
                 {
                     Configuration = configString,
-                    ExtensionConfiguration = extConfig,
+                    ExtensionConfiguration = extConfig
                 };
 
                 ExecuteClientActionInOCS(changeConfiguration, CommandRuntime.ToString(), s => this.Channel.ChangeConfigurationBySlot(s, this.ServiceName, this.Slot, changeConfiguration));
