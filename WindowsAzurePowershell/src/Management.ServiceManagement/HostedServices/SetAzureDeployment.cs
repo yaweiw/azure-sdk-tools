@@ -136,7 +136,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.HostedServices
         }
 
         [Parameter(Position = 9, Mandatory = false, ParameterSetName = "Upgrade", HelpMessage = "Extension configurations.")]
-        [Parameter(Position = 4, Mandatory = true, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
+        [Parameter(Position = 4, Mandatory = false, ParameterSetName = "Config", HelpMessage = "HelpMessage")]
         public ExtensionConfigurationInput[] ExtensionConfiguration
         {
             get;
