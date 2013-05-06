@@ -263,7 +263,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
 
             Blob.StartCopyFromBlob(new Uri(uri));
 
-            int maxMonitorTime = 60; //on minutes
+            int maxMonitorTime = 30; //seconds
             int checkCount = 0;
             int sleepInterval = 1000; //ms
 
@@ -298,6 +298,7 @@ namespace Management.Storage.ScenarioTest.Functional.Blob
                     if (e.RequestInformation != null && e.RequestInformation.HttpStatusCode == 409)
                     {
                         Test.Info("Skip 409 abort conflict exception. Error:{0}", e.Message);
+                        Test.Info("Detail Error Message: {0}", e.RequestInformation.HttpStatusMessage);
                     }
                     else
                     {
