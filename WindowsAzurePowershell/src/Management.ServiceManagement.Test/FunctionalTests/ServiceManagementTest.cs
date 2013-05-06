@@ -32,7 +32,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         protected const string vmNamePrefix = "PSTestVM";
         protected const string password = "p@ssw0rd";
         protected const string username = "pstestuser";
-        protected const string defaultStorage = "defaultrtstore";
+        protected const string defaultStorage = "hyleedefaultrtstor3";
         protected static string localFile = Resource.Vhd;
         protected const bool deleteDefaultStorageAccount = true;
         protected static string vnetConfigFilePath = Directory.GetCurrentDirectory() + "\\vnetconfig.netcfg";
