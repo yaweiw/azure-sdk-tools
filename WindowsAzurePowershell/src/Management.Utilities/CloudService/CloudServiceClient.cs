@@ -19,22 +19,20 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
+    using System.Security.Cryptography;
+    using System.Security.Cryptography.X509Certificates;
     using System.ServiceModel;
-    using System.Text;
     using System.Threading;
+    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema;
-    using Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceDefinitionSchema;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
     using Microsoft.WindowsAzure.ServiceManagement;
     using Microsoft.WindowsAzure.Storage;
     using Microsoft.WindowsAzure.Storage.Auth;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
     using ConfigCertificate = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.Certificate;
-    using System.Security.Cryptography.X509Certificates;
-    using System.Security.Cryptography;
-    using Microsoft.WindowsAzure.Management.Utilities.CloudService.AzureTools;
+    using ConfigConfigurationSetting = Microsoft.WindowsAzure.Management.Utilities.Common.XmlSchema.ServiceConfigurationSchema.ConfigurationSetting;
 
     public class CloudServiceClient : ICloudServiceClient
     {
@@ -845,9 +843,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
 
             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(
                 credentials,
-                new Uri(storageService.StorageServiceProperties.Endpoints[0]),
-                new Uri(storageService.StorageServiceProperties.Endpoints[1]),
-                new Uri(storageService.StorageServiceProperties.Endpoints[2])
+                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[0]),
+                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[1]),
+                General.CreateHttpsEndpoint(storageService.StorageServiceProperties.Endpoints[2])
                 );
 
             return cloudStorageAccount.ToString(true);
