@@ -12,30 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Management.Automation;
-using CLITest.Util;
+using Management.Storage.ScenarioTest.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.WindowsAzure.Management.ScenarioTest.Common;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.Table;
 using MS.Test.Common.MsTestLib;
 using StorageTestLib;
-using Storage = Microsoft.WindowsAzure.Storage.Blob;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using StorageBlob = Microsoft.WindowsAzure.Storage.Blob;
 
-namespace CLITest.BVT
+namespace Management.Storage.ScenarioTest.BVT
 {
     /// <summary>
     /// this class contain all the bvt cases for the full functional storage context such as local/connectionstring/namekey, anonymous and sas token are excluded.
     /// </summary>
-    [TestClass]
-    public class CLICommonBVT: WindowsAzurePowerShellTest
+    //TODO use the TestBase as the base class
+    internal class CLICommonBVT
     {
         private static CloudBlobHelper CommonBlobHelper;
         private static CloudStorageAccount CommonStorageAccount;
@@ -61,11 +59,39 @@ namespace CLITest.BVT
                 CommonStorageAccount = value;
             }
         }
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
 
         #region Additional test attributes
 
         public CLICommonBVT()
         { 
+        }
+
+        //TODO remove it if it's useless
+        public CLICommonBVT(CloudStorageAccount StorageAccount, TestContext testContext)
+        { 
+            CommonStorageAccount = StorageAccount;
+            testContextInstance = testContext;
+
+            //init the blob helper for blob related operations
+            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
+            GenerateBvtTempFiles();
         }
         
         /// <summary>
@@ -80,17 +106,16 @@ namespace CLITest.BVT
             EnvKey = Test.Data.Get("EnvContextKey");
             SaveAndCleanSubScriptionAndEnvConnectionString();
 
+            //init the blob helper for blob related operations
+            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
+
             //Clean Storage Context
             Test.Info("Clean storage context in PowerShell");
             PowerShellAgent.CleanStorageContext();
 
-            PowerShellAgent.ImportModule(@".\Microsoft.WindowsAzure.Management.Storage.dll");
-            
-
             // import module
             string moduleFilePath = Test.Data.Get("ModuleFilePath");
             PowerShellAgent.ImportModule(moduleFilePath);
-
             GenerateBvtTempFiles();
         }
 
@@ -131,23 +156,10 @@ namespace CLITest.BVT
         {
             CommonBlockFilePath = Test.Data.Get("BlockFilePath");
             CommonPageFilePath = Test.Data.Get("PageFilePath");
-            string downloadDir = Test.Data.Get("DownloadDirPath");
-
-            CreateDirIfNotExits(Path.GetDirectoryName(CommonBlockFilePath));
-            CreateDirIfNotExits(Path.GetDirectoryName(CommonPageFilePath));
-            CreateDirIfNotExits(downloadDir);
 
             // Generate block file and page file which are used for uploading
             Helper.GenerateMediumFile(CommonBlockFilePath, 1);
             Helper.GenerateMediumFile(CommonPageFilePath, 1);
-        }
-
-        private static void CreateDirIfNotExits(string dirPath)
-        {
-            if (!Directory.Exists(dirPath))
-            {
-                Directory.CreateDirectory(dirPath);
-            }
         }
 
         /// <summary>
@@ -164,50 +176,17 @@ namespace CLITest.BVT
         /// init test resources for one single unit test.
         /// </summary>
         [TestInitialize()]
-        public void StorageTestInitialize()
+        public void UnitTestInitialize()
         {
-            SetTestStorageAccount(powershell);
-            PowerShellAgent.SetPowerShellInstance(powershell);
+            Trace.WriteLine("Unit Test Initialize");
             Test.Start(TestContext.FullyQualifiedTestClassName, TestContext.TestName);
-        }
-
-        private string EnvConnectionStringInPowerShell;
-
-        private void SetTestStorageAccount(PowerShell powershell)
-        {
-            if (String.IsNullOrEmpty(EnvConnectionStringInPowerShell))
-            {
-                PSCommand currentCommand = powershell.Commands.Clone();
-                string envConnStringScript = string.Format("$env:{0}", Test.Data.Get("EnvContextKey"));
-                powershell.AddScript(envConnStringScript);
-                Collection<PSObject> output = powershell.Invoke();
-
-                if (output.Count == 1)
-                {
-                    EnvConnectionStringInPowerShell = output[0].BaseObject.ToString();
-                    powershell.Commands = currentCommand;
-                }
-                else
-                {
-                    Test.AssertFail("Can not find the environment variable 'AZURE_STORAGE_CONNECTION_STRING' in powershell instance");
-                }
-            }
-
-            if (String.IsNullOrEmpty(EnvConnectionStringInPowerShell))
-            {
-                throw new ArgumentException("Please set the StorageConnectionString element of TestData.xml");
-            }
-
-            CommonStorageAccount = CloudStorageAccount.Parse(EnvConnectionStringInPowerShell);
-
-            CommonBlobHelper = new CloudBlobHelper(CommonStorageAccount);
         }
 
         /// <summary>
         /// clean up the test resources for one single unit test.
         /// </summary>
         [TestCleanup()]
-        public void StorageTestCleanup()
+        public void UnitTestCleanup()
         {
             Trace.WriteLine("Unit Test Cleanup");
             Test.End(TestContext.FullyQualifiedTestClassName, TestContext.TestName);
@@ -221,8 +200,6 @@ namespace CLITest.BVT
         [TestMethod]
         [TestCategory(Tag.BVT)]
         [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void NewContainerTest()
         {
             NewContainerTest(new PowerShellAgent());
@@ -233,9 +210,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void GetContainerTest()
         {
             GetContainerTest(new PowerShellAgent());
@@ -246,9 +220,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void RemoveContainerTest()
         {
             RemoveContainerTest(new PowerShellAgent());
@@ -259,12 +230,69 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void SetContainerACLTest()
         {
             SetContainerACLTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for New-AzureStorageTable
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void NewTableTest()
+        {
+            NewTableTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for Get-AzureStorageTable
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void GetTableTest()
+        {
+            GetTableTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for Remove-AzureStorageTable
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void RemoveTableTest()
+        {
+            RemoveTableTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for New-AzureStorageQueue
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void NewQueueTest()
+        {
+            NewQueueTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for Get-AzureStorageQueue
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void GetQueueTest()
+        {
+            GetQueueTest(new PowerShellAgent());
+        }
+
+        /// <summary>
+        /// BVT case : for Remove-AzureStorageQueue
+        /// </summary>
+        [TestMethod]
+        [TestCategory(Tag.BVT)]
+        public void RemoveQueueTest()
+        {
+            RemoveQueueTest(new PowerShellAgent());
         }
 
         /// <summary>
@@ -272,9 +300,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void UploadBlobTest()
         {
             UploadBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -286,9 +311,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void GetBlobTest()
         {
             GetBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -300,9 +322,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void DownloadBlobTest()
         {
             string downloadDirPath = Test.Data.Get("DownloadDirPath");
@@ -315,9 +334,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void RemoveBlobTest()
         {
             RemoveBlobTest(new PowerShellAgent(), CommonBlockFilePath, Microsoft.WindowsAzure.Storage.Blob.BlobType.BlockBlob);
@@ -329,9 +345,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void StartCopyBlobUsingName()
         {
             StartCopyBlobTest(new PowerShellAgent(), false);
@@ -342,9 +355,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void StartCopyBlobUsingUri()
         {
             StartCopyBlobTest(new PowerShellAgent(), true);
@@ -355,9 +365,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void GetBlobCopyStateTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
@@ -394,9 +401,6 @@ namespace CLITest.BVT
         /// </summary>
         [TestMethod]
         [TestCategory(Tag.BVT)]
-        [TestCategory(PsTag.FastEnv)]
-        [TestCategory(Category.All)]
-        [TestCategory(Category.Storage)]
         public void StopCopyBlobTest()
         {
             CloudBlobUtil blobUtil = new CloudBlobUtil(CommonStorageAccount);
@@ -432,7 +436,7 @@ namespace CLITest.BVT
 
             Test.Info("Copy Blob using storage client");
 
-            if (blobUtil.Blob.BlobType == Storage.BlobType.BlockBlob)
+            if (blobUtil.Blob.BlobType == StorageBlob.BlobType.BlockBlob)
             {
                 CloudBlockBlob blockBlob = blobUtil.Container.GetBlockBlobReference(destBlobName);
                 blockBlob.StartCopyFromBlob((CloudBlockBlob)blobUtil.Blob);
@@ -458,7 +462,7 @@ namespace CLITest.BVT
             blobUtil.SetupTestContainerAndBlob();
             string copiedName = Utility.GenNameString("copied");
 
-            if (useUri)
+            if(useUri)
             {
                 //Set the blob permission, so the copy task could directly copy by uri
                 BlobContainerPermissions permission = new BlobContainerPermissions();
@@ -468,7 +472,7 @@ namespace CLITest.BVT
 
             try
             {
-                if (useUri)
+                if(useUri)
                 {
                     Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.Blob.Uri.ToString(), blobUtil.ContainerName, copiedName, PowerShellAgent.Context), Utility.GenComparisonData("Start copy blob using source uri", true));
                 }
@@ -476,7 +480,7 @@ namespace CLITest.BVT
                 {
                     Test.Assert(agent.StartAzureStorageBlobCopy(blobUtil.ContainerName, blobUtil.BlobName, blobUtil.ContainerName, copiedName), Utility.GenComparisonData("Start copy blob using blob name", true));
                 }
-
+                
                 Test.Info("Get destination blob in copy task");
                 ICloudBlob blob = blobUtil.Container.GetBlobReferenceFromServer(copiedName);
                 Test.Assert(blob != null, "Destination blob should exist after start copy. If not, please check it's a test issue or dev issue.");
@@ -498,7 +502,7 @@ namespace CLITest.BVT
             string NEW_CONTAINER_NAME = Utility.GenNameString("astoria-");
 
             Dictionary<string, object> dic = Utility.GenComparisonData(StorageObjectType.Container, NEW_CONTAINER_NAME);
-            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>> { dic };
+            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>{dic};
 
             // delete container if it exists
             CloudBlobContainer container = CommonStorageAccount.CreateCloudBlobClient().GetContainerReference(NEW_CONTAINER_NAME);
@@ -642,11 +646,11 @@ namespace CLITest.BVT
         {
             string NEW_TABLE_NAME = Utility.GenNameString("Washington");
             Dictionary<string, object> dic = Utility.GenComparisonData(StorageObjectType.Table, NEW_TABLE_NAME);
-            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>> { dic };
+            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>> {dic};
 
             // create table if it does not exist
             CloudTable table = CommonStorageAccount.CreateCloudTableClient().GetTableReference(NEW_TABLE_NAME);
-            table.CreateIfNotExists();
+            table.CreateIfNotExists(); 
 
             dic.Add("CloudTable", table);
 
@@ -689,7 +693,7 @@ namespace CLITest.BVT
         {
             string NEW_QUEUE_NAME = Utility.GenNameString("redmond-");
             Dictionary<string, object> dic = Utility.GenComparisonData(StorageObjectType.Queue, NEW_QUEUE_NAME);
-            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>> { dic };
+            Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>{ dic };
 
             CloudQueue queue = CommonStorageAccount.CreateCloudQueueClient().GetQueueReference(NEW_QUEUE_NAME);
             // delete queue if it exists
@@ -699,8 +703,9 @@ namespace CLITest.BVT
             {
                 //--------------New operation--------------
                 Test.Assert(agent.NewAzureStorageQueue(NEW_QUEUE_NAME), Utility.GenComparisonData("NewAzureStorageQueue", true));
-                queue.FetchAttributes();
                 dic.Add("CloudQueue", queue);
+                dic["ApproximateMessageCount"] = null;
+
                 // Verification for returned values               
                 agent.OutputValidation(comp);
                 Test.Assert(queue.Exists(), "queue {0} should exist!", NEW_QUEUE_NAME);
@@ -722,7 +727,7 @@ namespace CLITest.BVT
             // create queue if it does exist
             queue.CreateIfNotExists();
 
-            dic.Add("CloudQueue", queue);
+            dic.Add("CloudQueue", queue); 
             try
             {
                 //--------------Get operation--------------
@@ -741,7 +746,7 @@ namespace CLITest.BVT
         internal void RemoveQueueTest(Agent agent)
         {
             string NEW_QUEUE_NAME = Utility.GenNameString("redmond-");
-
+            
             // create queue if it does exist
             CloudQueue queue = CommonStorageAccount.CreateCloudQueueClient().GetQueueReference(NEW_QUEUE_NAME);
             queue.CreateIfNotExists();
@@ -809,7 +814,7 @@ namespace CLITest.BVT
 
             Collection<Dictionary<string, object>> comp = new Collection<Dictionary<string, object>>();
             Dictionary<string, object> dic = Utility.GenComparisonData(StorageObjectType.Blob, blobName);
-
+            
             dic["BlobType"] = Type;
             comp.Add(dic);
 
@@ -832,7 +837,7 @@ namespace CLITest.BVT
 
                 // Verification for returned values
                 // get blob object using XSCL 
-                ICloudBlob blob = CommonBlobHelper.QueryBlob(NEW_CONTAINER_NAME, blobName);
+                ICloudBlob blob = CommonBlobHelper.QueryBlob(NEW_CONTAINER_NAME, blobName);                              
                 blob.FetchAttributes();
                 CloudBlobUtil.PackBlobCompareData(blob, dic);
                 dic.Add("ICloudBlob", blob);
@@ -877,7 +882,7 @@ namespace CLITest.BVT
                 Test.Assert(bSuccess, "upload file {0} to container {1} should succeed", UploadFilePath, NEW_CONTAINER_NAME);
 
                 //--------------Download operation--------------
-                string downloadFilePath = Path.Combine(DownloadDirPath, blobName);
+                string downloadFilePath = Path.Combine(DownloadDirPath, blobName);    
                 Test.Assert(agent.GetAzureStorageBlobContent(blobName, downloadFilePath, NEW_CONTAINER_NAME),
                     Utility.GenComparisonData("GetAzureStorageBlobContent", true));
                 ICloudBlob blob = CommonBlobHelper.QueryBlob(NEW_CONTAINER_NAME, blobName);

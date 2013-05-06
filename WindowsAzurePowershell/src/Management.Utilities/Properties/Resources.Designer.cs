@@ -2660,7 +2660,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to remove service &quot;{0}&quot;?.
+        ///   Looks up a localized string similar to Are you sure you want to remove cloud service?.
         /// </summary>
         internal static string RemoveServiceWarning {
             get {

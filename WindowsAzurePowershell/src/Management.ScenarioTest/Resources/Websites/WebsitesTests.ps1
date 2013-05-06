@@ -229,6 +229,24 @@ function Test-GetAzureWebsite
 	Assert-AreEqual $true $config.AzureDriveTraceEnabled
 }
 
+<#
+.SYNOPSIS
+Tests GetAzureWebsite with a stopped site and expects to proceed.
+#>
+function Test-GetAzureWebsiteWithStoppedSite
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+	Stop-AzureWebsite $name
+
+	#Test
+	$website = Get-AzureWebsite $name
+
+	# Assert
+	Assert-NotNull { $website }
+}
+
 ########################################################################### Start-AzureWebsite Scenario Tests ###########################################################################
 
 <#
@@ -288,4 +306,52 @@ function Test-RestartAzureWebsite
 	# Assert
 	$website = Get-AzureWebsite $name
 	Assert-AreEqual "Running" $website.State
+}
+
+########################################################################### Enable-AzureWebsiteDiagnostic Scenario Tests ###########################################################################
+
+<#
+.SYNOPSIS
+Tests Enable-AzureWebsiteDiagnostic with storage table
+#>
+function Test-EnableApplicationDiagnosticOnTableStorage
+{
+	# Setup
+	$name = Get-WebsiteName
+	$storageName = $(Get-WebsiteName).ToLower()
+	$locations = Get-AzureLocation
+	$defaultLocation = $locations[0].Name
+	New-AzureWebsite $name
+	New-AzureStorageAccount -ServiceName $storageName -Location $defaultLocation
+	
+	# Test
+	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output StorageTable -LogLevel Warning -StorageAccountName $storageName
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-True { $website.AzureTableTraceEnabled }
+	Assert-AreEqual Warning $website.AzureTableTraceLevel
+	Assert-NotNull $website.AppSettings["CLOUD_STORAGE_ACCOUNT"]
+
+	# Cleanup
+	Remove-AzureStorageAccount $storageName
+}
+
+<#
+.SYNOPSIS
+Tests Enable-AzureWebsiteDiagnostic with file system
+#>
+function Test-EnableApplicationDiagnosticOnFileSystem
+{
+	# Setup
+	$name = Get-WebsiteName
+	New-AzureWebsite $name
+
+	# Test
+	Enable-AzureWebsiteDiagnostic -Name $name -Type Application -Output FileSystem -LogLevel Warning
+
+	# Assert
+	$website = Get-AzureWebsite $name
+	Assert-True { $website.AzureDriveTraceEnabled }
+	Assert-AreEqual Warning $website.AzureDriveTraceLevel
 }

@@ -55,7 +55,7 @@ namespace Microsoft.WindowsAzure.Management.CloudService.Development
 
             if (newStorage != null)
             {
-                settings.StorageAccountName = newStorage;
+                settings.StorageServiceName = newStorage;
             }
 
             if (newSubscription != null)
