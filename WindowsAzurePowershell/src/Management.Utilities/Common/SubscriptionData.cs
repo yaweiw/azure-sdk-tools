@@ -86,7 +86,7 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
         private static void SetCurrentCloudStorageAccount(IServiceManagement channel, SubscriptionData subscriptionData)
         {
             CloudStorageAccount currentStorage = null;
-            using (new OperationContextScope(channel.ToContextChannel()))
+            using (new OperationContextScope((IContextChannel)channel))
             {
                 var storageService = channel.GetStorageService(
                     subscriptionData.SubscriptionId,
