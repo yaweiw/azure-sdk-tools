@@ -364,5 +364,10 @@ namespace Microsoft.WindowsAzure.Management.Websites
                 linkedRevisionControl.Dispose();
             }
         }
+
+        public Action<string> GetLogger()
+        {
+            return WriteDebug;
+        }
     }
 }

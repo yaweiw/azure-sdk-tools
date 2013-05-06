@@ -73,5 +73,13 @@ namespace Microsoft.WindowsAzure.Management.ScenarioTest.CloudServiceTests
         {
             RunPowerShellTest("Test-StopAzureServiceWithEmptyDeployment");
         }
+
+        [TestMethod]
+        [TestCategory(Category.All)]
+        [TestCategory(Category.CloudService)]
+        public void TestStopAzureServiceWithoutName()
+        {
+            RunPowerShellTest("Test-StopAzureServiceWithoutName");
+        }
     }
 }

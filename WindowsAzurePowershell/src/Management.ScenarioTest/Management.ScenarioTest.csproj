@@ -126,7 +126,7 @@
     <Compile Include="StorageTests\StorageContainerTest.cs" />
     <Compile Include="StorageTests\StorageContextTest.cs" />
     <Compile Include="StoreTests\StoreTests.cs" />
-    <Compile Include="ServiceManagemenet\VMProvisionScenarioTests.cs" />
+    <Compile Include="ServiceManagement\VMProvisionScenarioTests.cs" />
     <Compile Include="WebsitesTests\WebsitesTests.cs" />
     <Compile Include="CredentialTests\CredentialTests.cs" />
     <Compile Include="ManagementTests\ManagementTests.cs" />
@@ -166,10 +166,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
-    <Resource Include="Resources\ServiceManagemenet\VMProvisionTests.ps1">
+    <Resource Include="Resources\ServiceManagement\VMProvisionTests.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\ServiceManagemenet\Common.ps1">
+    <Resource Include="Resources\ServiceManagement\Common.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\Credentials.ps1" />

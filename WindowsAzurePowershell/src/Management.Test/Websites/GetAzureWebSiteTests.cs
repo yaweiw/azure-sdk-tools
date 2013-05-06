@@ -193,7 +193,7 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new Site { Name = "website1", WebSpace = "webspace1" };
+                    return new Site { Name = "website1", WebSpace = "webspace1", State = "Running" };
                 }
 
                 return new Site { Name = "website2", WebSpace = "webspace2" };
@@ -216,10 +216,10 @@ namespace Microsoft.WindowsAzure.Management.Test.Websites
             {
                 if (ar.Values["webspaceName"].Equals("webspace1"))
                 {
-                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1" } });
+                    return new Sites(new List<Site> { new Site { Name = "website1", WebSpace = "webspace1", State = "Running" } });
                 }
 
-                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2" } });
+                return new Sites(new List<Site> { new Site { Name = "website2", WebSpace = "webspace2", State = "Running" } });
             };
 
             Mock<IWebsitesClient> websitesClientMock = new Mock<IWebsitesClient>();
