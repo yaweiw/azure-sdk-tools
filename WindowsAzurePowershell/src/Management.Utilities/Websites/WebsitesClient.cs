@@ -153,6 +153,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                 {
                     case WebsiteDiagnosticOutput.FileSystem:
                         diagnosticsSettings.AzureDriveTraceEnabled = setFlag;
+                        diagnosticsSettings.AzureDriveTraceLevel = setFlag ?
+                        (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                        diagnosticsSettings.AzureDriveTraceLevel;
                         break;
 
                     case WebsiteDiagnosticOutput.StorageTable:
@@ -171,6 +174,9 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                             CloudStorageAccount cloudStorageAccount = new CloudStorageAccount(credentials, false);
                             string connectionString = cloudStorageAccount.ToString(true);
                             AddAppSetting(website.Name, storageTableName, connectionString);
+                            diagnosticsSettings.AzureTableTraceLevel = setFlag ?
+                                (LogEntryType)properties[DiagnosticProperties.LogLevel] : 
+                                diagnosticsSettings.AzureTableTraceLevel;
                         }
                         break;
 
@@ -178,8 +184,6 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Websites
                         throw new ArgumentException();
                 }
 
-                diagnosticsSettings.AzureDriveTraceLevel = setFlag ? 
-                    (LogEntryType)properties[DiagnosticProperties.LogLevel] : diagnosticsSettings.AzureDriveTraceLevel;
                 JObject json = new JObject();
                 json[UriElements.AzureDriveTraceEnabled] = diagnosticsSettings.AzureDriveTraceEnabled;
                 json[UriElements.AzureDriveTraceLevel] = JToken.FromObject(diagnosticsSettings.AzureDriveTraceLevel);

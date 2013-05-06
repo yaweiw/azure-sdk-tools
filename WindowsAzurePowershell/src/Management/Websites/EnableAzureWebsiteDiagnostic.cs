@@ -21,7 +21,7 @@ namespace Microsoft.WindowsAzure.Management.Websites
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services;
     using Microsoft.WindowsAzure.Management.Utilities.Websites.Services.DeploymentEntities;
 
-    [Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
+    //[Cmdlet(VerbsLifecycle.Enable, "AzureWebsiteDiagnostic"), OutputType(typeof(bool))]
     public class EnableAzureWebsiteDiagnosticCommand : WebsiteContextBaseCmdlet
     {
         private const string SiteParameterSetName = "SiteParameterSet";

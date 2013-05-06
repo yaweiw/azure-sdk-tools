@@ -126,8 +126,6 @@ namespace Microsoft.WindowsAzure.Management.Storage.Test.Queue
 
             List<CloudQueue> queueList = command.ListQueuesByPrefix("te").ToList();
             Assert.AreEqual(2, queueList.Count);
-
-            Assert.AreEqual(2, queueList.Count);
             Assert.IsTrue(queueList.Any(item => item.Name == "test"));
             Assert.IsTrue(queueList.Any(item => item.Name == "text"));
 
