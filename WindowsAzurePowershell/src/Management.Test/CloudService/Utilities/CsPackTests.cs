@@ -15,6 +15,8 @@
 namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
 {
     using System.IO;
+    using System.IO.Packaging;
+    using System.Linq;
     using Microsoft.WindowsAzure.Management.Test.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.CloudService;
     using Microsoft.WindowsAzure.Management.Utilities.Common;
@@ -116,6 +118,27 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService.Utilities
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole1\approot"), Path.Combine(Resources.NodeScaffolding, Resources.WebRole));
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WorkerRole2\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WorkerRole));
                 AzureAssert.ScaffoldingExists(Path.Combine(service.Paths.LocalPackage, @"roles\WebRole2\approot"), Path.Combine(Resources.PHPScaffolding, Resources.WebRole));
+            }
+        }
+
+        [TestMethod]
+        public void CreateCloudPackageWithMultipleRoles()
+        {
+            using (FileSystemHelper files = new FileSystemHelper(this))
+            {
+                string standardOutput;
+                string standardError;
+                AzureService service = new AzureService(files.RootPath, serviceName, null);
+                service.AddWorkerRole(Data.NodeWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.NodeWebRoleScaffoldingPath);
+                service.AddWorkerRole(Data.PHPWorkerRoleScaffoldingPath);
+                service.AddWebRole(Data.PHPWebRoleScaffoldingPath);
+                service.CreatePackage(DevEnv.Cloud, out standardOutput, out standardError);
+
+                using (Package package = Package.Open(service.Paths.CloudPackage))
+                {
+                    Assert.AreEqual(9, package.GetParts().Count());
+                }
             }
         }
     }
