@@ -12,7 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-namespace Microsoft.WindowsAzure.Management.Utilities.Store
+namespace Microsoft.WindowsAzure.Management.Utilities.Common
 {
     using System.Collections.Generic;
     using System.Diagnostics;

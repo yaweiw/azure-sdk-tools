@@ -27,13 +27,13 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
     using VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class RemoveAzureServiceTests : TestBase
+    public class PublishAzureServiceTests : TestBase
     {
         private Mock<ICloudServiceClient> clientMock;
 
         private Mock<ICommandRuntime> commandRuntimeMock;
 
-        private RemoveAzureServiceCommand removeAzureServiceCmdlet;
+        private PublishAzureServiceProjectCommand publishAzureServiceCmdlet;
 
         private string serviceName = "cloudService";
 
@@ -41,13 +41,12 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
         public void SetupTest()
         {
             clientMock = new Mock<ICloudServiceClient>();
-            clientMock.Setup(f => f.RemoveCloudService(serviceName));
+            clientMock.Setup(f => f.PublishCloudService(serviceName, null, null, null, null, null, false))
+                .Returns(new Deployment());
 
             commandRuntimeMock = new Mock<ICommandRuntime>();
-            commandRuntimeMock.Setup(f => f.WriteObject(true));
-            commandRuntimeMock.Setup(f => f.ShouldProcess(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            removeAzureServiceCmdlet = new RemoveAzureServiceCommand()
+            publishAzureServiceCmdlet = new PublishAzureServiceProjectCommand()
             {
                 CloudServiceClient = clientMock.Object,
                 CommandRuntime = commandRuntimeMock.Object
@@ -55,34 +54,17 @@ namespace Microsoft.WindowsAzure.Management.Test.CloudService
         }
 
         [TestMethod]
-        public void TestRemoveAzureService()
+        public void TestPublishAzureService()
         {
             // Setup
-            removeAzureServiceCmdlet.PassThru = true;
-            removeAzureServiceCmdlet.Force = true;
-            removeAzureServiceCmdlet.ServiceName = serviceName;
+            publishAzureServiceCmdlet.ServiceName = serviceName;
 
             // Test
-            removeAzureServiceCmdlet.ExecuteCmdlet();
+            publishAzureServiceCmdlet.ExecuteCmdlet();
 
             // Assert
-            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Once());
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Once());
-        }
-
-        [TestMethod]
-        public void TestRemoveAzureServiceNoForce()
-        {
-            // Setup
-            removeAzureServiceCmdlet.PassThru = true;
-            removeAzureServiceCmdlet.ServiceName = serviceName;
-
-            // Test
-            removeAzureServiceCmdlet.ExecuteCmdlet();
-
-            // Assert
-            clientMock.Verify(f => f.RemoveCloudService(serviceName), Times.Never());
-            commandRuntimeMock.Verify(f => f.WriteObject(true), Times.Never());
+            clientMock.Verify(f => f.PublishCloudService(serviceName, null, null, null, null, null, false), Times.Once());
+            commandRuntimeMock.Verify(f => f.WriteObject(It.IsAny<Deployment>()), Times.Once());
         }
     }
 }

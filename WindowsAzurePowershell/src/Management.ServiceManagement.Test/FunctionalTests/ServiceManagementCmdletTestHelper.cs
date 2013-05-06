@@ -533,52 +533,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         
         #region AzurePublishSettingsFile
 
-        public void ImportAzurePublishSettingsFile()
+        internal void ImportAzurePublishSettingsFile()
         {
-
-            string localFile = @".\temp.publishsettings";
-
-            // Delete the file if it exists. 
-            if (File.Exists(localFile))
-            {
-                File.Delete(localFile);
-            }
-
-            if (String.IsNullOrEmpty(Resource.BlobKey))
-            {
-                // Get a publish settings file from a local or shared directory.
-                string publishSettingsFile = Resource.PublishSettingsFile;
-
-                if (string.IsNullOrEmpty(publishSettingsFile))
-                {
-                    return;
-                }
-                else if (publishSettingsFile.StartsWith("\\\\"))
-                {
-                    // A publish settings file is located in a shared directory.  Copy it to a local directory and use it.
-                    File.Copy(publishSettingsFile, localFile, true);                    
-                }
-                else
-                {
-                    // A publish settings file is located in a local directory.
-                    this.ImportAzurePublishSettingsFile(publishSettingsFile);
-                    return;
-                }
-            }
-            else
-            {
-                // Get a publish settings file from a blob storage.                
-                BlobHandle blobRepo = Utilities.GetBlobHandle(Resource.BlobUrl + Resource.PublishSettingsFile, Resource.BlobKey);
-            
-                // Copy it to a local directory.
-                using (FileStream fs = File.Create(localFile))
-                {
-                    blobRepo.Blob.DownloadToStream(fs);                                
-                }                                
-            }
-
-            this.ImportAzurePublishSettingsFile(localFile);
-            File.Delete(localFile);
+            this.ImportAzurePublishSettingsFile(CredentialHelper.PublishSettingsFile);
         }
 
         internal void ImportAzurePublishSettingsFile(string publishSettingsFile)
@@ -589,7 +546,6 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             var i = importAzurePublishSettingsFile.Run();
             Console.WriteLine(i.ToString());
         }
-
 
         #endregion
 
@@ -1111,7 +1067,28 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             AddVMDataDisks(vmName, serviceName, dataDiskConfig);
 
             AddEndPoint(vmName, serviceName, new [] {endPointConfig});
-        }        
+        }
+
+        public void RemoveAzureSubscriptions()
+        {
+            System.Collections.ObjectModel.Collection<SubscriptionData> azureSubscriptions;
+
+            azureSubscriptions = GetAzureSubscription();
+            foreach (SubscriptionData sub in azureSubscriptions)
+            {
+                RemoveAzureSubscription(sub.SubscriptionName, true);
+
+            }
+        }
+
+        public void RemoveAzureSubscription(string subscriptionName, bool force)
+        {
+            RemoveAzureSubscriptionCmdletInfo removeAzureSubscriptionCmdletInfo = new RemoveAzureSubscriptionCmdletInfo(subscriptionName, null, force);
+            WindowsAzurePowershellCmdlet removeAzureSubscriptionCmdlet = new WindowsAzurePowershellCmdlet(removeAzureSubscriptionCmdletInfo);
+
+            var result = removeAzureSubscriptionCmdlet.Run();
+        }
+
     }
 
 }

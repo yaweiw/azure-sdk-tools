@@ -33,7 +33,9 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         [TestInitialize]
         public void Initialize()
         {
-            if (string.IsNullOrEmpty(Resource.DefaultSubscriptionName))
+            SetTestSettings();
+
+            if (defaultAzureSubscription.Equals(null))
             {
                 Assert.Inconclusive("No Subscription is selected!");
             }
@@ -45,10 +47,11 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
             // Remove all subscriptions.  SAS Uri should work without a subscription.
             try
             {
-                vmPowershellCmdlets.RunPSScript("Get-AzureSubscription | Remove-AzureSubscription");
+                vmPowershellCmdlets.RunPSScript("Get-AzureSubscription | Remove-AzureSubscription -Force");
             }
             catch
-            { 
+            {
+                Console.WriteLine("Subscriptions cannot be removed");
             }
 
             // Check if all subscriptions are removed.
@@ -57,8 +60,12 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
                 vmPowershellCmdlets.GetAzureSubscription();
                 Assert.Fail("Subscription was not removed!");
             }
-            catch
+            catch (Exception e)
             {
+                if(e is AssertFailedException)
+                {
+                    throw;
+                }
             }
         }
 
@@ -67,6 +74,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\upload_VHD.csv", "upload_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -145,6 +153,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -207,6 +216,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskOverwriteNonExistSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -269,6 +279,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\overwrite_VHD.csv", "overwrite_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskSecondWithoutOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -332,6 +343,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskThreadNumberSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -392,6 +404,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\thread_VHD.csv", "thread_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void UploadDiskThreadNumberOverwriteSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -447,6 +460,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void PatchFirstLevelDifferencingDiskSasUri()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
@@ -570,6 +584,7 @@ namespace Microsoft.WindowsAzure.Management.ServiceManagement.Test.FunctionalTes
         /// </summary>
         [TestMethod(), TestCategory("Functional"), TestProperty("Feature", "IAAS"), Priority(1), Owner("hylee"), Description("Test the cmdlet (Add-AzureVhd)")]
         [DataSource("Microsoft.VisualStudio.TestTools.DataSource.CSV", "|DataDirectory|\\Resources\\patch_VHD.csv", "patch_VHD#csv", DataAccessMethod.Sequential)]
+        [Ignore]
         public void PatchNormalSasUriBase()
         {
             StartTest(MethodBase.GetCurrentMethod().Name, testStartTime);
