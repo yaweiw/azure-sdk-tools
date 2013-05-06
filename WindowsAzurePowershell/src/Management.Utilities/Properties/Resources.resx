@@ -951,7 +951,7 @@ use and privacy statement at {0} and (c) agree to sharing my contact information
     <value>Are you sure you want to delete the namespace '{0}'?</value>
   </data>
   <data name="RemoveServiceWarning" xml:space="preserve">
-    <value>Are you sure you want to remove service "{0}"?</value>
+    <value>Are you sure you want to remove cloud service?</value>
   </data>
   <data name="RemoveServiceWhatIfMessage" xml:space="preserve">
     <value>Remove cloud service and all it's deployments</value>
