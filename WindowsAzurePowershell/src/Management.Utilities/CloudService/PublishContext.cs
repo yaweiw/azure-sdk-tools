@@ -18,33 +18,47 @@ namespace Microsoft.WindowsAzure.Management.Utilities.CloudService
     using Microsoft.WindowsAzure.Management.Utilities.Common;
     using Microsoft.WindowsAzure.Management.Utilities.Properties;
 
-    public class DeploymentSettings
+    public class PublishContext
     {
         public ServiceSettings ServiceSettings { get; private set; }
+        
         public string PackagePath { get; private set; }
+        
         public string ConfigPath { get; private set; }
-        public string Label { get; private set; }
+
+        public string RootPath { get; private set; }
+        
+        public string ServiceName { get; private set; }
+        
         public string DeploymentName { get; private set; }
+        
         public string SubscriptionId { get; private set; }
 
-        public DeploymentSettings(ServiceSettings settings, string packagePath, string configPath, string label, string deploymentName)
+        public PublishContext(
+            ServiceSettings settings,
+            string packagePath,
+            string configPath,
+            string serviceName,
+            string deploymentName,
+            string rootPath)
         {
             Validate.ValidateNullArgument(settings, Resources.InvalidServiceSettingMessage);
-            Validate.ValidateFileFull(packagePath, Resources.Package);
+            Validate.ValidateStringIsNullOrEmpty(packagePath, "packagePath");
             Validate.ValidateFileFull(configPath, Resources.ServiceConfiguration);
-            Validate.ValidateStringIsNullOrEmpty(label, "Label");
-            Validate.ValidateStringIsNullOrEmpty(deploymentName, "Deployment name");
-
+            Validate.ValidateStringIsNullOrEmpty(serviceName, "serviceName");
+            
             this.ServiceSettings = settings;
             this.PackagePath = packagePath;
             this.ConfigPath = configPath;
-            this.Label = label;
-            this.DeploymentName = deploymentName;
+            this.RootPath = rootPath;
+            this.ServiceName = serviceName;
+            this.DeploymentName = string.IsNullOrEmpty(deploymentName) ? 
+                char.ToLower(ServiceSettings.Slot[0]) + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-ffff") 
+                : deploymentName;
 
             if (!string.IsNullOrEmpty(settings.Subscription))
             {
                 GlobalComponents globalComponents = GlobalComponents.Load(GlobalPathInfo.GlobalSettingsDirectory);
-
                 SubscriptionId = globalComponents.GetSubscriptionId(settings.Subscription);
             }
             else

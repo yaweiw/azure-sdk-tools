@@ -124,6 +124,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (contextChannel != null)
             {
+                object context = null;
+
                 using (new OperationContextScope(contextChannel))
                 {
                     Operation operation = null;
@@ -144,15 +146,18 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
                     if (operation != null)
                     {
-                        var context = new ManagementOperationContext
+                        context = new ManagementOperationContext
                         {
                             OperationDescription = operationDescription,
                             OperationId = operation.OperationTrackingId,
                             OperationStatus = operation.Status
                         };
-
-                        WriteObject(context, true);
                     }
+                }
+
+                if (context != null)
+                {
+                    WriteObject(context, true);
                 }
             }
             else
@@ -184,6 +189,8 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
             if (contextChannel != null)
             {
+                object context = null;
+
                 using (new OperationContextScope(contextChannel))
                 {
                     TResult result = null;
@@ -205,9 +212,13 @@ namespace Microsoft.WindowsAzure.Management.Utilities.Common
 
                     if (result != null && operation != null)
                     {
-                        object context = contextFactory(operation, result);
-                        WriteObject(context, true);
+                        context = contextFactory(operation, result);
                     }
+                }
+
+                if (context != null)
+                {
+                    WriteObject(context, true);
                 }
             }
             else
