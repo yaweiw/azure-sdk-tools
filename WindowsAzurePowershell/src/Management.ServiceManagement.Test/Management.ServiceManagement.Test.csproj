@@ -342,8 +342,10 @@
   <ItemGroup>
     <Content Include="FunctionalTests\Readme.txt" />
     <Content Include="lib\Security.Cryptography.dll" />
+    <Content Include="Resources\clxtshar.dll" />
     <Content Include="Resources\da.xml" />
     <Content Include="Resources\RDPTest.exe" />
+    <Content Include="Resources\tclient.dll" />
     <Content Include="Resources\tclientmanagedex.dll" />
   </ItemGroup>
   <ItemGroup>
